@@ -1,0 +1,35 @@
+footer {
+    .logo {}
+    .nav {
+        border-color: $ui-grayscale-7;
+        border-top: 1px solid $ui-grayscale-5;
+        border-bottom: 1px solid $ui-grayscale-5;
+        @include media-breakpoint-up(lg) {
+            border: 0;
+        }
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            li {
+                flex-basis: 50%;
+            }
+        }
+    }
+    .social {}
+    .copy {
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            li {
+                min-width: 10rem;
+                @include media-breakpoint-up(xxl) {
+                    min-width: unset;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,107 @@
+.navbar-resources {
+    position: fixed;
+    width: 100%;
+    z-index: 1130;
+    top: 107px;
+    padding: 10px 0;
+    background-color: $card-background-color;
+    border-top: 1px solid $resource-nav-border;
+    border-bottom: 1px solid $resource-nav-border;
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-weight: 600;
+        text-transform: initial;
+        color: $primary-green;
+        padding: 10px 10px 5px;
+    }
+
+    ul {
+        white-space: nowrap;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 0;
+        max-width: 1400px;
+
+        
+        li {
+            flex-shrink: 0;
+            padding: 10px;
+            position: relative;
+            display: block;
+            text-transform: uppercase;
+            font-size: 12px;
+            &:not(.navitem--main):not(:last-of-type)  {
+                &::after {
+                    content: '/';
+                    position: absolute;
+                    bottom: 12px;
+                    right: -3px;
+                }
+            }
+         
+            &::before {
+                content: "";
+                position: absolute;
+                height: 3px;
+                width: calc(100% - 48px);
+                background-color: $transparent;
+                bottom: 15px;
+                @include transitionAll;
+            }
+            &.active {
+                &::before {    
+                    background-color: $primary-green;
+                }
+            }
+
+            a {
+                color: $primary-green;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(sm) {
+        .container {
+            flex-direction: row;
+            align-items: center;
+        }
+        .title {
+            padding: 0;
+        }
+        button {
+            display: none;
+        }
+
+        ul {
+            justify-content: flex-start;
+            margin-left: 25px;
+
+            li {
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        ul {
+            justify-content: flex-start;
+        }
+    }
+}
+
+.padding {
+    display: block;
+    padding: 50px;
+    @include media-breakpoint-up(sm) {
+        padding: 40px;
+    }
+}

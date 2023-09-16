@@ -1,0 +1,38 @@
+.newsletter--container {
+    background-color: $card-background-color;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-top: 2rem;
+
+    .heading {
+        font-size: 38px;
+        margin-bottom: 15px;
+    }
+    .subheading {
+        line-height: 1.5;
+        color: $black-lighter;
+    }
+    @include media-breakpoint-up(lg) {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        margin-top: 4rem;
+        position: relative;
+        &::before {
+            content: "";
+            width: 600px;
+            height: 400px;
+            right: 50%;
+            bottom: 0;
+            background-image: url(/assets/newsletter-graphic.png);
+            background-position: left bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            position: absolute;
+            z-index: 999;
+            
+        }
+    }
+}

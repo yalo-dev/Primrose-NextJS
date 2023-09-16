@@ -1,0 +1,36 @@
+.newsletter-form {
+    position: relative;
+    .hidden {
+        display: none !important;
+    }
+    input {
+        padding: 22px 10px;
+        border: 1px solid #889631;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    button {
+        position: absolute;
+        top: 9px;
+        right: 19px;
+        width: 100px;
+        height: 50px;
+        background-color: $primary-green;
+        color: $white;
+        border-radius: 25px;
+        font-size: 12px;
+        text-transform: uppercase;
+        padding: unset;
+    }
+
+    @include media-breakpoint-up(lg) {
+        input {
+            border-color: #E6E6E6;
+        }
+
+        button {
+            right: 9px;
+        }
+    }
+}

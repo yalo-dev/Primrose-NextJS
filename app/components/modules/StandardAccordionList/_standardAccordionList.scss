@@ -1,0 +1,70 @@
+.Page_Modules_Modules_StandardAccordionList {
+    .container {
+        background-color: #ECF0F3;
+        border-radius: 10px;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .faqs {
+
+        .faq {
+            border-bottom: 1px solid $black;
+
+            .question {
+                position: relative;
+                @include transitionAll;
+                #button {
+                    width: 2rem;
+                    height: 2rem;
+                    border: 0;
+                    font-size: 1rem;
+                    position: absolute;
+                    top: -0.25em;
+                    right: -1rem;
+                    background-color: transparent;
+
+                    span {
+                        position: absolute;
+                        transition: 300ms;
+                        border-radius: 2px;
+                        background-color: #18211F;
+
+                        &:first-child {
+                            top: 12.5%;
+                            bottom: 25%;
+                            width: 5%;
+                            left: 47.5%;
+                            height: 75%;
+                        }
+
+                        &:last-child {
+                            left: 25%;
+                            right: 25%;
+                            height: 10%;
+                            top: 45%;
+                        }
+
+                    }
+                }
+            }
+            &.expanded {
+                .question {
+                    text-shadow:1px 0px 0px #000;
+                    #button span {
+                        transform: rotate(90deg);
+                        &:last-child {
+                            left: 50%;
+                            right: 50%;
+                        }
+                    }
+                } 
+            }
+            .answer {
+                display: none;
+            }
+        }
+    }
+}
