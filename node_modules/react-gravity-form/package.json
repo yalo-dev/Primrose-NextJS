@@ -1,0 +1,52 @@
+{
+  "name": "react-gravity-form",
+  "version": "1.0.36",
+  "description": "A component for including Gravity Forms on React apps via the Wordpress API",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel ./src --out-dir ./dist",
+    "prepublishOnly": "babel ./src --out-dir ./dist -s inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gohike/gravity-forms.git"
+  },
+  "keywords": [
+    "React",
+    "Gravity",
+    "Form",
+    "Forms",
+    "GravityForms",
+    "Component",
+    "Wordpress",
+    "API",
+    "Headless",
+    "CMS"
+  ],
+  "author": "Hike",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/gohike/gravity-forms#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel-preset-minify": "^0.5.1",
+    "react": "^16.13.1"
+  },
+  "dependencies": {
+    "isomorphic-unfetch": "^3.0.0",
+    "react-datepicker": "^3.1.3",
+    "react-dropzone": "^11.0.2",
+    "react-input-mask": "^2.0.4",
+    "react-select": "^3.1.0",
+    "i18n-iso-countries": "^7.3.0",
+    "react-google-recaptcha": "^2.1.0"
+  }
+}
