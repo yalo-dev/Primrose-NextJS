@@ -1,5 +1,5 @@
 import React from 'react';
-import ResourceCard from '../../../app/components/organisms/ResourceCard/ResourceCard';
+import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 
 const CategoryResourceFilter = ({ resources, filterTerms, searchTerm, setSearchTerm, selectedAge, setSelectedAge, selectedTopic, setSelectedTopic, slug }) => {
 

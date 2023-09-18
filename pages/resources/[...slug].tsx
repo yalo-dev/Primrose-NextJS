@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
-import CategoryComponent from './components/CategoryComponent';
-import ResourceComponent from './components/ResourceComponent';
+import CategoryComponent from '../../app/components/resources/components/CategoryComponent';
+import ResourceComponent from '../../app/components/resources/components/ResourceComponent';
 
 const GET_RESOURCE_TYPES = gql`
   query GetResourceTypes {

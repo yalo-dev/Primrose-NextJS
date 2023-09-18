@@ -1,12 +1,12 @@
 import { useQuery, gql } from '@apollo/client';
-import ResourceCard from '../../../app/components/organisms/ResourceCard/ResourceCard';
-import ResourceMenu from '../../../app/components/organisms/ResourcesMenu/ResourcesMenu';
-import Newsletter from '../../../app/components/modules/Newsletter/Newsletter';
+import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
+import ResourceMenu from '../../organisms/ResourcesMenu/ResourcesMenu';
+import Newsletter from '../../modules/Newsletter/Newsletter';
 import Image from 'next/image';
 import Link from 'next/link';
-import Tag from '../../../app/components/atoms/Tag/Tag';
-import NewsletterForm from '../../../app/components/molecules/NewsletterForm/NewsletterForm';
-import Button from '../../../app/components/atoms/Button/Button';
+import Tag from '../../atoms/Tag/Tag';
+import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
+import Button from '../../atoms/Button/Button';
 
 const GET_RESOURCE_BY_URI = gql`
 query GetResourceByURI($id: ID!) {

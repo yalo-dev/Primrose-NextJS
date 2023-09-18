@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import ResourceMenu from '../../app/components/organisms/ResourcesMenu/ResourcesMenu';
 import Newsletter from '../../app/components/modules/Newsletter/Newsletter';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
-import { ResourceFilter } from './filters/ResourceFilter';
+import { ResourceFilter } from '../../app/components/resources/filters/ResourceFilter';
 import Link from 'next/link';
 
 export async function getServerSideProps() {

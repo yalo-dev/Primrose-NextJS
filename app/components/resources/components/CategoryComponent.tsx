@@ -1,12 +1,12 @@
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
-import ResourceMenu from '../../../app/components/organisms/ResourcesMenu/ResourcesMenu';
-import Newsletter from '../../../app/components/modules/Newsletter/Newsletter';
+import ResourceMenu from '../../organisms/ResourcesMenu/ResourcesMenu';
+import Newsletter from '../../modules/Newsletter/Newsletter';
 import React, { useEffect, useState } from 'react';
 import CategoryResourceFilter from '../filters/CategoryResourceFilter';
-import ResourceCard from '../../../app/components/organisms/ResourceCard/ResourceCard';
+import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 import useFilter from '../filters/useFilter';
-import ResourceBanner from '../../../app/components/organisms/ResourceBanner/ResourceBanner'; 
+import ResourceBanner from '../../organisms/ResourceBanner/ResourceBanner'; 
 
 const GET_RESOURCES_AND_FILTER_TERMS = gql`
   query GetResourcesAndFilterTerms {
