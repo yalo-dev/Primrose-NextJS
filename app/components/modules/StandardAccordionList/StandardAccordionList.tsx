@@ -1,5 +1,5 @@
+declare const $: any;
 import React, { useEffect } from 'react';
-import $ from '../../../../app/lib/jquery';
 
 interface FAQ {
   question: string;

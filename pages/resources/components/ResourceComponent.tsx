@@ -105,9 +105,9 @@ export default function ResourceComponent({ singleSlug }) {
   const readingTime = content ? calculateReadingTime(content.replace(/(<([^>]+)>)/ig, '')) : ''; // Remove HTML tags for accurate word count
 
   return (
-    <div className='container-fluid'>
+    <>
       <ResourceMenu />
-      <div className='container resource'>
+      <div className='resource'>
         <div className='hero'>
           {featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt="Featured" />}
           <div className='details'>{resourceTypes.nodes.length > 0 && (
@@ -123,7 +123,6 @@ export default function ResourceComponent({ singleSlug }) {
           {displayAuthor && author?.name && <div className='author'>Author: {author.name}</div>}
           {readingTime && <div className='read-time'>{readingTime}</div>}
         </div>
-       
         <div className='social'>
           <Link href="#" target="_blank" rel="noopener noreferrer">
               <Image 
@@ -150,19 +149,18 @@ export default function ResourceComponent({ singleSlug }) {
               />
           </Link>
         </div>
-
-        {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
-
+        <div className='content p-4'>
+          {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
+        </div>
         {resourceTags.nodes.length > 0 && (
-          <div className='tags'>
+          <div className='tags container'>
             {resourceTags.nodes.map((tag, index) => (
               <Tag key={index} label={tag.name} />
             ))}
           </div>
         )}
-
         {relatedArticles?.length > 0 && (
-          <div className='related'>
+          <div className='related container'>
             <h2>Related Articles</h2>
             <div className='d-lg-flex justify-content-between'>
               {relatedArticles.map((relatedArticle, index) => (
@@ -177,45 +175,52 @@ export default function ResourceComponent({ singleSlug }) {
           </div>
         )}     
       </div>
+
       {newsletterHeading && newsletterSubheading && (
-        <div className='newsletter-form-wrapper row'>
-          <div className='col-12 col-lg-6 top'>
-            <Image 
-              src="/assets/parent-signup-graphic.png" 
-              alt="family of mom dad and child" 
-              width={200} 
-              height={200} 
-            />
-          </div>
-          <div className='col-12 col-lg-6 bottom'>
-            <h2>{newsletterHeading}</h2>
-            <p>{newsletterSubheading}</p>
-            <NewsletterForm />
+        <div className='newsletter-form-wrapper'>
+          <div className='container'>
+            <div className='col-12 col-lg-6 top'>
+              <Image 
+                src="/assets/parent-signup-graphic.png" 
+                alt="family of mom dad and child" 
+                width={200} 
+                height={200} 
+              />
+            </div>
+            <div className='col-12 col-lg-6 bottom'>
+              <h2>{newsletterHeading}</h2>
+              <p>{newsletterSubheading}</p>
+              <NewsletterForm />
+            </div>
           </div>
         </div>
       )}
     {ctaHeading && ctaButton?.url && (
       <div className='cta-banner'>
-        <div className='col-12 top'>
-          <Image 
-            src="/assets/cta-banner-bg.png" 
-            alt="teacher teaching a child" 
-            width={200} 
-            height={200} 
-          />
-        </div>
-        <div className='col-12 bottom'>
-          <h2>{ctaHeading}</h2>
-          <Button 
-            variant="white"
-            label={ctaButton.title}
-            href={ctaButton.url}
-            target={ctaButton.target} 
-              />
+        <div className='containerss'>
+          <div className='accents'></div>
+          <div className='col-12 top'>
+            <Image 
+              src="/assets/cta-banner-bg.png" 
+              alt="teacher teaching a child" 
+              width={200} 
+              height={200} 
+            />
+          </div>
+
+          <div className='col-12 bottom'>
+            <h2>{ctaHeading}</h2>
+            <Button 
+              variant="white"
+              label={ctaButton.title}
+              href={ctaButton.url}
+              target={ctaButton.target} 
+                />
+          </div>
         </div>
       </div>
     )}
       <Newsletter />
-    </div>
+    </>
   );
 }

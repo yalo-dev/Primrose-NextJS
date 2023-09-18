@@ -27,4 +27,12 @@ button {
             background-color: $primary-green;
         }
     }
+    &.white {
+        background-color: $white;
+        color: $primary-green;
+        &:hover {
+            background-color: $primary-green;
+            color: $white;
+        }
+    }
 }
