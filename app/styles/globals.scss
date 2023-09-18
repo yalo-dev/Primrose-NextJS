@@ -1,3 +1,5 @@
+@import url('//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap');
+
 @import './base/variables';
 @import './base/mixins';
 @import "~bootstrap/scss/bootstrap";
@@ -18,8 +20,6 @@
 @import '../components/modules/Newsletter/newsletter';
 
 @import './resources';
-
-@import url('//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap');
 
 :root {
     --body-font: Arial, Helvetica, sans-serif;
