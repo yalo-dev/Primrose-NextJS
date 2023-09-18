@@ -101,8 +101,8 @@
 
 .padding {
     display: block;
-    padding: 50px;
+    padding: 45px;
     @include media-breakpoint-up(sm) {
-        padding: 40px;
+        padding: 27px;
     }
 }
