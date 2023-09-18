@@ -294,6 +294,7 @@
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     .accents {
+        position: relative;
         &::before{
             content: "";
             background-image: url('/assets/shape-pill-blue.png');

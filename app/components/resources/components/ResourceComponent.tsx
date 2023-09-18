@@ -197,8 +197,8 @@ export default function ResourceComponent({ singleSlug }) {
       )}
     {ctaHeading && ctaButton?.url && (
       <div className='cta-banner'>
-        <div className='containerss'>
-          <div className='accents'></div>
+        <div className='accents'></div>
+        <div className='containers'>
           <div className='col-12 top'>
             <Image 
               src="/assets/cta-banner-bg.png" 
