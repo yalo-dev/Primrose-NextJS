@@ -245,9 +245,6 @@
 }
 
 .category {
-    &.container-fluid {
-        padding-top: 2rem;
-    }
     @include media-breakpoint-up(lg) {
         .wrapper {
             justify-content: space-between;

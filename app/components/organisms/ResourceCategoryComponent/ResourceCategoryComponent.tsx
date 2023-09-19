@@ -107,7 +107,7 @@ export default function CategoryComponent() {
   );
 
   return (
-    <div className='container-fluid category'>
+    <div className='container-fluid category mt-4'>
       <div className='container'>
         {firstTwoFeaturedResources.length > 0 ? renderResourceList(firstTwoFeaturedResources, true, 'featured') : <p>No Featured Resources</p>}
         {(slug === 'families' || slug === 'newsroom') && <ResourceBanner slug={slug} />}
