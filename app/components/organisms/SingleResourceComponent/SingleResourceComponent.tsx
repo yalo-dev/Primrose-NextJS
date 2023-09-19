@@ -103,6 +103,24 @@ export default function ResourceComponent({ singleSlug }) {
     const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date));
 
     const readingTime = content ? calculateReadingTime(content.replace(/(<([^>]+)>)/ig, '')) : ''; // Remove HTML tags for accurate word count
+    
+    const wrapIframesInResponsiveDiv = (htmlString) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, 'text/html');
+        const iframes = doc.querySelectorAll('iframe');
+        
+        iframes.forEach(iframe => {
+            const wrapper = doc.createElement('div');
+            wrapper.className = 'responsive-video';
+            iframe.parentNode?.insertBefore(wrapper, iframe);
+            wrapper.appendChild(iframe);
+        });
+
+        return doc.body.innerHTML;
+    }
+
+    let wrappedContent = content ? wrapIframesInResponsiveDiv(content) : '';
+
 
     return (
         <>
@@ -158,7 +176,7 @@ export default function ResourceComponent({ singleSlug }) {
                 </div>
 
                 <div className='content p-4'>
-                    {content && <div dangerouslySetInnerHTML={{ __html: content }} />}
+                {wrappedContent && <div dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
                 </div>
 
                 {resourceTags.nodes.length > 0 && (
