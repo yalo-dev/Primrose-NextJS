@@ -145,8 +145,9 @@ export default function ResourcesList({ resources, filterTerms }) {
     return (
         <>
             <div className='container'>
-
+            <div className='featured'>
                 {renderResourceList("", firstFiveFeaturedResources, "", true, 'featured medium')}
+            </div>
                 {renderResourceList("For Families", familiesResources, "/resources/families", true, 'families medium')}
                 {renderResourceList("For Educators", educatorsResources, "/resources/educators", true, 'educators medium')}
                 {renderResourceList("Newsroom", newsroomResources, "/resources/newsroom", false, 'newsroom medium')}

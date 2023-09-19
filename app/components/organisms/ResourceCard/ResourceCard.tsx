@@ -51,7 +51,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 							<div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
 						</div>
 						<div className='tags-wrapper'>
-							<div className='tags m-1'>
+							<div className='tags'>
 								{sortTags(resource.resourceTags.nodes).map((tag, index) => (
 									<Tag
 										key={index}
