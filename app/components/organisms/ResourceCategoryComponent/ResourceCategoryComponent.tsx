@@ -1,12 +1,11 @@
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
-import ResourceMenu from '../../organisms/ResourcesMenu/ResourcesMenu';
-import Newsletter from '../../modules/Newsletter/Newsletter';
 import React, { useEffect, useState } from 'react';
-import CategoryResourceFilter from '../filters/CategoryResourceFilter';
-import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
-import useFilter from '../filters/useFilter';
-import ResourceBanner from '../../organisms/ResourceBanner/ResourceBanner'; 
+import Newsletter from '../../modules/Newsletter/Newsletter';
+import CategoryResourceFilter from '../../filters/CategoryResourceFilter';
+import ResourceCard from '../ResourceCard/ResourceCard';
+import useFilter from '../../filters/useFilter';
+import ResourceBanner from '../ResourceBanner/ResourceBanner'; 
 
 const GET_RESOURCES_AND_FILTER_TERMS = gql`
   query GetResourcesAndFilterTerms {
@@ -109,12 +108,11 @@ export default function CategoryComponent() {
 
   return (
     <div className='container-fluid category'>
-      <ResourceMenu />
       <div className='container'>
         {firstTwoFeaturedResources.length > 0 ? renderResourceList(firstTwoFeaturedResources, true, 'featured') : <p>No Featured Resources</p>}
         {(slug === 'families' || slug === 'newsroom') && <ResourceBanner slug={slug} />}
         <div className='wrapper'>
-          <h2 className='resource-list-title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
+          <h2 className='title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
           {filteredResources.length > 0 ? (
             <CategoryResourceFilter
               resources={filteredResources}

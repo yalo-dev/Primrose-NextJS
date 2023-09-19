@@ -1,9 +1,7 @@
-@import url('//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap');
-
 @import './base/variables';
 @import './base/mixins';
-@import "~bootstrap/scss/bootstrap";
-@import "custom";
+@import '~bootstrap/scss/bootstrap';
+@import 'custom';
 
 @import '../components/atoms/Button/button';
 @import '../components/atoms/Tag/tag';
@@ -48,7 +46,7 @@ html {
     padding: 0;
     overflow-x: hidden;
     scroll-behavior: smooth; 
-    scroll-padding-top: 97px;
+    scroll-padding-top: 107.5px;
     line-height: 1.15; 
     -webkit-text-size-adjust: 100%;
   }
@@ -56,22 +54,24 @@ html {
 body {
     font-size: $font-size;
     background-color: $ui-grayscale-1;
-    font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    font-weight: 300;
 }
 
 h1,
-h2 {
-    font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+h2,
+h3,
+h4 {
+    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
     font-style: normal;
+    color: $heading-color;
 }
 
-h3,
-h4,
 h5,
 h6 {
-    font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
     font-style: normal;
 }
 
@@ -191,5 +191,12 @@ hr {
 }
 
 .main--container {
-    margin-top: 109.5px;
+    margin-top: 105px;
+    overflow: hidden;
+    @include media-breakpoint-up(lg) {
+        margin-top: 94px;
+    }
+    @include media-breakpoint-up(xl) {
+        margin-top: 71px;
+    }
 }

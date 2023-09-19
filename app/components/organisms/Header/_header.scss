@@ -12,6 +12,9 @@
         justify-content: flex-end;
     }
     .navbar-search {
+        .hidden {
+            display: none!important;
+        }
         button {
             width: 50%;
         }
@@ -23,6 +26,7 @@
     .navbar-logo {
         @include media-breakpoint-up(lg) {
             width: 100px;
+            height: auto;
         }
     }
     .navbar-logo {

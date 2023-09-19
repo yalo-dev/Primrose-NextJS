@@ -3,7 +3,7 @@ import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
 
 const Newsletter = () => {
     return (
-        <div className='newsletter--container'>
+        <div className='newsletter pt-5 pb-5'>
             <div className='container p-4'>
                 <div className='row text-lg-start'>
                     <div className='col-12 col-lg-5 offset-lg-6'>

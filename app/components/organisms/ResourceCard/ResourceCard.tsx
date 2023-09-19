@@ -42,20 +42,24 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 						</div>
 					)}
 					<div className='content-wrapper'>
-						<div className='details'>
-							<div className='type me-3'>{resource.resourceTypes.nodes.map(type => type.name).join(', ')}</div>
-							<div className='date'>{formatDate(resource.date)}</div>
+						<div className='details-wrapper'>
+							<div className='details'>
+								<div className='type me-3'>{resource.resourceTypes.nodes.map(type => type.name).join(', ')}</div>
+								<div className='date'>{formatDate(resource.date)}</div>
+							</div>
+							<h3 className='title'>{resource.title}</h3>
+							<div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
 						</div>
-						<h2 className='title'>{resource.title}</h2>
-						<div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
-						<div className='tags m-1'>
-							{sortTags(resource.resourceTags.nodes).map((tag, index) => (
-								<Tag
-									key={index}
-									label={tag.name}
-									isFeatured={tag.slug === 'featured'}
-								/>
-							))}
+						<div className='tags-wrapper'>
+							<div className='tags m-1'>
+								{sortTags(resource.resourceTags.nodes).map((tag, index) => (
+									<Tag
+										key={index}
+										label={tag.name}
+										isFeatured={tag.slug === 'featured'}
+									/>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>

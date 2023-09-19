@@ -42,22 +42,25 @@ const ResourceBanner = ({ slug }) => {
   };
 
   return (
-    <div className="resource-banner d-flex flex-column flex-lg-row justify-center justify-content-lg-start align-items-center text-center mt-4 mb-4 pt-4 pb-4">
+    <div className="resource-banner d-flex flex-column flex-lg-row justify-center justify-content-lg-start align-items-center text-center mt-4 mb-4 pt-8 pb-8 pt-lg-4 pb-lg-4">
+      
       <div className='icon-wrapper pe-lg-3'>
-        <Image src={bannerData.icon} alt="Banner Icon" width={75} height={75} className='m-auto mb-2 icon' />
+        <Image src={bannerData.icon} alt="Banner Icon" width={100} height={100} className='icon mx-auto' />
       </div>
-      <div className='blurb pb-2 pb-lg-0 text-lg-start' dangerouslySetInnerHTML={{ __html: bannerData.blurb }} />
-      {slug === 'families' && bannerData.formId ? (
-        <NewsletterForm />  
-      ) : null}
+      
+      <div className='blurb pb-lg-0 text-lg-start' dangerouslySetInnerHTML={{ __html: bannerData.blurb }} />
+       
+        {slug === 'families' && bannerData.formId ? (
+          <NewsletterForm />  
+        ) : null}
 
-      {slug === 'newsroom' && bannerData.button ? (
-        <Button 
-          variant="primary" 
-          label={bannerData.button.title} 
-          href={bannerData.button.url}
-        />
-      ) : null}
+        {slug === 'newsroom' && bannerData.button ? (
+          <Button 
+            variant="primary" 
+            label={bannerData.button.title} 
+            href={bannerData.button.url}
+          />
+        ) : null}
     </div>
   );
 };

@@ -1,12 +1,12 @@
 button {
     width: 100%;
     display: inline;
-    padding: 10px 30px;
-    font-family: Poppins;
-    font-size: 16px;
+    padding: 14px 20px;
+    font-family: 'Poppins';
+    font-size: 14px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 22px; 
+    font-weight: 400;
+    line-height: 20px; 
     border: 0;
     @include borderRadius; 
     @include transitionAll;

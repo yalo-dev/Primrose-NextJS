@@ -5,9 +5,11 @@ const NewsletterForm = () => (
     <form className='newsletter-form'>
         <div className='form-group'>
             <label htmlFor='email' className='hidden'>Email Address</label>
-            <input type='email' id='email' name='email' required placeholder='Enter Email Address' />
+            <input type='email' id='email' name='email' placeholder='Enter Email Address' autoComplete='true' aria-label='email' required />
         </div>
-        <Button variant="primary" label="Sign Up" type="submit" />
+        <div className='form-button'>
+            <Button variant="primary" label="Sign Up" type="submit" />
+        </div>
     </form>
 );
 

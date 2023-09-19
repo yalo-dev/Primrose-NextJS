@@ -1,12 +1,12 @@
 import { useQuery, gql } from '@apollo/client';
-import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
-import ResourceMenu from '../../organisms/ResourcesMenu/ResourcesMenu';
+import Tag from '../../atoms/Tag/Tag';
+import Button from '../../atoms/Button/Button';
+import ResourceCard from '../ResourceCard/ResourceCard';
 import Newsletter from '../../modules/Newsletter/Newsletter';
+import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
 import Image from 'next/image';
 import Link from 'next/link';
-import Tag from '../../atoms/Tag/Tag';
-import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
-import Button from '../../atoms/Button/Button';
+
 
 const GET_RESOURCE_BY_URI = gql`
 query GetResourceByURI($id: ID!) {
@@ -106,7 +106,6 @@ export default function ResourceComponent({ singleSlug }) {
 
     return (
         <>
-            <ResourceMenu />
             <div className='resource'>
                 <div className='hero'>
                     <div className='inner'>
@@ -164,7 +163,7 @@ export default function ResourceComponent({ singleSlug }) {
 
                 {resourceTags.nodes.length > 0 && (
                     <div className='tags'>
-                        <div className='container ps-4 pe-4 m-auto'>
+                        <div className='container ps-4 pe-4 ps-lg-0 pe-lg-0 m-auto'>
                             {resourceTags.nodes.map((tag, index) => (
                                 <Tag key={index} label={tag.name} />
                             ))}

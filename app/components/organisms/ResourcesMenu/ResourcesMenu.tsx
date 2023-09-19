@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { client } from '../../../lib/apollo';
 import { gql } from '@apollo/client';
@@ -8,8 +9,9 @@ interface MenuItem {
   label: string;
 }
 
-export default function ResourceMenu() {
+export default function ResourcesMenu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -34,40 +36,18 @@ export default function ResourceMenu() {
     };
 
     fetchMenuItems();
-    
   }, []);
 
-  // const scrollContainerRef = useRef<HTMLUListElement>(null);
-
-  // const handleScroll = (direction) => {
-  //   if (scrollContainerRef.current) {
-  //     const container = scrollContainerRef.current;
-  //     let scrollAmount = 0;
-  //     const slideTimer = setInterval(function(){
-  //       if(direction === 'left'){
-  //         container.scrollLeft -= 10;
-  //       } else {
-  //         container.scrollLeft += 10;
-  //       }
-  //       scrollAmount += 10;
-  //       if(scrollAmount >= 100){
-  //         window.clearInterval(slideTimer);
-  //       }
-  //     }, 25);
-  //   }
-  // };
-
-
- return (
-  <>
+  return (
+    <>
       <div className='navbar-resources'>
         <div className='container'>
           <div className='title'>
-              Stories & Resources
+            Stories & Resources
           </div>
           <ul>
             {menuItems.map((item, index) => (
-              <li key={index}>
+              <li key={index} className={router.pathname === item.uri ? 'active' : ''}>
                 {item && item.label && item.uri ? (
                   <Link href={item.uri}>{item.label}</Link>
                 ) : (
@@ -78,7 +58,7 @@ export default function ResourceMenu() {
           </ul>
         </div>
       </div>
-      <div className='padding'></div>
+      <div className='margin-top'></div>
     </>
   );
 }

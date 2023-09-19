@@ -1,9 +1,8 @@
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import ResourceMenu from '../../app/components/organisms/ResourcesMenu/ResourcesMenu';
 import Newsletter from '../../app/components/modules/Newsletter/Newsletter';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
-import { ResourceFilter } from '../../app/components/resources/filters/ResourceFilter';
+import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
 
 export async function getServerSideProps() {
@@ -106,42 +105,48 @@ export default function ResourcesList({ resources, filterTerms }) {
     } = ResourceFilter(resources, filterTerms);
 
 
-    const renderResourceList = (title, resourceList, linkTo = "", showFeaturedImage = true, className = '') => (
+    const renderResourceList = (title, resourceList, linkTo = "", showFeaturedImage = true, className = '', specialClassType = '') => (
         <>  <div className='title-container'>
-                <h2 className='resource-list-title'>{title}</h2>
+                <h2 className='title'>{title}</h2>
                 {linkTo && (
                     <Link
-                        style={{ color: '#5E6738' }}
+                        className='all-resources'
                         href={linkTo}>
-                        All {title.replace("For ", "")} Resources &gt;
+                        All {title.replace("For ", "")} Resources
                     </Link>
                 )}
             </div>
             <div className='d-flex flex-wrap'>
-                {resourceList.map((resource, index) => (
-                    <ResourceCard
-                        key={`${resource.title}-${index}`}
-                        resource={resource}
-                        showFeaturedImage={showFeaturedImage}
-                        className={className} />
-                ))}
+                {resourceList.map((resource, index) => {
+                    const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
+                    const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
+                    const shouldAddNewsroomClass = isNewsroom && !isFeatured;
+
+                    return (
+                        <ResourceCard
+                            key={`${resource.title}-${index}`}
+                            resource={resource}
+                            showFeaturedImage={showFeaturedImage}
+                            className={`${className} ${shouldAddNewsroomClass ? 'newsroom' : ''}  fade-in`} 
+                        />
+                    );
+                })}
             </div>
         </>
     );
 
     return (
         <>
-            <ResourceMenu />
             <div className='container'>
 
                 {renderResourceList("", firstFiveFeaturedResources, "", true, 'featured medium')}
                 {renderResourceList("For Families", familiesResources, "/resources/families", true, 'families medium')}
                 {renderResourceList("For Educators", educatorsResources, "/resources/educators", true, 'educators medium')}
-                {renderResourceList("Newsroom", newsroomResources, "/resources/newsroom", false, 'newsroom small')}
+                {renderResourceList("Newsroom", newsroomResources, "/resources/newsroom", false, 'newsroom medium')}
 
                 <div className='wrapper all'>
                     {SearchAndFilterUI}
-                    {renderResourceList("All Stories & Resources", filteredResources, "", true, 'medium')}
+                    {renderResourceList("All Stories & Resources", filteredResources, "", true, 'medium', 'newsroom')}
                 </div>
             </div>
             <Newsletter />

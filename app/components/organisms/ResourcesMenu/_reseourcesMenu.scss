@@ -40,11 +40,12 @@
             display: block;
             text-transform: uppercase;
             font-size: 12px;
+            color: $resource-nav-color;
             &:not(.navitem--main):not(:last-of-type)  {
                 &::after {
                     content: '/';
                     position: absolute;
-                    bottom: 12px;
+                    bottom: 10px;
                     right: -3px;
                 }
             }
@@ -53,9 +54,9 @@
                 content: "";
                 position: absolute;
                 height: 3px;
-                width: calc(100% - 48px);
+                width: calc(100% - 20px);
                 background-color: $transparent;
-                bottom: 15px;
+                bottom: 4px;
                 @include transitionAll;
             }
             &.active {
@@ -65,7 +66,7 @@
             }
 
             a {
-                color: $primary-green;
+                color: $resource-nav-color;
             }
         }
     }
@@ -93,16 +94,23 @@
     }
 
     @include media-breakpoint-up(lg) {
+        top: 96px;
         ul {
             justify-content: flex-start;
         }
     }
+    @include media-breakpoint-up(xl) {
+        top: 73px;
+    }
+    @include media-breakpoint-up(xxl) {
+        top: 88px;
+    }
 }
 
-.padding {
+.margin-top {
     display: block;
-    padding: 45px;
+    margin-top: 99px;
     @include media-breakpoint-up(sm) {
-        padding: 27px;
+        margin-top: 60px;
     }
 }

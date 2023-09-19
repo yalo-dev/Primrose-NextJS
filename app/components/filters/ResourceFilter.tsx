@@ -85,17 +85,17 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
-                <input type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
+                <input type="text" placeholder="Type Your Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
             <div className='filters'>
                 <select className='custom-select' onChange={(e) => setSelectedAge(e.target.value)}>
-                    <option value="">Select Age</option>
+                    <option value="">All Ages</option>
                     {filterTerms?.resourceTags.nodes.find(tag => tag.slug === 'ages')?.children.nodes.map((child, index) => (
                         <option value={child.slug} key={index}>{child.name}</option>
                     ))}
                 </select>
                 <select className='custom-select' onChange={(e) => setSelectedTopic(e.target.value)}>
-                    <option value="">Select Topic</option>
+                    <option value="">All Topics</option>
                     {filterTerms?.resourceTags.nodes.find(tag => tag.slug === 'topics')?.children.nodes.map((child, index) => (
                         <option value={child.slug} key={index}>{child.name}</option>
                     ))}

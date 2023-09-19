@@ -13,7 +13,7 @@
     button {
         position: absolute;
         top: 9px;
-        right: 19px;
+        right: 9px;
         width: 100px;
         height: 50px;
         background-color: $primary-green;
@@ -25,12 +25,25 @@
     }
 
     @include media-breakpoint-up(lg) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .form-group {
+            flex-basis: 70%;
+        }
+        .form-button {
+            flex-basis: 28%;
+        }
         input {
             border-color: #E6E6E6;
+            height: 50px;
         }
 
         button {
-            right: 9px;
+            top: 0;
+            right: 0;
+            width: 80px;
+            position: relative;
         }
     }
 }

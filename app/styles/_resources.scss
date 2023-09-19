@@ -6,21 +6,56 @@
         display: none;
     }
 
+    .title {
+        font-size: 34px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 38px;
+        margin: 15px auto 20px;
+        color: $primary-green;
+    }
+
+    .all-resources {
+        font-family: Poppins;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+        color: $primary-green;
+        position: relative;
+        &::after {
+            position: absolute;
+            content: '>';
+            right: -1rem;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            font-size: 1.25rem;
+            font-weight: 100;
+            @include transitionAll;
+        }
+        &:hover {
+            color: $brand-blue;
+            &::after {
+                right: -1.5rem;
+                color: $brand-blue;
+            }
+        }
+    }
+    
     @include media-breakpoint-up(lg) {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        .resource-list-title {
+        
+        .title {
             margin-left: 0;
             font-size: 50px;
         }
+        .all-resources {
+            margin-right: 1rem;
+        }
     }
-}
-
-.resource-list-title {
-    font-size: 40px;
-    margin: 15px auto 20px;
 }
 
 .search-and-filter {
@@ -86,15 +121,74 @@
 .wrapper {
     display: flex;
     flex-direction: column;
+    &.all {
+        flex-wrap: wrap;
+        flex-direction: unset;
+        justify-content: space-between;
+    }
     .search-and-filter {
         order: 2;
         margin-bottom: 20px;
+        width: 100%;
     }
     .title-container {
-        order: 1
+        order: 1;
+        margin: auto;
     }
     .d-flex {
         order: 3;
+    }
+    @include media-breakpoint-up(lg) {
+        .search-and-filter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            //max-width: 50%;
+            margin-top: 30px;
+            .search {
+                margin-right: 10px;
+            }
+            select.custom-select {
+                padding-right: 45px;
+                max-width: 15rem;
+            }
+        }
+        &.all {
+            margin-bottom: 8rem;
+            .title-container {
+                //margin-left: 0;
+                .title {
+                    font-size: 40px;
+                }
+            }
+            .d-flex.flex-wrap {
+                align-items: stretch;
+                justify-content: flex-start;
+                width: 100%;
+                flex-grow: 1;
+                margin-left: -10px;
+                margin-right: -20px;
+            }
+            .card.medium.newsroom {
+                a, 
+                .inner {
+                    height: 100%;
+                }
+                .content-wrapper {
+                    height: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    .title {
+                        font-size: 40px;
+                        font-style: normal;
+                        font-weight: 200;
+                        line-height: 44px;
+                    }
+                }
+            }
+        }
     }
     @include media-breakpoint-up(xl) {
         flex-direction: unset;
@@ -103,18 +197,43 @@
         .search-and-filter {
             display: flex;
             align-items: center;
-            justify-content: center;
-            max-width: 40%;
+            justify-content: flex-end;
+            max-width: 55%;
+            margin-top: 30px;
             .search {
                 margin-right: 10px;
             }
-        }
-        &.all .d-flex {
-            justify-content: flex-start;
-            .card {
-                margin: 10px;
-                flex-basis: calc(33% - 20px);
+            select.custom-select {
+                padding-right: 45px;
             }
+        }
+        &.all {
+            .title-container {
+                 margin-left: 0;
+            }
+            .d-flex.flex-wrap {
+                justify-content: flex-start;
+                
+                .card {
+                    margin: 10px;
+                    flex-basis: calc(33% - 20px);
+                }
+            }
+        }
+    }
+    @include media-breakpoint-up(xxl) {
+       .search-and-filter .search {
+            min-width: 250px;
+       }
+        &.all {
+            margin-bottom: 8rem;
+            .title-container {
+                margin-left: 0;
+                .title {
+                    font-size: 50px;
+                }
+            }
+
         }
     }
 }
@@ -129,11 +248,11 @@
 
     @include media-breakpoint-up(lg) {
         .wrapper {
-            display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
-        .resource-list-title {
+        .title {
             margin: 0;
         }
         .search-and-filter {
@@ -142,28 +261,25 @@
     
     }
     @include media-breakpoint-up(xl) {
-        .d-flex {
+
+        flex-direction: unset;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .wrapper {
             justify-content: space-between;
             &.all {
                 justify-content: flex-start;
             }
         }
-        .resource-list-title {
+        .title {
             padding: 0 10px;
         }
         .search-and-filter {
             padding: 0 10px;
-        }
-    }
-    @include media-breakpoint-up(xl) {
-        flex-direction: unset;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        .search-and-filter {
             display: flex;
             align-items: center;
             justify-content: center;
-            max-width: 40%;
+            max-width: 45%;
             .search {
                 margin-right: 10px;
             }
@@ -174,7 +290,18 @@
 .resource {
     .hero {
         background-color: #814C9E;
-        color: $white;
+        color: $ui-grayscale-1;
+        h1 {
+            color: $ui-grayscale-1;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 200;
+            line-height: 40px;
+            @include media-breakpoint-up(lg) {
+                font-size: 52px;
+                line-height: 60px;
+            }
+        }
         @include media-breakpoint-up(xl) {
             margin-bottom: 4rem;
         }
@@ -210,6 +337,9 @@
                 width: 100%;
                 border-bottom-left-radius: 50%;
                 border-bottom-right-radius: 50%;
+                min-height: 27rem;
+                object-fit: cover;
+                object-position: center;
                 @include media-breakpoint-up(lg) {
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 50%;
@@ -323,6 +453,10 @@
         margin: 2rem 0;
         a {
             margin: 5px;
+            @include transitionAll; 
+            &:hover {
+                transform: scale(1.1);
+            }
             
         }
         @include media-breakpoint-up(xl) {
@@ -334,9 +468,19 @@
     .content {
         max-width: 760px;
         margin: auto;
+        .responsive-video {
+            margin: 2rem 0;
+            aspect-ratio: 16/9;
+            iframe {
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
     .tags {
         .container {
+            max-width: 760px;
+            margin: auto;
             display: flex;
             border-top: 1px solid $ui-grayscale-5;
             border-bottom: 1px solid $ui-grayscale-5;
@@ -345,6 +489,7 @@
         }
     }
 }
+
 .related {
     .card {
         &.medium:not(.featured) .inner .content-wrapper .title {
@@ -360,13 +505,14 @@
         }
     }
 }
+
 .newsletter-form-wrapper {
     text-align: center;
     background-color: $newsletter-bg;
     margin-top: 4rem;
     .top {
-        border-top: 1px solid $ui-grayscale-3;
-        border-bottom: 1px solid $ui-grayscale-3;
+        border-top: 1px solid $resource-newsletter-border;
+        border-bottom: 1px solid $resource-newsletter-border;
         @include media-breakpoint-up(lg) {
             border: 0;
         }
@@ -397,13 +543,13 @@
         }
     }
 }
+
 .cta-banner {
     text-align: center;
-    
     max-width: 1400px;
     margin: auto;
     padding-top: 4rem;
-   
+    padding-bottom: 4rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -418,12 +564,12 @@
             width: 90px;
             height: 30px;
             left: -2rem;
-            top: 4rem;
+            top: 6rem;
             background-size: contain;
             background-repeat: no-repeat;
             @include media-breakpoint-up(lg) {
                 left: -3rem;
-                top: 15rem;
+                top: 10rem;
                 width: 150px;
                 height: 50px;
             }
@@ -432,14 +578,14 @@
             content: "";
             background-image: url('/assets/shape-triangle-yellow.png');
             position: absolute;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             right: -2rem;
-            top: 5rem;
+            top: 6rem;
             background-size: contain;
             background-repeat: no-repeat;
             @include media-breakpoint-up(lg) {
-                top: 15rem;
+                top: 12rem;
                 width: 100px;
                 height: 100px;
             }
@@ -456,8 +602,7 @@
             margin-top: -3rem;
         }
         @include media-breakpoint-up(lg) {
-            max-height: 27rem;
-            //overflow: hidden;
+            max-height: 21rem;
             img {
                 width: 800px;
                 margin-top: -6rem;
@@ -478,7 +623,7 @@
     }
     .bottom {
         background-color: $primary-lightgreen;
-        color: $white;
+        color: $ui-grayscale-1;
         padding: 2rem;
         border-bottom-left-radius: 1rem;
         border-bottom-right-radius: 1rem;
@@ -486,10 +631,12 @@
         h2 {
             font-size: 40px;
             line-height: 40px;
+            color: $ui-grayscale-1;
         }
         button {
             width: fit-content;
             font-size: 12px;
+            text-transform: uppercase;
         }
         @include media-breakpoint-up(lg) {
             display: flex;
@@ -497,4 +644,13 @@
             z-index: 2;
         }
     }
+}
+
+.fade-in {
+    animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }

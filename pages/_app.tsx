@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app/styles/globals.scss';
 import { ApolloProvider } from "@apollo/client/react";
@@ -97,12 +96,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={client}>
-      <Head>
-        <link 
-          href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap" 
-          rel="stylesheet" 
-        />
-      </Head>
       <Layout 
         menuItems={headerMenuItems} 
         footerMenuItems={footerMenuItems} 
