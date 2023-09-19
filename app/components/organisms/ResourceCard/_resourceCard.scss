@@ -3,6 +3,11 @@
     border: 0;
     border-radius: 10px;
     margin: 15px 0;
+    @include transitionAll;
+    &:hover {
+        @include dropShadow;
+        transform: scale(1.015);
+    }
     @include media-breakpoint-up(md) {
         margin: 10px;
         flex-basis: calc(50% - 20px);
