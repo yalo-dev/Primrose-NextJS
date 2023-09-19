@@ -1,11 +1,11 @@
 import { useQuery, gql } from '@apollo/client';
 import Tag from '../../atoms/Tag/Tag';
-import Button from '../../atoms/Button/Button';
-import ResourceCard from '../ResourceCard/ResourceCard';
-import Newsletter from '../../modules/Newsletter/Newsletter';
-import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
+import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
+import Newsletter from '../Newsletter/Newsletter';
 import Image from 'next/image';
 import Link from 'next/link';
+import NewsletterFormBanner from '../ResourceNewsletter/ResourceNewsletter';
+import CTABanner from '../CTABanner/CTABanner';
 
 
 const GET_RESOURCE_BY_URI = gql`
@@ -208,52 +208,16 @@ export default function ResourceComponent({ singleSlug }) {
                 )}
             </div>
             {newsletterHeading && newsletterSubheading && (
-                <div className='newsletter-form-wrapper'>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-12 col-lg-6 top'>
-                                <Image
-                                    src="/assets/parent-signup-graphic.png"
-                                    alt="family of mom dad and child"
-                                    width={200}
-                                    height={200}
-                                />
-                            </div>
-                            <div className='col-12 col-lg-6 bottom'>
-                                <h2>{newsletterHeading}</h2>
-                                <p>{newsletterSubheading}</p>
-                                <NewsletterForm />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <NewsletterFormBanner
+                newsletterHeading={newsletterHeading}
+                newsletterSubheading={newsletterSubheading}
+            />
             )}
             {ctaHeading && ctaButton?.url && (
-                <div className='cta-banner ps-4 pe-4 ps-lg-5 pe-lg-5'>
-                    <div className='accents container'></div>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-12 top'>
-                                <Image
-                                    src="/assets/cta-banner-bg.png"
-                                    alt="teacher teaching a child"
-                                    width={200}
-                                    height={200}
-                                />
-                            </div>
-
-                            <div className='col-12 bottom'>
-                                <h2>{ctaHeading}</h2>
-                                <Button
-                                    variant="white"
-                                    label={ctaButton.title}
-                                    href={ctaButton.url}
-                                    target={ctaButton.target}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <CTABanner
+                ctaHeading={ctaHeading}
+                ctaButton={ctaButton}
+            />
             )}
             <Newsletter />
         </>
