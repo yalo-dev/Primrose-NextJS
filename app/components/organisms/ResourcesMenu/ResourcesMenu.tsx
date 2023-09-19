@@ -38,6 +38,14 @@ export default function ResourcesMenu() {
     fetchMenuItems();
   }, []);
 
+  const isActive = (uri: string): boolean => {
+    const currentPathSlugs = router.asPath.split('/');
+    const uriSlugs = uri.split('/');
+    return currentPathSlugs[currentPathSlugs.length - 1] === uriSlugs[uriSlugs.length - 1];
+  };
+  console.log('Current asPath:', router.asPath);
+  console.log('Current pathname:', router.pathname);
+  console.log('Menu items:', menuItems);
   return (
     <>
       <div className='navbar-resources'>
@@ -47,7 +55,7 @@ export default function ResourcesMenu() {
           </div>
           <ul>
             {menuItems.map((item, index) => (
-              <li key={index} className={router.pathname === item.uri ? 'active' : ''}>
+              <li key={index} className={router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''}>
                 {item && item.label && item.uri ? (
                   <Link href={item.uri}>{item.label}</Link>
                 ) : (
