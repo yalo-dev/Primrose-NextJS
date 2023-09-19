@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ResourceCard from '../organisms/ResourceCard/ResourceCard';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 interface ResourceTagNode {
   slug: string;
@@ -106,16 +107,21 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
           </select>
         </div>
       </div>
-      <div className='d-flex flex-wrap wrapper all'>
+      <TransitionGroup className='d-flex flex-wrap wrapper all'>
         {filteredAndSearchedResources.map((resource, index) => (
-          <ResourceCard 
-            key={`${resource.title}-${index}`} 
-            resource={resource} 
-            showFeaturedImage={shouldShowFeaturedImage(resource, slug === 'newsroom')}
-            className={classNameGenerator(resource)}
-          />
+          <CSSTransition
+            key={`${resource.title}-${index}`}
+            timeout={500} 
+            classNames="fade"
+          >
+            <ResourceCard 
+              resource={resource} 
+              showFeaturedImage={shouldShowFeaturedImage(resource, slug === 'newsroom')}
+              className={classNameGenerator(resource)}
+            />
+          </CSSTransition>
         ))}
-      </div>
+      </TransitionGroup>
     </>
   );
 };

@@ -36,7 +36,7 @@
 
 *:focus,
 *:active {
-  outline: none;
+    outline: none;
 }
 
 
@@ -45,11 +45,11 @@ html {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
     scroll-padding-top: 107.5px;
-    line-height: 1.15; 
+    line-height: 1.15;
     -webkit-text-size-adjust: 100%;
-  }
+}
 
 body {
     font-size: $font-size;
@@ -79,76 +79,93 @@ h1 {
     font-size: 32px;
     line-height: 36px;
     font-weight: 200;
+
     @include media-breakpoint-up(md) {
         font-size: 36px;
         line-height: 42px;
     }
+
     @include media-breakpoint-up(lg) {
         font-size: 50px;
         line-height: 55px;
     }
 }
+
 h2 {
-	font-size: 28px;
-    line-height: 32px;   
+    font-size: 28px;
+    line-height: 32px;
     font-weight: 200;
+
     @include media-breakpoint-up(md) {
         font-size: 30px;
         line-height: 36px;
     }
+
     @include media-breakpoint-up(lg) {
         font-size: 40px;
         line-height: 42px;
     }
 
 }
+
 h3 {
-	font-size: 24px;
+    font-size: 24px;
     line-height: 28px;
     font-weight: 300;
+
     @include media-breakpoint-up(md) {
         font-size: 24px;
         line-height: 28px;
     }
+
     @include media-breakpoint-up(lg) {
         font-size: 30px;
         line-height: 36px;
     }
 }
+
 h4 {
     font-size: 18px;
     line-height: 22px;
     font-weight: 500;
+
     @include media-breakpoint-up(md) {
         font-size: 20px;
         line-height: 24px;
     }
+
     @include media-breakpoint-up(lg) {
         font-size: 24px;
         line-height: 28px;
     }
 }
+
 h5 {
     font-size: 16px;
     line-height: 20px;
     font-weight: 500;
+
     @include media-breakpoint-up(md) {
         font-size: 18px;
         line-height: 22px;
     }
+
     @include media-breakpoint-up(lg) {
         font-size: 20px;
         line-height: 24px;
     }
 }
+
 h6 {
     font-size: 14px;
-    line-height: 18px; 
+    line-height: 18px;
     font-weight: 700;
+
     @include media-breakpoint-up(md) {
         font-size: 16px;
         line-height: 20px;
     }
+
     @include media-breakpoint-up(lg) {
         line-height: 22px;
     }
@@ -164,10 +181,11 @@ a {
     transition: 0.25s;
     color: $brand-blue;
     cursor: pointer;
+
     &:hover {
         text-decoration: none;
         color: $brand-teal;
-       
+
     }
 }
 
@@ -180,12 +198,12 @@ input,
 optgroup,
 select,
 textarea {
-  margin: 0;
+    margin: 0;
 }
 
 
 hr {
-    box-sizing: content-box; 
+    box-sizing: content-box;
     height: 0;
     overflow: visible;
 }
@@ -193,10 +211,30 @@ hr {
 .main--container {
     margin-top: 105px;
     overflow: hidden;
+
     @include media-breakpoint-up(lg) {
         margin-top: 94px;
     }
+
     @include media-breakpoint-up(xl) {
         margin-top: 71px;
     }
+}
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
 }

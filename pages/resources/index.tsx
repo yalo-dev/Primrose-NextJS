@@ -4,6 +4,7 @@ import Newsletter from '../../app/components/modules/Newsletter/Newsletter';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export async function getServerSideProps() {
     try {
@@ -106,7 +107,8 @@ export default function ResourcesList({ resources, filterTerms }) {
 
 
     const renderResourceList = (title, resourceList, linkTo = "", showFeaturedImage = true, className = '', specialClassType = '') => (
-        <>  <div className='title-container'>
+        <>  
+            <div className='title-container'>
                 <h2 className='title'>{title}</h2>
                 {linkTo && (
                     <Link
@@ -116,22 +118,27 @@ export default function ResourcesList({ resources, filterTerms }) {
                     </Link>
                 )}
             </div>
-            <div className='d-flex flex-wrap'>
+            <TransitionGroup className='d-flex flex-wrap'>
                 {resourceList.map((resource, index) => {
                     const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
                     const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
                     const shouldAddNewsroomClass = isNewsroom && !isFeatured;
-
+    
                     return (
-                        <ResourceCard
+                        <CSSTransition
                             key={`${resource.title}-${index}`}
-                            resource={resource}
-                            showFeaturedImage={showFeaturedImage}
-                            className={`${className} ${shouldAddNewsroomClass ? 'newsroom' : ''}  fade-in`} 
-                        />
+                            timeout={500}
+                            classNames="fade"
+                        >
+                            <ResourceCard
+                                resource={resource}
+                                showFeaturedImage={showFeaturedImage}
+                                className={`${className} ${shouldAddNewsroomClass ? 'newsroom' : ''}`} 
+                            />
+                        </CSSTransition>
                     );
                 })}
-            </div>
+            </TransitionGroup>
         </>
     );
 
