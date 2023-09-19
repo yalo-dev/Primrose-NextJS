@@ -114,18 +114,21 @@ export default function CategoryComponent() {
         <div className='wrapper'>
           <h2 className='title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
           {filteredResources.length > 0 ? (
-            <CategoryResourceFilter
-              resources={filteredResources}
-              filterTerms={filterTerms}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              selectedAge={selectedAge}
-              setSelectedAge={setSelectedAge}
-              selectedTopic={selectedTopic}
-              setSelectedTopic={setSelectedTopic}
-              slug={slug}
-            />
-
+            slug ? (
+              <CategoryResourceFilter
+                resources={filteredResources}
+                filterTerms={filterTerms}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                selectedAge={selectedAge}
+                setSelectedAge={setSelectedAge}
+                selectedTopic={selectedTopic}
+                setSelectedTopic={setSelectedTopic}
+                slug={slug}
+              />
+            ) : (
+              <p>Slug is not available</p>
+            )
           ) : <p>No Resources Found</p>}
         </div>
       </div>
