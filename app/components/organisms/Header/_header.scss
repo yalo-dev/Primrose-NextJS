@@ -2,7 +2,7 @@
     background-color: $ui-grayscale-1;
     .navbar {
         background-color: $ui-grayscale-1;
-        @include dropShadow;
+        border-bottom: 1px solid $nav-border;
     }
     .navbar-toggler {
         border: 0;

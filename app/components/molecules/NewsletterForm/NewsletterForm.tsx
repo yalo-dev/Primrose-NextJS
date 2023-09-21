@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '../../atoms/Button/Button'; 
 
 const NewsletterForm = () => (
-    <form className='newsletter-form'>
-        <div className='form-group'>
+    <form className='newsletter-form d-flex w-100 position-relative justify-content-between'>
+        <div className='form-group pe-2'>
             <label htmlFor='email' className='hidden'>Email Address</label>
             <input type='email' id='email' name='email' placeholder='Enter Email Address' autoComplete='true' aria-label='email' required />
         </div>

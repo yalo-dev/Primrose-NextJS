@@ -4,7 +4,7 @@ import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
 
 export default function ResourceNewsletter({ newsletterHeading, newsletterSubheading }) {
   return (
-    <div className='newsletter-form-wrapper'>
+    <div className='resource-newsletter'>
       <div className='container'>
         <div className='row'>
           <div className='col-12 col-lg-6 top'>

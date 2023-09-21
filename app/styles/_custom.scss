@@ -8,303 +8,47 @@
         margin: auto;
     }
 }
-/* Padding classes for all sides */
-.p-5, .py-5, .px-5 { padding: 1.75rem; }
-.p-6, .py-6, .px-6 { padding: 2rem; }
-.p-7, .py-7, .px-7 { padding: 2.25rem; }
-.p-8, .py-8, .px-8 { padding: 2.5rem; }
 
-/* Padding classes for specific sides */
-.pt-5 { padding-top: 1.75rem; }
-.pb-5 { padding-bottom: 1.75rem; }
-.pl-5 { padding-left: 1.75rem; }
-.pr-5 { padding-right: 1.75rem; }
 
-.pt-6 { padding-top: 2rem; }
-.pb-6 { padding-bottom: 2rem; }
-.pl-6 { padding-left: 2rem; }
-.pr-6 { padding-right: 2rem; }
-
-.pt-7 { padding-top: 2.25rem; }
-.pb-7 { padding-bottom: 2.25rem; }
-.pl-7 { padding-left: 2.25rem; }
-.pr-7 { padding-right: 2.25rem; }
-
-.pt-8{ padding-top: 2.5rem; }
-.pb-8 { padding-bottom: 2.5rem; }
-.pl-8 { padding-left: 2.5rem; }
-.pr-8 { padding-right: 2.5rem; }
-
-/* Responsive padding classes */
-@media (min-width: 576px) {
-  .sm-p-5, .sm-py-5, .sm-px-5 { padding: 1.75rem; }
-  .sm-p-6, .sm-py-6, .sm-px-6 { padding: 2rem; }
-  .sm-p-7, .sm-py-7, .sm-px-7 { padding: 2.25rem; }
-  .sm-p-8, .sm-py-8, .sm-px-8 { padding: 2.5rem; }
+/***********************************************************************/
+/******************************* HELPERS *******************************/
+/***********************************************************************/
+.hidden {
+    display: none !important;
 }
 
-@media (min-width: 768px) {
-  .md-p-5, .md-py-5, .md-px-5 { padding: 1.75rem; }
-  .md-p-6, .md-py-6, .md-px-6 { padding: 2rem; }
-  .md-p-7, .md-py-7, .md-px-7 { padding: 2.25rem; }
-  .md-p-8, .md-py-8, .md-px-8 { padding: 2.5rem; }
+.green {
+    color: $primary-green;
 }
 
-@media (min-width: 992px) {
-  .lg-p-5, .lg-py-5, .lg-px-5 { padding: 1.75rem; }
-  .lg-p-6, .lg-py-6, .lg-px-6 { padding: 2rem; }
-  .lg-p-7, .lg-py-7, .lg-px-7 { padding: 2.25rem; }
-  .lg-p-8, .lg-py-8, .lg-px-8 { padding: 2.5rem; }
+//to offset space for the nav 
+.main--container {
+    margin-top: 108px;
+    overflow: hidden;
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 97px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        margin-top: 74px;
+    }
+}
+//resource card search and filter animations 
+.fade-enter {
+    opacity: 0;
 }
 
-@media (min-width: 1200px) {
-  .xl-p-5, .xl-py-5, .xl-px-5 { padding: 1.75rem; }
-  .xl-p-6, .xl-py-6, .xl-px-6 { padding: 2rem; }
-  .xl-p-7, .xl-py-7, .xl-px-7 { padding: 2.25rem; }
-  .xl-p-8, .xl-py-8, .xl-px-8 { padding: 2.5rem; }
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
 }
 
-/* Margin classes for all sides */
-.m-5, .my-5, .mx-5 { margin: 1.75rem; }
-.m-6, .my-6, .mx-6 { margin: 2rem; }
-.m-7, .my-7, .mx-7 { margin: 2.25rem; }
-.m-8, .my-8, .mx-8 { margin: 2.5rem; }
-
-/* Margin classes for specific sides */
-.mt-5 { margin-top: 1.75rem; }
-.mb-5 { margin-bottom: 1.75rem; }
-.ml-5 { margin-left: 1.75rem; }
-.mr-5 { margin-right: 1.75rem; }
-
-.mt-6 { margin-top: 2rem; }
-.mb-6 { margin-bottom: 2rem; }
-.ml-6 { margin-left: 2rem; }
-.mr-6 { margin-right: 2rem; }
-
-.mt-7 { margin-top: 2.25rem; }
-.mb-7 { margin-bottom: 2.25rem; }
-.ml-7 { margin-left: 2.25rem; }
-.mr-7 { margin-right: 2.25rem; }
-
-.mt-8{ margin-top: 2.5rem; }
-.mb-8 { margin-bottom: 2.5rem; }
-.ml-8 { margin-left: 2.5rem; }
-.mr-8 { margin-right: 2.5rem; }
-
-/* Responsive margin classes (follow the same pattern as the padding classes) */
-@media (min-width: 576px) {
-  .m-sm-5, .my-sm-5, .mx-sm-5 { margin: 1.75rem; }
-  .m-sm-6, .my-sm-6, .mx-sm-6 { margin: 2rem; }
-  .m-sm-7, .my-sm-7, .mx-sm-7 { margin: 2.25rem; }
-  .m-sm-8, .my-sm-8, .mx-sm-8 { margin: 2.5rem; }
+.fade-exit {
+    opacity: 1;
 }
 
-@media (min-width: 768px) {
-  .m-md-5, .my-md-5, .mx-md-5 { margin: 1.75rem; }
-  .m-md-6, .my-md-6, .mx-md-6 { margin: 2rem; }
-  .m-md-7, .my-md-7, .mx-md-7 { margin: 2.25rem; }
-  .m-md-8, .my-md-8, .mx-md-8 { margin: 2.5rem; }
-}
-
-@media (min-width: 992px) {
-  .m-lg-5, .my-lg-5, .mx-lg-5 { margin: 1.75rem; }
-  .m-lg-6, .my-lg-6, .mx-lg-6 { margin: 2rem; }
-  .m-lg-7, .my-lg-7, .mx-lg-7 { margin: 2.25rem; }
-  .m-lg-8, .my-lg-8, .mx-lg-8 { margin: 2.5rem; }
-}
-
-@media (min-width: 1200px) {
-  .m-xl-5, .my-xl-5, .mx-xl-5 { margin: 1.75rem; }
-  .m-xl-6, .my-xl-6, .mx-xl-6 { margin: 2rem; }
-  .m-xl-7, .my-xl-7, .mx-xl-7 { margin: 2.25rem; }
-  .m-xl-8, .my-xl-8, .mx-xl-8 { margin: 2.5rem; }
-}
-
-
-/* Additional Responsive Padding Classes for Specific Sides */
-@media (min-width: 576px) {
-  .pt-sm-5 { padding-top: 1.75rem; }
-  .pb-sm-5 { padding-bottom: 1.75rem; }
-  .pl-sm-5 { padding-left: 1.75rem; }
-  .pr-sm-5 { padding-right: 1.75rem; }
-
-  .pt-sm-6 { padding-top: 2rem; }
-  .pb-sm-6 { padding-bottom: 2rem; }
-  .pl-sm-6 { padding-left: 2rem; }
-  .pr-sm-6 { padding-right: 2rem; }
-
-  .pt-sm-7 { padding-top: 2.25rem; }
-  .pb-sm-7 { padding-bottom: 2.25rem; }
-  .pl-sm-7 { padding-left: 2.25rem; }
-  .pr-sm-7 { padding-right: 2.25rem; }
-
-  .pt-sm-8 { padding-top: 2.5rem; }
-  .pb-sm-8 { padding-bottom: 2.5rem; }
-  .pl-sm-8 { padding-left: 2.5rem; }
-  .pr-sm-8 { padding-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 768px) {
-  .pt-md-5 { padding-top: 1.75rem; }
-  .pb-md-5 { padding-bottom: 1.75rem; }
-  .pl-md-5 { padding-left: 1.75rem; }
-  .pr-md-5 { padding-right: 1.75rem; }
-
-  .pt-md-6 { padding-top: 2rem; }
-  .pb-md-6 { padding-bottom: 2rem; }
-  .pl-md-6 { padding-left: 2rem; }
-  .pr-md-6 { padding-right: 2rem; }
-
-  .pt-md-7 { padding-top: 2.25rem; }
-  .pb-md-7 { padding-bottom: 2.25rem; }
-  .pl-md-7 { padding-left: 2.25rem; }
-  .pr-md-7 { padding-right: 2.25rem; }
-
-  .pt-md-8 { padding-top: 2.5rem; }
-  .pb-md-8 { padding-bottom: 2.5rem; }
-  .pl-md-8 { padding-left: 2.5rem; }
-  .pr-md-8 { padding-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 992px) {
-  .pt-lg-5 { padding-top: 1.75rem; }
-  .pb-lg-5 { padding-bottom: 1.75rem; }
-  .pl-lg-5 { padding-left: 1.75rem; }
-  .pr-lg-5 { padding-right: 1.75rem; }
-
-  .pt-lg-6 { padding-top: 2rem; }
-  .pb-lg-6 { padding-bottom: 2rem; }
-  .pl-lg-6 { padding-left: 2rem; }
-  .pr-lg-6 { padding-right: 2rem; }
-
-  .pt-lg-7 { padding-top: 2.25rem; }
-  .pb-lg-7 { padding-bottom: 2.25rem; }
-  .pl-lg-7 { padding-left: 2.25rem; }
-  .pr-lg-7 { padding-right: 2.25rem; }
-
-  .pt-lg-8 { padding-top: 2.5rem; }
-  .pb-lg-8 { padding-bottom: 2.5rem; }
-  .pl-lg-8 { padding-left: 2.5rem; }
-  .pr-lg-8 { padding-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 1200px) {
-  .pt-xl-5 { padding-top: 1.75rem; }
-  .pb-xl-5 { padding-bottom: 1.75rem; }
-  .pl-xl-5 { padding-left: 1.75rem; }
-  .pr-xl-5 { padding-right: 1.75rem; }
-
-  .pt-xl-6 { padding-top: 2rem; }
-  .pb-xl-6 { padding-bottom: 2rem; }
-  .pl-xl-6 { padding-left: 2rem; }
-  .pr-xl-6 { padding-right: 2rem; }
-
-  .pt-xl-7 { padding-top: 2.25rem; }
-  .pb-xl-7 { padding-bottom: 2.25rem; }
-  .pl-xl-7 { padding-left: 2.25rem; }
-  .pr-xl-7 { padding-right: 2.25rem; }
-
-  .pt-xl-8 { padding-top: 2.5rem; }
-  .pb-xl-8 { padding-bottom: 2.5rem; }
-  .pl-xl-8 { padding-left: 2.5rem; }
-  .pr-xl-8 { padding-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-/* ... (continue for lg and xl) */
-
-/* Additional Responsive Margin Classes for Specific Sides */
-@media (min-width: 576px) {
-  .mt-sm-5 { margin-top: 1.75rem; }
-  .mb-sm-5 { margin-bottom: 1.75rem; }
-  .ml-sm-5 { margin-left: 1.75rem; }
-  .mr-sm-5 { margin-right: 1.75rem; }
-
-  .mt-sm-6 { margin-top: 2rem; }
-  .mb-sm-6 { margin-bottom: 2rem; }
-  .ml-sm-6 { margin-left: 2rem; }
-  .mr-sm-6 { margin-right: 2rem; }
-
-  .mt-sm-7 { margin-top: 2.25rem; }
-  .mb-sm-5 { margin-bottom: 2.25rem; }
-  .ml-sm-7 { margin-left: 2.25rem; }
-  .mr-sm-7 { margin-right: 2.25rem; }
-
-  .mt-sm-8 { margin-top: 2.5rem; }
-  .mb-sm-8 { margin-bottom: 2.5rem; }
-  .ml-sm-8 { margin-left: 2.5rem; }
-  .mr-sm-8 { margin-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 768px) {
-  .mt-md-5 { margin-top: 1.75rem; }
-  .mb-md-5 { margin-bottom: 1.75rem; }
-  .ml-md-5 { margin-left: 1.75rem; }
-  .mr-md-5 { margin-right: 1.75rem; }
-
-  .mt-md-6 { margin-top: 2rem; }
-  .mb-md-6 { margin-bottom: 2rem; }
-  .ml-md-6 { margin-left: 2rem; }
-  .mr-md-6 { margin-right: 2rem; }
-
-  .mt-md-7 { margin-top: 2.25rem; }
-  .mb-md-5 { margin-bottom: 2.25rem; }
-  .ml-md-7 { margin-left: 2.25rem; }
-  .mr-md-7 { margin-right: 2.25rem; }
-
-  .mt-md-8 { margin-top: 2.5rem; }
-  .mb-md-8 { margin-bottom: 2.5rem; }
-  .ml-md-8 { margin-left: 2.5rem; }
-  .mr-md-8 { margin-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 992px) {
-  .mt-lg-5 { padding-top: 1.75rem; }
-  .mb-lg-5 { padding-bottom: 1.75rem; }
-  .ml-lg-5 { padding-left: 1.75rem; }
-  .mr-lg-5 { padding-right: 1.75rem; }
-
-  .mt-lg-6 { margin-top: 2rem; }
-  .mb-lg-6 { margin-bottom: 2rem; }
-  .ml-lg-6 { margin-left: 2rem; }
-  .mr-lg-6 { margin-right: 2rem; }
-
-  .mt-lg-7 { margin-top: 2.25rem; }
-  .mb-lg-5 { margin-bottom: 2.25rem; }
-  .ml-lg-7 { margin-left: 2.25rem; }
-  .mr-lg-7 { margin-right: 2.25rem; }
-
-  .mt-lg-8 { margin-top: 2.5rem; }
-  .mb-lg-8 { margin-bottom: 2.5rem; }
-  .ml-lg-8 { margin-left: 2.5rem; }
-  .mr-lg-8 { margin-right: 2.5rem; }
-  /* ... (continue for other sizes) */
-}
-
-@media (min-width: 1200px) {
-  .mt-xl-5 { padding-top: 1.75rem; }
-  .mb-xl-5 { padding-bottom: 1.75rem; }
-  .ml-xl-5 { padding-left: 1.75rem; }
-  .mr-xl-5 { padding-right: 1.75rem; }
-
-  .mt-xl-6 { margin-top: 2rem; }
-  .mb-xl-6 { margin-bottom: 2rem; }
-  .ml-xl-6 { margin-left: 2rem; }
-  .mr-xl-6 { margin-right: 2rem; }
-
-  .mt-xl-7 { margin-top: 2.25rem; }
-  .mb-xl-5 { margin-bottom: 2.25rem; }
-  .ml-xl-7 { margin-left: 2.25rem; }
-  .mr-xl-7 { margin-right: 2.25rem; }
-
-  .mt-xl-8 { margin-top: 2.5rem; }
-  .mb-xl-8 { margin-bottom: 2.5rem; }
-  .ml-xl-8 { margin-left: 2.5rem; }
-  .mr-xl-8 { margin-right: 2.5rem; }
-  /* ... (continue for other sizes) */
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
 }

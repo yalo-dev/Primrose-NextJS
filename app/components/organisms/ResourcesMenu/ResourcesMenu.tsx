@@ -43,30 +43,30 @@ export default function ResourcesMenu() {
     const uriSlugs = uri.split('/');
     return currentPathSlugs[currentPathSlugs.length - 1] === uriSlugs[uriSlugs.length - 1];
   };
-  console.log('Current asPath:', router.asPath);
-  console.log('Current pathname:', router.pathname);
-  console.log('Menu items:', menuItems);
   return (
     <>
       <div className='navbar-resources'>
         <div className='container'>
-          <div className='title'>
-            Stories & Resources
+          <div className='d-flex flex-column flex-sm-row align-items-start align-items-sm-center'>
+            <h5 className='green m-sm-0'>
+              Stories & Resources
+            </h5>
+            <ul className='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
+              {menuItems.map((item, index) => (
+                <li key={index} className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''} d-block position-relative pe-4`}>
+                  {item && item.label && item.uri ? (
+                    <Link className='caption text-uppercase' href={item.uri}>{item.label}</Link>
+                  ) : (
+                    <span>Invalid item</span>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul>
-            {menuItems.map((item, index) => (
-              <li key={index} className={router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''}>
-                {item && item.label && item.uri ? (
-                  <Link href={item.uri}>{item.label}</Link>
-                ) : (
-                  <span>Invalid item</span>
-                )}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
-      <div className='margin-top'></div>
+      {/* offset for menu height */}
+      <div className='margin-top'></div>  
     </>
   );
 }

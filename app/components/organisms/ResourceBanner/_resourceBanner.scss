@@ -1,59 +1,38 @@
 .resource-banner {
     border-top: 1px solid $resource-banner-border;
     border-bottom: 1px solid $resource-banner-border;
-    button {
-        text-transform: uppercase;
+    p {
+        margin-bottom: 0;
+        @extend .b3;
     }
-    img {
-        margin-bottom: 17px;
-    }
-    h2, h3 {
-        margin-bottom: 17px;
-    }
-    .newsletter-form {
-        width: 100%;
-        input {
-            border-color: $newsletter-form-border-2;
-            padding-right: 5rem;
-        }
-        button {
-            width: 5rem;
-            text-transform: uppercase;
-        }
+    h1,h2,h3,h4,h5,h6 {
+        margin-bottom: 0;
     }
     @include media-breakpoint-up(lg) {
-        .icon {
-            margin: unset !important;
-        }
-        h2, h3 {
-            font-size: 26px;
-            margin-bottom: 0;
+        .families > div {
+            &:first-child {
+                flex-basis: 58%;
+            }
+            &:nth-child(2) {
+                flex-basis: 36%;
+            }
         }
         button:not(.newsletter-form button) {
             min-width: 12rem;
-            margin-right: 2rem;
-        }
-        a, 
-        .newsletter-form {
-            margin-right: 0;
-            margin-left: auto;
-            max-width: 350px;
-            input {
-                padding: 10px 15px;
-            }
+
         }
     }
     @include media-breakpoint-up(xxl) {
-        .newsletter-form {
-            max-width: 450px;
-            .form-group {
-                flex-basis: 76%;
-            }
-            .form-button {
-                flex-basis: 22%;
-                button {
-                    width: 6rem;
-                }
+        .border-left {
+            position: relative;
+            &::before {
+                content: "";
+                position: absolute;
+                height: 300%;
+                top: -100%;
+                left: -3rem;
+                width: 1px;
+                border-left:  1px solid $resource-banner-border;
             }
         }
     }

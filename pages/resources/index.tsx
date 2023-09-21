@@ -5,6 +5,7 @@ import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCa
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import React from 'react';
 
 export async function getServerSideProps() {
     try {
@@ -83,6 +84,7 @@ export default function ResourcesList({ resources, filterTerms }) {
     }).sort((a, b) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
+
     // limit featured sections to display 5
     const firstFiveFeaturedResources = featuredResources.slice(0, 5);
 
@@ -95,6 +97,7 @@ export default function ResourcesList({ resources, filterTerms }) {
             );
         });
     };
+
     // limit resource-type sections to display 3
     const familiesResources = filterResourcesByTypeAndExcludeFeatured("families").slice(0, 3);
     const educatorsResources = filterResourcesByTypeAndExcludeFeatured("educators").slice(0, 3);
@@ -106,24 +109,40 @@ export default function ResourcesList({ resources, filterTerms }) {
     } = ResourceFilter(resources, filterTerms);
 
 
-    const renderResourceList = (title, resourceList, linkTo = "", showFeaturedImage = true, className = '', specialClassType = '') => (
-        <>  
+    const renderTitle = (
+        title: string, 
+        linkTo: string = ""
+        ): React.ReactNode => {
+        return (
             <div className='title-container'>
                 <h2 className='title'>{title}</h2>
                 {linkTo && (
-                    <Link
-                        className='all-resources'
-                        href={linkTo}>
+                    <Link className='b3 link' href={linkTo}>
                         All {title.replace("For ", "")} Resources
                     </Link>
                 )}
             </div>
-            <TransitionGroup className='d-flex flex-wrap'>
+        );
+    };
+
+    const renderResourceItems = (
+        resourceList: any[], 
+        showFeaturedImage: boolean = true, 
+        classNames: string[] = [] 
+        ): React.ReactNode => {
+            if (!resourceList || resourceList.length === 0) {
+                return null;    
+            }
+            return (
+       
+            <TransitionGroup className='gap d-flex flex-wrap'>
                 {resourceList.map((resource, index) => {
                     const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
                     const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
                     const shouldAddNewsroomClass = isNewsroom && !isFeatured;
-    
+
+                    const className = classNames[index] || classNames[classNames.length - 1];  
+
                     return (
                         <CSSTransition
                             key={`${resource.title}-${index}`}
@@ -133,28 +152,40 @@ export default function ResourcesList({ resources, filterTerms }) {
                             <ResourceCard
                                 resource={resource}
                                 showFeaturedImage={showFeaturedImage}
-                                className={`${className} ${shouldAddNewsroomClass ? 'newsroom' : ''}`} 
+                                className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`} 
                             />
                         </CSSTransition>
                     );
                 })}
             </TransitionGroup>
-        </>
-    );
+        );
+    };
+
 
     return (
         <>
             <div className='container'>
-            <div className='featured mt-8'>
-                {renderResourceList("", firstFiveFeaturedResources, "", true, 'featured medium')}
-            </div>
-                {renderResourceList("For Families", familiesResources, "/resources/families", true, 'families medium')}
-                {renderResourceList("For Educators", educatorsResources, "/resources/educators", true, 'educators medium')}
-                {renderResourceList("Newsroom", newsroomResources, "/resources/newsroom", false, 'newsroom medium')}
-
-                <div className='wrapper all'>
-                    {SearchAndFilterUI}
-                    {renderResourceList("All Stories & Resources", filteredResources, "", true, 'medium', 'newsroom')}
+                <div className='resources-container'>
+                    {renderResourceItems(firstFiveFeaturedResources, true, ['featured large', 'featured medium'])}
+                </div>
+                <div className='resources-container'> 
+                    {renderTitle("For Families", "/resources/families" )} 
+                {renderResourceItems(familiesResources, true, ['families medium'])}
+                </div>
+                <div className='resources-container'>
+                    {renderTitle("For Educators", "/resources/educators")}
+                    {renderResourceItems(educatorsResources, true, ['educators medium'])}
+                </div>
+                <div className='resources-container'>
+                    {renderTitle("Newsroom", "/resources/newsroom")}
+                    {renderResourceItems(newsroomResources, false, ['newsroom'])}
+                </div>
+                <div className='resources-container'>
+                    <div className='title-and-search-container mb-5'>
+                        {renderTitle("All Stories & Resources")}
+                        {SearchAndFilterUI}
+                    </div>
+                    {renderResourceItems(filteredResources, true, ['medium'])}
                 </div>
             </div>
             <Newsletter />

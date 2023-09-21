@@ -5,34 +5,25 @@
     margin-left: -0.75rem;
     margin-right: -0.75rem;
 
-    .heading {
-        font-size: 38px;
-        margin-bottom: 15px;
-        color: $primary-green;
-    }
-    .subheading {
-        line-height: 1.5;
-        color: $black-lighter;
-        max-width: 25rem;
+    .blurb {
+       @extend .b3;
     }
     @include media-breakpoint-up(lg) {
-        background-color: $newsletter-bg-desktop;
         border-top-left-radius: 4rem;
         border-top-right-radius: 4rem;
         margin-top: 15rem;
         position: relative;
         &::before {
             content: "";
+            position: absolute;
+            background-image: url(/assets/newsletter-graphic.png);
+            @include backgroundProperties;
+            background-position: left bottom;
+            background-color: $transparent;
             width: 600px;
             height: 400px;
             right: 50%;
             bottom: 0;
-            background-image: url(/assets/newsletter-graphic.png);
-            background-position: left bottom;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-color: transparent;
-            position: absolute;
             z-index: 999;
             
         }

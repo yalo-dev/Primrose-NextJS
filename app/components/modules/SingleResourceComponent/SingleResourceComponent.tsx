@@ -126,19 +126,20 @@ export default function ResourceComponent({ singleSlug }) {
         <>
             <div className='resource'>
                 <div className='hero'>
-                    <div className='inner'>
-                        <div className='image-wrapper pb-4 pb-lg-0'>
+                    <div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
+                        <div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
                             {featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt="Featured" />}
                         </div>
-                        <div className='content-wrapper ps-4 pe-4'>
-                            <div className='details-wrapper'>{resourceTypes.nodes.length > 0 && (
-                                <div className='type'>
+                        <div className='content-wrapper ps-4 pe-4 position-relative'>
+                            <div className='details d-flex justify-start align-items-center'>
+                              {resourceTypes.nodes.length > 0 && (
+                                <div className='caption position-relative me-3'>
                                     {resourceTypes.nodes.map((type, index) => (
                                         <div key={index}>{type.name}</div>
                                     ))}
                                 </div>
                             )}
-                                {date && <div className='date'>{formattedDate}</div>}
+                                {date && <div className='date mb-0'>{formattedDate}</div>}
                             </div>
                             <div className='title pt-2 pb-2'>{title && <h1>{title}</h1>}</div>
                             <div className='utils-wrapper pt-2 pb-4'>
@@ -148,7 +149,7 @@ export default function ResourceComponent({ singleSlug }) {
                         </div>
                     </div>
                 </div>
-                <div className='social'>
+                <div className='social d-flex justify-center flex-xl-column mt-4 mb-4'>
                     <Link href="#" target="_blank" rel="noopener noreferrer">
                         <Image
                             src="/assets/fb.png"
@@ -175,13 +176,13 @@ export default function ResourceComponent({ singleSlug }) {
                     </Link>
                 </div>
 
-                <div className='content p-4'>
+                <div className='content p-4 mx-auto'>
                 {wrappedContent && <div dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
                 </div>
 
                 {resourceTags.nodes.length > 0 && (
                     <div className='tags'>
-                        <div className='container ps-4 pe-4 ps-lg-0 pe-lg-0 m-auto'>
+                        <div className='container ps-4 pe-4 ps-lg-0 pe-lg-0 mx-auto d-flex'>
                             {resourceTags.nodes.map((tag, index) => (
                                 <Tag key={index} label={tag.name} />
                             ))}
@@ -191,9 +192,9 @@ export default function ResourceComponent({ singleSlug }) {
 
                 {relatedArticles?.length > 0 && (
                     <div className='related'>
-                        <div className='container ps-4 pe-4 mt-4 mb-4'>
+                        <div className='container ps-4 pe-4 pt-4 mt-4 mb-4'>
                             <h2>Related Articles</h2>
-                            <div className='d-lg-flex justify-content-between'>
+                            <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
                                 {relatedArticles.map((relatedArticle, index) => (
                                     <ResourceCard
                                         key={index}
@@ -207,13 +208,13 @@ export default function ResourceComponent({ singleSlug }) {
                     </div>
                 )}
             </div>
-            {newsletterHeading && newsletterSubheading && (
+            {newsletterHeading && (
             <NewsletterFormBanner
                 newsletterHeading={newsletterHeading}
                 newsletterSubheading={newsletterSubheading}
             />
             )}
-            {ctaHeading && ctaButton?.url && (
+            {ctaHeading && (
             <CTABanner
                 ctaHeading={ctaHeading}
                 ctaButton={ctaButton}

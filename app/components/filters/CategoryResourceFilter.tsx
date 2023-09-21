@@ -86,28 +86,40 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
 
   const filteredAndSearchedResources = applyFilters();
 
+  const toProperCase = (str) => {
+    return str.replace(/-/g, ' ')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+  
   return (
     <>
-      <div className="search-and-filter">
-        <div className='search'>
-          <input type="text" name='search' id='search' placeholder="Type Your Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}  />
+    <div className='title-and-search-container mb-5'>
+        <div className='title-container'>
+          <h2 className='title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
         </div>
-        <div className='filters'>
-          <select className='custom-select' name='age' id='age' value={selectedAge} onChange={(e) => setSelectedAge(e.target.value)}>
-            <option value="">All Ages</option>
-            {filterTerms.map(term => term.name === 'Ages' ? term.children.nodes.map(child => (
-              <option key={child.slug} value={child.slug}>{child.name}</option>
-            )) : null)}
-          </select>
-          <select className='custom-select' name='topic' id='topic' value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}>
-            <option value="">All Topics</option>
-            {filterTerms.map(term => term.name === 'Topics' ? term.children.nodes.map(child => (
-              <option key={child.slug} value={child.slug}>{child.name}</option>
-            )) : null)}
-          </select>
+        <div className="search-and-filter">
+          <div className='search'>
+            <input type="text" name='search' id='search' placeholder="Type Your Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}  />
+          </div>
+          <div className='filters'>
+            <select className='custom-select' name='age' id='age' value={selectedAge} onChange={(e) => setSelectedAge(e.target.value)}>
+              <option value="">All Ages</option>
+              {filterTerms.map(term => term.name === 'Ages' ? term.children.nodes.map(child => (
+                <option key={child.slug} value={child.slug}>{child.name}</option>
+              )) : null)}
+            </select>
+            <select className='custom-select' name='topic' id='topic' value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}>
+              <option value="">All Topics</option>
+              {filterTerms.map(term => term.name === 'Topics' ? term.children.nodes.map(child => (
+                <option key={child.slug} value={child.slug}>{child.name}</option>
+              )) : null)}
+            </select>
+          </div>
         </div>
       </div>
-      <TransitionGroup className='d-flex flex-wrap wrapper all'>
+      <TransitionGroup className='gap d-flex flex-wrap'>
         {filteredAndSearchedResources.map((resource, index) => (
           <CSSTransition
             key={`${resource.title}-${index}`}
@@ -122,7 +134,9 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
           </CSSTransition>
         ))}
       </TransitionGroup>
+      
     </>
+
   );
 };
 
