@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ['localhost', 'another-domain.com', 'yet-another-domain.com'],
+    domains: ['localhost', 'primrose-headless.local', 'another-domain.com', 'yet-another-domain.com'],
   },
 };

@@ -1,0 +1,102 @@
+.cta-banner {
+    text-align: center;
+    max-width: $max-content-width;
+    margin: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .accents {
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        &::before{
+            content: "";
+            background-image: url('/assets/shape-pill-blue.png');
+            position: absolute;
+            width: 90px;
+            height: 30px;
+            left: -2rem;
+            top: 6rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            @include media-breakpoint-up(lg) {
+                left: -3rem;
+                top: 10rem;
+                width: 150px;
+                height: 50px;
+            }
+        }
+        &::after {
+            content: "";
+            background-image: url('/assets/shape-triangle-yellow.png');
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            right: -2rem;
+            top: 6rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            @include media-breakpoint-up(lg) {
+                top: 12rem;
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+    .top {
+        background-color: $newsletter-bg;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        position: relative;
+        img {
+            width: 100%;
+            height: auto;
+            margin-top: -3rem;
+        }
+        @include media-breakpoint-up(lg) {
+            max-height: 21rem;
+            img {
+                width: 800px;
+                margin-top: -6rem;
+            }
+            &::before {
+                width: 10rem;
+                height: 10rem;
+                left: -2rem;
+                top: 18rem;
+            }
+            &::after {
+                width: 10rem;
+                height: 10rem;
+                right: -4rem;
+                top: 12rem;
+            }
+        }
+    }
+    .bottom {
+        background-color: $primary-lightgreen;
+        color: $ui-grayscale-1;
+        padding: 2rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        text-align: left;
+        h2 {
+            font-size: 40px;
+            line-height: 40px;
+            color: $ui-grayscale-1;
+        }
+        button {
+            width: fit-content;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+    }
+}
+

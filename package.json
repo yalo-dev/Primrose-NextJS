@@ -11,12 +11,14 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "bootstrap": "^5.3.1",
     "graphql": "^16.8.0",
+    "jquery": "^3.7.1",
     "next": "latest",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-gravity-form": "^1.0.36",
+    "react-transition-group": "^4.4.5",
     "sass": "^1.66.1"
   },
   "devDependencies": {

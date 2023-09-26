@@ -1,7 +1,7 @@
 @import './base/variables';
 @import './base/mixins';
-@import "~bootstrap/scss/bootstrap";
-@import "custom";
+@import '~bootstrap/scss/bootstrap';
+@import 'custom';
 
 @import '../components/atoms/Button/button';
 @import '../components/atoms/Tag/tag';
@@ -16,10 +16,11 @@
 
 @import '../components/modules/StandardAccordionList/standardAccordionList';
 @import '../components/modules/Newsletter/newsletter';
+@import '../components/modules/ResourceNewsletter/resourceNewsletter';
+@import '../components/modules/CTABanner/ctabanner';
+@import '../components/modules/SingleResourceComponent/singleResourceComponent';
 
 @import './resources';
-
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap');
 
 :root {
     --body-font: Arial, Helvetica, sans-serif;
@@ -38,7 +39,7 @@
 
 *:focus,
 *:active {
-  outline: none;
+    outline: none;
 }
 
 
@@ -47,116 +48,166 @@ html {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    scroll-behavior: smooth; 
-    scroll-padding-top: 97px;
-    line-height: 1.15; 
+    scroll-behavior: smooth;
+    scroll-padding-top: 107.5px;
+    line-height: 1.15;
     -webkit-text-size-adjust: 100%;
-  }
+}
 
 body {
     font-size: $font-size;
     background-color: $ui-grayscale-1;
-    font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    font-weight: 300;
 }
 
 h1,
-h2 {
-    font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+h2,
+h3,
+h4 {
+    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
     font-style: normal;
+    color: $heading-color;
 }
 
-h3,
-h4,
 h5,
 h6 {
-    font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
     font-style: normal;
 }
 
 h1 {
-    font-size: 32px;
-    line-height: 36px;
+    font-size: 40px;
     font-weight: 200;
-    @include media-breakpoint-up(md) {
-        font-size: 36px;
-        line-height: 42px;
-    }
+    line-height: 40px;
+
     @include media-breakpoint-up(lg) {
-        font-size: 50px;
-        line-height: 55px;
+        font-size: 72px;
+        line-height: 76px; 
     }
 }
+
 h2 {
-	font-size: 28px;
-    line-height: 32px;   
+    font-size: 34px;
     font-weight: 200;
-    @include media-breakpoint-up(md) {
-        font-size: 30px;
-        line-height: 36px;
-    }
+    line-height: 38px;
+
     @include media-breakpoint-up(lg) {
-        font-size: 40px;
-        line-height: 42px;
+        font-size: 52px;
+        line-height: 60px;
     }
 
 }
+
 h3 {
-	font-size: 24px;
-    line-height: 28px;
+    font-size: 26px;
     font-weight: 300;
-    @include media-breakpoint-up(md) {
-        font-size: 24px;
-        line-height: 28px;
-    }
+    line-height: 30px;
+
     @include media-breakpoint-up(lg) {
-        font-size: 30px;
-        line-height: 36px;
+        font-size: 40px;
+        line-height: 44px;
     }
 }
+
 h4 {
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 500;
-    @include media-breakpoint-up(md) {
-        font-size: 20px;
-        line-height: 24px;
-    }
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 26px;
+
     @include media-breakpoint-up(lg) {
-        font-size: 24px;
-        line-height: 28px;
+        font-size: 26px;
+        line-height: 32px;
     }
 }
+
 h5 {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
-    font-weight: 500;
-    @include media-breakpoint-up(md) {
-        font-size: 18px;
-        line-height: 22px;
-    }
+    font-weight: 600;
+
     @include media-breakpoint-up(lg) {
-        font-size: 20px;
-        line-height: 24px;
+        font-size: 16px;
+        line-height: 26px;
     }
 }
+
 h6 {
-    font-size: 14px;
-    line-height: 18px; 
-    font-weight: 700;
-    @include media-breakpoint-up(md) {
-        font-size: 16px;
-        line-height: 20px;
-    }
+    font-size: 8px;
+    line-height: 14px;
+    font-weight: 600;
+
     @include media-breakpoint-up(lg) {
-        line-height: 22px;
+        font-size: 9px;
+        line-height: 16px;
     }
 }
 
 p {
-    font-size: 1rem;
-    line-height: 1.25;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; 
+    color: $black-lighter;
+    @include media-breakpoint-up(lg) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    &.b2 {
+        font-size: 13px;
+        line-height: 18px;
+        @include media-breakpoint-up(lg) {
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+    &.b3 {
+        font-size: 14px;
+        line-height: 22px;
+        font-weight: 300;
+        @include media-breakpoint-up(lg) {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+    &.b4 {
+        font-size: 18px;
+        line-height: 30px;
+        font-weight: 300;
+        @include media-breakpoint-up(lg) {
+            font-size: 20px;
+            line-height: 34px;
+        }
+    }
+    &.b5 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 300;
+        @include media-breakpoint-up(lg) {
+            font-size: 28px;
+            line-height: 38px;
+        }
+    }
+    &.b6 {
+        font-size: 28px;
+        line-height: 34px;
+        font-weight: 500;
+        @include media-breakpoint-up(lg) {
+            font-size: 34px;
+            line-height: 42px;
+        }
+    }
+    &.b7 {
+        font-size: 34px;
+        line-height: 42px;
+        font-weight: 400;
+        @include media-breakpoint-up(lg) {
+            font-size: 50px;
+            line-height: 62px;
+        }
+    }
 }
 
 a {
@@ -164,10 +215,11 @@ a {
     transition: 0.25s;
     color: $brand-blue;
     cursor: pointer;
+
     &:hover {
         text-decoration: none;
         color: $brand-teal;
-       
+
     }
 }
 
@@ -180,16 +232,38 @@ input,
 optgroup,
 select,
 textarea {
-  margin: 0;
+    margin: 0;
 }
 
 
 hr {
-    box-sizing: content-box; 
+    box-sizing: content-box;
     height: 0;
     overflow: visible;
 }
 
-.main--container {
-    margin-top: 109.5px;
+.caption {
+    font-family: 'Poppins';
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    color: $black-normal;
+    @include media-breakpoint-up(lg) {
+        font-size: 12px;
+        line-height: 18px; 
+        letter-spacing: 0.5px;
+    }
+}
+
+.subheading {
+    font-family: 'Source Serif Pro';
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 28px;
+    @include media-breakpoint-up(lg) {
+        font-size: 30px;
+        line-height: 42px; 
+    }
 }

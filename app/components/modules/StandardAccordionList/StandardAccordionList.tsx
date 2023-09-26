@@ -1,5 +1,5 @@
+declare const $: any;
 import React, { useEffect } from 'react';
-import $ from 'jquery';
 
 interface FAQ {
   question: string;

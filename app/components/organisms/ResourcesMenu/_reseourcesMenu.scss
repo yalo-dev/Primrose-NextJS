@@ -3,48 +3,33 @@
     width: 100%;
     z-index: 1130;
     top: 107px;
-    padding: 10px 0;
-    background-color: $card-background-color;
-    border-top: 1px solid $resource-nav-border;
-    border-bottom: 1px solid $resource-nav-border;
-    
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    left: 0;
+    padding: 23px 0;
+    background-color: $resource-nav-bg;
+    border-top: 1px solid $nav-border;
+    border-bottom: 1px solid $nav-border;
+    @include media-breakpoint-up(lg) {
+       top: 96px;
     }
 
-    .title {
-        font-weight: 600;
-        text-transform: initial;
-        color: $primary-green;
-        padding: 10px 10px 5px;
+    @include media-breakpoint-up(xl) {
+       top: 73px;
     }
-
     ul {
         white-space: nowrap;
-        display: flex;
-        flex-grow: 1;
-        justify-content: center;
         list-style-type: none;
-        padding-left: 0;
-        margin-bottom: 0;
-        max-width: 1400px;
-
-        
+        max-width: $max-content-width;
         li {
-            flex-shrink: 0;
-            padding: 10px;
-            position: relative;
-            display: block;
-            text-transform: uppercase;
-            font-size: 12px;
+            a {
+                color: $resource-nav-color;
+            }
             &:not(.navitem--main):not(:last-of-type)  {
                 &::after {
+                    color: $newsletter-form-border-2;
                     content: '/';
                     position: absolute;
-                    bottom: 12px;
-                    right: -3px;
+                    bottom: -3px;
+                    right: 7px;
                 }
             }
          
@@ -52,9 +37,9 @@
                 content: "";
                 position: absolute;
                 height: 3px;
-                width: calc(100% - 48px);
+                width: calc(100% - 24px);
                 background-color: $transparent;
-                bottom: 15px;
+                bottom: -3px;
                 @include transitionAll;
             }
             &.active {
@@ -62,46 +47,14 @@
                     background-color: $primary-green;
                 }
             }
-
-            a {
-                color: $primary-green;
-            }
-        }
-    }
-
-    @include media-breakpoint-up(sm) {
-        .container {
-            flex-direction: row;
-            align-items: center;
-        }
-        .title {
-            padding: 0;
-        }
-        button {
-            display: none;
-        }
-
-        ul {
-            justify-content: flex-start;
-            margin-left: 25px;
-
-            li {
-                flex-shrink: 0;
-            }
-        }
-    }
-
-    @include media-breakpoint-up(lg) {
-        ul {
-            justify-content: flex-start;
         }
     }
 }
 
-.padding {
+.margin-top {
     display: block;
-    padding: 50px;
+    margin-top: 99px;
     @include media-breakpoint-up(sm) {
-        padding: 40px;
+        margin-top: 72px;
     }
 }

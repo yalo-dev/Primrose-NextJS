@@ -1,27 +1,78 @@
-.title-container {
-    padding: 40px 0 20px;
-    color: $primary-green;
-
-    &:first-of-type {
-        display: none;
-    }
-
-    @include media-breakpoint-up(lg) {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .resource-list-title {
-            margin-left: 0;
-            font-size: 50px;
+.resources-container {
+    margin-top: 2rem;
+    .title-and-search-container {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .title-container {
+                flex-basis: 60%;
+            }
+            .search-and-filter {
+                flex-basis: 40%;
+            }
+        }
+        @include media-breakpoint-up(xl) {
+            justify-content: space-between;
+            .title-container {
+                flex-basis: 50%;
+            }
+            .search-and-filter {
+                flex-basis: 48%;
+            }
         }
     }
+    .title-container {
+        padding: 40px 0 20px;
+        color: $primary-green;
+        .link {
+            color: $primary-green;
+            position: relative;
+            &::after {
+                position: absolute;
+                content: '>';
+                right: -1rem;
+                top: -2px;
+                width: 10px;
+                height: 10px;
+                font-size: 1.25rem;
+                font-weight: 100;
+                @include transitionAll;
+            }
+            &:hover {
+                color: $brand-blue;
+                &::after {
+                    right: -1.5rem;
+                    color: $brand-blue;
+                }
+            }
+        }
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .title {
+                margin-left: 0;
+                font-size: 50px;
+            }
+            .all-resources {
+                margin-right: 1rem;
+            }
+        }
+        @include media-breakpoint-up(xl) {
+            .link {
+                padding-right: 20px;
+                &::after {
+                    right: 0;
+                }
+            }
+        }
+    }
+    .gap {
+        gap: 1rem;
+    }
 }
 
-.resource-list-title {
-    font-size: 40px;
-    margin: 15px auto 20px;
-}
 
 .search-and-filter {
     .search {
@@ -81,279 +132,59 @@
             }
         }
     }
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    .search-and-filter {
-        order: 2;
-        margin-bottom: 20px;
-    }
-    .title-container {
-        order: 1
-    }
-    .d-flex {
-        order: 3;
-    }
     @include media-breakpoint-up(xl) {
-        flex-direction: unset;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        .search-and-filter {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 40%;
-            .search {
-                margin-right: 10px;
-            }
-        }
-        &.all .d-flex {
-            justify-content: flex-start;
-            .card {
-                margin: 10px;
-                flex-basis: calc(33% - 20px);
-            }
-        }
-    }
-}
-
-@include media-breakpoint-up(xl) {
-    .d-flex {
-        justify-content: space-between;
-    }
-}
-
-.category {
-
-    @include media-breakpoint-up(lg) {
-        .wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .resource-list-title {
-            margin: 0;
-        }
-        .search-and-filter {
-            margin: 20px 0;
-        }
-    
-    }
-    @include media-breakpoint-up(xl) {
-        .d-flex {
-            justify-content: space-between;
-            &.all {
-                justify-content: flex-start;
-            }
-        }
-        .resource-list-title {
-            padding: 0 10px;
-        }
-        .search-and-filter {
-            padding: 0 10px;
-        }
-    }
-    @include media-breakpoint-up(xl) {
-        flex-direction: unset;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        .search-and-filter {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 40%;
-            .search {
-                margin-right: 10px;
-            }
-        }
-    }
-}
-
-.resource {
-    .hero {
-        img {
-            width: 100%;
-        }
-        .details {
-            display: flex;
-            margin-top: 2rem;
-            .type {
-                text-transform: uppercase;
-                font-size: 12px;
-                position: relative;
-                margin-right: 15px;
-                &::after {
-                    content: "·";
-                    position: absolute;
-                    top: -6px;
-                    right: -10px;
-                    font-size: 20px;
-                }
-            }
-            .date {
-                font-size: 12px;
-            }
-        }
-        .title {
-            border-bottom: 1px solid $ui-grayscale-5;
-        }
-        .read-time {
-            text-align: right;
-            margin: 10px 0;
-            position: relative;
-            &::after {
-                content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.5' stroke='%23D8C8E1'/%3E%3Cline x1='7.5' y1='4' x2='7.5' y2='9' stroke='%23D8C8E1'/%3E%3Cline x1='7' y1='8.5' x2='12' y2='8.5' stroke='%23D8C8E1'/%3E%3C/svg%3E");
-                position: absolute;
-                top: 2px;
-                right: 6rem;
-            }
-        }
-    }
-    .social {
         display: flex;
         justify-content: center;
-        margin: 2rem 0;
-        a {
-            margin: 5px;
-            
+        align-items: center;
+        .search {
+            margin-right: 10px;
+            input {
+                min-width: 275px;
+            }
         }
     }
+}
 
-    .tags {
-        display: flex;
-        border-top: 1px solid $ui-grayscale-5;
-        border-bottom: 1px solid $ui-grayscale-5;
-        padding: 40px 0;
-        margin: 2rem 0;
-    }
-}
-.related {
-    .card.medium:not(.featured) .inner .content-wrapper .title {
-        line-height: 1.25;
-    }
-    .card .type, 
-    .card .date {
-        font-size: 10px;
-    }
-    .card .tags {
-        border: 0;
-        padding: 20px 0;
-    }
-}
-.newsletter-form-wrapper {
-    text-align: center;
-    background-color: $newsletter-bg;
-    margin-top: 4rem;
-    .top {
-        border-top: 1px solid $ui-grayscale-3;
-        border-bottom: 1px solid $ui-grayscale-3;
-        @include media-breakpoint-up(lg) {
-            border: 0;
-        }
-        img {
-            width: 65%;
-            height: auto;
-            margin-top: -3rem;
-            @include media-breakpoint-up(lg) {
-                margin-top: -2rem;
-                width: 400px;
-            }
-           
-        }
-    }
-    .bottom {
-        padding: 2rem 1rem;
-        h2 {
-            font-size: 40px;
-        }
-        @include media-breakpoint-up(lg) {
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            .newsletter-form {
-                max-width: 400px;
-            }
-        }
-    }
-}
-.cta-banner {
-    text-align: center;
-    background-color: $newsletter-bg;
-    max-width: 1400px;
-    margin: auto;
-    margin-top: 4rem;
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
-    .top {
-        
-        position: relative;
-        img {
-            width: 100%;
-            height: auto;
-            margin-top: -3rem;
-        }
-        &::before{
-            content: "";
-            background-image: url('/assets/shape-pill-blue.png');
-            position: absolute;
-            width: 90px;
-            height: 30px;
-            left: -3rem;
-            top: 3rem;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-        &::after {
-            content: "";
-            background-image: url('/assets/shape-triangle-yellow.png');
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            right: -3rem;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-        @include media-breakpoint-up(lg) {
-            img {
-                width: 800px;
-            }
-            &::before {
-                width: 10rem;
-                height: 10rem;
-                left: -2rem;
-                top: 18rem;
-            }
-            &::after {
-                width: 10rem;
-                height: 10rem;
-                right: -4rem;
-                top: 12rem;
-            }
-        }
-    }
-    .bottom {
-        background-color: $primary-lightgreen;
-        color: $white;
-        padding: 2rem;
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        text-align: left;
-        h2 {
-            font-size: 40px;
-            line-height: 40px;
-        }
-        button {
-            width: fit-content;
-            color: $primary-lightgreen;
-            font-size: 12px;
 
-        }
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            justify-content: space-between;
+.category {
+    @include media-breakpoint-up(xl) {
+        .card.featured {
+            &:first-child {
+                flex-basis: calc(66% - 8px);
+                padding-bottom: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .inner {
+                    display: flex;
+                    flex-direction: row !important;     
+                    .image-wrapper {
+                        flex-basis: 50%;
+                        .image {
+                            @include backgroundProperties;
+                            height: 100%;
+                            border-top-right-radius: 0;
+                            border-bottom-left-radius: 10px;
+                        }
+                    }
+                    .content-wrapper {
+                        flex-basis: 50%;
+                        padding: 70px 20px 2rem !important;
+                        min-height: 480px;
+                        .title {
+                            font-size: 40px;
+                            font-weight: 200;
+                            line-height: 44px;
+                        }
+                        .excerpt {
+                            display: block;
+                        }
+                    }
+                }
+            }
+            &:nth-child(2) {
+                flex-basis: calc(33% - 8px);
+            }
         }
     }
 }

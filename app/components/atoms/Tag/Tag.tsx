@@ -8,11 +8,11 @@ interface TagProps {
 const Tag: React.FC<TagProps> = ({ label, isFeatured }) => {
   let tagClass = 'tag category';
   if (isFeatured) {
-    tagClass += ' featured';
+    tagClass += 'tag featured';
   }
 
   return (
-    <div className={tagClass}>
+    <div className={`d-flex align-items-center ${tagClass}`}>
       {label}
     </div>
   );

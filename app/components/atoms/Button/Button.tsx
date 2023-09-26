@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
-type ButtonVariants = 'primary' | 'secondary';
+type ButtonVariants = 'primary' | 'secondary' | 'white';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariants;
@@ -18,6 +18,9 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, targe
             break;
         case 'secondary':
             buttonClass = 'secondary';
+            break;
+        case 'white':
+            buttonClass = 'white';
             break;
         default:
             break;

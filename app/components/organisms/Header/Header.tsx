@@ -1,8 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../../../../app/components/atoms/Button/Button';
+import { useRouter } from 'next/router';
+import ResourcesMenu from '../ResourcesMenu/ResourcesMenu';
 
 export default function Header({ menuItems }) {
+    const router = useRouter();
+    const showResourcesMenu = router.pathname.includes('/resources');
+
     return (
         <header className='header border-bottom'>
             <title>Primrose Schools</title>
@@ -45,13 +50,15 @@ export default function Header({ menuItems }) {
                         </ul>
                         <div className='navbar-search col-lg-4'>
                             <form className='d-flex' role='search'>
-                                <input className='form-control me-2' type='search' placeholder='Search' aria-label='Search' />
+                                <label htmlFor='search' className='hidden'>Email Address</label>
+                                <input className='form-control me-2' type='search' name='search' id='search' placeholder='Search' aria-label='Search' required />
                                 <Button label='Search' variant='primary' type='submit' />
                             </form>
                         </div>
                     </div>
                 </div>
             </nav>
+            { showResourcesMenu && <ResourcesMenu /> }
         </header>
     )
 }

@@ -1,29 +1,39 @@
 .resource-banner {
-    border-top: 1px solid $ui-grayscale-5;
-    border-bottom: 1px solid $ui-grayscale-5;
-    button {
-        width: auto;
-        padding: 15px 30px;
-        text-transform: uppercase;
-        font-size: 12px;
+    border-top: 1px solid $resource-banner-border;
+    border-bottom: 1px solid $resource-banner-border;
+    p {
+        margin-bottom: 0;
+        @extend .b3;
     }
-    .newsletter-form {
-        width: 100%;
+    h1,h2,h3,h4,h5,h6 {
+        margin-bottom: 0;
     }
     @include media-breakpoint-up(lg) {
-        .icon {
-            margin: unset !important;
+        .families > div {
+            &:first-child {
+                flex-basis: 58%;
+            }
+            &:nth-child(2) {
+                flex-basis: 36%;
+            }
         }
-        .blurb h2 {
-            font-size: 26px;
-            margin-bottom: 0;
+        button:not(.newsletter-form button) {
+            min-width: 12rem;
+
         }
-        a, .newsletter-form {
-            margin-right: 0;
-            margin-left: auto;
-        }
-        .newsletter-form {
-            max-width: 350px;
+    }
+    @include media-breakpoint-up(xxl) {
+        .border-left {
+            position: relative;
+            &::before {
+                content: "";
+                position: absolute;
+                height: 300%;
+                top: -100%;
+                left: -3rem;
+                width: 1px;
+                border-left:  1px solid $resource-banner-border;
+            }
         }
     }
 }

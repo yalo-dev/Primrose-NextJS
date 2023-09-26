@@ -1,0 +1,37 @@
+.resource-newsletter {
+    text-align: center;
+    background-color: $newsletter-bg;
+    margin-top: 4rem;
+    .top {
+        border-top: 1px solid $resource-newsletter-border;
+        border-bottom: 1px solid $resource-newsletter-border;
+        @include media-breakpoint-up(lg) {
+            border: 0;
+        }
+        img {
+            width: 65%;
+            height: auto;
+            margin-top: -3rem;
+            @include media-breakpoint-up(lg) {
+                margin-top: -2rem;
+                width: 400px;
+            }
+           
+        }
+    }
+    .bottom {
+        padding: 2rem 1rem;
+        h2 {
+            font-size: 40px;
+        }
+        @include media-breakpoint-up(lg) {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .newsletter-form {
+                max-width: 400px;
+            }
+        }
+    }
+}

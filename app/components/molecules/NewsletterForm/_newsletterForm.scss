@@ -1,36 +1,44 @@
 .newsletter-form {
-    position: relative;
-    .hidden {
-        display: none !important;
-    }
-    input {
-        padding: 22px 10px;
-        border: 1px solid #889631;
-        border-radius: 5px;
+    .form-group {
         width: 100%;
-    }
-
-    button {
-        position: absolute;
-        top: 9px;
-        right: 19px;
-        width: 100px;
-        height: 50px;
-        background-color: $primary-green;
-        color: $white;
-        border-radius: 25px;
-        font-size: 12px;
-        text-transform: uppercase;
-        padding: unset;
-    }
-
-    @include media-breakpoint-up(lg) {
         input {
-            border-color: #E6E6E6;
+            padding: 14px 20px;
+            border: 1px solid $newsletter-form-border;
+            border-radius: 5px;
+            width: 100%;
         }
-
+    }
+    .form-button {
+        width: 9rem;
         button {
-            right: 9px;
+            width: 100%;
+        }
+    }
+    @include media-breakpoint-up(lg) {
+        .form-group {
+            flex-basis: 70%;
+        }
+        .form-button {
+            flex-basis: 28%;
+        }
+    }
+    @include media-breakpoint-up(xl) {
+        .form-group {
+            flex-basis: 76%;
+        }
+        .form-button {
+            flex-basis: 22%;
+            button {
+                width: 6rem;
+            }
+        }
+    }
+    @include media-breakpoint-up(xxl) {
+        .form-group {
+            flex-basis: 82%;
+        }
+        .form-button {
+            flex-basis: 17%;
         }
     }
 }

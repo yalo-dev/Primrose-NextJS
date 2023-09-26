@@ -8,3 +8,47 @@
         margin: auto;
     }
 }
+
+
+/***********************************************************************/
+/******************************* HELPERS *******************************/
+/***********************************************************************/
+.hidden {
+    display: none !important;
+}
+
+.green {
+    color: $primary-green;
+}
+
+//to offset space for the nav 
+.main--container {
+    margin-top: 108px;
+    overflow: hidden;
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 97px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        margin-top: 74px;
+    }
+}
+//resource card search and filter animations 
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}

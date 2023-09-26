@@ -2,7 +2,7 @@
     background-color: $ui-grayscale-1;
     .navbar {
         background-color: $ui-grayscale-1;
-        @include dropShadow;
+        border-bottom: 1px solid $nav-border;
     }
     .navbar-toggler {
         border: 0;
@@ -12,6 +12,9 @@
         justify-content: flex-end;
     }
     .navbar-search {
+        .hidden {
+            display: none!important;
+        }
         button {
             width: 50%;
         }
@@ -23,6 +26,7 @@
     .navbar-logo {
         @include media-breakpoint-up(lg) {
             width: 100px;
+            height: auto;
         }
     }
     .navbar-logo {

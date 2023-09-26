@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { client } from '../../../lib/apollo';
 import { gql } from '@apollo/client';
@@ -8,8 +9,9 @@ interface MenuItem {
   label: string;
 }
 
-export default function ResourceMenu() {
+export default function ResourcesMenu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -34,51 +36,37 @@ export default function ResourceMenu() {
     };
 
     fetchMenuItems();
-    
   }, []);
 
-  // const scrollContainerRef = useRef<HTMLUListElement>(null);
-
-  // const handleScroll = (direction) => {
-  //   if (scrollContainerRef.current) {
-  //     const container = scrollContainerRef.current;
-  //     let scrollAmount = 0;
-  //     const slideTimer = setInterval(function(){
-  //       if(direction === 'left'){
-  //         container.scrollLeft -= 10;
-  //       } else {
-  //         container.scrollLeft += 10;
-  //       }
-  //       scrollAmount += 10;
-  //       if(scrollAmount >= 100){
-  //         window.clearInterval(slideTimer);
-  //       }
-  //     }, 25);
-  //   }
-  // };
-
-
- return (
-  <>
+  const isActive = (uri: string): boolean => {
+    const currentPathSlugs = router.asPath.split('/');
+    const uriSlugs = uri.split('/');
+    return currentPathSlugs[currentPathSlugs.length - 1] === uriSlugs[uriSlugs.length - 1];
+  };
+  return (
+    <>
       <div className='navbar-resources'>
         <div className='container'>
-          <div className='title'>
+          <div className='d-flex flex-column flex-sm-row align-items-start align-items-sm-center'>
+            <h5 className='green m-sm-0'>
               Stories & Resources
+            </h5>
+            <ul className='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
+              {menuItems.map((item, index) => (
+                <li key={index} className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''} d-block position-relative pe-4`}>
+                  {item && item.label && item.uri ? (
+                    <Link className='caption text-uppercase' href={item.uri}>{item.label}</Link>
+                  ) : (
+                    <span>Invalid item</span>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul>
-            {menuItems.map((item, index) => (
-              <li key={index}>
-                {item && item.label && item.uri ? (
-                  <Link href={item.uri}>{item.label}</Link>
-                ) : (
-                  <span>Invalid item</span>
-                )}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
-      <div className='padding'></div>
+      {/* offset for menu height */}
+      <div className='margin-top'></div>  
     </>
   );
 }
