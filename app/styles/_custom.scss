@@ -52,3 +52,13 @@
     opacity: 0;
     transition: opacity 500ms ease-in;
 }
+
+//resource card hover states
+.resources-container .card.featured.large:hover .image-wrapper .image{
+    background-size: auto 105%;
+    transition: all .5s;
+}
+.resources-container .card.medium:hover .image-wrapper .image{
+    background-size: 105% auto;
+    transition: all .5s;
+}

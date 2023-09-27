@@ -9,10 +9,11 @@
     &:last-of-type {
         border-bottom: 0;
     }
-    &:hover {
-        transform: scale(1.015);
+    &:hover{
         @include dropShadow;
+        background-color:white !important;
     }
+    
     a {
         height: 100%;
     }
@@ -26,6 +27,7 @@
                 width: 128px;
                 height: 110px;
                 border-radius: 10px;
+                transition: all .5s
             }
         }
         .content-wrapper {
@@ -86,11 +88,13 @@
             .image-wrapper {
                 .image {
                     @include backgroundProperties;
+                    background-size: 100% auto;
                     height: 240px;
                     width: 100%;
                     border-radius: 0;
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
+                    transition: all .5s
                 }
             }
             .content-wrapper {
@@ -120,6 +124,7 @@
                     border-radius: 0;
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
+                    transition: all .5s
                 }
             }
             .content-wrapper {
@@ -147,9 +152,11 @@
                         flex-basis: 50%;
                         .image {
                             @include backgroundProperties;
+                            background-size: auto 100%;
                             height: 100%;
                             border-top-right-radius: 0;
                             border-bottom-left-radius: 10px;
+                            transition: all .5s
                         }
                     }
                     .content-wrapper {
@@ -174,11 +181,13 @@
                 .image-wrapper {
                     .image {
                         @include backgroundProperties;
+                        background-size: 100% auto;
                         height: 240px;
                         width: 100%;
                         border-radius: 0;
                         border-top-left-radius: 10px;
                         border-top-right-radius: 10px;
+                        transition: all .5s
                     }
                 }
             }
