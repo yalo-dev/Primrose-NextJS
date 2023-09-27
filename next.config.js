@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ['localhost', 'primrose-headless.local', 'primroseschool.wpengine.com', 'yet-another-domain.com'],
+    domains: ['localhost', 'primrose-headless.local', 'primroseschool.wpengine.com', 'primroseschstg.wpenginepowered.com'],
   },
 };

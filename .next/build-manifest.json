@@ -22,10 +22,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/resources": [
+    "/resources/[...slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/resources.js"
+      "static/chunks/pages/resources/[...slug].js"
     ]
   },
   "ampFirstPages": []
