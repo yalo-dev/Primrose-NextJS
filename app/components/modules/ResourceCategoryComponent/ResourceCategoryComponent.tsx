@@ -98,33 +98,32 @@ export default function CategoryComponent() {
     );
 
     return (
-        <div className='container-fluid category'>
-            <div className='container'>
-                <div className='resources-container'>
-                    {firstTwoFeaturedResources.length > 0 ? renderResourceList(firstTwoFeaturedResources, true, 'featured') : <p>No Featured Resources</p>}
-                </div>
-                    
-                {(slug === 'families' || slug === 'newsroom') && <ResourceBanner slug={slug} />}
-                <div id='all' className='resources-container'>
+       
+        <div className='container category'>
+            <div className='resources-container'>
+                {firstTwoFeaturedResources.length > 0 ? renderResourceList(firstTwoFeaturedResources, true, 'featured') : <p>No Featured Resources</p>}
+            </div>
+                
+            {(slug === 'families' || slug === 'newsroom') && <ResourceBanner slug={slug} />}
+            <div id='all' className='resources-container'>
 
-                    {filteredResources.length > 0 ? (
-                        slug ? (
-                            <CategoryResourceFilter
-                                resources={filteredResources}
-                                filterTerms={filterTerms}
-                                searchTerm={searchTerm}
-                                setSearchTerm={setSearchTerm}
-                                selectedAge={selectedAge}
-                                setSelectedAge={setSelectedAge}
-                                selectedTopic={selectedTopic}
-                                setSelectedTopic={setSelectedTopic}
-                                slug={slug}
-                            />
-                        ) : (
-                            <p>The resource slug is not available</p>
-                        )
-                    ) : <p>No Resources Found</p>}
-                </div>
+                {filteredResources.length > 0 ? (
+                    slug ? (
+                        <CategoryResourceFilter
+                            resources={filteredResources}
+                            filterTerms={filterTerms}
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            selectedAge={selectedAge}
+                            setSelectedAge={setSelectedAge}
+                            selectedTopic={selectedTopic}
+                            setSelectedTopic={setSelectedTopic}
+                            slug={slug}
+                        />
+                    ) : (
+                        <p>The resource slug is not available</p>
+                    )
+                ) : <p>No Resources Found</p>}
             </div>
         </div>
     );
