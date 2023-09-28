@@ -55,7 +55,7 @@ export default function ResourcesMenu() {
               {menuItems.map((item, index) => (
                 <li key={index} className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''} d-block position-relative pe-4`}>
                   {item && item.label && item.uri ? (
-                    <Link className='caption text-uppercase' href={item.uri}>{item.label}</Link>
+                    <Link className='caption' href={item.uri}>{item.label}</Link>
                   ) : (
                     <span>Invalid item</span>
                   )}
