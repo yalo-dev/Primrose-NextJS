@@ -5,7 +5,8 @@
         border-radius: .75rem;
         overflow:hidden;
         h1 {
-            color: $ui-grayscale-1;
+            @extend .h2;
+            color: $ui-grayscale-1 !important;
         }
         @include media-breakpoint-up(xl) {
             margin-bottom: 4rem;
@@ -57,12 +58,22 @@
                 background-size: contain;
                 background-repeat: no-repeat;
                 transform: rotate(80deg);
+                @include media-breakpoint-up(sm) {
+                    left: 3rem;
+                    top: -10rem;
+                    width: 6rem;
+                    height: 6rem;
+                    transform: rotate(30deg);
+                }
                 @include media-breakpoint-up(lg) {
                     left: -11rem;
                     top: -4rem;
                     width: 6rem;
                     height: 6rem;
                     transform: rotate(30deg);
+                }
+                @include media-breakpoint-up(xl) {
+                    top: -7rem;
                 }
                 @include media-breakpoint-up(xxl) {
                     left: -10rem;
@@ -81,6 +92,14 @@
                 transform: rotate(100deg);
                 background-size: contain;
                 background-repeat: no-repeat;
+                @include media-breakpoint-up(sm) { 
+                    padding-bottom: 0;
+                    top: -11rem;
+                    width: 6rem;
+                    height: 6rem;
+                    transform: rotate(99deg);
+                    right: 3rem;
+                }
                 @include media-breakpoint-up(lg) { 
                     padding-bottom: 0;
                     top: 17rem;
@@ -100,6 +119,8 @@
         .details {
             .caption {
                 color: $ui-grayscale-1;
+                text-transform: uppercase;  
+                color:  #B394C5;
                 &::after {
                     content: "·";
                     position: absolute;
@@ -109,20 +130,31 @@
                 }
             }
             .date {
-                @extend p;
-                color: $ui-grayscale-1 !important;    
+                p {
+                    color:  #E6DBEC;
+                }
             }
         }
         .title {
             border-bottom: 1px solid $ui-grayscale-5;
         }
-        .utils-wrapper {
-            font-size: 12px;
+        .author {
+            color: #E6DBEC;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 26px;
+            text-decoration-line: underline;
         }
         .read-time {
             text-align: right;
             margin: 10px 0;
             position: relative;
+            margin-right: 0;
+            margin-left: auto;
+            p {
+                color: $ui-grayscale-1;
+            }
             &::after {
                 content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.5' stroke='%23D8C8E1'/%3E%3Cline x1='7.5' y1='4' x2='7.5' y2='9' stroke='%23D8C8E1'/%3E%3Cline x1='7' y1='8.5' x2='12' y2='8.5' stroke='%23D8C8E1'/%3E%3C/svg%3E");
                 position: absolute;
