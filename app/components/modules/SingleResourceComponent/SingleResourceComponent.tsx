@@ -125,7 +125,7 @@ export default function ResourceComponent({ singleSlug }) {
     return (
         <>
             <div className='resource'>
-                <div className='hero'>
+                <div className='hero container p-0'>
                     <div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
                         <div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
                             {featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt="Featured" />}

@@ -2,6 +2,8 @@
     .hero {
         background-color: #814C9E;
         color: $ui-grayscale-1;
+        border-radius: .75rem;
+        overflow:hidden;
         h1 {
             color: $ui-grayscale-1;
         }
@@ -13,7 +15,7 @@
                 overflow: hidden;
                 margin: auto;
                 max-height: 35rem;
-                max-width: $max-content-width;
+                //max-width: $max-content-width;
                 .content-wrapper {
                     max-width: calc($max-content-width - 50%);
                     flex-basis: 50%;
