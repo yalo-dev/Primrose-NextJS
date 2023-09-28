@@ -228,3 +228,45 @@
         text-decoration: underline;
     }
 }
+
+
+//resource card search and filter animations 
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 50ms ease-in;
+}
+
+.fade-exit {
+    position: absolute;
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}
+
+//resource card hover states
+.resources-container .card.featured:first-child:hover .inner .image-wrapper .image{
+    background-size: auto 105%;
+    transition: all .5s;
+}
+.resources-container .card.medium:hover .image-wrapper .image{
+    background-size: 105% auto;
+    transition: all .5s;
+}
+
+.resource .content h1, 
+.resource .content .h1, 
+.resource .content h2,
+.resource .content .h2,
+.resource .content h3,
+.resource .content .h3,
+.resource .content h4,
+.resource .content .h4 {
+    font-family:Poppins,Helvetica Neue,Helvetica,sans-serif;
+}

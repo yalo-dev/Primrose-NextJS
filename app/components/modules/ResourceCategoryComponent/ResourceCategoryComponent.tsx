@@ -1,7 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Newsletter from '../Newsletter/Newsletter';
 import CategoryResourceFilter from '../../filters/CategoryResourceFilter';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 import useFilter from '../../filters/useFilter';
@@ -104,7 +103,7 @@ export default function CategoryComponent() {
                 <div className='resources-container'>
                     {firstTwoFeaturedResources.length > 0 ? renderResourceList(firstTwoFeaturedResources, true, 'featured') : <p>No Featured Resources</p>}
                 </div>
-
+                    
                 {(slug === 'families' || slug === 'newsroom') && <ResourceBanner slug={slug} />}
                 <div id='all' className='resources-container'>
 
@@ -127,7 +126,6 @@ export default function CategoryComponent() {
                     ) : <p>No Resources Found</p>}
                 </div>
             </div>
-            <Newsletter />
         </div>
     );
 }
