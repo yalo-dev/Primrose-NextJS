@@ -54,11 +54,15 @@
 }
 
 //resource card hover states
-.resources-container .card.featured.large:hover .image-wrapper .image{
+.resources-container .card.featured:first-child:hover .inner .image-wrapper .image{
     background-size: auto 105%;
     transition: all .5s;
 }
 .resources-container .card.medium:hover .image-wrapper .image{
     background-size: 105% auto;
     transition: all .5s;
+}
+
+.resource .content h1, .resource .content .h1, .resource .content h2, .resource .content .h2, .resource .content h3, .resource .content .h3, .resource .content h4, .resource .content .h4 {
+    font-family:Poppins,Helvetica Neue,Helvetica,sans-serif;
 }

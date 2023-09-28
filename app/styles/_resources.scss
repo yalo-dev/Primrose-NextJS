@@ -162,6 +162,7 @@
                         flex-basis: 50%;
                         .image {
                             @include backgroundProperties;
+                            background-size:auto 100%;
                             height: 100%;
                             border-top-right-radius: 0;
                             border-bottom-left-radius: 10px;
@@ -179,6 +180,7 @@
                         .excerpt {
                             display: block;
                         }
+                        
                     }
                 }
             }
