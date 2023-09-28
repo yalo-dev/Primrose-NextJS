@@ -4,7 +4,7 @@ import { useQuery, gql } from '@apollo/client';
 import CategoryComponent from '../../app/components/modules/ResourceCategoryComponent/ResourceCategoryComponent';
 import ResourceComponent from '../../app/components/modules/SingleResourceComponent/SingleResourceComponent';
 
-const GET_RESOURCE_TYPES = gql`
+const ResourceTypesQuery = gql`
   query GetResourceTypes {
     resourceTypes(first: 100) {
       nodes {
@@ -16,7 +16,7 @@ const GET_RESOURCE_TYPES = gql`
 
 export default function SlugComponent() {
   const router = useRouter();
-  const { loading, error, data } = useQuery(GET_RESOURCE_TYPES);
+  const { loading, error, data } = useQuery(ResourceTypesQuery);
   const [categoryNames, setCategoryNames] = useState<string[]>([]);
   
   useEffect(() => {

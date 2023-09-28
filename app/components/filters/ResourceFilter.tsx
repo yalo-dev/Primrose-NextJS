@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+
+
 interface ResourceTagNode {
     slug: string;
     name: string;
@@ -90,13 +92,13 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
             <div className='filters'>
                 <select className='custom-select' onChange={(e) => setSelectedAge(e.target.value)}>
                     <option value="">All Ages</option>
-                    {filterTerms?.resourceTags.nodes.find(tag => tag.slug === 'ages')?.children.nodes.map((child, index) => (
+                    {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map((child, index) => (
                         <option value={child.slug} key={index}>{child.name}</option>
                     ))}
                 </select>
                 <select className='custom-select' onChange={(e) => setSelectedTopic(e.target.value)}>
                     <option value="">All Topics</option>
-                    {filterTerms?.resourceTags.nodes.find(tag => tag.slug === 'topics')?.children.nodes.map((child, index) => (
+                    {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map((child, index) => (
                         <option value={child.slug} key={index}>{child.name}</option>
                     ))}
                 </select>

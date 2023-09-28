@@ -190,3 +190,41 @@
         }
     }
 }
+
+.pagination {
+    button {
+        margin: 0.15rem;
+        @include transitionAll;
+        &:disabled {
+            svg path{
+                fill: $pagination-caret-disabled;
+            }
+        }
+    }
+    .prev {
+        width: 35px;
+        height: 35px;
+        line-height: 0;
+        padding: 0;
+    }
+    .next {
+        width: 35px;
+        height: 35px;
+        line-height: 0;
+        padding: 0;
+    }
+    .active, 
+    .non {
+        background-color: $transparent;
+        padding: 10px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 26px;
+        color: $black-lighter;
+    }
+    .active {
+        color: $pagination-active;
+        text-decoration: underline;
+    }
+}

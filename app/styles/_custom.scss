@@ -41,10 +41,11 @@
 
 .fade-enter-active {
     opacity: 1;
-    transition: opacity 500ms ease-in;
+    transition: opacity 50ms ease-in;
 }
 
 .fade-exit {
+    position: absolute;
     opacity: 1;
 }
 
