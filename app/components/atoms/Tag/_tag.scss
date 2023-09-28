@@ -12,9 +12,9 @@
         border: 1px solid $nav-border;
     }
     &.featured {
-        background-color: $primary-lightgreen;
+        background-color: $primary-green;
         color: $white;
-        border: 1px solid $primary-lightgreen;
+        border: 1px solid $primary-green;
     }
     @include media-breakpoint-up(md) {
         padding: 8px;
