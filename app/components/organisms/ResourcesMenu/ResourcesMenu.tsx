@@ -49,7 +49,7 @@ export default function ResourcesMenu() {
         <div className='container'>
           <div className='d-flex flex-column flex-sm-row align-items-start align-items-sm-center'>
             <h5 className='green m-sm-0'>
-              Stories & Resources
+              <Link className='green m-sm-0' href="/resources">Stories & Resources</Link>
             </h5>
             <ul className='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
               {menuItems.map((item, index) => (
