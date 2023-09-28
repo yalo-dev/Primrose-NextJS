@@ -1,6 +1,5 @@
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import Newsletter from '../../app/components/modules/Newsletter/Newsletter';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
@@ -180,7 +179,7 @@ export default function ResourcesList({ resources, filterTerms }) {
 
     const Pagination = () => {
         return (
-            <div className="pagination mt-4 d-flex align-items-center justify-content-center">
+            <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
                 <button className='prev' disabled={currentPage <= 1} onClick={() => {
                     setCurrentPage(prev => prev - 1);
                     scrollToAllResources();
@@ -237,7 +236,6 @@ export default function ResourcesList({ resources, filterTerms }) {
                     <Pagination />
                 </div>
             </div>
-            <Newsletter />
         </>
     );
 }

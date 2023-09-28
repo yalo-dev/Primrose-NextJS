@@ -1,7 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import Tag from '../../atoms/Tag/Tag';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
-import Newsletter from '../Newsletter/Newsletter';
 import Image from 'next/image';
 import Link from 'next/link';
 import NewsletterFormBanner from '../ResourceNewsletter/ResourceNewsletter';
@@ -220,7 +219,6 @@ export default function ResourceComponent({ singleSlug }) {
                 ctaButton={ctaButton}
             />
             )}
-            <Newsletter />
         </>
     );
 }
