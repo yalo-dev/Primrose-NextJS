@@ -7,6 +7,23 @@ import NewsletterFormBanner from '../ResourceNewsletter/ResourceNewsletter';
 import CTABanner from '../CTABanner/CTABanner';
 
 
+interface ResourceType {
+  slug: string;
+  name: string;
+}
+
+interface ResourceTagType {
+  slug: string;
+  name: string;
+}
+
+interface Resource {
+  resourceTags: {
+    nodes: ResourceTagType[];
+  };
+}
+
+
 const GET_RESOURCE_BY_URI = gql`
 query GetResourceByURI($id: ID!) {
   resource(id: $id, idType: URI) {
@@ -84,6 +101,7 @@ const calculateReadingTime = (text) => {
 };
 
 
+
 export default function ResourceComponent({ singleSlug }) {
   const { loading, error, data } = useQuery(GET_RESOURCE_BY_URI, {
     variables: { id: singleSlug }
@@ -119,6 +137,10 @@ export default function ResourceComponent({ singleSlug }) {
   }
 
   let wrappedContent = content ? wrapIframesInResponsiveDiv(content) : '';
+
+  const sortedTags = [...resource.resourceTags.nodes].sort((a: ResourceTagType, b: ResourceTagType) => 
+    a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0
+  );
 
 
   return (
@@ -177,16 +199,14 @@ export default function ResourceComponent({ singleSlug }) {
           {resourceTags.nodes.length > 0 && (
             <div className='tags'>
               <div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
-                {resourceTags.nodes
-                  .sort((a, b) => (a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0)) // Sort the tags
-                  .map((tag, index) => (
-                    <Tag 
-                      key={index} 
-                      label={tag.name} 
-                      tagSlug={tag.slug} 
-                      isFeatured={tag.slug === 'featured'}
-                    />
-                  ))}
+              {sortedTags.map((tag, index) => (
+                <Tag 
+                  key={index} 
+                  label={tag.name} 
+                  tagSlug={tag.slug} 
+                  isFeatured={tag.slug === 'featured'}
+                />
+              ))}
               </div>
             </div>
           )}
