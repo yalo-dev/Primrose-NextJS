@@ -3,8 +3,13 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   "/resources/[...slug]": "pages/resources/[...slug].js",
   "/resources": "pages/resources.js"
+=======
+  "/resources": "pages/resources.js",
+  "/resources/[...slug]": "pages/resources/[...slug].js"
+>>>>>>> Stashed changes
 =======
   "/resources": "pages/resources.js",
   "/resources/[...slug]": "pages/resources/[...slug].js"
