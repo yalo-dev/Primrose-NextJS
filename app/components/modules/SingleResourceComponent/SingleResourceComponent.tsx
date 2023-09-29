@@ -175,14 +175,23 @@ export default function ResourceComponent({ singleSlug }) {
           {wrappedContent && <div dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
 
           {resourceTags.nodes.length > 0 && (
-          <div className='tags'>
-            <div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
-              {resourceTags.nodes.map((tag, index) => (
-                <Tag key={index} label={tag.name} tagSlug={tag.slug} />
-              ))}
+            <div className='tags'>
+              <div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
+                {resourceTags.nodes
+                  .sort((a, b) => (a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0)) // Sort the tags
+                  .map((tag, index) => (
+                    <Tag 
+                      key={index} 
+                      label={tag.name} 
+                      tagSlug={tag.slug} 
+                      isFeatured={tag.slug === 'featured'}
+                    />
+                  ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+
 
         </div>
 

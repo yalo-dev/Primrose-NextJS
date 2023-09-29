@@ -149,11 +149,21 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
             </button>
         </div>
     );
+    
+    const slugToTitleMap = {
+        'families': 'Family Resources',
+        'educators': 'Educator Resources',
+        'newsroom': 'News'
+      };
+
+      const getTitleFromSlug = (slug: string) => {
+        return slugToTitleMap[slug] || toProperCase(slug);
+      };
 
     const SearchAndFilterUI: React.FC = () => (
         <div className='title-and-search-container'>
             <div className='title-container'>
-                <h2 className='title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
+                <h2 className='title'>Browse All {slug ? getTitleFromSlug(slug) : 'Stories & Resources'}</h2>
             </div>
             <div className="search-and-filter">
                 <div className='search'>
