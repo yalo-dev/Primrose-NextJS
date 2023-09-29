@@ -179,7 +179,7 @@ export default function ResourceComponent({ singleSlug }) {
           <div className='tags'>
             <div className='container ps-4 pe-4 ps-lg-0 pe-lg-0 mx-auto d-flex'>
               {resourceTags.nodes.map((tag, index) => (
-                <Link href="/resources/#all"><Tag key={index} label={tag.name} /></Link>
+                <Tag key={index} label={tag.name} tagSlug={tag.slug} />
               ))}
             </div>
           </div>
