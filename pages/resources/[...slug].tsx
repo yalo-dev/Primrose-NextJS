@@ -2,11 +2,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
 import CategoryComponent from '../../app/components/modules/ResourceCategoryComponent/ResourceCategoryComponent';
+import TagComponent from '../../app/components/modules/ResourceTagComponent/ResourceTagComponent';
 import ResourceComponent from '../../app/components/modules/SingleResourceComponent/SingleResourceComponent';
 
-const ResourceTypesQuery = gql`
-  query GetResourceTypes {
+const ResourceTypesAndTagsQuery = gql`
+  query GetResourceTypesAndTags {
     resourceTypes(first: 100) {
+      nodes {
+        slug
+      }
+    }
+    resourceTags {
       nodes {
         slug
       }
@@ -16,13 +22,21 @@ const ResourceTypesQuery = gql`
 
 export default function SlugComponent() {
   const router = useRouter();
-  const { loading, error, data } = useQuery(ResourceTypesQuery);
+  const { loading, error, data } = useQuery(ResourceTypesAndTagsQuery);
   const [categoryNames, setCategoryNames] = useState<string[]>([]);
+  const [categoryTags, setCategoryTags] = useState<string[]>([]);
   
   useEffect(() => {
     if (data) {
       const fetchedCategoryNames = data.resourceTypes.nodes.map((node: { slug: string }) => node.slug);
       setCategoryNames(fetchedCategoryNames);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      const categoryTags = data.resourceTags.nodes.map((node: { slug: string }) => node.slug);
+      setCategoryTags(categoryTags);
     }
   }, [data]);
 
@@ -35,6 +49,10 @@ export default function SlugComponent() {
   if (categoryNames.includes(singleSlug as string)) {
 
     return <CategoryComponent />;
+  
+  } else if (categoryTags.includes(singleSlug as string)) {
+
+      return <TagComponent />;
 
   } else if (singleSlug) {
 

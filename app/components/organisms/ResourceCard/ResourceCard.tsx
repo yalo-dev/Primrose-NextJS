@@ -5,8 +5,6 @@ interface ResourceCardProps {
 	resource: any;
 	showFeaturedImage: boolean;
 	className?: string;
-	onTagClick?: (tagSlug: string) => void; 
-
 }
 
 // sort by "Featured" tag for the list of tags displayed in resource card
@@ -26,18 +24,15 @@ const formatDate = (dateString) => {
 	return date.toLocaleDateString('en-US', options);
 };
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, className, onTagClick }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, className }) => {
 	return (
 		<div className={`card ${className ? className : ''}`}>
-			<Link
-				href={`${resource.uri}`}
-				onClick={(e) => {
-					if (e.defaultPrevented) {
-					e.preventDefault();
-					}
-				}}
-				>
-				<div className='inner'>
+			<Link href={`${resource.uri}`}>
+			<div className='inner' onClick={(e) => { 
+				if (e.defaultPrevented) {
+					e.stopPropagation();
+				}
+				}}>
 					{showFeaturedImage && resource.featuredImage && resource.featuredImage.node && (
 						<div className='image-wrapper'>
 							<div
@@ -61,18 +56,15 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 						</div>
 						<div className='tags-wrapper'>
 							<div className='tags d-flex flex-wrap'>
-							{sortTags(resource.resourceTags.nodes).map((tag, index) => (
-								<div key={index} onClick={(e) => {
-									e.stopPropagation();
-									e.preventDefault(); 
-									onTagClick && onTagClick(tag.slug);
-								  }}>
-									<Tag
-									  label={tag.name}
-									  isFeatured={tag.slug === 'featured'}
-									/>
-								  </div>
-							))}
+								{sortTags(resource.resourceTags.nodes).map((tag, index) => (
+									<div key={index}>
+										<Tag
+											label={tag.name}
+											isFeatured={tag.slug === 'featured'}
+											tagSlug={tag.slug}
+										/>
+									</div>
+								))}
 							</div>
 						</div>
 					</div>

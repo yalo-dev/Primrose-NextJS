@@ -181,7 +181,7 @@
                 .image-wrapper {
                     .image {
                         @include backgroundProperties;
-                        background-size: 100% auto;
+                        //background-size: 100% auto;
                         height: 240px;
                         width: 100%;
                         border-radius: 0;

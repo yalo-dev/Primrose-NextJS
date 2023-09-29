@@ -19,7 +19,7 @@ export default function Footer({ menuItems, siteSettings }) {
                                 width={75}
                                 height={75}
                                 className='d-inline-block mx-auto'
-                                priority={false}
+                                priority={true}
                             />
                         </Link>
                     </div>
