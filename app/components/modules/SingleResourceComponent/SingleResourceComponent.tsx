@@ -171,7 +171,7 @@ export default function ResourceComponent({ singleSlug }) {
           </Link>
         </div>
 
-        <div className='content p-4 mx-auto'>
+        <div className='content p-3 p-lg-0 mx-auto'>
           {wrappedContent && <div dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
 
           {resourceTags.nodes.length > 0 && (
@@ -190,17 +190,11 @@ export default function ResourceComponent({ singleSlug }) {
               </div>
             </div>
           )}
-
-
-
         </div>
-
-       
-
         {relatedArticles?.length > 0 && (
           <div className='related'>
             <div className='container ps-4 pe-4 pt-4 mt-4 mb-4'>
-              <h2>Related Articles</h2>
+              <h2 className='green pb-5'>Related Articles</h2>
               <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
                 {relatedArticles.map((relatedArticle, index) => (
                   <ResourceCard
