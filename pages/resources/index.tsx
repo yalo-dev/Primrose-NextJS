@@ -179,7 +179,11 @@ export default function ResourcesList({ resources, filterTerms }) {
 
     const Pagination = () => {
         return (
+<<<<<<< Updated upstream
             <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
+=======
+            <div className="pagination mt-4 d-flex align-items-center justify-content-center">
+>>>>>>> Stashed changes
                 <button className='prev' disabled={currentPage <= 1} onClick={() => {
                     setCurrentPage(prev => prev - 1);
                     scrollToAllResources();
