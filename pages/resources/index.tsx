@@ -117,8 +117,9 @@ export default function ResourcesList({ resources, filterTerms }) {
         ): React.ReactNode => {
 
             let adjustedTitle = title;
-            if (title.includes("Families")) adjustedTitle = title.replace("Families", "Family");
-            if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "Educator");
+            if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
+            if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
+            if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All Newsroom");
     
             
         return (
@@ -126,7 +127,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                 <h2 className='title'>{title}</h2>
                 {linkTo && (
                     <Link className='link' href={linkTo}>
-                        All {adjustedTitle.replace("For ", "")} Resources
+                        {adjustedTitle.replace("For ", "")}
                     </Link>
                 )}
             </div>
