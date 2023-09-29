@@ -144,7 +144,6 @@
             font-style: normal;
             font-weight: 300;
             line-height: 26px;
-            text-decoration-line: underline;
         }
         .read-time {
             text-align: right;
@@ -180,11 +179,26 @@
     .content {
         max-width: 760px;
         h5 {
-            margin: 60px 0 30px;
+            margin: 36px 0 9px;
             @extend .b4;
         }
         p {
             @extend .b3;
+        }
+        ul {
+            list-style: none;
+            font-size: 14px;
+            @include media-breakpoint-up(xl) {
+                font-size: 16px;
+            }
+            li::before {
+                content: "\2022"; 
+                color: $brand-blue; 
+                font-weight: bold;
+                display: inline-block;
+                width: 1em;
+                margin-left: -1em;
+              }
         }
         .responsive-video {
             margin: 2rem 0;
@@ -211,6 +225,22 @@
             border-bottom: 1px solid $ui-grayscale-3 !important;
             @include media-breakpoint-up(xl) {
                 border-bottom: 0 !important;
+            }
+        }
+        @include media-breakpoint-down(sm) {
+            .card {
+                .inner {
+                    display: flex;
+                    padding-bottom: 1rem;
+                    height: 100%;
+                    justify-content: center;
+                    align-items: center;
+                    .content-wrapper {
+                        .title {
+                            padding-bottom: 7px !important;
+                        }
+                    }
+                }
             }
         }
     }

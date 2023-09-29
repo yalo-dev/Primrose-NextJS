@@ -9,11 +9,10 @@
     &:last-of-type {
         border-bottom: 0;
     }
-    &:hover{
+    &:hover {
         @include dropShadow;
         background-color: $ui-grayscale-1 !important;
-    }
-    
+    } 
     a {
         height: 100%;
     }
@@ -22,6 +21,8 @@
         padding-bottom: 1rem;
         height: 100%;
         .image-wrapper {
+            flex-basis: 40%;
+               
             .image {
                 @include backgroundProperties;
                 width: 128px;
@@ -31,8 +32,9 @@
             }
         }
         .content-wrapper {
-            margin-top: 1rem;
-            margin-left: 1rem;
+            //flex-basis: 55%;
+            // margin-top: 1rem;
+            // margin-left: 1rem;
             padding: 0 !important;
             display: flex;
             justify-content: space-between;
@@ -99,6 +101,7 @@
             }
             .content-wrapper {
                 margin-left: 0;
+                margin-top: 0;
                 height: 100%;
                 min-height: 240px;
                 padding: 2rem 1rem !important;
@@ -207,35 +210,41 @@
             }
         }
     }
-    &.medium.small {
-        @include media-breakpoint-up(xl) {
+    &.medium:not(.featured) {
+        .inner {
             .content-wrapper {
+                
                 h3.title {
-                    font-size: 40px;
-                    font-weight: 200;
-                    line-height: 44px;
+                    padding-bottom: 0!important;
                 }
             }
         }
+        
     }
-    &.small {
-        .inner .content-wrapper {
-            margin-left: 0;
+    &.medium:not(.featured) {
+        .inner {
+            .image-wrapper {
+                margin-right: 1rem;
+                @include media-breakpoint-up(xl) {
+                    margin-right: 0;
+                }
+            }
         }
+        
     }
 }
 
 
 //resource card hover states
-.card.featured:first-child:hover .inner .image-wrapper .image{
-    background-size: auto 105%;
+.card.featured:first-child:hover .inner .image-wrapper .image {
+    background-size: auto 105% !important;
     transition: all .5s;
 }
 .card.medium:hover .image-wrapper .image{
-    background-size: 105% auto;
+    background-size: 105% auto !important;
     transition: all .5s;
 }
 .card:hover .image-wrapper .image{
-    background-size: 105% auto;
+    background-size: 105% auto !important;
     transition: all .5s;
 }

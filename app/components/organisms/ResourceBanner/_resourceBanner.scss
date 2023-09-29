@@ -22,18 +22,18 @@
 
         }
     }
-    @include media-breakpoint-up(xxl) {
-        .border-left {
-            position: relative;
-            &::before {
-                content: "";
-                position: absolute;
-                height: 300%;
-                top: -100%;
-                left: -3rem;
-                width: 1px;
-                border-left:  1px solid $resource-banner-border;
-            }
-        }
-    }
+    // @include media-breakpoint-up(xxl) {
+    //     .border-left {
+    //         position: relative;
+    //         &::before {
+    //             content: "";
+    //             position: absolute;
+    //             height: 300%;
+    //             top: -100%;
+    //             left: -3rem;
+    //             width: 1px;
+    //             border-left:  1px solid $resource-banner-border;
+    //         }
+    //     }
+    // }
 }

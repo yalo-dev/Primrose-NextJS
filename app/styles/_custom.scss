@@ -8,7 +8,17 @@
         margin: auto;
     }
 }
-
+.container, 
+.container-fluid, 
+.container-xxl, 
+.container-xl, 
+.container-lg, 
+.container-md, 
+.container-sm
+{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 
 /***********************************************************************/
 /******************************* HELPERS *******************************/

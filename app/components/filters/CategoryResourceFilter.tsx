@@ -139,7 +139,7 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
                     }}
                     className={currentPage === num + 1 ? 'active' : 'non'}
                 >
-                    0{num + 1}
+                    {num + 1}
                 </button>
             ))}
             <button className='next' onClick={nextPage} disabled={currentPage === totalPages}>

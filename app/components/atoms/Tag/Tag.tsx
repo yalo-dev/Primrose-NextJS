@@ -23,7 +23,7 @@ const Tag: React.FC<TagProps> = ({ label, isFeatured, tagSlug }) => {
   
   return (
     <div 
-      className={`d-flex align-items-center ${tagClass} clickable`}
+      className={`d-flex align-items-center ${tagClass} clickable tag`}
       onClick={handleTagClick}
     >
       {label}

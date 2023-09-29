@@ -119,7 +119,7 @@ export default function ResourcesList({ resources, filterTerms }) {
             let adjustedTitle = title;
             if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
             if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
-            if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All Newsroom");
+            if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All News");
     
             
         return (
@@ -202,7 +202,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                         key={num}
                         className={num + 1 === currentPage ? 'active' : 'non'}
                         onClick={() => handlePageClick(num + 1)}>
-                        0{num + 1}
+                        {num + 1}
                     </button>
                 ))}
                 <button className='next' disabled={currentPage >= totalPages} onClick={() => {

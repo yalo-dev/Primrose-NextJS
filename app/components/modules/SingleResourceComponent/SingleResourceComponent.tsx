@@ -165,7 +165,7 @@ export default function ResourceComponent({ singleSlug }) {
               <div className='title pt-2 pb-2'>{title && <h1>{title}</h1>}</div>
               <div className='utils-wrapper pt-2 pb-4 d-flex align-items-center justify-content-between'>
               
-                {displayAuthor && author?.node?.name && <div className='author'>{author.node.name}</div>}
+                {displayAuthor && author?.node?.name && <div className='author'>By: {author.node.name}</div>}
      
                 {readingTime && <div className='read-time'><p className='b1 mb-0'>{readingTime}</p></div>}
               </div>
@@ -213,7 +213,7 @@ export default function ResourceComponent({ singleSlug }) {
         </div>
         {relatedArticles?.length > 0 && (
           <div className='related'>
-            <div className='container ps-4 pe-4 pt-4 mt-4 mb-4'>
+            <div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
               <h2 className='green pb-5'>Related Articles</h2>
               <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
                 {relatedArticles.map((relatedArticle, index) => (
