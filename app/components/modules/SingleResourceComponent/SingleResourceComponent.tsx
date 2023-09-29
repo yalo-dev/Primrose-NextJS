@@ -214,7 +214,7 @@ export default function ResourceComponent({ singleSlug }) {
         {relatedArticles?.length > 0 && (
           <div className='related'>
             <div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
-              <h2 className='green pb-5'>Related Articles</h2>
+              <h2 className='green pb-2 pb-xl-5'>Related Articles</h2>
               <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
                 {relatedArticles.map((relatedArticle, index) => (
                   <ResourceCard
