@@ -1,5 +1,5 @@
 .resources-container {
-    margin-top: 2rem;
+    margin-top: 40px;
     .title-and-search-container {
         @include media-breakpoint-up(lg) {
             display: flex;
@@ -28,11 +28,12 @@
         .link {
             color: $primary-green;
             position: relative;
+            font-size: 14px;
             &::after {
                 position: absolute;
                 content: '>';
                 right: -1rem;
-                top: -2px;
+                top: -4px;
                 width: 10px;
                 height: 10px;
                 font-size: 1.25rem;
@@ -74,8 +75,11 @@
     }
 }
 
-
 .search-and-filter {
+    margin-bottom: 20px; 
+    @include media-breakpoint-up(xl) {
+        margin-bottom: 0;
+    }
     .search {
         position: relative;
         margin: 10px 0;
@@ -146,7 +150,6 @@
     }
 }
 
-
 .category {
     @include media-breakpoint-up(xl) {
         .card.featured {
@@ -195,6 +198,8 @@
 .pagination {
     button {
         margin: 0.15rem;
+        width: 35px;
+        height: 35px;
         @include transitionAll;
         &:disabled {
             svg path{
@@ -203,14 +208,10 @@
         }
     }
     .prev {
-        width: 35px;
-        height: 35px;
         line-height: 0;
         padding: 0;
     }
     .next {
-        width: 35px;
-        height: 35px;
         line-height: 0;
         padding: 0;
     }
@@ -221,7 +222,7 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 300;
-        line-height: 26px;
+        line-height: 16px;
         color: $black-lighter;
     }
     .active {
@@ -251,23 +252,26 @@
     transition: opacity 500ms ease-in;
 }
 
-//resource card hover states
-.resources-container .card.featured:first-child:hover .inner .image-wrapper .image{
-    background-size: auto 105%;
-    transition: all .5s;
-}
-.resources-container .card.medium:hover .image-wrapper .image{
-    background-size: 105% auto;
-    transition: all .5s;
-}
-
-.resource .content h1, 
-.resource .content .h1, 
-.resource .content h2,
-.resource .content .h2,
-.resource .content h3,
-.resource .content .h3,
-.resource .content h4,
-.resource .content .h4 {
-    font-family:Poppins,Helvetica Neue,Helvetica,sans-serif;
+.resource {
+    .content {
+        ul {
+            list-style: none;
+            li::before {
+                content: "\2022"; 
+                color: $brand-blue; 
+                font-weight: bold;
+                display: inline-block;
+                width: 1em;
+                margin-left: -1em;
+              }
+        }
+        h1, .h1,
+        h2, .h2,
+        h3, .h3,
+        h4, .h4,
+        h5, .h5,
+        h6, .h6 {
+            font-family: Poppins, Helvetica Neue, Helvetica, sans-serif;
+        }
+    }
 }

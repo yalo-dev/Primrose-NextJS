@@ -173,17 +173,20 @@ export default function ResourceComponent({ singleSlug }) {
 
         <div className='content p-4 mx-auto'>
           {wrappedContent && <div dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
-        </div>
 
-        {resourceTags.nodes.length > 0 && (
+          {resourceTags.nodes.length > 0 && (
           <div className='tags'>
-            <div className='container ps-4 pe-4 ps-lg-0 pe-lg-0 mx-auto d-flex'>
+            <div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
               {resourceTags.nodes.map((tag, index) => (
                 <Tag key={index} label={tag.name} tagSlug={tag.slug} />
               ))}
             </div>
           </div>
         )}
+
+        </div>
+
+       
 
         {relatedArticles?.length > 0 && (
           <div className='related'>

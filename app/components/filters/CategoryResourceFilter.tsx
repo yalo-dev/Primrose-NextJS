@@ -151,13 +151,13 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
     );
 
     const SearchAndFilterUI: React.FC = () => (
-        <div className='title-and-search-container mb-5'>
+        <div className='title-and-search-container'>
             <div className='title-container'>
                 <h2 className='title'>Browse All {slug ? toProperCase(slug) : 'Stories & Resources'} Resources</h2>
             </div>
             <div className="search-and-filter">
                 <div className='search'>
-                    <input type="text" name='search' id='search' placeholder="Type Your Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    <input type="text" name='search' id='search' placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
                 <div className='filters'>
                     <select className='custom-select' name='age' id='age' value={selectedAge} onChange={(e) => setSelectedAge(e.target.value)}>

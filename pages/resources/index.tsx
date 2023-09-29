@@ -115,17 +115,24 @@ export default function ResourcesList({ resources, filterTerms }) {
         title: string, 
         linkTo: string = ""
         ): React.ReactNode => {
+
+            let adjustedTitle = title;
+            if (title.includes("Families")) adjustedTitle = title.replace("Families", "Family");
+            if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "Educator");
+    
+            
         return (
             <div className='title-container'>
                 <h2 className='title'>{title}</h2>
                 {linkTo && (
-                    <Link className='b3 link' href={linkTo}>
-                        All {title.replace("For ", "")} Resources
+                    <Link className='link' href={linkTo}>
+                        All {adjustedTitle.replace("For ", "")} Resources
                     </Link>
                 )}
             </div>
         );
     };
+    
 
     const renderResourceItems = (
         resourceList: any[], 
@@ -228,7 +235,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                     {renderResourceItems(newsroomResources, false, ['newsroom'])}
                 </div>
                 <div id='all' className='resources-container' ref={allResourcesRef}>
-                    <div className='title-and-search-container mb-5'>
+                    <div className='title-and-search-container'>
                         {renderTitle("All Stories & Resources")}
                         {SearchAndFilterUI}
                     </div>

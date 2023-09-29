@@ -87,7 +87,7 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
-                <input type="text" placeholder="Type Your Search" onChange={(e) => setSearchTerm(e.target.value)} />
+                <input type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
             <div className='filters'>
                 <select className='custom-select' onChange={(e) => setSelectedAge(e.target.value)}>

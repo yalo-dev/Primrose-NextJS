@@ -42,7 +42,7 @@ const ResourceBanner = ({ slug }) => {
   };
 
   return (
-    <div className="resource-banner mt-5 mb-5 pt-4 pb-4 pt-lg-4 pb-lg-4">
+    <div className="resource-banner mt-5 mb-4 pt-4 pb-4 pt-lg-4 pb-lg-4">
       {slug === 'families' && bannerData.formId ? (
         <div className='families d-flex flex-column flex-lg-row justify-center justify-content-lg-between align-items-center text-center'>
           <div className='d-flex flex-column flex-lg-row align-items-lg-center'>

@@ -11,7 +11,7 @@
     }
     &:hover{
         @include dropShadow;
-        background-color:white !important;
+        background-color: $ui-grayscale-1 !important;
     }
     
     a {
@@ -181,7 +181,7 @@
                 .image-wrapper {
                     .image {
                         @include backgroundProperties;
-                        //background-size: 100% auto;
+                        background-size: 100% auto;
                         height: 240px;
                         width: 100%;
                         border-radius: 0;
@@ -222,4 +222,19 @@
             margin-left: 0;
         }
     }
+}
+
+
+//resource card hover states
+.card.featured:first-child:hover .inner .image-wrapper .image{
+    background-size: auto 105%;
+    transition: all .5s;
+}
+.card.medium:hover .image-wrapper .image{
+    background-size: 105% auto;
+    transition: all .5s;
+}
+.card:hover .image-wrapper .image{
+    background-size: 105% auto;
+    transition: all .5s;
 }
