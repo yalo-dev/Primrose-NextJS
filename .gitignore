@@ -1,4 +1,4 @@
-/.next/*
+.next/*
 /node_modules/
 .next/cache/webpack/client-development/0.pack.gz
 .next/cache/webpack/client-development/1.pack.gz
