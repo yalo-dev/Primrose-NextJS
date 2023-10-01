@@ -4,6 +4,8 @@ import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCa
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
 import React, { useEffect, useState, useRef } from 'react';
+import Heading from '../../app/components/atoms/Heading/Heading';
+import Button from '../../app/components/atoms/Button/Button';
 
 export async function getServerSideProps() {
     try {
@@ -124,7 +126,7 @@ export default function ResourcesList({ resources, filterTerms }) {
             
         return (
             <div className='title-container'>
-                <h2 className='title'>{title}</h2>
+                <Heading level='h2' className='title'>{title}</Heading>
                 {linkTo && (
                     <Link className='link' href={linkTo}>
                         {adjustedTitle.replace("For ", "")}
@@ -188,31 +190,36 @@ export default function ResourcesList({ resources, filterTerms }) {
     const Pagination = () => {
         return (
             <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
-                <button className='prev' disabled={currentPage <= 1} onClick={() => {
-                    setCurrentPage(prev => prev - 1);
-                    scrollToAllResources();
-                }}>
+                <Button 
+                    className='prev'
+                    disabled={currentPage <= 1}
+                    onClick={() => {
+                        setCurrentPage(prev => prev - 1);
+                        scrollToAllResources();
+                    } } label={''}                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                         <path fillRule="evenodd" clipRule="evenodd" d="M5.67652 0.206047C6.05792 0.520326 6.10946 1.08083 5.79162 1.45796L1.79788 6.19685L5.7662 10.5132C6.10016 10.8764 6.07309 11.4386 5.70573 11.7688C5.33837 12.0991 4.76984 12.0723 4.43587 11.709L0.467559 7.39271C-0.135971 6.73625 -0.157669 5.74029 0.416712 5.05875L4.41045 0.319858C4.72828 -0.0572766 5.29513 -0.108231 5.67652 0.206047Z" fill="#555F68"/>
                     </svg>
-                   
-                </button>
+                </Button>
                 {[...Array(totalPages).keys()].map(num => (
-                    <button
-                        key={num}
+                 <Button 
+                        key={num} 
                         className={num + 1 === currentPage ? 'active' : 'non'}
-                        onClick={() => handlePageClick(num + 1)}>
-                        {num + 1}
-                    </button>
+                        onClick={() => handlePageClick(num + 1)}
+                        label={`${num + 1}`}
+                    />
                 ))}
-                <button className='next' disabled={currentPage >= totalPages} onClick={() => {
-                    setCurrentPage(prev => prev + 1);
-                    scrollToAllResources();
-                }}>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+               <Button 
+                    className='next'
+                    disabled={currentPage >= totalPages}
+                    onClick={() => {
+                        setCurrentPage(prev => prev + 1);
+                        scrollToAllResources();
+                    } } label={''}                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                         <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 0.206047C-0.0579243 0.520326 -0.109455 1.08083 0.208378 1.45796L4.20212 6.19685L0.233801 10.5132C-0.100161 10.8764 -0.0730881 11.4386 0.294271 11.7688C0.66163 12.0991 1.23016 12.0723 1.56413 11.709L5.53244 7.39271C6.13597 6.73625 6.15767 5.74029 5.58329 5.05875L1.58955 0.319858C1.27172 -0.0572766 0.704875 -0.108231 0.323475 0.206047Z" fill="#555F68"/>
                     </svg>
-                </button>
+                </Button>
             </div>
         );
     };

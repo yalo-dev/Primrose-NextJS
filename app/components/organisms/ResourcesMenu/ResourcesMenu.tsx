@@ -3,6 +3,9 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { client } from '../../../lib/apollo';
 import { gql } from '@apollo/client';
+import Heading from '../../atoms/Heading/Heading';
+import ListItem from '../../atoms/ListItem/ListItem';
+import UnorderedList from '../../molecules/UnorderedList/UnorderedList';
 
 interface MenuItem {
   uri: string;
@@ -38,30 +41,28 @@ export default function ResourcesMenu() {
     fetchMenuItems();
   }, []);
 
-  const isActive = (uri: string): boolean => {
-    const currentPathSlugs = router.asPath.split('/');
-    const uriSlugs = uri.split('/');
-    return currentPathSlugs[currentPathSlugs.length - 1] === uriSlugs[uriSlugs.length - 1];
-  };
   return (
     <>
       <div className='navbar-resources'>
         <div className='container'>
           <div className='d-flex flex-column flex-sm-row align-items-start align-items-sm-center'>
-            <h5 className='green m-sm-0'>
-              <Link className='green m-sm-0' href="/resources">Stories & Resources</Link>
-            </h5>
-            <ul className='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
-              {menuItems.map((item, index) => (
-                <li key={index} className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''} d-block position-relative pe-4`}>
-                  {item && item.label && item.uri ? (
-                    <Link className='caption' href={item.uri}>{item.label}</Link>
-                  ) : (
-                    <span>Invalid item</span>
-                  )}
-                </li>
-              ))}
-            </ul>
+          <Heading level="h5" className="green m-sm-0">
+            <Link className="green m-sm-0" href="/resources">Stories & Resources</Link>
+          </Heading>
+          <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
+            {menuItems.map((item, index) => (
+              <ListItem 
+                key={index} 
+                className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? 'active' : ''} d-block position-relative pe-4`}
+              >
+                {item && item.label && item.uri ? (
+                  <Link className='b2' href={item.uri}>{item.label}</Link>
+                ) : (
+                  <span>Invalid item</span>
+                )}
+              </ListItem>
+            ))}
+          </UnorderedList>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ interface LayoutProps {
     siteSettings: any;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, pageTitle = 'Primrose Schools Website', menuItems, footerMenuItems, siteSettings }) => {
+const Layout: React.FC<LayoutProps> = ({ children, menuItems, footerMenuItems, siteSettings }) => {
     return (
         <div className='app app--container'>
             <Header menuItems={menuItems} />

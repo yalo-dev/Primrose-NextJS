@@ -9,6 +9,7 @@
             color: $ui-grayscale-1 !important;
         }
         @include media-breakpoint-up(xl) {
+            margin-top: 20px;
             margin-bottom: 4rem;
         }
         .inner {
@@ -49,7 +50,7 @@
         .content-wrapper {
             &::before {
                 content: "";
-                background-image: url('/assets/shape-square-blue.png');
+                background-image: url('/assets/accent-orange-square.svg');
                 position: absolute;
                 width: 20vw;
                 height: 20vw;
@@ -83,7 +84,7 @@
             }
             &::after {
                 content: "";
-                background-image: url('/assets/shape-triangle-yellow.png');
+                background-image: url('/assets/accent-red-triangle.svg');
                 position: absolute;
                 width: 20vw;
                 height: 20vw;
@@ -135,7 +136,7 @@
             }
         }
         .title {
-            border-bottom: 1px solid $ui-grayscale-5;
+            border-bottom: 1px solid $resource-hero-border;
         }
         .author {
             color: #E6DBEC;
@@ -156,7 +157,7 @@
             &::after {
                 content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.5' stroke='%23D8C8E1'/%3E%3Cline x1='7.5' y1='4' x2='7.5' y2='9' stroke='%23D8C8E1'/%3E%3Cline x1='7' y1='8.5' x2='12' y2='8.5' stroke='%23D8C8E1'/%3E%3C/svg%3E");
                 position: absolute;
-                top: 0;
+                top: -0.15rem;
                 right: 4.5rem;
             }
         }
@@ -212,11 +213,14 @@
     }
     .tags {
         .container {
-            max-width: 760px;
             border-top: 1px solid $ui-grayscale-5;
             border-bottom: 1px solid $ui-grayscale-5;
             padding: 40px 0;
             margin: 2rem 0;
+            .tag {
+                font-size: 12px;
+                line-height: 14px;
+            }
         }
     }
     .related {

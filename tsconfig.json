@@ -30,7 +30,7 @@
     "**/*.tsx",
     "app/lib/test-data.js",
     ".next/types/**/*.ts"
-  ],
+, "pages/_document.tsx"  ],
   "exclude": [
     "node_modules"
   ]

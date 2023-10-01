@@ -1,6 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard'; // <-- Adjust the import path accordingly
+import Heading from '../../atoms/Heading/Heading';
 
 const GET_RESOURCES_BY_TAG = gql`
 query GetResourcesByTag {
@@ -57,7 +58,7 @@ function ResourceListComponent() {
   return (
     <div className='container'>
       <div className='resources-container'>
-      <h1>{tagName} Category</h1>
+      <Heading level='h1'>{tagName} Category</Heading>
         <div className='gap d-flex flex-wrap mb-5 mt-5'>
           {filteredResources.map(resource => (
             <ResourceCard 

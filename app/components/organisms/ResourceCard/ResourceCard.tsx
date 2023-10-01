@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Tag from '../../atoms/Tag/Tag';
+import Heading from '../../atoms/Heading/Heading';
 
 interface ResourceCardProps {
 	resource: any;
@@ -24,7 +25,7 @@ const formatDate = (dateString) => {
 	return date.toLocaleDateString('en-US', options);
 };
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, className }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, className = 'medium' }) => { // set default to medium
 	return (
 		<div className={`card ${className ? className : ''}`}>
 			<Link href={`${resource.uri}`}>
@@ -51,7 +52,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 								<div className='caption position-relative me-3'>{resource.resourceTypes.nodes.map(type => type.name).join(', ')}</div>
 								<div className='date mb-0'>{formatDate(resource.date)}</div>
 							</div>
-							<h3 className='title pt-2 pb-4'>{resource.title}</h3>
+							<Heading level='h3' className='title pt-2 pb-4'>{resource.title}</Heading>
 							<div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
 						</div>
 						<div className='tags-wrapper'>

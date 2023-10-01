@@ -124,7 +124,7 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
     }, [searchTerm, selectedAge, selectedTopic]);
 
     const Pagination: React.FC = () => (
-        <div className="pagination mt-4 d-flex align-items-center justify-content-center">
+        <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
             <button className='prev' onClick={prevPage} disabled={currentPage === 1}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.67652 0.206047C6.05792 0.520326 6.10946 1.08083 5.79162 1.45796L1.79788 6.19685L5.7662 10.5132C6.10016 10.8764 6.07309 11.4386 5.70573 11.7688C5.33837 12.0991 4.76984 12.0723 4.43587 11.709L0.467559 7.39271C-0.135971 6.73625 -0.157669 5.74029 0.416712 5.05875L4.41045 0.319858C4.72828 -0.0572766 5.29513 -0.108231 5.67652 0.206047Z" fill="#555F68" />

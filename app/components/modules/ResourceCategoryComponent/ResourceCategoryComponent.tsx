@@ -120,8 +120,7 @@ export default function CategoryComponent() {
                             setSelectedTopic={setSelectedTopic}
                             slug={slug}
                         />
-                    ) : (
-                        <p>The resource slug is not available</p>
+                    ) : ( <p>The resource slug is not available</p>
                     )
                 ) : <p>No Resources Found</p>}
             </div>

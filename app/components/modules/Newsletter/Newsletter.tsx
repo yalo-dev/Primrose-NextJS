@@ -1,5 +1,7 @@
 import React from 'react';
 import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
+import Heading from '../../atoms/Heading/Heading';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 const Newsletter = () => {
     return (
@@ -7,8 +9,8 @@ const Newsletter = () => {
             <div className='container p-4'>
                 <div className='row text-lg-start'>
                     <div className='col-12 col-lg-5 offset-lg-6'>
-                        <h2 className='heading'>Join Our Newsletter</h2>
-                        <p className='blurb'>Get a preview of the curriculum and early education tips from Primrose.  👍</p>
+                        <Heading level='h2' className='heading'>Join Our Newsletter</Heading>
+                        <Paragraph className="blurb">Get a preview of the curriculum and early education tips from Primrose.  👍</Paragraph>
                         <NewsletterForm />
                     </div>
                 </div>

@@ -1,10 +1,10 @@
 import { useQuery, gql } from '@apollo/client';
 import Tag from '../../atoms/Tag/Tag';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
-import Image from 'next/image';
 import Link from 'next/link';
 import NewsletterFormBanner from '../ResourceNewsletter/ResourceNewsletter';
 import CTABanner from '../CTABanner/CTABanner';
+import Heading from '../../atoms/Heading/Heading';
 
 
 interface ResourceType {
@@ -22,7 +22,6 @@ interface Resource {
     nodes: ResourceTagType[];
   };
 }
-
 
 const GET_RESOURCE_BY_URI = gql`
 query GetResourceByURI($id: ID!) {
@@ -100,8 +99,6 @@ const calculateReadingTime = (text) => {
   return `${minutes} min read`;
 };
 
-
-
 export default function ResourceComponent({ singleSlug }) {
   const { loading, error, data } = useQuery(GET_RESOURCE_BY_URI, {
     variables: { id: singleSlug }
@@ -162,7 +159,7 @@ export default function ResourceComponent({ singleSlug }) {
                 )}
                 {date && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
               </div>
-              <div className='title pt-2 pb-2'>{title && <h1>{title}</h1>}</div>
+              <div className='title pt-2 pb-2'>{title && <Heading level='h1'>{title}</Heading>}</div>
               <div className='utils-wrapper pt-2 pb-4 d-flex align-items-center justify-content-between'>
               
                 {displayAuthor && author?.node?.name && <div className='author'>By: {author.node.name}</div>}
@@ -172,7 +169,7 @@ export default function ResourceComponent({ singleSlug }) {
             </div>
           </div>
         </div>
-        <div className='social d-flex justify-center flex-xl-column mt-4 mb-4'>
+        <div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4'>
         <Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(singleSlug)}`} target="_blank" rel="noopener noreferrer">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#373A36" strokeDasharray="2 2" />
