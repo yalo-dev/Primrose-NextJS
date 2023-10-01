@@ -17,9 +17,13 @@
         height: 100%;
     }
     .inner {
+        @include media-breakpoint-down(sm) {
+            padding-bottom: 30px;
+        }
         display: flex;
         padding-bottom: 1rem;
         height: 100%;
+       
         .image-wrapper {
             flex-basis: 40%;
                
@@ -237,8 +241,11 @@
 
 //resource card hover states
 .card.featured:first-child:hover .inner .image-wrapper .image {
-    background-size: auto 105% !important;
+    background-size: 105% auto !important;
     transition: all .5s;
+    @include media-breakpoint-up(xl) {
+        background-size: auto 105% !important;
+    }
 }
 .card.medium:hover .image-wrapper .image{
     background-size: 105% auto !important;

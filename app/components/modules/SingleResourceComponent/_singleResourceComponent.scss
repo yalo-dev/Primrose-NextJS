@@ -180,6 +180,9 @@
         max-width: 760px;
         h5 {
             margin: 36px 0 9px;
+            @include media-breakpoint-up(xl) {
+                margin: 36px 0 12px;
+            }
             @extend .b4;
         }
         p {

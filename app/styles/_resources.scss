@@ -1,8 +1,8 @@
 .resources-container {
     margin-top: 20px;
-    @include media-breakpoint-up(lg) {
-        margin-top: 40px;
-    }
+    // @include media-breakpoint-up(lg) {
+    //     margin-top: 40px;
+    // }
     .title-and-search-container {
         @include media-breakpoint-up(lg) {
             display: flex;
@@ -77,6 +77,9 @@
         }
     }
     .gap {
+        @include media-breakpoint-down(sm) {
+            gap: 30px;
+        }
         gap: 1rem;
     }
 }
