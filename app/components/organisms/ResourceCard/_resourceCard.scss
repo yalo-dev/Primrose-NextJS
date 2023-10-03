@@ -220,25 +220,25 @@
     }
     &.medium:not(.featured) {
         .inner {
-            .content-wrapper {
-                
-                h3.title {
-                    padding-bottom: 0!important;
-                }
-            }
-        }
-        
-    }
-    &.medium:not(.featured) {
-        .inner {
             .image-wrapper {
                 margin-right: 1rem;
                 @include media-breakpoint-up(xl) {
                     margin-right: 0;
                 }
             }
+            .content-wrapper {
+                h3.title {
+                    padding-bottom: 0!important;
+                }
+            }
+        }       
+    }
+    &.newsroom {
+        .content-wrapper {
+            .b3 {
+               display: none;
+            }
         }
-        
     }
 }
 
