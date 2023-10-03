@@ -2,13 +2,14 @@
     .hero {
         background-color: #814C9E;
         color: $ui-grayscale-1;
-        border-radius: .75rem;
+        
         overflow:hidden;
         h1 {
             @extend .h2;
             color: $ui-grayscale-1 !important;
         }
-        @include media-breakpoint-up(xl) {
+        @include media-breakpoint-up(lg) {
+            border-radius: .75rem;
             margin-top: 20px;
             margin-bottom: 4rem;
         }

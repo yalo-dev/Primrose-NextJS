@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
-import ResourceCard from '../../organisms/ResourceCard/ResourceCard'; // <-- Adjust the import path accordingly
+import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 import Heading from '../../atoms/Heading/Heading';
 
 const GET_RESOURCES_BY_TAG = gql`
