@@ -140,7 +140,8 @@ export default function ResourcesList({ resources, filterTerms }) {
     const renderResourceItems = (
         resourceList: any[], 
         showFeaturedImage: boolean = true, 
-        classNames: string[] = [] 
+        classNames: string[] = [],
+        showExcerptIfNoImage: boolean = false
         ): React.ReactNode => {
             if (!resourceList || resourceList.length === 0) {
                 return null;    
@@ -152,13 +153,14 @@ export default function ResourcesList({ resources, filterTerms }) {
                         const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
                         const shouldAddNewsroomClass = isNewsroom && !isFeatured;
                         const className = classNames[index] || classNames[classNames.length - 1];
-
+        
                         return (
                             <ResourceCard
                                 key={`${resource.title}-${index}`}
                                 resource={resource}
                                 showFeaturedImage={showFeaturedImage}
-                                className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`} 
+                                className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
+                                showExcerptIfNoImage={showExcerptIfNoImage}
                             />
                         );
                     })}
@@ -224,6 +226,44 @@ export default function ResourcesList({ resources, filterTerms }) {
         );
     };
 
+    useEffect(() => {
+        const adjustCardHeights = () => {
+            if (window.innerWidth < 1200) {
+                // Reset any heights you've set previously
+                document.querySelectorAll('#all .card').forEach((card: any) => {
+                    card.style.height = 'auto';
+                });
+                return; // Exit the function early
+            }
+    
+            const cards = document.querySelectorAll('#all .card'); 
+            let maxHeight = 0;
+    
+            // Find the tallest card
+            cards.forEach((card: any) => {
+                if (card.offsetHeight > maxHeight) {
+                    maxHeight = card.offsetHeight;
+                }
+            });
+    
+            // Set all cards to that height
+            cards.forEach((card: any) => {
+                card.style.height = `${maxHeight}px`;
+            });
+        };
+    
+        adjustCardHeights();
+    
+        // Run adjustCardHeights again if the window is resized
+        window.addEventListener('resize', adjustCardHeights);
+    
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', adjustCardHeights);
+        };
+    }, []);
+    
+
     return (
         <>
             <div className='container'>
@@ -247,7 +287,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                         {renderTitle("All Stories & Resources")}
                         {SearchAndFilterUI}
                     </div>
-                    {renderResourceItems(currentResources, true, ['medium'])}
+                    {renderResourceItems(currentResources, true, ['medium'], true)}
                     <Pagination />
                 </div>
             </div>

@@ -179,6 +179,9 @@
     }
     .content {
         max-width: 760px;
+        h1,h2,h3,h4,h5,h6 {
+            font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+        }
         h5 {
             margin: 36px 0 9px;
             @include media-breakpoint-up(xl) {

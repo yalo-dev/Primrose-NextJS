@@ -69,6 +69,9 @@
                     @extend .b3;
                 }
             }
+            .b3 {
+                color: $black-lighter;
+            }
             .tags {
                 display: none !important;
             }
@@ -84,6 +87,7 @@
         flex-basis: calc(50% - 8px);
     }
     @include media-breakpoint-up(xl) {
+        //min-height: 480px;
         flex-basis: calc(33% - 8px);
         background-color: $card-background-color;
         border-radius: 10px;

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ResourceCard from '../organisms/ResourceCard/ResourceCard';
 import { MultiSelectDropdown } from '../molecules/MultiSelectDropdown/MultiSelectDropdown';
+import Heading from '../atoms/Heading/Heading';
 
 interface ResourceTagNode {
     slug: string;
@@ -169,18 +170,19 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
         return slugToTitleMap[slug] || toProperCase(slug);
       };
 
-      const handleAgesSelect = (selectedAges: string[]) => {
+      const handleAgesSelect = useCallback((selectedAges: string[]) => {
         setSelectedAge(selectedAges);
-      };
-      
-      const handleTopicsSelect = (selectedTopics: string[]) => {
+    }, []);
+    
+    const handleTopicsSelect = useCallback((selectedTopics: string[]) => {
         setSelectedTopic(selectedTopics);
-      };
+    }, []);
+    
     
     const SearchAndFilterUI: React.FC = () => (
         <div className='title-and-search-container'>
             <div className='title-container'>
-                <h2 className='title'>Browse All {slug ? getTitleFromSlug(slug) : 'Stories & Resources'}</h2>
+                <Heading level='h2' className='title'>Browse All {slug ? getTitleFromSlug(slug) : 'Stories & Resources'}</Heading>
             </div>
             <div className="search-and-filter">
                 <div className='search'>
@@ -192,6 +194,7 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
                     .find(term => term.name === 'Ages')?.children.nodes.map(child => ({ label: child.name, value: child.slug })) || []}
                 onSelect={handleAgesSelect}
                 placeholder="All Ages"
+                selected={selectedAge}
                 />
 
                 <MultiSelectDropdown
@@ -199,6 +202,7 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
                     .find(term => term.name === 'Topics')?.children.nodes.map(child => ({ label: child.name, value: child.slug })) || []}
                 onSelect={handleTopicsSelect}
                 placeholder="All Topics"
+                selected={selectedTopic}
                 />
                 </div>
             </div>

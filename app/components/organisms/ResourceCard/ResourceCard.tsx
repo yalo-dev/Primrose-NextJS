@@ -5,6 +5,7 @@ import Heading from '../../atoms/Heading/Heading';
 interface ResourceCardProps {
 	resource: any;
 	showFeaturedImage: boolean;
+	showExcerptIfNoImage?: boolean;
 	className?: string;
 }
 
@@ -25,14 +26,14 @@ const formatDate = (dateString) => {
 	return date.toLocaleDateString('en-US', options);
 };
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, className = 'medium' }) => { // set default to medium
+const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium' }) => {
 	return (
 		<div className={`card ${className ? className : ''}`}>
 			<Link href={`${resource.uri}`}>
-			<div className='inner' onClick={(e) => { 
-				if (e.defaultPrevented) {
-					e.stopPropagation();
-				}
+				<div className='inner' onClick={(e) => {
+					if (e.defaultPrevented) {
+						e.stopPropagation();
+					}
 				}}>
 					{showFeaturedImage && resource.featuredImage && resource.featuredImage.node && (
 						<div className='image-wrapper'>
@@ -42,8 +43,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 									backgroundImage: `url(${resource.featuredImage.node.sourceUrl})`,
 								}}
 								aria-label={resource.title}
-							>
-							</div>
+							></div>
 						</div>
 					)}
 					<div className='content-wrapper'>
@@ -53,6 +53,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 								<div className='date mb-0'>{formatDate(resource.date)}</div>
 							</div>
 							<Heading level='h3' className='title pt-2 pb-4'>{resource.title}</Heading>
+							{!(showFeaturedImage && resource.featuredImage && resource.featuredImage.node) && (
+								<div className='b3 pt-3 pb-3' dangerouslySetInnerHTML={{ __html: resource.excerpt.replace(/<\/?p>/g, '') }} ></div>
+							)}
 							<div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
 						</div>
 						<div className='tags-wrapper'>
@@ -70,6 +73,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 						</div>
 					</div>
 				</div>
+
 			</Link>
 		</div>
 	);

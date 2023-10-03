@@ -52,7 +52,10 @@ const ResourcesAndFilterTermsQuery = gql`
 `;
 
 export default function CategoryComponent() {
-    const { searchTerm, setSearchTerm, selectedAge, setSelectedAge, selectedTopic, setSelectedTopic } = useFilter();
+    const { searchTerm, setSearchTerm } = useFilter();
+    const [selectedAge, setSelectedAge] = useState<string[]>([]);
+    const [selectedTopic, setSelectedTopic] = useState<string[]>([]);
+
     const router = useRouter();
     const { slug: slugArray } = router.query;
     const slug = Array.isArray(slugArray) ? slugArray[0] : slugArray;
@@ -96,7 +99,7 @@ export default function CategoryComponent() {
             ))}
         </div>
     );
-
+              
     return (
        
         <div className='container category'>
