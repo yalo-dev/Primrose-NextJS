@@ -58,9 +58,10 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
     };
 
     return (
-        <div className="multi-select-dropdown custom-select" ref={dropdownRef}>
+<div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
                 {placeholder}
+                <div className='icon'></div>
             </div>
 
             <div className="options" style={{ height: `${contentHeight}px` }}>
