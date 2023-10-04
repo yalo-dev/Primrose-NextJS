@@ -106,13 +106,13 @@ export default function ResourceComponent({ singleSlug }) {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
+  console.log(data);  
   const resource = data?.resource;
 
   if (!resource) return <div>No Resource Found</div>;
 
   const { author, featuredImage, title, date, resourceTypes, resourceTags, resources } = resource;
-  const { displayAuthor, content, relatedArticles, ctaHeading, ctaButton, newsletterHeading, newsletterSubheading } = resources || {};
+  const { displayAuthor, content, relatedArticles, ctaHeading, ctaSubheading, ctaButton, newsletterHeading, newsletterSubheading } = resources || {};
 
   const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date));
 
@@ -208,10 +208,19 @@ export default function ResourceComponent({ singleSlug }) {
             </div>
           )}
         </div>
+      </div>
+      
+      {newsletterHeading && (
+        <NewsletterFormBanner
+          newsletterHeading={newsletterHeading}
+          newsletterSubheading={newsletterSubheading}
+        />
+      )}
+
         {relatedArticles?.length > 0 && (
           <div className='related'>
             <div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
-              <h2 className='green pb-2 pb-xl-5'>Related Articles</h2>
+              <h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
               <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
                 {relatedArticles.map((relatedArticle, index) => (
                   <ResourceCard
@@ -225,17 +234,13 @@ export default function ResourceComponent({ singleSlug }) {
             </div>
           </div>
         )}
-      </div>
-      {newsletterHeading && (
-        <NewsletterFormBanner
-          newsletterHeading={newsletterHeading}
-          newsletterSubheading={newsletterSubheading}
-        />
-      )}
+
+
       {ctaHeading && (
         <CTABanner
           ctaHeading={ctaHeading}
           ctaButton={ctaButton}
+          ctaSubheading={ctaSubheading}
         />
       )}
     </>

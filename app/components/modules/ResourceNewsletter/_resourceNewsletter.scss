@@ -1,28 +1,71 @@
 .resource-newsletter {
     text-align: center;
-    background-color: $newsletter-bg;
-    margin-top: 4rem;
-    .top {
-        border-top: 1px solid $resource-newsletter-border;
-        border-bottom: 1px solid $resource-newsletter-border;
-        @include media-breakpoint-up(lg) {
-            border: 0;
-        }
-        img {
-            width: 65%;
-            height: auto;
-            margin-top: -3rem;
-            @include media-breakpoint-up(lg) {
-                margin-top: -2rem;
-                width: 400px;
-            }
-           
-        }
+    background-color: $resource-newsletter-bg;
+    margin-top: 3rem;
+    border-radius: 12px;
+    padding: 44px 15px 185px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    @include media-breakpoint-up(md) {
+        padding: 44px 15px 405px;
     }
-    .bottom {
-        padding: 2rem 1rem;
-        h2 {
-            font-size: 40px;
+    @include media-breakpoint-up(lg) {
+        padding: 33px 60px 40px;
+        border-radius: 25px;
+        margin-top: 80px;
+    }
+    .content {
+        input.email {
+            border-radius: 6px;
+        }
+        &::before {
+            content: "";
+            background-image: url(/assets/accent-resource-newsletter-mob-1.svg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: bottom left;
+            width: 61%;
+            height: 50%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            @include media-breakpoint-up(lg) {
+                background-image: url(/assets/accent-resource-newsletter-desktop-2.svg);
+                width: 34%;
+                height: 100%;
+                left: unset;
+                right: 0;
+            }
+            @include media-breakpoint-up(xl) {
+                width: 41%;
+                right: 0%;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 36%;
+            }
+        }
+        &::after {
+            content: "";
+            background-image: url(/assets/accent-resource-newsletter-mob-2.svg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: bottom right;
+            width: 46%;
+            height: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            @include media-breakpoint-up(lg) {
+                width: 18%;
+                height: 100%;
+            }
+            @include media-breakpoint-up(xl) {
+                width: 15%;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 12%;
+            }
         }
         @include media-breakpoint-up(lg) {
             text-align: left;

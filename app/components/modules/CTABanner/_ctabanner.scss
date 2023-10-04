@@ -1,101 +1,138 @@
 .cta-banner {
-    text-align: center;
-    max-width: $max-content-width;
-    margin: auto;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    .accents {
-        position: relative;
-        width: 100%;
-        z-index: 1;
-        &::before{
-            content: "";
-            background-image: url('/assets/shape-pill-blue.png');
-            position: absolute;
-            width: 90px;
-            height: 30px;
-            left: -2rem;
-            top: 6rem;
-            background-size: contain;
-            background-repeat: no-repeat;
-            @include media-breakpoint-up(lg) {
-                left: -3rem;
-                top: 10rem;
-                width: 150px;
-                height: 50px;
-            }
-        }
-        &::after {
-            content: "";
-            background-image: url('/assets/shape-triangle-yellow.png');
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            right: -2rem;
-            top: 6rem;
-            background-size: contain;
-            background-repeat: no-repeat;
-            @include media-breakpoint-up(lg) {
-                top: 12rem;
-                width: 100px;
-                height: 100px;
-            }
-        }
+    background-color: $resource-newsletter-bg;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    border-radius: 12px;
+    @include media-breakpoint-up(xl) {
+        margin-top: 120px;
+        margin-bottom: 120px;
     }
     .top {
-        background-color: $newsletter-bg;
-        border-top-left-radius: 2rem;
-        border-top-right-radius: 2rem;
-        position: relative;
-        img {
-            width: 100%;
-            height: auto;
-            margin-top: -3rem;
-        }
+        padding-top: 35px;
+        text-align: center;
         @include media-breakpoint-up(lg) {
-            max-height: 21rem;
-            img {
-                width: 800px;
-                margin-top: -6rem;
+            padding-top: 80px;
+        }
+        @include media-breakpoint-up(xl) {
+            padding-top: 40px;
+            position: relative;
+        }
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 1;
+            position: relative;
+            @include media-breakpoint-up(lg) {
+                width: 400px;
+                height: 400px;
             }
-            &::before {
-                width: 10rem;
-                height: 10rem;
-                left: -2rem;
-                top: 18rem;
+            @include media-breakpoint-up(xl) {
+                width: 500px;
+                height: 500px;
+                position: absolute;
+                top: -0.5rem;
+                left: 4rem;
+               
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 600px;
+                height: 600px;
+                position: absolute;
+                top: -69px;
+                left: 4rem;
+                object-fit: contain;
+            }
+        }
+        .accents {
+            position: relative;
+            width: 100%;
+            z-index: 1;
+            &::before{
+                content: "";
+                background-image: url('/assets/accent-seasonal-mob-1.svg');
+                position: absolute;
+                width: 122px;
+                height: 303px;
+                left: 0rem;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                top: -3rem;
+                @include media-breakpoint-up(lg) {
+                    background-image: url('/assets/accent-seasonal-desk-1.svg');
+                    width: 654px;
+                    height: 403px;
+                    left: -12rem;
+                    top: 5rem;
+                }
             }
             &::after {
-                width: 10rem;
-                height: 10rem;
-                right: -4rem;
-                top: 12rem;
+                content: "";
+                background-image: url('/assets/accent-seasonal-mob-2.svg');
+                position: absolute;
+                width: 138px;
+                height: 150px;
+                right: 0rem;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                top: -3rem;
+                @include media-breakpoint-up(lg) {
+                    right: -31rem;
+                    top: -5rem;
+                }
+                @include media-breakpoint-up(xl) {
+                    right: -37rem;
+                    top: -8rem;
+                }
+                @include media-breakpoint-up(xxl) {
+                    right: -45rem;
+                    top: -5rem;
+                }
             }
         }
     }
     .bottom {
-        background-color: $primary-lightgreen;
-        color: $ui-grayscale-1;
-        padding: 2rem;
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
         text-align: left;
-        h2 {
-            font-size: 40px;
-            line-height: 40px;
-            color: $ui-grayscale-1;
+        padding: 2rem;
+        padding-bottom: 62px;
+        @include media-breakpoint-up(lg) {
+            padding-top: 120px;
+            padding-bottom: 93px;    
+            padding-right: 112px;  
+            padding-left: 43px;   
+        }
+        h3 {
+            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
         button {
-            width: fit-content;
-            font-size: 12px;
-            text-transform: uppercase;
+            margin-top: 28px;
+            width: auto;
         }
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            justify-content: space-between;
-            z-index: 2;
+        .accents {
+            position: relative;
+            width: 100%;
+            z-index: 1;
+            &::before {
+                content: "";
+                background-image: url('/assets/accent-seasonal-mob-3.svg');
+                position: absolute;
+                width: 189px;
+                height: 444px;
+                right: -16px;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                bottom: -4rem;
+                @include media-breakpoint-up(lg) {
+                    background-image: url('/assets/accent-seasonal-desk-3.svg');
+                    width: 588px;
+                    height: 191px;
+                    right: -6.5rem;
+                    bottom: -6rem;
+                }
+            }
         }
     }
 }

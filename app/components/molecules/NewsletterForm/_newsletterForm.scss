@@ -1,17 +1,36 @@
 .newsletter-form {
+    #mc_embed_signup {
+        clear: left;
+        font: 14px "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+    }
     .form-group {
         width: 100%;
-        input {
+        input.email {
             padding: 14px 20px;
             border: 1px solid $newsletter-form-border;
             border-radius: 5px;
-            width: 100%;
+           width: 100%;
+           font-size: 16px;
         }
     }
     .form-button {
         width: 9rem;
-        button {
+        input.primary {
             width: 100%;
+            display: inline-flex;
+            height: 50px;
+            padding: 14px 20px;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            border-radius: 120px;
+            background: $primary-green;
+            color: $ui-grayscale-1;
+            border: 0;
+            @include transition;
+            &:hover {
+                background-color: $primary-darkgray;
+            }
         }
     }
     @include media-breakpoint-up(lg) {
@@ -28,7 +47,7 @@
         }
         .form-button {
             flex-basis: 22%;
-            button {
+            input.primary {
                 width: 6rem;
             }
         }

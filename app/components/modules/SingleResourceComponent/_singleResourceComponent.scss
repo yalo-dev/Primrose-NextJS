@@ -121,7 +121,7 @@
         .details {
             .caption {
                 color: $ui-grayscale-1;
-                color:  #B394C5;
+                color:  $ui-grayscale-1;
                 &::after {
                     content: "·";
                     position: absolute;
@@ -231,6 +231,9 @@
         }
     }
     .related {
+        h2 {
+            padding-top: 60px;
+        }
         .card {
             border-bottom: 1px solid $ui-grayscale-3 !important;
             @include media-breakpoint-up(xl) {

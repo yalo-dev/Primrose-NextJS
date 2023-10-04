@@ -63,27 +63,26 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
     resources, filterTerms, searchTerm, setSearchTerm,
     selectedAge, setSelectedAge, selectedTopic, setSelectedTopic, slug }) => {
 
-        const applyFilters = () => {
-            return resources.filter(resource => {
-                const matchesSearch = searchTerm
-                    ? resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    resource.resourceTags.nodes.some(tag => tag.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    resource.resourceTypes.nodes.some(type => type.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                    : true;
+    const applyFilters = () => {
+        return resources.filter(resource => {
+            const matchesSearch = searchTerm
+                ? resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                resource.resourceTags.nodes.some(tag => tag.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                resource.resourceTypes.nodes.some(type => type.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                : true;
         
-                const matchesAge = selectedAge.length > 0 
-                    ? resource.resourceTags.nodes.some(tag => selectedAge.includes(tag.slug))
-                    : true;
+            const matchesAge = selectedAge.length > 0 
+                ? resource.resourceTags.nodes.some(tag => selectedAge.includes(tag.slug))
+                : true;
         
-                const matchesTopic = selectedTopic.length > 0 
-                    ? resource.resourceTags.nodes.some(tag => selectedTopic.includes(tag.slug))
-                    : true;
+            const matchesTopic = selectedTopic.length > 0 
+                ? resource.resourceTags.nodes.some(tag => selectedTopic.includes(tag.slug))
+                : true;
         
-                return matchesSearch && matchesAge && matchesTopic;
-            });
-        };
+            return matchesSearch && matchesAge && matchesTopic;
+        });
+    };
         
-
     const classNameGenerator = (resource: Resource) => {
         const baseClass = resource.resourceTypes.nodes.some(type => type.slug === 'newsroom') ? 'small' : 'medium';
         return `${baseClass} fade-in`;
@@ -166,18 +165,17 @@ export const CategoryResourceFilter: React.FC<CategoryResourceFilterProps> = ({
         'newsroom': 'News'
       };
 
-      const getTitleFromSlug = (slug: string) => {
+    const getTitleFromSlug = (slug: string) => {
         return slugToTitleMap[slug] || toProperCase(slug);
-      };
+    };
 
-      const handleAgesSelect = useCallback((selectedAges: string[]) => {
+    const handleAgesSelect = useCallback((selectedAges: string[]) => {
         setSelectedAge(selectedAges);
     }, []);
     
     const handleTopicsSelect = useCallback((selectedTopics: string[]) => {
         setSelectedTopic(selectedTopics);
     }, []);
-    
     
     const SearchAndFilterUI: React.FC = () => (
         <div className='title-and-search-container'>
