@@ -1,5 +1,17 @@
 .resource {
     .hero {
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+        }
+        @include media-breakpoint-down(sm) {
+            //height: 85vh;
+            .image-wrapper img {
+                max-height: 48vh; /* Limit the height on mobile */
+                object-fit: cover;
+                width: auto;
+            }
+        }
         background-color: #814C9E;
         color: $ui-grayscale-1;
         
@@ -35,7 +47,7 @@
             }
             img {
                 width: 100%;
-                min-height: 27rem;
+               // min-height: 27rem;
                 border-bottom-left-radius: 50%;
                 border-bottom-right-radius: 50%;
                 object-fit: cover;
@@ -56,10 +68,10 @@
                 width: 20vw;
                 height: 20vw;
                 left: 2rem;
-                top: -35vw;
+                top: -27vw;
                 background-size: contain;
                 background-repeat: no-repeat;
-                transform: rotate(80deg);
+                transform: rotate(100deg);
                 @include media-breakpoint-up(sm) {
                     left: 3rem;
                     top: -10rem;
@@ -89,8 +101,8 @@
                 position: absolute;
                 width: 20vw;
                 height: 20vw;
-                right: 3rem;
-                top: -36vw;
+                right: 2rem;
+                top: -29vw;
                 transform: rotate(100deg);
                 background-size: contain;
                 background-repeat: no-repeat;
@@ -104,7 +116,7 @@
                 }
                 @include media-breakpoint-up(lg) { 
                     padding-bottom: 0;
-                    top: 17rem;
+                    top: 15rem;
                     width: 6rem;
                     height: 6rem;
                     transform: rotate(99deg);

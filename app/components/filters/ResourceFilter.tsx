@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { MultiSelectDropdown } from '../molecules/MultiSelectDropdown/MultiSelectDropdown';
 
 
 
@@ -52,22 +53,22 @@ interface FilterTerms {
 
 export function ResourceFilter(initialResources: Resource[], filterTerms?: FilterTerms) {
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [selectedAge, setSelectedAge] = useState<string | null>('');
-    const [selectedTopic, setSelectedTopic] = useState<string | null>('');
+    const [selectedAge, setSelectedAge] = useState<string[]>([]);
+    const [selectedTopic, setSelectedTopic] = useState<string[]>([]);
     const [filteredResources, setFilteredResources] = useState<Resource[]>(initialResources);
 
     useEffect(() => {
         let newResources = [...initialResources];
 
-        if (selectedTopic) {
+        if (selectedTopic.length > 0) {
             newResources = newResources.filter(resource =>
-                resource.resourceTags.nodes.some(tag => tag.slug.toLowerCase() === selectedTopic.toLowerCase())
+                resource.resourceTags.nodes.some(tag => selectedTopic.includes(tag.slug.toLowerCase()))
             );
         }
 
-        if (selectedAge) {
+        if (selectedAge.length > 0) {
             newResources = newResources.filter(resource =>
-                resource.resourceTags.nodes.some(tag => tag.slug.toLowerCase() === selectedAge.toLowerCase())
+                resource.resourceTags.nodes.some(tag => selectedAge.includes(tag.slug.toLowerCase()))
             );
         }
 
@@ -84,24 +85,33 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
         setFilteredResources(newResources);
     }, [searchTerm, selectedAge, selectedTopic, initialResources]);
 
+    const handleAgesSelect = (selectedAges: string[]) => {
+        setSelectedAge(selectedAges);
+    };
+    
+    const handleTopicsSelect = (selectedTopics: string[]) => {
+        setSelectedTopic(selectedTopics);
+    };
+
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
                 <input type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
             <div className='filters'>
-                <select className='custom-select' onChange={(e) => setSelectedAge(e.target.value)}>
-                    <option value="">All Ages</option>
-                    {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map((child, index) => (
-                        <option value={child.slug} key={index}>{child.name}</option>
-                    ))}
-                </select>
-                <select className='custom-select' onChange={(e) => setSelectedTopic(e.target.value)}>
-                    <option value="">All Topics</option>
-                    {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map((child, index) => (
-                        <option value={child.slug} key={index}>{child.name}</option>
-                    ))}
-                </select>
+                <MultiSelectDropdown
+                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                    onSelect={handleAgesSelect}
+                    placeholder="All Ages"
+                    selected={selectedAge}
+                />
+
+                <MultiSelectDropdown
+                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                    onSelect={handleTopicsSelect}
+                    placeholder="All Topics"
+                    selected={selectedTopic}
+                />
             </div>
         </div>
     );
