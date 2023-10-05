@@ -2,8 +2,8 @@ import { useQuery, gql } from '@apollo/client';
 import Tag from '../../atoms/Tag/Tag';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 import Link from 'next/link';
-import NewsletterFormBanner from '../ResourceNewsletter/ResourceNewsletter';
-import CTABanner from '../CTABanner/CTABanner';
+import PoinersForParents from '../PointersForParents/PointersForParents';
+import SeasonalBanner from '../SeasonalBanner/SeasonalBanner';
 import Heading from '../../atoms/Heading/Heading';
 
 
@@ -23,8 +23,8 @@ interface Resource {
   };
 }
 
-const GET_RESOURCE_BY_URI = gql`
-query GetResourceByURI($id: ID!) {
+const GET_SINGLE_RESOURCE = gql`
+query GetSingleResource($id: ID!) {
   resource(id: $id, idType: URI) {
     author {
       node {
@@ -79,14 +79,15 @@ query GetResourceByURI($id: ID!) {
           }
         }
       }
-      ctaHeading
-      ctaButton {
-        url
-        title
+      pfpHeading
+      pfpSubheading
+      seasonalHeading
+      seasonalSubheading
+      seasonalButton {
         target
+        title
+        url
       }
-      newsletterHeading
-      newsletterSubheading
     }
   }
 }
@@ -100,9 +101,9 @@ const calculateReadingTime = (text) => {
 };
 
 export default function ResourceComponent({ singleSlug }) {
-  const { loading, error, data } = useQuery(GET_RESOURCE_BY_URI, {
+  const { loading, error, data, refetch } = useQuery(GET_SINGLE_RESOURCE, {
     variables: { id: singleSlug }
-  });
+ });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -112,7 +113,7 @@ export default function ResourceComponent({ singleSlug }) {
   if (!resource) return <div>No Resource Found</div>;
 
   const { author, featuredImage, title, date, resourceTypes, resourceTags, resources } = resource;
-  const { displayAuthor, content, relatedArticles, ctaHeading, ctaSubheading, ctaButton, newsletterHeading, newsletterSubheading } = resources || {};
+  const { displayAuthor, content, relatedArticles, seasonalHeading, seasonalSubheading, seasonalButton, pfpHeading, pfpSubheading } = resources || {};
 
   const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date));
 
@@ -138,7 +139,6 @@ export default function ResourceComponent({ singleSlug }) {
   const sortedTags = [...resource.resourceTags.nodes].sort((a: ResourceTagType, b: ResourceTagType) =>
     a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0
   );
-
 
   return (
     <>
@@ -227,10 +227,10 @@ export default function ResourceComponent({ singleSlug }) {
         </div>
       </div>
 
-      {newsletterHeading && (
-        <NewsletterFormBanner
-          newsletterHeading={newsletterHeading}
-          newsletterSubheading={newsletterSubheading}
+      {pfpHeading && (
+        <PoinersForParents
+          pfpHeading={pfpHeading}
+          pfpSubheading={pfpSubheading}
         />
       )}
 
@@ -251,13 +251,12 @@ export default function ResourceComponent({ singleSlug }) {
           </div>
         </div>
       )}
-
-
-      {ctaHeading && (
-        <CTABanner
-          ctaHeading={ctaHeading}
-          ctaButton={ctaButton}
-          ctaSubheading={ctaSubheading}
+      
+      {seasonalHeading && (
+        <SeasonalBanner
+          seasonalHeading={seasonalHeading}
+          seasonalSubheading={seasonalSubheading}
+          seasonalButton={seasonalButton}
         />
       )}
     </>

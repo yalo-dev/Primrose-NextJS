@@ -8,6 +8,7 @@ import { gql } from '@apollo/client';
 // import $ from '../app/lib/jquery';
 
 function MyApp({ Component, pageProps }) {
+  
   const [headerMenuItems, setHeaderMenuItems] = useState([]);
   const [footerMenuItems, setFooterMenuItems] = useState([]);
   const [siteSettings, setSiteSettings] = useState(null);
@@ -15,6 +16,13 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       import('bootstrap/dist/js/bootstrap.bundle.min.js');
+    }
+    
+    if (process.env.NODE_ENV === 'development') {
+      (window as any).resetApolloCache = () => {
+        client.resetStore();
+        console.log('Apollo cache reset.');
+      };
     }
 
     const fetchMenuItems = async () => {
