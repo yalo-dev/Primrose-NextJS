@@ -106,7 +106,7 @@ export default function ResourceComponent({ singleSlug }) {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  console.log(data);  
+  console.log(data);
   const resource = data?.resource;
 
   if (!resource) return <div>No Resource Found</div>;
@@ -135,7 +135,7 @@ export default function ResourceComponent({ singleSlug }) {
 
   let wrappedContent = content ? wrapIframesInResponsiveDiv(content) : '';
 
-  const sortedTags = [...resource.resourceTags.nodes].sort((a: ResourceTagType, b: ResourceTagType) => 
+  const sortedTags = [...resource.resourceTags.nodes].sort((a: ResourceTagType, b: ResourceTagType) =>
     a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0
   );
 
@@ -161,32 +161,49 @@ export default function ResourceComponent({ singleSlug }) {
               </div>
               <div className='title pt-2 pb-2'>{title && <Heading level='h1'>{title}</Heading>}</div>
               <div className='utils-wrapper pt-2 pb-4 d-flex align-items-center justify-content-between'>
-              
+
                 {displayAuthor && author?.node?.name && <div className='author'>By: {author.node.name}</div>}
-     
+
                 {readingTime && <div className='read-time'><p className='b1 mb-0'>{readingTime}</p></div>}
               </div>
             </div>
           </div>
         </div>
         <div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4'>
-        <Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(singleSlug)}`} target="_blank" rel="noopener noreferrer">
+          <Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(singleSlug)}`} target="_blank" rel="noopener noreferrer">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#373A36" strokeDasharray="2 2" />
-              <path d="M17.1941 20.4058H18.5135V25.8334C18.5135 25.9405 18.6004 26.0273 18.7076 26.0273H20.9446C21.0519 26.0273 21.1388 25.9405 21.1388 25.8334V20.4313H22.6555C22.7541 20.4313 22.8371 20.3574 22.8483 20.2595L23.0787 18.2613C23.085 18.2064 23.0676 18.1513 23.0308 18.1101C22.9939 18.0688 22.9412 18.0451 22.8859 18.0451H21.1388V16.7926C21.1388 16.415 21.3423 16.2235 21.7436 16.2235C21.8008 16.2235 22.8859 16.2235 22.8859 16.2235C22.9931 16.2235 23.08 16.1367 23.08 16.0296V14.1954C23.08 14.0883 22.9931 14.0014 22.8859 14.0014H21.3117C21.3006 14.0009 21.2759 14 21.2396 14C20.9664 14 20.017 14.0536 19.267 14.743C18.4361 15.507 18.5516 16.4218 18.5792 16.5804V18.0451H17.1941C17.0869 18.0451 17 18.1319 17 18.2391V20.2117C17 20.3189 17.0869 20.4058 17.1941 20.4058Z" fill="#373A36" />
+              <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#5E6738" strokeDasharray="2 2" />
+              <path d="M27 20.0429C27 16.1531 23.8661 13 20.0009 13C16.1339 13.0009 13 16.1531 13 20.0437C13 23.5582 15.5599 26.4716 18.9055 27V22.0787H17.1295V20.0437H18.9073V18.4908C18.9073 16.7262 19.9528 15.7515 21.5512 15.7515C22.3176 15.7515 23.1181 15.8889 23.1181 15.8889V17.6212H22.2353C21.3666 17.6212 21.0954 18.1645 21.0954 18.7218V20.0429H23.0359L22.7262 22.0779H21.0945V26.9991C24.4401 26.4707 27 23.5573 27 20.0429Z" fill="black" />
             </svg>
+
           </Link>
           <Link href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(singleSlug)}&text=${encodeURIComponent(resource.title)}`} target="_blank" rel="noopener noreferrer">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#373A36" strokeDasharray="2 2" />
-              <path d="M15.0258 15L19.1137 20.466L15 24.91H15.9258L19.5274 21.0192L22.4374 24.91H25.5881L21.2701 19.1366L25.0992 15H24.1733L20.8565 18.5834L18.1765 15H15.0258ZM16.3873 15.682H17.8348L24.2263 24.2279H22.7789L16.3873 15.682Z" fill="#373A36" />
+              <path d="M16.8716 16.5793L21.9894 23.4207H23.1482L18.0305 16.5793H16.8716Z" fill="black" />
+              <path d="M20 13C16.134 13 13 16.134 13 20C13 23.866 16.134 27 20 27C23.866 27 27 23.866 27 20C27 16.134 23.866 13 20 13ZM21.7161 23.9673L19.3862 20.852L16.5025 23.9673H15.7613L19.055 20.4091L15.782 16.0327H18.3046L20.4503 18.9018L23.106 16.0327H23.8472L20.7815 19.3448L24.2387 23.9673H21.7161Z" fill="black" />
+              <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#5E6738" strokeDasharray="2 2" />
             </svg>
+
           </Link>
           <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(singleSlug)}&title=${encodeURIComponent(resource.title)}&summary=${encodeURIComponent(resource.resources.content.substring(0, 150))}&source=YourWebsiteName`} target="_blank" rel="noopener noreferrer">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#373A36" strokeDasharray="2 2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M25.4 24.3561H22.8804V20.7155C22.8804 19.7626 22.4863 19.112 21.6197 19.112C20.9568 19.112 20.5881 19.551 20.4165 19.9741C20.3522 20.126 20.3622 20.3375 20.3622 20.549V24.3561H17.8661C17.8661 24.3561 17.8983 17.9071 17.8661 17.3209H20.3622V18.4251C20.5097 17.9423 21.3073 17.2533 22.5802 17.2533C24.1593 17.2533 25.4 18.2652 25.4 20.4443V24.3561ZM15.3419 16.441H15.3258C14.5215 16.441 14 15.9032 14 15.2215C14 14.5265 14.5369 14 15.3573 14C16.177 14 16.6811 14.5252 16.6972 15.2195C16.6972 15.9012 16.177 16.441 15.3419 16.441ZM14.2875 17.3209H16.5095V24.3561H14.2875V17.3209Z" fill="#373A36" />
+              <g clip-path="url(#clip0_59_5814)">
+                <circle opacity="0.2" cx="20" cy="20" r="19.5" stroke="#5E6738" strokeDasharray="2 2" />
+                <g clipPath="url(#clip1_59_5814)">
+                  <path d="M28.1456 26.1122C28.1821 26.1125 28.2182 26.1056 28.2518 26.0919C28.2854 26.0782 28.3157 26.0579 28.3408 26.0324C28.366 26.0068 28.3855 25.9766 28.398 25.9435C28.4106 25.9104 28.416 25.8751 28.4139 25.8399C28.4139 25.6468 28.2935 25.5545 28.0465 25.5545H27.6475V26.5655H27.7976V26.1248H27.982L27.9862 26.1302L28.2725 26.5655H28.433L28.125 26.115L28.1456 26.1122ZM27.972 26.0109H27.798V25.6691H28.0186C28.1326 25.6691 28.2625 25.6871 28.2625 25.8315C28.2625 25.9976 28.131 26.0109 27.9712 26.0109M24.2302 24.8451H22.1018V21.6193C22.1018 20.8501 22.0876 19.8598 20.9948 19.8598C19.8863 19.8598 19.7167 20.698 19.7167 21.5633V24.8449H17.5882V18.2113H19.6315V19.1179H19.6601C19.8646 18.7795 20.1601 18.5011 20.5151 18.3124C20.8701 18.1237 21.2714 18.0318 21.6761 18.0463C23.8334 18.0463 24.2311 19.4196 24.2311 21.206L24.2302 24.8451ZM15.1867 17.3045C14.9424 17.3046 14.7036 17.2345 14.5004 17.1032C14.2973 16.9719 14.1389 16.7852 14.0454 16.5668C13.9519 16.3484 13.9274 16.1081 13.975 15.8762C14.0226 15.6443 14.1402 15.4313 14.3129 15.2641C14.4856 15.0969 14.7057 14.983 14.9453 14.9368C15.1849 14.8907 15.4332 14.9143 15.6589 15.0047C15.8846 15.0952 16.0776 15.2483 16.2133 15.4449C16.3491 15.6415 16.4216 15.8726 16.4216 16.109C16.4216 16.2659 16.3897 16.4214 16.3277 16.5664C16.2656 16.7115 16.1747 16.8433 16.06 16.9543C15.9453 17.0653 15.8092 17.1534 15.6593 17.2135C15.5095 17.2736 15.3489 17.3045 15.1867 17.3045ZM16.2509 24.8451H14.1202V18.2113H16.2509V24.8451ZM25.2913 13.0009H13.0507C12.7729 12.9979 12.5052 13.1017 12.3064 13.2896C12.1077 13.4775 11.9941 13.7341 11.9907 14.003V25.8985C11.994 26.1675 12.1075 26.4242 12.3062 26.6123C12.505 26.8004 12.7728 26.9044 13.0507 26.9016H25.2913C25.5699 26.9049 25.8384 26.8012 26.0379 26.6131C26.2375 26.425 26.3517 26.168 26.3556 25.8985V14.0021C26.3516 13.7327 26.2373 13.4759 26.0377 13.288C25.8382 13.1001 25.5697 12.9965 25.2913 13.0001" fill="black" />
+                  <path d="M27.9901 25.1041C27.7312 25.1065 27.4837 25.2081 27.3019 25.3866C27.1201 25.5651 27.0188 25.806 27.02 26.0566C27.0213 26.3072 27.125 26.5472 27.3086 26.724C27.4921 26.9008 27.7406 27 27.9995 27C28.2585 27 28.5069 26.9008 28.6905 26.724C28.874 26.5472 28.9778 26.3072 28.979 26.0566C28.9803 25.806 28.8789 25.5651 28.6971 25.3866C28.5153 25.2081 28.2679 25.1065 28.009 25.1041H27.9901ZM27.9901 26.8915C27.8203 26.8942 27.6534 26.8481 27.5106 26.7591C27.3678 26.67 27.2555 26.542 27.1879 26.3912C27.1203 26.2404 27.1004 26.0735 27.1307 25.9118C27.1611 25.75 27.2404 25.6006 27.3585 25.4825C27.4766 25.3643 27.6282 25.2827 27.7943 25.2479C27.9603 25.2132 28.1332 25.2268 28.2912 25.2872C28.4493 25.3476 28.5852 25.4519 28.6819 25.5871C28.7786 25.7223 28.8318 25.8821 28.8346 26.0465V26.0605C28.8394 26.2761 28.7554 26.4847 28.6013 26.6405C28.4471 26.7963 28.2353 26.8864 28.0125 26.8911H27.9903" fill="black" />
+                </g>
+              </g>
+              <defs>
+                <clipPath id="clip0_59_5814">
+                  <rect width="40" height="40" fill="white" />
+                </clipPath>
+                <clipPath id="clip1_59_5814">
+                  <rect width="16.9697" height="14" fill="white" transform="translate(12 13)" />
+                </clipPath>
+              </defs>
             </svg>
+
           </Link>
         </div>
 
@@ -196,20 +213,20 @@ export default function ResourceComponent({ singleSlug }) {
           {resourceTags.nodes.length > 0 && (
             <div className='tags'>
               <div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
-              {sortedTags.map((tag, index) => (
-                <Tag 
-                  key={index} 
-                  label={tag.name} 
-                  tagSlug={tag.slug} 
-                  isFeatured={tag.slug === 'featured'}
-                />
-              ))}
+                {sortedTags.map((tag, index) => (
+                  <Tag
+                    key={index}
+                    label={tag.name}
+                    tagSlug={tag.slug}
+                    isFeatured={tag.slug === 'featured'}
+                  />
+                ))}
               </div>
             </div>
           )}
         </div>
       </div>
-      
+
       {newsletterHeading && (
         <NewsletterFormBanner
           newsletterHeading={newsletterHeading}
@@ -217,23 +234,23 @@ export default function ResourceComponent({ singleSlug }) {
         />
       )}
 
-        {relatedArticles?.length > 0 && (
-          <div className='related'>
-            <div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
-              <h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
-              <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
-                {relatedArticles.map((relatedArticle, index) => (
-                  <ResourceCard
-                    key={index}
-                    resource={relatedArticle}
-                    showFeaturedImage={true}
-                    className="medium"
-                  />
-                ))}
-              </div>
+      {relatedArticles?.length > 0 && (
+        <div className='related'>
+          <div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
+            <h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
+            <div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
+              {relatedArticles.map((relatedArticle, index) => (
+                <ResourceCard
+                  key={index}
+                  resource={relatedArticle}
+                  showFeaturedImage={true}
+                  className="medium"
+                />
+              ))}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
 
       {ctaHeading && (
