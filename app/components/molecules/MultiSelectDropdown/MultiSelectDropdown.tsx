@@ -58,15 +58,15 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
     };
 
     return (
-<div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
+        <div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
                 {placeholder}
                 <div className='icon'></div>
             </div>
-
+    
             <div className="options" style={{ height: `${contentHeight}px` }}>
                 <div ref={contentRef}>
-                    {options.map(opt => (
+                    {options.sort((a, b) => a.label.localeCompare(b.label)).map(opt => (
                         <div key={opt.value} className="option">
                             <input
                                 type="checkbox"
@@ -81,5 +81,5 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
                 </div>
             </div>
         </div>
-    );
+    );    
 }
