@@ -34,8 +34,25 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
             <div className={className}>
                 {( leftColumn?.imageDesktop?.sourceUrl || leftColumn?.imageMobile?.sourceUrl ) && (
                     <div className='left-column col-12 col-lg-6'>
-                        <Image className='d-block d-lg-none' src={leftColumn.imageMobile.sourceUrl} alt='Featured Image' width={500} height={500} />
-                        <Image className='d-none d-lg-block' src={leftColumn.imageDesktop.sourceUrl} alt='Featured Image' width={1000} height={1000} />
+                       {leftColumn?.imageMobile?.sourceUrl && 
+                        <Image 
+                            className='d-block d-lg-none' 
+                            src={leftColumn.imageMobile.sourceUrl} 
+                            alt='Featured Image' 
+                            width={500} 
+                            height={500} 
+                        />
+                    }
+
+                    {leftColumn?.imageDesktop?.sourceUrl && 
+                        <Image 
+                            className='d-none d-lg-block' 
+                            src={leftColumn.imageDesktop.sourceUrl} 
+                            alt='Featured Image' 
+                            width={1000} 
+                            height={1000} 
+                        />
+                    }
                     </div>
                 )}
                 <div className='right-column col-12 col-lg-6'>
