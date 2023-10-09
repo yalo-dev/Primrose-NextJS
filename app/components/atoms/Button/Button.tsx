@@ -5,7 +5,7 @@ type ButtonVariants = 'primary' | 'secondary' | 'white';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariants;
-    label: string;
+    label?: string;
     href?: string;
     target?: string;
     children?: React.ReactNode;

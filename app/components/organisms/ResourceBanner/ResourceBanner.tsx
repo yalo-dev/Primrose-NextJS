@@ -4,81 +4,63 @@ import Button from '../../atoms/Button/Button';
 import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
 import Image from 'next/image';
 
-const GET_RESOURCE_BANNER_DATA = gql`
-query GetResourcesSettings {
-    resourcesSettings {
-      resourcesSettings {
-        blurbF
-        blurbN
-        buttonN {
-          target
-          title
-          url
-        }
-        formIdF
-        iconF {
-          sourceUrl
-        }
-        iconN {
-          sourceUrl
-        }
+const GET_RESOURCE_BANNER_FIELDS = gql`
+query GetResourceBannerFields($id: ID = "") {
+  resourceType(id: $id, idType: SLUG) {
+    ResourceBanner {
+      icon {
+        sourceUrl
       }
+      blurb
+      button {
+        target
+        title
+        url
+      }
+      showNewsletterForm
     }
   }
+}
 `;
 
 const ResourceBanner = ({ slug }) => {
-  const { loading, error, data } = useQuery(GET_RESOURCE_BANNER_DATA);
+  const { loading, error, data } = useQuery(GET_RESOURCE_BANNER_FIELDS, { variables: { id: slug } });
 
   if (loading) return <p>Loading banner...</p>;
   if (error) return <p>Error in banner: {error.message}</p>;
+  console.log(data);
+  const bannerData = data?.resourceType?.ResourceBanner;
 
-  const settings = data.resourcesSettings.resourcesSettings;
-  const bannerData = {
-    icon: slug === 'families' ? settings.iconF.sourceUrl : settings.iconN.sourceUrl,
-    blurb: slug === 'families' ? settings.blurbF : settings.blurbN,
-    formId: slug === 'families' ? settings.formIdF : null,
-    button: slug === 'newsroom' ? settings.buttonN : null,
-  };
+  if (!bannerData) return null; // If there's no banner data, don't render anything.
 
   return (
-    <div className="resource-banner mt-5 mb-4 pt-4 pb-4 pt-lg-4 pb-lg-4">
-      {slug === 'families' && bannerData.formId ? (
-        <div className='families d-flex flex-column flex-lg-row justify-center justify-content-lg-between align-items-center text-center'>
-          <div className='d-flex flex-column flex-lg-row align-items-lg-center'>
-
-            <div className='icon-wrapper pe-lg-3 mb-3 mb-lg-0'>
-              <Image src={bannerData.icon} alt="Banner Icon" width={100} height={100} className='icon mx-auto' />
-            </div>
-
-            <div className='ps-4 pe-4 pb-3 ps-lg-0 pe-lg-0 pb-lg-0 text-lg-start' dangerouslySetInnerHTML={{ __html: bannerData.blurb }} />
+    <div className="resource-banner mt-5 mb-4 pt-4 pb-4 pt-lg-4 pb-lg-4 d-lg-flex justify-content-lg-between align-items-lg-center">
+      <div className='d-flex flex-column flex-lg-row justify-center justify-content-lg-start align-items-center text-center w-100'>
+        {bannerData.icon?.sourceUrl && (
+          <div className='icon-wrapper pe-lg-3 mb-3 mb-lg-0'>
+            <Image src={bannerData.icon.sourceUrl} alt="Banner Icon" width={100} height={100} className='icon mx-auto' />
           </div>
-
-          <div>
+        )}
+        {bannerData.blurb && (
+          <div className='ps-4 pe-4 pb-3 ps-lg-0 pe-lg-0 pb-lg-0 text-lg-start' dangerouslySetInnerHTML={{ __html: bannerData.blurb }} />
+        )}
+      </div>
+      <div className='right'>
+        {bannerData.showNewsletterForm && (
             <NewsletterForm />
-          </div>
-        </div>
-      ) : null}
-      {slug === 'newsroom' && bannerData.button ? (
-        <div className='newsroom d-flex flex-column flex-lg-row justify-center justify-content-lg-between align-items-center text-center'>
-          <div className='d-flex flex-column flex-lg-row align-items-lg-center'>
-
-            <div className='icon-wrapper pe-lg-3 mb-3 mb-lg-0'>
-              <Image src={bannerData.icon} alt="Banner Icon" width={100} height={100} className='icon mx-auto' />
+          )}
+        {bannerData.button && (
+          <div className='newsroom d-flex flex-column flex-lg-row justify-center justify-content-lg-between align-items-center text-center'>
+            <div className='me-lg-5 ms-lg-auto border-left'>
+              <Button
+                variant="primary"
+                label={bannerData.button.title}
+                href={bannerData.button.url}
+              />
             </div>
-
-            <div className='ps-4 pe-4 pb-3 ps-lg-0 pe-lg-0 pb-lg-0 text-lg-start' dangerouslySetInnerHTML={{ __html: bannerData.blurb }} />
           </div>
-
-          <div className='me-lg-5 border-left'>
-            <Button
-              variant="primary"
-              label={bannerData.button.title}
-              href={bannerData.button.url}
-            />
-          </div>
-        </div>
-      ) : null}
+        )}
+      </div>
     </div>
   );
 };

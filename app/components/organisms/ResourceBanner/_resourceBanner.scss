@@ -21,19 +21,11 @@
             min-width: 12rem;
 
         }
+        .right {
+            width: 50%;
+            //margin-right: 0;
+            text-align: right;
+        }
     }
-    // @include media-breakpoint-up(xxl) {
-    //     .border-left {
-    //         position: relative;
-    //         &::before {
-    //             content: "";
-    //             position: absolute;
-    //             height: 300%;
-    //             top: -100%;
-    //             left: -3rem;
-    //             width: 1px;
-    //             border-left:  1px solid $resource-banner-border;
-    //         }
-    //     }
-    // }
+   
 }

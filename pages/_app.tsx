@@ -5,7 +5,6 @@ import { ApolloProvider } from "@apollo/client/react";
 import { client } from "../app/lib/apollo";
 import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
-// import $ from '../app/lib/jquery';
 
 function MyApp({ Component, pageProps }) {
   

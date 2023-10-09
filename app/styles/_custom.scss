@@ -41,9 +41,24 @@
     }
 
     @include media-breakpoint-up(xl) {
-        margin-top: 74px;
+        margin-top: 90px;
     }
 }
 
-
-
+.responsive-video {
+    margin: 2rem 0;
+    border-radius: 12px;
+    aspect-ratio: 16/9;
+    iframe, video {
+        border-radius: 12px;
+        width: 100%;
+        height: 100%;
+    }
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+}

@@ -14,11 +14,21 @@
 @import '../components/organisms/ResourcesMenu/reseourcesMenu';
 @import '../components/organisms/ResourceBanner/resourceBanner';
 
-@import '../components/modules/SingleResourceComponent/singleResourceComponent';
+@import '../components/modules/ResourceSingleComponent/resourceSingleComponent';
 @import '../components/modules/StandardAccordionList/standardAccordionList';
 @import '../components/modules/Newsletter/newsletter';
 @import '../components/modules/PointersForParents/pointersforparents';
 @import '../components/modules/SeasonalBanner/seasonalbanner';
+@import '../components/modules/HeroWithVideo/heroWithVideo';
+@import '../components/modules/HeroWithImage/heroWithImage';
+@import '../components/modules/TwoColumnsFeaturedImage/twoColumnsFeaturedImage';
+@import '../components/modules/TwoColumnsImageAndText/twoColumnsImageAndText';
+@import '../components/modules/GeneralButtonCTA/generalButtonCTA';
+@import '../components/modules/GeneralHorizontalTabs/generalHorizontalTabs';
+@import '../components/modules/Q1Skills/q1Skills';
+@import '../components/modules/ClassroomSelectAndImage/classroomSelectAndImage';
+@import '../components/modules/ClassroomSelectAndContent/classroomSelectAndContent';
+@import '../components/modules/FindASchool/findASchool';
 
 
 @import './resources';
@@ -80,13 +90,13 @@ h6 {
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 34px;
     font-weight: 200;
-    line-height: 40px;
+    line-height: 38px;
 
     @include media-breakpoint-up(lg) {
-        font-size: 72px;
-        line-height: 76px; 
+        font-size: 62px;
+        line-height: 64px; 
     }
 }
 

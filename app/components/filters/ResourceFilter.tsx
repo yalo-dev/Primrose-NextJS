@@ -116,7 +116,6 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
         </div>
     );
 
-
     return {
         filteredResources,
         SearchAndFilterUI

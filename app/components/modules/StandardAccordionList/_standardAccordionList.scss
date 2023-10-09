@@ -1,70 +1,131 @@
-.Page_Modules_Modules_StandardAccordionList {
-    .container {
-        background-color: #ECF0F3;
-        border-radius: 10px;
+.standard-accordion-list {
+    background-color: $hero-bg;
+    border-radius: 10px;
+    position: relative;
+    padding: 90px 20px 40px;
+    overflow: hidden;
+    @include media-breakpoint-up(lg) {
+        padding: 90px 0 40px;
+        border-radius: 30px;
+        h2 {
+            padding-left: 100px;
+        }
     }
-
-    h2 {
-        font-size: 1.25rem;
+    &::before {
+        content: " ";
+        background-image: url(/assets/accent-green-half-circle.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: -2rem -16%;
+        width: 21rem;
+        height: 55rem;
+        top: 0;
+        left: 0;
+        position: absolute;
+        pointer-events: none;
+        @include media-breakpoint-up(lg) {
+            width: 20rem;
+            height: 15rem;
+        }
     }
-
-    .faqs {
-
-        .faq {
-            border-bottom: 1px solid $black;
-
-            .question {
-                position: relative;
-                @include transitionAll;
-                #button {
-                    width: 2rem;
-                    height: 2rem;
-                    border: 0;
-                    font-size: 1rem;
+    .accordion {
+        border-bottom: 1px solid $newsletter-form-border-2;
+        @include media-breakpoint-up(lg) {
+            border-bottom: 0;
+            position: relative;
+            padding-right: 200px;
+            &::before {
+                content: " ";
+                width: 300%;
+                height: 1px;
+                background-color: $newsletter-form-border-2;
+                position: absolute;
+                bottom: 0;
+                left: -100%;
+            }
+            &:first-child {
+                &::after {
+                    content: " ";
+                    width: 300%;
+                    height: 1px;
+                    background-color: $newsletter-form-border-2;
                     position: absolute;
-                    top: -0.25em;
-                    right: -1rem;
-                    background-color: transparent;
+                    top: 0;
+                    left: -100%;
+                }
+            }
+        }
+        padding-right: 40px;
+        .question {
+            position: relative;
+            font-weight: 900;
+            @include transitionAll;
+            #button {
+                width: 2rem;
+                height: 2rem;
+                border: 0;
+                font-size: 1rem;
+                position: absolute;
+                top: -1.25rem;
+                right: -2rem;
+                line-height: 1;
+                padding: 0;
+                background-color: $black-normal;
+                border: 1px solid $black-normal;
+                @include media-breakpoint-up(lg) {
+                    top: 0.75rem;
+                    right: -12rem;
+                }
+                span {
+                    position: absolute;
+                    transition: 300ms;
+                    border-radius: 2px;
+                    background-color: $ui-grayscale-1;
 
-                    span {
-                        position: absolute;
-                        transition: 300ms;
-                        border-radius: 2px;
-                        background-color: #18211F;
-
-                        &:first-child {
-                            top: 12.5%;
-                            bottom: 25%;
-                            width: 5%;
-                            left: 47.5%;
-                            height: 75%;
-                        }
-
-                        &:last-child {
-                            left: 25%;
-                            right: 25%;
-                            height: 10%;
-                            top: 45%;
-                        }
-
+                    &:first-child {
+                        top: 30%;
+                        bottom: 25%;
+                        width: 5%;
+                        left: 49%;
+                        height: 40%;
                     }
+
+                    &:last-child {
+                        left: 27%;
+                        right: 27%;
+                        height: 6%;
+                        top: 46%;
+                    }
+
                 }
             }
             &.expanded {
-                .question {
-                    text-shadow:1px 0px 0px #000;
-                    #button span {
+                color: $primary-green;
+                #button {
+                    background-color: $transparent;
+                    span {
                         transform: rotate(90deg);
+                        background-color: $black-normal;
                         &:last-child {
                             left: 50%;
                             right: 50%;
                         }
                     }
-                } 
+                }  
             }
-            .answer {
-                display: none;
+        }
+      
+        .answer {
+            padding: 0;
+            p {
+                @extend .b3;
             }
+        }
+        
+    }
+    .footnote {
+        @include media-breakpoint-up(lg) {
+            max-width: 75%;  
         }
     }
 }

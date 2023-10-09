@@ -6,14 +6,20 @@ import gql from 'graphql-tag';
 
 const GET_MODULES = gql`
 query GetModules($id: ID = "") {
-    page(id: $id, idType: URI) {
+  page(id: $id, idType: URI) {
+    modules {
       modules {
-        modules {
-          ... on Page_Modules_Modules_Hero {
-            backgroundColor
-            backgroundImage {
+        ... on Page_Modules_Modules_HeroWithImage {
+          accent {
+            sourceUrl
+          }
+          switchColumnOrderOnDesktop
+          leftColumn {
+            image {
               sourceUrl
             }
+          }
+          rightColumn {
             heading
             subheading
             blurb
@@ -23,11 +29,13 @@ query GetModules($id: ID = "") {
               url
             }
           }
-          ... on Page_Modules_Modules_Cta {
-            backgroundColor
-            backgroundImage {
-              sourceUrl
-            }
+        }
+        ... on Page_Modules_Modules_HeroWithVideo {
+          accent {
+            sourceUrl
+          }
+          switchColumnOrderOnDesktop
+          leftColumn {
             heading
             subheading
             blurb
@@ -37,56 +45,64 @@ query GetModules($id: ID = "") {
               url
             }
           }
-          ... on Page_Modules_Modules_ContactFormWithImage {
-            backgroundColor
-            backgroundImage {
-              sourceUrl
-            }
-            leftColumn {
-              heading
-              subheading
-              blurb
-              formId
-            }
-            rightColumn {
-              image {
-                sourceUrl
-              }
+          rightColumn {
+            video {
+              url
             }
           }
-          ... on Page_Modules_Modules_FeaturedBlogs {
-            backgroundColor
-            backgroundImage {
-              sourceUrl
-            }
+        }
+        ... on Page_Modules_Modules_PointersForParents {
+          pfpHeading
+          pfpSubheading
+        }
+        ... on Page_Modules_Modules_SeasonalBanner {
+          seasonalHeading
+          seasonalSubheading
+          seasonalButton {
+            target
+            title
+            url
+          }
+        }
+        ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
+          leftColumn {
             heading
             subheading
             blurb
-            blogs {
-              ... on Post {
-                id
-                featuredImage {
-                  node {
-                    sourceUrl
-                  }
-                }
-                title
-                excerpt
-                uri
-              }
+            button {
+              target
+              title
+              url
             }
           }
-          ... on Page_Modules_Modules_StandardAccordionList {
+          rightColumn {
+            image {
+              sourceUrl
+            }
+          }
+        }
+        ... on Page_Modules_Modules_TwoColumnsImageAndText {
+          switchColumnOrderOnDesktop
+          leftColumn {
+            image {
+              sourceUrl
+            }
+          }
+          rightColumn {
             heading
-            faqs {
-              question
-              answer
+            subheading
+            blurb
+            button {
+              target
+              title
+              url
             }
           }
         }
       }
     }
   }
+}
 `;
 
 const DynamicPage = () => {

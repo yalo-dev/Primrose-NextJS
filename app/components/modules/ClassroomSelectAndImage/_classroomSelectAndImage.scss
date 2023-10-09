@@ -1,0 +1,195 @@
+.classroom-select-and-image {
+    margin: 1rem 0;
+    @include media-breakpoint-up(lg) {
+        display: flex; 
+        flex-direction: row;
+        align-items: stretch;
+        .left-column {
+            padding-right: 1rem;
+        }
+    }
+    .accent {
+        position: relative;
+        &::before {
+            content: "";
+            background-image: url(/assets/accent-classroom-1.svg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: top left;
+            width: 26rem;
+            height: 7rem;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 2;
+            border-bottom-right-radius: 1rem;
+            @include media-breakpoint-up(lg) {
+                bottom: 0;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 43rem;
+                height: 12rem;
+            }
+        }
+
+        &::after {
+            content: "";
+            background-image: url(/assets/accent-classroom-2.svg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: top left;
+            width: 6rem;
+            height: 10rem;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-bottom-right-radius: 1rem;
+            @include media-breakpoint-up(lg) {
+                bottom: 1rem;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 10rem;
+                height: 30rem;
+            }
+        }
+    }
+
+    .left-column {
+        img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .right-column {
+        background-color: $classroom-select-bg;
+        border-radius: 10px;
+        margin-top: 1rem;
+        padding: 2rem;
+        @include media-breakpoint-up(lg) {
+            margin: 0;
+        }
+        @include media-breakpoint-up(xxl) {
+            padding: 4rem;
+        }
+        h2, .b3 {
+            z-index: 2;
+            position: relative;
+        }
+        .custom-select {
+            height: 50px;
+            border: 1px solid $primary-green;
+            border-radius: 25px;
+            background-color: $ui-grayscale-1;
+            color: $primary-green;
+            width: 256px;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            margin: 2rem 0;
+            z-index: 4;
+            .icon {
+                background-image: url("data:image/svg+xml, %3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23DFE2D3'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.20605 13.3235C9.52033 12.9421 10.0808 12.8905 10.458 13.2084L15.1968 17.2021L19.5132 13.2338C19.8764 12.8998 20.4386 12.9269 20.7688 13.2943C21.0991 13.6616 21.0723 14.2302 20.709 14.5641L16.3927 18.5324C15.7363 19.136 14.7403 19.1577 14.0587 18.5833L9.31986 14.5895C8.94272 14.2717 8.89177 13.7049 9.20605 13.3235Z' fill='%235E6738'/%3E%3C/svg%3E");
+                background-size: 30px;
+                background-repeat: no-repeat;
+                background-position: 95%;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                @include transition;
+            }
+
+            &.active {
+                .icon {
+                    transform: rotate(-180deg);
+                }
+            }
+
+            .options {
+                background: $ui-grayscale-1;
+                z-index: 1;
+                position: absolute;
+                width: 16rem;
+                overflow: hidden;
+                height: 0;
+                transition: height 0.3s ease-out;
+                @include dropShadow;
+
+                .option {
+                    padding: 17px 40px;
+                    width: 100%;
+                    border-bottom: 1px solid $resource-banner-border;
+
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+
+                    label {
+                        display: inline-block;
+                        position: relative;
+                        cursor: pointer;
+                        user-select: none;
+
+                        &::before {
+                            content: "";
+                            border: 2px solid $resource-banner-border;
+                            position: absolute;
+                            top: 6px;
+                            left: -20px;
+                            width: 12px;
+                            height: 12px;
+                            background-color: $ui-grayscale-1;
+                            border-radius: 3px;
+
+                        }
+                    }
+
+                    input[type="checkbox"]:checked+label::after {
+                        content: "";
+                        position: absolute;
+                        top: 9px;
+                        left: -17px;
+                        width: 6px;
+                        height: 6px;
+                        background-color: $primary-green;
+                        border-radius: 2px;
+                    }
+                }
+            }
+
+            &:first-child {
+                margin-right: 2%;
+            }
+
+            .header {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 12px 10px;
+                padding-right: 35px;
+                background-color: $transparent;
+
+                @include media-breakpoint-up(xl) {
+                    min-width: 10rem;
+                }
+
+                @include media-breakpoint-up(xxl) {
+                    min-width: 12rem;
+                }
+            }
+
+            &:nth-child(2) {
+                .options {
+                    right: 0;
+                }
+            }
+        }
+
+    }
+}

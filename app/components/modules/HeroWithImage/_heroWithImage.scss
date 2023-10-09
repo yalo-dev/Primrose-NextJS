@@ -1,0 +1,62 @@
+.hero-with-image {
+    background-position: -200% -200%;
+    background-repeat: no-repeat;
+    background-color: $hero-bg;
+    border-radius: 30px;
+    margin: 1rem 0 30px;
+    display: flex;
+    flex-direction: column;
+    @include media-breakpoint-up(lg) {
+        margin: auto;
+        background-repeat: no-repeat;
+        background-position: 100% 100%;
+        flex-direction: row;
+        align-items: stretch;
+        margin: 20px 0;
+        &.reverse-column {
+            flex-direction: row-reverse;
+        }
+    }
+    @include media-breakpoint-up(xl) {
+        &.reverse-column {
+            .right-column {
+                padding: 110px 80px 110px 40px;
+            }
+        }
+    }
+    .left-column {
+        margin: 0;
+        position: relative;
+        min-height: 190px;
+        @include media-breakpoint-up(md) {
+            min-height: 369px;
+        }
+       
+        img {
+            border-radius: 0;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            @include media-breakpoint-up(lg) {
+                border-top-right-radius: 0;
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+            }
+        }
+    }
+    .right-column {
+        padding: 34px 20px;
+        @include media-breakpoint-up(xl) {
+            padding: 110px 40px 110px 80px;
+        } 
+        h1 {
+            margin-bottom: 1rem;
+        }
+        h5 {
+            margin-bottom: 1rem;
+        }
+        button {
+            margin-top: 30px;
+            width: auto;
+        }
+    }
+}

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
 import CategoryComponent from '../../app/components/modules/ResourceCategoryComponent/ResourceCategoryComponent';
 import TagComponent from '../../app/components/modules/ResourceTagComponent/ResourceTagComponent';
-import ResourceComponent from '../../app/components/modules/SingleResourceComponent/SingleResourceComponent';
+import ResourceComponent from '../../app/components/modules/ResourceSingleComponent/ResourceSingleComponent';
 
 const ResourceTypesAndTagsQuery = gql`
   query GetResourceTypesAndTags {

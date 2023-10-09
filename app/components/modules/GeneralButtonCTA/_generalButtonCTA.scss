@@ -1,0 +1,117 @@
+.general-button-cta {
+    position: relative;
+    background-color: $resource-newsletter-bg;
+    border-radius: 10px;
+    padding: 20px 40px 125px; 
+    overflow: hidden;
+    h2 {
+        margin-bottom: 1rem;
+    }
+    .b3 {
+        margin-bottom: 1rem;
+    }
+    button {
+        width: auto;
+        margin-top: 30px;
+    }
+    @include media-breakpoint-up(lg) {
+        border-radius: 30px;
+        padding: 40px; 
+        margin: 1rem 0;
+        .icon {
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        .wrapper {
+            max-width: 35rem;
+        }
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: -1rem;
+        right: -12rem;
+        background-image: url('/assets/accent2.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 20%;
+        background-size: contain;
+        width: 900px;
+        height: 125px;
+        @include media-breakpoint-up(lg) {
+            right: 10rem;
+        }
+    }
+    &::after {
+        content:"";
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-image: url('/assets/accent1.svg');
+        background-repeat: no-repeat;
+        background-position: top right;
+        background-size: 100%;
+        width: 120px;
+        height: 100px;
+        @include media-breakpoint-up(lg) {
+            width: 185px;
+            height: 150px;
+        }
+    }
+
+    &.Blue {
+        background-color: #006ba7;
+        color: $ui-grayscale-1;
+        &::before, &::after {
+            filter: opacity(0.3);
+        }
+        h2 {
+            color: $ui-grayscale-1;
+        }
+        button {
+            @extend .white;
+        }
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+    &.Green {
+        background-color: #5e6738;
+        color: $ui-grayscale-1;
+        &::before, &::after {
+            filter: opacity(0.3);
+        }
+        h2 {
+            color: $ui-grayscale-1;
+        }
+        button {
+            @extend .white;
+        }
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+    &.Purple {
+        background-color: #814c9e;
+        color: $ui-grayscale-1;
+        &::before, &::after {
+            filter: opacity(0.3);
+        }
+        h2 {
+            color: $ui-grayscale-1;
+        }
+        button {
+            @extend .white;
+        }
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}

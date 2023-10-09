@@ -20,7 +20,7 @@ const NewsletterForm = () => {
                         <div id='mc_embed_signup_scroll' className='d-flex w-100 position-relative justify-content-between'>
                             <div className='mc-field-group form-group pe-2'>
                                 <label htmlFor='mce-EMAIL' className='hidden'>Email Address <span className='asterisk'>*</span></label>
-                                <input  type='email' name='EMAIL' className='required email' placeholder='Enter Email Address' autoComplete='true' aria-label='email' required defaultValue='' />
+                                <input id='mce-EMAIL' type='email' name='EMAIL' className='required email' placeholder='Enter Email Address' autoComplete='true' aria-label='email' required defaultValue='' />
                             </div>
                             <div id='mce-responses' className='clear'>
                                 <div className='response' id='mce-error-response' style={{ display: 'none' }}></div>
