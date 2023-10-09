@@ -50,6 +50,10 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs }) => {
       setExpandedTab(index);
     }
   };
+
+  const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
+
+
   return (
     <div className="container">
       <div className="general-horizontal-tabs pt-4 pb-4">
@@ -102,11 +106,12 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs }) => {
           {expandedTab !== null && (
             <animated.div style={fadeInAnimationProps} className="tab-content d-flex">
 
-              {tabs[expandedTab].content.image?.sourceUrl && (
-                <div className='image-wrapper'>
-                  <Image src={tabs[expandedTab].content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
-                </div>
-              )}
+              {currentTab && currentTab.content?.image?.sourceUrl && (
+                  <div className='image-wrapper'>
+                    <Image src={currentTab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+                  </div>
+                )}
+
               <div className='content-wrapper'>
                 {tabs[expandedTab].content.heading && <Heading level='h3'>{tabs[expandedTab].content.heading}</Heading>}
                 {tabs[expandedTab].content.subheading && <Subheading level='div' className='b3'>{tabs[expandedTab].content.subheading}</Subheading>}
