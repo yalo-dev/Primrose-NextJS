@@ -207,19 +207,20 @@ query GetModules($id: ID = "") {
 `;
 
 const HomePage = () => {
-  const { loading, error, data } = useQuery(GET_MODULES, {
-    variables: { id: 'home' },  
-    client,
-  });
+	const { loading, error, data } = useQuery(GET_MODULES, {
+		variables: { id: 'home' },
+		client,
+	});
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  console.log('Fetched Data:', data);
-  console.log('Modules:', data.page.modules.modules);
+	if (loading) return <p>Loading...</p>;
+	if (error) return <p>Error: {error.message}</p>;
 
-  const modules = data?.page?.modules?.modules || [];
+	console.log('Fetched Data:', data);
+	console.log('Modules:', data.page.modules.modules);
 
-  return <CommonPageComponent modules={modules} />;
+	const modules = data?.page?.modules?.modules || [];
+
+	return <CommonPageComponent modules={modules} />;
 };
 
 export default HomePage;

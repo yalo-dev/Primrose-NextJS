@@ -178,6 +178,7 @@
     .social {
         a {
             margin: 5px;
+            font-size: 0;
             @include transitionAll; 
             &:hover {
                 transform: scale(1.1);

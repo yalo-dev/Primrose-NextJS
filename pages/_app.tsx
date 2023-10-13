@@ -7,111 +7,108 @@ import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
 
 function MyApp({ Component, pageProps }) {
-  
-  const [headerMenuItems, setHeaderMenuItems] = useState([]);
-  const [footerMenuItems, setFooterMenuItems] = useState([]);
-  const [siteSettings, setSiteSettings] = useState(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('bootstrap/dist/js/bootstrap.bundle.min.js');
-    }
-    
-    if (process.env.NODE_ENV === 'development') {
-      (window as any).resetApolloCache = () => {
-        client.resetStore();
-        console.log('Apollo cache reset.');
-      };
-    }
+	const [headerMenuItems, setHeaderMenuItems] = useState([]);
+	const [footerMenuItems, setFooterMenuItems] = useState([]);
+	const [siteSettings, setSiteSettings] = useState(null);
 
-    const fetchMenuItems = async () => {
-      // header menu query
-      const HEADER_MENU_QUERY = gql`
-        query HeaderMenu {
-          menu(id: "4", idType: DATABASE_ID) {
-            menuItems {
-              nodes {
-                url
-                label
-              }
-            }
-          }
-        }
-      `;
+	useEffect(() => {
 
-      // footer menu query
-      const FOOTER_MENU_QUERY = gql`
-        query FooterMenu {
-          menu(id: "2", idType: DATABASE_ID) {
-            menuItems {
-              nodes {
-                url
-                label
-              }
-            }
-          }
-        }
-      `;
+		if (process.env.NODE_ENV === 'development') {
+			(window as any).resetApolloCache = () => {
+				client.resetStore();
+				console.log('Apollo cache reset.');
+			};
+		}
 
-      // site settings query
-      const SITE_SETTINGS_QUERY = gql`
-        query SiteSettings {
-          siteSettings {
-            siteSettings {
-              copyrightInfo
-              footerLinks {
-                link {
-                  url
-                  title
-                  target
-                }
-              }
-              logoFooter {
-                sourceUrl
-                altText
-              }
-              socialIcons {
-                icon {
-                  sourceUrl
-                  altText
-                }
-              }
-            }
-          }
-        }
-      `;
+		const fetchMenuItems = async () => {
+			// header menu query
+			const HEADER_MENU_QUERY = gql`
+				query HeaderMenu {
+				menu(id: "4", idType: DATABASE_ID) {
+					menuItems {
+					nodes {
+						url
+						label
+					}
+					}
+				}
+				}
+			`;
 
-      const { data: headerData } = await client.query({
-        query: HEADER_MENU_QUERY,
-      });
+			// footer menu query
+			const FOOTER_MENU_QUERY = gql`
+				query FooterMenu {
+				menu(id: "2", idType: DATABASE_ID) {
+					menuItems {
+					nodes {
+						url
+						label
+					}
+					}
+				}
+				}
+			`;
 
-      const { data: footerData } = await client.query({
-        query: FOOTER_MENU_QUERY,
-      });
+			// site settings query
+			const SITE_SETTINGS_QUERY = gql`
+				query SiteSettings {
+				siteSettings {
+					siteSettings {
+					copyrightInfo
+					footerLinks {
+						link {
+						url
+						title
+						target
+						}
+					}
+					logoFooter {
+						sourceUrl
+						altText
+					}
+					socialIcons {
+						icon {
+						sourceUrl
+						altText
+						}
+					}
+					}
+				}
+				}
+			`;
 
-      const { data: siteSettingsData } = await client.query({
-        query: SITE_SETTINGS_QUERY,
-      });
+			const { data: headerData } = await client.query({
+				query: HEADER_MENU_QUERY,
+			});
 
-      setHeaderMenuItems(headerData.menu.menuItems.nodes);
-      setFooterMenuItems(footerData.menu.menuItems.nodes);
-      setSiteSettings(siteSettingsData.siteSettings.siteSettings);
-    };
+			const { data: footerData } = await client.query({
+				query: FOOTER_MENU_QUERY,
+			});
 
-    fetchMenuItems();
-  }, []);
+			const { data: siteSettingsData } = await client.query({
+				query: SITE_SETTINGS_QUERY,
+			});
 
-  return (
-    <ApolloProvider client={client}>
-      <Layout 
-        menuItems={headerMenuItems} 
-        footerMenuItems={footerMenuItems} 
-        siteSettings={siteSettings}
-      >
-        <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
-  );
+			setHeaderMenuItems(headerData.menu.menuItems.nodes);
+			setFooterMenuItems(footerData.menu.menuItems.nodes);
+			setSiteSettings(siteSettingsData.siteSettings.siteSettings);
+		};
+
+		fetchMenuItems();
+	}, []);
+
+	return (
+		<ApolloProvider client={client}>
+			<Layout
+				menuItems={headerMenuItems}
+				footerMenuItems={footerMenuItems}
+				siteSettings={siteSettings}
+			>
+				<Component {...pageProps} />
+			</Layout>
+		</ApolloProvider>
+	);
 }
 
 export default MyApp;

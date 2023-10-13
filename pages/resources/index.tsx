@@ -1,15 +1,15 @@
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
+import React, { useEffect, useState, useRef } from 'react';
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
-import React, { useEffect, useState, useRef } from 'react';
 import Heading from '../../app/components/atoms/Heading/Heading';
 import Button from '../../app/components/atoms/Button/Button';
+import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 
 export async function getServerSideProps() {
     try {
-        const resourceQuery = gql`
+        const RESOURCES_QUERY = gql`
         query GetResources {
             resources(first: 500) {
                 nodes {
@@ -41,7 +41,7 @@ export async function getServerSideProps() {
             }
         }`;
 
-        const filterTermsQuery = gql`
+        const FILTER_TERMS_QUERY = gql`
         query GetFilterTerms {
             resourceTags(first: 500) {
                 nodes {
@@ -58,8 +58,8 @@ export async function getServerSideProps() {
         }`;
 
         const [resourceData, filterTermsData] = await Promise.all([
-            client.query({ query: resourceQuery }),
-            client.query({ query: filterTermsQuery })
+            client.query({ query: RESOURCES_QUERY }),
+            client.query({ query: FILTER_TERMS_QUERY })
         ]);
 
         return {
@@ -78,7 +78,7 @@ export async function getServerSideProps() {
 }
 
 export default function ResourcesList({ resources, filterTerms }) {
-    
+
     // featured section sorted by publication date
     const featuredResources = resources.filter(resource => {
         return resource?.resourceTags?.nodes?.some(tag => tag.slug === "featured");
@@ -108,22 +108,22 @@ export default function ResourcesList({ resources, filterTerms }) {
         filteredResources,
         SearchAndFilterUI,
     } = ResourceFilter(resources, filterTerms);
-    
+
     useEffect(() => {
         setCurrentPage(1);
     }, [filteredResources]);
 
     const renderTitle = (
-        title: string, 
+        title: string,
         linkTo: string = ""
-        ): React.ReactNode => {
+    ): React.ReactNode => {
 
-            let adjustedTitle = title;
-            if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
-            if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
-            if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All News");
-    
-            
+        let adjustedTitle = title;
+        if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
+        if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
+        if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All News");
+
+
         return (
             <div className='title-container'>
                 <Heading level='h2' className='title'>{title}</Heading>
@@ -135,53 +135,50 @@ export default function ResourcesList({ resources, filterTerms }) {
             </div>
         );
     };
-    
 
     const renderResourceItems = (
-        resourceList: any[], 
-        showFeaturedImage: boolean = true, 
+        resourceList: any[],
+        showFeaturedImage: boolean = true,
         classNames: string[] = [],
         showExcerptIfNoImage: boolean = false
-        ): React.ReactNode => {
-            if (!resourceList || resourceList.length === 0) {
-                return null;    
-            }
-            return (
-                <div className='gap d-flex flex-wrap'>
-                    {resourceList.map((resource, index) => {
-                        const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
-                        const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
-                        const shouldAddNewsroomClass = isNewsroom && !isFeatured;
-                        const className = classNames[index] || classNames[classNames.length - 1];
-        
-                        return (
-                            <ResourceCard
-                                key={`${resource.title}-${index}`}
-                                resource={resource}
-                                showFeaturedImage={showFeaturedImage}
-                                className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
-                                showExcerptIfNoImage={showExcerptIfNoImage}
-                            />
-                        );
-                    })}
-                </div>
-            );
-    };
+    ): React.ReactNode => {
+        if (!resourceList || resourceList.length === 0) {
+            return null;
+        }
+        return (
+            <div className='gap d-flex flex-wrap'>
+                {resourceList.map((resource, index) => {
+                    const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
+                    const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
+                    const shouldAddNewsroomClass = isNewsroom && !isFeatured;
+                    const className = classNames[index] || classNames[classNames.length - 1];
 
+                    return (
+                        <ResourceCard
+                            key={`${resource.title}-${index}`}
+                            resource={resource}
+                            showFeaturedImage={showFeaturedImage}
+                            className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
+                            showExcerptIfNoImage={showExcerptIfNoImage}
+                        />
+                    );
+                })}
+            </div>
+        );
+    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const resourcesPerPage = 9;
     const indexOfLastResource = currentPage * resourcesPerPage;
     const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
     const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource);
-    
     const totalPages = Math.ceil(filteredResources.length / resourcesPerPage);
     const allResourcesRef = useRef<HTMLDivElement>(null);
 
     const scrollToAllResources = () => {
         allResourcesRef.current?.scrollIntoView({ behavior: "smooth" });
     };
-    
+
     const handlePageClick = (pageNumber: number) => {
         setCurrentPage(pageNumber);
         if (allResourcesRef.current) {
@@ -192,34 +189,34 @@ export default function ResourcesList({ resources, filterTerms }) {
     const Pagination = () => {
         return (
             <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
-                <Button 
+                <Button
                     className='prev'
                     disabled={currentPage <= 1}
                     onClick={() => {
                         setCurrentPage(prev => prev - 1);
                         scrollToAllResources();
-                    } } label={''}                >
+                    }} label={''}                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M5.67652 0.206047C6.05792 0.520326 6.10946 1.08083 5.79162 1.45796L1.79788 6.19685L5.7662 10.5132C6.10016 10.8764 6.07309 11.4386 5.70573 11.7688C5.33837 12.0991 4.76984 12.0723 4.43587 11.709L0.467559 7.39271C-0.135971 6.73625 -0.157669 5.74029 0.416712 5.05875L4.41045 0.319858C4.72828 -0.0572766 5.29513 -0.108231 5.67652 0.206047Z" fill="#555F68"/>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M5.67652 0.206047C6.05792 0.520326 6.10946 1.08083 5.79162 1.45796L1.79788 6.19685L5.7662 10.5132C6.10016 10.8764 6.07309 11.4386 5.70573 11.7688C5.33837 12.0991 4.76984 12.0723 4.43587 11.709L0.467559 7.39271C-0.135971 6.73625 -0.157669 5.74029 0.416712 5.05875L4.41045 0.319858C4.72828 -0.0572766 5.29513 -0.108231 5.67652 0.206047Z" fill="#555F68" />
                     </svg>
                 </Button>
                 {[...Array(totalPages).keys()].map(num => (
-                 <Button 
-                        key={num} 
+                    <Button
+                        key={num}
                         className={num + 1 === currentPage ? 'active' : 'non'}
                         onClick={() => handlePageClick(num + 1)}
                         label={`${num + 1}`}
                     />
                 ))}
-               <Button 
+                <Button
                     className='next'
                     disabled={currentPage >= totalPages}
                     onClick={() => {
                         setCurrentPage(prev => prev + 1);
                         scrollToAllResources();
-                    } } label={''}                >
+                    }} label={''}                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 0.206047C-0.0579243 0.520326 -0.109455 1.08083 0.208378 1.45796L4.20212 6.19685L0.233801 10.5132C-0.100161 10.8764 -0.0730881 11.4386 0.294271 11.7688C0.66163 12.0991 1.23016 12.0723 1.56413 11.709L5.53244 7.39271C6.13597 6.73625 6.15767 5.74029 5.58329 5.05875L1.58955 0.319858C1.27172 -0.0572766 0.704875 -0.108231 0.323475 0.206047Z" fill="#555F68"/>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 0.206047C-0.0579243 0.520326 -0.109455 1.08083 0.208378 1.45796L4.20212 6.19685L0.233801 10.5132C-0.100161 10.8764 -0.0730881 11.4386 0.294271 11.7688C0.66163 12.0991 1.23016 12.0723 1.56413 11.709L5.53244 7.39271C6.13597 6.73625 6.15767 5.74029 5.58329 5.05875L1.58955 0.319858C1.27172 -0.0572766 0.704875 -0.108231 0.323475 0.206047Z" fill="#555F68" />
                     </svg>
                 </Button>
             </div>
@@ -235,34 +232,34 @@ export default function ResourcesList({ resources, filterTerms }) {
                 });
                 return; // Exit the function early
             }
-    
-            const cards = document.querySelectorAll('#all .card'); 
+
+            const cards = document.querySelectorAll('#all .card');
             let maxHeight = 0;
-    
+
             // Find the tallest card
             cards.forEach((card: any) => {
                 if (card.offsetHeight > maxHeight) {
                     maxHeight = card.offsetHeight;
                 }
             });
-    
+
             // Set all cards to that height
             cards.forEach((card: any) => {
                 card.style.height = `${maxHeight}px`;
             });
         };
-    
+
         adjustCardHeights();
-    
+
         // Run adjustCardHeights again if the window is resized
         window.addEventListener('resize', adjustCardHeights);
-    
+
         // Cleanup the event listener on component unmount
         return () => {
             window.removeEventListener('resize', adjustCardHeights);
         };
     }, []);
-    
+
 
     return (
         <>
@@ -270,9 +267,9 @@ export default function ResourcesList({ resources, filterTerms }) {
                 <div className='resources-container'>
                     {renderResourceItems(firstFiveFeaturedResources, true, ['featured large', 'featured medium'])}
                 </div>
-                <div className='resources-container'> 
-                    {renderTitle("For Families", "/resources/families" )} 
-                {renderResourceItems(familiesResources, true, ['families medium'])}
+                <div className='resources-container'>
+                    {renderTitle("For Families", "/resources/families")}
+                    {renderResourceItems(familiesResources, true, ['families medium'])}
                 </div>
                 <div className='resources-container'>
                     {renderTitle("For Educators", "/resources/educators")}
