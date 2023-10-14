@@ -85,12 +85,19 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs }) => {
                       {tab.content.heading && <Heading level='h2' className='d-none d-lg-block'>{tab.content.heading}</Heading>}
                       {tab.content.subheading && <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>}
                       <ul>
-                        {tab.content.list?.map((item, idx) => (
-                          <li key={idx}>
-                            <Image src={item.icon.sourceUrl} alt="List Icon" width={30} height={30} />
-                            {item.text}
-                          </li>
-                        ))}
+                      {tab.content.list?.map((item, idx) => (
+                        <li key={idx}>
+                          {item.icon?.sourceUrl && (
+                            <Image 
+                              src={item.icon.sourceUrl} 
+                              alt="List Icon" 
+                              width={30} 
+                              height={30} 
+                            />
+                          )}
+                          <span className='ps-4'>{item.text}</span>
+                        </li>
+                      ))}
                       </ul>
                     </div>
                   </animated.div>
@@ -116,12 +123,19 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs }) => {
                 {tabs[expandedTab].content.heading && <Heading level='h3'>{tabs[expandedTab].content.heading}</Heading>}
                 {tabs[expandedTab].content.subheading && <Subheading level='div' className='b3'>{tabs[expandedTab].content.subheading}</Subheading>}
                 <ul>
-                  {tabs[expandedTab].content.list?.map((item, idx) => (
-                    <li key={idx}>
-                      <Image src={item.icon.sourceUrl} alt="List Icon" width={30} height={30} />
-                      {item.text}
-                    </li>
-                  ))}
+                {tabs[expandedTab].content.list?.map((item, idx) => (
+                  <li key={idx}>
+                    {item.icon?.sourceUrl && (
+                      <Image 
+                        src={item.icon.sourceUrl} 
+                        alt="List Icon" 
+                        width={30} 
+                        height={30} 
+                      />
+                    )}
+                    <span className='ps-4'>{item.text}</span>
+                  </li>
+                ))}
                 </ul>
               </div>
             </animated.div>

@@ -1,8 +1,5 @@
 .resources-container {
     margin-top: 20px;
-    // @include media-breakpoint-up(lg) {
-    //     margin-top: 40px;
-    // }
     .title-and-search-container {
         @include media-breakpoint-up(lg) {
             display: flex;

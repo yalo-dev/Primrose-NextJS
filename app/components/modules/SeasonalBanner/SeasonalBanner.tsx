@@ -33,7 +33,7 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ seasonalHeading, season
                     <div className='col-12 col-lg-6 bottom'>
                         {seasonalHeading && <Heading level='h3'>{seasonalHeading}</Heading>}
                         {seasonalSubheading && <Paragraph className='b3'>{seasonalSubheading}</Paragraph>}
-                        {seasonalButton && seasonalButton.title && seasonalButton.url && (
+                        {seasonalButton?.title && seasonalButton.url && (
                             <Button
                                 variant="primary"
                                 label={seasonalButton.title}

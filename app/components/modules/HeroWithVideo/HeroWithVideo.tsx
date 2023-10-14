@@ -4,7 +4,6 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
 
-
 interface HeroWithVideoProps {
     accent?: {
         sourceUrl?: string;
@@ -52,17 +51,19 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
                         {leftColumn.button.title}
                     </Button>}
                 </div>
-                <div className='right-column responsive-video col-12 col-lg-6'>
-                    {rightColumn.video?.url && <video ref={videoRef} src={rightColumn.video.url} onClick={() => setIsPlaying(true)} />}
-                    {!isPlaying && (
-                        <div className='play-button' onClick={handlePlay}>
-                            <svg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                <circle cx='15.5229' cy='15.5229' r='15.5229' fill='white' />
-                                <path fillRule='evenodd' clipRule='evenodd' d='M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z' fill='#373A36' />
-                            </svg>
-                        </div>
-                    )}
-                </div>  
+                {rightColumn.video?.url && (
+                    <div className='right-column responsive-video col-12 col-lg-6'>
+                        <video ref={videoRef} src={rightColumn.video.url} onClick={() => setIsPlaying(true)} />
+                        {!isPlaying && (
+                            <div className='play-button' onClick={handlePlay}>
+                                <svg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <circle cx='15.5229' cy='15.5229' r='15.5229' fill='white' />
+                                    <path fillRule='evenodd' clipRule='evenodd' d='M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z' fill='#373A36' />
+                                </svg>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

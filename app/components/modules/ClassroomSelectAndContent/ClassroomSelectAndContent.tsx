@@ -37,17 +37,18 @@ const ClassroomSelectAndContent: React.FC<ClassroomSelectAndContentProps> = ({ l
                             {leftColumn.button.title}
                         </Button>
                     )}
-                     {leftColumn.image?.sourceUrl && (
+                    {leftColumn.image?.sourceUrl && (
                         <img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
                     )}
                 </div>
                 <div className="right-column col-12 col-lg-5">
                     {rightColumn.heading && <h2 className='green'>{rightColumn.heading}</h2>}
                     {rightColumn.subheading && <p className='b3'>{rightColumn.subheading}</p>}
-                    <SelectDropdown options={dummyOptions} />
+                    {(dummyOptions && dummyOptions.length > 0) && (
+                        <SelectDropdown options={dummyOptions} />
+                    )}
                     <div className='accent'></div>
                 </div>
-               
             </div>
         </div>
     );

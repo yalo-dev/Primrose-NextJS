@@ -4,7 +4,7 @@ import { client } from '../app/lib/apollo';
 import gql from 'graphql-tag';
 
 
-const GET_MODULES = gql`
+const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
   page(id: $id, idType: URI) {
     modules {
@@ -207,7 +207,7 @@ query GetModules($id: ID = "") {
 `;
 
 const HomePage = () => {
-	const { loading, error, data } = useQuery(GET_MODULES, {
+	const { loading, error, data } = useQuery(MODULES_QUERY, {
 		variables: { id: 'home' },
 		client,
 	});

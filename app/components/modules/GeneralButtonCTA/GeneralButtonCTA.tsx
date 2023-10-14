@@ -15,7 +15,7 @@ interface GeneralButtonCTAProps {
   icon?: {
     sourceUrl?: string;
   };
-  variation?: 'default' | 'blue' | 'purple' | 'green';
+  variation?: 'default' | 'blue' | 'violet' | 'green';
 }
 
 const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ heading, subheading, button, icon, variation = 'default' }) => {
@@ -23,22 +23,24 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ heading, subheading
 
   return (
     <div className='container'>
-        <div className={className}>
-        {icon?.sourceUrl && (
-            <div className='icon pb-4 pb-lg-0 pe-lg-4'>
-                <Image src={icon.sourceUrl} alt="Icon" width={75} height={75} />
+        { (heading || subheading || (button?.url) || icon?.sourceUrl) && (
+            <div className={className}>
+            {icon?.sourceUrl && (
+                <div className='icon pb-4 pb-lg-0 pe-lg-4'>
+                    <Image src={icon.sourceUrl} alt="Icon" width={75} height={75} />
+                </div>
+            )}
+                <div className='wrapper'>
+                    {heading && <Heading level='h2'>{heading}</Heading>}
+                    {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
+                    {button?.url && (
+                        <Button href={button.url} target={button.target} label={button.title}>
+                        {button.title}
+                        </Button>
+                    )}
+                </div>
             </div>
         )}
-            <div className='wrapper'>
-                {heading && <Heading level='h2'>{heading}</Heading>}
-                {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
-                {button?.url && (
-                    <Button href={button.url} target={button.target} label={button.title}>
-                    {button.title}
-                    </Button>
-                )}
-            </div>
-        </div>
     </div>
   );
 }

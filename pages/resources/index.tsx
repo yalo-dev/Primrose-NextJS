@@ -226,24 +226,21 @@ export default function ResourcesList({ resources, filterTerms }) {
     useEffect(() => {
         const adjustCardHeights = () => {
             if (window.innerWidth < 1200) {
-                // Reset any heights you've set previously
                 document.querySelectorAll('#all .card').forEach((card: any) => {
                     card.style.height = 'auto';
                 });
-                return; // Exit the function early
+                return; 
             }
 
             const cards = document.querySelectorAll('#all .card');
             let maxHeight = 0;
 
-            // Find the tallest card
             cards.forEach((card: any) => {
                 if (card.offsetHeight > maxHeight) {
                     maxHeight = card.offsetHeight;
                 }
             });
 
-            // Set all cards to that height
             cards.forEach((card: any) => {
                 card.style.height = `${maxHeight}px`;
             });
@@ -251,10 +248,8 @@ export default function ResourcesList({ resources, filterTerms }) {
 
         adjustCardHeights();
 
-        // Run adjustCardHeights again if the window is resized
         window.addEventListener('resize', adjustCardHeights);
 
-        // Cleanup the event listener on component unmount
         return () => {
             window.removeEventListener('resize', adjustCardHeights);
         };

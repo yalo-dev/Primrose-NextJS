@@ -41,16 +41,17 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
                     className={`question b4 m-0 pt-5 pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
                     onClick={() => handleQuestionClick(index)}
                   >
-                    {accordion.question}
+                    {accordion.question && accordion.question}
                     <button id="button">
                       <span></span>
                       <span></span>
                     </button>
                   </p>
-                  {/* Animated answer */}
-                  <animated.div style={fadeIn}>
-                    <p className='answer b3 m-0 pt-5'>{accordion.answer}</p>
-                  </animated.div>
+                  {accordion.answer && (
+                    <animated.div style={fadeIn}>
+                      <p className='answer b3 m-0 pt-5'>{accordion.answer}</p>
+                    </animated.div>
+                  )}
                 </div>
               );
             })}

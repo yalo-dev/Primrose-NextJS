@@ -3,38 +3,39 @@ import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
 
 interface ClassroomSelectAndImageProps {
   leftColumn: {
-    image: {
-      sourceUrl: string;
+    image?: {
+      sourceUrl?: string;
     };
   };
   rightColumn: {
-    heading: string;
-    subheading: string;
+    heading?: string;
+    subheading?: string;
   };
 }
 
-const dummyOptions = ['Option 1', 'Option 2', 'Option 3'];
-
 const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ leftColumn, rightColumn }) => {
-  const dummyOptions = ['Choose a Classroom', 'Classroom 2', 'Classroom 3']; 
+  const dummyOptions = ['Choose a Classroom', 'Classroom 2', 'Classroom 3'];
 
   return (
     <div className="container">
-        <div className="classroom-select-and-image">
-        <div className="left-column col-12 col-lg-6">
+      <div className="classroom-select-and-image">
+        {leftColumn.image?.sourceUrl && (
+          <div className="left-column col-12 col-lg-6">
             <img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
-        </div>
-        <div className="right-column col-12 col-lg-6">
-            <h2 className='green'>{rightColumn.heading}</h2>
-            <p className='b3'>{rightColumn.subheading}</p>
+          </div>
+        )}
 
-                <SelectDropdown options={dummyOptions} />
+        {(rightColumn.heading || rightColumn.subheading) && (
+          <div className="right-column col-12 col-lg-6">
+            {rightColumn.heading && <h2 className='green'>{rightColumn.heading}</h2>}
+            {rightColumn.subheading && <p className='b3'>{rightColumn.subheading}</p>}
 
-            
-        </div>
+            {(dummyOptions && dummyOptions.length > 0) && <SelectDropdown options={dummyOptions} />}
+          </div>
+        )}
         <div className='accent'></div>
-        </div>
-     </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { useSpring, animated } from 'react-spring';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -9,7 +8,7 @@ interface FindASchoolProps {
     subheading?: string;
     images?: {
         image: {
-            sourceUrl: string;
+            sourceUrl?: string;
         };
     }[];
     button?: {
@@ -60,32 +59,34 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, subheading, images, 
                     {heading && <Heading level='h2'>{heading}</Heading>}
                     {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
 
-                    {button && button.url && button.title &&
+                    {button?.url && button.title && (
                         <Button variant='white' href={button.url} target={button.target || '_self'}>
                             {button.title}
                         </Button>
-                    }
+                    )}
                 </div>
                 <div className='right-column col-4 col-lg-5 col-xxl-6'>
-                {images && images.length > 0 && <>
-                <div className="image-scroller first" ref={leftScrollerRef}>
-                    {images.map((imgObj, idx) => (
-                        imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                    ))}
-                    {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                        imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                    ))}
+                {images && images.length > 0 && (
+                    <>
+                    <div className="image-scroller first" ref={leftScrollerRef}>
+                        {images.map((imgObj, idx) => (
+                                    imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                        ))}
+                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
+                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                        ))}
+                    </div>
+                    <div className="image-scroller second" ref={rightScrollerRef}>
+                        {images.map((imgObj, idx) => (
+                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                        ))}
+                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
+                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                        ))}
+                    </div>
+                    </>
+                )}
                 </div>
-                <div className="image-scroller second" ref={rightScrollerRef}>
-                    {images.map((imgObj, idx) => (
-                        imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                    ))}
-                    {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                        imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                    ))}
-                </div>
-            </>}
-        </div>
             </div>
         </div>
     );

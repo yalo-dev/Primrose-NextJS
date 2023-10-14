@@ -31,7 +31,7 @@ const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftC
                     {leftColumn?.heading && <Heading level='h2'>{leftColumn.heading}</Heading>}
                     {leftColumn?.subheading && <Subheading level='h5'>{leftColumn.subheading}</Subheading>}
                     {leftColumn?.blurb && <Paragraph className='b3'>{leftColumn.blurb}</Paragraph>}
-                    {leftColumn?.button?.url && (
+                    {leftColumn?.button?.url && leftColumn?.button?.title && (
                         <Button href={leftColumn.button.url} target={leftColumn.button.target} label={leftColumn.button.title}>
                             {leftColumn.button.title}
                         </Button>

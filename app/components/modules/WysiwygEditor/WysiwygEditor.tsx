@@ -1,13 +1,13 @@
 import React from 'react';
 
 interface WysiwygEditorProps {
-    editor: string;
+    editor?: string; // Made it optional
 }
 
 const WysiwygEditor: React.FC<WysiwygEditorProps> = ({ editor }) => {
     return (
         <div className='container pt-5 pb-5'>
-            <div dangerouslySetInnerHTML={{ __html: editor }} />
+            {editor && <div dangerouslySetInnerHTML={{ __html: editor }} />} 
         </div>
     );
 }

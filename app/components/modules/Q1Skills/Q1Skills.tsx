@@ -20,7 +20,6 @@ interface Q1SkillsProps {
     list: ListItemProps[];
 }
 
-
 const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list }) => {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -45,9 +44,9 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list 
     return (
         <div className="container" ref={containerRef}>
             <div className="q1skills">
-            {eyebrow && <h5>{eyebrow}</h5>}
-            {heading && <Heading level='h3'>{heading}</Heading>}
-            {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
+                {eyebrow && <h5>{eyebrow}</h5>}
+                {heading && <Heading level='h3'>{heading}</Heading>}
+                {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
                 <ul>
                     {list.map((item, idx) => (
                         <li key={idx}>
@@ -58,17 +57,19 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list 
                                 >
                                     {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.title || 'Icon'} />}
                                 </button>
-                                <div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>
-                                    <div className="title-container">
-                                        {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
-                                        {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
+                                {activePopup === idx && (
+                                    <div className="details-popup">
+                                        <div className="title-container">
+                                            {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
+                                            {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
+                                        </div>
+                                        {item.detailsPopUp && <div className="details-container">{item.detailsPopUp}</div>}
                                     </div>
-                                    <div className="details-container">{item.detailsPopUp}</div>
-                                </div>
+                                )}
                             </div>
                             <div className="title-container">
-                                <Subheading level='div' className='title'>{item.title}</Subheading>
-                                <Subheading level='div' className='desc'>{item.description}</Subheading>
+                                {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
+                                {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
                             </div>
                         </li>
                     ))}
@@ -78,7 +79,4 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list 
     );
 };
 
-
 export default Q1Skills;
-
-

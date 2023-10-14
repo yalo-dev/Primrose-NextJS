@@ -39,22 +39,21 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                         <Image src={leftColumn.image.sourceUrl} alt="Hero Image" layout="fill" objectFit="cover" sizes='large' />
                     </div>
                 )}
-                <div className='right-column col-12 col-lg-6'>
-                    {rightColumn?.heading && <Heading level='h1' className='green'>{rightColumn.heading}</Heading>}
-                    {rightColumn?.subheading && <Subheading level='h5' className='green'>{rightColumn.subheading}</Subheading>}
-                    {rightColumn?.blurb && <Paragraph className='b2'>{rightColumn.blurb}</Paragraph>}
-                    {rightColumn?.button?.url && (
-                        <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
-                            {rightColumn.button.title}
-                        </Button>
-                    )}
-                </div>
+                { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
+                    <div className='right-column col-12 col-lg-6'>
+                        {rightColumn?.heading && <Heading level='h1' className='green'>{rightColumn.heading}</Heading>}
+                        {rightColumn?.subheading && <Subheading level='h5' className='green'>{rightColumn.subheading}</Subheading>}
+                        {rightColumn?.blurb && <Paragraph className='b2'>{rightColumn.blurb}</Paragraph>}
+                        {rightColumn?.button?.url && (
+                            <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
+                                {rightColumn.button.title}
+                            </Button>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
 export default HeroWithImage;
-
-
-

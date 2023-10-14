@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { client } from '../app/lib/apollo';
 import gql from 'graphql-tag';
 
-const GET_MODULES = gql`
+const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {
 	  modules {
@@ -205,22 +205,30 @@ query GetModules($id: ID = "") {
 	}
   }
 `;
-
 const DynamicPage = () => {
 	const router = useRouter();
 	const { pageId } = router.query;
-
-	const { loading, error, data } = useQuery(GET_MODULES, {
-		variables: { id: String(pageId) },
-		client,
+  
+	let id: string | null = null;
+	if (Array.isArray(pageId)) {
+	  id = pageId.join('/');
+	} else if (pageId) {
+	  id = pageId;
+	}
+  
+	const { loading, error, data } = useQuery(MODULES_QUERY, {
+	  variables: { id },
+	  client,
+	  skip: !id, 
 	});
-
-	if (loading) return <p>Loading...</p>;
+  
+	if (loading || !id) return <p>Loading...</p>;
 	if (error) return <p>Error: {error.message}</p>;
-
+  
 	const modules = data?.page?.modules?.modules || [];
-
 	return <CommonPageComponent modules={modules} />;
-};
+  };
+  
+
 
 export default DynamicPage;
