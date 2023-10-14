@@ -19,7 +19,7 @@ export default function Header({ menuItems }) {
                             <Image
                                 src='/assets/logo.svg'
                                 alt='Description'
-                                width={275}
+                                width={250}
                                 height={75}
                                 className='d-inline-block align-text-top navbar-logo'
                                 priority={true}
