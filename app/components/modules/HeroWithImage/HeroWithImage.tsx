@@ -49,7 +49,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+		   colorLabel={customizations?.backgroundColor} 
 	   >
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (

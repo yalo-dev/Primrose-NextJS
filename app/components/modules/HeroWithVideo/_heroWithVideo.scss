@@ -37,6 +37,9 @@
         h5 {
             margin-bottom: 1rem;
         }
+        p, p span {
+            @extend .b3;
+        }
         button {
             margin-top: 30px;
             width: auto;

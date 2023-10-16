@@ -9,6 +9,7 @@
         margin: auto;
         flex-direction: row;
         align-items: stretch;
+        min-height: 590px;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -57,6 +58,9 @@
         }
         h5 {
             margin-bottom: 1rem;
+        }
+        p, p span {
+            @extend .b3;
         }
         button {
             margin-top: 30px;

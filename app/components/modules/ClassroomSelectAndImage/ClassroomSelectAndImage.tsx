@@ -94,7 +94,6 @@ const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ accen
             topPaddingDesktop={customizations?.topPaddingDesktop}
             bottomPaddingMobile={customizations?.bottomPaddingMobile}
             bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            // colorLabel={customizations?.backgroundColorRight} // Pass the colorLabel here
         >
                 <div className="classroom-select-and-image">
                     {leftColumn.image?.sourceUrl && (

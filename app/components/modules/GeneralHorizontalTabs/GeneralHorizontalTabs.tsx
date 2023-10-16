@@ -72,7 +72,6 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		//    colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
 	   >
 			<div className="general-horizontal-tabs">
 				<div className="inner">

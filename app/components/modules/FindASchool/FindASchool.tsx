@@ -71,7 +71,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
             topPaddingDesktop={customizations?.topPaddingDesktop}
             bottomPaddingMobile={customizations?.bottomPaddingMobile}
             bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+            colorLabel={customizations?.backgroundColor} 
         >
             <div className='find-a-school'>
                 <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
