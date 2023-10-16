@@ -57,7 +57,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 <div className='right-column col-12 col-lg-6'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
-                    {rightColumn?.blurb && <div dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
+                    {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
                     {rightColumn?.button?.url && rightColumn?.button?.title && (
                         <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
                             {rightColumn.button.title}
