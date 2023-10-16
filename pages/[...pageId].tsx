@@ -69,6 +69,8 @@ query GetModules($id: ID = "") {
 			  dropdown {
 				option {
 				  target
+				  title
+				  url
 				}
 			  }
 			}
