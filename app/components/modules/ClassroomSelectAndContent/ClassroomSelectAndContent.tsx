@@ -100,12 +100,13 @@ const ClassroomSelectAndContent: React.FC<ClassroomSelectAndContentProps> = ({ a
         
     return (
         <div className="container">
-             <Customizations 
-                topPaddingMobile={customizations?.topPaddingMobile}
-                topPaddingDesktop={customizations?.topPaddingDesktop}
-                bottomPaddingMobile={customizations?.bottomPaddingMobile}
-                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            >
+         <Customizations
+            topPaddingMobile={customizations?.topPaddingMobile}
+            topPaddingDesktop={customizations?.topPaddingDesktop}
+            bottomPaddingMobile={customizations?.bottomPaddingMobile}
+            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+            // colorLabel={customizations?.backgroundColorRight} // Pass the colorLabel here
+        >
             <div className="classroom-select-and-content">
                 <div className="left-column col-12 col-lg-7" style={{ backgroundColor: colorMap[customizations?.backgroundColorLeft || ""] }}>
                     <div className='content-wrap'>

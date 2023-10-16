@@ -12,25 +12,24 @@ interface NewsletterFormCTAProps {
     accentOne?: { sourceUrl: string }; 
     accentTwo?: { sourceUrl: string }; 
     customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
-    };
+	};
 }
 
 const NewsletterFormCTA: React.FC<NewsletterFormCTAProps> = ({ heading, headingColor, subheading, subheadingColor, accentOne, accentTwo, customizations }) => {
     return (
-       
-        <div className='container'>
-            <Customizations 
-            colorLabel={customizations?.backgroundColor} 
-            topMarginMobile={customizations?.topMarginMobile}
-            topMarginDesktop={customizations?.topMarginDesktop}
-            bottomMarginMobile={customizations?.bottomMarginMobile}
-            bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
             <div className='newsletter-form-cta'>
                 <div className='row'>
                     <div className='col-12 content'>

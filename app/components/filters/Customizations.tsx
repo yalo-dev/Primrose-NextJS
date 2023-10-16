@@ -13,7 +13,18 @@ interface CustomizationsProps {
     children: ReactElement;
 }
 
-const Customizations: React.FC<CustomizationsProps> = ({ colorLabel, topPaddingMobile, topPaddingDesktop, bottomPaddingMobile, bottomPaddingDesktop, topMarginMobile, topMarginDesktop, bottomMarginMobile, bottomMarginDesktop, children }) => {
+const Customizations: React.FC<CustomizationsProps> = ({
+    colorLabel,
+    topPaddingMobile,
+    topPaddingDesktop,
+    bottomPaddingMobile,
+    bottomPaddingDesktop,
+    topMarginMobile,
+    topMarginDesktop,
+    bottomMarginMobile,
+    bottomMarginDesktop,
+    children
+}) => {
     
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -94,15 +105,17 @@ const Customizations: React.FC<CustomizationsProps> = ({ colorLabel, topPaddingM
     };
 
     const backgroundColor = mapColorToHex(colorLabel);
-    
-    return React.cloneElement(children, {
-        style: {
-            ...children.props.style,
-            backgroundColor,
-            ...paddings,
-            ...margins
-        }
-    });
+
+    return (
+        <div style={{ ...paddings, ...margins }}>
+            {React.cloneElement(children, {
+                style: {
+                    ...children.props.style,
+                    backgroundColor: backgroundColor,
+                }
+            })}
+        </div>
+    );
 };
 
 export default Customizations;

@@ -69,8 +69,6 @@ query GetModules($id: ID = "") {
 			  dropdown {
 				option {
 				  target
-				  title
-				  url
 				}
 			  }
 			}
@@ -108,21 +106,13 @@ query GetModules($id: ID = "") {
 			}
 			customizations {
 			  backgroundColor
-			  topMarginMobile
-			  topMarginDesktop
-			  bottomMarginMobile
-			  bottomMarginDesktop
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralButtonCta {
-			accents {
-				accentOne {
-				  sourceUrl
-				}
-				accentTwo {
-				  sourceUrl
-				}
-			}
 			icon {
 			  sourceUrl
 			}
@@ -138,147 +128,146 @@ query GetModules($id: ID = "") {
 			buttonStyle
 			variation
 			customizations {
-			  topMarginMobile
-			  bottomMarginMobile
-			  topMarginDesktop
-			  bottomMarginDesktop
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralHorizontalTabs {
 			tabs {
-				label
-				tabLabelColor
-				content {
-				  image {
-					sourceUrl
-				  }
-				  heading
-				  headingColor
-				  subheading
-				  subheadingColor
-				  list {
-					icon {
-					  sourceUrl
-					}
-					text
-					textColor
-				  }
-				}
-			  }
-			  customizations {
-				topPaddingMobile
-				bottomPaddingMobile
-				topPaddingDesktop
-				bottomPaddingDesktop
-			  }
-			}
-			... on Page_Modules_Modules_HeroWithImage {
-				leftColumn {
-				  image {
-					sourceUrl
-				  }
-				}
-				rightColumn {
-				  heading
-				  headingColor
-				  subheading
-				  subheadingColor
-				  blurb
-				  blurbColor
-				  button {
-					target
-					title
-					url
-				  }
-				  buttonStyle     
-				}
-				 accent {
+			  label
+			  tabLabelColor
+			  content {
+				image {
 				  sourceUrl
 				}
-				 switchColumnOrderOnDesktop
-				customizations {
-				  topMarginMobile
-				  bottomMarginMobile
-				  topMarginDesktop
-				  bottomMarginDesktop
-				  backgroundColor
-				}
-			}
-			... on Page_Modules_Modules_HeroWithVideo {
-				leftColumn {
-				  heading
-				  headingColor
-				  subheading
-				  subheadingColor
-				  blurb
-				  blurbColor
-				  button {
-					target
-					title
-					url
+				heading
+				headingColor
+				subheading
+				subheadingColor
+				list {
+				  icon {
+					sourceUrl
 				  }
-				  buttonStyle     
-				}
-				rightColumn {
-				  video {
-					url
-				  }
-				}
-				accent {
-				  sourceUrl
-				}
-				 switchColumnOrderOnDesktop
-				customizations {
-				  topMarginMobile
-				  bottomMarginMobile
-				  topMarginDesktop
-				  bottomMarginDesktop
-				  backgroundColor
+				  text
+				  textColor
 				}
 			  }
+			}
+			customizations {
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_HeroWithImage {
+			leftColumn {
+			  image {
+				sourceUrl
+			  }
+			}
+			rightColumn {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  blurb
+			  blurbColor
+			  button {
+				target
+				title
+				url
+			  }
+			  buttonStyle
+			}
+			accent {
+			  sourceUrl
+			}
+			switchColumnOrderOnDesktop
+			customizations {
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_HeroWithVideo {
+			leftColumn {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  blurb
+			  blurbColor
+			  button {
+				target
+				title
+				url
+			  }
+			  buttonStyle
+			}
+			rightColumn {
+			  video {
+				url
+			  }
+			}
+			accent {
+			  sourceUrl
+			}
+			switchColumnOrderOnDesktop
+			customizations {
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			  backgroundColor
+			}
+		  }
 		  ... on Page_Modules_Modules_NewsletterFormCta {
 			heading
 			headingColor
 			subheading
 			subheadingColor
 			accentOne {
-				sourceUrl
+			  sourceUrl
 			}
 			accentTwo {
-				sourceUrl
+			  sourceUrl
 			}
 			customizations {
-				backgroundColor
-				bottomMarginDesktop
-				bottomMarginMobile
-				topMarginDesktop
-				topMarginMobile
+			  backgroundColor
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_Q1Skills {
 			eyebrow
-          eyebrowColor
-          heading
-          headingColor
-          subheading
-          subheadingColor
-          list {
-            detailsPopUp
-            description
-            title
-            icon {
-              sourceUrl
-            }
-          }
-          customizations {
-            backgroundColor
-            bottomMarginDesktop
-            bottomMarginMobile
-            topMarginDesktop
-            topMarginMobile
-          }
-        }
-		... on Page_Modules_Modules_SeasonalBanner {
+			eyebrowColor
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			list {
+			  detailsPopUp
+			  description
+			  title
+			  icon {
+				sourceUrl
+			  }
+			}
+			customizations {
+			  backgroundColor
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_SeasonalBanner {
 			accentOne {
 			  sourceUrl
 			}
@@ -300,10 +289,10 @@ query GetModules($id: ID = "") {
 			buttonStyle
 			customizations {
 			  backgroundColor
-			  bottomMarginDesktop
-			  bottomMarginMobile
-			  topMarginDesktop
-			  topMarginMobile
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_StandardAccordionList {
@@ -335,15 +324,7 @@ query GetModules($id: ID = "") {
 				target
 				title
 				url
-			  }
-			  customizations {
-				backgroundColor
-				bottomMarginDesktop
-				bottomMarginMobile
-				topMarginDesktop
-				topMarginMobile
-			  }
-			  
+			  }            
 			}
 			rightColumn {
 			  image {
@@ -375,13 +356,6 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			switchColumnOrderOnDesktop
-			customizations {
-			  backgroundColor
-			  bottomMarginDesktop
-			  bottomMarginMobile
-			  topMarginDesktop
-			  topMarginMobile
-			}
 		  }
 		  ... on Page_Modules_Modules_WysiwygEditor {
 			editor
@@ -391,6 +365,7 @@ query GetModules($id: ID = "") {
 	}
   }
 `;
+
 const DynamicPage = () => {
 	const router = useRouter();
 	const { pageId } = router.query;

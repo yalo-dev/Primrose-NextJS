@@ -30,10 +30,10 @@ interface GeneralButtonCTAProps {
 	variation?: 'default' | 'blue' | 'violet' | 'green';
     customizations?: {
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
+        topPaddingMobile?: string;
+        topPaddingDesktop?: string;
+        bottomPaddingMobile?: string;
+        bottomPaddingDesktop?: string;
     };
 }
 
@@ -41,15 +41,14 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 	const className = `general-button-cta d-lg-flex ${variation}`;
 
 	return (
-		<div className='container'>
-			{(heading || subheading || (button?.url) || icon?.sourceUrl) && (
-			  <Customizations 
-                colorLabel={customizations?.backgroundColor} 
-                topMarginMobile={customizations?.topMarginMobile}
-                topMarginDesktop={customizations?.topMarginDesktop}
-                bottomMarginMobile={customizations?.bottomMarginMobile}
-                bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+		<div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
 				<div className={className}>
 					{icon?.sourceUrl && (
 						<div className='icon pb-4 pb-lg-0 pe-lg-4'>
@@ -76,7 +75,6 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 				</div>
 			
 			</Customizations>
-			)}
 		</div>
 	);
 }

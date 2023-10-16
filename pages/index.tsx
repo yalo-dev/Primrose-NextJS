@@ -69,8 +69,6 @@ query GetModules($id: ID = "") {
             dropdown {
               option {
                 target
-                title
-                url
               }
             }
           }
@@ -108,19 +106,19 @@ query GetModules($id: ID = "") {
           }
           customizations {
             backgroundColor
-            topMarginMobile
-            topMarginDesktop
-            bottomMarginMobile
-            bottomMarginDesktop
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_GeneralButtonCta {
           accents {
             accentOne {
-            sourceUrl
+              sourceUrl
             }
             accentTwo {
-            sourceUrl
+              sourceUrl
             }
           }
           icon {
@@ -138,10 +136,10 @@ query GetModules($id: ID = "") {
           buttonStyle
           variation
           customizations {
-            topMarginMobile
-            bottomMarginMobile
-            topMarginDesktop
-            bottomMarginDesktop
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_GeneralHorizontalTabs {
@@ -190,18 +188,17 @@ query GetModules($id: ID = "") {
               title
               url
             }
-            buttonStyle     
+            buttonStyle
           }
-           accent {
+          accent {
             sourceUrl
           }
-           switchColumnOrderOnDesktop
+          switchColumnOrderOnDesktop
           customizations {
-            topMarginMobile
-            bottomMarginMobile
-            topMarginDesktop
-            bottomMarginDesktop
-            backgroundColor
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_HeroWithVideo {
@@ -217,7 +214,7 @@ query GetModules($id: ID = "") {
               title
               url
             }
-            buttonStyle     
+            buttonStyle
           }
           rightColumn {
             video {
@@ -227,12 +224,12 @@ query GetModules($id: ID = "") {
           accent {
             sourceUrl
           }
-           switchColumnOrderOnDesktop
+          switchColumnOrderOnDesktop
           customizations {
-            topMarginMobile
-            bottomMarginMobile
-            topMarginDesktop
-            bottomMarginDesktop
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
             backgroundColor
           }
         }
@@ -249,10 +246,10 @@ query GetModules($id: ID = "") {
           }
           customizations {
             backgroundColor
-            bottomMarginDesktop
-            bottomMarginMobile
-            topMarginDesktop
-            topMarginMobile
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_Q1Skills {
@@ -272,10 +269,10 @@ query GetModules($id: ID = "") {
           }
           customizations {
             backgroundColor
-            bottomMarginDesktop
-            bottomMarginMobile
-            topMarginDesktop
-            topMarginMobile
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_SeasonalBanner {
@@ -300,10 +297,10 @@ query GetModules($id: ID = "") {
           buttonStyle
           customizations {
             backgroundColor
-            bottomMarginDesktop
-            bottomMarginMobile
-            topMarginDesktop
-            topMarginMobile
+            topPaddingMobile
+            bottomPaddingMobile
+            topPaddingDesktop
+            bottomPaddingDesktop
           }
         }
         ... on Page_Modules_Modules_StandardAccordionList {
@@ -335,15 +332,7 @@ query GetModules($id: ID = "") {
               target
               title
               url
-            }
-            customizations {
-              backgroundColor
-              bottomMarginDesktop
-              bottomMarginMobile
-              topMarginDesktop
-              topMarginMobile
-            }
-            
+            }            
           }
           rightColumn {
             image {
@@ -375,13 +364,6 @@ query GetModules($id: ID = "") {
             }
           }
           switchColumnOrderOnDesktop
-          customizations {
-            backgroundColor
-            bottomMarginDesktop
-            bottomMarginMobile
-            topMarginDesktop
-            topMarginMobile
-          }
         }
         ... on Page_Modules_Modules_WysiwygEditor {
           editor

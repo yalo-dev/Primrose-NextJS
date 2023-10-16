@@ -87,42 +87,42 @@ const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ accen
     }
         
 
-	return (
-		<div className="container">
-			<Customizations 
-                topPaddingMobile={customizations?.topPaddingMobile}
-                topPaddingDesktop={customizations?.topPaddingDesktop}
-                bottomPaddingMobile={customizations?.bottomPaddingMobile}
-                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            >
-			<div className="classroom-select-and-image">
-				{leftColumn.image?.sourceUrl && (
-					<div className="left-column col-12 col-lg-6">
-						<img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
-					</div>
-				)}
-
-				{(rightColumn.heading || rightColumn.subheading) && (
-					<div className="right-column col-12 col-lg-6" style={{ backgroundColor: colorMap[customizations?.backgroundColorRight || ""] }}>
-						{rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
-                    	{rightColumn.subheading && <Subheading level='div' className='b3' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
-						{(dropdownOptions.length > 0) && (
-                        <SelectDropdown options={dropdownOptions} />
+    return (
+        <div className="container">
+        <Customizations
+            topPaddingMobile={customizations?.topPaddingMobile}
+            topPaddingDesktop={customizations?.topPaddingDesktop}
+            bottomPaddingMobile={customizations?.bottomPaddingMobile}
+            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+            // colorLabel={customizations?.backgroundColorRight} // Pass the colorLabel here
+        >
+                <div className="classroom-select-and-image">
+                    {leftColumn.image?.sourceUrl && (
+                        <div className="left-column col-12 col-lg-6">
+                            <img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
+                        </div>
                     )}
-					<div className='accent'>
-						<div className='accent-one'
-							style={{ backgroundImage: `url('${accents.accentOne?.sourceUrl}')` }} 
-						></div>
-						<div className='accent-two'
-							style={{ backgroundImage: `url('${accents.accentTwo?.sourceUrl}')` }} 
-						></div>
-						</div>
-					</div>
-				)}
-			</div>
-			</Customizations>
-		</div>
-	);
-}
-
+    
+                    {(rightColumn.heading || rightColumn.subheading) && (
+                        <div className="right-column col-12 col-lg-6" style={{ backgroundColor: colorMap[customizations?.backgroundColorRight || ""] }}>
+                            {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
+                            {rightColumn.subheading && <Subheading level='div' className='b3' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
+                            {(dropdownOptions.length > 0) && (
+                                <SelectDropdown options={dropdownOptions} />
+                            )}
+                            <div className='accent'>
+                                <div className='accent-one'
+                                     style={{ backgroundImage: `url('${accents.accentOne?.sourceUrl}')` }}
+                                ></div>
+                                <div className='accent-two'
+                                     style={{ backgroundImage: `url('${accents.accentTwo?.sourceUrl}')` }}
+                                ></div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+        </Customizations>
+        </div>
+    );
+};
 export default ClassroomSelectAndImage;

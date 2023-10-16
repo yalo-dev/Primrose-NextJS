@@ -23,12 +23,12 @@ interface Q1SkillsProps {
     subheadingColor?: string;
     list: ListItemProps[];
     customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
-    };
+	};
    
 }
 
@@ -54,14 +54,14 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
     }, []);
 
     return (
-        <div className="container" ref={containerRef}>
-             <Customizations 
-            colorLabel={customizations?.backgroundColor} 
-            topMarginMobile={customizations?.topMarginMobile}
-            topMarginDesktop={customizations?.topMarginDesktop}
-            bottomMarginMobile={customizations?.bottomMarginMobile}
-            bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
             <div className="q1skills">
                 {eyebrow && <Subheading level='h5' color={eyebrowColor}>{eyebrow}</Subheading>}
                 {heading && <Heading level='h3' color={headingColor}>{heading}</Heading>}

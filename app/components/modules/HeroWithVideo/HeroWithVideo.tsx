@@ -30,12 +30,12 @@ interface HeroWithVideoProps {
     };
     switchColumnOrderOnDesktop?: boolean;
     customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
-    };
+	};
 }
 
 const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrderOnDesktop, leftColumn, rightColumn, customizations }) => {
@@ -45,14 +45,14 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
     const className = `hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
     return (
-        <div className='container'>
-              <Customizations 
-                colorLabel={customizations?.backgroundColor} 
-                topMarginMobile={customizations?.topMarginMobile}
-                topMarginDesktop={customizations?.topMarginDesktop}
-                bottomMarginMobile={customizations?.bottomMarginMobile}
-                bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
             <div className={className}>
                 <div className='left-column col-12 col-lg-6'>
                         {leftColumn.heading && <Heading level='h2' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
@@ -73,14 +73,6 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
                                 muted 
                                 loop 
                             />
-                        {/* {!isPlaying && (
-                            <div className='play-button' onClick={handlePlay}>
-                                <svg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                    <circle cx='15.5229' cy='15.5229' r='15.5229' fill='white' />
-                                    <path fillRule='evenodd' clipRule='evenodd' d='M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z' fill='#373A36' />
-                                </svg>
-                            </div>
-                        )} */}
                     </div>
                 )}
                  <div className='accent'

@@ -31,26 +31,26 @@ interface HeroWithImageProps {
     };
     switchColumnOrderOnDesktop?: boolean;
     customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
-    };
+	};
 }
 
 const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrderOnDesktop, leftColumn, rightColumn, customizations }) => {
     const className = `hero-with-image ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
     return (
-        <div className='container'>
-              <Customizations 
-                colorLabel={customizations?.backgroundColor} 
-                topMarginMobile={customizations?.topMarginMobile}
-                topMarginDesktop={customizations?.topMarginDesktop}
-                bottomMarginMobile={customizations?.bottomMarginMobile}
-                bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (
                     <div className='left-column col-12 col-lg-6'>

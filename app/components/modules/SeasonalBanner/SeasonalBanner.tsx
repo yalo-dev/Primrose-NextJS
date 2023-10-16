@@ -22,24 +22,24 @@ interface SeasonalBannerProps {
     accentTwo?: { sourceUrl: string };
     accentThree?: { sourceUrl: string }; 
     customizations?: {
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
         backgroundColor?: string;
-    };
+	};
 }
 
 const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
     return (
-        <div className='container'>
-             <Customizations 
-                colorLabel={customizations?.backgroundColor} 
-                topMarginMobile={customizations?.topMarginMobile}
-                topMarginDesktop={customizations?.topMarginDesktop}
-                bottomMarginMobile={customizations?.bottomMarginMobile}
-                bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
             <div className='seasonal-banner'>
                 <div className='row'>
                     <div className='col-12 col-lg-6 top'>

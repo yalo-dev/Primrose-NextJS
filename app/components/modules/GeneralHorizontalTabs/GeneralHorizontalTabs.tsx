@@ -31,7 +31,6 @@ interface HorizontalTabProps {
 		topPaddingDesktop?: string;
 		bottomPaddingMobile?: string;
 		bottomPaddingDesktop?: string;
-		backgroundColorRight?: string;
 	};
 }
 
@@ -68,12 +67,13 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 
 	return (
 		<div className="container">
-			<Customizations 
-                topPaddingMobile={customizations?.topPaddingMobile}
-                topPaddingDesktop={customizations?.topPaddingDesktop}
-                bottomPaddingMobile={customizations?.bottomPaddingMobile}
-                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            >
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		//    colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
 			<div className="general-horizontal-tabs">
 				<div className="inner">
 					{tabs.map((tab, index) => (

@@ -21,12 +21,12 @@ interface StandardAccordionListProps {
   answerColor: string; 
   accent?: { sourceUrl: string }; 
   customizations?: {
-    topMarginMobile?: string;
-    topMarginDesktop?: string;
-    bottomMarginMobile?: string;
-    bottomMarginDesktop?: string;
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
     backgroundColor?: string;
-};
+	};
 }
 
 const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, headingColor, accordion, footnote, footnoteColor, customizations, accent }) => {
@@ -37,14 +37,14 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
   };
 
   return (
-    <div className='container'>
-       <Customizations 
-          colorLabel={customizations?.backgroundColor} 
-          topMarginMobile={customizations?.topMarginMobile}
-          topMarginDesktop={customizations?.topMarginDesktop}
-          bottomMarginMobile={customizations?.bottomMarginMobile}
-          bottomMarginDesktop={customizations?.bottomMarginDesktop}
-      >
+    <div className="container">
+		<Customizations
+		   topPaddingMobile={customizations?.topPaddingMobile}
+		   topPaddingDesktop={customizations?.topPaddingDesktop}
+		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
+		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+	   >
       <div className='standard-accordion-list'>
         <div className='inner col-lg-9 offset-lg-3 p-4'>
           <div className='row text-left'>

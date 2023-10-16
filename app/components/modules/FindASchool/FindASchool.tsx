@@ -22,10 +22,10 @@ interface FindASchoolProps {
     buttonStyle?: 'primary' | 'secondary' | 'white'; 
     customizations?: {
         backgroundColor?: string;
-        topMarginMobile?: string;
-        topMarginDesktop?: string;
-        bottomMarginMobile?: string;
-        bottomMarginDesktop?: string;
+        topPaddingMobile?: string;
+        topPaddingDesktop?: string;
+        bottomPaddingMobile?: string;
+        bottomPaddingDesktop?: string;
     };
 }
 
@@ -65,14 +65,14 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
     
 
     return (
-        <div className='container'>
-            <Customizations 
-                colorLabel={customizations?.backgroundColor} 
-                topMarginMobile={customizations?.topMarginMobile}
-                topMarginDesktop={customizations?.topMarginDesktop}
-                bottomMarginMobile={customizations?.bottomMarginMobile}
-                bottomMarginDesktop={customizations?.bottomMarginDesktop}
-            >
+        <div className="container">
+         <Customizations
+            topPaddingMobile={customizations?.topPaddingMobile}
+            topPaddingDesktop={customizations?.topPaddingDesktop}
+            bottomPaddingMobile={customizations?.bottomPaddingMobile}
+            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+            colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+        >
             <div className='find-a-school'>
                 <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
 
