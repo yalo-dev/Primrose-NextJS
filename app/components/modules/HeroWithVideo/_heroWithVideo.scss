@@ -9,6 +9,7 @@
         margin: auto;
         flex-direction: row;
         align-items: center;
+        min-height: 590px;
         &.reverse-column {
             flex-direction: row-reverse;
         }
