@@ -53,28 +53,28 @@ function MyApp({ Component, pageProps }) {
 			// site settings query
 			const SITE_SETTINGS_QUERY = gql`
 				query SiteSettings {
-				siteSettings {
 					siteSettings {
-					copyrightInfo
-					footerLinks {
-						link {
-						url
-						title
-						target
+						siteSettings {
+							copyrightInfo
+							footerLinks {
+								link {
+								url
+								title
+								target
+								}
+							}
+							logoFooter {
+								sourceUrl
+								altText
+							}
+							socialIcons {
+								icon {
+								sourceUrl
+								altText
+								}
+							}
 						}
 					}
-					logoFooter {
-						sourceUrl
-						altText
-					}
-					socialIcons {
-						icon {
-						sourceUrl
-						altText
-						}
-					}
-					}
-				}
 				}
 			`;
 

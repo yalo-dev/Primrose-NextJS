@@ -1,0 +1,66 @@
+.newsletter-form-cta {
+    text-align: center;
+    background-color: $grayscale-4;
+    border-radius: 12px;
+    padding: 44px 15px 185px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    @include media-breakpoint-up(md) {
+        //padding: 44px 15px 405px;
+    }
+    @include media-breakpoint-up(lg) {
+        padding: 33px 60px 40px;
+        border-radius: 25px;
+    }
+    .content {
+        input.email {
+            border-radius: 6px;
+        }
+        .accent-one {
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: bottom left;
+            width: 300px;
+            height: 320px;
+            position: absolute;
+            bottom: -10rem;
+            left: -6rem;
+            pointer-events: none;
+            transform: rotateY(180deg);
+            @include media-breakpoint-up(lg) {
+                left: unset;
+                right: 0;
+                transform: rotateY(0);
+            }
+            @include media-breakpoint-up(xl) {
+                left: unset;
+                right: 4rem;
+                transform: rotateY(0);
+                width: 400px;
+                height: 420px;
+                bottom: -14rem;
+            }
+        }
+        .accent-two {
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: bottom right;
+            width: 300px;
+            height: 160px;
+            position: absolute;
+            bottom: -2.5rem;
+            right: -8rem;
+            pointer-events: none;
+        }
+        @include media-breakpoint-up(lg) {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .newsletter-form {
+                max-width: 400px;
+            }
+        }
+    }
+}

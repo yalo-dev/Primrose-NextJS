@@ -9,7 +9,7 @@
     @extend p;
     &.category {
         background-color: $white;
-        color: $black-lighter;
+        color: $text-gray;
         border: 1px solid $nav-border;
     }
     &.featured {

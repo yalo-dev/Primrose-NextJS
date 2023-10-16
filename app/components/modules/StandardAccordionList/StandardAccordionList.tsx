@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import Heading from '../../atoms/Heading/Heading';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
+import Customizations from '../../filters/Customizations';
 
 interface Accordion {
+  questionColor: string | undefined;
+  answerColor: string | undefined;
   question: string;
   answer: string;
 }
 
 interface StandardAccordionListProps {
-  heading: string;
+  heading?: string;
+  headingColor?: string;
   footnote: string;
+  footnoteColor?: string;
   accordion: Accordion[];
+  questionColor: string;
+  answerColor: string; 
+  accent?: { sourceUrl: string }; 
+  customizations?: {
+    topMarginMobile?: string;
+    topMarginDesktop?: string;
+    bottomMarginMobile?: string;
+    bottomMarginDesktop?: string;
+    backgroundColor?: string;
+};
 }
 
-const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, accordion, footnote }) => {
+const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, headingColor, accordion, footnote, footnoteColor, customizations, accent }) => {
   const [expandedAccordionIndex, setExpandedAccordionIndex] = useState<number | null>(null);
 
   const handleQuestionClick = (index: number) => {
@@ -21,11 +37,18 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
   };
 
   return (
-    <div className='container p-4 ps-8'>
+    <div className='container'>
+       <Customizations 
+          colorLabel={customizations?.backgroundColor} 
+          topMarginMobile={customizations?.topMarginMobile}
+          topMarginDesktop={customizations?.topMarginDesktop}
+          bottomMarginMobile={customizations?.bottomMarginMobile}
+          bottomMarginDesktop={customizations?.bottomMarginDesktop}
+      >
       <div className='standard-accordion-list'>
         <div className='inner col-lg-9 offset-lg-3 p-4'>
           <div className='row text-left'>
-            {heading && <Heading level='h2' className='green'>{heading}</Heading>}
+            {heading && <Heading level='h2' className='green' color={headingColor}>{heading}</Heading>}
           </div>
           <div className='row accordions p-2'>
             {accordion.map((accordion, index) => {
@@ -37,19 +60,25 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
 
               return (
                 <div key={index} className='accordion pt-5 pb-4 pb-xl-5'>
-                  <p
+                  <Paragraph
                     className={`question b4 m-0 pt-5 pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
                     onClick={() => handleQuestionClick(index)}
-                  >
-                    {accordion.question && accordion.question}
+                    color={accordion.questionColor}
+                >
+                    {accordion.question}
                     <button id="button">
-                      <span></span>
-                      <span></span>
+                        <span></span>
+                        <span></span>
                     </button>
-                  </p>
+                </Paragraph>
                   {accordion.answer && (
                     <animated.div style={fadeIn}>
-                      <p className='answer b3 m-0 pt-5'>{accordion.answer}</p>
+                       <Paragraph 
+                          className='answer b3 m-0 pt-5' 
+                          color={accordion.answerColor}
+                      >
+                          {accordion.answer}
+                      </Paragraph>
                     </animated.div>
                   )}
                 </div>
@@ -66,12 +95,15 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
                   </g>
                 </svg>
               </div>
-              <p className='b3 ps-lg-4'>{footnote}</p>
+              <Paragraph className='b3 ps-lg-4' color={footnoteColor}>{footnote}</Paragraph>
             </div>
           )}
-
+        <div className='accent'
+             style={{ backgroundImage: `url('${accent?.sourceUrl}')` }} 
+        ></div>
         </div>
       </div>
+      </Customizations>
     </div>
   );
 };

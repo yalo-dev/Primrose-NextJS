@@ -2,9 +2,10 @@ import { useQuery, gql } from '@apollo/client';
 import Tag from '../../atoms/Tag/Tag';
 import ResourceCard from '../../organisms/ResourceCard/ResourceCard';
 import Link from 'next/link';
-import PoinersForParents from '../PointersForParents/PointersForParents';
-import SeasonalBanner from '../SeasonalBanner/SeasonalBanner';
 import Heading from '../../atoms/Heading/Heading';
+import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
+import Button from '../../atoms/Button/Button';
+import Paragraph from '../../atoms/Paragraph/Paragraph';
 
 
 interface ResourceType {
@@ -25,72 +26,91 @@ interface Resource {
 
 const GET_SINGLE_RESOURCE = gql`
 query GetSingleResource($id: ID!) {
-  resource(id: $id, idType: URI) {
-    author {
-      node {
-        name
-      }
-    }
-    featuredImage {
-      node {
-        sourceUrl
-      }
-    }
-    title
-    date
-    resourceTypes {
-      nodes {
-        name
-        slug
-      }
-    }
-    resourceTags {
-      nodes {
-        name
-        slug
-      }
-    }
-    resourceFields {
-      displayAuthor
-      content
-      relatedArticles {
-        ... on Resource {
-          id
-          date
-          featuredImage {
-            node {
-              sourceUrl
-            }
-          }
-          title
-          slug
-          uri
-          resourceTags {
-            nodes {
-              name
-              slug
-            }
-          }
-          resourceTypes {
-            nodes {
-              name
-              slug
-            }
-          }
-        }
-      }
-      pfpHeading
-      pfpSubheading
-      seasonalHeading
-      seasonalSubheading
-      seasonalButton {
-        target
-        title
-        url
-      }
-    }
+	resource(id: $id, idType: URI) {
+	  author {
+		node {
+		  name
+		}
+	  }
+	  featuredImage {
+		node {
+		  sourceUrl
+		}
+	  }
+	  title
+	  date
+	  resourceTypes {
+		nodes {
+		  name
+		  slug
+		}
+	  }
+	  resourceTags {
+		nodes {
+		  name
+		  slug
+		}
+	  }
+	  resourceFields {
+		displayAuthor
+		content
+		relatedArticles {
+		  ... on Resource {
+			id
+			date
+			featuredImage {
+			  node {
+				sourceUrl
+			  }
+			}
+			title
+			slug
+			uri
+			resourceTags {
+			  nodes {
+				name
+				slug
+			  }
+			}
+			resourceTypes {
+			  nodes {
+				name
+				slug
+			  }
+			}
+		  }
+		}
+		newsletterFormCta {
+		  heading
+		  subheading
+		  accentOne {
+			sourceUrl
+		  }
+		  accentTwo {
+			sourceUrl
+		  }
+		}
+		seasonalBanner {
+		  heading
+		  subheading
+		  button {
+			target
+			title
+			url
+		  }
+		  accentOne {
+			sourceUrl
+		  }
+		  accentTwo {
+			sourceUrl
+		  }
+		  accentThree {
+			sourceUrl
+		  }
+		}
+	  }
+	}
   }
-}
 `;
 
 const calculateReadingTime = (text) => {
@@ -111,11 +131,11 @@ export default function ResourceComponent({ singleSlug }) {
 	if (!resource) return <div>No Resource Found</div>;
 
 	const { author, featuredImage, title, date, resourceTypes, resourceTags, resourceFields } = resource;
-	const { displayAuthor, content, relatedArticles, seasonalHeading, seasonalSubheading, seasonalButton, pfpHeading, pfpSubheading } = resourceFields || {};
+	const { displayAuthor, content, relatedArticles, newsletterFormCta, seasonalBanner } = resourceFields || {};
 
 	const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date));
 
-	const readingTime = content ? calculateReadingTime(content.replace(/(<([^>]+)>)/ig, '')) : ''; // Remove HTML tags for accurate word count
+	const readingTime = content ? calculateReadingTime(content.replace(/(<([^>]+)>)/ig, '')) : '';
 
 	const wrapIframesInResponsiveDiv = (htmlString) => {
 		const parser = new DOMParser();
@@ -137,7 +157,8 @@ export default function ResourceComponent({ singleSlug }) {
 	const sortedTags = [...resource.resourceTags.nodes].sort((a: ResourceTagType, b: ResourceTagType) =>
 		a.slug === 'featured' ? -1 : b.slug === 'featured' ? 1 : 0
 	);
-
+	console.log("Newsletter Form CTA:", resourceFields.newsletterFormCta);
+	console.log("Seasonal Banner:", resourceFields.seasonalBanner);
 	return (
 		<>
 			<div className='resource'>
@@ -170,7 +191,7 @@ export default function ResourceComponent({ singleSlug }) {
 					</div>
 				</div>
 
-				<div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4'>
+				<div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4 mt-xl-0'>
 					<Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(singleSlug)}`} target="_blank" rel="noopener noreferrer">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20 10.0612C20 4.50444 15.5231 0 10.0013 0C4.47694 0.00124984 0 4.50444 0 10.0625C0 15.0831 3.65704 19.2451 8.43645 20V12.9696H5.89926V10.0625H8.43895V7.84402C8.43895 5.32309 9.93251 3.93076 12.216 3.93076C13.3108 3.93076 14.4544 4.12698 14.4544 4.12698V6.60168H13.1934C11.9523 6.60168 11.5648 7.37783 11.5648 8.17398V10.0612H14.337L13.8945 12.9684H11.5636V19.9988C16.343 19.2438 20 15.0819 20 10.0612Z" fill="black" />
@@ -193,11 +214,11 @@ export default function ResourceComponent({ singleSlug }) {
 					</Link>
 				</div>
 
-				{wrappedContent && <div className='content p-3 p-lg-0 mx-auto' dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
+				{wrappedContent && <div className='resourece-content p-3 p-lg-0 mx-auto' dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
 
 				{resourceTags.nodes.length > 0 && (
-					<div className='tags'>
-						<div className='container ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
+					<div className='container content-width p-3 p-lg-0'>
+						<div className='tags ps-lg-0 pe-lg-0 mx-auto d-flex flex-wrap'>
 							{sortedTags.map((tag, index) => (
 								<Tag
 									key={index}
@@ -210,15 +231,28 @@ export default function ResourceComponent({ singleSlug }) {
 					</div>
 				)}
 
+			
+
+			{newsletterFormCta && (
+			<div className='container'>
+				<div className='newsletter-form-cta'>
+					<div className='row'>
+						<div className='col-12 content'>
+							{newsletterFormCta.heading && <Heading level='h3'>{newsletterFormCta.heading}</Heading>}
+							{newsletterFormCta.subheading && <Paragraph className='b3'>{newsletterFormCta.subheading}</Paragraph>}
+							<NewsletterForm />
+							<div className='accent-one'
+								style={{ backgroundImage: `url('${newsletterFormCta.accentOne?.sourceUrl}')` }} 
+							></div>
+							<div className='accent-two'
+								style={{ backgroundImage: `url('${newsletterFormCta.accentTwo?.sourceUrl}')` }} 
+							></div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-			{(pfpHeading || pfpSubheading) && (
-				<PoinersForParents
-					pfpHeading={pfpHeading}
-					pfpSubheading={pfpSubheading}
-				/>
 			)}
-
+	  
 			{relatedArticles?.length > 0 && (
 				<div className='related'>
 					<div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
@@ -237,14 +271,47 @@ export default function ResourceComponent({ singleSlug }) {
 				</div>
 			)}
 
-			{(seasonalHeading || seasonalSubheading || seasonalButton) && (
-				<SeasonalBanner
-					seasonalHeading={seasonalHeading}
-					seasonalSubheading={seasonalSubheading}
-					seasonalButton={seasonalButton}
-				/>
+			{seasonalBanner && (
+			<div className='container'>
+				<div className='seasonal-banner'>
+					<div className='row'>
+						<div className='col-12 col-lg-6 top'>
+							<div className='accents'></div>
+							<img
+								src="/assets/stock-seasonal-baby.png"
+								alt="seasonal baby picture"
+								width={250}
+								height={250}
+							/>
+						</div>
+						<div className='col-12 col-lg-6 bottom'>
+							{seasonalBanner.heading && <Heading level='h3'>{seasonalBanner.heading}</Heading>}
+							{seasonalBanner.subheading && <Paragraph className='b3'>{seasonalBanner.subheading}</Paragraph>}
+							{seasonalBanner.button?.title && seasonalBanner.button.url && (
+								<Button
+									variant="primary"
+									label={seasonalBanner.button.title}
+									href={seasonalBanner.button.url}
+									target={seasonalBanner.button.target}
+								/>
+							)}
+							<div className='accents'></div>
+						</div>
+						<div className='accent-one'
+								style={{ backgroundImage: `url('${seasonalBanner.accentOne?.sourceUrl}')` }} 
+							></div>
+							<div className='accent-two'
+								style={{ backgroundImage: `url('${seasonalBanner.accentTwo?.sourceUrl}')` }} 
+							></div>
+							<div className='accent-three'
+								style={{ backgroundImage: `url('${seasonalBanner.accentThree?.sourceUrl}')` }} 
+							></div>
+					</div>
+				</div>
+			</div>
 			)}
 
+			</div>
 		</>
 	);
 }

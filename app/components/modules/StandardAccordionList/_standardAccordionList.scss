@@ -1,5 +1,5 @@
 .standard-accordion-list {
-    background-color: $hero-bg;
+    background-color: $grayscale-3;
     border-radius: 10px;
     position: relative;
     padding: 90px 20px 40px;
@@ -11,25 +11,23 @@
             padding-left: 100px;
         }
     }
-    &::before {
-        content: " ";
-        background-image: url(/assets/accent-green-half-circle.svg);
-        background-size: contain;
+    .accent{
+        background-size: 100%;
         background-repeat: no-repeat;
         background-position: -2rem -16%;
-        width: 21rem;
-        height: 55rem;
-        top: 0;
-        left: 0;
+        width: 400px;
+        height: 400px;
+        top: -19rem;
+        left: -13rem;
         position: absolute;
         pointer-events: none;
         @include media-breakpoint-up(lg) {
-            width: 20rem;
-            height: 15rem;
+            top: -13rem;
+            left: -8rem;
         }
     }
     .accordion {
-        border-bottom: 1px solid $newsletter-form-border-2;
+        border-bottom: 1px solid $neutral-1;
         @include media-breakpoint-up(lg) {
             border-bottom: 0;
             position: relative;
@@ -38,7 +36,7 @@
                 content: " ";
                 width: 300%;
                 height: 1px;
-                background-color: $newsletter-form-border-2;
+                background-color: $neutral-1;
                 position: absolute;
                 bottom: 0;
                 left: -100%;
@@ -48,7 +46,7 @@
                     content: " ";
                     width: 300%;
                     height: 1px;
-                    background-color: $newsletter-form-border-2;
+                    background-color: $neutral-1;
                     position: absolute;
                     top: 0;
                     left: -100%;
@@ -70,8 +68,8 @@
                 right: -2rem;
                 line-height: 1;
                 padding: 0;
-                background-color: $black-normal;
-                border: 1px solid $black-normal;
+                background-color: $primary-darkgray;
+                border: 1px solid $primary-darkgray;
                 @include media-breakpoint-up(lg) {
                     top: 0.75rem;
                     right: -12rem;
@@ -80,7 +78,7 @@
                     position: absolute;
                     transition: 300ms;
                     border-radius: 2px;
-                    background-color: $ui-grayscale-1;
+                    background-color: $grayscale-1;
 
                     &:first-child {
                         top: 30%;
@@ -105,7 +103,7 @@
                     background-color: $transparent;
                     span {
                         transform: rotate(90deg);
-                        background-color: $black-normal;
+                        background-color: $primary-darkgray;
                         &:last-child {
                             left: 50%;
                             right: 50%;

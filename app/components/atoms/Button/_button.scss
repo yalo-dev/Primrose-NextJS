@@ -14,7 +14,7 @@ button {
         width: auto;
     }
     &.primary {
-        color: $ui-grayscale-1;
+        color: $grayscale-1;
         background-color: $primary-green;
         &:hover {
             background-color: $primary-darkgray;
@@ -22,7 +22,7 @@ button {
     }
     &.secondary {
         background-color: $primary-darkgray;
-        color: $ui-grayscale-1;
+        color: $grayscale-1;
         &:hover {
             background-color: $primary-green;
         }

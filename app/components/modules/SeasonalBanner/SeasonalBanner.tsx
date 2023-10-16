@@ -2,7 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
-import Paragraph from '../../atoms/Paragraph/Paragraph';
+import Subheading from '../../atoms/Subheading/Subheading';
+import Customizations from '../../filters/Customizations';
 
 interface SeasonalButtonProps {
     title?: string;
@@ -11,18 +12,37 @@ interface SeasonalButtonProps {
 }
 
 interface SeasonalBannerProps {
-    seasonalHeading?: string;
-    seasonalSubheading?: string;
-    seasonalButton?: SeasonalButtonProps;
+    heading?: string;
+    headingColor?: string;
+    subheading?: string;
+    subheadingColor?: string;
+    button?: SeasonalButtonProps;
+    buttonStyle?: 'primary' | 'secondary' | 'white'; 
+    accentOne?: { sourceUrl: string }; 
+    accentTwo?: { sourceUrl: string };
+    accentThree?: { sourceUrl: string }; 
+    customizations?: {
+        topMarginMobile?: string;
+        topMarginDesktop?: string;
+        bottomMarginMobile?: string;
+        bottomMarginDesktop?: string;
+        backgroundColor?: string;
+    };
 }
 
-const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ seasonalHeading, seasonalSubheading, seasonalButton }) => {
+const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
     return (
         <div className='container'>
+             <Customizations 
+                colorLabel={customizations?.backgroundColor} 
+                topMarginMobile={customizations?.topMarginMobile}
+                topMarginDesktop={customizations?.topMarginDesktop}
+                bottomMarginMobile={customizations?.bottomMarginMobile}
+                bottomMarginDesktop={customizations?.bottomMarginDesktop}
+            >
             <div className='seasonal-banner'>
                 <div className='row'>
                     <div className='col-12 col-lg-6 top'>
-                        <div className='accents'></div>
                         <Image
                             src="/assets/stock-seasonal-baby.png"
                             alt="seasonal baby picture"
@@ -31,20 +51,27 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ seasonalHeading, season
                         />
                     </div>
                     <div className='col-12 col-lg-6 bottom'>
-                        {seasonalHeading && <Heading level='h3'>{seasonalHeading}</Heading>}
-                        {seasonalSubheading && <Paragraph className='b3'>{seasonalSubheading}</Paragraph>}
-                        {seasonalButton?.title && seasonalButton.url && (
-                            <Button
-                                variant="primary"
-                                label={seasonalButton.title}
-                                href={seasonalButton.url}
-                                target={seasonalButton.target}
-                            />
-                        )}
-                        <div className='accents'></div>
+                    {heading && <Heading level='h3' color={headingColor}>{heading}</Heading>}
+                    {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
+
+                    {button?.url && button.title && (
+                        <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'}>
+                            {button.title}
+                        </Button>
+                    )}
                     </div>
+                    <div className='accent-one'
+                         style={{ backgroundImage: `url('${accentOne?.sourceUrl}')` }} 
+                    ></div>
+                    <div className='accent-two'
+                         style={{ backgroundImage: `url('${accentTwo?.sourceUrl}')` }} 
+                    ></div>
+                     <div className='accent-three'
+                         style={{ backgroundImage: `url('${accentThree?.sourceUrl}')` }} 
+                    ></div>
                 </div>
             </div>
+            </Customizations>
         </div>
     );
 }

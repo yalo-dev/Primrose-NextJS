@@ -2,10 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
+import Customizations from '../../filters/Customizations';
 
 interface FindASchoolProps {
     heading?: string;
+    headingColor?: string;
     subheading?: string;
+    subheadingColor?: string;
     images?: {
         image: {
             sourceUrl?: string;
@@ -16,9 +19,18 @@ interface FindASchoolProps {
         title?: string;
         url?: string;
     };
+    buttonStyle?: 'primary' | 'secondary' | 'white'; 
+    customizations?: {
+        backgroundColor?: string;
+        topMarginMobile?: string;
+        topMarginDesktop?: string;
+        bottomMarginMobile?: string;
+        bottomMarginDesktop?: string;
+    };
 }
 
-const FindASchool: React.FC<FindASchoolProps> = ({ heading, subheading, images, button }) => {
+const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subheading, subheadingColor, images, button, buttonStyle, customizations }) => {
+    
     const leftScrollerRef = useRef<HTMLDivElement | null>(null);
     const rightScrollerRef = useRef<HTMLDivElement | null>(null);
 
@@ -54,13 +66,21 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, subheading, images, 
 
     return (
         <div className='container'>
+            <Customizations 
+                colorLabel={customizations?.backgroundColor} 
+                topMarginMobile={customizations?.topMarginMobile}
+                topMarginDesktop={customizations?.topMarginDesktop}
+                bottomMarginMobile={customizations?.bottomMarginMobile}
+                bottomMarginDesktop={customizations?.bottomMarginDesktop}
+            >
             <div className='find-a-school'>
                 <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-                    {heading && <Heading level='h2'>{heading}</Heading>}
-                    {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
+
+                    {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
+                    {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
 
                     {button?.url && button.title && (
-                        <Button variant='white' href={button.url} target={button.target || '_self'}>
+                        <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'}>
                             {button.title}
                         </Button>
                     )}
@@ -88,6 +108,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, subheading, images, 
                 )}
                 </div>
             </div>
+            </Customizations>
         </div>
     );
 }

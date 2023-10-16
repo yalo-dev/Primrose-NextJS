@@ -1,5 +1,5 @@
 .q1skills {
-    background-color: $hero-bg;
+    background-color: $grayscale-3;
     padding: 56px 1rem;
     margin-right: -1rem;
     margin-left: -1rem;
@@ -95,7 +95,7 @@
         li {
             display: flex;
             align-items: center;
-            background-color: $resource-nav-bg;
+            background-color: $grayscale-2;
             margin-bottom: 1px;
             border-radius: 10px;
             position: relative;
@@ -120,7 +120,7 @@
                     transform: rotate(90deg);
                     width: 0;
                     height: 0;
-                    border-left: 32px solid $transparent;
+                    border-left: 30px solid $transparent;
                     border-right: 46px solid $transparent;
                     border-bottom: 32px solid #ccc;
                 }
@@ -135,12 +135,11 @@
                     height: 0;
                     border-left: 30px solid $transparent;
                     border-right: 44px solid $transparent;
-                    border-bottom: 30px solid $ui-grayscale-1;
-
+                    border-bottom: 30px solid #fff;
                 }
 
                 .title-container {
-                    color: $ui-grayscale-1;
+                    color: $grayscale-1;
                     background-color: $q1title-bg;
                     border: 1rem;
                     border-radius: 25px;
@@ -173,12 +172,12 @@
                 width: 60px;
                 height: 60px;
                 border-radius: 10px;
-                background-color: $ui-grayscale-1;
-                border: 1px solid $newsletter-form-border;
+                background-color: $grayscale-1;
+                border: 1px solid $neutral-2;
 
                 &.active {
                     background-color: $brand-blue;
-                    color: $ui-grayscale-1;
+                    color: $grayscale-1;
 
                     img {
                         filter: brightness(0) invert(1);
@@ -215,7 +214,7 @@
                 }
                 .icon-container:hover {
                     background-color: $brand-blue;
-                    color: $ui-grayscale-1;
+                    color: $grayscale-1;
 
                     img {
                         filter: brightness(0) invert(1);

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
+import Customizations from '../../filters/Customizations';
 
 interface IconProps {
     sourceUrl: string;
@@ -15,12 +16,23 @@ interface ListItemProps {
 
 interface Q1SkillsProps {
     eyebrow: string;
+    eyebrowColor?: string;
     heading: string;
+    headingColor?: string;
     subheading: string;
+    subheadingColor?: string;
     list: ListItemProps[];
+    customizations?: {
+        backgroundColor?: string;
+        topMarginMobile?: string;
+        topMarginDesktop?: string;
+        bottomMarginMobile?: string;
+        bottomMarginDesktop?: string;
+    };
+   
 }
 
-const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list }) => {
+const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, headingColor, subheading, subheadingColor, list, customizations }) => {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,10 +55,17 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list 
 
     return (
         <div className="container" ref={containerRef}>
+             <Customizations 
+            colorLabel={customizations?.backgroundColor} 
+            topMarginMobile={customizations?.topMarginMobile}
+            topMarginDesktop={customizations?.topMarginDesktop}
+            bottomMarginMobile={customizations?.bottomMarginMobile}
+            bottomMarginDesktop={customizations?.bottomMarginDesktop}
+            >
             <div className="q1skills">
-                {eyebrow && <h5>{eyebrow}</h5>}
-                {heading && <Heading level='h3'>{heading}</Heading>}
-                {subheading && <Subheading level='div' className='b3'>{subheading}</Subheading>}
+                {eyebrow && <Subheading level='h5' color={eyebrowColor}>{eyebrow}</Subheading>}
+                {heading && <Heading level='h3' color={headingColor}>{heading}</Heading>}
+                {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
                 <ul>
                     {list.map((item, idx) => (
                         <li key={idx}>
@@ -75,6 +94,7 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, heading, subheading, list 
                     ))}
                 </ul>
             </div>
+            </Customizations>
         </div>
     );
 };

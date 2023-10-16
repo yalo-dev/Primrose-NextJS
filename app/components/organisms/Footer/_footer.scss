@@ -1,9 +1,9 @@
 footer {
     .logo {}
     .nav {
-        border-color: $ui-grayscale-7;
-        border-top: 1px solid $ui-grayscale-5;
-        border-bottom: 1px solid $ui-grayscale-5;
+        border-color: $grayscale-6;
+        border-top: 1px solid $grayscale-5;
+        border-bottom: 1px solid $grayscale-5;
         @include media-breakpoint-up(lg) {
             border: 0;
         }

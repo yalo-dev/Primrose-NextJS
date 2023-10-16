@@ -9,166 +9,50 @@ query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {
 	  modules {
 		modules {
-		  ... on Page_Modules_Modules_HeroWithImage {
-			accent {
-			  sourceUrl
+		  ... on Page_Modules_Modules_ClassroomSelectAndContent {
+			accents {
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
 			}
-			switchColumnOrderOnDesktop
+			customizations {
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			  backgroundColorLeft
+			  backgroundColorRight
+			}
 			leftColumn {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  button {
+				target
+				title
+				url
+			  }
+			  buttonStyle
 			  image {
 				sourceUrl
 			  }
 			}
 			rightColumn {
 			  heading
+			  headingColor
 			  subheading
-			  blurb
-			  button {
-				target
-				title
-				url
-			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_HeroWithVideo {
-			accent {
-			  sourceUrl
-			}
-			switchColumnOrderOnDesktop
-			leftColumn {
-			  heading
-			  subheading
-			  blurb
-			  button {
-				target
-				title
-				url
-			  }
-			}
-			rightColumn {
-			  video {
-				url
-			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_PointersForParents {
-			pfpHeading
-			pfpSubheading
-		  }
-		  ... on Page_Modules_Modules_SeasonalBanner {
-			seasonalHeading
-			seasonalSubheading
-			seasonalButton {
-			  target
-			  title
-			  url
-			}
-		  }
-		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
-			leftColumn {
-			  heading
-			  subheading
-			  blurb
-			  button {
-				target
-				title
-				url
-			  }
-			}
-			rightColumn {
-			  image {
-				sourceUrl
-			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_TwoColumnsImageAndText {
-			switchColumnOrderOnDesktop
-			leftColumn {
-			  imageDesktop {
-				sourceUrl
-			  }
-			  imageMobile {
-				sourceUrl
-			  }
-			}
-			rightColumn {
-			  heading
-			  subheading
-			  blurb
-			  button {
-				target
-				title
-				url
-			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_GeneralButtonCta {
-			heading
-			subheading
-			button {
-			  target
-			  title
-			  url
-			}
-			icon {
-			  sourceUrl
-			}
-			variation
-		  }
-		  ... on Page_Modules_Modules_StandardAccordionList {
-			heading
-			footnote
-			accordion {
-			  question
-			  answer
-			}
-		  }
-		  ... on Page_Modules_Modules_GeneralHorizontalTabs {
-			tabs {
-			  label
-			  content {
-				image {
-				  sourceUrl
-				}
-				heading
-				subheading
-				list {
-				  icon {
-					sourceUrl
-				  }
-				  text
+			  subheadingColor
+			  dropdown {
+				option {
+				  target
+				  title
+				  url
 				}
 			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_WysiwygEditor {
-			editor
-		  }
-		  ... on Page_Modules_Modules_Q1Skills {
-			eyebrow
-			heading
-			subheading
-			list {
-			  detailsPopUp
-			  description
-			  title
-			  icon {
-				sourceUrl
-			  }
-			}
-		  }
-		  ... on Page_Modules_Modules_FindASchool {
-			heading
-			subheading
-			images {
-			  image {
-				sourceUrl
-			  }
-			}
-			button {
-			  target
-			  title
-			  url
 			}
 		  }
 		  ... on Page_Modules_Modules_ClassroomSelectAndImage {
@@ -180,25 +64,327 @@ query GetModules($id: ID = "") {
 			rightColumn {
 			  heading
 			  subheading
+			  headingColor
+			  subheadingColor
+			  dropdown {
+				option {
+				  target
+				  title
+				  url
+				}
+			  }
+			}
+			accents {
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			}
+			customizations {
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			  backgroundColorRight
 			}
 		  }
-		  ... on Page_Modules_Modules_ClassroomSelectAndContent {
+		  ... on Page_Modules_Modules_FindASchool {
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			button {
+			  target
+			  title
+			  url
+			}
+			buttonStyle
+			images {
+			  image {
+				sourceUrl
+			  }
+			}
+			customizations {
+			  backgroundColor
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_GeneralButtonCta {
+			accents {
+				accentOne {
+				  sourceUrl
+				}
+				accentTwo {
+				  sourceUrl
+				}
+			}
+			icon {
+			  sourceUrl
+			}
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			button {
+			  target
+			  title
+			  url
+			}
+			buttonStyle
+			variation
+			customizations {
+			  topMarginMobile
+			  bottomMarginMobile
+			  topMarginDesktop
+			  bottomMarginDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_GeneralHorizontalTabs {
+			tabs {
+				label
+				tabLabelColor
+				content {
+				  image {
+					sourceUrl
+				  }
+				  heading
+				  headingColor
+				  subheading
+				  subheadingColor
+				  list {
+					icon {
+					  sourceUrl
+					}
+					text
+					textColor
+				  }
+				}
+			  }
+			  customizations {
+				topPaddingMobile
+				bottomPaddingMobile
+				topPaddingDesktop
+				bottomPaddingDesktop
+			  }
+			}
+			... on Page_Modules_Modules_HeroWithImage {
+				leftColumn {
+				  image {
+					sourceUrl
+				  }
+				}
+				rightColumn {
+				  heading
+				  headingColor
+				  subheading
+				  subheadingColor
+				  blurb
+				  blurbColor
+				  button {
+					target
+					title
+					url
+				  }
+				  buttonStyle     
+				}
+				 accent {
+				  sourceUrl
+				}
+				 switchColumnOrderOnDesktop
+				customizations {
+				  topMarginMobile
+				  bottomMarginMobile
+				  topMarginDesktop
+				  bottomMarginDesktop
+				  backgroundColor
+				}
+			}
+			... on Page_Modules_Modules_HeroWithVideo {
+				leftColumn {
+				  heading
+				  headingColor
+				  subheading
+				  subheadingColor
+				  blurb
+				  blurbColor
+				  button {
+					target
+					title
+					url
+				  }
+				  buttonStyle     
+				}
+				rightColumn {
+				  video {
+					url
+				  }
+				}
+				accent {
+				  sourceUrl
+				}
+				 switchColumnOrderOnDesktop
+				customizations {
+				  topMarginMobile
+				  bottomMarginMobile
+				  topMarginDesktop
+				  bottomMarginDesktop
+				  backgroundColor
+				}
+			  }
+		  ... on Page_Modules_Modules_NewsletterFormCta {
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			accentOne {
+				sourceUrl
+			}
+			accentTwo {
+				sourceUrl
+			}
+			customizations {
+				backgroundColor
+				bottomMarginDesktop
+				bottomMarginMobile
+				topMarginDesktop
+				topMarginMobile
+			}
+		  }
+		  ... on Page_Modules_Modules_Q1Skills {
+			eyebrow
+          eyebrowColor
+          heading
+          headingColor
+          subheading
+          subheadingColor
+          list {
+            detailsPopUp
+            description
+            title
+            icon {
+              sourceUrl
+            }
+          }
+          customizations {
+            backgroundColor
+            bottomMarginDesktop
+            bottomMarginMobile
+            topMarginDesktop
+            topMarginMobile
+          }
+        }
+		... on Page_Modules_Modules_SeasonalBanner {
+			accentOne {
+			  sourceUrl
+			}
+			accentTwo {
+			  sourceUrl
+			}
+			accentThree {
+			  sourceUrl
+			}
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			button {
+			  target
+			  title
+			  url
+			}
+			buttonStyle
+			customizations {
+			  backgroundColor
+			  bottomMarginDesktop
+			  bottomMarginMobile
+			  topMarginDesktop
+			  topMarginMobile
+			}
+		  }
+		  ... on Page_Modules_Modules_StandardAccordionList {
+			heading
+			headingColor
+			accordion {
+			  question
+			  questionColor
+			  answer
+			  answerColor
+			}
+			footnote
+			footnoteColor
+			accent {
+			  sourceUrl
+			}
+			
+		  }
+		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
 			leftColumn {
 			  heading
+			  headingColor
 			  subheading
+			  subheadingColor
+			  blurb
+			  blurbColor
+			  buttonStyle
 			  button {
-				url
-				title
 				target
+				title
+				url
 			  }
+			  customizations {
+				backgroundColor
+				bottomMarginDesktop
+				bottomMarginMobile
+				topMarginDesktop
+				topMarginMobile
+			  }
+			  
+			}
+			rightColumn {
 			  image {
+				sourceUrl
+			  }
+			}
+		  }
+		  ... on Page_Modules_Modules_TwoColumnsImageAndText {
+			leftColumn {
+			  imageDesktop {
+				sourceUrl
+			  }
+			  imageMobile {
 				sourceUrl
 			  }
 			}
 			rightColumn {
 			  heading
+			  headingColor
 			  subheading
+			  subheadingColor
+			  blurb
+			  blurbColor
+			  buttonStyle
+			  button {
+				target
+				title
+				url
+			  }
 			}
+			switchColumnOrderOnDesktop
+			customizations {
+			  backgroundColor
+			  bottomMarginDesktop
+			  bottomMarginMobile
+			  topMarginDesktop
+			  topMarginMobile
+			}
+		  }
+		  ... on Page_Modules_Modules_WysiwygEditor {
+			editor
 		  }
 		}
 	  }

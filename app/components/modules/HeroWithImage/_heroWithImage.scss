@@ -1,18 +1,14 @@
 .hero-with-image {
-    background-position: -200% -200%;
-    background-repeat: no-repeat;
-    background-color: $hero-bg;
+    background-color: $grayscale-3;
     border-radius: 30px;
-    margin: 1rem 0 30px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
     @include media-breakpoint-up(lg) {
         margin: auto;
-        background-repeat: no-repeat;
-        background-position: 100% 100%;
         flex-direction: row;
         align-items: stretch;
-        margin: 20px 0;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -41,6 +37,14 @@
                 border-top-left-radius: 15px;
                 border-bottom-left-radius: 15px;
             }
+            &.padded {
+                height: 80%;
+                width: 80%;
+                top: 10%;
+                left: 10%;
+                border-radius: 15px;
+               
+            }
         }
     }
     .right-column {
@@ -57,6 +61,19 @@
         button {
             margin-top: 30px;
             width: auto;
+        }
+    }
+    .accent {
+        background-size: 0;
+        pointer-events: none;
+        @include media-breakpoint-up(lg) {
+            background-position: bottom right;
+            background-size: 100%;
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            bottom: -19rem;
+            right: -10rem;
         }
     }
 }

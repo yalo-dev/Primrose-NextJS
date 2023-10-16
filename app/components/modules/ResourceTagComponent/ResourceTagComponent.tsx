@@ -53,7 +53,7 @@ function ResourceTagComponent() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const desiredSlug = router.isReady && router.query.slug && Array.isArray(router.query.slug) ? router.query.slug[0] : null;
 	
-	const resourcesPerPage = 2;
+	const resourcesPerPage = 9;
 
 	useEffect(() => {
 		setCurrentPage(1);

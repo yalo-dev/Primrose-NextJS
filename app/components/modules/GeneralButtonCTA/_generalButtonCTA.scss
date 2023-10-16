@@ -1,23 +1,28 @@
 .general-button-cta {
     position: relative;
-    background-color: $resource-newsletter-bg;
+    background-color: $grayscale-4;
     border-radius: 10px;
     padding: 20px 40px 125px; 
     overflow: hidden;
     h2 {
         margin-bottom: 1rem;
+        z-index: 4;
+        position: relative;
     }
     .b3 {
         margin-bottom: 1rem;
+        z-index: 4;
+        position: relative;
     }
     button {
         width: auto;
         margin-top: 30px;
+        z-index: 4;
+        position: relative;
     }
     @include media-breakpoint-up(lg) {
         border-radius: 30px;
         padding: 40px; 
-        margin: 1rem 0;
         .icon {
             img {
                 width: 100px;
@@ -28,49 +33,57 @@
             max-width: 35rem;
         }
     }
-    &::before {
-        content: "";
+    .accent {
         position: absolute;
-        bottom: -1rem;
-        right: -12rem;
-        background-image: url('/assets/accent2.svg');
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+
+    }
+    .accent-one {
+        background-size: 100%;
         background-repeat: no-repeat;
-        background-position: 50% 20%;
-        background-size: contain;
-        width: 900px;
-        height: 125px;
+        background-position: center;
+        width: 790px;
+        height: 790px;
+        position: absolute;
+        top: -2rem;
+        right: -7rem;
+        pointer-events: none;
         @include media-breakpoint-up(lg) {
-            right: 10rem;
+            top: 8rem;
+            right: 3rem;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            right: 16rem;
         }
     }
-    &::after {
-        content:"";
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-image: url('/assets/accent1.svg');
-        background-repeat: no-repeat;
-        background-position: top right;
+
+    .accent-two {
         background-size: 100%;
-        width: 120px;
-        height: 100px;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: -42rem;
+        right: -14rem;
+        pointer-events: none;
         @include media-breakpoint-up(lg) {
-            width: 185px;
-            height: 150px;
+            right: -12rem;
+            top: -18rem;
         }
     }
 
     &.Blue {
         background-color: #006ba7;
-        color: $ui-grayscale-1;
-        &::before, &::after {
+        color: $grayscale-1;
+        .accent {
             filter: opacity(0.3);
         }
         h2 {
-            color: $ui-grayscale-1;
-        }
-        button {
-            @extend .white;
+            color: $grayscale-1;
         }
         .icon {
             img {
@@ -80,15 +93,12 @@
     }
     &.Green {
         background-color: #5e6738;
-        color: $ui-grayscale-1;
-        &::before, &::after {
+        color: $grayscale-1;
+        .accent {
             filter: opacity(0.3);
         }
         h2 {
-            color: $ui-grayscale-1;
-        }
-        button {
-            @extend .white;
+            color: $grayscale-1;
         }
         .icon {
             img {
@@ -98,15 +108,12 @@
     }
     &.Purple {
         background-color: #814c9e;
-        color: $ui-grayscale-1;
-        &::before, &::after {
+        color: $grayscale-1;
+        .accent {
             filter: opacity(0.3);
         }
         h2 {
-            color: $ui-grayscale-1;
-        }
-        button {
-            @extend .white;
+            color: $grayscale-1;
         }
         .icon {
             img {

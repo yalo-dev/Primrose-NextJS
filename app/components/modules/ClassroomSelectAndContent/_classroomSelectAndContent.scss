@@ -1,34 +1,45 @@
 .classroom-select-and-content {
-    margin: 1rem 0;
     position: relative;
+    @include media-breakpoint-up(lg) {
+        display: flex; 
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: flex-end;
+    }
     .left-column {
-        background-color: $classroom-select-bg;
-        padding: 3rem 1rem 0;
-        border-radius: 2rem 1rem;
+        background-color: $neutral-4;
+        padding:  3rem 1rem 0;
+        border-radius: 10px;
+        margin-right: 1rem;
         position: relative;
         overflow: hidden;
+        @include media-breakpoint-up(lg) {
+            margin-right: 1rem;
+        }
+
         &::after {
             content: "";
-            background-color: gray;
-            opacity: 0.2;
-            border-top-left-radius: 40%;
+            background-color: $primary-darkgray;
+            opacity: 0.1;
+            border-radius: 50%;
             position: absolute;
-            width: 100%;
-            height: 15rem;
-            bottom: 0%;
-            left: 0;
-            border-top-right-radius: 40%;
+            width: 547px;
+            height: 547px;
+            top: 60%;
+            right: -6rem;
             @include media-breakpoint-up(xl) {
-                opacity: 0.2;
-                border-top-left-radius: 16rem;
-                position: absolute;
-                width: 82%;
-                height: 18rem;
-                bottom: 0%;
-                left: unset;
-                border-top-right-radius: 50%;
-                right: -4rem;
+                width: 800px;
+                height: 800px;
+                top: 49%;
+                right: -21rem;
             }
+            @include media-breakpoint-up(xxl){
+                top: 41%;
+                right: -13rem;
+            }
+        }
+        .content-wrap {
+            max-width: 25rem;
         }
         img {
             border-radius: 10px;
@@ -37,6 +48,15 @@
             position: relative;
             z-index: 2;
             border-bottom-right-radius: 2rem;
+            @include media-breakpoint-up(lg) {
+                width: 25rem;
+                position: absolute;
+                bottom: 0;
+                right: -1rem;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 30rem;
+            }
         }
         button {
             width: auto;
@@ -45,59 +65,60 @@
     }
 
     .right-column {
-        background-color: $resource-newsletter-bg;
+        background-color: $grayscale-4;
         border-radius: 10px;
         margin-top: 1rem;
         padding: 4rem 1rem 15rem;
-        overflow: hidden;
+        //overflow: hidden;
+        position: relative;
         @include media-breakpoint-up(lg) {
             margin: 0;
+            padding: 4rem 1rem 21rem;
         }
         .accent {
-            position: relative;
-            &::before {
-                content: "";
-                background-image: url(/assets/accent-green-half-circle.svg);
-                background-size: 100%;
-                background-repeat: no-repeat;
-                background-position: top left;
-                width: 13rem;
-                height: 7rem;
-                position: absolute;
-                top: -27rem;
-                right: -2rem;
-                z-index: 2;
-                border-bottom-right-radius: 1rem;
-                transform: rotateY(180deg);
-                @include media-breakpoint-up(xl) {
-                    top: -26px;
-                }
-            }
-    
-            &::after {
-                content: "";
-                background-image: url(/assets/accent2.svg);
-                background-size: 100%;
-                background-repeat: no-repeat;
-                background-position: top left;
-                width: 90rem;
-                height: 26rem;
-                position: absolute;
-                bottom: -30rem;
-                right: -26rem;
-                border-bottom-right-radius: 1rem;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 10px;
+        }
+        .accent-one {
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: -21rem;
+            right: -13rem;
+            pointer-events: none;
+        }
+
+        .accent-two {
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 790px;
+            height: 790px;
+            position: absolute;
+            bottom: -37rem;
+            right: -15rem;
+            pointer-events: none;
+            @include media-breakpoint-up(lg) {
+                right: -10rem;
+                bottom: -31rem;
             }
         }
     
         h2, .b3 {
             z-index: 2;
             position: relative;
+            max-width: 25rem;
         }
         .custom-select {
             height: 50px;
-            border: 1px solid $black-lighter;
-            border-radius: 25px;
-            background-color: $ui-grayscale-1;
             color: $primary-green;
             width: 256px;
             -moz-appearance: none;
@@ -125,21 +146,55 @@
                 }
             }
 
+            .header {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 12px 10px;
+                padding-right: 35px;
+                border: 1px solid $text-gray;
+                border-radius: 25px;
+                background-color: $grayscale-1;
+                z-index: 5;
+                position: relative;;
+
+                @include media-breakpoint-up(xl) {
+                    min-width: 10rem;
+                }
+
+                @include media-breakpoint-up(xxl) {
+                    min-width: 12rem;
+                }
+            }
+
+
             .options {
-                background: $ui-grayscale-1;
+                background: $grayscale-1;
                 z-index: 1;
                 position: absolute;
                 width: 16rem;
                 overflow: hidden;
                 height: 0;
                 transition: height 0.3s ease-out;
+                top: 2rem;
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
                 @include dropShadow;
-
                 .option {
                     padding: 17px 40px;
                     width: 100%;
-                    border-bottom: 1px solid $resource-banner-border;
-
+                    border-bottom: 1px solid $neutral-2;
+                    background: $grayscale-1;
+                    a {color: $primary-darkgray;}
+                    &:first-child {
+                        padding-top: 2rem;
+                    }
+                    &:last-child {
+                        border-bottom-left-radius: 15px;
+                        border-bottom-right-radius: 15px;
+                    }
                     input[type="checkbox"] {
                         display: none;
                     }
@@ -152,13 +207,13 @@
 
                         &::before {
                             content: "";
-                            border: 2px solid $resource-banner-border;
+                            border: 2px solid $neutral-2;
                             position: absolute;
                             top: 6px;
                             left: -20px;
                             width: 12px;
                             height: 12px;
-                            background-color: $ui-grayscale-1;
+                            background-color: $grayscale-1;
                             border-radius: 3px;
 
                         }
@@ -181,25 +236,6 @@
                 margin-right: 2%;
             }
 
-            .header {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 12px 10px;
-                padding-right: 35px;
-                background-color: $transparent;
-
-                @include media-breakpoint-up(xl) {
-                    min-width: 10rem;
-                }
-
-                @include media-breakpoint-up(xxl) {
-                    min-width: 12rem;
-                }
-            }
-
             &:nth-child(2) {
                 .options {
                     right: 0;
@@ -207,23 +243,5 @@
             }
         }
 
-    }
-
-    @include media-breakpoint-up(lg) {
-        display: flex; 
-        flex-direction: row;
-        align-items: stretch;
-        justify-content: flex-end;
-        .left-column {
-            padding: 2rem;
-            margin-right: 1rem;
-            img {
-                width: 21rem;
-                position: absolute;
-                bottom: 0;
-                right: -1rem;
-            
-            }
-        }
     }
 }

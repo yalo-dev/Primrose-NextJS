@@ -13,12 +13,12 @@
             }
         }
         background-color: #814C9E;
-        color: $ui-grayscale-1;
+        color: $grayscale-1;
         
         overflow:hidden;
         h1 {
             @extend .h2;
-            color: $ui-grayscale-1 !important;
+            color: $grayscale-1 !important;
         }
         @include media-breakpoint-up(lg) {
             border-radius: .75rem;
@@ -132,8 +132,8 @@
         }
         .details {
             .caption {
-                color: $ui-grayscale-1;
-                color:  $ui-grayscale-1;
+                color: $grayscale-1;
+                color:  $grayscale-1;
                 &::after {
                     content: "·";
                     position: absolute;
@@ -165,7 +165,7 @@
             margin-right: 0;
             margin-left: auto;
             p {
-                color: $ui-grayscale-1;
+                color: $grayscale-1;
             }
             &::after {
                 content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.5' stroke='%23D8C8E1'/%3E%3Cline x1='7.5' y1='4' x2='7.5' y2='9' stroke='%23D8C8E1'/%3E%3Cline x1='7' y1='8.5' x2='12' y2='8.5' stroke='%23D8C8E1'/%3E%3C/svg%3E");
@@ -177,7 +177,7 @@
     }
     .social {
         a {
-            margin: 5px;
+            margin: 10px;
             font-size: 0;
             @include transitionAll; 
             &:hover {
@@ -190,7 +190,7 @@
             left: 10%;
         }
     }
-    .content {
+    .resourece-content {
         max-width: 760px;
         h1,h2,h3,h4,h5,h6 {
             font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
@@ -221,12 +221,12 @@
               }
         }
     }
-    .tags {
+    .content-width {
         max-width: 760px;
         margin: auto;
-        .container {
-            border-top: 1px solid $ui-grayscale-5;
-            border-bottom: 1px solid $ui-grayscale-5;
+        .tags {
+            border-top: 1px solid $grayscale-5;
+            border-bottom: 1px solid $grayscale-5;
             padding: 40px 0;
             margin: 2rem 0;
             .tag {
@@ -240,7 +240,7 @@
             padding-top: 60px;
         }
         .card {
-            border-bottom: 1px solid $ui-grayscale-3 !important;
+            border-bottom: 1px solid $grayscale-3 !important;
             @include media-breakpoint-up(xl) {
                 border-bottom: 0 !important;
             }
@@ -260,6 +260,12 @@
                     }
                 }
             }
+        }
+    }
+    .seasonal-banner {
+        margin: 2rem 0;
+        @include media-breakpoint-up(lg) {
+            margin: 4rem 0;
         }
     }
 }

@@ -5,7 +5,7 @@
     top: 107px;
     left: 0;
     padding: 23px 0;
-    background-color: $resource-nav-bg;
+    background-color: $grayscale-2;
     border-top: 1px solid $nav-border;
     border-bottom: 1px solid $nav-border;
     @include media-breakpoint-up(lg) {
@@ -21,11 +21,11 @@
         max-width: $max-content-width;
         li {
             a {
-                color: $resource-nav-color;
+                color: $text-gray;
             }
             &:not(.navitem--main):not(:last-of-type)  {
                 &::after {
-                    color: $newsletter-form-border-2;
+                    color: $neutral-1;
                     content: '/';
                     position: absolute;
                     bottom: -3px;

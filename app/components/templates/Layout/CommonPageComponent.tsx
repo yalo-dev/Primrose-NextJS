@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import ClassroomSelectAndContent from '../../modules/ClassroomSelectAndContent/ClassroomSelectAndContent';
 import ClassroomSelectAndImage from '../../modules/ClassroomSelectAndImage/ClassroomSelectAndImage';
 import FindASchool from '../../modules/FindASchool/FindASchool';
@@ -5,7 +6,7 @@ import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
-import PointersForParents from '../../modules/PointersForParents/PointersForParents';
+import NewsletterFormCTA from '../../modules/NewsletterFormCTA/NewsletterFormCTA';
 import Q1Skills from '../../modules/Q1Skills/Q1Skills';
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
 import StandardAccordionList from '../../modules/StandardAccordionList/StandardAccordionList';
@@ -13,13 +14,12 @@ import TwoColumnsFeaturedImage from '../../modules/TwoColumnsFeaturedImage/TwoCo
 import TwoColumnsImageAndText from '../../modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 import WysiwygEditor from '../../modules/WysiwygEditor/WysiwygEditor';
 
-export const CommonPageComponent = ({ modules }) => (
+export const CommonPageComponent = ({ modules }) => {
+    
+
+    return (
     <div className="modules--container">
         {modules.map((module, index) => {
-            const style = {
-                backgroundImage: module.backgroundImage ? `url(${module.backgroundImage.sourceUrl})` : undefined,
-                backgroundColor: module.backgroundColor || undefined,
-            };
 
             let ModuleComponent;
 
@@ -45,8 +45,11 @@ export const CommonPageComponent = ({ modules }) => (
                 case 'Page_Modules_Modules_HeroWithVideo':
                     ModuleComponent = HeroWithVideo;
                     break;
-                case 'Page_Modules_Modules_PointersForParents':
-                    ModuleComponent = PointersForParents;
+                case 'Page_Modules_Modules_NewsletterFormCta':
+                    ModuleComponent = NewsletterFormCTA;
+                    break;
+                case 'Page_Modules_Modules_Q1Skills':
+                    ModuleComponent = Q1Skills;
                     break;
                 case 'Page_Modules_Modules_SeasonalBanner':
                     ModuleComponent = SeasonalBanner;
@@ -60,20 +63,14 @@ export const CommonPageComponent = ({ modules }) => (
                 case 'Page_Modules_Modules_TwoColumnsImageAndText':
                     ModuleComponent = TwoColumnsImageAndText;
                     break;
-                case 'Page_Modules_Modules_Q1Skills':
-                    ModuleComponent = Q1Skills;
-                    break;
                 case 'Page_Modules_Modules_WysiwygEditor':
                     ModuleComponent = WysiwygEditor;
                     break;
-
-
                 default:
                     ModuleComponent = null;
             }
-
             return (
-                <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`} style={style}>
+                <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`}>
 
                     {console.log("Current module: ", module)}
 
@@ -82,4 +79,5 @@ export const CommonPageComponent = ({ modules }) => (
             );
         })}
     </div>
-);
+    );
+};
