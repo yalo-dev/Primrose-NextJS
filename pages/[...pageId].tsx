@@ -127,6 +127,14 @@ query GetModules($id: ID = "") {
 			  title
 			  url
 			}
+			accents {
+				accentOne {
+				  sourceUrl
+				}
+				accentTwo {
+				  sourceUrl
+				}
+			  }
 			buttonStyle
 			variation
 			customizations {

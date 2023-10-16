@@ -99,6 +99,9 @@
             }
             &.expanded {
                 color: $primary-green;
+                span {
+                    color: $primary-green!important;
+                }
                 #button {
                     background-color: $transparent;
                     span {
