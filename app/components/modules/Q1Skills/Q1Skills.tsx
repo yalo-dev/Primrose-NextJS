@@ -83,7 +83,7 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
                                 {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.title || 'Icon'} />}
                             </button>
 
-                            <div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>
+                                <div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>
                                     <div className="title-container">
                                         {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
                                         {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}

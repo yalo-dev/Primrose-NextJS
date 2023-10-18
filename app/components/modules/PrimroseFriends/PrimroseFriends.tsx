@@ -54,14 +54,14 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
         }
     });
 
-    const handleTabClick = (index: number) => {
-        // Toggle the active tab
-        if (expandedTab === index) {
-            setExpandedTab(null);
-        } else {
-            setExpandedTab(index);
-        }
-    };
+    // const handleTabClick = (index: number) => {
+    //     // Toggle the active tab
+    //     if (expandedTab === index) {
+    //         setExpandedTab(null);
+    //     } else {
+    //         setExpandedTab(index);
+    //     }
+    // };
 
     const handleLabelClick = (targetId: string) => {
         const targetElement = document.getElementById(targetId);

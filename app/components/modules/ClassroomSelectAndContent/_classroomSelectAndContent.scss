@@ -14,6 +14,7 @@
         position: relative;
         overflow: hidden;
         @include media-breakpoint-up(lg) {
+            border-radius: 30px;
             margin-right: 1rem;
             width: calc(58.33333333% - 1rem);
         }
@@ -41,6 +42,9 @@
         }
         .content-wrap {
             max-width: 25rem;
+            @include media-breakpoint-up(lg) {
+                margin-left: 2rem;
+            }
             h2 {
                 max-width: 280px;
                 @include media-breakpoint-up(lg) {
@@ -80,6 +84,7 @@
         position: relative;
         @include media-breakpoint-up(lg) {
             margin: 0;
+            border-radius: 30px;
             padding: 4rem 1rem 21rem;
         }
         .accent {
@@ -90,6 +95,9 @@
             top: 0;
             left: 0;
             border-radius: 10px;
+            @include media-breakpoint-up(lg) {
+                border-radius: 30px;
+            }
         }
         .accent-one {
             background-size: 100%;

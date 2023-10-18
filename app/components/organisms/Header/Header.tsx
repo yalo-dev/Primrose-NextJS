@@ -13,7 +13,7 @@ export default function Header({ menuItems }) {
             <title>Primrose Schools</title>
             <nav className='navbar navbar-expand-lg fixed-top'>
                 <div className='container'>
-                    <div className='navbar-logo m-2 col-lg-2'>
+                    <div className='navbar-logo m-2 ms-lg-0 col-lg-2'>
                         <Link
                             href='/' passHref>
                             <Image

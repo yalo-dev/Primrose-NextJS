@@ -14,7 +14,6 @@
                 border: 1px solid $neutral-2;
                 border-radius: 20px;
                 padding: 2rem;
-                
                 margin-bottom: 2rem;
                 &::before {
                     content: "";
@@ -36,7 +35,32 @@
                     flex-basis: 65%;
                     ul {
                         margin-bottom: 0;
+                        li {
+                            .icon-container.has-popup:hover {
+                                background-color: $brand-blue;
+                                color: $grayscale-1;
+            
+                                img {
+                                    filter: brightness(0) invert(1);
+                                }
+            
+                                ~.details-popup {
+                                    opacity: 1;
+                                    pointer-events: none;
+                                    visibility: visible;
+                                    .title-container {
+                                        .desc {
+                                            display: flex;
+                                        }
+                                    }
+                                }
+                            }
+            
+                        }
                     }
+                }
+                &:last-child {
+                    margin-bottom: 0;
                 }
             }
         }
@@ -104,7 +128,7 @@
             background-color: $neutral-2;
             @include transition;
         }
-
+        
         &.expanded {
             h5, h5 span {color: $brand-blue !important;}
 
@@ -146,6 +170,78 @@
             }
         }
 
+        .details-popup {
+            position: absolute;
+            z-index: 10;
+            border-radius: 10px;
+            width: 23rem;
+            left: 2rem;
+            bottom: 6rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+            @include transition;
+            @include media-breakpoint-up(lg) {
+                //bottom: 8rem;
+            }
+            &::before {
+                content: "";
+                position: absolute;
+                bottom: -24px;
+                left: -22px;
+                transform: rotate(90deg);
+                width: 0;
+                height: 0;
+                border-left: 30px solid $transparent;
+                border-right: 46px solid $transparent;
+                border-bottom: 32px solid #ccc;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -21px;
+                left: -21px;
+                transform: rotate(90deg);
+                width: 0;
+                height: 0;
+                border-left: 30px solid $transparent;
+                border-right: 44px solid $transparent;
+                border-bottom: 30px solid #fff;
+            }
+
+            .title-container {
+                color: $grayscale-1;
+                background-color: $text-gray;
+                border: 1rem;
+                border-radius: 25px;
+                padding: 1rem;
+                width: fit-content;
+                border-bottom-left-radius: 0;
+
+                .title {
+                    margin-left: 0;
+                    font-size: 16px;
+                    color: $grayscale-1;
+                }
+            }
+
+            .details-container {
+                background-color: $grayscale-1;
+                border: 1px solid #ccc;
+                padding: 10px;
+                border-radius: 20px;
+                border-top-left-radius: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        .details-popup.active {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
         .content-wrapper {
             ul {
                 margin: 40px 0;
@@ -158,15 +254,34 @@
                     align-items: center;
                     border-radius: 10px;
                     background-color: $grayscale-2;
-                    padding: 10px 0;
-                    min-height: 80px;
-                    img {
-                        border: 1px solid $neutral-2;
+                    padding: 0;
+                    min-height: 60px;
+                    position: relative;
+                    .icon-and-popup-container  {
+                        align-items: center;
+                    }
+                    .icon-container {
                         background-color: $grayscale-1;
+                        position: relative;
+                        padding-left: 0;
+                        text-align: left;
                         padding: 10px;
-                        border-radius: 15px;
                         width: 60px;
                         height: 60px;
+                        min-width: 60px;
+                        border-radius: 10px;
+                        border: 1px solid $neutral-2;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        &.has-popup.active {
+                            background-color: $brand-blue;
+                            color: $grayscale-1;
+        
+                            img {
+                                filter: brightness(0) invert(1);
+                            }
+                        }
                     }
                 }
             }

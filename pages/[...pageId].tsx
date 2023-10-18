@@ -179,6 +179,7 @@ query GetModules($id: ID = "") {
 				  }
 				  text
 				  textColor
+				  detailsPopUp
 				}
 			  }
 			}
@@ -284,7 +285,7 @@ query GetModules($id: ID = "") {
 				characterTrait
 				traitColor
 				bio
-				watchNow  
+				watchNow
 				videoUrl {
 				  url
 				  title
@@ -405,6 +406,12 @@ query GetModules($id: ID = "") {
 				  url
 				}
 			  }
+			}
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsImageAndText {

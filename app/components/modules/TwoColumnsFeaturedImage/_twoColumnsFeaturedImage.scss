@@ -54,6 +54,11 @@
                     width: 312px;
                     height: 238px;
                 }
+               
+            }
+            @include media-breakpoint-up(xxl) {
+                bottom: 4rem;
+                position: relative;
             }
         }
         
