@@ -142,15 +142,16 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
     const toggleVideoPlayback = (index: number) => {
         const currentVideo = videoRefs.current[index];
         if (currentVideo) {
-            if (playingVideo === index) { // If the clicked video is already playing, pause it
-                currentVideo.pause();
-                setPlayingVideo(null); // Reset playing video
-            } else {
+            if (currentVideo.paused) { // If video is paused, play it
                 currentVideo.play();
-                setPlayingVideo(index); // Set the clicked video as the currently playing video
+                setPlayingVideo(index);
+            } else { // If video is playing, pause it
+                currentVideo.pause();
+                setPlayingVideo(null); // Reset playing video so the play button shows
             }
         }
     };
+    
 
     return (
         <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
@@ -211,8 +212,9 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                         <video 
                                                             width="320" 
                                                             height="240" 
-                                                            ref={(el) => (videoRefs.current[index] = el)}
+                                                            ref={(el) => (videoRefs.current[index] = el)} 
                                                             muted
+                                                            onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
                                                         >
                                                             <source src={tab.content.videoUrl.url} type="video/mp4" />
                                                             Your browser does not support the video tag.
@@ -257,14 +259,15 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                     <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                 </div>
                                 }
-                               {tab.content?.videoUrl?.url && (
+                                {tab.content?.videoUrl?.url && (
                                     <div className='video'>
                                         {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
                                         <video 
                                             width="320" 
                                             height="240" 
-                                            ref={(el) => (videoRefs.current[index] = el)}
+                                            ref={(el) => (videoRefs.current[index] = el)} 
                                             muted
+                                            onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
                                         >
                                             <source src={tab.content.videoUrl.url} type="video/mp4" />
                                             Your browser does not support the video tag.
