@@ -16,12 +16,8 @@
 .container-md, 
 .container-sm
 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    @include media-breakpoint-up(lg) {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
-    }
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
 }
 
 /***********************************************************************/
@@ -38,10 +34,11 @@
 //to offset space for the nav 
 .main--container {
     margin-top: 108px;
-    //overflow: hidden;
+    overflow: hidden;
 
     @include media-breakpoint-up(lg) {
         margin-top: 97px;
+        overflow: visible;
     }
 
     @include media-breakpoint-up(xl) {
