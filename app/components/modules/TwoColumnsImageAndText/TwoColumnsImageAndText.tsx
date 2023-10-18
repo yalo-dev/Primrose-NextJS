@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
+import Customizations from '../../filters/Customizations';
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
@@ -24,16 +25,28 @@ interface TwoColumnsImageAndTextProps {
             sourceUrl?: string;
         };
     };
+    customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
+	};
 }
 
-const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop }) => {
+const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, customizations }) => {
     const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
     return (
         <div className='container'>
+             <Customizations
+                topPaddingMobile={customizations?.topPaddingMobile}
+                topPaddingDesktop={customizations?.topPaddingDesktop}
+                bottomPaddingMobile={customizations?.bottomPaddingMobile}
+                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+                >
             <div className={className}>
                 {(leftColumn?.imageDesktop?.sourceUrl || leftColumn?.imageMobile?.sourceUrl) && (
-                    <div className='left-column col-12 col-lg-6'>
+                    <div className='left-column col-12 col-lg-5 offset-lg-1'>
                         {leftColumn?.imageMobile?.sourceUrl && 
                             <Image 
                                 className='d-block d-lg-none' 
@@ -54,7 +67,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                         }
                     </div>
                 )}
-                <div className='right-column col-12 col-lg-6'>
+                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
                     {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
@@ -65,6 +78,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     )}
                 </div>
             </div>
+            </Customizations>
         </div>
     );
 }

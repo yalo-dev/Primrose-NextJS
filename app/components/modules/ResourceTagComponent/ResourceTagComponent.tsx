@@ -89,7 +89,7 @@ function ResourceTagComponent() {
 	return (
 		<div className='container'>
 			<div id='all' className='resources-container'>
-			<Heading level='h1'>{getTagNameBySlug(desiredSlug)} Category</Heading>
+			<Heading level='h1'>{getTagNameBySlug(desiredSlug)}</Heading>
 				<div className='gap d-flex flex-wrap mb-5 mt-5'>
 					{currentResources.map(resource => (
 						<ResourceCard

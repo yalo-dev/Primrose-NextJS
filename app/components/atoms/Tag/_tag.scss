@@ -8,13 +8,13 @@
     cursor: pointer;
     @extend p;
     &.category {
-        background-color: $white;
+        background-color: $grayscale-1;;
         color: $text-gray;
         border: 1px solid $nav-border;
     }
     &.featured {
         background-color: $primary-green;
-        color: $white;
+        color: $grayscale-1;;
         border: 1px solid $primary-green;
     }
     @include media-breakpoint-up(md) {

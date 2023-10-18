@@ -1,14 +1,10 @@
 import React from 'react';
-import { Green, White, DarkGray, Gray, Teal, Blue, Violet, Orange, Red, NeutralOne, NeutralTwo, NeutralThree, NeutralFour, NeutralFive, NeutralSix, GrayOne, GrayTwo, GrayThree, GrayFour, GrayFive, GraySix } from '../../filters/ColorComponent';
-
+import ColorComponent from '../../filters/ColorComponent';
 
 const getColorComponent = (color: string | undefined, children: React.ReactNode) => {
-  const colors = { Green, White, DarkGray, Gray, Teal, Blue, Violet, Orange, Red, NeutralOne, NeutralTwo, NeutralThree, NeutralFour, NeutralFive, NeutralSix, GrayOne, GrayTwo, GrayThree, GrayFour, GrayFive, GraySix };
-  
   if (!color) return children;
   
-  const ColorComponent = colors[color];
-  return ColorComponent ? <ColorComponent>{children}</ColorComponent> : children;
+  return <ColorComponent color={color}>{children}</ColorComponent>;
 };
 
 interface SubheadingProps {
@@ -38,6 +34,3 @@ export default Subheading;
 // HOW TO USE
 // <Subheading level="h2">This is an H2 subheading.</Subheading>
 // <Subheading level="div" className="my-custom-class" color={subheadingColor}>This is a div subheading with a custom class.</Subheading>
-
-
-

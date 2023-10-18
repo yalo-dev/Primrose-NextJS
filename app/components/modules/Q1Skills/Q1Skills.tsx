@@ -34,24 +34,28 @@ interface Q1SkillsProps {
 
 const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, headingColor, subheading, subheadingColor, list, customizations }) => {
     const [activePopup, setActivePopup] = useState<number | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
     const handleIconClick = (idx: number) => {
-        setActivePopup(prev => (prev === idx ? null : idx));
+        if (window.innerWidth < 992) {
+            setActivePopup(prev => (prev === idx ? null : idx));
+        }
     };
 
     useEffect(() => {
-        const handleOutsideClick = (event: Event) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        function handleOutsideClick(event: MouseEvent) {
+            if (window.innerWidth < 992 && activePopup !== null && !buttonsRef.current[activePopup]?.contains(event.target as Node)) {
                 setActivePopup(null);
             }
-        };
+        }
 
         document.addEventListener('mousedown', handleOutsideClick);
+        
         return () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
-    }, []);
+    }, [activePopup]);
+
 
     return (
         <div className="container">
@@ -60,7 +64,7 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+		   colorLabel={customizations?.backgroundColor}
 	   >
             <div className="q1skills">
                 {eyebrow && <Subheading level='h5' color={eyebrowColor}>{eyebrow}</Subheading>}
@@ -69,26 +73,28 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
                 <ul>
                     {list.map((item, idx) => (
                         <li key={idx}>
-                            <div className="icon-and-popup-container">
-                                <button 
-                                    className={`icon-container ${activePopup === idx ? 'active' : ''}`}
-                                    onClick={() => handleIconClick(idx)}
-                                >
-                                    {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.title || 'Icon'} />}
-                                </button>
-                                {activePopup === idx && (
-                                    <div className="details-popup">
-                                        <div className="title-container">
-                                            {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
-                                            {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
-                                        </div>
-                                        {item.detailsPopUp && <div className="details-container">{item.detailsPopUp}</div>}
+                            <div className="icon-and-popup-container d-flex flex-lg-column align-lg-center justify-content-lg-center">
+
+                            <button 
+                                ref={el => buttonsRef.current[idx] = el}
+                                className={`icon-container ${activePopup === idx ? 'active' : ''}`}
+                                onClick={() => handleIconClick(idx)}
+                            >
+                                {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.title || 'Icon'} />}
+                            </button>
+
+                            <div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>
+                                    <div className="title-container">
+                                        {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
+                                        {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
                                     </div>
-                                )}
-                            </div>
-                            <div className="title-container">
-                                {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
-                                {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
+                                    {item.detailsPopUp && <div className="details-container">{item.detailsPopUp}</div>}
+                                </div>
+
+                                <div className="title-container">
+                                    {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
+                                    {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
+                                </div>
                             </div>
                         </li>
                     ))}

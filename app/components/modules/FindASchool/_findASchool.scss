@@ -2,7 +2,7 @@
     background-color: $brand-blue;
     display: flex;
     color: $grayscale-1;
-    border-radius: 1rem;
+    border-radius: 15px;
     height: 500px;
     h2 {
         color: $grayscale-1;
@@ -16,7 +16,7 @@
         margin-top: 30px;
     }
     .left-column {
-        padding: 2rem 1rem 2rem;
+        padding: 2rem 1.25rem 2rem 1rem;
     }
     .right-column {
         overflow: hidden;
@@ -36,7 +36,7 @@
                 width: 127px;
                 height: 163px;
                 border-radius: 1rem;
-                margin-bottom: 5px;
+                margin-bottom: 7px;
                 object-fit: cover;
                 @include media-breakpoint-up(lg) {
                     width: 170px;
@@ -53,6 +53,7 @@
     }
     
     @include media-breakpoint-up(lg) {
+        border-radius: 30px;
         .left-column {
             padding: 5rem;
         }
@@ -70,7 +71,7 @@
     }
     @include media-breakpoint-up(xl) {
         .left-column {
-            padding: 5rem 9rem;
+            padding: 5rem 10rem;
         }
     }
     @include media-breakpoint-up(xxl) {

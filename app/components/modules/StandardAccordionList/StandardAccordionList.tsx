@@ -43,14 +43,14 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+		   colorLabel={customizations?.backgroundColor} 
 	   >
       <div className='standard-accordion-list'>
-        <div className='inner col-lg-9 offset-lg-3 p-4'>
+        <div className='inner col-lg-9 offset-lg-3'>
           <div className='row text-left'>
-            {heading && <Heading level='h2' className='green' color={headingColor}>{heading}</Heading>}
+            {heading && <Heading level='h2' className='green pt-3' color={headingColor}>{heading}</Heading>}
           </div>
-          <div className='row accordions p-2'>
+          <div className='row accordions'>
             {accordion.map((accordion, index) => {
               const fadeIn = useSpring({
                 opacity: expandedAccordionIndex === index ? 1 : 0,
@@ -61,7 +61,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
               return (
                 <div key={index} className='accordion pt-5 pb-4 pb-xl-5'>
                   <Paragraph
-                    className={`question b4 m-0 pt-5 pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
+                    className={`question b4 m-0 pt-4 pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
                     onClick={() => handleQuestionClick(index)}
                     color={accordion.questionColor}
                 >
@@ -74,7 +74,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
                   {accordion.answer && (
                     <animated.div style={fadeIn}>
                        <Paragraph 
-                          className='answer b3 m-0 pt-5' 
+                          className='answer b3 m-0 pt-lg-5' 
                           color={accordion.answerColor}
                       >
                           {accordion.answer}

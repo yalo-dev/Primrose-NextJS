@@ -176,14 +176,31 @@
         }
     }
     .social {
+        
         a {
-            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
             font-size: 0;
+            margin: 5px;
             @include transitionAll; 
-            &:hover {
-                transform: scale(1.1);
+            svg {
+                @include transitionAll; 
             }
-            
+            &:hover {
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+                &:last-child {
+                    svg {
+                        width: 35px;
+                        height: 25px;
+                    }
+                } 
+            }
         }
         @include media-breakpoint-up(xl) {
             position: absolute;

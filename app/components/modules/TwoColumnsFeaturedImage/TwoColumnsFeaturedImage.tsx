@@ -4,6 +4,19 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
+import Customizations from '../../filters/Customizations';
+
+interface Content {
+    imageOrVideo?: 'Image' | 'Video';
+    image?: {
+        sourceUrl?: string;
+    }
+    video?: {
+        target?: string;
+        title?: string;
+        url?: string;
+    }
+} 
 
 interface TwoColumnsFeaturedImageProps {
     leftColumn?: {
@@ -20,12 +33,28 @@ interface TwoColumnsFeaturedImageProps {
         image?: {
             sourceUrl?: string;
         };
+        imageTwo?: {
+            sourceUrl?: string; 
+        }
+        content?: Content; 
     };
+    customizations?: {
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
+	};
 }
 
-const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftColumn, rightColumn }) => {
+const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftColumn, rightColumn, customizations }) => {
     return (
         <div className='container'>
+        <Customizations
+                topPaddingMobile={customizations?.topPaddingMobile}
+                topPaddingDesktop={customizations?.topPaddingDesktop}
+                bottomPaddingMobile={customizations?.bottomPaddingMobile}
+                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+                >
             <div className='two-columns-featured-image'>
                 <div className='left-column col-12 col-lg-6 col-xl-5'>
                     {leftColumn?.heading && <Heading level='h2'>{leftColumn.heading}</Heading>}
@@ -37,12 +66,29 @@ const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftC
                         </Button>
                     )}
                 </div>
-                {rightColumn?.image?.sourceUrl && (
-                    <div className='right-column col-12 col-lg-6'>
-                        <Image src={rightColumn.image.sourceUrl} alt='Featured Image' width={1000} height={1000} />
-                    </div>
-                )}
+                
+                <div className='right-column col-12 col-lg-6'>
+                    {rightColumn?.image?.sourceUrl && (
+                       <div className='img1'> <Image src={rightColumn.image.sourceUrl} alt='Featured Image' width={312} height={238} /></div>
+                    )}
+                    {rightColumn?.imageTwo?.sourceUrl && (
+                        <div className='img2'>  <Image src={rightColumn.imageTwo.sourceUrl} alt='Featured Image' width={312} height={338} /></div>
+                    )}
+                    {rightColumn?.content?.imageOrVideo === 'Image' && rightColumn?.content?.image?.sourceUrl && (
+                        <div className='img3'>  <img src={rightColumn?.content?.image?.sourceUrl} alt="Content Image" /></div>
+                    )}
+
+                    {rightColumn?.content?.imageOrVideo === 'Video' && rightColumn.content.video?.url && (
+                        <div className='vid'> 
+                         <video width="100%" height="auto" muted autoPlay loop>
+                            <source src={rightColumn.content.video.url} type="video/mp4" /> {/* adjust the type attribute as needed */}
+                            Your browser does not support the video tag.
+                        </video>
+                        </div>
+                    )}
+                </div>
             </div>
+            </Customizations>
         </div>
     );
 }

@@ -90,6 +90,23 @@ query GetModules($id: ID = "") {
 			  backgroundColorRight
 			}
 		  }
+		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
+			alignment
+			eyebrow
+			eyebrowColor
+			heading
+			headingColor
+			headingSize
+			subheading
+			subheadingColor
+			subheadingSize
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+		  }
 		  ... on Page_Modules_Modules_FindASchool {
 			heading
 			headingColor
@@ -128,13 +145,13 @@ query GetModules($id: ID = "") {
 			  url
 			}
 			accents {
-				accentOne {
-				  sourceUrl
-				}
-				accentTwo {
-				  sourceUrl
-				}
+			  accentOne {
+				sourceUrl
 			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			}
 			buttonStyle
 			variation
 			customizations {
@@ -319,7 +336,13 @@ query GetModules($id: ID = "") {
 			accent {
 			  sourceUrl
 			}
-			
+			customizations {
+			  backgroundColor
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
 			leftColumn {
@@ -334,11 +357,25 @@ query GetModules($id: ID = "") {
 				target
 				title
 				url
-			  }            
+			  }
 			}
 			rightColumn {
 			  image {
 				sourceUrl
+			  }
+			  imageTwo {
+				sourceUrl
+			  }
+			  content {
+				imageOrVideo
+				image {
+				  sourceUrl
+				}
+				video {
+				  target
+				  title
+				  url
+				}
 			  }
 			}
 		  }
@@ -366,9 +403,21 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			switchColumnOrderOnDesktop
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
 		  }
 		  ... on Page_Modules_Modules_WysiwygEditor {
 			editor
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
 		  }
 		}
 	  }

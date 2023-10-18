@@ -14,6 +14,8 @@
                 border: 1px solid $neutral-2;
                 border-radius: 20px;
                 padding: 2rem;
+                
+                margin-bottom: 2rem;
                 &::before {
                     content: "";
                     background-image: url('/assets/tab-accent.svg');
@@ -169,5 +171,19 @@
                 }
             }
         }
+    }
+}
+
+.module.Page_Modules_Modules_GeneralHorizontalTabs {
+    overflow-x: visible;
+
+    .container.sticky .inner {
+        position: sticky;
+        height: 100%;
+        top: 120px;  /* Account for the navigation */
+        z-index: 10; /* Optional: This is to ensure that the div.inner is on top of other content */
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 }

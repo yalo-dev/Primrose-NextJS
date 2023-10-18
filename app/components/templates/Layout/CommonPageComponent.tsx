@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import ClassroomSelectAndContent from '../../modules/ClassroomSelectAndContent/ClassroomSelectAndContent';
 import ClassroomSelectAndImage from '../../modules/ClassroomSelectAndImage/ClassroomSelectAndImage';
 import FindASchool from '../../modules/FindASchool/FindASchool';
+import EyebrowHeadingSubheading from '../../modules/EyebrowHeadingSubheading/EyebrowHeadingSubheading'
 import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
@@ -29,6 +29,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_ClassroomSelectAndContent':
                     ModuleComponent = ClassroomSelectAndContent;
+                    break;
+                case 'Page_Modules_Modules_EyebrowHeadingSubheading':
+                    ModuleComponent = EyebrowHeadingSubheading;
                     break;
                 case 'Page_Modules_Modules_FindASchool':
                     ModuleComponent = FindASchool;

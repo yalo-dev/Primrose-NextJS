@@ -21,18 +21,11 @@ button {
         }
     }
     &.secondary {
-        background-color: $primary-darkgray;
-        color: $grayscale-1;
-        &:hover {
-            background-color: $primary-green;
-        }
-    }
-    &.white {
-        background-color: $white;
+        background-color: $grayscale-1;
         color: $primary-green;
         &:hover {
             background-color: $primary-green;
-            color: $white;
+            color: $grayscale-1;
         }
     }
 }

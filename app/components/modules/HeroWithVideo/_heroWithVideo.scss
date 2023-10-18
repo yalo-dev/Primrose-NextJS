@@ -10,6 +10,8 @@
         flex-direction: row;
         align-items: center;
         min-height: 590px;
+        margin-left: -2rem;
+        margin-right: -2rem;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -17,7 +19,7 @@
     @include media-breakpoint-up(xl) {
         &.reverse-column {
             .left-column {
-                padding: 110px 150px 110px 40px;
+                //padding: 110px 150px 110px 40px;
             }
         }
     }
@@ -26,9 +28,10 @@
         padding: 34px 20px 43px;
         @include media-breakpoint-up(lg) {
             order: 1;
+            padding-left: 2rem;
         }
         @include media-breakpoint-up(xl) {
-            padding: 110px 80px 110px 40px;
+            //padding: 110px 80px 110px 40px;
         }
         
         h1 {
@@ -47,13 +50,18 @@
     }
     .right-column {
         order: 1;
-        margin: 0;
+        
         display: table;
         position: relative;
+        .responsive-video {
+            margin: 0;
+        }
         @include media-breakpoint-up(lg) {
             display: flex;
             height: fit-content;
-            padding: 1.45rem 2.5rem;
+            .responsive-video {
+                margin: 2rem;
+            }
         }
         video {
             border-radius: 0;
@@ -68,14 +76,16 @@
         }
     }
     .accent {
-        background-size: 0;
         pointer-events: none;
+        background-position: top;
+        background-size: 100%;
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        bottom: -20rem;
+        right: -12rem;
+       
         @include media-breakpoint-up(lg) {
-            background-position: bottom right;
-            background-size: 100%;
-            position: absolute;
-            width: 400px;
-            height: 400px;
             bottom: -19rem;
             right: 4rem;
         }

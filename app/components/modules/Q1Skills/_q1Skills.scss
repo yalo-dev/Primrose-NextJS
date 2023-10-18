@@ -1,8 +1,8 @@
 .q1skills {
     background-color: $grayscale-3;
     padding: 56px 1rem;
-    margin-right: -1rem;
-    margin-left: -1rem;
+    margin-right: -1.25rem;
+    margin-left: -1.25rem;
     border-radius: 20px;
     position: relative;
 
@@ -26,7 +26,13 @@
         padding-top: 7rem;
         padding-bottom: 7rem;
         padding-left: 7rem;
-        padding-right: 23rem;
+        padding-right: 19rem;
+        h3 {
+            margin-right: 3rem;
+        }
+        .b3 {
+            margin-right: 4rem;
+        }
     }
 
     @include media-breakpoint-up(xxl) {
@@ -106,16 +112,19 @@
                 border-radius: 10px;
                 width: 20rem;
                 left: 2rem;
-                bottom: 5rem;
+                bottom: 6rem;
                 opacity: 0;
+                visibility: hidden;
                 transition: opacity 0.3s ease-in-out;
                 pointer-events: none;
                 @include transition;
-
+                @include media-breakpoint-up(lg) {
+                    bottom: 8rem;
+                }
                 &::before {
                     content: "";
                     position: absolute;
-                    bottom: -21px;
+                    bottom: -24px;
                     left: -22px;
                     transform: rotate(90deg);
                     width: 0;
@@ -128,8 +137,8 @@
                 &::after {
                     content: "";
                     position: absolute;
-                    bottom: -19px;
-                    left: -20px;
+                    bottom: -21px;
+                    left: -21px;
                     transform: rotate(90deg);
                     width: 0;
                     height: 0;
@@ -140,7 +149,7 @@
 
                 .title-container {
                     color: $grayscale-1;
-                    background-color: $q1title-bg;
+                    background-color: $text-gray;
                     border: 1rem;
                     border-radius: 25px;
                     padding: 1rem;
@@ -149,6 +158,8 @@
 
                     .title {
                         margin-left: 0;
+                        font-size: 16px;
+                        color: $grayscale-1;
                     }
                 }
 
@@ -165,6 +176,7 @@
             .details-popup.active {
                 opacity: 1;
                 pointer-events: auto;
+                visibility: visible;
             }
 
             .icon-container {
@@ -190,7 +202,12 @@
                 align-items: center;
 
                 .title {
-                    margin-left: 1rem;
+                    margin-left: 0.5rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 14px; 
+                    color: $text-gray;
+                    text-transform: uppercase;
                 }
             }
         }
@@ -198,18 +215,28 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             margin-top: 4rem;
-
+            flex-wrap: wrap;
             li {
                 background-color: $transparent;
                 flex-direction: column;
                 margin-right: 1rem;
                 .title-container {
                     .title {
-                        margin-left: 0;
+                        margin-left: auto;
+                        margin-right: auto;
+                        font-size: 12px;
                     }
 
                     .desc {
                         display: none;
+                    }
+                }
+                .details-popup {
+                    opacity: 0;
+                    visibility: hidden;
+                    pointer-events: none;
+                    .desc {
+                        display: flex;
                     }
                 }
                 .icon-container:hover {
@@ -222,7 +249,8 @@
 
                     ~.details-popup {
                         opacity: 1;
-                        pointer-events: auto;
+                        pointer-events: none;
+                        visibility: visible;
                         .title-container {
                             .desc {
                                 display: flex;

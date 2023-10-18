@@ -76,7 +76,6 @@ const Customizations: React.FC<CustomizationsProps> = ({
         marginBottom: mapMarginValue(bottomMarginMobile, bottomMarginDesktop, isMobile) 
     };
 
-    
     const mapColorToHex = (colorLabel: string | undefined) => {
         const colorMap: { [key: string]: string } = {
             Green: "#5E6738",

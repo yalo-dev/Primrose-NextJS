@@ -38,7 +38,7 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ heading, headingColor, 
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+		   colorLabel={customizations?.backgroundColor} 
 	   >
             <div className='seasonal-banner'>
                 <div className='row'>

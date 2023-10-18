@@ -54,7 +54,7 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
 		   colorLabel={customizations?.backgroundColor}
 	   >
             <div className={className}>
-                <div className='left-column col-12 col-lg-6'>
+                <div className='left-column col-12 col-lg-5'>
                         {leftColumn.heading && <Heading level='h2' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
 						{leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                         {leftColumn?.blurb && <Paragraph className='b2' color={leftColumn.blurbColor}>{leftColumn.blurb}</Paragraph>}
@@ -65,7 +65,8 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
 						)}
                 </div>
                 {rightColumn.video?.url && (
-                    <div className='right-column responsive-video col-12 col-lg-6'>
+                    <div className='right-column col-12 col-lg-6 offset-lg-1'>
+                        <div className='responsive-video'>
                          <video 
                                 ref={videoRef} 
                                 src={rightColumn.video.url} 
@@ -73,6 +74,7 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
                                 muted 
                                 loop 
                             />
+                        </div>
                     </div>
                 )}
                  <div className='accent'

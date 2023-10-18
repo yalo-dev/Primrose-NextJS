@@ -1,18 +1,16 @@
 .two-columns-featured-image {
-    padding: 50px 0;
     display: flex;
     flex-direction: column;
     @include media-breakpoint-up(lg) {
         flex-direction: row-reverse;
-        padding: 130px 0 400px;
-    }
-    @include media-breakpoint-up(xl) {
-        padding: 130px 0 300px;
+        margin-bottom: 15rem;
     }
     .left-column {
         order: 2;
+        margin-top: 2rem;
         @include media-breakpoint-up(xl) {
             padding-right: 2rem;
+            margin-top: 0;
         }
         h2 {
             margin-bottom: 1rem;
@@ -28,22 +26,62 @@
     }
     .right-column {
         order: 1;
-        margin-bottom: 40px;
-        img {
-            width: 100%;
-            height: auto;
-            right: -1rem;
+        display: grid;
+        grid-template-areas:
+        "X img2"
+        "X img2"
+        "img1 img2"
+        "img1 vid";
+        grid-gap: 10px;
+        @include media-breakpoint-up(lg) {
             position: relative;
-            @include media-breakpoint-up(lg) {
-                width: 150%;
-                height: auto;
-                right: 12rem;
-                position: relative;
-                bottom: -20rem;
+            bottom: -15rem;
+            right: 15rem;
+        }
+        @include media-breakpoint-up(xxl) {
+            right: 12rem;
+        }
+        .img1 {
+            grid-area: img1;
+            text-align: right;
+            img {
+                width: 150px;
+                height: 100px;
+                border-radius: 10px;
+                object-fit: cover;
+                object-position: center;
+                @include media-breakpoint-up(lg) {
+                    width: 312px;
+                    height: 238px;
+                }
             }
-            @include media-breakpoint-up(xl) {
-                width: 125%;
-                bottom: -12rem;
+        }
+        
+        .img2 {
+            grid-area: img2;
+            img {
+                width: 132px;
+                height: 142px;
+                border-radius: 10px;
+                object-fit: cover;
+                object-position: center;
+                @include media-breakpoint-up(lg) {
+                    width: 312px;
+                    height: 338px;
+                }
+            }
+        }
+        
+        .vid {
+            grid-area: vid;
+            width: 225px;
+            height: 129px;
+            video {
+                border-radius: 10px;
+            } 
+            @include media-breakpoint-up(lg) {
+                width: 536px;
+                height: 308px;
             }
         }
     }

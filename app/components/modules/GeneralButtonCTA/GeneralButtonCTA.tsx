@@ -51,7 +51,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 	   >
 				<div className={className}>
 					{icon?.sourceUrl && (
-						<div className='icon pb-4 pb-lg-0 pe-lg-4'>
+						<div className='icon pb-4 pb-lg-0 pe-lg-5'>
 							<Image src={icon.sourceUrl} alt="Icon" width={75} height={75} />
 						</div>
 					)}

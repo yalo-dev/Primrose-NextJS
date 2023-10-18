@@ -28,7 +28,7 @@ const NewsletterFormCTA: React.FC<NewsletterFormCTAProps> = ({ heading, headingC
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-		   colorLabel={customizations?.backgroundColor} // Pass the colorLabel here
+		   colorLabel={customizations?.backgroundColor} 
 	   >
             <div className='newsletter-form-cta'>
                 <div className='row'>

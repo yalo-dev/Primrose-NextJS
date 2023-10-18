@@ -21,9 +21,6 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, targe
         case 'secondary':
             buttonClass = 'secondary';
             break;
-        case 'white':
-            buttonClass = 'white';
-            break;
         default:
             break;
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
@@ -55,18 +55,86 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	});
 
 	const handleTabClick = (index: number) => {
-		if (expandedTab === index) {
-			setExpandedTab(null);
-		} else {
-			setExpandedTab(index);
-		}
-	};
+        // Toggle the active tab
+        if (expandedTab === index) {
+            setExpandedTab(null);
+        } else {
+            setExpandedTab(index);
+        }
+    };
 
 	const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
 
+	const containerRef = useRef<HTMLDivElement | null>(null);
+
+	const [isSticky, setIsSticky] = useState(false);
+    
+	useEffect(() => {
+		const handleScroll = () => {
+			if (containerRef.current) {
+				const containerTop = containerRef.current.getBoundingClientRect().top;
+				const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+		
+				if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
+					setIsSticky(true);
+				} else {
+					setIsSticky(false);
+				}
+			}
+		};
+		
+		window.addEventListener('scroll', handleScroll);
+	
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		}
+	}, []);
+
+	const handleLabelClick = (targetId: string) => {
+		const targetElement = document.getElementById(targetId);
+	
+		if (window.innerWidth > 992) {  // 992px is the typical breakpoint for large (desktop) screens
+			if (targetElement) {
+				const offset = window.pageYOffset || document.documentElement.scrollTop;
+				const absoluteTargetTop = targetElement.getBoundingClientRect().top + offset;
+				
+				window.scrollTo({
+					top: absoluteTargetTop - 120, // accounting for the navigation space
+					behavior: 'smooth'
+				});
+	
+				if (containerRef.current) {
+					const innerDiv = containerRef.current.querySelector('.inner');
+					if (innerDiv) {
+						const innerButtons = innerDiv.querySelectorAll('button');
+						innerButtons.forEach((btn) => {
+							if (btn.getAttribute("data-id") === targetId) {
+								btn.classList.add("expanded");
+							} else {
+								btn.classList.remove("expanded");
+							}
+						});
+					}
+				}
+			}
+		} else {
+			// This is the mobile accordion behavior
+			if (expandedTab !== null && `content-${expandedTab}` === targetId) {
+				setExpandedTab(null);  // close the accordion if the same button is clicked
+			} else {
+				setExpandedTab(parseInt(targetId.split('-')[1]));
+			}
+		}
+	};
+	
+	
+	
+	
+	
+	
 
 	return (
-		<div className="container">
+        <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
 		<Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
@@ -75,13 +143,14 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	   >
 			<div className="general-horizontal-tabs">
 				<div className="inner">
-					{tabs.map((tab, index) => (
-						<div key={index}>
-							<button
-								onClick={() => handleTabClick(index)}
-								className={expandedTab === index ? 'expanded' : ''}
-							>
-								{tab.label && <Heading level='h5' color={tab.tabLabelColor}>{tab.label}
+				{tabs.map((tab, index) => (
+    <div key={index}>
+        <button
+            onClick={() => handleLabelClick(`content-${index}`)}
+            data-id={`content-${index}`} // Add this attribute
+            className={expandedTab === index ? 'expanded' : ''}
+        >
+      								{tab.label && <Heading level='h5' color={tab.tabLabelColor}>{tab.label}
 									<div id="button">
 										<span></span>
 										<span></span>
@@ -127,20 +196,20 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 				{/* Desktop: Content rendered outside the loop in a designated area */}
 
 				<div className='desktop-content d-none d-lg-block'>
-					{expandedTab !== null && (
-						<animated.div style={fadeInAnimationProps} className="tab-content d-flex">
+					{tabs.map((tab, index) => (
+						<div id={`content-${index}`} className="tab-content d-flex" key={index}>
 
-							{currentTab && currentTab.content?.image?.sourceUrl && (
+							{tab.content?.image?.sourceUrl && (
 								<div className='image-wrapper'>
-									<Image src={currentTab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+									<Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
 								</div>
 							)}
 
 							<div className='content-wrapper'>
-								{tabs[expandedTab].content.heading && <Heading level='h3' color={tabs[expandedTab].content.headingColor}>{tabs[expandedTab].content.heading}</Heading>}
-								{tabs[expandedTab].content.subheading && <Subheading level='div' className='b3' color={tabs[expandedTab].content.headingColor}>{tabs[expandedTab].content.subheading}</Subheading>}
+								{tab.content.heading && <Heading level='h3' color={tab.content.headingColor}>{tab.content.heading}</Heading>}
+								{tab.content.subheading && <Subheading level='div' className='b3' color={tab.content.subheadingColor}>{tab.content.subheading}</Subheading>}
 								<ul>
-									{tabs[expandedTab].content.list?.map((item, idx) => (
+									{tab.content.list?.map((item, idx) => (
 										<li key={idx}>
 											{item.icon?.sourceUrl && (
 												<Image
@@ -155,8 +224,8 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 									))}
 								</ul>
 							</div>
-						</animated.div>
-					)}
+						</div>
+					))}
 				</div>
 			</div>
 			</Customizations>
