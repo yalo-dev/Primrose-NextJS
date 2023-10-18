@@ -1,0 +1,283 @@
+.primrose-friends {
+    @include media-breakpoint-up(lg) {
+        display: flex;
+        justify-content: space-between;
+        .desktop-content {
+            .tab-content {
+                justify-content: space-between;
+                position: relative;
+                border: 12px solid $neutral-2;
+                border-radius: 20px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+                flex-direction: column;
+
+                &:after {
+                    content: '';
+                    width: calc(100% - 2rem);
+                    height: calc(100% - 2rem);
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    pointer-events: none;
+                    border: 1px dashed $neutral-2;
+                }
+
+                @include media-breakpoint-up(lg) {
+                    border-width: 15px;
+                }
+
+                .wrap {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+
+                .image-wrapper {
+                    flex-basis: 30%;
+                    padding-top: 0;
+                    padding: 42px 1rem;
+                }
+
+                .content-wrapper {
+                    flex-basis: 65%;
+
+                    ul {
+                        margin-bottom: 0;
+                    }
+                }
+
+                &#content-0,
+                &#content-0::after {
+                    border-color: #006BA6;
+                }
+
+                &#content-1,
+                &#content-1:after {
+                    border-color: #FF9E1B;
+                }
+
+                &#content-2,
+                &#content-2::after {
+                    border-color: #814C9E;
+                }
+
+                &#content-3,
+                &#content-3::after {
+                    border-color: #00A5B5;
+                }
+
+                &#content-4,
+                &#content-4::after {
+                    border-color: #FF9E1B;
+                }
+
+                &#content-5,
+                &#content-5::after {
+                    border-color: #006BA6;
+                }
+
+                &#content-6,
+                &#content-6::after {
+                    border-color: #E03C31;
+                }
+
+                &#content-7,
+                &#content-7::after {
+                    border-color: #FF9E1B;
+                }
+
+                &#content-8,
+                &#content-8::after {
+                    border-color: #00A5B5;
+                }
+
+                &#content-9,
+                &#content-9::after {
+                    border-color: #814C9E;
+                }
+
+                &#content-10,
+                &#content-10::after {
+                    border-color: #006BA6;
+                }
+
+                &#content-11,
+                &#content-11::after {
+                    border-color: #E03C31;
+                }
+
+            }
+        }
+    }
+
+    button {
+        background-color: $transparent;
+        position: relative;
+        padding-left: 0;
+        text-align: left;
+        padding: 2rem 0;
+        width: 100%;
+
+        h5 {
+            margin-bottom: 0;
+        }
+
+        #button {
+            width: 2rem;
+            height: 2rem;
+            border: 0;
+            font-size: 1rem;
+            position: absolute;
+            top: 1.65rem;
+            right: 0;
+            line-height: 1;
+            padding: 0;
+            border-radius: 50%;
+            background-color: $brand-blue;
+            border: 1px solid $brand-blue;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
+
+            span {
+                position: absolute;
+                transition: 300ms;
+                border-radius: 2px;
+                background-color: $grayscale-1;
+
+                &:first-child {
+                    top: 30%;
+                    bottom: 25%;
+                    width: 5%;
+                    left: 49%;
+                    height: 40%;
+                }
+
+                &:last-child {
+                    left: 27%;
+                    right: 27%;
+                    height: 6%;
+                    top: 46%;
+                }
+
+            }
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            background-color: $neutral-2;
+            @include transition;
+        }
+
+        &.expanded {
+
+            h5,
+            h5 span {
+                color: $brand-blue !important;
+            }
+
+            #button {
+                background-color: $transparent;
+
+                span {
+                    transform: rotate(90deg);
+                    background-color: $brand-blue;
+
+                    &:last-child {
+                        left: 50%;
+                        right: 50%;
+                    }
+                }
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 3px;
+                background-color: $brand-blue;
+            }
+        }
+    }
+
+    .tab-content {
+        transform-origin: top;
+
+        .image-wrapper {
+            padding-top: 2rem;
+            padding-bottom: 1rem;
+
+            img {
+                width: 242px;
+                height: 242px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 10px;
+                margin-right: 1.25rem;
+
+            }
+        }
+
+        .content-wrapper {
+            .bio p {
+                max-width: 385px;
+                font-family: Poppins;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: 20px;
+            }
+        }
+
+        .video-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+           
+            .video {
+                position: relative;
+                @include media-breakpoint-up(lg) {
+                    padding: 0 2rem 2rem;
+                }
+                video {
+                    border-radius: 10px;
+                    height: auto;
+                }
+                .play-button {
+                    background-image: url('/assets/icon-video-play.svg');
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    cursor: pointer;
+                    /* Adjust width and height as needed */
+                    width: 32px;
+                    height: 32px;
+                    cursor: pointer;;
+                  }
+            }
+        }
+    }
+}
+
+.module.Page_Modules_Modules_PrimroseFriends {
+    overflow-x: visible;
+
+    .container.sticky .inner {
+        position: sticky;
+        height: 100%;
+        top: 120px;
+        /* Account for the navigation */
+        z-index: 10;
+        /* Optional: This is to ensure that the div.inner is on top of other content */
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}

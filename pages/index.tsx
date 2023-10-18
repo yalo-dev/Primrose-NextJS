@@ -271,6 +271,34 @@ query GetModules($id: ID = "") {
             bottomPaddingDesktop
           }
         }
+        ... on Page_Modules_Modules_PrimroseFriends {
+          tabs {
+            label
+            tabLabelColor
+            content {
+              image {
+                sourceUrl
+              }
+              name
+              nameColor
+              characterTrait
+              traitColor
+              bio
+              watchNow  
+              videoUrl {
+                url
+                title
+                target
+              }
+            }
+          }
+          customizations {
+            bottomPaddingDesktop
+            bottomPaddingMobile
+            topPaddingDesktop
+            topPaddingMobile
+          }
+        }
         ... on Page_Modules_Modules_Q1Skills {
           eyebrow
           eyebrowColor
