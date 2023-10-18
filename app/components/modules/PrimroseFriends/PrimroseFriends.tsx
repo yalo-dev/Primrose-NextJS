@@ -105,7 +105,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
         <div onClick={onPlay} className="play-button">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="15.5229" cy="15.5229" r="15.5229" fill="white"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z" fill="#373A36"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z" fill="#373A36"/>
           </svg>
         </div>
     );
@@ -170,12 +170,15 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                     data-id={`content-${index}`} // Add this attribute
                                     className={expandedTab === index ? 'expanded' : ''}
                                 >
-                                    {tab.label && <Heading level='h5' color={tab.tabLabelColor}>{tab.label}
-                                        <div id="button">
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </Heading>}
+                                    {tab.label && 
+                                        <Heading level='h5' color={tab.tabLabelColor}>
+                                            <div dangerouslySetInnerHTML={{ __html: tab.label }} />
+                                            <div id="button">
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </Heading>
+                                    }
                                 </button>
 
                                 {/* Mobile: Content rendered right below the label */}
@@ -190,7 +193,11 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                 )}
 
                                                 <div className='content-wrapper'>
-                                                    {tab.content.name && <Heading level='h3' color={tab.content.nameColor}>{tab.content.name}</Heading>}
+                                                    {tab.content.name && 
+                                                    <Heading level='h3' color={tab.content.nameColor}>
+                                                        <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
+                                                    </Heading>
+                                                    }
                                                     {tab.content.characterTrait && 
                                                     <div className='wrap d-flex pt-lg-3 pb-lg-3'>  
                                                         <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
@@ -243,7 +250,11 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 )}
 
                                 <div className='content-wrapper'>
-                                    {tab.content.name && <Heading level='h3' color={tab.content.nameColor}>{tab.content.name}</Heading>}
+                                    {tab.content.name && 
+                                    <Heading level='h3' color={tab.content.nameColor}>
+                                        <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
+                                    </Heading>
+                                    }
                                     {tab.content.characterTrait && 
                                     <div className='wrap d-flex pt-lg-3 pb-lg-3 flex-wrap'>  
                                         <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
@@ -255,7 +266,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                             </div>
                             <div className='video-wrapper pt-3 flex-column flex-lg-row'>
                                 {tab.content.watchNow && 
-                                <div className='wrap d-flex flex-column'>  
+                                <div className='wrap d-flex flex-column  align-items-end'>  
                                     <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                 </div>
                                 }

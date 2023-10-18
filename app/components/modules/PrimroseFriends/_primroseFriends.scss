@@ -234,6 +234,10 @@
                 font-weight: 300;
                 line-height: 20px;
             }
+            sup {
+                font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+                font-weight: 400;
+            }
         }
 
         .video-wrapper {
@@ -279,18 +283,21 @@
         bottom: 0;
         left: 0;
         right: 0;
-        max-height: 550px;
+        max-height: 650px;
     }
     .inner {
         @include media-breakpoint-up(lg) {
             display: flex;
             flex-wrap: wrap;
             flex-direction: column;
-            height: 550px;
+            max-height: 650px;
             .label {
                 width: calc(50% - 1rem);
                 margin-right: 1rem;
             }
+        }
+        @include media-breakpoint-up(xl) {
+            height: 550px;
         }
     }
 }
