@@ -278,11 +278,14 @@
         bottom: 0;
         left: 0;
         right: 0;
+        max-height: 550px;
     }
     .inner {
         @include media-breakpoint-up(lg) {
             display: flex;
             flex-wrap: wrap;
+            flex-direction: column;
+            height: 550px;
             .label {
                 width: calc(50% - 1rem);
                 margin-right: 1rem;
