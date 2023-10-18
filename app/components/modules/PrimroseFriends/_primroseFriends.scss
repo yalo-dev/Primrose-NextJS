@@ -279,4 +279,14 @@
         left: 0;
         right: 0;
     }
+    .inner {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            flex-wrap: wrap;
+            .label {
+                width: calc(50% - 1rem);
+                margin-right: 1rem;
+            }
+        }
+    }
 }

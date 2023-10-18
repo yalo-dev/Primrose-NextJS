@@ -164,7 +164,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                 <div className="primrose-friends">
                     <div className="inner col-lg-4">
                     {tabs.map((tab, index) => (
-                            <div key={index}>
+                            <div className='label' key={index}>
                                 <button
                                     onClick={() => handleLabelClick(`content-${index}`)}
                                     data-id={`content-${index}`} // Add this attribute
