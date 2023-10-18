@@ -4,7 +4,6 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import { useSpring, animated } from 'react-spring';
 import Customizations from '../../filters/Customizations';
-import Head from 'next/head';
 
 interface PrimroseFriends {
     tabs: {
@@ -35,7 +34,8 @@ interface PrimroseFriends {
 
 const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) => {
     const [expandedTab, setExpandedTab] = useState<number | null>(0);
-    const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+    const [playingVideo, setPlayingVideo] = useState<number | null>(null); // This will store the index of the currently playing video
 
     const slideAnimationProps = useSpring({
         opacity: expandedTab !== null ? 1 : 0,
@@ -62,55 +62,6 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             setExpandedTab(index);
         }
     };
-
-    const PlayButton = ({ onPlay }) => (
-        <div onClick={onPlay} className="play-button">
-          {/* Your SVG code here */}
-        </div>
-    );
-
-    const [videoPlaying, setVideoPlaying] = useState(false);
-
-    const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
-
-    const containerRef = useRef<HTMLDivElement | null>(null);
-
-    const [isSticky, setIsSticky] = useState(false);
-
-    const toggleVideoPlayback = (videoUrl) => {
-        if (videoRef.current) {
-        if (videoPlaying) {
-            videoRef.current.pause();
-        } else {
-            videoRef.current.play();
-        }
-        setVideoPlaying(!videoPlaying);
-        }
-    };
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (containerRef.current) {
-                const containerTop = containerRef.current.getBoundingClientRect().top;
-                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
-
-                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
-                    setIsSticky(true);
-                } else {
-                    setIsSticky(false);
-                }
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    }, []);
-
-    const videoRef = useRef(null);
-
 
     const handleLabelClick = (targetId: string) => {
         const targetElement = document.getElementById(targetId);
@@ -149,6 +100,58 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
         }
     };
 
+
+    const PlayButton = ({ onPlay }) => (
+        <div onClick={onPlay} className="play-button">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="15.5229" cy="15.5229" r="15.5229" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z" fill="#373A36"/>
+          </svg>
+        </div>
+    );
+
+    const [videoPlaying, setVideoPlaying] = useState(false);
+
+    const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (containerRef.current) {
+                const containerTop = containerRef.current.getBoundingClientRect().top;
+                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+
+                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
+                    setIsSticky(true);
+                } else {
+                    setIsSticky(false);
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+
+    const toggleVideoPlayback = (index: number) => {
+        const currentVideo = videoRefs.current[index];
+        if (currentVideo) {
+            if (playingVideo === index) { // If the clicked video is already playing, pause it
+                currentVideo.pause();
+                setPlayingVideo(null); // Reset playing video
+            } else {
+                currentVideo.play();
+                setPlayingVideo(index); // Set the clicked video as the currently playing video
+            }
+        }
+    };
+
     return (
         <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
             <Customizations
@@ -159,7 +162,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             >
                 <div className="primrose-friends">
                     <div className="inner col-lg-4">
-                        {tabs.map((tab, index) => (
+                    {tabs.map((tab, index) => (
                             <div key={index}>
                                 <button
                                     onClick={() => handleLabelClick(`content-${index}`)}
@@ -202,10 +205,15 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                     <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                                 </div>
                                                 }
-                                                {tab.content?.videoUrl?.url && (
-                                                   <div className='video'>
-                                                   { !videoPlaying && <PlayButton onPlay={() => toggleVideoPlayback(tab.content.videoUrl.url)} />}
-                                                        <video width="320" height="240" ref={videoRef}>
+                                               {tab.content?.videoUrl?.url && (
+                                                    <div className='video'>
+                                                        {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
+                                                        <video 
+                                                            width="320" 
+                                                            height="240" 
+                                                            ref={(el) => (videoRefs.current[index] = el)}
+                                                            muted
+                                                        >
                                                             <source src={tab.content.videoUrl.url} type="video/mp4" />
                                                             Your browser does not support the video tag.
                                                         </video>
@@ -245,14 +253,19 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                             </div>
                             <div className='video-wrapper pt-3 flex-column flex-lg-row'>
                                 {tab.content.watchNow && 
-                                <div className='wrap d-flex pe-4 flex-column'>  
+                                <div className='wrap d-flex flex-column'>  
                                     <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                 </div>
                                 }
-                                {tab.content?.videoUrl?.url && (
+                               {tab.content?.videoUrl?.url && (
                                     <div className='video'>
-                                    { !videoPlaying && <PlayButton onPlay={() => toggleVideoPlayback(tab.content.videoUrl.url)} />}
-                                        <video width="320" height="240" ref={videoRef}>
+                                        {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
+                                        <video 
+                                            width="320" 
+                                            height="240" 
+                                            ref={(el) => (videoRefs.current[index] = el)}
+                                            muted
+                                        >
                                             <source src={tab.content.videoUrl.url} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>

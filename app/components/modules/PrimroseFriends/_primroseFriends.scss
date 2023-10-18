@@ -250,16 +250,15 @@
                     height: auto;
                 }
                 .play-button {
-                    background-image: url('/assets/icon-video-play.svg');
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                     cursor: pointer;
-                    /* Adjust width and height as needed */
                     width: 32px;
                     height: 32px;
-                    cursor: pointer;;
+                    cursor: pointer;
+                    z-index: 10;
                   }
             }
         }
