@@ -291,6 +291,11 @@ query GetModules($id: ID = "") {
 				  title
 				  target
 				}
+				learnMore {
+				  target
+				  title
+				  url
+				}
 			  }
 			}
 			customizations {

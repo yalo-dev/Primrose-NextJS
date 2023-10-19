@@ -238,6 +238,12 @@
                 font-family: "Source Serif Pro", "Times New Roman", Times, serif;
                 font-weight: 400;
             }
+            .learn-more {
+                color: $text-gray;
+                &:hover {
+                    color: $brand-blue;
+                }
+            }
         }
 
         .video-wrapper {

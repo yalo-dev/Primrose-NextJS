@@ -4,6 +4,7 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import { useSpring, animated } from 'react-spring';
 import Customizations from '../../filters/Customizations';
+import Link from 'next/link';
 
 interface PrimroseFriends {
     tabs: {
@@ -21,6 +22,11 @@ interface PrimroseFriends {
             characterTrait?: string;
             traitColor?: string;
             bio?: string;
+            learnMore?: {
+                url: string;
+                title: string;
+                target: string;
+            };
             watchNow?: string;
         }[];
     };
@@ -103,10 +109,10 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
     const PlayButton = ({ onPlay }) => (
         <div onClick={onPlay} className="play-button">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="15.5229" cy="15.5229" r="15.5229" fill="white"/>
-            <path fillRule="evenodd" clipRule="evenodd" d="M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z" fill="#373A36"/>
-          </svg>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15.5229" cy="15.5229" r="15.5229" fill="white" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M12.3575 8.86283C11.5424 8.35733 10.5555 9.03977 10.5555 10.1089V20.9369C10.5555 22.006 11.5424 22.6884 12.3575 22.1829L21.087 16.7689C21.947 16.2356 21.947 14.8102 21.087 14.2768L12.3575 8.86283Z" fill="#373A36" />
+            </svg>
         </div>
     );
 
@@ -151,7 +157,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             }
         }
     };
-    
+
 
     return (
         <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
@@ -163,14 +169,14 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             >
                 <div className="primrose-friends">
                     <div className="inner col-lg-4">
-                    {tabs.map((tab, index) => (
+                        {tabs.map((tab, index) => (
                             <div className='label' key={index}>
                                 <button
                                     onClick={() => handleLabelClick(`content-${index}`)}
                                     data-id={`content-${index}`} // Add this attribute
                                     className={expandedTab === index ? 'expanded' : ''}
                                 >
-                                    {tab.label && 
+                                    {tab.label &&
                                         <Heading level='h5' color={tab.tabLabelColor}>
                                             <div dangerouslySetInnerHTML={{ __html: tab.label }} />
                                             <div id="button">
@@ -185,7 +191,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 <div className="d-lg-none">
                                     {expandedTab === index && (
                                         <animated.div style={slideAnimationProps} className="tab-content">
-                                             <div className='wrap'>
+                                            <div className='wrap'>
                                                 {tab.content?.image?.sourceUrl && (
                                                     <div className='image-wrapper'>
                                                         <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
@@ -193,33 +199,37 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                 )}
 
                                                 <div className='content-wrapper'>
-                                                    {tab.content.name && 
-                                                    <Heading level='h3' color={tab.content.nameColor}>
-                                                        <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
-                                                    </Heading>
+                                                    {tab.content.name &&
+                                                        <Heading level='h3' color={tab.content.nameColor}>
+                                                            <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
+                                                        </Heading>
                                                     }
-                                                    {tab.content.characterTrait && 
-                                                    <div className='wrap d-flex pt-lg-3 pb-lg-3'>  
-                                                        <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
-                                                    </div>
+                                                    {tab.content.characterTrait &&
+                                                        <div className='wrap d-flex pt-lg-3 pb-lg-3'>
+                                                            <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
+                                                        </div>
                                                     }
                                                     <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
-                                                
+                                                    {tab.content.learnMore && tab.content.learnMore.url &&
+                                                        <Link href={tab.content.learnMore.url} className='link learn-more' target={tab.content.learnMore.target || "_self"}>
+                                                            {tab.content.learnMore.title}
+                                                        </Link>
+                                                    }
                                                 </div>
                                             </div>
                                             <div className='video-wrapper flex-column flex-lg-row'>
-                                                {tab.content.watchNow && 
-                                                <div className='wrap d-flex pe-4 flex-column'>  
-                                                    <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
-                                                </div>
+                                                {tab.content.watchNow &&
+                                                    <div className='wrap d-flex pe-4 flex-column'>
+                                                        <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
+                                                    </div>
                                                 }
-                                               {tab.content?.videoUrl?.url && (
+                                                {tab.content?.videoUrl?.url && (
                                                     <div className='video'>
                                                         {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
-                                                        <video 
-                                                            width="320" 
-                                                            height="240" 
-                                                            ref={(el) => (videoRefs.current[index] = el)} 
+                                                        <video
+                                                            width="320"
+                                                            height="240"
+                                                            ref={(el) => (videoRefs.current[index] = el)}
                                                             muted
                                                             onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
                                                         >
@@ -241,52 +251,56 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                     <div className='desktop-content d-none d-lg-block col-lg-7 offset-lg-1'>
                         {tabs.map((tab, index) => (
                             <div id={`content-${index}`} className="tab-content d-flex" key={index}>
-                                
-                                <div className='wrap'>
-                                {tab.content?.image?.sourceUrl && (
-                                    <div className='image-wrapper'>
-                                        <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
-                                    </div>
-                                )}
 
-                                <div className='content-wrapper'>
-                                    {tab.content.name && 
-                                    <Heading level='h3' color={tab.content.nameColor}>
-                                        <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
-                                    </Heading>
-                                    }
-                                    {tab.content.characterTrait && 
-                                    <div className='wrap d-flex pt-lg-3 pb-lg-3 flex-wrap'>  
-                                        <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
+                                <div className='wrap'>
+                                    {tab.content?.image?.sourceUrl && (
+                                        <div className='image-wrapper'>
+                                            <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+                                        </div>
+                                    )}
+
+                                    <div className='content-wrapper'>
+                                        {tab.content.name &&
+                                            <Heading level='h3' color={tab.content.nameColor}>
+                                                <div dangerouslySetInnerHTML={{ __html: tab.content.name }} />
+                                            </Heading>
+                                        }
+                                        {tab.content.characterTrait &&
+                                            <div className='wrap d-flex pt-lg-3 pb-lg-3 flex-wrap'>
+                                                <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
+                                            </div>
+                                        }
+                                        <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
+                                        {tab.content.learnMore && tab.content.learnMore.url &&
+                                            <Link href={tab.content.learnMore.url} className='link learn-more' target={tab.content.learnMore.target || "_self"}>
+                                                {tab.content.learnMore.title}
+                                            </Link>
+                                        }
                                     </div>
+                                </div>
+                                <div className='video-wrapper pt-3 flex-column flex-lg-row'>
+                                    {tab.content.watchNow &&
+                                        <div className='wrap d-flex flex-column  align-items-end'>
+                                            <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
+                                        </div>
                                     }
-                                    <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
-                                  
+                                    {tab.content?.videoUrl?.url && (
+                                        <div className='video'>
+                                            {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
+                                            <video
+                                                width="320"
+                                                height="240"
+                                                ref={(el) => (videoRefs.current[index] = el)}
+                                                muted
+                                                onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
+                                            >
+                                                <source src={tab.content.videoUrl.url} type="video/mp4" />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <div className='video-wrapper pt-3 flex-column flex-lg-row'>
-                                {tab.content.watchNow && 
-                                <div className='wrap d-flex flex-column  align-items-end'>  
-                                    <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
-                                </div>
-                                }
-                                {tab.content?.videoUrl?.url && (
-                                    <div className='video'>
-                                        {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
-                                        <video 
-                                            width="320" 
-                                            height="240" 
-                                            ref={(el) => (videoRefs.current[index] = el)} 
-                                            muted
-                                            onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
-                                        >
-                                            <source src={tab.content.videoUrl.url} type="video/mp4" />
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
                         ))}
                     </div>
                 </div>
