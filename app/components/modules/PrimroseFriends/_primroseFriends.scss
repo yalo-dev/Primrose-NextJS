@@ -297,7 +297,7 @@
             }
         }
         @include media-breakpoint-up(xl) {
-            height: 550px;
+            height: 550px!important;
         }
     }
 }
