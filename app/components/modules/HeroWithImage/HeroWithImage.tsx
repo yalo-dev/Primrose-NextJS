@@ -13,6 +13,8 @@ interface HeroWithImageProps {
       };
     };
     rightColumn?: {
+        eyebrow?: string;
+        eyebrowColor?: string;
         heading?: string;
 		headingColor?: string;
 		subheading?: string;
@@ -59,7 +61,8 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
                     <div className='right-column col-12 col-lg-5 offset-lg-1'>
-                       {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
+                        {rightColumn.eyebrow && <Heading level='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Heading>}
+                        {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
                         {rightColumn?.blurb && <Paragraph className='b2' color={rightColumn.blurbColor}>{rightColumn.blurb}</Paragraph>}
                         {rightColumn.button?.url && rightColumn.button.title && (

@@ -36,7 +36,12 @@ interface TwoColumnsImageAndTextProps {
 const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, customizations }) => {
     const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
-    return (
+    // Use imageDesktop as fallback if imageMobile is not available
+    const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
+    const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
+
+
+   return (
         <div className='container'>
              <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
@@ -45,21 +50,21 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
                 >
             <div className={className}>
-                {(leftColumn?.imageDesktop?.sourceUrl || leftColumn?.imageMobile?.sourceUrl) && (
+                {(mobileImageUrl || desktopImageUrl) && (
                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                        {leftColumn?.imageMobile?.sourceUrl && 
+                        {mobileImageUrl && 
                             <Image 
                                 className='d-block d-lg-none' 
-                                src={leftColumn.imageMobile.sourceUrl} 
+                                src={mobileImageUrl} 
                                 alt='Featured Image Mobile' 
                                 width={500} 
                                 height={500} 
                             />
                         }
-                        {leftColumn?.imageDesktop?.sourceUrl && 
+                        {desktopImageUrl && 
                             <Image 
                                 className='d-none d-lg-block' 
-                                src={leftColumn.imageDesktop.sourceUrl} 
+                                src={desktopImageUrl} 
                                 alt='Featured Image Desktop' 
                                 width={1000} 
                                 height={1000} 

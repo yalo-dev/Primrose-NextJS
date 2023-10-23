@@ -197,6 +197,8 @@ query GetModules($id: ID = "") {
             }
           }
           rightColumn {
+            eyebrow
+            eyebrowColor
             heading
             headingColor
             subheading
@@ -215,6 +217,7 @@ query GetModules($id: ID = "") {
           }
           switchColumnOrderOnDesktop
           customizations {
+            backgroundColor
             topPaddingMobile
             bottomPaddingMobile
             topPaddingDesktop
@@ -223,6 +226,8 @@ query GetModules($id: ID = "") {
         }
         ... on Page_Modules_Modules_HeroWithVideo {
           leftColumn {
+            eyebrow
+            eyebrowColor
             heading
             headingColor
             subheading

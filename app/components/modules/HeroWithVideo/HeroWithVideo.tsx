@@ -7,6 +7,8 @@ import Customizations from '../../filters/Customizations';
 
 interface HeroWithVideoProps {
     leftColumn: {
+        eyebrow?: string;
+        eyebrowColor?: string;
         heading?: string;
 		headingColor?: string;
 		subheading?: string;
@@ -55,6 +57,7 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
 	   >
             <div className={className}>
                 <div className='left-column col-12 col-lg-6'>
+                        {leftColumn.eyebrow && <Heading level='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Heading>}
                         {leftColumn.heading && <Heading level='h2' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
 						{leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                         {leftColumn?.blurb && <Paragraph className='b2' color={leftColumn.blurbColor}>{leftColumn.blurb}</Paragraph>}

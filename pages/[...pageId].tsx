@@ -197,6 +197,8 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			rightColumn {
+			  eyebrow
+              eyebrowColor
 			  heading
 			  headingColor
 			  subheading
@@ -219,10 +221,13 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  bottomPaddingDesktop
+			  backgroundColor
 			}
 		  }
 		  ... on Page_Modules_Modules_HeroWithVideo {
 			leftColumn {
+			  eyebrow
+              eyebrowColor
 			  heading
 			  headingColor
 			  subheading
