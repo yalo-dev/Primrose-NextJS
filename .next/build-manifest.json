@@ -12,6 +12,14 @@
   ],
   "rootMainFiles": [],
   "pages": {
+<<<<<<< HEAD
+=======
+    "/[...pageId]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[...pageId].js"
+    ],
+>>>>>>> develop
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
