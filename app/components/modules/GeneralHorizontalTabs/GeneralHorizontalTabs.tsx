@@ -36,9 +36,48 @@ interface HorizontalTabProps {
 }
 
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
+	
 	const [expandedTab, setExpandedTab] = useState<number | null>(0);
 	const [activePopup, setActivePopup] = useState<number | null>(null);
 	const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+	//const contentRefs = useRef<(HTMLDivElement | null)[]>([]);  // New array of refs to store content div refs
+	const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+	const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (containerRef.current) {
+                const containerTop = containerRef.current.getBoundingClientRect().top;
+
+                contentRefs.current.forEach((contentDiv, index) => {
+                    if (contentDiv) {
+                        const top = contentDiv.getBoundingClientRect().top;
+                        const bottom = contentDiv.getBoundingClientRect().bottom;
+                        
+                        // Adjust the value based on your requirement.
+                        // Here, 120 is the offset from the top where we consider the content div in view.
+                        if (top <= 120 && bottom >= 120) {
+                            setExpandedTab(index);
+                        }
+                    }
+                });
+
+                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+
+                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
+                    setIsSticky(true);
+                } else {
+                    setIsSticky(false);
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
 
 	const slideAnimationProps = useSpring({
 		opacity: expandedTab !== null ? 1 : 0,
@@ -72,41 +111,29 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		}
 	};
 
-	const handleLabelClick = (targetId: string) => {
-		const targetElement = document.getElementById(targetId);
-
-		if (window.innerWidth > 992) {  // 992px is the typical breakpoint for large (desktop) screens
-			if (targetElement) {
-				const offset = window.pageYOffset || document.documentElement.scrollTop;
-				const absoluteTargetTop = targetElement.getBoundingClientRect().top + offset;
-
+	const handleLabelClick = (index: number) => {
+		// Toggle content expansion
+		if (expandedTab === index) {
+			setExpandedTab(null);
+		} else {
+			setExpandedTab(index);
+		}
+	
+		// Scroll logic
+		setTimeout(() => {
+			const buttonElement = buttonRefs.current[index];
+			const contentElement = contentRefs.current[index];
+	
+			if (buttonElement && contentElement) {
+				const buttonTop = buttonElement.getBoundingClientRect().top;
+				const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+	
 				window.scrollTo({
-					top: absoluteTargetTop - 120, // accounting for the navigation space
+					top: scrollTop + buttonTop - 120,  // Adjust the 50 value if needed
 					behavior: 'smooth'
 				});
-
-				if (containerRef.current) {
-					const innerDiv = containerRef.current.querySelector('.general-horizontal-tabs .inner');
-					if (innerDiv) {
-						const innerButtons = innerDiv.querySelectorAll('.button');
-						innerButtons.forEach((btn) => {
-							if (btn.getAttribute("data-id") === targetId) {
-								btn.classList.add("expanded");
-							} else {
-								btn.classList.remove("expanded");
-							}
-						});
-					}
-				}
 			}
-		} else {
-			// This is the mobile accordion behavior
-			if (expandedTab !== null && `content-${expandedTab}` === targetId) {
-				setExpandedTab(null);  // close the accordion if the same button is clicked
-			} else {
-				setExpandedTab(parseInt(targetId.split('-')[1]));
-			}
-		}
+		}, 0);
 	};
 
 	const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
@@ -162,8 +189,10 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 						{tabs.map((tab, index) => (
 							<div key={index}>
 								<button
-									onClick={() => handleLabelClick(`content-${index}`)}
+									ref={(el) => buttonRefs.current[index] = el}
+									onClick={() => handleLabelClick(index)}
 									data-id={`content-${index}`}
+									id={`button-${index}`}
 									className={expandedTab === index ? 'expanded' : ''}
 								>
 									{tab.label && <Heading level='h5' color={tab.tabLabelColor}>{tab.label}
@@ -177,7 +206,8 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 								{/* Mobile: Content rendered right below the label */}
 								<div className="d-lg-none">
 									{expandedTab === index && (
-										<animated.div style={slideAnimationProps} className="tab-content">
+										<animated.div style={slideAnimationProps} className="tab-content" ref={(el) => contentRefs.current[index] = el}
+										>
 											{tab.content.image?.sourceUrl && (
 												<div className='image-wrapper'>
 													<Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
@@ -230,7 +260,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 
 					<div className='desktop-content d-none d-lg-block'>
 						{tabs.map((tab, index) => (
-							<div id={`content-${index}`} className="tab-content d-flex" key={index}>
+                			<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefs.current[index] = el}>
 
 								{tab.content?.image?.sourceUrl && (
 									<div className='image-wrapper'>

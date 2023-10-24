@@ -11,7 +11,7 @@
                 padding: 1rem;
                 margin-bottom: 2rem;
                 flex-direction: column;
-
+                border-width: 15px;
                 &:after {
                     content: '';
                     width: calc(100% - 2rem);
@@ -22,15 +22,11 @@
                     pointer-events: none;
                     border: 1px dashed $neutral-2;
                 }
-
-                @include media-breakpoint-up(lg) {
-                    border-width: 15px;
-                }
-
-                .wrap {
+                >.wrap {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    padding: 1rem 0.5rem;
                 }
 
                 .image-wrapper {
@@ -41,7 +37,9 @@
 
                 .content-wrapper {
                     flex-basis: 65%;
-
+                    h3 {
+                        text-align: left;
+                    }
                     ul {
                         margin-bottom: 0;
                     }
@@ -213,6 +211,7 @@
         .image-wrapper {
             padding-top: 2rem;
             padding-bottom: 1rem;
+            text-align: center;
 
             img {
                 width: 242px;
@@ -226,6 +225,9 @@
         }
 
         .content-wrapper {
+            h3 {
+                text-align: center;
+            }
             .bio p {
                 max-width: 385px;
                 font-family: Poppins;

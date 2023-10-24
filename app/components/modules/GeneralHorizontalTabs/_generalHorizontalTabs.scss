@@ -174,7 +174,7 @@
             position: absolute;
             z-index: 10;
             border-radius: 10px;
-            width: 23rem;
+            max-width: 23rem;
             left: 2rem;
             bottom: 6rem;
             opacity: 0;
@@ -182,9 +182,6 @@
             transition: opacity 0.3s ease-in-out;
             pointer-events: none;
             @include transition;
-            @include media-breakpoint-up(lg) {
-                //bottom: 8rem;
-            }
             &::before {
                 content: "";
                 position: absolute;
@@ -302,3 +299,4 @@
         right: 0;
     }
 }
+

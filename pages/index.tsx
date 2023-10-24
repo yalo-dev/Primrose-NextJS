@@ -513,7 +513,7 @@ const HomePage = () => {
 		client,
 	});
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
 
 	console.log('Fetched Data:', data);

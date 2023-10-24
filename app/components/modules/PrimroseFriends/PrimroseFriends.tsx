@@ -43,6 +43,44 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
     const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
     const [playingVideo, setPlayingVideo] = useState<number | null>(null); // This will store the index of the currently playing video
 
+    const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const mobileButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (containerRef.current) {
+                const containerTop = containerRef.current.getBoundingClientRect().top;
+
+                contentRefs.current.forEach((contentDiv, index) => {
+                    if (contentDiv) {
+                        const top = contentDiv.getBoundingClientRect().top;
+                        const bottom = contentDiv.getBoundingClientRect().bottom;
+                        
+                        // Adjust the value based on your requirement.
+                        // Here, 120 is the offset from the top where we consider the content div in view.
+                        if (top <= 120 && bottom >= 120) {
+                            setExpandedTab(index);
+                        }
+                    }
+                });
+
+                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+
+                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
+                    setIsSticky(true);
+                } else {
+                    setIsSticky(false);
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+    
     const slideAnimationProps = useSpring({
         opacity: expandedTab !== null ? 1 : 0,
         transform: expandedTab !== null ? 'scaleY(1)' : 'scaleY(0)',
@@ -97,12 +135,26 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                 }
             }
         } else {
-            // This is the mobile accordion behavior
-            if (expandedTab !== null && `content-${expandedTab}` === targetId) {
-                setExpandedTab(null);  // close the accordion if the same button is clicked
-            } else {
-                setExpandedTab(parseInt(targetId.split('-')[1]));
+           // This is the mobile accordion behavior
+        if (expandedTab !== null && `content-${expandedTab}` === targetId) {
+            setExpandedTab(null);  // close the accordion if the same button is clicked
+        } else {
+            setExpandedTab(parseInt(targetId.split('-')[1]));
+        }
+
+        // Add a slight delay to ensure the content has expanded
+        setTimeout(() => {
+            const buttonElement = mobileButtonRefs.current[parseInt(targetId.split('-')[1])];
+            if (buttonElement) {
+                const buttonTop = buttonElement.getBoundingClientRect().top;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                window.scrollTo({
+                    top: scrollTop + buttonTop - 120, // accounting for the navigation space and adjust as needed
+                    behavior: 'smooth'
+                });
             }
+        }, 100);
         }
     };
 
@@ -171,6 +223,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                         {tabs.map((tab, index) => (
                             <div className='label' key={index}>
                                 <button
+                                    ref={(el) => mobileButtonRefs.current[index] = el}
                                     onClick={() => handleLabelClick(`content-${index}`)}
                                     data-id={`content-${index}`} // Add this attribute
                                     className={expandedTab === index ? 'expanded' : ''}
@@ -249,7 +302,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
                     <div className='desktop-content d-none d-lg-block col-lg-7 offset-lg-1'>
                         {tabs.map((tab, index) => (
-                            <div id={`content-${index}`} className="tab-content d-flex" key={index}>
+                            <div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefs.current[index] = el}>
 
                                 <div className='wrap'>
                                     {tab.content?.image?.sourceUrl && (

@@ -524,7 +524,7 @@ const DynamicPage = () => {
 	  skip: !id, 
 	});
   
-	if (loading || !id) return <p>Loading...</p>;
+	if (loading || !id) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
   
 	const modules = data?.page?.modules?.modules || [];
