@@ -4,6 +4,8 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
+import ColorComponent from '../../filters/ColorComponent';
+import BackgroundColorComponent from '../../filters/BackgroundColorComponent';
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
@@ -23,6 +25,15 @@ interface TwoColumnsImageAndTextProps {
         };
         imageMobile?: {
             sourceUrl?: string;
+        };
+        announcement?: {
+            backgroundColor?: string;
+            bottomLine?: string;
+            midLine?: string;
+            topLine?: string;
+            bottomLineColor?: string;
+            midLineColor?: string;
+            topLineColor?: string;
         };
     };
     customizations?: {
@@ -70,7 +81,20 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                                 height={1000} 
                             />
                         }
-                    </div>
+                        {leftColumn?.announcement && (
+                               <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
+                                    {leftColumn.announcement.topLine && 
+                                    <div className='b4'>
+                                        <ColorComponent color={leftColumn.announcement.topLineColor}>
+                                        {leftColumn.announcement.topLine}
+                                        </ColorComponent>
+                                    </div>
+                                    }
+                                    {leftColumn.announcement.midLine && <ColorComponent color={leftColumn.announcement.midLineColor}><div className='b7 mb-1 mt-1'>{leftColumn.announcement.midLine}</div></ColorComponent>}
+                                    {leftColumn.announcement.bottomLine && <ColorComponent color={leftColumn.announcement.bottomLineColor}><div className='b3'>{leftColumn.announcement.bottomLine}</div></ColorComponent>}
+                            </BackgroundColorComponent>
+                        )}
+                </div>
                 )}
                 <div className='right-column col-12 c col-lg-5 offset-lg-1'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}

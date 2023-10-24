@@ -277,6 +277,34 @@ query GetModules($id: ID = "") {
 			  bottomPaddingDesktop
 			}
 		  }
+		  ... on Page_Modules_Modules_PathwayToOwnership {
+			heading
+			subheading
+			subheadingColor
+			headingColor
+			image {
+			  sourceUrl
+			}
+			boxes {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  list {
+				listItem
+				listItemColor
+			  }
+			  icon {
+				sourceUrl
+			  }
+			}
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+		  }
 		  ... on Page_Modules_Modules_PrimroseFriends {
 			tabs {
 			  label
@@ -431,6 +459,15 @@ query GetModules($id: ID = "") {
 			  }
 			  imageMobile {
 				sourceUrl
+			  }
+			  announcement {
+				backgroundColor
+				bottomLine
+				midLine
+				topLine
+				bottomLineColor
+				midLineColor
+				topLineColor
 			  }
 			}
 			rightColumn {

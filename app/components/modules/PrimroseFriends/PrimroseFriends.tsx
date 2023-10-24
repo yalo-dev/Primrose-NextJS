@@ -83,7 +83,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                 });
 
                 if (containerRef.current) {
-                    const innerDiv = containerRef.current.querySelector('.inner');
+                    const innerDiv = containerRef.current.querySelector('.primrose-friends .inner');
                     if (innerDiv) {
                         const innerButtons = innerDiv.querySelectorAll('button');
                         innerButtons.forEach((btn) => {
@@ -157,7 +157,6 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             }
         }
     };
-
 
     return (
         <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>

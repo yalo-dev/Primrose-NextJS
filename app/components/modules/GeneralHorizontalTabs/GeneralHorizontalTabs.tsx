@@ -86,9 +86,9 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 				});
 
 				if (containerRef.current) {
-					const innerDiv = containerRef.current.querySelector('.inner');
+					const innerDiv = containerRef.current.querySelector('.general-horizontal-tabs .inner');
 					if (innerDiv) {
-						const innerButtons = innerDiv.querySelectorAll('button');
+						const innerButtons = innerDiv.querySelectorAll('.button');
 						innerButtons.forEach((btn) => {
 							if (btn.getAttribute("data-id") === targetId) {
 								btn.classList.add("expanded");
