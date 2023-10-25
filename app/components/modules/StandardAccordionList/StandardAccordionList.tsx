@@ -46,7 +46,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
 		   colorLabel={customizations?.backgroundColor} 
 	   >
       <div className='standard-accordion-list'>
-        <div className='inner col-lg-9 offset-lg-3'>
+        <div className='inner col-lg-11 offset-lg-1'>
           <div className='row text-left'>
             {heading && <Heading level='h2' className='green pt-3' color={headingColor}>{heading}</Heading>}
           </div>

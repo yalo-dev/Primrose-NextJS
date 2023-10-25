@@ -7,6 +7,7 @@ import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHo
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
 import NewsletterFormCTA from '../../modules/NewsletterFormCTA/NewsletterFormCTA';
+import PathwayToOwnership from '../../modules/PathwayToOwnership/PathwayToOwnership';
 import PrimroseFriends from '../../modules/PrimroseFriends/PrimroseFriends';
 import Q1Skills from '../../modules/Q1Skills/Q1Skills';
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
@@ -51,6 +52,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_NewsletterFormCta':
                     ModuleComponent = NewsletterFormCTA;
+                    break;
+                case 'Page_Modules_Modules_PathwayToOwnership':
+                    ModuleComponent = PathwayToOwnership;
                     break;
                 case 'Page_Modules_Modules_PrimroseFriends':
                     ModuleComponent = PrimroseFriends;

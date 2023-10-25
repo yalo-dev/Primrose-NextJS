@@ -36,25 +36,25 @@
                     ul {
                         margin-bottom: 0;
                         li {
-                            .icon-container.has-popup:hover {
-                                background-color: $brand-blue;
-                                color: $grayscale-1;
+                            // .icon-container.has-popup:hover {
+                            //     background-color: $brand-blue;
+                            //     color: $grayscale-1;
             
-                                img {
-                                    filter: brightness(0) invert(1);
-                                }
+                            //     img {
+                            //         filter: brightness(0) invert(1);
+                            //     }
             
-                                ~.details-popup {
-                                    opacity: 1;
-                                    pointer-events: none;
-                                    visibility: visible;
-                                    .title-container {
-                                        .desc {
-                                            display: flex;
-                                        }
-                                    }
-                                }
-                            }
+                            //     ~.details-popup {
+                            //         opacity: 1;
+                            //         pointer-events: none;
+                            //         visibility: visible;
+                            //         .title-container {
+                            //             .desc {
+                            //                 display: flex;
+                            //             }
+                            //         }
+                            //     }
+                            // }
             
                         }
                     }
@@ -174,7 +174,7 @@
             position: absolute;
             z-index: 10;
             border-radius: 10px;
-            width: 23rem;
+            max-width: 23rem;
             left: 2rem;
             bottom: 6rem;
             opacity: 0;
@@ -182,8 +182,8 @@
             transition: opacity 0.3s ease-in-out;
             pointer-events: none;
             @include transition;
-            @include media-breakpoint-up(lg) {
-                //bottom: 8rem;
+            P {
+                @extend .b3;
             }
             &::before {
                 content: "";
@@ -213,13 +213,12 @@
 
             .title-container {
                 color: $grayscale-1;
-                background-color: $text-gray;
+                background-color: $brand-blue;
                 border: 1rem;
-                border-radius: 25px;
                 padding: 1rem;
-                width: fit-content;
-                border-bottom-left-radius: 0;
-
+                width: 100%;
+                border-top-left-radius: 25px;
+                border-top-right-radius: 25px;
                 .title {
                     margin-left: 0;
                     font-size: 16px;
@@ -233,6 +232,8 @@
                 padding: 10px;
                 border-radius: 20px;
                 border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border-top: 0;
                 padding: 1.5rem;
             }
         }
@@ -302,3 +303,4 @@
         right: 0;
     }
 }
+

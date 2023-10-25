@@ -197,6 +197,8 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			rightColumn {
+			  eyebrow
+              eyebrowColor
 			  heading
 			  headingColor
 			  subheading
@@ -219,10 +221,13 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  bottomPaddingDesktop
+			  backgroundColor
 			}
 		  }
 		  ... on Page_Modules_Modules_HeroWithVideo {
 			leftColumn {
+			  eyebrow
+              eyebrowColor
 			  heading
 			  headingColor
 			  subheading
@@ -270,6 +275,34 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_PathwayToOwnership {
+			heading
+			subheading
+			subheadingColor
+			headingColor
+			image {
+			  sourceUrl
+			}
+			boxes {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  list {
+				listItem
+				listItemColor
+			  }
+			  icon {
+				sourceUrl
+			  }
+			}
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
 			}
 		  }
 		  ... on Page_Modules_Modules_PrimroseFriends {
@@ -427,6 +460,15 @@ query GetModules($id: ID = "") {
 			  imageMobile {
 				sourceUrl
 			  }
+			  announcement {
+				backgroundColor
+				bottomLine
+				midLine
+				topLine
+				bottomLineColor
+				midLineColor
+				topLineColor
+			  }
 			}
 			rightColumn {
 			  heading
@@ -482,7 +524,7 @@ const DynamicPage = () => {
 	  skip: !id, 
 	});
   
-	if (loading || !id) return <p>Loading...</p>;
+	if (loading || !id) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
   
 	const modules = data?.page?.modules?.modules || [];

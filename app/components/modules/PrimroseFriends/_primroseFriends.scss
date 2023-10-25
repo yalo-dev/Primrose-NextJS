@@ -11,7 +11,7 @@
                 padding: 1rem;
                 margin-bottom: 2rem;
                 flex-direction: column;
-
+                border-width: 15px;
                 &:after {
                     content: '';
                     width: calc(100% - 2rem);
@@ -22,15 +22,11 @@
                     pointer-events: none;
                     border: 1px dashed $neutral-2;
                 }
-
-                @include media-breakpoint-up(lg) {
-                    border-width: 15px;
-                }
-
-                .wrap {
+                >.wrap {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    padding: 1rem 0.5rem;
                 }
 
                 .image-wrapper {
@@ -41,69 +37,71 @@
 
                 .content-wrapper {
                     flex-basis: 65%;
-
+                    h3 {
+                        text-align: left;
+                    }
                     ul {
                         margin-bottom: 0;
                     }
                 }
 
-                &#content-0,
-                &#content-0::after {
+                &#pf-content-0,
+                &#pf-content-0::after {
                     border-color: #006BA6;
                 }
 
-                &#content-1,
-                &#content-1:after {
+                &#pf-content-1,
+                &#pf-content-1:after {
                     border-color: #FF9E1B;
                 }
 
-                &#content-2,
-                &#content-2::after {
+                &#pf-content-2,
+                &#pf-content-2::after {
                     border-color: #814C9E;
                 }
 
-                &#content-3,
-                &#content-3::after {
+                &#pf-content-3,
+                &#pf-content-3::after {
                     border-color: #00A5B5;
                 }
 
-                &#content-4,
-                &#content-4::after {
+                &#pf-content-4,
+                &#pf-content-4::after {
                     border-color: #FF9E1B;
                 }
 
-                &#content-5,
-                &#content-5::after {
+                &#pf-content-5,
+                &#pf-content-5::after {
                     border-color: #006BA6;
                 }
 
-                &#content-6,
-                &#content-6::after {
+                &#pf-content-6,
+                &#pf-content-6::after {
                     border-color: #E03C31;
                 }
 
-                &#content-7,
-                &#content-7::after {
+                &#pf-content-7,
+                &#pf-content-7::after {
                     border-color: #FF9E1B;
                 }
 
-                &#content-8,
-                &#content-8::after {
+                &#pf-content-8,
+                &#pf-content-8::after {
                     border-color: #00A5B5;
                 }
 
-                &#content-9,
-                &#content-9::after {
+                &#pf-content-9,
+                &#pf-content-9::after {
                     border-color: #814C9E;
                 }
 
-                &#content-10,
-                &#content-10::after {
+                &#pf-content-10,
+                &#pf-content-10::after {
                     border-color: #006BA6;
                 }
 
-                &#content-11,
-                &#content-11::after {
+                &#pf-content-11,
+                &#pf-content-11::after {
                     border-color: #E03C31;
                     margin-bottom: 0;
                 }
@@ -213,6 +211,7 @@
         .image-wrapper {
             padding-top: 2rem;
             padding-bottom: 1rem;
+            text-align: center;
 
             img {
                 width: 242px;
@@ -226,6 +225,9 @@
         }
 
         .content-wrapper {
+            h3 {
+                text-align: center;
+            }
             .bio p {
                 max-width: 385px;
                 font-family: Poppins;
@@ -271,6 +273,9 @@
                     cursor: pointer;
                     z-index: 10;
                   }
+            }
+            .b3 {
+                text-align: right;
             }
         }
     }
