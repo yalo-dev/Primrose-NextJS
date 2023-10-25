@@ -38,12 +38,13 @@ interface HorizontalTabProps {
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
 	
 	const [expandedTab, setExpandedTab] = useState<number | null>(0);
-	const [activePopup, setActivePopup] = useState<number | null>(null);
-	const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
-
-	//const contentRefs = useRef<(HTMLDivElement | null)[]>([]);  // New array of refs to store content div refs
+	const [activePopup, setActivePopup] = useState<string | null>(null);
+	const buttonsRef = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
 	const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 	const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+	const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	const [isSticky, setIsSticky] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,15 +56,13 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
                         const top = contentDiv.getBoundingClientRect().top;
                         const bottom = contentDiv.getBoundingClientRect().bottom;
                         
-                        // Adjust the value based on your requirement.
-                        // Here, 120 is the offset from the top where we consider the content div in view.
                         if (top <= 120 && bottom >= 120) {
                             setExpandedTab(index);
                         }
                     }
                 });
 
-                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+                const lastContentOffset = document.querySelector('.general-horizontal-tabs .desktop-content:last-child')?.getBoundingClientRect().bottom;
 
                 if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
                     setIsSticky(true);
@@ -95,24 +94,24 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 			opacity: 0
 		}
 	});
-
-	// const handleTabClick = (index: number) => {
-	// 	// Toggle the active tab
-	// 	if (expandedTab === index) {
-	// 		setExpandedTab(null);
-	// 	} else {
-	// 		setExpandedTab(index);
-	// 	}
-	// };
-
-	const handleIconClick = (idx: number) => {
-		if (window.innerWidth < 992) {
-			setActivePopup(prev => (prev === idx ? null : idx));
+	
+	const handleIconClick = (index: number, idx: number) => {
+		const uniqueId = `${index}-${idx}`;
+		const targetButton = buttonsRef.current[index][idx];
+		
+		if (targetButton && targetButton.classList.contains('has-popup')) {
+			if (activePopup === uniqueId) {
+				setActivePopup(null); 
+			} else {
+				setActivePopup(uniqueId); 
+			}
 		}
 	};
-
+	
+	
+	
 	const handleLabelClick = (index: number) => {
-		// Toggle content expansion
+	
 		if (expandedTab === index) {
 			setExpandedTab(null);
 		} else {
@@ -125,36 +124,27 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 			const contentElement = contentRefs.current[index];
 	
 			if (buttonElement && contentElement) {
-				const buttonTop = buttonElement.getBoundingClientRect().top;
-				const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+				if (window.innerWidth >= 992) { // Desktop
+					const contentTop = contentElement.getBoundingClientRect().top;
+					const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 	
-				window.scrollTo({
-					top: scrollTop + buttonTop - 120,  // Adjust the 50 value if needed
-					behavior: 'smooth'
-				});
+					window.scrollTo({
+						top: scrollTop + contentTop - 120, // 120 is the offset to account for any sticky headers or desired positioning
+						behavior: 'smooth'
+					});
+				} else { // Mobile
+					const buttonTop = buttonElement.getBoundingClientRect().top;
+					const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+	
+					window.scrollTo({
+						top: scrollTop + buttonTop - 120,
+						behavior: 'smooth'
+					});
+				}
 			}
 		}, 0);
 	};
-
-	const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
-
-	const containerRef = useRef<HTMLDivElement | null>(null);
-
-	const [isSticky, setIsSticky] = useState(false);
-
-	useEffect(() => {
-		function handleOutsideClick(event: MouseEvent) {
-			if (window.innerWidth < 992 && activePopup !== null && !buttonsRef.current[activePopup]?.contains(event.target as Node)) {
-				setActivePopup(null);
-			}
-		}
-		document.addEventListener('mousedown', handleOutsideClick);
-		return () => {
-			document.removeEventListener('mousedown', handleOutsideClick);
-		};
-	}, [activePopup]);
-
-
+	
 	useEffect(() => {
 		const handleScroll = () => {
 			if (containerRef.current) {
@@ -175,7 +165,14 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		}
 	}, []);
 
-
+	useEffect(() => {
+		tabs.forEach((_, index) => {
+			if (!buttonsRef.current[index]) {
+				buttonsRef.current[index] = [];
+			}
+		});
+	}, []);
+	
 	return (
 		<div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
 			<Customizations
@@ -186,7 +183,10 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 			>
 				<div className="general-horizontal-tabs">
 					<div className="inner">
+					
+
 						{tabs.map((tab, index) => (
+							
 							<div key={index}>
 								<button
 									ref={(el) => buttonRefs.current[index] = el}
@@ -222,9 +222,11 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 														<li key={idx}>
 															<div className="icon-and-popup-container d-flex flex-lg-column align-center justify-content-lg-center">
 															<button
-																ref={el => buttonsRef.current[idx] = el}
-																className={`icon-container ${activePopup === idx && item.detailsPopUp ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
-																onClick={() => handleIconClick(idx)}
+																ref={el => buttonsRef.current[index][idx] = el}
+
+
+																className={`icon-container ${activePopup === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
+																onClick={() => handleIconClick(index, idx)}
 															>
 																{item.icon?.sourceUrl && (
 																	<Image
@@ -237,11 +239,13 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 															</button>
 
 																<span className='ps-4' color={item.textColor}>{item.text}</span>
-																<div className={`details-popup ${activePopup === idx && item.detailsPopUp ? 'active' : ''}`}>
+																<div className={`details-popup ${activePopup === `${index}-${idx}` ? 'active' : ''}`}>
 																	<div className='title-container'>
 																		{item.text && <Subheading level='div' className='title'>{item.text}</Subheading>}
 																	</div>
-																	{item.detailsPopUp && <div className="details-container">{item.detailsPopUp}</div>}
+																	{item.detailsPopUp && (
+																		<div className="details-container" dangerouslySetInnerHTML={{ __html: item.detailsPopUp }}></div>
+																	)}
 																</div>
 
 															</div>
@@ -259,6 +263,8 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					{/* Desktop: Content rendered outside the loop in a designated area */}
 
 					<div className='desktop-content d-none d-lg-block'>
+					
+
 						{tabs.map((tab, index) => (
                 			<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefs.current[index] = el}>
 
@@ -276,9 +282,11 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 											<li key={idx}>
 												<div className="icon-and-popup-container d-flex flex-lg-row align-center justify-content-lg-center">
 													<button
-														ref={el => buttonsRef.current[idx] = el}
-														className={`icon-container ${activePopup === idx ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
-														onClick={() => handleIconClick(idx)}
+														ref={el => buttonsRef.current[index][idx] = el}
+
+
+														className={`icon-container ${activePopup === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
+														onClick={() => handleIconClick(index, idx)}
 													>
 														{item.icon?.sourceUrl && (
 															<Image
@@ -291,13 +299,15 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 													</button>
 
 													<span className='ps-4' color={item.textColor}>{item.text}</span>
-													<div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>
+													<div className={`details-popup ${activePopup === `${index}-${idx}` ? 'active' : ''}`}>
 														{item.detailsPopUp && (
 															<>
 																<div className='title-container'>
 																	{item.text && <Subheading level='div' className='title'>{item.text}</Subheading>}
 																</div>
-																<div className="details-container">{item.detailsPopUp}</div>
+																{item.detailsPopUp && (
+																	<div className="details-container" dangerouslySetInnerHTML={{ __html: item.detailsPopUp }}></div>
+																)}
 															</>
 														)}
 													</div>

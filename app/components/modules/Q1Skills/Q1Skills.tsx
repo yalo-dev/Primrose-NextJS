@@ -88,7 +88,9 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
                                         {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
                                         {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
                                     </div>
-                                    {item.detailsPopUp && <div className="details-container">{item.detailsPopUp}</div>}
+                                    {item.detailsPopUp && (
+										<div className="details-container" dangerouslySetInnerHTML={{ __html: item.detailsPopUp }}></div>
+									)}
                                 </div>
 
                                 <div className="title-container">

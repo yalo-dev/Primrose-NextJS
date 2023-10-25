@@ -39,51 +39,50 @@ interface PrimroseFriends {
 }
 
 const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) => {
-    const [expandedTab, setExpandedTab] = useState<number | null>(0);
-    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-    const [playingVideo, setPlayingVideo] = useState<number | null>(null); // This will store the index of the currently playing video
-
-    const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const mobileButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const [expandedTabPF, setExpandedTabPF] = useState<number | null>(0);
+    const videoRefsPF = useRef<(HTMLVideoElement | null)[]>([]);
+    const [playingVideoPF, setPlayingVideoPF] = useState<number | null>(null); // This will store the index of the currently playing video
+    const contentRefsPF = useRef<(HTMLDivElement | null)[]>([]);
+    const mobileButtonRefsPF = useRef<(HTMLButtonElement | null)[]>([]);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (containerRef.current) {
-                const containerTop = containerRef.current.getBoundingClientRect().top;
+        const handleScrollPF = () => {
+            if (containerRefPF.current) {
+                const containerTopPF = containerRefPF.current.getBoundingClientRect().top;
 
-                contentRefs.current.forEach((contentDiv, index) => {
-                    if (contentDiv) {
-                        const top = contentDiv.getBoundingClientRect().top;
-                        const bottom = contentDiv.getBoundingClientRect().bottom;
+                contentRefsPF.current.forEach((contentDivPF, index) => {
+                    if (contentDivPF) {
+                        const top = contentDivPF.getBoundingClientRect().top;
+                        const bottom = contentDivPF.getBoundingClientRect().bottom;
                         
                         // Adjust the value based on your requirement.
                         // Here, 120 is the offset from the top where we consider the content div in view.
                         if (top <= 120 && bottom >= 120) {
-                            setExpandedTab(index);
+                            setExpandedTabPF(index);
                         }
                     }
                 });
 
-                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+                const lastContentOffsetPF = document.querySelector('.primrose-friends .desktop-content:last-child')?.getBoundingClientRect().bottom;
 
-                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
-                    setIsSticky(true);
+                if (containerTopPF <= 120 && lastContentOffsetPF && lastContentOffsetPF > 0) {
+                    setIsStickyPF(true);
                 } else {
-                    setIsSticky(false);
+                    setIsStickyPF(false);
                 }
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScrollPF);
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScrollPF);
         }
     }, []);
     
-    const slideAnimationProps = useSpring({
-        opacity: expandedTab !== null ? 1 : 0,
-        transform: expandedTab !== null ? 'scaleY(1)' : 'scaleY(0)',
+    const slideAnimationPropsPF = useSpring({
+        opacity: expandedTabPF !== null ? 1 : 0,
+        transform: expandedTabPF !== null ? 'scaleY(1)' : 'scaleY(0)',
         from: {
             opacity: 0,
             transform: 'scaleY(0)'
@@ -91,41 +90,32 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
         config: { tension: 280, friction: 60 }
     });
 
-    const fadeInAnimationProps = useSpring({
-        opacity: expandedTab !== null ? 1 : 0,
+    const fadeInAnimationPropsPF = useSpring({
+        opacity: expandedTabPF !== null ? 1 : 0,
         from: {
             opacity: 0
         }
     });
 
-    // const handleTabClick = (index: number) => {
-    //     // Toggle the active tab
-    //     if (expandedTab === index) {
-    //         setExpandedTab(null);
-    //     } else {
-    //         setExpandedTab(index);
-    //     }
-    // };
-
-    const handleLabelClick = (targetId: string) => {
-        const targetElement = document.getElementById(targetId);
+    const handleLabelClickPF = (targetId: string) => {
+        const targetElementPF = document.getElementById(targetId);
 
         if (window.innerWidth > 992) {  // 992px is the typical breakpoint for large (desktop) screens
-            if (targetElement) {
-                const offset = window.pageYOffset || document.documentElement.scrollTop;
-                const absoluteTargetTop = targetElement.getBoundingClientRect().top + offset;
+            if (targetElementPF) {
+                const offsetPF = window.pageYOffset || document.documentElement.scrollTop;
+                const absoluteTargetTopPF = targetElementPF.getBoundingClientRect().top + offsetPF;
 
                 window.scrollTo({
-                    top: absoluteTargetTop - 120, // accounting for the navigation space
+                    top: absoluteTargetTopPF - 120, // accounting for the navigation space
                     behavior: 'smooth'
                 });
 
-                if (containerRef.current) {
-                    const innerDiv = containerRef.current.querySelector('.primrose-friends .inner');
-                    if (innerDiv) {
-                        const innerButtons = innerDiv.querySelectorAll('button');
-                        innerButtons.forEach((btn) => {
-                            if (btn.getAttribute("data-id") === targetId) {
+                if (containerRefPF.current) {
+                    const innerDivPF = containerRefPF.current.querySelector('.primrose-friends .inner');
+                    if (innerDivPF) {
+                        const innerButtonsPF = innerDivPF.querySelectorAll('button');
+                        innerButtonsPF.forEach((btn) => {
+                            if (btn.getAttribute("data-id-pf") === targetId) {
                                 btn.classList.add("expanded");
                             } else {
                                 btn.classList.remove("expanded");
@@ -136,28 +126,27 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             }
         } else {
            // This is the mobile accordion behavior
-        if (expandedTab !== null && `content-${expandedTab}` === targetId) {
-            setExpandedTab(null);  // close the accordion if the same button is clicked
+        if (expandedTabPF !== null && `pf-content-${expandedTabPF}` === targetId) {
+            setExpandedTabPF(null);  // close the accordion if the same button is clicked
         } else {
-            setExpandedTab(parseInt(targetId.split('-')[1]));
+            setExpandedTabPF(parseInt(targetId.split('-')[1]));
         }
 
         // Add a slight delay to ensure the content has expanded
         setTimeout(() => {
-            const buttonElement = mobileButtonRefs.current[parseInt(targetId.split('-')[1])];
-            if (buttonElement) {
-                const buttonTop = buttonElement.getBoundingClientRect().top;
+            const buttonElementPF = mobileButtonRefsPF.current[parseInt(targetId.split('-')[1])];
+            if (buttonElementPF) {
+                const buttonTopPF = buttonElementPF.getBoundingClientRect().top;
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
                 window.scrollTo({
-                    top: scrollTop + buttonTop - 120, // accounting for the navigation space and adjust as needed
+                    top: scrollTop + buttonTopPF - 120, // accounting for the navigation space and adjust as needed
                     behavior: 'smooth'
                 });
             }
         }, 100);
         }
     };
-
 
     const PlayButton = ({ onPlay }) => (
         <div onClick={onPlay} className="play-button">
@@ -170,48 +159,48 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
     const [videoPlaying, setVideoPlaying] = useState(false);
 
-    const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
+    const currentTab = expandedTabPF !== null ? tabs[expandedTabPF] : null;
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const containerRefPF = useRef<HTMLDivElement | null>(null);
 
-    const [isSticky, setIsSticky] = useState(false);
+    const [isStickyPF, setIsStickyPF] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (containerRef.current) {
-                const containerTop = containerRef.current.getBoundingClientRect().top;
-                const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+        const handleScrollPF = () => {
+            if (containerRefPF.current) {
+                const containerTopPF = containerRefPF.current.getBoundingClientRect().top;
+                const lastContentOffsetPF = document.querySelector('.primrose-friends .desktop-content:last-child')?.getBoundingClientRect().bottom;
 
-                if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
-                    setIsSticky(true);
+                if (containerTopPF <= 120 && lastContentOffsetPF && lastContentOffsetPF > 0) {
+                    setIsStickyPF(true);
                 } else {
-                    setIsSticky(false);
+                    setIsStickyPF(false);
                 }
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScrollPF);
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScrollPF);
         }
     }, []);
 
     const toggleVideoPlayback = (index: number) => {
-        const currentVideo = videoRefs.current[index];
+        const currentVideo = videoRefsPF.current[index];
         if (currentVideo) {
             if (currentVideo.paused) { // If video is paused, play it
                 currentVideo.play();
-                setPlayingVideo(index);
+                setPlayingVideoPF(index);
             } else { // If video is playing, pause it
                 currentVideo.pause();
-                setPlayingVideo(null); // Reset playing video so the play button shows
+                setPlayingVideoPF(null); // Reset playing video so the play button shows
             }
         }
     };
 
     return (
-        <div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
+        <div className={`container ${isStickyPF ? 'sticky' : ''}`} ref={containerRefPF}>
             <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}
@@ -223,10 +212,10 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                         {tabs.map((tab, index) => (
                             <div className='label' key={index}>
                                 <button
-                                    ref={(el) => mobileButtonRefs.current[index] = el}
-                                    onClick={() => handleLabelClick(`content-${index}`)}
-                                    data-id={`content-${index}`} // Add this attribute
-                                    className={expandedTab === index ? 'expanded' : ''}
+                                    ref={(el) => mobileButtonRefsPF.current[index] = el}
+                                    onClick={() => handleLabelClickPF(`pf-content-${index}`)}
+                                    data-id-pf={`pf-content-${index}`} // Add this attribute
+                                    className={expandedTabPF === index ? 'expanded' : ''}
                                 >
                                     {tab.label &&
                                         <Heading level='h5' color={tab.tabLabelColor}>
@@ -241,8 +230,8 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
                                 {/* Mobile: Content rendered right below the label */}
                                 <div className="d-lg-none">
-                                    {expandedTab === index && (
-                                        <animated.div style={slideAnimationProps} className="tab-content">
+                                    {expandedTabPF === index && (
+                                        <animated.div style={slideAnimationPropsPF} className="tab-content">
                                             <div className='wrap'>
                                                 {tab.content?.image?.sourceUrl && (
                                                     <div className='image-wrapper'>
@@ -277,11 +266,11 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                 }
                                                 {tab.content?.videoUrl?.url && (
                                                     <div className='video'>
-                                                        {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
+                                                        {playingVideoPF !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
                                                         <video
                                                             width="320"
                                                             height="240"
-                                                            ref={(el) => (videoRefs.current[index] = el)}
+                                                            ref={(el) => (videoRefsPF.current[index] = el)}
                                                             muted
                                                             onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
                                                         >
@@ -302,7 +291,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
                     <div className='desktop-content d-none d-lg-block col-lg-7 offset-lg-1'>
                         {tabs.map((tab, index) => (
-                            <div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefs.current[index] = el}>
+                            <div id={`pf-content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefsPF.current[index] = el}>
 
                                 <div className='wrap'>
                                     {tab.content?.image?.sourceUrl && (
@@ -338,11 +327,11 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                     }
                                     {tab.content?.videoUrl?.url && (
                                         <div className='video'>
-                                            {playingVideo !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
+                                            {playingVideoPF !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
                                             <video
                                                 width="320"
                                                 height="240"
-                                                ref={(el) => (videoRefs.current[index] = el)}
+                                                ref={(el) => (videoRefsPF.current[index] = el)}
                                                 muted
                                                 onClick={() => toggleVideoPlayback(index)} // Toggle playback when video is clicked
                                             >

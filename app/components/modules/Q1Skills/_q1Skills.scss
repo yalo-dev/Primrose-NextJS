@@ -120,6 +120,7 @@
                 @include transition;
                 @include media-breakpoint-up(lg) {
                     bottom: 8rem;
+                    width: 20rem;
                 }
                 &::before {
                     content: "";
@@ -149,15 +150,16 @@
 
                 .title-container {
                     color: $grayscale-1;
-                    background-color: $text-gray;
+                    background-color: $brand-blue;
                     border: 1rem;
                     border-radius: 25px;
                     padding: 1rem;
-                    width: fit-content;
+                    width: 100%;
                     border-bottom-left-radius: 0;
-
+                    border-bottom-right-radius: 0;
                     .title {
                         margin-left: 0;
+                        margin-right: 0;
                         font-size: 16px;
                         color: $grayscale-1;
                     }
@@ -168,8 +170,14 @@
                     border: 1px solid #ccc;
                     padding: 10px;
                     border-radius: 20px;
+                    border-top: 0;
                     border-top-left-radius: 0;
+                    border-top-right-radius: 0;
                     padding: 1.5rem;
+                    p {
+                        @extend .b3;
+                        margin: 0;
+                    }
                 }
             }
 
