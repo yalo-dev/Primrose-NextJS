@@ -98,18 +98,28 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
     });
 
     const handleLabelClickPF = (targetId: string) => {
-        const targetElementPF = document.getElementById(targetId);
-
-        if (window.innerWidth > 992) {  // 992px is the typical breakpoint for large (desktop) screens
+        console.log("Button clicked:", targetId);
+    
+        // Parse the index from the targetId
+        const parsedIndex = parseInt(targetId.replace("pf-content-", ""), 10);
+        if (isNaN(parsedIndex)) {
+            console.error(`Failed to parse index from targetId: ${targetId}`);
+            return;
+        }
+        console.log("Parsed Index:", parsedIndex);
+    
+        if (window.innerWidth > 992) {  // Desktop behavior
+            setExpandedTabPF(parsedIndex);
+            const targetElementPF = document.getElementById(targetId);
             if (targetElementPF) {
                 const offsetPF = window.pageYOffset || document.documentElement.scrollTop;
                 const absoluteTargetTopPF = targetElementPF.getBoundingClientRect().top + offsetPF;
-
+    
                 window.scrollTo({
                     top: absoluteTargetTopPF - 120, // accounting for the navigation space
                     behavior: 'smooth'
                 });
-
+    
                 if (containerRefPF.current) {
                     const innerDivPF = containerRefPF.current.querySelector('.primrose-friends .inner');
                     if (innerDivPF) {
@@ -124,29 +134,29 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                     }
                 }
             }
-        } else {
-           // This is the mobile accordion behavior
-        if (expandedTabPF !== null && `pf-content-${expandedTabPF}` === targetId) {
-            setExpandedTabPF(null);  // close the accordion if the same button is clicked
-        } else {
-            setExpandedTabPF(parseInt(targetId.split('-')[1]));
-        }
-
-        // Add a slight delay to ensure the content has expanded
-        setTimeout(() => {
-            const buttonElementPF = mobileButtonRefsPF.current[parseInt(targetId.split('-')[1])];
-            if (buttonElementPF) {
-                const buttonTopPF = buttonElementPF.getBoundingClientRect().top;
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                window.scrollTo({
-                    top: scrollTop + buttonTopPF - 120, // accounting for the navigation space and adjust as needed
-                    behavior: 'smooth'
-                });
+        } else {  // Mobile behavior
+            if (expandedTabPF !== null && `pf-content-${expandedTabPF}` === targetId) {
+                setExpandedTabPF(null);  // Collapse the content
+            } else {
+                setExpandedTabPF(parsedIndex);
             }
-        }, 100);
+    
+            // Scroll to the button location after a short delay
+            setTimeout(() => {
+                const buttonElementPF = mobileButtonRefsPF.current[parsedIndex];
+                if (buttonElementPF) {
+                    const buttonTopPF = buttonElementPF.getBoundingClientRect().top;
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    window.scrollTo({
+                        top: scrollTop + buttonTopPF - 120, // accounting for the navigation space
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
         }
     };
+    
 
     const PlayButton = ({ onPlay }) => (
         <div onClick={onPlay} className="play-button">

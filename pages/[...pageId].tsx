@@ -107,6 +107,29 @@ query GetModules($id: ID = "") {
 			  topPaddingMobile
 			}
 		  }
+		  ... on Page_Modules_Modules_FeaturedSection {
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			customizations {
+			  topPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingMobile
+			  bottomPaddingDesktop
+			  backgroundColor
+			  accentLeftOrRight
+			}
+			slider {
+			  blurb
+			  blurbColor
+			  title
+			  titleColor
+			  image {
+				sourceUrl
+			  }
+			}
+		  }
 		  ... on Page_Modules_Modules_FindASchool {
 			heading
 			headingColor
@@ -129,6 +152,24 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_FourAcrossSlider {
+			customizations {
+			  backgroundColor
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			fourAcrossSlider {
+			  blurb
+			  blurbColor
+			  title
+			  titleColor
+			  image {
+				sourceUrl
+			  }
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralButtonCta {
@@ -189,6 +230,47 @@ query GetModules($id: ID = "") {
 			  topPaddingDesktop
 			  bottomPaddingDesktop
 			}
+		  }
+		  ... on Page_Modules_Modules_GeneralVerticalTabs {
+			customizations {
+			  topPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingMobile
+			  bottomPaddingDesktop
+			  backgroundColor
+			}
+			tabs {
+			  label
+			  tabLabelColor
+			  content {
+				blurb
+				blurbColor
+				button {
+				  target
+				  title
+				  url
+				}
+				buttonStyle
+				fullWidthOrFeatured
+				heading
+				headingColor
+				image {
+				  sourceUrl
+				}
+				subheading
+				subheadingColor
+				list {
+				  textColor
+				  text
+				}
+				eyebrow
+				eyebrowColor
+			  }
+			}
+			heading
+			headingColor
+			subheading
+			subheadingColor
 		  }
 		  ... on Page_Modules_Modules_HeroWithImage {
 			leftColumn {
@@ -361,6 +443,31 @@ query GetModules($id: ID = "") {
 			  bottomPaddingDesktop
 			}
 		  }
+		  ... on Page_Modules_Modules_QuoteTestimonials {
+			headingColor
+			heading
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			tabs {
+			  name
+			  nameColor
+			  position
+			  positonColor
+			  avatar {
+				sourceUrl
+			  }
+			  content {
+				blurb
+				blurbColor
+				heading
+				headingColor
+			  }
+			}
+		  }
 		  ... on Page_Modules_Modules_SeasonalBanner {
 			accentOne {
 			  sourceUrl
@@ -411,6 +518,35 @@ query GetModules($id: ID = "") {
 			  topPaddingMobile
 			}
 		  }
+		  ... on Page_Modules_Modules_TestimonialsWithVideoOrImage {
+			buttonStyle
+			button {
+			  target
+			  title
+			  url
+			}
+			heading
+			headingColor
+			subheading
+			subheadingColor
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			slider {
+			  image {
+				sourceUrl
+			  }
+			  position
+			  positionColor
+			  testimonial
+			  testimonialColor
+			  title
+			  titleColor
+			}
+		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
 			leftColumn {
 			  heading
@@ -450,6 +586,67 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  topPaddingMobile
+			}
+		  }
+		  ... on Page_Modules_Modules_TwoColumnsGreenBackground {
+			customizations {
+			  topPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingMobile
+			  bottomPaddingDesktop
+			}
+			leftColumn {
+			  imageDesktop {
+				sourceUrl
+			  }
+			  imageMobile {
+				sourceUrl
+			  }
+			}
+			rightColumn {
+			  blurb
+			  blurbColor
+			  buttonStyle
+			  button {
+				target
+				title
+				url
+			  }
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			}
+		  }
+		  ... on Page_Modules_Modules_TwoColumnsImageAndTextAlternative {
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			switchColumnOrderOnDesktop
+			leftColumn {
+			  imageDesktop {
+				sourceUrl
+			  }
+			  imageMobile {
+				sourceUrl
+			  }
+			}
+			rightColumn {
+			  blurb
+			  blurbColor
+			  buttonStyle
+			  button {
+				target
+				title
+				url
+			  }
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsImageAndText {
