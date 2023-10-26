@@ -1,116 +1,119 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import Customizations from '../../filters/Customizations';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
-import Button from '../../atoms/Button/Button';
-import Customizations from '../../filters/Customizations';
 
-interface FindASchoolProps {
-    heading?: string;
-    headingColor?: string;
-    subheading?: string;
-    subheadingColor?: string;
-    images?: {
-        image: {
-            sourceUrl?: string;
-        };
-    }[];
-    button?: {
-        target?: string;
-        title?: string;
-        url?: string;
+
+interface FourAcrossSlide {
+    blurb?: string;
+    blurbColor?: string;
+    title?: string;
+    titleColor?: string;
+    image?: {
+        sourceUrl?: string;
     };
-    buttonStyle?: 'primary' | 'secondary' | 'white'; 
+}
+
+interface FourAcrossSliderProps {
+    fourAcrossSlider: FourAcrossSlide[];
     customizations?: {
-        backgroundColor?: string;
         topPaddingMobile?: string;
         topPaddingDesktop?: string;
         bottomPaddingMobile?: string;
         bottomPaddingDesktop?: string;
+        backgroundColor?: string;
     };
 }
 
-const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subheading, subheadingColor, images, button, buttonStyle, customizations }) => {
-    
-    const leftScrollerRef = useRef<HTMLDivElement | null>(null);
-    const rightScrollerRef = useRef<HTMLDivElement | null>(null);
+const PrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div className="slick-prev" onClick={onClick}>
+            <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="15" cy="15.6632" rx="14.9987" ry="15" transform="rotate(90 15 15.6632)" fill="#E6E7E4"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M16.6765 9.8696C17.0579 10.1839 17.1095 10.7443 16.7916 11.1214L12.7979 15.8599L16.7662 20.1758C17.1002 20.539 17.0731 21.1012 16.7057 21.4314C16.3384 21.7616 15.7698 21.7348 15.4359 21.3716L11.4676 17.0556C10.864 16.3992 10.8423 15.4034 11.4167 14.7219L15.4105 9.9834C15.7283 9.6063 16.2951 9.55535 16.6765 9.8696Z" fill="#555F68"/>
+            </svg>
+        </div>
+    );
+}
 
-    useEffect(() => {
-        const leftScroller = leftScrollerRef.current;
-        const rightScroller = rightScrollerRef.current;
+const NextArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div className="slick-next" onClick={onClick}>
+            <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="15" cy="15.6639" rx="14.9987" ry="15" transform="rotate(-90 15 15.6639)" fill="#E6E7E4"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M13.3235 21.4575C12.9421 21.1433 12.8905 20.5828 13.2084 20.2057L17.2021 15.4673L13.2338 11.1513C12.8998 10.7881 12.9269 10.226 13.2943 9.89579C13.6616 9.56559 14.2302 9.59236 14.5641 9.95557L18.5324 14.2715C19.136 14.9279 19.1577 15.9238 18.5833 16.6053L14.5895 21.3437C14.2717 21.7208 13.7049 21.7718 13.3235 21.4575Z" fill="#555F68"/>
+            </svg>
+
+        </div>
+    );
+}
+
+const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, customizations }) => {
+    const settings = {
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        dots: true,
+        arrows: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [
+            {
+                breakpoint: 1024, 
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 768, 
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
         
-        let intervalId: number;
-            
-        function scrollContent() {
-            if (leftScroller) {
-                leftScroller.scrollTop += 1;
-                if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
-                    leftScroller.scrollTop = 0;
-                }
-            }
+    };
 
-            if (rightScroller) {
-                rightScroller.scrollTop -= 1;
-                if (rightScroller.scrollTop <= 0) {
-                    rightScroller.scrollTop = rightScroller.scrollHeight / 2;
-                }
-            }
-        }
     
-        intervalId = window.setInterval(scrollContent, 20);
     
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, []);
-    
-
     return (
         <div className="container">
-         <Customizations
-            topPaddingMobile={customizations?.topPaddingMobile}
-            topPaddingDesktop={customizations?.topPaddingDesktop}
-            bottomPaddingMobile={customizations?.bottomPaddingMobile}
-            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            colorLabel={customizations?.backgroundColor} 
-        >
-            <div className='find-a-school'>
-                <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-
-                    {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
-                    {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
-
-                    {button?.url && button.title && (
-                        <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'}>
-                            {button.title}
-                        </Button>
-                    )}
+            <Customizations
+                topPaddingMobile={customizations?.topPaddingMobile}
+                topPaddingDesktop={customizations?.topPaddingDesktop}
+                bottomPaddingMobile={customizations?.bottomPaddingMobile}
+                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+                colorLabel={customizations?.backgroundColor}
+            >
+                <div className='four-across-slider'>
+                <Slider {...settings}>
+                    {fourAcrossSlider.map((slide, index) => (
+                        <div className='slide-content p-2' key={index}>
+                            {slide.image && slide.image.sourceUrl && (
+                                <img src={slide.image.sourceUrl} alt={slide.title || "slide image"} width="100%" height="auto" />
+                            )}
+                            {slide.title && (
+                                <Heading level='h5' color={slide.titleColor}>{slide.title}</Heading>
+                            )}
+                            {slide.blurb && (
+                                <Subheading level='div' className='b2' color={slide.blurbColor}>{slide.blurb}</Subheading>
+                            )}
+                        </div>
+                    ))}
+                    
+                </Slider>
                 </div>
-                <div className='right-column col-4 col-lg-5 col-xxl-6'>
-                {images && images.length > 0 && (
-                    <>
-                    <div className="image-scroller first" ref={leftScrollerRef}>
-                        {images.map((imgObj, idx) => (
-                                    imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                    </div>
-                    <div className="image-scroller second" ref={rightScrollerRef}>
-                        {images.map((imgObj, idx) => (
-                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                    </div>
-                    </>
-                )}
-                </div>
-            </div>
             </Customizations>
         </div>
     );
 }
 
-export default FindASchool;
+export default FourAcrossSlider;

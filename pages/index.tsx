@@ -187,21 +187,31 @@ query GetModules($id: ID = "") {
           }
           accents {
             accentOne {
-              sourceUrl
+            sourceUrl
             }
             accentTwo {
-              sourceUrl
+            sourceUrl
             }
           }
           buttonStyle
           variation
+          dropdown {
+            option {
+              target
+              title
+              url
+            }
+            }
+            image {
+            sourceUrl
+            }  
           customizations {
             topPaddingMobile
             bottomPaddingMobile
             topPaddingDesktop
             bottomPaddingDesktop
           }
-        }
+          }
         ... on Page_Modules_Modules_GeneralHorizontalTabs {
           tabs {
             label
@@ -262,6 +272,10 @@ query GetModules($id: ID = "") {
               list {
                 textColor
                 text
+              }
+              table {
+                label
+                description
               }
               eyebrow
               eyebrowColor
@@ -545,6 +559,12 @@ query GetModules($id: ID = "") {
             testimonialColor
             title
             titleColor
+            imageOrVideo
+            video {
+              target
+              title
+              url
+            }
           }
         }
         ... on Page_Modules_Modules_TwoColumnsFeaturedImage {

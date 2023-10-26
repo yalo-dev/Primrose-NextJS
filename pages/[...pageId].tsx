@@ -195,6 +195,16 @@ query GetModules($id: ID = "") {
 			}
 			buttonStyle
 			variation
+			dropdown {
+				option {
+				  target
+				  title
+				  url
+				}
+			  }
+			  image {
+				sourceUrl
+			  }  
 			customizations {
 			  topPaddingMobile
 			  bottomPaddingMobile
@@ -263,6 +273,10 @@ query GetModules($id: ID = "") {
 				  textColor
 				  text
 				}
+				table {
+					label
+					description
+				  }
 				eyebrow
 				eyebrowColor
 			  }
@@ -444,28 +458,30 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_QuoteTestimonials {
-			headingColor
-			heading
 			customizations {
-			  bottomPaddingDesktop
-			  bottomPaddingMobile
-			  topPaddingDesktop
-			  topPaddingMobile
-			}
+				bottomPaddingDesktop
+				bottomPaddingMobile
+				topPaddingDesktop
+				topPaddingMobile
+			  }
+			heading
+			headingColor
+			
 			tabs {
-			  name
-			  nameColor
-			  position
-			  positonColor
-			  avatar {
-				sourceUrl
-			  }
-			  content {
-				blurb
-				blurbColor
-				heading
-				headingColor
-			  }
+				avatar {
+					sourceUrl
+				  }
+				name
+				nameColor
+				position
+				positonColor
+			  
+				content {
+					heading
+					headingColor
+					blurb
+					blurbColor
+				}
 			}
 		  }
 		  ... on Page_Modules_Modules_SeasonalBanner {
@@ -545,6 +561,12 @@ query GetModules($id: ID = "") {
 			  testimonialColor
 			  title
 			  titleColor
+			  imageOrVideo
+			  video {
+				target
+				title
+				url
+			  }
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {

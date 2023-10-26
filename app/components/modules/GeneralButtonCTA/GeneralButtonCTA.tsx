@@ -4,6 +4,14 @@ import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
+import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
+
+
+interface OptionType {
+    label: string;
+    url: string;
+    target?: string;
+}
 
 interface GeneralButtonCTAProps {
 	accents: {
@@ -26,6 +34,16 @@ interface GeneralButtonCTAProps {
 		title?: string;
 		url?: string;
 	};
+	image?: {
+		sourceUrl?: string;
+	};
+	dropdown?: {
+		option?: {
+			target?: string;
+			title?: string;
+			url?: string;
+		}[];
+	};
 	buttonStyle?: 'primary' | 'secondary' | 'white'; 
 	variation?: 'default' | 'blue' | 'violet' | 'green';
     customizations?: {
@@ -37,8 +55,25 @@ interface GeneralButtonCTAProps {
     };
 }
 
-const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, heading, headingColor, subheading, subheadingColor, button, buttonStyle, variation = 'default', customizations }) => {
+const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, heading, headingColor, subheading, subheadingColor, button, buttonStyle, variation = 'default', customizations, image, dropdown }) => {
+	
 	const className = `general-button-cta d-lg-flex ${variation}`;
+	
+	
+	let dropdownOptions: OptionType[] = [];
+
+    if (dropdown && Array.isArray(dropdown)) {
+        dropdownOptions = dropdown.flatMap(dropItem => {
+            if (dropItem.option) {
+                return {
+                    label: dropItem.option.title || "", 
+                    url: dropItem.option.url || "", 
+                    target: dropItem.option.target || "_self"
+                };
+            }
+            return [];
+        });
+    }
 
 	return (
 		<div className="container">
@@ -49,7 +84,10 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
 		   colorLabel={customizations?.backgroundColor}
 	   >
-				<div className={className}>
+					<div 
+						className={className} 
+						id={dropdownOptions.length > 0 ? 'selectActive' : undefined}
+					>
 					{icon?.sourceUrl && (
 						<div className='icon pb-4 pb-lg-0 pe-lg-5'>
 							<Image src={icon.sourceUrl} alt="Icon" width={75} height={75} />
@@ -63,6 +101,18 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 								{button.title}
 							</Button>
 						)}
+						{image?.sourceUrl && (
+                            <div className="image-wrap">
+                                <Image src={image.sourceUrl} alt="Image" width={500} height={300} />
+                            </div>
+                        )}
+
+					
+					{(dropdownOptions.length > 0) && (
+                        <SelectDropdown options={dropdownOptions} />
+                    )}	
+                
+
 					</div>
 					<div className='accent'>
 						<div className='accent-one'

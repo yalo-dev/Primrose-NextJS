@@ -1,116 +1,130 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import Image from 'next/image';
+import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
-import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
+import Slider from "react-slick";
 
-interface FindASchoolProps {
-    heading?: string;
-    headingColor?: string;
-    subheading?: string;
-    subheadingColor?: string;
-    images?: {
-        image: {
-            sourceUrl?: string;
-        };
-    }[];
+interface SliderItem {
+    image?: {
+        sourceUrl?: string;
+    };
+    position?: string;
+    positionColor?: string;
+    testimonial?: string;
+    testimonialColor?: string;
+    title?: string;
+    titleColor?: string;
+    imageOrVideo?: 'image' | 'video';
+    video?: {
+        target?: string;
+        title?: string;
+        url?: string;
+    };
+}
+
+interface TestimonialsWithVideoOrImageProps {
+    buttonStyle?: 'primary' | 'secondary' | 'white'; 
     button?: {
         target?: string;
         title?: string;
         url?: string;
     };
-    buttonStyle?: 'primary' | 'secondary' | 'white'; 
+    heading?: string;
+    headingColor?: string;
+    subheading?: string;
+    subheadingColor?: string;
     customizations?: {
-        backgroundColor?: string;
-        topPaddingMobile?: string;
-        topPaddingDesktop?: string;
-        bottomPaddingMobile?: string;
         bottomPaddingDesktop?: string;
+        bottomPaddingMobile?: string;
+        topPaddingDesktop?: string;
+        topPaddingMobile?: string;
     };
+    slider?: SliderItem[];
 }
 
-const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subheading, subheadingColor, images, button, buttonStyle, customizations }) => {
-    
-    const leftScrollerRef = useRef<HTMLDivElement | null>(null);
-    const rightScrollerRef = useRef<HTMLDivElement | null>(null);
+const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> = (props) => {
+    const { 
+        buttonStyle, 
+        button, 
+        heading, 
+        headingColor, 
+        subheading, 
+        subheadingColor, 
+        customizations, 
+        slider 
+    } = props;
 
-    useEffect(() => {
-        const leftScroller = leftScrollerRef.current;
-        const rightScroller = rightScrollerRef.current;
-        
-        let intervalId: number;
-            
-        function scrollContent() {
-            if (leftScroller) {
-                leftScroller.scrollTop += 1;
-                if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
-                    leftScroller.scrollTop = 0;
-                }
-            }
-
-            if (rightScroller) {
-                rightScroller.scrollTop -= 1;
-                if (rightScroller.scrollTop <= 0) {
-                    rightScroller.scrollTop = rightScroller.scrollHeight / 2;
-                }
-            }
-        }
-    
-        intervalId = window.setInterval(scrollContent, 20);
-    
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, []);
-    
+    // Slider settings
+    const sliderSettings = {
+        dots: true,
+        arrows: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true,
+    };
 
     return (
         <div className="container">
-         <Customizations
-            topPaddingMobile={customizations?.topPaddingMobile}
-            topPaddingDesktop={customizations?.topPaddingDesktop}
-            bottomPaddingMobile={customizations?.bottomPaddingMobile}
-            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-            colorLabel={customizations?.backgroundColor} 
-        >
-            <div className='find-a-school'>
-                <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-
-                    {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
+              <Customizations
+                topPaddingMobile={customizations?.topPaddingMobile}
+                topPaddingDesktop={customizations?.topPaddingDesktop}
+                bottomPaddingMobile={customizations?.bottomPaddingMobile}
+                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+                >
+                <div className="testimonials-with-video-or-image">
+                <div className="header-wrap">
+                    <div className="heading">
+                        {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
+                    </div>
+                    <div className="subheading-btn">
                     {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
+                    {button?.url && button.title &&
+                        <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'} label={button.title} />
+                    }
+                    </div>
+                </div>
+                <div className="slider-wrap">
+                    <Slider {...sliderSettings}>
+                        {slider?.map((slide, index) => (
+                            <div key={index} className="slider-item">
+                                
+                                    {slide.image && slide.image.sourceUrl &&
+                                    <div className="image-wrap">
+                                        <Image src={slide.image.sourceUrl} alt={slide.title || "Slide image"} width={500} height={300} />
+                                        </div>
+                                    }
+                                
+                               
+                                    {slide.imageOrVideo === 'video' && slide.video?.url &&
+                                     <div className="video-wrap">
+                                        <div className="responsive-video">
+                                            <video width="500" height="300"  controls>
+                                            <source src={slide.video.url} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video></div>
+                                        </div>
+                                    }
+                               
 
-                    {button?.url && button.title && (
-                        <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'}>
-                            {button.title}
-                        </Button>
-                    )}
-                </div>
-                <div className='right-column col-4 col-lg-5 col-xxl-6'>
-                {images && images.length > 0 && (
-                    <>
-                    <div className="image-scroller first" ref={leftScrollerRef}>
-                        {images.map((imgObj, idx) => (
-                                    imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                                <div className="text-wrap">
+                                    {slide.testimonial && <div style={{ color: slide.testimonialColor }} className='b4'>{slide.testimonial}</div>}
+                                    <div className="sign">    
+                                        {slide.title && <div style={{ color: slide.titleColor }} className='name b4'>{slide.title}</div>}
+                                        {slide.position && <div style={{ color: slide.positionColor }} className='b3'>{slide.position}</div>}
+                                    </div>
+                                </div>
+                            </div>
                         ))}
-                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                    </div>
-                    <div className="image-scroller second" ref={rightScrollerRef}>
-                        {images.map((imgObj, idx) => (
-                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                        {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
-                        ))}
-                    </div>
-                    </>
-                )}
-                </div>
+                    </Slider>
+                </div>     
             </div>
-            </Customizations>
-        </div>
+        </Customizations>
+    </div>
     );
 }
 
-export default FindASchool;
+export default TestimonialsWithVideoOrImage;

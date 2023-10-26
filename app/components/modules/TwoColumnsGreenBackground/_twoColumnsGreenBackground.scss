@@ -1,6 +1,33 @@
-.two-columns-image-and-text {
+.Page_Modules_Modules_TwoColumnsGreenBackground {
+    background-color: $primary-green;
+    overflow: hidden;
+}
+.two-columns-green-background {
+    position: relative;
+   h2, h5, .blurb p {
+    color: $white!important;
+   }
+   ul li {
+    @extend .b3;
+   }
+    color: $white;
     display: flex;
     flex-direction: column;
+    &::after {
+        content: "";
+        background: var(--black-dark, #202220);
+        width: 595px;
+        height: 595px;
+        bottom: -15rem;
+        right: -25rem;
+        position: absolute;
+        opacity: 0.1;
+        border-radius: 50%;
+        @include media-breakpoint-up(lg) {
+            bottom: -15rem;
+            right: -15rem;
+        }
+    }
     @include media-breakpoint-up(lg) {
         flex-direction: row;
         align-items: center;
@@ -9,6 +36,7 @@
         }
     }
     .right-column {
+        z-index: 1;
         @include media-breakpoint-up(xl) {
             //padding: 0 45px 0 50px;
         }
@@ -30,39 +58,16 @@
         }
     }
     .left-column {
-        margin-bottom: 60px;
+        margin-bottom: 34px;
         position: relative;
+        z-index: 1;
         @include media-breakpoint-up(lg) {
             margin-bottom: 30px;
-        }
-        @include media-breakpoint-up(xl) {
-            //padding: 0 80px 0 50px;
         }
         img {
             width: 100%;
             height: auto;
             border-radius: 10px;
-        }
-        .announcement {
-            position: absolute;
-            bottom: -1.5rem;
-            right: 0;
-            padding: 1rem 11px;
-            width: 152px;
-            height: 160px;
-            border-radius: 10px;
-            border-top-right-radius: 4rem;
-            text-align: center;
-            border-bottom-right-radius: 0;
-            @include media-breakpoint-up(lg) {
-                width: 201px;
-                height: 212px;
-                right: unset;
-                left: -3rem;
-                bottom: 0;
-                padding: 31px;
-
-            }
         }
     }
 }

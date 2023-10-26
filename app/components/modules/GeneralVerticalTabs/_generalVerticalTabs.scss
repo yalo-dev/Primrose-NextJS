@@ -97,12 +97,19 @@
         max-height: 0;
         opacity: 0; 
         margin-top: 19px;
+        position: relative;
         .image-wrapper {
             text-align: center;
             img {
                 object-fit: cover;
                 object-position: right;
                 border-radius: 1rem;
+            }
+            &.fullwidth {
+                width: 100%;
+                @include media-breakpoint-up(lg) {
+                    position: absolute;
+                }
             }
         }
         .content {
@@ -113,6 +120,7 @@
             margin-right: 15px;
             bottom: 3rem;
             position: relative;
+            z-index: 1;
             box-shadow: 0px 0px 10px 0px rgba(185, 208, 208, 0.20);
             .eyebrow {
                 color: $brand-blue;
@@ -127,6 +135,11 @@
             }
             .blurb {
                 padding-bottom: 23px;
+            }
+            .table {
+                >div {
+                    border-bottom: 1px solid  #E6E6E6;
+                }
             }
             button {
                 width: auto;
@@ -157,7 +170,7 @@
             margin-bottom: 6rem;
             bottom: -6rem;
             right: -7rem;
-            padding: 53px 72px 53px 40px;
+            padding: 53px 40px 53px 40px;
             ul {
                 margin-bottom: 23px;
             }
