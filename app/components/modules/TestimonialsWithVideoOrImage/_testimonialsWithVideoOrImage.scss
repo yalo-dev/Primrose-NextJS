@@ -8,13 +8,18 @@
                 flex-basis: 30%;
             }
             .subheading-btn {
-                flex-basis: 40%;
+                flex-basis: 50%;
             }
         } 
         @include media-breakpoint-up(lg) {
             .subheading-btn {
                 margin-right: 5rem;
                 flex-basis: 30%;
+            }
+        } 
+        @include media-breakpoint-up(xxl) {
+            .subheading-btn {
+                margin-right: 13.5rem;
             }
         } 
         h2 {
@@ -33,11 +38,11 @@
         @include media-breakpoint-up(lg) {
             display: flex!important;
             justify-content: space-between;
-            .video-wrap {
+            .video-wrap, .image-wrap {
                 flex-basis: 40%;
             }
             .text-wrap {
-                flex-basis: 30%;
+                flex-basis: 40%;
                 margin-right: 5rem;
             }
         }
@@ -56,8 +61,19 @@
     .text-wrap {
         padding-top: 4rem;
         position: relative;
+        @include media-breakpoint-up(lg) {
+            padding-left: 2rem;
+        }
+        @include media-breakpoint-up(xxl) {
+            padding-left: 0
+        }
         .sign {
-            text-align: right;
+            text-align: left;
+            margin-left: 8rem;
+            @include media-breakpoint-up(lg) {
+                margin-left: 2rem;
+                margin-top: 1rem;
+            }
         }
         .name {
             font-weight: 900!important;
@@ -79,9 +95,74 @@
                 height: 56px;
                 top: 0;
             }
+            @include media-breakpoint-up(lg) {
+               left: 2rem;
+            }
+            @include media-breakpoint-up(xxl) {
+               left: 0
+            }
         }
     }
-    
+    .slick-dots {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+        width: fit-content;
+        display: flex!important;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 6px;
+        bottom: 2rem;
+        position: relative;
+        margin: auto;
+        @include media-breakpoint-up(lg) {
+            bottom: 10rem;
+            right: 13rem;
+        }
+        @include media-breakpoint-up(xl) {
+            right: 19rem;
+            bottom: 6rem;
+        }
+        @include media-breakpoint-up(xxl) {
+            right: 29rem;
+            bottom: 3rem;
+        }
+       
+        li {
+            margin: 0;
+            button:before {
+                content: '';
+                width: 10px;  
+                height: 10px;
+                border-radius: 50%;
+                background-color: $transparent;  
+                border: 1px solid #D2D3D1;
+                opacity: 0.5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                @include transition;
+            }
+            &.slick-active button:before {
+                content: '';
+                width: 0;
+                height: 0;
+                border: unset;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 10px solid $brand-orange; 
+                background-color: transparent;
+                opacity: 1; 
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 0;
+                @include transition;
+              
+            }
+        }
+    }
 }
 
 .module.Page_Modules_Modules_TestimonialsWithVideoOrImage {
