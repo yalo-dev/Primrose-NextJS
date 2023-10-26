@@ -64,6 +64,9 @@
         }
         h5 {
             margin-bottom: 1rem;
+            @include media-breakpoint-up(xl) {
+                padding-right: 1rem;
+            }
         }
         p, p span {
             @extend .b3;
