@@ -207,6 +207,82 @@
 
     .tab-content {
         transform-origin: top;
+        border: 12px solid $neutral-2;
+        border-radius: 20px;
+        padding: 1rem;
+        border-width: 15px;
+        margin-top: 1rem;
+        &:after {
+            content: '';
+            width: calc(100% - 2rem);
+            height: calc(100% - 2rem);
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            pointer-events: none;
+            border: 1px dashed $neutral-2;
+        }
+
+        &#pf-content-0,
+        &#pf-content-0::after {
+            border-color: #006BA6;
+        }
+
+        &#pf-content-1,
+        &#pf-content-1:after {
+            border-color: #FF9E1B;
+        }
+
+        &#pf-content-2,
+        &#pf-content-2::after {
+            border-color: #814C9E;
+        }
+
+        &#pf-content-3,
+        &#pf-content-3::after {
+            border-color: #00A5B5;
+        }
+
+        &#pf-content-4,
+        &#pf-content-4::after {
+            border-color: #FF9E1B;
+        }
+
+        &#pf-content-5,
+        &#pf-content-5::after {
+            border-color: #006BA6;
+        }
+
+        &#pf-content-6,
+        &#pf-content-6::after {
+            border-color: #E03C31;
+        }
+
+        &#pf-content-7,
+        &#pf-content-7::after {
+            border-color: #FF9E1B;
+        }
+
+        &#pf-content-8,
+        &#pf-content-8::after {
+            border-color: #00A5B5;
+        }
+
+        &#pf-content-9,
+        &#pf-content-9::after {
+            border-color: #814C9E;
+        }
+
+        &#pf-content-10,
+        &#pf-content-10::after {
+            border-color: #006BA6;
+        }
+
+        &#pf-content-11,
+        &#pf-content-11::after {
+            border-color: #E03C31;
+            margin-bottom: 0;
+        }
 
         .image-wrapper {
             padding-top: 2rem;
@@ -220,7 +296,14 @@
                 object-position: center;
                 border-radius: 10px;
                 margin-right: 1.25rem;
-
+                @include media-breakpoint-up(lg) {
+                    width: 175px;
+                    height: 175px;
+                }
+                @include media-breakpoint-up(xxl) {
+                    width: 242px;
+                    height: 242px;
+                }
             }
         }
 
@@ -252,7 +335,10 @@
             display: flex;
             align-items: flex-start;
             justify-content: flex-end;
-           
+            padding: 0.5rem;
+            @include media-breakpoint-up(lg) {
+                padding: 0;
+            }
             .video {
                 position: relative;
                 @include media-breakpoint-up(lg) {
@@ -261,6 +347,10 @@
                 video {
                     border-radius: 10px;
                     height: auto;
+                    width: 100%;
+                    @include media-breakpoint-up(lg) {
+                        width: 320px;
+                    }
                 }
                 .play-button {
                     position: absolute;
@@ -288,9 +378,7 @@
         position: sticky;
         height: 100%;
         top: 120px;
-        /* Account for the navigation */
         z-index: 10;
-        /* Optional: This is to ensure that the div.inner is on top of other content */
         bottom: 0;
         left: 0;
         right: 0;
