@@ -86,7 +86,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 	   >
 					<div 
 						className={className} 
-						id={dropdownOptions.length > 0 ? 'selectActive' : undefined}
+						id={dropdownOptions.length > 0 ? 'selectActive' : image?.sourceUrl ? 'imageActive' : undefined}
 					>
 					{icon?.sourceUrl && (
 						<div className='icon pb-4 pb-lg-0 pe-lg-5'>

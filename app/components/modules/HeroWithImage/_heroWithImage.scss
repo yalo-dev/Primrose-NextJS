@@ -53,11 +53,10 @@
     .right-column {
         padding: 34px 20px;
         @include media-breakpoint-up(xl) {
-            //padding: 110px 40px 110px 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-right: 2rem;
+            padding: 2rem 6rem;
         } 
         h1 {
             margin-bottom: 1rem;

@@ -23,6 +23,19 @@
             }
         }
     }
+    &#imageActive {
+        .accent-one {
+            top: 15rem;
+   
+        }
+
+        @include media-breakpoint-up(xxl) {
+            .accent-one {
+                top: 12rem;
+                right: 25rem;
+            }
+        }
+    }
     h2 {
         margin-bottom: 1rem;
         z-index: 4;
@@ -173,8 +186,12 @@
         top: 0;
         right: 0;
         position: absolute;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
         @include media-breakpoint-up(lg) {
             padding-bottom: 0;
+            border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
         }
         img {
             width: 350px;
@@ -233,15 +250,16 @@
         width: 790px;
         height: 790px;
         position: absolute;
-        top: 13rem;
-        right: -8rem;
+        top: 22rem;
+        right: -10rem;
         pointer-events: none;
         @include media-breakpoint-up(lg) {
-            top: 8rem;
+            top: 13rem;
             right: 3rem;
         }
 
         @include media-breakpoint-up(xxl) {
+            top: 8rem;
             right: 16rem;
         }
     }
