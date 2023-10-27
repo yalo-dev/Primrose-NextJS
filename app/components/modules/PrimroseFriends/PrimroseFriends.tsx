@@ -241,8 +241,8 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 {/* Mobile: Content rendered right below the label */}
                                 <div className="d-lg-none">
                                     {expandedTabPF === index && (
-                                        <animated.div style={slideAnimationPropsPF} className="tab-content">
-                                            <div className='wrap'>
+                                        <animated.div style={slideAnimationPropsPF} className="tab-content" id={`pf-content-${index}`}>
+                                            <div className='wrap p-3'>
                                                 {tab.content?.image?.sourceUrl && (
                                                     <div className='image-wrapper'>
                                                         <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
@@ -256,14 +256,14 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                         </Heading>
                                                     }
                                                     {tab.content.characterTrait &&
-                                                        <div className='wrap d-flex pt-lg-3 pb-lg-3'>
+                                                        <div className='wrap d-flex pb-2'>
                                                             <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
                                                         </div>
                                                     }
                                                     <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
                                                     {tab.content.learnMore && tab.content.learnMore.url &&
-                                                        <Link href={tab.content.learnMore.url} className='link learn-more' target={tab.content.learnMore.target || "_self"}>
-                                                            {tab.content.learnMore.title}
+                                                        <Link href={tab.content.learnMore.url} className='link learn-more b2' target={tab.content.learnMore.target || "_self"}>
+                                                            {tab.content.learnMore.title}<span>&nbsp;&#62;</span> 
                                                         </Link>
                                                     }
                                                 </div>
