@@ -167,6 +167,12 @@
     }
     .image-wrap {
         padding-bottom: 4rem;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        position: absolute;
         @include media-breakpoint-up(lg) {
             padding-bottom: 0;
         }
