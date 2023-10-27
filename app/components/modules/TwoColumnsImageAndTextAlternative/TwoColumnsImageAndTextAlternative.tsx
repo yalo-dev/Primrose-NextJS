@@ -45,7 +45,7 @@ interface TwoColumnsImageAndTextProps {
 }
 
 const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, customizations }) => {
-    const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
+    const className = `two-columns-image-and-text-alternative ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
     // Use imageDesktop as fallback if imageMobile is not available
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
