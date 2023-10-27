@@ -87,15 +87,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
           </div>
           {footnote && (
             <div className='footnote d-flex flex-column flex-lg-row pt-4'>
-              <div className='icon pe-lg-4'>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g id="Group 1663">
-                    <circle id="Ellipse 172" cx="9" cy="9" r="8.5" stroke="#555F68" strokeDasharray="2 2" />
-                    <circle id="Ellipse 173" cx="9" cy="9" r="2" fill="#555F68" />
-                  </g>
-                </svg>
-              </div>
-              <Paragraph className='b3 ps-lg-4' color={footnoteColor}>{footnote}</Paragraph>
+              <Paragraph className='b3' color={footnoteColor}><i>{footnote}</i></Paragraph>
             </div>
           )}
         <div className='accent'
