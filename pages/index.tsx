@@ -187,10 +187,10 @@ query GetModules($id: ID = "") {
           }
           accents {
             accentOne {
-            sourceUrl
+              sourceUrl
             }
             accentTwo {
-            sourceUrl
+              sourceUrl
             }
           }
           buttonStyle
@@ -201,17 +201,17 @@ query GetModules($id: ID = "") {
               title
               url
             }
-            }
-            image {
+          }
+          image {
             sourceUrl
-            }  
+          }
           customizations {
             topPaddingMobile
             bottomPaddingMobile
             topPaddingDesktop
             bottomPaddingDesktop
           }
-          }
+        }
         ... on Page_Modules_Modules_GeneralHorizontalTabs {
           tabs {
             label
@@ -458,27 +458,27 @@ query GetModules($id: ID = "") {
           }
         }
         ... on Page_Modules_Modules_QuoteTestimonials {
-          headingColor
-          heading
           customizations {
             bottomPaddingDesktop
             bottomPaddingMobile
             topPaddingDesktop
             topPaddingMobile
           }
+          heading
+          headingColor
           tabs {
+            avatar {
+              sourceUrl
+            }
             name
             nameColor
             position
             positonColor
-            avatar {
-              sourceUrl
-            }
             content {
-              blurb
-              blurbColor
               heading
               headingColor
+              blurb
+              blurbColor
             }
           }
         }

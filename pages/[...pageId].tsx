@@ -196,15 +196,15 @@ query GetModules($id: ID = "") {
 			buttonStyle
 			variation
 			dropdown {
-				option {
-				  target
-				  title
-				  url
-				}
+			  option {
+				target
+				title
+				url
 			  }
-			  image {
-				sourceUrl
-			  }  
+			}
+			image {
+			  sourceUrl
+			}
 			customizations {
 			  topPaddingMobile
 			  bottomPaddingMobile
@@ -274,9 +274,9 @@ query GetModules($id: ID = "") {
 				  text
 				}
 				table {
-					label
-					description
-				  }
+				  label
+				  description
+				}
 				eyebrow
 				eyebrowColor
 			  }
@@ -294,7 +294,7 @@ query GetModules($id: ID = "") {
 			}
 			rightColumn {
 			  eyebrow
-              eyebrowColor
+			  eyebrowColor
 			  heading
 			  headingColor
 			  subheading
@@ -323,7 +323,7 @@ query GetModules($id: ID = "") {
 		  ... on Page_Modules_Modules_HeroWithVideo {
 			leftColumn {
 			  eyebrow
-              eyebrowColor
+			  eyebrowColor
 			  heading
 			  headingColor
 			  subheading
@@ -459,29 +459,27 @@ query GetModules($id: ID = "") {
 		  }
 		  ... on Page_Modules_Modules_QuoteTestimonials {
 			customizations {
-				bottomPaddingDesktop
-				bottomPaddingMobile
-				topPaddingDesktop
-				topPaddingMobile
-			  }
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
 			heading
 			headingColor
-			
 			tabs {
-				avatar {
-					sourceUrl
-				  }
-				name
-				nameColor
-				position
-				positonColor
-			  
-				content {
-					heading
-					headingColor
-					blurb
-					blurbColor
-				}
+			  avatar {
+				sourceUrl
+			  }
+			  name
+			  nameColor
+			  position
+			  positonColor
+			  content {
+				heading
+				headingColor
+				blurb
+				blurbColor
+			  }
 			}
 		  }
 		  ... on Page_Modules_Modules_SeasonalBanner {
