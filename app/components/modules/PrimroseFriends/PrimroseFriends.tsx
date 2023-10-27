@@ -323,8 +323,8 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                         }
                                         <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
                                         {tab.content.learnMore && tab.content.learnMore.url &&
-                                            <Link href={tab.content.learnMore.url} className='link learn-more' target={tab.content.learnMore.target || "_self"}>
-                                                {tab.content.learnMore.title}
+                                            <Link href={tab.content.learnMore.url} className='link learn-more b2' target={tab.content.learnMore.target || "_self"}>
+                                                {tab.content.learnMore.title}<span>&nbsp;&#62;</span> 
                                             </Link>
                                         }
                                     </div>
