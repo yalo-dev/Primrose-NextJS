@@ -60,7 +60,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                     </div>
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
-                    <div className='right-column col-12 col-lg-5 offset-lg-1'>
+                    <div className='right-column col-12 col-lg-6'>
                         {rightColumn.eyebrow && <Heading level='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Heading>}
                         {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}

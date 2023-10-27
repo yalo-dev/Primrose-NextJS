@@ -10,17 +10,8 @@
         flex-direction: row;
         align-items: center;
         min-height: 590px;
-        // margin-left: -2rem;
-        // margin-right: -2rem;
         &.reverse-column {
             flex-direction: row-reverse;
-        }
-    }
-    @include media-breakpoint-up(xl) {
-        &.reverse-column {
-            .left-column {
-                //padding: 110px 150px 110px 40px;
-            }
         }
     }
     .left-column {
@@ -28,7 +19,7 @@
         padding: 34px 20px 43px;
         @include media-breakpoint-up(lg) {
             order: 1;
-            padding-left: 2rem;
+            padding:2rem 5rem;
         }
         @include media-breakpoint-up(xl) {
             //padding: 110px 80px 110px 40px;
