@@ -1,0 +1,17 @@
+.find-a-school-container {
+    .search-box-container {
+        position: relative;
+        z-index: 999;
+        background: $white;
+        .tab {
+            .tab-content {
+                display: none;
+            }
+            &.active {
+                .tab-content {
+                    display: block;
+                }
+            }
+        }
+    }
+}

@@ -28,7 +28,7 @@ export default function SlugComponent({ categoryNames: initialCategoryNames, cat
 	const categoryNames = loading || error ? initialCategoryNames : data.resourceTypes.nodes.map((node: { slug: string }) => node.slug);
 	const categoryTags = loading || error ? initialCategoryTags : data.resourceTags.nodes.map((node: { slug: string }) => node.slug);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
 
 	if (categoryNames.includes(singleSlug as string)) {

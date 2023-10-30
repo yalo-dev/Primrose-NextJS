@@ -16,13 +16,6 @@
             flex-direction: row-reverse;
         }
     }
-    @include media-breakpoint-up(xl) {
-        &.reverse-column {
-            .right-column {
-                //padding: 110px 80px 110px 40px;
-            }
-        }
-    }
     .left-column {
         margin: 0;
         position: relative;

@@ -268,9 +268,9 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                     }
                                                 </div>
                                             </div>
-                                            <div className='video-wrapper flex-column flex-lg-row'>
+                                            <div className='video-wrapper flex-column flex-lg-row p-3'>
                                                 {tab.content.watchNow &&
-                                                    <div className='wrap d-flex pe-4 flex-column'>
+                                                    <div className='wrap d-flex pe-4  flex-row'>
                                                         <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                                     </div>
                                                 }
@@ -331,8 +331,8 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 </div>
                                 <div className='video-wrapper pt-3 flex-column flex-lg-row'>
                                     {tab.content.watchNow &&
-                                        <div className='wrap d-flex flex-column  align-items-end'>
-                                            <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
+                                        <div className='wrap d-flex flex-column  align-items-end watch-wrapper'>
+                                            <div className='h5 text-end'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                         </div>
                                     }
                                     {tab.content?.videoUrl?.url && (
