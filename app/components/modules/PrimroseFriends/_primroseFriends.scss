@@ -23,7 +23,8 @@
                     top: 1rem;
                     left: 1rem;
                     pointer-events: none;
-                    border: 1px dashed $neutral-2;
+                    border: 2px dotted $neutral-2;
+                    border-radius: 5px;
                 }
 
                 >.wrap {
