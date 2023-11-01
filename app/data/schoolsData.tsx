@@ -2,6 +2,8 @@ export interface School {
     id: number;
     name: string;
     address: string;
+    hours: string;
+    notes: string;
     coordinates: {
       lat: number;
       lng: number;
@@ -12,38 +14,46 @@ export interface School {
 const schools = [
     {
       id: 1,
-      name: "School A",
-      address: "123 Main St, City, GA",
+      name: "Primrose School of Druid Hills",
+      address: "2910 N Druid Hills Rd, Atlanta, GA 30329",
+      hours: "M-F 7:00AM-6:00PM",
+      notes: "Opening Month XX",
       coordinates: {
-        lat: 33.748995,
-        lng: -84.387982
+        lat: 33.81738664852172,
+        lng:  -84.31008514232843
       }
     },
     {
       id: 2,
-      name: "School B",
-      address: "456 Elm St, City, GA",
+      name: "Primrose School of Brookhaven",
+      address: "3575 Durden Dr NE, Atlanta, GA 30319",
+      hours: "M-F 7:00AM-6:00PM",
+      notes: "Corporate Child Care",
       coordinates: {
-        lat: 33.749995,
-        lng: -84.388982
+        lat: 33.89145757830399, 
+        lng: -84.3215737
       }
     },
     {
       id: 3,
-      name: "School C",
-      address: "789 Pine St, City, GA",
+      name: "Primrose School of Peachtree Corners",
+      address: "6325 Primrose Hill Ct, Peachtree Corners, GA 30092",
+      hours: "M-F 7:00AM-6:00PM",
+      notes: "Opening Month XX",
       coordinates: {
-        lat: 33.750995,
-        lng: -84.389982
+        lat: 33.9646805171181,
+        lng: -84.25486454232845
       }
     },
     {
       id: 4,
-      name: "School D",
-      address: "101 Maple St, City, GA",
+      name: "Primrose School of Buckhead",
+      address: "3355 Lenox Rd NE, Atlanta, GA 30326",
+      hours: "M-F 7:00AM-6:00PM",
+      notes: "Now Enrolling for Fall 2023",
       coordinates: {
-        lat: 33.751995,
-        lng: -84.390982
+        lat: 33.84672027867874, 
+        lng: -84.35893144232844
       }
     }
   ];
