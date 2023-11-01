@@ -27,7 +27,6 @@ type School = {
   };
 };
 
-
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
   return `
@@ -54,10 +53,7 @@ const FindASchool = () => {
   let geocoder;
   const MAX_DISTANCE = 10;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
-  //const [nearbySchools, setNearbySchools] = useState<School[]>([]);
-  //const [hoveredLocationId, setHoveredLocationId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
-
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
@@ -83,20 +79,68 @@ const FindASchool = () => {
   }, []);
 
   const onPlaceSelected = (place) => {
-    console.log('Selected Place:', place);
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
-      
+
       setMapCenter(newMapCenter);
-      setZoomLevel(10);  
+      setZoomLevel(11);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
     }
-};
+  };
+
+  const onEnterKeyPressed = () => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+
+      if (!nearInputRef.current || !nearInputRef.current.value) {
+        alert('Input reference is not available or input is empty');
+        return;
+      }
+
+      const inputValue = nearInputRef.current.value;
+
+      const autocompleteService = new google.maps.places.AutocompleteService();
+      autocompleteService.getPlacePredictions(
+        {
+          input: inputValue,
+          componentRestrictions: { country: 'us' },
+        },
+        (predictions, status) => {
+          if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            alert('Error: ' + status);
+            return;
+          }
+
+          if (!predictions || predictions.length === 0) {
+            alert('No predictions found');
+            return;
+          }
+
+          const placesService = new google.maps.places.PlacesService(map);
+          placesService.getDetails(
+            { placeId: predictions[0].place_id },
+            (place, status) => {
+              if (status === google.maps.places.PlacesServiceStatus.OK) {
+                onPlaceSelected(place);
+                if (nearInputRef.current) {
+                  nearInputRef.current.value = predictions[0].description;
+                }
+              } else {
+                alert('Error getting place details: ' + status);
+              }
+            }
+          );
+        }
+      );
+    } else {
+      alert('Map reference is not available');
+    }
+  };
 
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
@@ -138,7 +182,7 @@ const FindASchool = () => {
         });
         setUserLocation(pos);
         setMapCenter(pos);
-        setZoomLevel(10);
+        setZoomLevel(11);
         setShowMap(true);
         setSearched(true);
         setHasSearched(true);
@@ -170,15 +214,14 @@ const FindASchool = () => {
     getCurrentLocation();
   };
 
-  const sortedSchools = [...filteredSchools].map((school, index) => {
+  const sortedSchools = [...filteredSchools].map((school) => {
     const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
-    return { ...school, index: index + 1, distance: dist };
-  }).sort((a, b) => a.distance - b.distance);
-
+    return { ...school, distance: dist };
+  }).sort((a, b) => a.distance - b.distance)
+    .map((school, index) => ({ ...school, index: index + 1 }));
 
   return (
     <div className='find-a-school-container'>
-
       <LoadScript
         googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
         libraries={GOOGLE_MAP_LIBRARIES}
@@ -201,11 +244,15 @@ const FindASchool = () => {
             </div>
             <div className={`tab-content tab-content-1 ${activeTab === 1 ? 'active' : ''}`}>
               <div className='input-wrapper'>
+
                 <Autocomplete
                   onLoad={autocomplete => {
                     console.log("Autocomplete1 loaded (tab-content-1)");
+                    autocomplete.setComponentRestrictions({ country: 'us' });
+                    autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
                     setAutocomplete1(autocomplete);
                   }}
+
                   onPlaceChanged={() => {
                     if (autocomplete1) {
                       const selectedPlace = autocomplete1.getPlace();
@@ -219,7 +266,13 @@ const FindASchool = () => {
                     placeholder="Enter address, city and state, or zip"
                     ref={nearInputRef}
                     onChange={() => handleInputChange(nearInputRef)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        onEnterKeyPressed();
+                      }
+                    }}
                   />
+
                 </Autocomplete>
                 <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
                   <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -234,8 +287,7 @@ const FindASchool = () => {
                     <path d="M24.5332 24.7798L29.7559 30.0025" stroke="white" />
                   </svg>
                 </div>
-                <div className='clear-icon'
-                  style={{ opacity: searched ? '1' : '0' }}
+                <div className='clear-icon' style={{ opacity: searched ? '1' : '0' }}
                   onClick={() => {
                     setSearched(false);
                     if (nearInputRef.current) nearInputRef.current.value = '';
@@ -253,6 +305,9 @@ const FindASchool = () => {
               <div className='search-icon'>
                 <Autocomplete
                   onLoad={autocomplete => {
+                    autocomplete.setComponentRestrictions({
+                      country: 'us'
+                    });
                     console.log("Autocomplete2 loaded (tab-content-2)");
                     setAutocomplete2(autocomplete);
                   }}
@@ -277,13 +332,28 @@ const FindASchool = () => {
           </div>
         </div>
         <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : (hasSearched ? 'shift' : '')}`}>
-          <GoogleMap center={mapCenter} zoom={zoomLevel} mapContainerStyle={containerStyle} onLoad={(map) => {
-            mapRef.current = map;
-          }}>
+          <GoogleMap
+            center={mapCenter}
+            zoom={zoomLevel}
+            mapContainerStyle={containerStyle}
+            onLoad={(map) => {
+              mapRef.current = map;
+            }}
+            options={{
+              styles: [
+                {
+                  featureType: 'poi',
+                  elementType: 'all',
+                  stylers: [{ visibility: 'off' }]
+                }
+              ]
+            }}
+          >
             {sortedSchools.map((school) => (
               <Marker
                 key={school.id}
                 position={school.coordinates}
+
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
                   scaledSize: new google.maps.Size(30, 30),
@@ -295,7 +365,7 @@ const FindASchool = () => {
           </GoogleMap>
         </div>
         <div
-          style={{ opacity: (!isMobile && hasSearched) ? '1' : '0' }}
+          style={{ opacity: (hasSearched) ? '1' : '0' }}
           className="list-scroller"
         >
           <div className="nearby-schools-list">
