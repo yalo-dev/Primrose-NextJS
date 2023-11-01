@@ -52,12 +52,10 @@ const FindASchool = () => {
   const [zoomLevel, setZoomLevel] = useState(5);
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
   let geocoder;
-  const [nearbySchools, setNearbySchools] = useState<School[]>([]);
   const MAX_DISTANCE = 10;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
-  const [hoveredLocationId, setHoveredLocationId] = useState<number | null>(null);
-  
-  // const mapRef = useRef(null);
+  //const [nearbySchools, setNearbySchools] = useState<School[]>([]);
+  //const [hoveredLocationId, setHoveredLocationId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
 
 
@@ -84,62 +82,21 @@ const FindASchool = () => {
     };
   }, []);
 
-  const shiftMapToRight = () => {
-    console.log('Function shiftMapToRight called');
-
-    if (mapRef.current) {
-      console.log('mapRef is set');
-      const currentCenter = mapRef.current.getCenter();
-      
-      if (currentCenter) {
-        console.log('currentCenter is set');
-        console.log('i work');
-        const newCenter = {
-          lat: currentCenter.lat(),
-          lng: currentCenter.lng() - 0.25
-        };
-        mapRef.current.setCenter(newCenter);
-      } else {
-        console.log('currentCenter is undefined');
-      }
-    } else {
-      console.log('mapRef is not set');
-    }
-}
-
-if (mapRef.current) {
-  google.maps.event.addListenerOnce(mapRef.current, 'idle', shiftMapToRight);
-}
-  
   const onPlaceSelected = (place) => {
     console.log('Selected Place:', place);
     if (place && place.geometry && place.geometry.location) {
-      
       let newMapCenter = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
       
-      // Adjusting the center for desktop view
-      if (!isMobile) {
-        newMapCenter = {
-          ...newMapCenter,
-          lng: newMapCenter.lng - 0.005, // adjust the value based on how much offset you want
-        };
-        setMapCenter(newMapCenter);
-        shiftMapToRight();  // Call the function here after setting the new center
-      } else {
-        setMapCenter(newMapCenter);
-      }
-      
+      setMapCenter(newMapCenter);
+      setZoomLevel(10);  
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-      setZoomLevel(13);
-      console.log('Has Searched:', hasSearched);
     }
 };
-
 
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
@@ -219,8 +176,6 @@ if (mapRef.current) {
   }).sort((a, b) => a.distance - b.distance);
 
 
-
-  
   return (
     <div className='find-a-school-container'>
 
@@ -248,7 +203,7 @@ if (mapRef.current) {
               <div className='input-wrapper'>
                 <Autocomplete
                   onLoad={autocomplete => {
-                    console.log("Autocomplete1 loaded");
+                    console.log("Autocomplete1 loaded (tab-content-1)");
                     setAutocomplete1(autocomplete);
                   }}
                   onPlaceChanged={() => {
@@ -321,55 +276,55 @@ if (mapRef.current) {
             </div>
           </div>
         </div>
-        <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : ''}`}>
-        <GoogleMap center={mapCenter} zoom={zoomLevel} mapContainerStyle={containerStyle} onLoad={(map) => {
-    mapRef.current = map;
-  }}>
+        <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : (hasSearched ? 'shift' : '')}`}>
+          <GoogleMap center={mapCenter} zoom={zoomLevel} mapContainerStyle={containerStyle} onLoad={(map) => {
+            mapRef.current = map;
+          }}>
             {sortedSchools.map((school) => (
-                <Marker
-                    key={school.id}
-                    position={school.coordinates}
-                    icon={{
-                        url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`, // Consider the hover state here
-                        scaledSize: new google.maps.Size(30, 30),
-                    }}
-                    onMouseOver={() => setHoveredSchoolId(school.id)} 
-                    onMouseOut={() => setHoveredSchoolId(null)}
-                />
+              <Marker
+                key={school.id}
+                position={school.coordinates}
+                icon={{
+                  url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
+                  scaledSize: new google.maps.Size(30, 30),
+                }}
+                onMouseOver={() => setHoveredSchoolId(school.id)}
+                onMouseOut={() => setHoveredSchoolId(null)}
+              />
             ))}
-        </GoogleMap>
-    </div>
-      <div 
+          </GoogleMap>
+        </div>
+        <div
           style={{ opacity: (!isMobile && hasSearched) ? '1' : '0' }}
           className="list-scroller"
         >
-        <div className="nearby-schools-list">
-          {sortedSchools.map((school) => (
-            <div key={school.id} className="school-list">
-              <a href={`/school/${school.id}`}>
-               
-                    <div
-                        key={school.id}
-                        className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`} 
-                        onMouseOver={() => setHoveredSchoolId(school.id)} 
-                        onMouseOut={() => setHoveredSchoolId(null)}
-                    >
+          <div className="nearby-schools-list">
+            {sortedSchools.map((school) => (
+              <div key={school.id} className="school-list">
+                <a href={`/school/${school.id}`}>
+
+                  <div
+                    key={school.id}
+                    className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
+                    onMouseOver={() => setHoveredSchoolId(school.id)}
+                    onMouseOut={() => setHoveredSchoolId(null)}
+                  >
                     <div className='name h5 w-100 d-flex justify-content-between'>
                       <div className='wrap d-flex justify-content-center align-items-center'>
                         <div className='marker'
-                            dangerouslySetInnerHTML={{ 
-                                __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id) 
-                            }}
-                            style={{ width: '33px', height: '40px', marginRight: '10px' }}
+                          dangerouslySetInnerHTML={{
+                            __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
+                          }}
+                          style={{ width: '33px', height: '40px', marginRight: '10px' }}
                         >
-                      </div>
+                        </div>
 
-                      {school.name}
+                        {school.name}
                       </div>
                       <div className='d-flex justify-content-center align-items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                           <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
-                        />
+                          />
                         </svg>
                       </div>
                     </div>
@@ -394,11 +349,10 @@ if (mapRef.current) {
                       </div>
                     </div>
                   </div>
-               
-              </a>
-            </div>
-          ))}
-        </div>
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </LoadScript>
     </div>
