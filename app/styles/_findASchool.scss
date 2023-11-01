@@ -2,13 +2,16 @@
     //background-color: $grayscale-3;
     padding-top: 1rem;
     position: relative;
+
     @include media-breakpoint-up(lg) {
         padding-top: 0;
     }
+
     .search-box-container {
         position: relative;
         z-index: 999;
         background-color: $white;
+
         @include media-breakpoint-up(lg) {
             width: 516px;
             position: absolute;
@@ -16,6 +19,7 @@
             left: 5rem;
             border-radius: 10px;
         }
+
         .tabs {
             .tab-labels {
                 display: flex;
@@ -39,28 +43,31 @@
 
                     &:nth-child(2) {
                         padding: 13px 75px 13px 25px;
+
                         @include media-breakpoint-up(lg) {
                             padding: 13px 25px;
                         }
                     }
+
                     @include media-breakpoint-up(lg) {
                         height: 73px;
                         display: flex;
                         align-items: center;
                     }
+
                     &:not(.active) {
                         border-bottom-left-radius: 10px;
 
                         &.tab-label-1 {
                             border-bottom-right-radius: 10px;
                         }
+
                         &.tab-label-2 {
                             border-bottom-left-radius: 10px;
                         }
                     }
 
                     &.active {
-
                         font-family: Poppins;
                         font-size: 14px;
                         font-style: normal;
@@ -68,14 +75,13 @@
                         border-bottom: 0;
                         border-left: 0;
                         border-right: 0;
+                        line-height: 20px;
+                        color: $primary-green;
+                        position: relative;
 
                         .b3 {
                             font-weight: 600 !important;
                         }
-
-                        line-height: 20px;
-                        color: $primary-green;
-                        position: relative;
 
                         &::after {
                             content: "";
@@ -83,8 +89,9 @@
                             height: 2px;
                             background-color: $brand-orange;
                             position: absolute;
+
                             @include media-breakpoint-up(lg) {
-                               bottom: 1rem;
+                                bottom: 1rem;
                             }
                         }
                     }
@@ -95,17 +102,19 @@
             .tab-content {
                 display: none;
                 background: $white;
+
                 @include media-breakpoint-up(lg) {
                     border-radius: 10px;
-
                 }
+
                 &.active {
                     display: block;
                     padding: 1rem 0 4rem;
+
                     @include media-breakpoint-up(lg) {
                         padding: 0
-                    
                     }
+
                     input {
                         box-sizing: border-box;
                         border: 1px solid rgba(185, 188, 188, 0.40);
@@ -117,6 +126,7 @@
                         font-size: 14px;
                         font-weight: 300;
                         line-height: 22px;
+
                         @include media-breakpoint-up(lg) {
                             margin: 2rem 1.5rem;
                         }
@@ -138,6 +148,7 @@
                             text-align: center;
                             cursor: pointer;
                             @include transition;
+
                             @include media-breakpoint-up(lg) {
                                 top: 3.25rem;
                             }
@@ -157,6 +168,7 @@
                                 width: 35px;
                                 height: 35px;
                             }
+
                             @include media-breakpoint-up(lg) {
                                 top: 3rem;
                                 right: 2.5rem;
@@ -172,6 +184,7 @@
                             height: 30px;
                             cursor: pointer;
                             @include transition;
+
                             @include media-breakpoint-up(lg) {
                                 top: 3.25rem;
                             }
@@ -195,33 +208,55 @@
         >div {
             height: 350px;
         }
+
         @include media-breakpoint-up(lg) {
             >div {
-                height: 100vh!important;
+                height: 100vh !important;
+
+            }
+
+            &.shift {
+                >div {
+                    width: 150% !important;
+
+                }
+
+            }
+        }
+
+        @include media-breakpoint-up(xxl) {
+            &.shift {
+                >div {
+                    width: 125% !important;
+
+                }
+
             }
         }
     }
-.list-scroller {
-    @include media-breakpoint-up(lg) {
-        display: flex;
-        flex-direction: column;
-        width: 516px;
-        height: 64%;
-        position: absolute;
-        top: 20rem;
-        left: 5rem;
-        background: $white;
-        border-radius: 10px;
-        overflow-x: scroll;
-        @include transitionAll;
+
+    .list-scroller {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            flex-direction: column;
+            width: 516px;
+            height: 64%;
+            position: absolute;
+            top: 20rem;
+            left: 5rem;
+            background: $white;
+            border-radius: 10px;
+            overflow-x: scroll;
+            @include transitionAll;
+        }
     }
-}
+
     .nearby-schools-list {
         display: flex;
         flex-direction: column;
         background: $white;
-       
-        .school-list-item  {
+
+        .school-list-item {
             margin: 1rem;
             display: flex;
             padding: 32px 24px;
@@ -233,16 +268,22 @@
             color: $primary-darkgray;
             border: 1px solid $transparent;
             @include transition;
+
             .name {
                 .marker svg path {
                     @include transition;
                 }
             }
-            &:hover, &:active, &:focus, &.hovered {
+
+            &:hover,
+            &:active,
+            &:focus,
+            &.hovered {
                 @include transition;
                 border: 1px solid $neutral-2;
                 background: $white;
                 box-shadow: 0px 4px 10px 0px rgba(212, 214, 214, 0.20);
+
                 .name {
                     .marker path {
                         fill: $brand-orange;
@@ -272,6 +313,7 @@
             .notes {
                 list-style: none;
                 padding-left: 0.75rem;
+
                 li::before {
                     content: "\2022";
                     color: $grayscale-5;
