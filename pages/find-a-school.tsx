@@ -814,7 +814,8 @@ const handleClearIconClick = (idToRemove: number) => {
             onLoad={(map) => {
               mapRef.current = map;
               directionsRendererRef.current = new google.maps.DirectionsRenderer({
-                suppressMarkers: true // Suppress default markers
+                suppressMarkers: true, // Suppress default markers
+                preserveViewport: true
               }); 
 
               directionsRendererRef.current.setMap(map);
