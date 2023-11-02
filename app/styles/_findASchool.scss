@@ -1,23 +1,39 @@
 .find-a-school-container {
-    //background-color: $grayscale-3;
     padding-top: 1rem;
     position: relative;
-
+    background-color: $neutral-2;
+    overflow: hidden;
+    --view-height: 100%; 
+      
+    
     @include media-breakpoint-up(lg) {
         padding-top: 0;
+        background-color: $transparent;
+        height: var(--view-height);
     }
 
     .search-box-container {
         position: relative;
         z-index: 999;
-        background-color: $white;
-
+       
+        &::after{ 
+            content: "";
+                width: 100%;
+                height: 3rem;
+                top: 3rem;
+                left: 0;
+                position: absolute;
+                background: $white;
+                z-index: -1;
+        }
         @include media-breakpoint-up(lg) {
             width: 516px;
             position: absolute;
             top: 5rem;
             left: 5rem;
             border-radius: 10px;
+           
+            
         }
 
         .tabs {
@@ -192,11 +208,199 @@
                         }
                     }
                 }
+
+                &.tab-content-2 {
+                    .input-wrapper {
+
+                        .add-more {
+                            position: absolute;
+                            bottom: 4.5rem;
+                            z-index: 999;
+                            left: 0.75rem;
+
+                            @include media-breakpoint-up(lg) {
+                                bottom: 5rem;
+                            }
+
+                            &.added {
+                                bottom: 7.75rem;
+
+                                .add {
+                                    &::after {
+                                        content: none;
+                                    }
+                                }
+                            }
+
+                            .add {
+                                position: relative;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.85rem;
+                                    left: 0.75rem;
+                                    border-left: 1px dashed $primary-green;
+                                }
+                            }
+
+                        }
+
+                        input {
+                            width: calc(100% - 6rem);
+                            height: 70px;
+                            margin: 0.5rem 3rem 0.5rem;
+                        }
+
+                        .first-input,
+                        .second-input {
+                            position: relative;
+
+                            .start {
+                                width: 17px;
+                                height: 17px;
+                                border: 1px solid $primary-green;
+                                border-radius: 50%;
+                                top: 2.25rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.45rem;
+                                    left: 0.45rem;
+                                    border-left: 1px dashed $primary-green;
+
+                                }
+                            }
+
+                            .end {
+                                width: 17px;
+                                height: 28px;
+                                top: 1.75rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                svg {
+                                    width: 17px;
+                                    height: 28px;
+                                }
+                            }
+                        }
+
+                        .waypoint-input {
+                            position: relative;
+
+                            .start {
+                                width: 17px;
+                                height: 17px;
+                                border: 1px solid $primary-green;
+                                border-radius: 50%;
+                                top: 2.25rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.5rem;
+                                    left: 0.45rem;
+                                    border-left: 1px dashed $primary-green;
+
+                                }
+                            }
+
+                            .clear-icon {
+                                top: 1.75rem;
+                                right: 0.75rem;
+                            }
+                        }
+
+                        .location-icon {
+                            position: absolute;
+                            top: 1.75rem;
+                            right: 5.5rem;
+                            background-color: $white;
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                            cursor: pointer;
+                            @include transition;
+
+                            @include media-breakpoint-up(lg) {
+                                top: 2rem;
+                                right: 6rem;
+                            }
+                        }
+
+                        .drag-icon {
+                            position: absolute;
+                            top: 1.85rem;
+                            right: 3.25rem;
+                            width: 40px;
+                            height: 25px;
+                            background-color: $white;
+                            cursor: pointer;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            @include transition;
+
+                            svg {
+                                width: 20px;
+                                height: 8px;
+                            }
+
+                            @include media-breakpoint-up(lg) {
+                                top: 2rem;
+                                right: 3.5rem;
+                            }
+                        }
+
+                        &.added {
+                            .first-input {
+                                .start {
+                                    &::after {
+                                        content: "";
+
+                                        height: 50px;
+                                    }
+                                }
+                            }
+
+                            .waypoint-input {
+                                .start {
+                                    &::after {
+                                        content: "";
+
+                                        height: 50px;
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        @include media-breakpoint-up(lg) {
+                            #alongEnd {
+                                margin-bottom: 1rem;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     .google-map-container {
+        overflow: hidden;
         &.hidden {
             display: none;
         }
@@ -236,18 +440,26 @@
     }
 
     .list-scroller {
+        &.desktop {
+            display: none;
+        }
         @include media-breakpoint-up(lg) {
-            display: flex;
-            flex-direction: column;
-            width: 516px;
-            height: 64%;
-            position: absolute;
-            top: 20rem;
-            left: 5rem;
-            background: $white;
-            border-radius: 10px;
-            overflow-x: scroll;
-            @include transitionAll;
+            &.mobile {
+                display: none!important;
+            }
+            &.desktop {
+                display: flex;
+                flex-direction: column;
+                width: 516px;
+                height: 30rem;
+                position: relative;
+                top: 30px;
+                left: 0;
+                background: $white;
+                border-radius: 10px;
+                overflow-x: scroll;
+                @include transitionAll;
+            }
         }
     }
 
