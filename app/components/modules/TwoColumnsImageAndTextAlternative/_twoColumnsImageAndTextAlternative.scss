@@ -3,7 +3,7 @@
     flex-direction: column;
     @include media-breakpoint-up(lg) {
         flex-direction: row;
-        align-items: flex-end;
+        align-items:center;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -40,6 +40,10 @@
             width: 100%;
             height: auto;
             border-radius: 10px;
+            @include media-breakpoint-up(xxl) {
+                width: 536px;
+                height: 460px;
+            }
         }
         .announcement {
             position: absolute;

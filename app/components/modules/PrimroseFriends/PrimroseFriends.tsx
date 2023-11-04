@@ -54,7 +54,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                     if (contentDivPF) {
                         const top = contentDivPF.getBoundingClientRect().top;
                         const bottom = contentDivPF.getBoundingClientRect().bottom;
-                        
+
                         // Adjust the value based on your requirement.
                         // Here, 120 is the offset from the top where we consider the content div in view.
                         if (top <= 120 && bottom >= 120) {
@@ -79,7 +79,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             window.removeEventListener('scroll', handleScrollPF);
         }
     }, []);
-    
+
     const slideAnimationPropsPF = useSpring({
         opacity: expandedTabPF !== null ? 1 : 0,
         transform: expandedTabPF !== null ? 'scaleY(1)' : 'scaleY(0)',
@@ -99,7 +99,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
     const handleLabelClickPF = (targetId: string) => {
         console.log("Button clicked:", targetId);
-    
+
         // Parse the index from the targetId
         const parsedIndex = parseInt(targetId.replace("pf-content-", ""), 10);
         if (isNaN(parsedIndex)) {
@@ -107,19 +107,19 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             return;
         }
         console.log("Parsed Index:", parsedIndex);
-    
+
         if (window.innerWidth > 992) {  // Desktop behavior
             setExpandedTabPF(parsedIndex);
             const targetElementPF = document.getElementById(targetId);
             if (targetElementPF) {
                 const offsetPF = window.pageYOffset || document.documentElement.scrollTop;
                 const absoluteTargetTopPF = targetElementPF.getBoundingClientRect().top + offsetPF;
-    
+
                 window.scrollTo({
                     top: absoluteTargetTopPF - 120, // accounting for the navigation space
                     behavior: 'smooth'
                 });
-    
+
                 if (containerRefPF.current) {
                     const innerDivPF = containerRefPF.current.querySelector('.primrose-friends .inner');
                     if (innerDivPF) {
@@ -140,14 +140,14 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             } else {
                 setExpandedTabPF(parsedIndex);
             }
-    
+
             // Scroll to the button location after a short delay
             setTimeout(() => {
                 const buttonElementPF = mobileButtonRefsPF.current[parsedIndex];
                 if (buttonElementPF) {
                     const buttonTopPF = buttonElementPF.getBoundingClientRect().top;
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    
+
                     window.scrollTo({
                         top: scrollTop + buttonTopPF - 120, // accounting for the navigation space
                         behavior: 'smooth'
@@ -156,7 +156,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             }, 100);
         }
     };
-    
+
 
     const PlayButton = ({ onPlay }) => (
         <div onClick={onPlay} className="play-button">
@@ -256,22 +256,22 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                         </Heading>
                                                     }
                                                     {tab.content.characterTrait &&
-                                                        <div className='wrap d-flex pb-2'>
-                                                            <div className='h5 mb-0'><b>Character Trait:&nbsp;</b></div><Subheading level='h5' className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</Subheading>
+                                                        <div className='wrap pb-2'>
+                                                            <span className='h5 mb-0'><b>Character Trait:&nbsp;</b></span><span className='b3 mb-0' color={tab.content.traitColor}>{tab.content.characterTrait}</span>
                                                         </div>
                                                     }
                                                     <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
                                                     {tab.content.learnMore && tab.content.learnMore.url &&
                                                         <Link href={tab.content.learnMore.url} className='link learn-more b2' target={tab.content.learnMore.target || "_self"}>
-                                                            {tab.content.learnMore.title}<span>&nbsp;&#62;</span> 
+                                                            {tab.content.learnMore.title}<span>&nbsp;&#62;</span>
                                                         </Link>
                                                     }
                                                 </div>
                                             </div>
                                             <div className='video-wrapper flex-column flex-lg-row p-3'>
                                                 {tab.content.watchNow &&
-                                                    <div className='wrap d-flex pe-4  flex-row'>
-                                                        <div className='h5'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
+                                                    <div className='wrap pe-4'>
+                                                        <span className='h5'><b>Watch Now:&nbsp;</b></span>{tab.content.watchNow && <span className='b3'>{tab.content.watchNow}</span>}
                                                     </div>
                                                 }
                                                 {tab.content?.videoUrl?.url && (
@@ -324,18 +324,19 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                         <div className='bio'>{tab.content.bio && <p>{tab.content.bio}</p>}</div>
                                         {tab.content.learnMore && tab.content.learnMore.url &&
                                             <Link href={tab.content.learnMore.url} className='link learn-more b2' target={tab.content.learnMore.target || "_self"}>
-                                                {tab.content.learnMore.title}<span>&nbsp;&#62;</span> 
+                                                {tab.content.learnMore.title}<span>&nbsp;&#62;</span>
                                             </Link>
                                         }
                                     </div>
                                 </div>
-                                <div className='video-wrapper pt-3 flex-column flex-lg-row'>
-                                    {tab.content.watchNow &&
+                                {tab.content?.videoUrl?.url && (
+                                    <div className='video-wrapper pt-3 flex-column flex-lg-row'>
+
                                         <div className='wrap d-flex flex-column  align-items-end watch-wrapper'>
                                             <div className='h5 text-end'><b>Watch Now:&nbsp;</b></div>{tab.content.watchNow && <Heading level='h5' className='b3'>{tab.content.watchNow}</Heading>}
                                         </div>
-                                    }
-                                    {tab.content?.videoUrl?.url && (
+
+
                                         <div className='video'>
                                             {playingVideoPF !== index && <PlayButton onPlay={() => toggleVideoPlayback(index)} />} {/* Only show play button if this video is not playing */}
                                             <video
@@ -349,8 +350,9 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                                 Your browser does not support the video tag.
                                             </video>
                                         </div>
-                                    )}
-                                </div>
+
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

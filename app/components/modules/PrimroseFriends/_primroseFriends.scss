@@ -23,7 +23,7 @@
                     top: 1rem;
                     left: 1rem;
                     pointer-events: none;
-                    border: 2px dotted $neutral-2;
+                    border: 2px dashed $neutral-2;
                     border-radius: 5px;
                 }
 
@@ -157,7 +157,7 @@
                     top: 30%;
                     bottom: 25%;
                     width: 2px;
-                    left: 49%;
+                    left: 47%;
                     height: 40%;
                 }
 
@@ -165,7 +165,7 @@
                     left: 27%;
                     right: 27%;
                     height: 2px;
-                    top: 46%;
+                    top: 47%;
                 }
 
             }
@@ -296,9 +296,9 @@
             padding-top: 1rem;
             padding-bottom: 2rem;
             text-align: center;
-            @include media-breakpoint-up(xxl) {
-                padding-bottom: 0!important;
-            }
+            // @include media-breakpoint-up(xxl) {
+            //     padding-bottom: 0!important;
+            // }
             img {
                 width: 127px;
                 height: 127px;

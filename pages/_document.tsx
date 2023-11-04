@@ -9,7 +9,9 @@ class MyDocument extends Document {
 						href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
 						rel="stylesheet"
 					/>
+					{/* <!-- Start of HubSpot Embed Code --> */}
 					<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22602766.js"></script>
+					{/* <!-- End of HubSpot Embed Code --> */}
 				</Head>
 				<body>
 					<Main />

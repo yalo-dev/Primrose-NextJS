@@ -94,6 +94,10 @@ const FindASchool = () => {
 
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
 
+  const [markers, setMarkers] = useState([]); // This holds your map markers
+  const [searchText, setSearchText] = useState(''); // This holds your search input text
+
+
 
 
   useEffect(() => {
@@ -120,51 +124,51 @@ const FindASchool = () => {
       lat: 0,
       lng: 0
     };
-  
+
     // Create a new waypoint with a unique id
     const newWaypoint = { id: waypoints.length, location: defaultLocation };
-  
+
     // Add the new waypoint to the waypoints state
     setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
-  
+
     // Create a ref for this new waypoint and add it to the waypointRefs state
     setWaypointRefs(prevRefs => {
       return { ...prevRefs, [newWaypoint.id]: React.createRef() };
     });
-    
+
     if (!isMobile) {
       const container = document.querySelector('.find-a-school-container') as HTMLElement;
       if (container) {
-          if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
-              // Switch from percentage to pixel value on first waypoint added
-              let currentPixelHeight = container.offsetHeight;
-              container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
-          } else {
-              // If already using pixel values
-              let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
-              container.style.setProperty('--view-height', `${currentHeight + 100}px`);
-          }
+        if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
+          // Switch from percentage to pixel value on first waypoint added
+          let currentPixelHeight = container.offsetHeight;
+          container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
+        } else {
+          // If already using pixel values
+          let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
+          container.style.setProperty('--view-height', `${currentHeight + 100}px`);
+        }
 
-          // Trigger the Google Maps resize event after changing the height
-          setTimeout(() => {
-            if (mapRef.current) {
-                google.maps.event.trigger(mapRef.current, 'resize');
-            }
+        // Trigger the Google Maps resize event after changing the height
+        setTimeout(() => {
+          if (mapRef.current) {
+            google.maps.event.trigger(mapRef.current, 'resize');
+          }
         }, 100);
       }
-  }
+    }
 
-};
+  };
 
-const handleClearIconClick = (idToRemove: number) => {
+  const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
       const updatedWaypoints = prevWaypoints.filter(waypoint => waypoint.id !== idToRemove);
-  
+
       setIsAdded(updatedWaypoints.length > 0);
-  
+
       return updatedWaypoints;
     });
-  
+
     // Remove the ref associated with the removed waypoint
     setWaypointRefs(prevRefs => {
       const updatedRefs = { ...prevRefs };
@@ -175,19 +179,18 @@ const handleClearIconClick = (idToRemove: number) => {
     if (!isMobile) {
       const container = document.querySelector('.find-a-school-container') as HTMLElement;
       if (container) {
-          let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
-          container.style.setProperty('--view-height', `${currentHeight - 100}px`);
+        let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
+        container.style.setProperty('--view-height', `${currentHeight - 100}px`);
 
-          // Trigger the Google Maps resize event after changing the height
-          setTimeout(() => {
-            if (mapRef.current) {
-                google.maps.event.trigger(mapRef.current, 'resize');
-            }
+        // Trigger the Google Maps resize event after changing the height
+        setTimeout(() => {
+          if (mapRef.current) {
+            google.maps.event.trigger(mapRef.current, 'resize');
+          }
         }, 100);
       }
-   }
-};
-
+    }
+  };
 
   const handleInputChange = (ref: React.RefObject<HTMLInputElement>) => {
     if (ref.current && ref.current.value === '') {
@@ -257,17 +260,17 @@ const handleClearIconClick = (idToRemove: number) => {
       console.log("Google Maps API not loaded yet.");
       return;
     }
-  
+
     if (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng))) {
       console.log("Start location is not defined or not in the correct format.");
       return;
     }
-  
+
     if (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng))) {
       console.log("Destination location is not defined or not in the correct format.");
       return;
     }
-  
+
     // Ensure that we have a DirectionsRenderer instance
     if (!directionsRendererRef.current) {
       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
@@ -288,15 +291,15 @@ const handleClearIconClick = (idToRemove: number) => {
         }
       });
     }
-  
+
     // Ensure that the DirectionsRenderer is attached to the map
     if (mapRef.current && directionsRendererRef.current) {
       directionsRendererRef.current.setMap(mapRef.current);
     }
-  
+
     // Create the DirectionsService instance if needed
     const directionsService = new window.google.maps.DirectionsService();
-  
+
     // Define the route with waypoints if any
     const mappedWaypoints = waypoints
       .filter(waypoint => waypoint.location && waypoint.location.lat && waypoint.location.lng)
@@ -308,7 +311,7 @@ const handleClearIconClick = (idToRemove: number) => {
       travelMode: window.google.maps.TravelMode.DRIVING,
       optimizeWaypoints: true,
     };
-  
+
     // Call the DirectionsService
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
@@ -320,7 +323,7 @@ const handleClearIconClick = (idToRemove: number) => {
       }
     });
   };
-  
+
   const onWaypointSelected = (waypointId, selectedPlace) => {
     if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
       setWaypoints(prevWaypoints => {
@@ -351,22 +354,6 @@ const handleClearIconClick = (idToRemove: number) => {
     renderRoute();
   }, [start, destination, waypoints]);
 
-  // useEffect(() => {
-  //   const initializeRenderer = () => {
-  //     if (!window.google || !window.google.maps) {
-  //       return;
-  //     }
-  //     //directionsRendererRef.current = new window.google.maps.DirectionsRenderer();
-  //   };
-
-  //   if (window.google && window.google.maps) {
-  //     initializeRenderer();
-  //   } else {
-  //     window.addEventListener('load', initializeRenderer);
-  //     return () => window.removeEventListener('load', initializeRenderer);
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (nearInputRef.current) {
       nearInputRef.current.addEventListener("input", () => {
@@ -381,7 +368,7 @@ const handleClearIconClick = (idToRemove: number) => {
       }
     };
   }, []);
-  
+
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
       mapCenter.lat,
@@ -398,10 +385,8 @@ const handleClearIconClick = (idToRemove: number) => {
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
 
-
-
   function onPlaceSelected(place, type = 'defaultType') {
-   
+
     //let newMapCenter;
 
     if (place && place.geometry && place.geometry.location) {
@@ -440,20 +425,12 @@ const handleClearIconClick = (idToRemove: number) => {
 
   };
 
-
-
-  useEffect(() => {
-    if (start) {
-      console.log('Start position updated:', start);
-    }
-  }, [start]);
-
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
       const map = mapRef.current;
       let inputValue;
       let inputRef;
-  
+
       switch (type) {
         case 'near':
           inputRef = nearInputRef;
@@ -472,33 +449,33 @@ const handleClearIconClick = (idToRemove: number) => {
           console.log('Invalid input type');
           return;
       }
-  
+
       if (!inputRef.current || !inputRef.current.value) {
         console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} Input reference is not available or input is empty`);
         return;
       }
-  
+
       inputValue = inputRef.current.value;
       console.log('Input value:', inputValue);
-  
+
       const autocompleteService = new google.maps.places.AutocompleteService();
       autocompleteService.getPlacePredictions({
         input: inputValue,
         componentRestrictions: { country: 'us' },
       },
-      (predictions, status) => {
-        if (status !== google.maps.places.PlacesServiceStatus.OK) {
-          console.log('Error: ' + status);
-          return;
-        }
-  
-        if (!predictions || predictions.length === 0) {
-          console.log('No predictions found');
-          return;
-        }
-  
-        const placesService = new google.maps.places.PlacesService(map);
-        placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
+        (predictions, status) => {
+          if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            console.log('Error: ' + status);
+            return;
+          }
+
+          if (!predictions || predictions.length === 0) {
+            console.log('No predictions found');
+            return;
+          }
+
+          const placesService = new google.maps.places.PlacesService(map);
+          placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
               console.log('Calling onPlaceSelected with type:', type);
               onPlaceSelected(place, type);
@@ -510,18 +487,69 @@ const handleClearIconClick = (idToRemove: number) => {
             }
             return place;
           }
-        );
-      });
+          );
+        });
     } else {
       console.log('Map reference is not available');
     }
   };
-  
+
   const onEnterKeyPressedForWaypoint = async (waypointId: number) => {
     const place = await onEnterKeyPressed('waypoint', waypointId);
-   // onPlaceSelected(place, 'waypoint_' + waypointId);
+    // onPlaceSelected(place, 'waypoint_' + waypointId);
   };
-  
+
+  // Define your default values for center and zoom outside of your component
+  // const DEFAULT_CENTER = { lat: /* Default latitude */, lng: /* Default longitude */ };
+  const DEFAULT_ZOOM = 5;
+
+  // Inside your component
+  const handleTabClick = (tabIndex) => {
+    setActiveTab(tabIndex);
+    setHasSearched(false);
+    setSearched(false);
+    setShowMap(false);
+    setIsAdded(false);
+    setMapCenter(center);
+    setZoomLevel(DEFAULT_ZOOM);
+
+
+    setMarkers([]);
+
+
+    if (directionsRendererRef.current) {
+      directionsRendererRef.current.setDirections({ routes: [] });
+    }
+
+
+    setHoveredSchoolId(null);
+
+
+    if (nearInputRef.current) nearInputRef.current.value = '';
+    if (routeInputRef1.current) routeInputRef1.current.value = '';
+    if (routeInputRef2.current) routeInputRef2.current.value = '';
+
+    setWaypoints([]);
+
+    setSearchText('');
+
+
+
+    if (mapRef.current) {
+      mapRef.current.setCenter(center);
+      mapRef.current.setZoom(DEFAULT_ZOOM);
+    }
+
+    Object.values(waypointRefs).forEach(ref => {
+      if (ref && ref.current) ref.current.value = '';
+    });
+
+    setDirections(null);
+    setStart(null);
+    setWaypoint(null);
+    setDestination(null);
+  };
+
   return (
     <div className='find-a-school-container'>
       <LoadScript
@@ -533,13 +561,13 @@ const handleClearIconClick = (idToRemove: number) => {
             <div className='tab-labels'>
               <div
                 className={`tab-label tab-label-1 ${activeTab === 1 ? 'active' : ''}`}
-                onClick={() => setActiveTab(1)}
+                onClick={() => handleTabClick(1)}
               >
                 <div className='b3'>Find a School Near You</div>
               </div>
               <div
                 className={`tab-label tab-label-2 ${activeTab === 2 ? 'active' : ''}`}
-                onClick={() => setActiveTab(2)}
+                onClick={() => handleTabClick(2)}
               >
                 <div className='b3'>Search Along Route</div>
               </div>
@@ -658,7 +686,7 @@ const handleClearIconClick = (idToRemove: number) => {
                   </div>
                 </div>
                 {waypoints.map(waypoint => (
-                   
+
                   <div key={waypoint.id} className='waypoint-input'>
                     <div className='start'>
                     </div>
@@ -672,19 +700,19 @@ const handleClearIconClick = (idToRemove: number) => {
                         onWaypointSelected(waypoint.id, selectedPlace);
                       }}
                     >
-                     <input 
-                      onKeyDown={(e) => {
-                        console.log("Key pressed:", e.key);
-                        if (e.key === "Enter") {
-                          onEnterKeyPressedForWaypoint(waypoint.id); 
-                        }
-                      }}
-                      ref={waypointRefs[waypoint.id]}
-                      onChange={() => handleInputChange(waypointRefs[waypoint.id])}
-                      id="waypoint" 
-                      type="text" 
-                      placeholder="Search by address, city, state, ZIP" 
-                    />
+                      <input
+                        onKeyDown={(e) => {
+                          console.log("Key pressed:", e.key);
+                          if (e.key === "Enter") {
+                            onEnterKeyPressedForWaypoint(waypoint.id);
+                          }
+                        }}
+                        ref={waypointRefs[waypoint.id]}
+                        onChange={() => handleInputChange(waypointRefs[waypoint.id])}
+                        id="waypoint"
+                        type="text"
+                        placeholder="Search by address, city, state, ZIP"
+                      />
                     </Autocomplete>
                     <div className='drag-icon'>
                       <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -746,68 +774,68 @@ const handleClearIconClick = (idToRemove: number) => {
           </div>
 
           <div
-          style={{ opacity: (hasSearched) ? '1' : '0' }}
-          className="list-scroller desktop"
-        >
-          <div className="nearby-schools-list">
-            {sortedSchools.map((school) => (
-              <div key={school.id} className="school-list">
-                <a href={`/school/${school.id}`}>
+            style={{ opacity: (hasSearched) ? '1' : '0' }}
+            className="list-scroller desktop"
+          >
+            <div className="nearby-schools-list">
+              {sortedSchools.map((school) => (
+                <div key={school.id} className="school-list">
+                  <a href={`/school/${school.id}`}>
 
-                  <div
-                    key={school.id}
-                    className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                    onMouseOver={() => setHoveredSchoolId(school.id)}
-                    onMouseOut={() => setHoveredSchoolId(null)}
-                  >
-                    <div className='name h5 w-100 d-flex justify-content-between'>
-                      <div className='wrap d-flex justify-content-center align-items-center'>
-                        <div className='marker'
-                          dangerouslySetInnerHTML={{
-                            __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
-                          }}
-                          style={{ width: '33px', height: '40px', marginRight: '10px' }}
-                        >
+                    <div
+                      key={school.id}
+                      className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
+                      onMouseOver={() => setHoveredSchoolId(school.id)}
+                      onMouseOut={() => setHoveredSchoolId(null)}
+                    >
+                      <div className='name h5 w-100 d-flex justify-content-between'>
+                        <div className='wrap d-flex justify-content-center align-items-center'>
+                          <div className='marker'
+                            dangerouslySetInnerHTML={{
+                              __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
+                            }}
+                            style={{ width: '33px', height: '40px', marginRight: '10px' }}
+                          >
+                          </div>
+
+                          {school.name}
                         </div>
-
-                        {school.name}
+                        <div className='d-flex justify-content-center align-items-center'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
+                            />
+                          </svg>
+                        </div>
                       </div>
-                      <div className='d-flex justify-content-center align-items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
-                          />
-                        </svg>
+                      <div className='wrap'>
+                        <span className='distance'>{calculateDistance(
+                          mapCenter.lat,
+                          mapCenter.lng,
+                          school.coordinates.lat,
+                          school.coordinates.lng
+                        ).toFixed(2)}mi</span>&nbsp;·&nbsp;
+                        <span className='address'>{school.address}</span>
                       </div>
-                    </div>
-                    <div className='wrap'>
-                      <span className='distance'>{calculateDistance(
-                        mapCenter.lat,
-                        mapCenter.lng,
-                        school.coordinates.lat,
-                        school.coordinates.lng
-                      ).toFixed(2)}mi</span>&nbsp;·&nbsp;
-                      <span className='address'>{school.address}</span>
-                    </div>
-                    <div className='hours'>{school.hours}</div>
-                    <ul className='notes'><li>{school.notes}</li></ul>
-                    <div className='button-wrap d-flex'>
-                      <Button variant="primary">Schedule a Tour</Button>
-                      <div className='phone ms-2'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                          <path d="M30.5831 27.4384L30.5833 27.4385L32.1465 28.3071L33.7097 29.1756C34.3736 29.5442 34.6663 30.3311 34.4052 31.044L30.5831 27.4384ZM30.5831 27.4384C29.9087 27.0639 29.0985 27.1531 28.5217 27.6656L28.5217 27.6657M30.5831 27.4384L28.5217 27.6657M27.9429 33.7124L27.7715 34.1821C22.5741 32.285 18.715 28.4259 16.8179 23.2285L16.8179 23.2285C15.8177 20.4881 17.2584 17.5823 19.9558 16.5949L27.9429 33.7124ZM27.9429 33.7124L27.7715 34.1821C30.5119 35.1823 33.4177 33.7416 34.4051 31.0442L27.9429 33.7124ZM21.8247 17.2899L21.825 17.2903C22.4034 18.3323 22.9825 19.3748 23.5615 20.4167L23.5616 20.4169C23.936 21.0911 23.8471 21.9019 23.3343 22.4783L21.8247 17.2899ZM21.8247 17.2899C21.4556 16.6266 20.669 16.3336 19.956 16.5948L21.8247 17.2899ZM28.5217 27.6657L28.5197 27.6674C28.0523 28.0828 27.5847 28.4983 27.1174 28.9139C24.9301 27.9282 23.0718 26.0699 22.0861 23.8826M28.5217 27.6657L22.0861 23.8826M22.0861 23.8826C22.5022 23.4148 22.9182 22.9466 23.3341 22.4785L22.0861 23.8826Z" stroke="#5E6738" />
-                        </svg>
+                      <div className='hours'>{school.hours}</div>
+                      <ul className='notes'><li>{school.notes}</li></ul>
+                      <div className='button-wrap d-flex'>
+                        <Button variant="primary">Schedule a Tour</Button>
+                        <div className='phone ms-2'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                            <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                            <path d="M30.5831 27.4384L30.5833 27.4385L32.1465 28.3071L33.7097 29.1756C34.3736 29.5442 34.6663 30.3311 34.4052 31.044L30.5831 27.4384ZM30.5831 27.4384C29.9087 27.0639 29.0985 27.1531 28.5217 27.6656L28.5217 27.6657M30.5831 27.4384L28.5217 27.6657M27.9429 33.7124L27.7715 34.1821C22.5741 32.285 18.715 28.4259 16.8179 23.2285L16.8179 23.2285C15.8177 20.4881 17.2584 17.5823 19.9558 16.5949L27.9429 33.7124ZM27.9429 33.7124L27.7715 34.1821C30.5119 35.1823 33.4177 33.7416 34.4051 31.0442L27.9429 33.7124ZM21.8247 17.2899L21.825 17.2903C22.4034 18.3323 22.9825 19.3748 23.5615 20.4167L23.5616 20.4169C23.936 21.0911 23.8471 21.9019 23.3343 22.4783L21.8247 17.2899ZM21.8247 17.2899C21.4556 16.6266 20.669 16.3336 19.956 16.5948L21.8247 17.2899ZM28.5217 27.6657L28.5197 27.6674C28.0523 28.0828 27.5847 28.4983 27.1174 28.9139C24.9301 27.9282 23.0718 26.0699 22.0861 23.8826M28.5217 27.6657L22.0861 23.8826M22.0861 23.8826C22.5022 23.4148 22.9182 22.9466 23.3341 22.4785L22.0861 23.8826Z" stroke="#5E6738" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </a>
-              </div>
-            ))}
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        </div>
         <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : (hasSearched ? 'shift' : '')}`}>
-          <GoogleMap  
+          <GoogleMap
             center={mapCenter}
             zoom={zoomLevel}
             mapContainerStyle={containerStyle}
@@ -816,7 +844,7 @@ const handleClearIconClick = (idToRemove: number) => {
               directionsRendererRef.current = new google.maps.DirectionsRenderer({
                 suppressMarkers: true, // Suppress default markers
                 preserveViewport: true
-              }); 
+              });
 
               directionsRendererRef.current.setMap(map);
             }}
@@ -847,13 +875,13 @@ const handleClearIconClick = (idToRemove: number) => {
             {start && (
               <Marker
                 position={start}
-                
+
                 icon={{
                   url: svgMarkerIconStart,
                   scaledSize: new google.maps.Size(20, 20),
                 }}
               />
-             
+
             )}
 
             {waypoints && waypoints.map((waypoint, index) => (
@@ -878,10 +906,10 @@ const handleClearIconClick = (idToRemove: number) => {
             )}
 
             {directions && (
-              <DirectionsRenderer 
-              directions={directions} 
-              options={{ suppressMarkers: true }} 
-            />
+              <DirectionsRenderer
+                directions={directions}
+                options={{ suppressMarkers: true }}
+              />
             )}
           </GoogleMap>
         </div>

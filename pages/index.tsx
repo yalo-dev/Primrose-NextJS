@@ -716,6 +716,7 @@ query GetModules($id: ID = "") {
             bottomPaddingMobile
             topPaddingDesktop
             topPaddingMobile
+            outerBackgroundColor
           }
         }
       }
