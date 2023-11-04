@@ -8,23 +8,27 @@ interface WysiwygEditorProps {
 		topPaddingDesktop?: string;
 		bottomPaddingMobile?: string;
 		bottomPaddingDesktop?: string;
+        outerBackgroundColor?: string;
 	};
 }
 
 const WysiwygEditor: React.FC<WysiwygEditorProps> = ({ editor, customizations }) => {
     return (
-        <div className='container'>
-            <Customizations
+        
+        <Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
 		   bottomPaddingMobile={customizations?.bottomPaddingMobile}
 		   bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+           colorLabelOuter={customizations?.outerBackgroundColor} 
 	   >
+        <div className='container'>
             <div className='editor'>
                 {editor && <div dangerouslySetInnerHTML={{ __html: editor }} />} 
             </div>
-            </Customizations>
         </div>
+        </Customizations>
+       
     );
 }
 
