@@ -1,0 +1,17 @@
+.Page_Modules_Modules_DynamicForm {
+    .container {
+        max-width: 1096px;
+        margin: auto;
+        .form {
+            margin-top: 34px;
+            background-color: $white;
+            padding: 34px 30px;
+            border-radius: 10px;
+            @include media-breakpoint-up(lg) {
+                padding: 50px 112px;
+                border-radius: 30px;
+                margin-top: 37px;
+            }
+        }
+    }
+}

@@ -97,13 +97,14 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                     className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                                 >
                                    
-                                        <Image 
-                                        src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-                                        alt="Avatar" 
-                                        width={50} 
-                                        height={50} 
-                                        className="avatar"
-                                    />
+								   <Image 
+										src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
+										alt="Avatar" 
+										width={50} 
+										height={50} 
+										className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}
+									/>
+
                                  
                                     <div className='text-wrap'>
                                     {tab.name && 
@@ -161,13 +162,14 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                 className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                             >
                               
-                                    <Image 
-                                    src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-                                    alt="Avatar" 
-                                    width={50} 
-                                    height={50} 
-                                    className="avatar"
-                                />
+							  <Image 
+									src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
+									alt="Avatar" 
+									width={50} 
+									height={50} 
+									className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}
+								/>
+
                               
                                 <div className='text-wrap'>
                                 {tab.name && 
