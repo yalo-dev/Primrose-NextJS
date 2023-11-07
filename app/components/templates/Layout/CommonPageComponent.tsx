@@ -1,5 +1,6 @@
 import ClassroomSelectAndContent from '../../modules/ClassroomSelectAndContent/ClassroomSelectAndContent';
 import ClassroomSelectAndImage from '../../modules/ClassroomSelectAndImage/ClassroomSelectAndImage';
+import DynamicForm from '../../modules/DynamicForm/DynamicForm';
 import FeaturedSection from '../../modules/FeaturedSection/FeaturedSection';
 import FindASchool from '../../modules/FindASchool/FindASchool';
 import FourAcrossSlider from '../../modules/FourAcrossSlider/FourAcrossSlider';
@@ -38,6 +39,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_ClassroomSelectAndContent':
                     ModuleComponent = ClassroomSelectAndContent;
+                    break;
+                case 'Page_Modules_Modules_DynamicForm':
+                    ModuleComponent = DynamicForm;
                     break;
                 case 'Page_Modules_Modules_EyebrowHeadingSubheading':
                     ModuleComponent = EyebrowHeadingSubheading;

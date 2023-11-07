@@ -90,6 +90,22 @@ query GetModules($id: ID = "") {
             backgroundColorRight
           }
         }
+        ... on Page_Modules_Modules_DynamicForm {
+          headings {
+            heading
+            headingColor
+            subheading
+            subheadingColor
+          }
+          form
+          customizations {
+            bottomPaddingDesktop
+            bottomPaddingMobile
+            outerBackgroundColor
+            topPaddingDesktop
+            topPaddingMobile
+          }
+        }
         ... on Page_Modules_Modules_EyebrowHeadingSubheading {
           alignment
           eyebrow

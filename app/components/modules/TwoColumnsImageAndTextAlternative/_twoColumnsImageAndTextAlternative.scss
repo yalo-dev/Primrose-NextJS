@@ -43,6 +43,8 @@
             @include media-breakpoint-up(xxl) {
                 width: 536px;
                 height: 460px;
+                object-fit: cover;
+                object-position: center;
             }
         }
         .announcement {
