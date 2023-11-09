@@ -9,7 +9,9 @@ export async function getServerSideProps(context) {
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
       school(id: $id, idType: URI) {
-      id
+        id
+        slug
+        uri
         featuredImage {
           node {
           sourceUrl
@@ -24,20 +26,38 @@ export async function getServerSideProps(context) {
       }
     }
     `;
+    try {
+        const response = await client.query({
+            query: GET_SCHOOLS,
+            variables: { id: `/schools/${schoolSlug}/` }, // Make sure the ID matches the expected format for the URI in WP
+        });
 
-    const response = await client.query({
-        query: GET_SCHOOLS,
-        variables: { id: schoolSlug }
-    });
+        console.log("GraphQL Response:", response); // Log the entire response
 
-    const school = response?.data?.school;
+        if (response.errors) {
+            console.error('GraphQL Errors:', response.errors);
+            throw new Error(`Error fetching GraphQL data: ${response.errors}`);
+        }
 
-    return {
-        props: {
-            school,
-            schoolSlug 
-        },
-    };
+        const school = response?.data?.school;
+
+        console.log("School Data:", school); // Log the school data
+
+        if (!school) {
+            return { notFound: true }; // If there's no school data, return a notFound response
+        }
+
+        return {
+            props: {
+                school,
+                schoolSlug,
+            },
+        };
+    } catch (error) {
+        console.error('getServerSideProps Error:', error);
+        // Return an error page or some error handling here
+        return { props: { hasError: true } }; // Example error handling
+    }
 }
 
 export default function SchoolMainPage({ school, schoolSlug }) {
@@ -46,9 +66,9 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     return (
         <section className='module pt-4 pb-4'>
             <div className='container'>
-                <Link href={`/schools/`}>
+                <a href={`/schools/`}>
                     ← Back to Schools
-                </Link>
+                </a>
                 <div className='row'>
                     <h1 className="title">{schoolSettings.schoolName}</h1>
                 </div>
@@ -62,7 +82,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                         <p dangerouslySetInnerHTML={{ __html: schoolSettings.address }} />
                         <p><a href={`mailto:${schoolSettings.emailAddress}`}>{schoolSettings.emailAddress}</a></p>
                         <p><a href={`tel:${schoolSettings.phoneNumber}`}>{schoolSettings.phoneNumber}</a></p>
-                        <Link href={`/schools/${schoolSlug}/staff`}>View Staff</Link>
+                        <a href={`/schools/${schoolSlug}/staff`}>View Staff</a>
                     </div>
                 </div>
             </div>

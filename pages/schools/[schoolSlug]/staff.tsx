@@ -42,9 +42,9 @@ export default function StaffPage({ staff, schoolSlug }) {
         <section className='module pt-4 pb-4'>
             <div className='container'>
                 <div className='row'>
-                    <Link href={`/schools/${schoolSlug}`}>
+                    <a href={`/schools/${schoolSlug}`}>
                         ← Back to School
-                    </Link>
+                    </a>
                 </div>
                 {staff.map((member, index) => (
                     <div className='row' key={index}>

@@ -41,9 +41,9 @@ export default function Schools({ schools }) {
                                 const settings = school.schoolSettings;
                                 return (
                                     <div className='card p-2' key={school.uri}>
-                                         <Link href={`${school.uri}`} passHref>
+                                         <a href={`${school.uri}`}>
                                             <h2>{settings.schoolName}</h2>
-                                        </Link>
+                                        </a>
                                     </div>
                                 );
                             })
