@@ -1,9 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
 import ListItem from '../../atoms/ListItem/ListItem';
 import UnorderedList from '../../molecules/UnorderedList/UnorderedList';
 import Button from '../../atoms/Button/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+const GET_SCHOOL_DETAILS = gql`
+  query GetSchoolDetails($id: ID!) {
+    school(id: $id, idType: URI) {
+      id
+      slug
+      uri
+      schoolSettings {
+        schoolName
+      }
+    }
+  }
+`;
 
 export default function SchoolsMenu() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -12,9 +26,14 @@ export default function SchoolsMenu() {
   const router = useRouter();
   const { schoolSlug } = router.query;
 
-  useEffect(() => {
-    console.log(schoolSlug); 
-  }, [schoolSlug]);
+  const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
+    variables: { id: schoolSlug },
+    skip: !schoolSlug, // Skip the query if the slug isn't available
+  });
+
+  // Extract the school name from the data returned by the query
+  const schoolName = data?.school?.schoolSettings?.schoolName;
+  const slug = data?.school?.slug;
 
   useEffect(() => {
     const checkScrollPosition = () => {
@@ -73,7 +92,7 @@ export default function SchoolsMenu() {
           <div className='top w-100'>
             <div className='container d-lg-flex'>
               <div className='col'>
-                <h1 className='h3'>Primrose School of St. Charles at Heritage</h1>
+              <h1 className='h3'>{loading ? '' : schoolName || 'School Name'}</h1>
               </div>
               <div className='col w-100 col d-flex align-items-center justify-content-start'>
                 <Button label='Schedule a Tour' variant='secondary' href={`/schools/${schoolSlug}/schedule-a-tour`} />
@@ -106,12 +125,12 @@ export default function SchoolsMenu() {
                 <div className='container'>
                   <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
                     <ListItem>
-                    <a className='b2' href={`/schools/${schoolSlug}`}>
+                    <a className='b2' href={`/schools/${slug}`}>
                       Home
                     </a>
                     </ListItem>
                     <ListItem>
-                      <a href={`/schools/${schoolSlug}/classrooms`} className='b2'>Our Classrooms</a>
+                      <a href={`/schools/${slug}/classrooms`} className='b2'>Our Classrooms</a>
                       <span className='ps-2'>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <circle cx="10" cy="10" r="10" fill="#FBFBFB"/>
@@ -120,10 +139,10 @@ export default function SchoolsMenu() {
                       </span>
                     </ListItem>
                     <ListItem>
-                      <a href={`/schools/${schoolSlug}/staff`} className='b2'>Teachers & Staff</a>
+                      <a href={`/schools/${slug}/staff`} className='b2'>Teachers & Staff</a>
                     </ListItem>
                     <ListItem>
-                      <a href={`/schools/${schoolSlug}/careers`} className='b2'>School Careers</a>
+                      <a href={`/schools/${slug}/careers`} className='b2'>School Careers</a>
                     </ListItem>
                   </UnorderedList>
                 </div>

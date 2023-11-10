@@ -14,6 +14,19 @@
         }
         .location, .phone {
             cursor: pointer;
+           svg circle {
+            @include transition;
+           }
+            &:hover {
+                circle {
+                    fill: $primary-darkgray;
+                    stroke: $primary-darkgray;
+                    
+                } 
+                path {
+                    stroke: $white;
+                }
+            }
         }
     }
     .bottom {
