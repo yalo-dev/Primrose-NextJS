@@ -17,11 +17,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
-    "/[...pageId]": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/[...pageId].js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -32,10 +27,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/resources": [
+    "/find-a-school": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/resources.js"
+      "static/chunks/pages/find-a-school.js"
     ]
   },
   "ampFirstPages": []
