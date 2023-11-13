@@ -44,19 +44,24 @@ const GET_SCHOOL_DETAILS = gql`
 `;
 
 export default function ClassroomPage() {
-    const router = useRouter();
-    const [currentSlug, setCurrentSlug] = useState(null);
-  
+    const router = useRouter();  
+    const [currentSlug, setCurrentSlug] = useState<string | null>(null);
+
     useEffect(() => {
-      // Log to check if the router's query is populated
-      console.log('router.query:', router.query);
-  
       if (router.isReady) {
-        const slugValue = Array.isArray(router.query.schoolSlug) ? router.query.schoolSlug[0] : router.query.schoolSlug;
-        console.log('Detected slug:', slugValue);
+        // Extract slug from router query and ensure it is either a string or null
+        const slugFromArray = Array.isArray(router.query.schoolSlug)
+          ? router.query.schoolSlug[0]
+          : router.query.schoolSlug;
+        const slugValue = slugFromArray !== undefined ? slugFromArray : null;
+        
         setCurrentSlug(slugValue);
       }
-    }, [router.isReady, router.query]);
+    }, [router.isReady, router.query.schoolSlug]);
+    
+      
+      
+      
 
   const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: currentSlug || '' },
