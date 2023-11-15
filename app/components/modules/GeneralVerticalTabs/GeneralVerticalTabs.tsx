@@ -31,6 +31,7 @@ interface VerticalTabProps {
 			headingColor: string;
 			image: {
 				sourceUrl: string;
+				altText?: string;
 			};
 			subheading: string;
 			subheadingColor: string;
@@ -134,7 +135,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 								>
 
 									{tab.content.image?.sourceUrl && <div className={`image-wrapper ${tab.content.fullWidthOrFeatured}`}>
-                                        <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={343} height={287} />
+                                        <Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={343} height={287} />
                                     </div>}
 									<div className='content'>
 									

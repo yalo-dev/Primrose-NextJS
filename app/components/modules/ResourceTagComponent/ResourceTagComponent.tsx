@@ -31,6 +31,7 @@ query GetResourcesByTag {
       featuredImage {
         node {
           sourceUrl
+		  altText
         }
       }
     }

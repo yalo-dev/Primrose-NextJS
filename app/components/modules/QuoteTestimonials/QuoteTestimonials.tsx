@@ -15,6 +15,7 @@ interface QuoteTestimonialsProps {
 	tabs: {
 		avatar: {
 			sourceUrl: string;
+			altText: string;
 		};
 		name: string;
 		nameColor: string;
@@ -164,7 +165,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                               
 							  <Image 
 									src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-									alt="Avatar" 
+									alt={tab.avatar?.altText || ''}
 									width={50} 
 									height={50} 
 									className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}

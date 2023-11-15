@@ -35,6 +35,7 @@ query GetSingleResource($id: ID!) {
 	  featuredImage {
 		node {
 		  sourceUrl
+		  altText
 		}
 	  }
 	  title
@@ -61,6 +62,7 @@ query GetSingleResource($id: ID!) {
 			featuredImage {
 			  node {
 				sourceUrl
+				altText
 			  }
 			}
 			title
@@ -166,7 +168,7 @@ export default function ResourceComponent({ singleSlug }) {
 				<div className='hero container p-0'>
 					<div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
 						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
-							{featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt="Featured" />}
+							{featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt={featuredImage.node.altText} />}
 						</div>
 						<div className='content-wrapper ps-4 pe-4 position-relative'>
 							<div className='details d-flex justify-start align-items-center'>

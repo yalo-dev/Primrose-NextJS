@@ -245,7 +245,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                             <div className='wrap p-3'>
                                                 {tab.content?.image?.sourceUrl && (
                                                     <div className='image-wrapper'>
-                                                        <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+                                                        <Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText} width={200} height={200} />
                                                     </div>
                                                 )}
 
@@ -306,7 +306,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 <div className='wrap'>
                                     {tab.content?.image?.sourceUrl && (
                                         <div className='image-wrapper'>
-                                            <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+                                            <Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText} width={200} height={200} />
                                         </div>
                                     )}
 

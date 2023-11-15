@@ -13,7 +13,16 @@ const GET_SCHOOL_DETAILS = gql`
       slug
       uri
       schoolSettings {
-        schoolName
+        details {
+          corporate {
+            schoolName
+          }
+        }
+        classrooms {
+          classroomSelection {
+            selectClassrooms
+          }
+        }
       }
     }
   }
@@ -32,8 +41,9 @@ export default function SchoolsMenu() {
   });
 
   // Extract the school name from the data returned by the query
-  const schoolName = data?.school?.schoolSettings?.schoolName;
+  const schoolName = data?.school?.schoolSettings?.details?.corporate?.schoolName;
   const slug = data?.school?.slug;
+  const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
 
   useEffect(() => {
     const checkScrollPosition = () => {
@@ -84,6 +94,17 @@ export default function SchoolsMenu() {
     }
   };
 
+  const generateClassroomSubmenu = () => {
+    return selectedClassrooms.map(classroom => (
+      <li key={classroom}>
+        <Link className='dropdown-item' href={`/schools/${slug}/classrooms/${classroom.toLowerCase()}`}>
+          {classroom}
+        </Link>
+      </li>
+    ));
+  };
+
+
   return (
     <>
       <div className='navbar-schools'>
@@ -131,6 +152,13 @@ export default function SchoolsMenu() {
                     </ListItem>
                     <ListItem>
                       <a href={`/schools/${slug}/classrooms`} className='b2'>Our Classrooms</a>
+                      {selectedClassrooms.length > 0 && (
+                      <div className='dropdown-menu'>
+                        <ul>
+                          {generateClassroomSubmenu()}
+                        </ul>
+                      </div>
+                    )}
                       <span className='ps-2'>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <circle cx="10" cy="10" r="10" fill="#FBFBFB"/>
@@ -158,7 +186,7 @@ export default function SchoolsMenu() {
         </div>
       </div>
       {/* offset for menu height */}
-      <div className='margin-top'></div>
+      <div className='school-margin-top'></div>
     </>
   );
 }

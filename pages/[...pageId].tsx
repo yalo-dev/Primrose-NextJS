@@ -39,6 +39,7 @@ query GetModules($id: ID = "") {
 			  buttonStyle
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 			rightColumn {
@@ -59,6 +60,7 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 			rightColumn {
@@ -143,6 +145,7 @@ query GetModules($id: ID = "") {
 			  titleColor
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 		  }
@@ -160,6 +163,7 @@ query GetModules($id: ID = "") {
 			images {
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 			customizations {
@@ -185,12 +189,14 @@ query GetModules($id: ID = "") {
 			  titleColor
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralButtonCta {
 			icon {
 			  sourceUrl
+			  altText
 			}
 			heading
 			headingColor
@@ -220,6 +226,7 @@ query GetModules($id: ID = "") {
 			}
 			image {
 			  sourceUrl
+			  altText
 			}
 			customizations {
 			  topPaddingMobile
@@ -235,6 +242,7 @@ query GetModules($id: ID = "") {
 			  content {
 				image {
 				  sourceUrl
+				  altText
 				}
 				heading
 				headingColor
@@ -282,6 +290,7 @@ query GetModules($id: ID = "") {
 				headingColor
 				image {
 				  sourceUrl
+				  altText
 				}
 				subheading
 				subheadingColor
@@ -306,6 +315,7 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  image {
 				sourceUrl
+				altText
 			  }
 			}
 			rightColumn {
@@ -396,6 +406,7 @@ query GetModules($id: ID = "") {
 			headingColor
 			image {
 			  sourceUrl
+			  altText
 			}
 			boxes {
 			  heading
@@ -424,6 +435,7 @@ query GetModules($id: ID = "") {
 			  content {
 				image {
 				  sourceUrl
+				  altText
 				}
 				name
 				nameColor
@@ -463,6 +475,7 @@ query GetModules($id: ID = "") {
 			  title
 			  icon {
 				sourceUrl
+				altText
 			  }
 			}
 			customizations {
@@ -485,6 +498,7 @@ query GetModules($id: ID = "") {
 			tabs {
 			  avatar {
 				sourceUrl
+				altText
 			  }
 			  name
 			  nameColor
@@ -568,6 +582,7 @@ query GetModules($id: ID = "") {
 			slider {
 			  image {
 				sourceUrl
+				altText
 			  }
 			  position
 			  positionColor
@@ -601,14 +616,17 @@ query GetModules($id: ID = "") {
 			rightColumn {
 			  image {
 				sourceUrl
+				altText
 			  }
 			  imageTwo {
 				sourceUrl
+				altText
 			  }
 			  content {
 				imageOrVideo
 				image {
 				  sourceUrl
+				  altText
 				}
 				video {
 				  target
@@ -634,9 +652,11 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  imageDesktop {
 				sourceUrl
+				altText
 			  }
 			  imageMobile {
 				sourceUrl
+				altText
 			  }
 			}
 			rightColumn {
@@ -665,9 +685,11 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  imageDesktop {
 				sourceUrl
+				altText
 			  }
 			  imageMobile {
 				sourceUrl
+				altText
 			  }
 			}
 			rightColumn {
@@ -689,9 +711,11 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  imageDesktop {
 				sourceUrl
+				altText
 			  }
 			  imageMobile {
 				sourceUrl
+				altText
 			  }
 			  announcement {
 				backgroundColor

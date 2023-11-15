@@ -33,6 +33,7 @@ const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
         featuredImage {
           node {
             sourceUrl
+            altText
           }
         }
       }

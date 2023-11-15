@@ -32,6 +32,7 @@ interface ClassroomSelectAndContentProps {
         buttonStyle?: 'primary' | 'secondary' | 'white'; 
         image?: {
             sourceUrl?: string;
+            altText?: string;
         };
     };
     rightColumn: {
@@ -118,7 +119,7 @@ const ClassroomSelectAndContent: React.FC<ClassroomSelectAndContentProps> = ({ a
                         )}
                     </div>
                     {leftColumn.image?.sourceUrl && (
-                        <img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
+                        <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
                     )}
                 </div>
                 <div className="right-column col-12 col-lg-5" style={{ backgroundColor: colorMap[customizations?.backgroundColorRight || ""] }}>
