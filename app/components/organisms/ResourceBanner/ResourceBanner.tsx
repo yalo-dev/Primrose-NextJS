@@ -10,6 +10,7 @@ query GetResourceBannerFields($id: ID = "") {
     ResourceBanner {
       icon {
         sourceUrl
+		altText
       }
       blurb
       button {
@@ -32,6 +33,7 @@ const ResourceBanner = ({ slug }) => {
 
 	const hasContent = bannerData && (
 		bannerData.icon?.sourceUrl ||
+		bannerData.icon?.altText ||
 		bannerData.blurb ||
 		bannerData.button?.title ||
 		bannerData.button?.url ||
@@ -48,7 +50,7 @@ const ResourceBanner = ({ slug }) => {
 
 					{bannerData.icon?.sourceUrl && (
 						<div className='icon-wrapper pe-lg-3 mb-3 mb-lg-0'>
-							<Image src={bannerData.icon.sourceUrl} alt="Banner Icon" width={100} height={100} className='icon mx-auto' />
+							<Image src={bannerData.icon.sourceUrl} alt={bannerData.icon.altText} width={100} height={100} className='icon mx-auto' />
 						</div>
 					)}
 

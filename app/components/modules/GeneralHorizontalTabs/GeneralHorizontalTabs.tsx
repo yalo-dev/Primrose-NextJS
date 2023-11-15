@@ -12,6 +12,7 @@ interface HorizontalTabProps {
 		content: {
 			image?: {
 				sourceUrl?: string;
+				altText?: string;
 			};
 			heading?: string;
 			headingColor?: string;
@@ -20,6 +21,7 @@ interface HorizontalTabProps {
 			list?: {
 				icon: {
 					sourceUrl: string;
+					altText?: string;
 				};
 				text?: string;
 				textColor?: string;
@@ -37,27 +39,27 @@ interface HorizontalTabProps {
 
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
 	
-	const [expandedTab, setExpandedTab] = useState<number | null>(0);
-	const [activePopup, setActivePopup] = useState<string | null>(null);
-	const buttonsRef = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
-	const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
-	const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-	const currentTab = expandedTab !== null ? tabs[expandedTab] : null;
-	const containerRef = useRef<HTMLDivElement | null>(null);
-	const [isSticky, setIsSticky] = useState(false);
+	const [expandedTabGH, setExpandedTabGH] = useState<number | null>(0);
+	const [activePopupGH, setActivePopupGH] = useState<string | null>(null);
+	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
+	const buttonRefsGH = useRef<(HTMLButtonElement | null)[]>([]);
+	const contentRefsGH = useRef<(HTMLDivElement | null)[]>([]);
+	const currentTabGH = expandedTabGH !== null ? tabs[expandedTabGH] : null;
+	const containerRefGH = useRef<HTMLDivElement | null>(null);
+	const [isStickyGH, setIsStickyGH] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (containerRef.current) {
-                const containerTop = containerRef.current.getBoundingClientRect().top;
+        const handleScrollGH = () => {
+            if (containerRefGH.current) {
+                const containerTop = containerRefGH.current.getBoundingClientRect().top;
 
-                contentRefs.current.forEach((contentDiv, index) => {
+                contentRefsGH.current.forEach((contentDiv, index) => {
                     if (contentDiv) {
                         const top = contentDiv.getBoundingClientRect().top;
                         const bottom = contentDiv.getBoundingClientRect().bottom;
                         
                         if (top <= 120 && bottom >= 120) {
-                            setExpandedTab(index);
+                            setExpandedTabGH(index);
                         }
                     }
                 });
@@ -65,22 +67,22 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
                 const lastContentOffset = document.querySelector('.general-horizontal-tabs .desktop-content:last-child')?.getBoundingClientRect().bottom;
 
                 if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
-                    setIsSticky(true);
+                    setIsStickyGH(true);
                 } else {
-                    setIsSticky(false);
+                    setIsStickyGH(false);
                 }
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScrollGH);
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScrollGH);
         }
     }, []);
 
-	const slideAnimationProps = useSpring({
-		opacity: expandedTab !== null ? 1 : 0,
-		transform: expandedTab !== null ? 'scaleY(1)' : 'scaleY(0)',
+	const slideAnimationPropsGH = useSpring({
+		opacity: expandedTabGH !== null ? 1 : 0,
+		transform: expandedTabGH !== null ? 'scaleY(1)' : 'scaleY(0)',
 		from: {
 			opacity: 0,
 			transform: 'scaleY(0)'
@@ -88,40 +90,38 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		config: { tension: 280, friction: 60 }
 	});
 
-	const fadeInAnimationProps = useSpring({
-		opacity: expandedTab !== null ? 1 : 0,
+	const fadeInAnimationPropsGH = useSpring({
+		opacity: expandedTabGH !== null ? 1 : 0,
 		from: {
 			opacity: 0
 		}
 	});
 	
-	const handleIconClick = (index: number, idx: number) => {
+	const handleIconClickGH = (index: number, idx: number) => {
 		const uniqueId = `${index}-${idx}`;
-		const targetButton = buttonsRef.current[index][idx];
+		const targetButton = buttonsRefGH.current[index][idx];
 		
 		if (targetButton && targetButton.classList.contains('has-popup')) {
-			if (activePopup === uniqueId) {
-				setActivePopup(null); 
+			if (activePopupGH === uniqueId) {
+				setActivePopupGH(null); 
 			} else {
-				setActivePopup(uniqueId); 
+				setActivePopupGH(uniqueId); 
 			}
 		}
 	};
 	
+	const handleLabelClickGH = (index: number) => {
 	
-	
-	const handleLabelClick = (index: number) => {
-	
-		if (expandedTab === index) {
-			setExpandedTab(null);
+		if (expandedTabGH === index) {
+			setExpandedTabGH(null);
 		} else {
-			setExpandedTab(index);
+			setExpandedTabGH(index);
 		}
 	
 		// Scroll logic
 		setTimeout(() => {
-			const buttonElement = buttonRefs.current[index];
-			const contentElement = contentRefs.current[index];
+			const buttonElement = buttonRefsGH.current[index];
+			const contentElement = contentRefsGH.current[index];
 	
 			if (buttonElement && contentElement) {
 				if (window.innerWidth >= 992) { // Desktop
@@ -146,35 +146,35 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	};
 	
 	useEffect(() => {
-		const handleScroll = () => {
-			if (containerRef.current) {
-				const containerTop = containerRef.current.getBoundingClientRect().top;
-				const lastContentOffset = document.querySelector('.desktop-content:last-child')?.getBoundingClientRect().bottom;
+		const handleScrollGH = () => {
+			if (containerRefGH.current) {
+				const containerTop = containerRefGH.current.getBoundingClientRect().top;
+				const lastContentOffset = document.querySelector('.general-horizontal-tabs .desktop-content:last-child')?.getBoundingClientRect().bottom;
 
 				if (containerTop <= 120 && lastContentOffset && lastContentOffset > 0) {
-					setIsSticky(true);
+					setIsStickyGH(true);
 				} else {
-					setIsSticky(false);
+					setIsStickyGH(false);
 				}
 			}
 		};
 
-		window.addEventListener('scroll', handleScroll);
+		window.addEventListener('scroll', handleScrollGH);
 		return () => {
-			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('scroll', handleScrollGH);
 		}
 	}, []);
 
 	useEffect(() => {
 		tabs.forEach((_, index) => {
-			if (!buttonsRef.current[index]) {
-				buttonsRef.current[index] = [];
+			if (!buttonsRefGH.current[index]) {
+				buttonsRefGH.current[index] = [];
 			}
 		});
 	}, []);
 	
 	return (
-		<div className={`container ${isSticky ? 'sticky' : ''}`} ref={containerRef}>
+		<div className={`container ${isStickyGH ? 'sticky' : ''}`} ref={containerRefGH}>
 			<Customizations
 				topPaddingMobile={customizations?.topPaddingMobile}
 				topPaddingDesktop={customizations?.topPaddingDesktop}
@@ -189,11 +189,11 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 							
 							<div key={index}>
 								<button
-									ref={(el) => buttonRefs.current[index] = el}
-									onClick={() => handleLabelClick(index)}
+									ref={(el) => buttonRefsGH.current[index] = el}
+									onClick={() => handleLabelClickGH(index)}
 									data-id={`content-${index}`}
 									id={`button-${index}`}
-									className={expandedTab === index ? 'expanded' : ''}
+									className={expandedTabGH === index ? 'clickable expanded' : 'clickable'}
 								>
 									{tab.label && <Heading level='h5' color={tab.tabLabelColor}>{tab.label}
 										<div id="button">
@@ -205,12 +205,12 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 
 								{/* Mobile: Content rendered right below the label */}
 								<div className="d-lg-none">
-									{expandedTab === index && (
-										<animated.div style={slideAnimationProps} className="tab-content" ref={(el) => contentRefs.current[index] = el}
+									{expandedTabGH === index && (
+										<animated.div style={slideAnimationPropsGH} className="tab-content" ref={(el) => contentRefsGH.current[index] = el}
 										>
 											{tab.content.image?.sourceUrl && (
 												<div className='image-wrapper'>
-													<Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+													<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
 												</div>
 											)}
 
@@ -222,11 +222,11 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 														<li key={idx}>
 															<div className="icon-and-popup-container d-flex flex-lg-column align-center justify-content-lg-center">
 															<button
-																ref={el => buttonsRef.current[index][idx] = el}
+																ref={el => buttonsRefGH.current[index][idx] = el}
 
 
-																className={`icon-container ${activePopup === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
-																onClick={() => handleIconClick(index, idx)}
+																className={`icon-container ${activePopupGH === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
+																onClick={() => handleIconClickGH(index, idx)}
 															>
 																{item.icon?.sourceUrl && (
 																	<Image
@@ -239,7 +239,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 															</button>
 
 																<span className='ps-4' color={item.textColor}>{item.text}</span>
-																<div className={`details-popup ${activePopup === `${index}-${idx}` ? 'active' : ''}`}>
+																<div className={`details-popup ${activePopupGH === `${index}-${idx}` ? 'active' : ''}`}>
 																	<div className='title-container'>
 																		{item.text && <Subheading level='div' className='title'>{item.text}</Subheading>}
 																	</div>
@@ -266,11 +266,11 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					
 
 						{tabs.map((tab, index) => (
-                			<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefs.current[index] = el}>
+                			<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefsGH.current[index] = el}>
 
 								{tab.content?.image?.sourceUrl && (
 									<div className='image-wrapper'>
-										<Image src={tab.content.image.sourceUrl} alt="Tab Image" width={200} height={200} />
+										<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
 									</div>
 								)}
 
@@ -282,16 +282,16 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 											<li key={idx}>
 												<div className="icon-and-popup-container d-flex flex-lg-row align-center justify-content-lg-center">
 													<button
-														ref={el => buttonsRef.current[index][idx] = el}
+														ref={el => buttonsRefGH.current[index][idx] = el}
 
 
-														className={`icon-container ${activePopup === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
-														onClick={() => handleIconClick(index, idx)}
+														className={`icon-container ${activePopupGH === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`}
+														onClick={() => handleIconClickGH(index, idx)}
 													>
 														{item.icon?.sourceUrl && (
 															<Image
 																src={item.icon.sourceUrl}
-																alt="List Icon"
+																alt={item.icon.altText || ''}
 																width={30}
 																height={30}
 															/>
@@ -299,7 +299,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 													</button>
 
 													<span className='ps-4' color={item.textColor}>{item.text}</span>
-													<div className={`details-popup ${activePopup === `${index}-${idx}` ? 'active' : ''}`}>
+													<div className={`details-popup ${activePopupGH === `${index}-${idx}` ? 'active' : ''}`}>
 														{item.detailsPopUp && (
 															<>
 																<div className='title-container'>

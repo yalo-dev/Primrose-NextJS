@@ -9,6 +9,7 @@ import Slider from "react-slick";
 interface SliderItem {
     image?: {
         sourceUrl?: string;
+        altText?: string;
     };
     position?: string;
     positionColor?: string;
@@ -94,7 +95,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                 
                                     {slide.image && slide.image.sourceUrl &&
                                     <div className="image-wrap">
-                                        <Image src={slide.image.sourceUrl} alt={slide.title || "Slide image"} width={500} height={300} />
+                                        <Image src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
                                         </div>
                                     }
                                 

@@ -12,6 +12,7 @@ interface FindASchoolProps {
     images?: {
         image: {
             sourceUrl?: string;
+            altText?: string;
         };
     }[];
     button?: {
@@ -90,18 +91,18 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                     <>
                     <div className="image-scroller first" ref={leftScrollerRef}>
                         {images.map((imgObj, idx) => (
-                                    imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                                    imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.image.altText} />
                         ))}
                         {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.image.altText} />
                         ))}
                     </div>
                     <div className="image-scroller second" ref={rightScrollerRef}>
                         {images.map((imgObj, idx) => (
-                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.image.altText} />
                         ))}
                         {images.map((imgObj, idx) => (  // Duplicating for infinite scroll illusion
-                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={`Image ${idx + 1}`} />
+                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.image.altText} />
                         ))}
                     </div>
                     </>

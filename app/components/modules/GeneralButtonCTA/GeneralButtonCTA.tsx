@@ -24,6 +24,7 @@ interface GeneralButtonCTAProps {
     }
 	icon?: {
 		sourceUrl?: string;
+		altText?: string;
 	};
 	heading?: string;
     headingColor?: string;
@@ -36,6 +37,7 @@ interface GeneralButtonCTAProps {
 	};
 	image?: {
 		sourceUrl?: string;
+		altText?: string;
 	};
 	dropdown?: {
 		option?: {
@@ -90,7 +92,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 					>
 					{icon?.sourceUrl && (
 						<div className='icon pb-4 pb-lg-0 pe-lg-5'>
-							<Image src={icon.sourceUrl} alt="Icon" width={75} height={75} />
+							<Image src={icon.sourceUrl} alt={icon.altText || ''}  width={75} height={75} />
 						</div>
 					)}
 					<div className='wrapper'>
@@ -103,7 +105,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
 						)}
 						{image?.sourceUrl && (
                             <div className="image-wrap">
-                                <Image src={image.sourceUrl} alt="Image" width={500} height={300} />
+                                <Image src={image.sourceUrl} alt={image.altText || ''}  width={500} height={300} />
                             </div>
                         )}
 

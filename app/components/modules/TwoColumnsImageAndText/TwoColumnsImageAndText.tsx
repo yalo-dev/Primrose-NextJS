@@ -22,9 +22,11 @@ interface TwoColumnsImageAndTextProps {
     leftColumn?: {
         imageDesktop?: {
             sourceUrl?: string;
+            altText?: string;
         };
         imageMobile?: {
             sourceUrl?: string;
+            altText?: string;
         };
         announcement?: {
             backgroundColor?: string;
@@ -67,7 +69,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                             <Image 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
-                                alt='Featured Image Mobile' 
+                                alt={leftColumn?.imageMobile?.altText || '' } 
                                 width={500} 
                                 height={500} 
                             />
@@ -76,7 +78,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                             <Image 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
-                                alt='Featured Image Desktop' 
+                                alt={leftColumn?.imageDesktop?.altText || '' } 
                                 width={1000} 
                                 height={1000} 
                             />

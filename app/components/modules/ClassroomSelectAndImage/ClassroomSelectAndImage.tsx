@@ -21,6 +21,7 @@ interface ClassroomSelectAndImageProps {
 	leftColumn: {
 		image?: {
 			sourceUrl?: string;
+            altText?: string;
 		};
 	};
 	rightColumn: {
@@ -98,7 +99,7 @@ const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ accen
                 <div className="classroom-select-and-image">
                     {leftColumn.image?.sourceUrl && (
                         <div className="left-column col-12 col-lg-5 offset-lg-1">
-                            <img src={leftColumn.image.sourceUrl} alt="Classroom Featured Image" />
+                            <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
                         </div>
                     )}
     

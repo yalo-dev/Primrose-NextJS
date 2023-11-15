@@ -8,23 +8,36 @@ export async function getServerSideProps(context) {
 
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
-      school(id: $id, idType: URI) {
-        id
-        slug
-        uri
-        featuredImage {
-          node {
-          sourceUrl
+        school(id: $id, idType: URI) {
+          id
+          slug
+          uri
+          featuredImage {
+            node {
+              sourceUrl
+            }
+          }
+          schoolSettings {
+            details {
+                corporate {
+                    schoolName
+                    address {
+                      streetAddress
+                      streetAddress2
+                      city
+                      state
+                      zipcode
+                    }
+                    emailAddress
+                    phoneNumber
+                    latitude
+                    longitude
+                    schoolOpening
+                  }
+            }
           }
         }
-        schoolSettings {
-          schoolName
-          address
-          emailAddress
-          phoneNumber
-        }
       }
-    }
     `;
     try {
         const response = await client.query({

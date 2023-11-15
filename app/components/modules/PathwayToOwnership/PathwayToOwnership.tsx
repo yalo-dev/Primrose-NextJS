@@ -12,6 +12,7 @@ interface PathwayToOwnershipProps {
     headingColor?: string;
     image?: {
         sourceUrl?: string;
+        altText?: string;
     };
     boxes?: {
         heading?: string;
@@ -24,6 +25,7 @@ interface PathwayToOwnershipProps {
         }[];
         icon?: {
             sourceUrl?: string;
+            altText?: string;
         };
     }[];
     customizations?: {
@@ -72,7 +74,7 @@ const PathwayToOwnership: React.FC<PathwayToOwnershipProps> = ({
                             <Heading level="h2" color={headingColor}>{heading}</Heading>
                             <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>
                             <div className='d-none d-lg-block featured-img'>
-                                {image?.sourceUrl && <Image src={image.sourceUrl} alt="Pathway Image" width='536' height='520' />}
+                                {image?.sourceUrl && <Image src={image.sourceUrl} alt={image.altText || ''} width='536' height='520' />}
                             </div>
                         </div>
                     </div>
@@ -80,7 +82,7 @@ const PathwayToOwnership: React.FC<PathwayToOwnershipProps> = ({
                         {boxes?.map((box, index) => (
                             <div key={index} className="box">
                                 <div className='icon'>
-                                    {box.icon?.sourceUrl && <Image src={box.icon.sourceUrl} alt="Box Icon" width='25' height='25' />}
+                                    {box.icon?.sourceUrl && <Image src={box.icon.sourceUrl} alt={box.icon.altText || ''} width='25' height='25' />}
                                 </div>
                                 <Heading level="h3" color={box.headingColor}>{box.heading}</Heading>
                                 <Subheading level="div" className='b3' color={box.subheadingColor}>{box.subheading}</Subheading>
