@@ -1,3 +1,16 @@
+# local env files
+.env.local
+
+# next.js
+/.next/
+
+# vercel
+.vercel
+
+# misc
+*.gz
+.DS_Store
+
 .next/*
 /node_modules/
 .next/cache/webpack/client-development/0.pack.gz
