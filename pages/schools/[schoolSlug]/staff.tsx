@@ -6,15 +6,54 @@ export async function getServerSideProps(context) {
     const { schoolSlug } = context.params;
 
     const GET_SCHOOL_STAFF = gql`
-      query GetSchoolStaff($id: ID!) {
+    query SchoolData($id: ID!) {
         school(id: $id, idType: URI) {
+          id
+          slug
+          uri
           schoolSettings {
+            details {
+              general {
+                scheduleATour {
+                  heading
+                  subheading
+                  button {
+                    target
+                    title
+                    url
+                  }
+                  images {
+                    altText
+                    image {
+                      sourceUrl
+                    }
+                  }
+                }
+              }
+            }
             staff {
-              name
-              title
-              bio
-              image {
-                sourceUrl
+              staffMembers {
+                altText
+                image {
+                  sourceUrl
+                }
+                name
+                title
+                bio
+                group
+              }
+              franchiseOwners {
+                leftColumn {
+                  name
+                  bio
+                  oneOrMultiple
+                }
+                rightColumn {
+                  altText
+                  image {
+                    sourceUrl
+                  }
+                }
               }
             }
           }
