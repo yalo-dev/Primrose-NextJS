@@ -1,5 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { useRouter } from 'next/router';
 import Heading from "../../../../app/components/atoms/Heading/Heading";
 import Subheading from "../../../../app/components/atoms/Subheading/Subheading";
@@ -141,8 +141,8 @@ export default function ClassroomPage() {
 
         const handleScroll = () => {
             if (window.innerWidth >= desktopBreakpoint) {
-                const innerElement = document.querySelector('.inner') as HTMLElement;
-                const tabContentElement = document.querySelector('.desktop-content') as HTMLElement;
+                const innerElement = document.querySelector('.general-horizontal-tabs-module .inner') as HTMLElement;
+                const tabContentElement = document.querySelector('.general-horizontal-tabs-module .desktop-content') as HTMLElement;
 
                 if (innerElement && tabContentElement) {
                     const innerTop = innerElement.getBoundingClientRect().top;
@@ -158,20 +158,18 @@ export default function ClassroomPage() {
                     }
                 }
             } else {
-                // Ensure that sticky class is not applied on mobile devices
-                const innerElement = document.querySelector('.inner') as HTMLElement;
+                const innerElement = document.querySelector('.general-horizontal-tabs-module .inner') as HTMLElement;
                 if (innerElement) {
                     innerElement.classList.remove('sticky');
                 }
-                // Also, prevent the expansion of tabs based on scroll on mobile devices
                 return;
             }
 
             // Desktop logic for expanding tabs based on scroll
-            document.querySelectorAll('.tab-content').forEach((section) => {
+            document.querySelectorAll('.general-horizontal-tabs-module .tab-content').forEach((section) => {
                 if (isElementInViewport(section)) {
                     const target = section.getAttribute('id');
-                    document.querySelectorAll('.clickable').forEach((btn) => {
+                    document.querySelectorAll('.general-horizontal-tabs-module .clickable').forEach((btn) => {
                         if (btn.getAttribute('data-target') === target) {
                             btn.classList.add('expanded');
                         } else {
@@ -206,7 +204,7 @@ export default function ClassroomPage() {
                 if (window.innerWidth < desktopBreakpoint) {
                     return;
                 }
-                const btn = event.target.closest('.clickable');
+                const btn = event.target.closest('.general-horizontal-tabs-module .clickable');
                 if (!btn) return;
                 const targetId = btn.getAttribute('data-target');
                 if (targetId) {
@@ -221,7 +219,7 @@ export default function ClassroomPage() {
                     }
                 }
             };
-            const clickableButtons = document.querySelectorAll('.clickable');
+            const clickableButtons = document.querySelectorAll('.general-horizontal-tabs-module .clickable');
             clickableButtons.forEach(btn => btn.addEventListener('click', handleClick));
             return () => {
                 clickableButtons.forEach(btn => btn.removeEventListener('click', handleClick));
@@ -336,6 +334,7 @@ export default function ClassroomPage() {
                                         alt="Hero Image"
                                         layout="fill"
                                         objectFit="cover"
+                                        priority
                                     />
                                 </div>
                             )}
@@ -348,6 +347,7 @@ export default function ClassroomPage() {
                                                 alt="Hero Image"
                                                 layout="fill"
                                                 objectFit="cover"
+                                                priority
                                             />
                                         </div>
                                     )}

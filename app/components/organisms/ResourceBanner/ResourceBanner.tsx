@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import Button from '../../atoms/Button/Button';
 import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 const GET_RESOURCE_BANNER_FIELDS = gql`
 query GetResourceBannerFields($id: ID = "") {

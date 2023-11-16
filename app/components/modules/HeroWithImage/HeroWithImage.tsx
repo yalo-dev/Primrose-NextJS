@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
@@ -57,7 +57,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (
                     <div className='left-column col-12 col-lg-6'>
-                        <Image src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} layout="fill" objectFit="cover" sizes='large' />
+                        <Image src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} priority layout="fill" objectFit="cover" sizes='large' />
                     </div>
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (

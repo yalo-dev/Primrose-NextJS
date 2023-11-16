@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import ColorComponent from '../../filters/ColorComponent';
 import Customizations from '../../filters/Customizations';
 import Heading from '../../atoms/Heading/Heading';
