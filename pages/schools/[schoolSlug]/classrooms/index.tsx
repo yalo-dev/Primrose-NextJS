@@ -1,5 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { useRouter } from 'next/router';
 import Heading from "../../../../app/components/atoms/Heading/Heading";
 import Subheading from "../../../../app/components/atoms/Subheading/Subheading";

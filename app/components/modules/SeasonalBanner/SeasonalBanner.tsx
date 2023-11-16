@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
