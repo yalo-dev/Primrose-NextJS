@@ -56,6 +56,7 @@ function MyApp({ Component, pageProps }) {
 					siteSettings {
 						siteSettings {
 							copyrightInfo
+							disclaimer
 							footerLinks {
 								link {
 								url
@@ -68,6 +69,9 @@ function MyApp({ Component, pageProps }) {
 								altText
 							}
 							socialIcons {
+								link {
+									url
+								}
 								icon {
 								sourceUrl
 								altText
