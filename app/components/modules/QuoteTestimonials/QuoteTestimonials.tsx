@@ -98,7 +98,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                     className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                                 >
                                    
-								   <Image 
+								   <img
 										src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
 										alt="Avatar" 
 										width={50} 
@@ -163,7 +163,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                 className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                             >
                               
-							  <Image 
+							  <img
 									src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
 									alt={tab.avatar?.altText || ''}
 									width={50} 

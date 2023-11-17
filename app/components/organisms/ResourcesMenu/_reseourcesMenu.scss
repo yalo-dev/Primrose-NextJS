@@ -51,10 +51,13 @@
     }
 }
 
-.margin-top {
-    display: block;
-    margin-top: 99px;
+.resource-margin-top {
+    display: block; 
+    height: 100px;
     @include media-breakpoint-up(sm) {
-        margin-top: 72px;
+        height: 72px;
+    }
+    @include media-breakpoint-up(lg) {
+        height: 74px;
     }
 }

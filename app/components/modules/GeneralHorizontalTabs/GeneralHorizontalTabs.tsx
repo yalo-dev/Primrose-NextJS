@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import { useSpring, animated } from 'react-spring';
@@ -210,7 +209,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 										>
 											{tab.content.image?.sourceUrl && (
 												<div className='image-wrapper'>
-													<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
+													<img src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
 												</div>
 											)}
 
@@ -229,7 +228,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 																onClick={() => handleIconClickGH(index, idx)}
 															>
 																{item.icon?.sourceUrl && (
-																	<Image
+																	<img
 																		src={item.icon.sourceUrl}
 																		alt="List Icon"
 																		width={30}
@@ -270,7 +269,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 
 								{tab.content?.image?.sourceUrl && (
 									<div className='image-wrapper'>
-										<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
+										<img src={tab.content.image.sourceUrl} alt={tab.content.image.altText  || ''} width={200} height={200} />
 									</div>
 								)}
 
@@ -289,7 +288,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 														onClick={() => handleIconClickGH(index, idx)}
 													>
 														{item.icon?.sourceUrl && (
-															<Image
+															<img
 																src={item.icon.sourceUrl}
 																alt={item.icon.altText || ''}
 																width={30}

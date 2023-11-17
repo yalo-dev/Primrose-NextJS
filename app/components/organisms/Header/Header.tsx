@@ -11,7 +11,7 @@ export default function Header({ menuItems }) {
     const showSchoolsMenu = router.pathname.includes('/schools');
 
     return (
-        <header className='header border-bottom'>
+        <header className='header'>
             <title>Primrose Schools</title>
             <nav className='navbar navbar-expand-lg fixed-top'>
                 <div className='container'>

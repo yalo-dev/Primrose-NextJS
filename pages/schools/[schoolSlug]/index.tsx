@@ -42,10 +42,10 @@ export async function getServerSideProps(context) {
     try {
         const response = await client.query({
             query: GET_SCHOOLS,
-            variables: { id: `/schools/${schoolSlug}/` }, // Make sure the ID matches the expected format for the URI in WP
+            variables: { id: `/schools/${schoolSlug}/` },
         });
 
-        console.log("GraphQL Response:", response); // Log the entire response
+        console.log("GraphQL Response:", response); 
 
         if (response.errors) {
             console.error('GraphQL Errors:', response.errors);
@@ -54,10 +54,10 @@ export async function getServerSideProps(context) {
 
         const school = response?.data?.school;
 
-        console.log("School Data:", school); // Log the school data
+        console.log("School Data:", school); 
 
         if (!school) {
-            return { notFound: true }; // If there's no school data, return a notFound response
+            return { notFound: true };
         }
 
         return {
@@ -68,8 +68,7 @@ export async function getServerSideProps(context) {
         };
     } catch (error) {
         console.error('getServerSideProps Error:', error);
-        // Return an error page or some error handling here
-        return { props: { hasError: true } }; // Example error handling
+        return { props: { hasError: true } }; 
     }
 }
 
@@ -79,9 +78,6 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     return (
         <section className='module pt-4 pb-4'>
             <div className='container'>
-                <a href={`/schools/`}>
-                    ← Back to Schools
-                </a>
                 <div className='row'>
                     <h1 className="title">{schoolSettings.schoolName}</h1>
                 </div>

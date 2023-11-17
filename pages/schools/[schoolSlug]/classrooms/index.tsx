@@ -121,6 +121,48 @@ export default function ClassroomPage() {
     });
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
+    const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+    const scrollContent = () => {
+        const leftScroller = leftScrollerRef.current;
+        const rightScroller = rightScrollerRef.current;
+
+        if (leftScroller) {
+            leftScroller.scrollTop += 1;
+            if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
+                leftScroller.scrollTop = 0;
+            }
+        }
+
+        if (rightScroller) {
+            rightScroller.scrollTop -= 1;
+            if (rightScroller.scrollTop <= 0) {
+                rightScroller.scrollTop = rightScroller.scrollHeight / 2;
+            }
+        }
+    };
+
+    useEffect(() => {
+        const checkIfImagesLoaded = () => {
+            const images = document.querySelectorAll('.find-a-school .image-scroller img');
+            return Array.from(images).every((img) => (img as HTMLImageElement).complete);
+        };
+        if (checkIfImagesLoaded()) {
+            setAllImagesLoaded(true);
+            setInterval(scrollContent, 20);
+        } else {
+            const images = document.querySelectorAll('.find-a-school .image-scroller img');
+            images.forEach((img) => {
+                img.addEventListener('load', () => {
+                    if (checkIfImagesLoaded()) {
+                        setAllImagesLoaded(true);
+                        setInterval(scrollContent, 20);
+                    }
+                });
+            });
+        }
+    }, []);
+
 
 
     useEffect(() => {
@@ -372,7 +414,7 @@ export default function ClassroomPage() {
                         <h2 className="heading">Classrooms Offered</h2>
                         <div className="general-horizontal-tabs">
                             <div className="inner">
-                                {isClassroomSelected('infant') && (
+                                {isClassroomSelected('Infant') && (
                                     <div>
                                         <button data-target="infant" className={`clickable ${activeTab === 'infant' ? 'expanded' : ''}`} onClick={() => handleTabClick('infant')}>
                                             <Heading level='h5'>Infant
@@ -398,7 +440,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('toddler') && (
+                                {isClassroomSelected('Toddler') && (
                                     <div>
                                         <button data-target="toddler" className={`clickable ${activeTab === 'toddler' ? 'expanded' : ''}`} onClick={() => handleTabClick('toddler')}>
                                             <Heading level='h5'>Toddler
@@ -424,7 +466,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('early-preschool') && (
+                                {isClassroomSelected('Early Preschool') && (
                                     <div>
                                         <button data-target="early-preschool" className={`clickable ${activeTab === 'early-preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('early-preschool')}>
                                             <Heading level='h5'>Early Preschool
@@ -450,7 +492,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('preschool') && (
+                                {isClassroomSelected('Preschool') && (
                                     <div>
                                         <button data-target="preschool" className={`clickable ${activeTab === 'preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool')}>
                                             <Heading level='h5'>Preschool
@@ -476,7 +518,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('pre-kindergarten') && (
+                                {isClassroomSelected('Pre-Kindergarten') && (
                                     <div>
                                         <button data-target="pre-kindergarten" className={`clickable ${activeTab === 'pre-kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('pre-kindergarten')}>
                                             <Heading level='h5'>Pre-Kindergarten
@@ -502,7 +544,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('kindergarten') && (
+                                {isClassroomSelected('Kindergarten') && (
                                     <div>
                                         <button data-target="kindergarten" className={`clickable ${activeTab === 'kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('kindergarten')}>
                                             <Heading level='h5'>Kindergarten
@@ -532,7 +574,7 @@ export default function ClassroomPage() {
 
                             {/* Desktop: Content rendered outside the loop in a designated area */}
                             <div className='desktop-content d-none d-lg-block'>
-                                {isClassroomSelected('infant') && (
+                                {isClassroomSelected('Infant') && (
                                     <div id="infant" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/1.mov" />
@@ -544,7 +586,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('toddler') && (
+                                {isClassroomSelected('Toddler') && (
                                     <div id="toddler" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/2.mov" />
@@ -556,7 +598,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('early-preschool') && (
+                                {isClassroomSelected('Early Preschool') && (
                                     <div id="early-preschool" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
@@ -568,7 +610,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('preschool') && (
+                                {isClassroomSelected('Preschool') && (
                                     <div id="preschool" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/4.mov" />
@@ -580,7 +622,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('pre-kindergarten') && (
+                                {isClassroomSelected('Pre-Kindergarten') && (
                                     <div id="pre-kindergarten" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/5.mov" />
@@ -592,7 +634,7 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
-                                {isClassroomSelected('kindergarten') && (
+                                {isClassroomSelected('Kindergarten') && (
                                     <div id="kindergarten" className="tab-content d-flex">
 
                                         <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/6.mov" />

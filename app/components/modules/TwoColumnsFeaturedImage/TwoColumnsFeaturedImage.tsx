@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
@@ -72,10 +71,10 @@ const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftC
                 
                 <div className='right-column col-12 col-lg-6'>
                     {rightColumn?.image?.sourceUrl && (
-                       <div className='img1'> <Image src={rightColumn.image.sourceUrl} alt={rightColumn.image.altText || ''} width={312} height={238} /></div>
+                       <div className='img1'> <img src={rightColumn.image.sourceUrl} alt={rightColumn.image.altText || ''} width={312} height={238} /></div>
                     )}
                     {rightColumn?.imageTwo?.sourceUrl && (
-                        <div className='img2'>  <Image src={rightColumn.imageTwo.sourceUrl} alt={rightColumn.imageTwo.altText || ''} width={312} height={338} /></div>
+                        <div className='img2'>  <img src={rightColumn.imageTwo.sourceUrl} alt={rightColumn.imageTwo.altText || ''} width={312} height={338} /></div>
                     )}
                     {rightColumn?.content?.imageOrVideo === 'Image' && rightColumn?.content?.image?.sourceUrl && (
                         <div className='img3'>  <img src={rightColumn?.content?.image?.sourceUrl} alt={rightColumn?.content?.image?.altText} /></div>

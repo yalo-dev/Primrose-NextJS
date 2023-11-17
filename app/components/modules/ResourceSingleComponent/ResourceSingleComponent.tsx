@@ -126,7 +126,7 @@ export default function ResourceComponent({ singleSlug }) {
 		variables: { id: singleSlug },
 	});
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <div></div>;
 	if (error) return <div>Error: {error.message}</div>;
 	const resource = data?.resource;
 

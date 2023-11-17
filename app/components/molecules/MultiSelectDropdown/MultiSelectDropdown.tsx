@@ -14,7 +14,7 @@ interface MultiSelectProps {
 
 export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
     const { options, onSelect, placeholder = "Select" } = props;
-    const selected = props.selected || [];
+    //const selected = props.selected || [];
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -22,6 +22,7 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
     const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
 
     const contentRef = useRef<HTMLDivElement | null>(null);
+    const [selected, setSelected] = useState<string[]>(props.selected || []);
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
@@ -49,14 +50,21 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
         e.stopPropagation();
     };
 
+    // const toggleOption = (value: string) => {
+    //     const newSelected = selected.includes(value)
+    //         ? selected.filter(v => v !== value)
+    //         : [...selected, value];
+
+    //     onSelect(newSelected);
+    // };
     const toggleOption = (value: string) => {
         const newSelected = selected.includes(value)
             ? selected.filter(v => v !== value)
             : [...selected, value];
 
+        setSelected(newSelected);
         onSelect(newSelected);
     };
-
     return (
 <div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
@@ -67,7 +75,7 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
             <div className="options" style={{ height: `${contentHeight}px` }}>
                 <div ref={contentRef}>
                     {options.map(opt => (
-                        <div key={opt.value} className="option">
+                            <div key={opt.value} className={`option ${selected.includes(opt.value) ? 'active' : ''}`}>
                             <input
                                 type="checkbox"
                                 id={opt.value}
