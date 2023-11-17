@@ -67,7 +67,7 @@ export default function ResourcesMenu() {
         </div>
       </div>
       {/* offset for menu height */}
-      <div className='margin-top'></div>  
+      <div className='resource-margin-top'></div>  
     </>
   );
 }

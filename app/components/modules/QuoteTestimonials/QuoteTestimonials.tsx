@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Customizations from '../../filters/Customizations';
 import ColorComponent from '../../filters/ColorComponent';
@@ -15,6 +15,7 @@ interface QuoteTestimonialsProps {
 	tabs: {
 		avatar: {
 			sourceUrl: string;
+			altText: string;
 		};
 		name: string;
 		nameColor: string;
@@ -97,7 +98,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                     className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                                 >
                                    
-								   <Image 
+								   <img
 										src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
 										alt="Avatar" 
 										width={50} 
@@ -162,9 +163,9 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                 className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                             >
                               
-							  <Image 
+							  <img
 									src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-									alt="Avatar" 
+									alt={tab.avatar?.altText || ''}
 									width={50} 
 									height={50} 
 									className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}

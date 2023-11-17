@@ -11,7 +11,10 @@ interface SliderItem {
     blurbColor: string;
     title: string;
     titleColor: string;
-    image: { sourceUrl: string; };
+    image: { 
+        sourceUrl: string; 
+        altText?: string;
+    };
 }
 
 interface CustomizationsProps {
@@ -66,7 +69,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                                 <div className='featured-slider' key={index}>
                                     <div className='image'>
                                     {slide.image &&
-                                        <img src={slide.image.sourceUrl} alt={slide.title} />
+                                        <img src={slide.image.sourceUrl} alt={slide.image.altText} />
                                     }
                                     </div>
                                     <div className='content'>

@@ -5,6 +5,7 @@ import Customizations from '../../filters/Customizations';
 
 interface IconProps {
     sourceUrl: string;
+    altText: string;
 }
 
 interface ListItemProps {
@@ -80,7 +81,7 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
                                 className={`icon-container ${activePopup === idx ? 'active' : ''}`}
                                 onClick={() => handleIconClick(idx)}
                             >
-                                {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.title || 'Icon'} />}
+                                {item.icon?.sourceUrl && <img src={item.icon.sourceUrl} alt={item.icon.altText || 'Icon'} />}
                             </button>
 
                                 <div className={`details-popup ${activePopup === idx ? 'active' : ''}`}>

@@ -14,6 +14,7 @@ interface FourAcrossSlide {
     titleColor?: string;
     image?: {
         sourceUrl?: string;
+        altText?: string;
     };
 }
 
@@ -98,7 +99,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
                     {fourAcrossSlider.map((slide, index) => (
                         <div className='slide-content p-2' key={index}>
                             {slide.image && slide.image.sourceUrl && (
-                                <img src={slide.image.sourceUrl} alt={slide.title || "slide image"} width="100%" height="auto" />
+                                <img src={slide.image.sourceUrl} alt={slide.image.altText} width="100%" height="auto" />
                             )}
                             {slide.title && (
                                 <Heading level='h5' color={slide.titleColor}>{slide.title}</Heading>

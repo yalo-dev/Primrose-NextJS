@@ -1,22 +1,15 @@
-.next/*
+# local env files
+.env.local
+
+# next.js
+/.next/
+
+# vercel
+.vercel
+
+# misc
+*.gz
+.DS_Store
+
+# dependencies
 /node_modules/
-.next/cache/webpack/client-development/0.pack.gz
-.next/cache/webpack/client-development/1.pack.gz
-.next/cache/webpack/client-development/2.pack.gz
-.next/cache/webpack/client-development/index.pack.gz
-.next/cache/webpack/client-development/index.pack.gz.old
-.next/cache/webpack/server-development/0.pack.gz
-.next/cache/webpack/server-development/1.pack.gz
-.next/cache/webpack/server-development/2.pack.gz
-.next/cache/webpack/server-development/index.pack.gz
-.next/cache/webpack/server-development/index.pack.gz.old
-.next/server/pages-manifest.json
-.next/server/pages/_app.js
-.next/server/pages/_document.js
-.next/server/pages/_error.js
-.next/server/pages/index.js
-.next/server/pages/resources.js
-.next/server/pages/resources/\[...slug\].js
-.next/static/chunks/pages/_app.js
-.next/static/chunks/pages/resources/\[...slug\].js
-.next/static/chunks/webpack.js

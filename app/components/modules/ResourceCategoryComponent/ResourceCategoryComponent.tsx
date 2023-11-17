@@ -33,6 +33,7 @@ const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
         featuredImage {
           node {
             sourceUrl
+            altText
           }
         }
       }
@@ -184,7 +185,7 @@ export default function CategoryComponent() {
     </div>
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p></p>;
   if (error) return <p>Error: {error.message}</p>;
 
 

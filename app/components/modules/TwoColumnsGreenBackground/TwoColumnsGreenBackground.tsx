@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -19,9 +18,11 @@ interface TwoColumnsGreenBackground {
     leftColumn?: {
         imageDesktop?: {
             sourceUrl?: string;
+            altText?: string;
         };
         imageMobile?: {
             sourceUrl?: string;
+            altText?: string;
         };
     };
     customizations?: {
@@ -52,19 +53,19 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                        <div className='d-block d-lg-none mb-4'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
                         {mobileImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
-                                alt='Featured Image Mobile' 
+                                alt={leftColumn?.imageMobile?.altText || '' } 
                                 width={500} 
                                 height={500} 
                             />
                         }
                         {desktopImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
-                                alt='Featured Image Desktop' 
+                                alt={leftColumn?.imageDesktop?.altText || '' } 
                                 width={1000} 
                                 height={1000} 
                             />

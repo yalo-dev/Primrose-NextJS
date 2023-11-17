@@ -1,12 +1,14 @@
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Link from 'next/link';
 import Button from '../../../../app/components/atoms/Button/Button';
 import { useRouter } from 'next/router';
 import ResourcesMenu from '../ResourcesMenu/ResourcesMenu';
+import SchoolsMenu from '../SchoolsMenu/SchoolsMenu';
 
 export default function Header({ menuItems }) {
     const router = useRouter();
     const showResourcesMenu = router.pathname.includes('/resources');
+    const showSchoolsMenu = router.pathname.includes('/schools');
 
     return (
         <header className='header border-bottom'>
@@ -59,6 +61,7 @@ export default function Header({ menuItems }) {
                 </div>
             </nav>
             { showResourcesMenu && <ResourcesMenu /> }
+            { showSchoolsMenu && <SchoolsMenu /> }
         </header>
     )
 }

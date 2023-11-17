@@ -28,7 +28,7 @@ const formatDate = (dateString) => {
 
 const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium' }) => {
 	return (
-		<div className={`card ${className ? className : ''}`}>
+        <div className={`card ${className ? className : ''}`}>
 			<Link href={`${resource.uri}`}>
 				<div className='inner' onClick={(e) => {
 					if (e.defaultPrevented) {
@@ -76,7 +76,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 
 			</Link>
 		</div>
-	);
+    );
 }
 
 export default ResourceCard;

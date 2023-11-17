@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
@@ -10,6 +10,7 @@ interface HeroWithImageProps {
     leftColumn?: {
       image?: {
         sourceUrl?: string;
+        altText?: string;
       };
     };
     rightColumn?: {
@@ -56,13 +57,13 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (
                     <div className='left-column col-12 col-lg-6'>
-                        <Image src={leftColumn.image.sourceUrl} alt="Hero Image" layout="fill" objectFit="cover" sizes='large' />
+                        <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} />
                     </div>
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
                     <div className='right-column col-12 col-lg-6'>
-                        {rightColumn.eyebrow && <Heading level='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Heading>}
-                        {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
+                        {rightColumn.eyebrow && <Subheading level='div' className='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Subheading>}
+                        {rightColumn.heading && <Heading level='h1' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
                         {rightColumn?.blurb && <Paragraph className='b2' color={rightColumn.blurbColor}>{rightColumn.blurb}</Paragraph>}
                         {rightColumn.button?.url && rightColumn.button.title && (

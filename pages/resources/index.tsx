@@ -35,6 +35,7 @@ export async function getServerSideProps() {
                     featuredImage {
                         node {
                             sourceUrl
+                            altText
                         }
                     }
                 }

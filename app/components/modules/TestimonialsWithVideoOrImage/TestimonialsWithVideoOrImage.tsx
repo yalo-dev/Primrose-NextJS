@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
@@ -9,6 +8,7 @@ import Slider from "react-slick";
 interface SliderItem {
     image?: {
         sourceUrl?: string;
+        altText?: string;
     };
     position?: string;
     positionColor?: string;
@@ -94,7 +94,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                 
                                     {slide.image && slide.image.sourceUrl &&
                                     <div className="image-wrap">
-                                        <Image src={slide.image.sourceUrl} alt={slide.title || "Slide image"} width={500} height={300} />
+                                        <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
                                         </div>
                                     }
                                 

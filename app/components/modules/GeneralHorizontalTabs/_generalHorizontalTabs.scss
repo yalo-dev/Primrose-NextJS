@@ -35,28 +35,6 @@
                     flex-basis: 65%;
                     ul {
                         margin-bottom: 0;
-                        li {
-                            // .icon-container.has-popup:hover {
-                            //     background-color: $brand-blue;
-                            //     color: $grayscale-1;
-            
-                            //     img {
-                            //         filter: brightness(0) invert(1);
-                            //     }
-            
-                            //     ~.details-popup {
-                            //         opacity: 1;
-                            //         pointer-events: none;
-                            //         visibility: visible;
-                            //         .title-container {
-                            //             .desc {
-                            //                 display: flex;
-                            //             }
-                            //         }
-                            //     }
-                            // }
-            
-                        }
                     }
                 }
                 &:last-child {
@@ -65,7 +43,7 @@
             }
         }
     }
-    button {
+    button.clickable {
         background-color: $transparent;
         position: relative;
         padding-left: 0;

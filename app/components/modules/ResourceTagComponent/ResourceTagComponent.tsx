@@ -31,6 +31,7 @@ query GetResourcesByTag {
       featuredImage {
         node {
           sourceUrl
+		  altText
         }
       }
     }
@@ -60,7 +61,7 @@ function ResourceTagComponent() {
 	}, [desiredSlug]);
 
 	  
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
 	if (!desiredSlug) return null;
 

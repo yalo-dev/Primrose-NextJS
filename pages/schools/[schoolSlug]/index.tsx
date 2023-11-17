@@ -8,36 +8,68 @@ export async function getServerSideProps(context) {
 
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
-      school(id: $id, idType: URI) {
-      id
-        featuredImage {
-          node {
-          sourceUrl
+        school(id: $id, idType: URI) {
+          id
+          slug
+          uri
+          featuredImage {
+            node {
+              sourceUrl
+            }
+          }
+          schoolSettings {
+            details {
+                corporate {
+                    schoolName
+                    address {
+                      streetAddress
+                      streetAddress2
+                      city
+                      state
+                      zipcode
+                    }
+                    emailAddress
+                    phoneNumber
+                    latitude
+                    longitude
+                    schoolOpening
+                  }
+            }
           }
         }
-        schoolSettings {
-          schoolName
-          address
-          emailAddress
-          phoneNumber
-        }
       }
-    }
     `;
+    try {
+        const response = await client.query({
+            query: GET_SCHOOLS,
+            variables: { id: `/schools/${schoolSlug}/` },
+        });
 
-    const response = await client.query({
-        query: GET_SCHOOLS,
-        variables: { id: schoolSlug }
-    });
+        console.log("GraphQL Response:", response); 
 
-    const school = response?.data?.school;
+        if (response.errors) {
+            console.error('GraphQL Errors:', response.errors);
+            throw new Error(`Error fetching GraphQL data: ${response.errors}`);
+        }
 
-    return {
-        props: {
-            school,
-            schoolSlug 
-        },
-    };
+        const school = response?.data?.school;
+
+        console.log("School Data:", school); 
+
+        if (!school) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                school,
+                schoolSlug,
+            },
+        };
+    } catch (error) {
+        console.error('getServerSideProps Error:', error);
+        return { props: { hasError: true } }; 
+    }
 }
 
 export default function SchoolMainPage({ school, schoolSlug }) {
@@ -46,9 +78,6 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     return (
         <section className='module pt-4 pb-4'>
             <div className='container'>
-                <Link href={`/schools/`}>
-                    ← Back to Schools
-                </Link>
                 <div className='row'>
                     <h1 className="title">{schoolSettings.schoolName}</h1>
                 </div>
@@ -62,7 +91,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                         <p dangerouslySetInnerHTML={{ __html: schoolSettings.address }} />
                         <p><a href={`mailto:${schoolSettings.emailAddress}`}>{schoolSettings.emailAddress}</a></p>
                         <p><a href={`tel:${schoolSettings.phoneNumber}`}>{schoolSettings.phoneNumber}</a></p>
-                        <Link href={`/schools/${schoolSlug}/staff`}>View Staff</Link>
+                        <a href={`/schools/${schoolSlug}/staff`}>View Staff</a>
                     </div>
                 </div>
             </div>

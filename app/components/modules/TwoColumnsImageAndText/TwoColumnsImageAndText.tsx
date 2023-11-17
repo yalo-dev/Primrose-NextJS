@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -22,9 +21,11 @@ interface TwoColumnsImageAndTextProps {
     leftColumn?: {
         imageDesktop?: {
             sourceUrl?: string;
+            altText?: string;
         };
         imageMobile?: {
             sourceUrl?: string;
+            altText?: string;
         };
         announcement?: {
             backgroundColor?: string;
@@ -64,19 +65,19 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 {(mobileImageUrl || desktopImageUrl) && (
                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                         {mobileImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
-                                alt='Featured Image Mobile' 
+                                alt={leftColumn?.imageMobile?.altText || '' } 
                                 width={500} 
                                 height={500} 
                             />
                         }
                         {desktopImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
-                                alt='Featured Image Desktop' 
+                                alt={leftColumn?.imageDesktop?.altText || '' } 
                                 width={1000} 
                                 height={1000} 
                             />

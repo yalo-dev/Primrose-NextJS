@@ -6,15 +6,20 @@ export async function getServerSideProps() {
 
     const GET_SCHOOLS = gql`
     query GetSchools {
-      schools {
-        nodes {
-          uri
-          schoolSettings {
-            schoolName
+        schools {
+          nodes {
+            uri
+            schoolSettings {
+                details {
+                    corporate {
+                        schoolName
+                      }
+                }
+              
+            }
           }
         }
       }
-    }
   `;
 
     const response = await client.query({ query: GET_SCHOOLS });
@@ -38,12 +43,12 @@ export default function Schools({ schools }) {
                     <div className=''>
                         {
                             schools.map((school, index) => {
-                                const settings = school.schoolSettings;
+                                const schoolName = school.schoolSettings?.details?.corporate?.schoolName;
                                 return (
                                     <div className='card p-2' key={school.uri}>
-                                         <Link href={`${school.uri}`} passHref>
-                                            <h2>{settings.schoolName}</h2>
-                                        </Link>
+                                         <a href={`${school.uri}`}>
+                                            <h2>{schoolName || 'No School Name'}</h2>
+                                        </a>
                                     </div>
                                 );
                             })
