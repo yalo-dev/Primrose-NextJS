@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from "next/legacy/image";
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
@@ -95,7 +94,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                 
                                     {slide.image && slide.image.sourceUrl &&
                                     <div className="image-wrap">
-                                        <Image src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
+                                        <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
                                         </div>
                                     }
                                 

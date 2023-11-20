@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -54,7 +53,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                        <div className='d-block d-lg-none mb-4'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
                         {mobileImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
                                 alt={leftColumn?.imageMobile?.altText || '' } 
@@ -63,7 +62,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
                             />
                         }
                         {desktopImageUrl && 
-                            <Image 
+                            <img 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
                                 alt={leftColumn?.imageDesktop?.altText || '' } 

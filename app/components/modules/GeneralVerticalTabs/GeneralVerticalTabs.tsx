@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from "next/legacy/image";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
@@ -135,7 +134,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 								>
 
 									{tab.content.image?.sourceUrl && <div className={`image-wrapper ${tab.content.fullWidthOrFeatured}`}>
-                                        <Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={343} height={287} />
+                                        <img src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={343} height={287} />
                                     </div>}
 									<div className='content'>
 									
@@ -242,7 +241,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
                                     </Button>}
 									</div>
 									{tab.content.image?.sourceUrl && <div className={`image-wrapper ${tab.content.fullWidthOrFeatured}`}>
-                                        <Image src={tab.content.image.sourceUrl} alt="Tab Image" width={343} height={287} />
+                                        <img src={tab.content.image.sourceUrl} alt="Tab Image" width={343} height={287} />
                                     </div>}
 								</div>
 							))}

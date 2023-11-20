@@ -37,13 +37,16 @@ export default function SchoolsMenu() {
 
   const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
-    skip: !schoolSlug, // Skip the query if the slug isn't available
+    skip: !schoolSlug, 
   });
 
-  // Extract the school name from the data returned by the query
   const schoolName = data?.school?.schoolSettings?.details?.corporate?.schoolName;
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
+  const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState(null);
+  const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
+  const submenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkScrollPosition = () => {
@@ -95,16 +98,55 @@ export default function SchoolsMenu() {
   };
 
   const generateClassroomSubmenu = () => {
-    return selectedClassrooms.map(classroom => (
-      <li key={classroom}>
-        <Link className='dropdown-item' href={`/schools/${slug}/classrooms/${classroom.toLowerCase()}`}>
-          {classroom}
-        </Link>
-      </li>
-    ));
+    return selectedClassrooms.map(classroom => {
+      const classroomSlug = classroom.replace(/\s+/g, '-').replace(/[&]/g, 'and').toLowerCase();
+      return (
+        <div className='item' key={classroom}>
+          <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/${classroomSlug}`}>
+            {classroom}
+          </Link>
+        </div>
+      );
+    });
+  };
+  
+  const { asPath } = useRouter(); 
+
+  const isActive = (href) => {
+    return asPath === href;
   };
 
+  const toggleSubmenu = () => {
+    const submenu = submenuRef.current;
+    if (submenu) {
+      const newHeight = isSubmenuVisible ? 0 : submenu.scrollHeight;
+      setSubmenuMaxHeight(newHeight);
+      setIsSubmenuVisible(!isSubmenuVisible);
+    }
+  };
+  
+  const handleMenuItemClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+    setIsSubmenuVisible(menuItem === 'classrooms' ? !isSubmenuVisible : isSubmenuVisible);
+  };  
 
+  const calculateSubmenuHeight = () => {
+    return submenuRef.current ? submenuRef.current.scrollHeight : 0;
+  };
+
+  const handleIconClick = (e) => {
+    e.stopPropagation();
+    setIsSubmenuVisible(!isSubmenuVisible);
+    setSubmenuMaxHeight(isSubmenuVisible ? 0 : calculateSubmenuHeight());
+  };
+  
+  useEffect(() => {
+    if (isSubmenuVisible) {
+      setSubmenuMaxHeight(calculateSubmenuHeight());
+    }
+  }, [isSubmenuVisible]);
+
+  
   return (
     <>
       <div className='navbar-schools'>
@@ -145,32 +187,50 @@ export default function SchoolsMenu() {
               <div className='nav-scroll-container' ref={scrollContainerRef}>
                 <div className='container'>
                   <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
-                    <ListItem>
-                    <a className='b2' href={`/schools/${slug}`}>
-                      Home
-                    </a>
+                    <ListItem className={`b2 ${isActive(`/schools/${slug}`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('home')}>
+                      <a className='b2' href={`/schools/${slug}/`}>
+                        Home
+                      </a>
                     </ListItem>
-                    <ListItem>
-                      <a href={`/schools/${slug}/classrooms`} className='b2'>Our Classrooms</a>
-                      {selectedClassrooms.length > 0 && (
-                      <div className='dropdown-menu'>
-                        <ul>
-                          {generateClassroomSubmenu()}
-                        </ul>
+                    <ListItem className={`b2 hoverable ${isActive(`/schools/${slug}/classrooms`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('classrooms')}>
+                      <a className='b2 d-lg-none' href={`/schools/${slug}/classrooms`}>
+                        Our Classrooms
+                      </a>
+                      <div className='item-wrap d-none d-lg-block' onClick={handleIconClick}>
+                        <a className='b2 d-none d-lg-inline' href={`/schools/${slug}/classrooms`}>
+                          Our Classrooms
+                        </a>
+                        <span className='ps-2 d-none d-lg-inline menu-icon'>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="10" fill="#FBFBFB"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M6.13736 8.21565C6.34688 7.96138 6.72055 7.92703 6.97197 8.13892L10.1312 10.8014L13.0088 8.15587C13.251 7.93323 13.6257 7.95127 13.8459 8.19618C14.066 8.44109 14.0482 8.82011 13.806 9.04275L10.9285 11.6883C10.4908 12.0906 9.82686 12.1051 9.3725 11.7222L6.21324 9.0597C5.96182 8.84781 5.92785 8.46992 6.13736 8.21565Z" fill="#5E6738"/>
+                          </svg>
+                        </span>
                       </div>
-                    )}
-                      <span className='ps-2'>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="10" cy="10" r="10" fill="#FBFBFB"/>
-                          <path fillRule="evenodd" clipRule="evenodd" d="M6.13736 8.21565C6.34688 7.96138 6.72055 7.92703 6.97197 8.13892L10.1312 10.8014L13.0088 8.15587C13.251 7.93323 13.6257 7.95127 13.8459 8.19618C14.066 8.44109 14.0482 8.82011 13.806 9.04275L10.9285 11.6883C10.4908 12.0906 9.82686 12.1051 9.3725 11.7222L6.21324 9.0597C5.96182 8.84781 5.92785 8.46992 6.13736 8.21565Z" fill="#5E6738"/>
-                        </svg>
-                      </span>
+                      {selectedClassrooms.length > 0 && (
+                        <div ref={submenuRef}  className='submenu-wrapper d-none d-lg-block'>
+                          <div className='item'>
+                            <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/`}>
+                              All Classrooms
+                            </Link>
+                          </div>
+                          <div className='submenu'>
+                            <div className='list-wrap'>
+                              {generateClassroomSubmenu()}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </ListItem>
-                    <ListItem>
-                      <a href={`/schools/${slug}/staff`} className='b2'>Teachers & Staff</a>
+                    <ListItem className={`b2 ${isActive(`/schools/${slug}/staff`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('staff')}>
+                      <a className='b2' href={`/schools/${slug}/staff`}>
+                        Teachers & Staff
+                      </a>
                     </ListItem>
-                    <ListItem>
-                      <a href={`/schools/${slug}/careers`} className='b2'>School Careers</a>
+                    <ListItem className={`b2 ${isActive(`/schools/${slug}/careers`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('careers')}>
+                      <a className='b2' href={`/schools/${slug}/careers`}>
+                        School Careers
+                      </a>
                     </ListItem>
                   </UnorderedList>
                 </div>
@@ -185,6 +245,24 @@ export default function SchoolsMenu() {
           </div>
         </div>
       </div>
+      <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div>
+      {selectedClassrooms.length > 0 && (
+        <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'submenu-wrapper d-block d-lg-none' : 'submenu-wrapper hidden'}`} onClick={toggleSubmenu}>
+          <div className='placeholder-text green'>Explore Classrooms & Programs
+          <span className={`icon ${isSubmenuVisible ? 'active' : ''}`}>
+            <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="30" y="30.85" width="30" height="30" rx="15" transform="rotate(-180 30 30.85)" fill="#F1F1EF"/>
+              <path fillRule="evenodd" clipRule="evenodd" d="M11.1354 14.0649C11.3449 13.8107 11.7186 13.7763 11.97 13.9882L15.1293 16.6507L18.0068 14.0051C18.249 13.7825 18.6238 13.8005 18.8439 14.0455C19.0641 14.2904 19.0462 14.6694 18.8041 14.892L15.9265 17.5376C15.4889 17.9399 14.8249 17.9544 14.3705 17.5715L11.2113 14.909C10.9599 14.6971 10.9259 14.3192 11.1354 14.0649Z" fill="#5E6738"/>
+            </svg>
+          </span>
+          </div>
+          <div className={`submenu ${isSubmenuVisible ? 'visible' : ''} ${isActive(`/schools/${slug}/classrooms`) ? '' : 'hidden'}`}>
+            <div className='list-wrap'>
+              {generateClassroomSubmenu()}
+            </div>
+          </div>
+        </div>
+      )}
       {/* offset for menu height */}
       <div className='school-margin-top'></div>
     </>

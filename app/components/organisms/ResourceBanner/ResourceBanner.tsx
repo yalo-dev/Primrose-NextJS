@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import Button from '../../atoms/Button/Button';
 import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
-import Image from "next/legacy/image";
 
 const GET_RESOURCE_BANNER_FIELDS = gql`
 query GetResourceBannerFields($id: ID = "") {
@@ -50,7 +49,7 @@ const ResourceBanner = ({ slug }) => {
 
 					{bannerData.icon?.sourceUrl && (
 						<div className='icon-wrapper pe-lg-3 mb-3 mb-lg-0'>
-							<Image src={bannerData.icon.sourceUrl} alt={bannerData.icon.altText} width={100} height={100} className='icon mx-auto' />
+							<img src={bannerData.icon.sourceUrl} alt={bannerData.icon.altText} width={100} height={100} className='icon mx-auto' />
 						</div>
 					)}
 
