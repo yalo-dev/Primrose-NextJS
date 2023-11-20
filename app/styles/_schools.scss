@@ -588,3 +588,13 @@
         }
     }
 }
+
+.schedule-a-tour {
+    padding: 30px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 140px 70px;
+    }
+    .aside {
+
+    }
+}
