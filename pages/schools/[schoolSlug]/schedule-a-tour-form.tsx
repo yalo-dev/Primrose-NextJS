@@ -26,7 +26,7 @@ interface Props {
     }
   }
   export async function getStaticProps() {
-    const form = await getGravityForm(4);
+    const form = await getGravityForm(3);
   
     return {
       props: { form },

@@ -3,6 +3,7 @@ import { GfForm } from "../generated/graphql";
 
 import { client } from "../app/lib/apollo";
 import { TEXT_FIELD_FIELDS } from "../components/GravityFormsFields/TextField";
+import { SELECT_FIELD_FIELDS } from "../components/GravityFormsFields/SelectField";
 
 const GET_FORM = gql`
   query getForm($formId: ID!) {
@@ -25,12 +26,15 @@ const GET_FORM = gql`
           ... on TextField {
             ...TextFieldFields
           }
-          
+          ... on SelectField {
+            ...SelectFieldFields
+          }
         }
       }
     }
   }
   ${TEXT_FIELD_FIELDS}
+  ${SELECT_FIELD_FIELDS}
 `;
 
 export default async function getGravityForm(formId: number): Promise<GfForm | undefined> {
