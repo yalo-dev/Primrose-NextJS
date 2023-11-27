@@ -2,8 +2,18 @@
     .container {
         max-width: 1096px;
         margin: auto;
+        .heading-wrapper {
+            padding: 24px 20px 0;
+            h2 {
+                margin-bottom: 18px;
+            }
+            @include media-breakpoint-up(lg) {
+                padding: 50px 0 0;
+            }
+        }
         .form {
             margin-top: 34px;
+            margin-bottom: 30px;
             background-color: $white;
             padding: 34px 30px;
             border-radius: 10px;

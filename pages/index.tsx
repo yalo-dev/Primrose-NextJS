@@ -131,10 +131,10 @@ query GetModules($id: ID = "") {
 			subheading
 			subheadingColor
 			customizations {
-			  topPaddingMobile
-			  topPaddingDesktop
-			  bottomPaddingMobile
-			  bottomPaddingDesktop
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			  backgroundColor
 			  accentLeftOrRight
 			}
