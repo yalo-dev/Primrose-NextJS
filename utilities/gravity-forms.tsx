@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 import { GfForm } from "../generated/graphql";
 
 import { client } from "../app/lib/apollo";
+import { PHONE_FIELD_FIELDS } from "../components/GravityFormsFields/PhoneField";
 import { TEXT_FIELD_FIELDS } from "../components/GravityFormsFields/TextField";
 import { SELECT_FIELD_FIELDS } from "../components/GravityFormsFields/SelectField";
 
@@ -22,7 +23,9 @@ const GET_FORM = gql`
         nodes {
           id
           type
-         
+          ... on PhoneField {
+            ...PhoneFieldFields
+          }
           ... on TextField {
             ...TextFieldFields
           }
@@ -33,6 +36,7 @@ const GET_FORM = gql`
       }
     }
   }
+  ${PHONE_FIELD_FIELDS}
   ${TEXT_FIELD_FIELDS}
   ${SELECT_FIELD_FIELDS}
 `;
