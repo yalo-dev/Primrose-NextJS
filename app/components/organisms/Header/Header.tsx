@@ -65,16 +65,21 @@ export default function Header({ menuItems }) {
                         type='button'
                         onClick={toggleNav}
                         aria-label='Toggle navigation'>
-                        <span className='navbar-toggler-icon'></span>
+                        <span className={`navbar-toggler-icon ${isNavOpen ? 'open' : ''}`}>
+                            <span className="bar bar1"></span>
+                            <span className="bar bar2"></span>
+                            <span className="bar bar3"></span>
+                        </span>
                     </button>
+
                     </div>
                     <div className={`collapse navbar-collapse ${isNavOpen ? 'show' : ''}`} id='navbarContent'>
                     <div className='container'>
                         <ul className='navbar-nav'>
                         
                         {menuItems && menuItems
-                            .filter(item => !item.parentId) // Filter top-level menu items
-                            .map((item, index) => renderMenuItem(item, index)) // Pass both item and index
+                            .filter(item => !item.parentId) 
+                            .map((item, index) => renderMenuItem(item, index))
                         }
                             
                         </ul>
