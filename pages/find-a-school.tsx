@@ -46,8 +46,9 @@ type InputField = {
   ref: React.RefObject<HTMLInputElement>;
   autocomplete: any; 
   location: Location | null;
-  address: string; 
+  address: string;
 };
+
 
 type LocationData = {
   start: { lat: number; lng: number; } | null;
@@ -112,9 +113,12 @@ const FindASchool = () => {
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
   const [markers, setMarkers] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [waypointAddresses, setWaypointAddresses] = useState({});
 
 
+
+
+
+  //BRANDON RELEVENT CODE HERE
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
@@ -132,17 +136,15 @@ const FindASchool = () => {
       type: 'waypoint',
       ref: newRef,
       autocomplete: null,
-      location: null, // or the appropriate value
-      address: '' // Default address is empty
+      location: null,
+      address: '' 
     };
   
-    // Update state
     setInputFields(prevFields => [...prevFields, newWaypointField]);
   
     console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
   };
   
-
   const [locationData, setLocationData] = useState<LocationData>({
     start: null,
     waypoints: [],
@@ -155,7 +157,9 @@ const FindASchool = () => {
     console.log("Updated refs", waypointRefs);
     console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
-  
+    //BRANDON RELEVENT CODE HERE ENDS
+
+
 
 
 
@@ -177,45 +181,8 @@ const FindASchool = () => {
     }));
   };
 
-  // const handleAddMoreClick = () => {
-  //   setIsAdded(true);
-  //   const defaultLocation: Location = {
-  //     lat: 0,
-  //     lng: 0
-  //   };
 
-  //   const newWaypoint = { id: waypoints.length, location: defaultLocation };
-
-  //   setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
-
-  //   setWaypointRefs(prevRefs => {
-  //     return { ...prevRefs, [newWaypoint.id]: React.createRef() };
-  //   });
-
-  //   if (!isMobile) {
-  //     const container = document.querySelector('.find-a-school-container') as HTMLElement;
-  //     if (container) {
-  //       if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
-  //         // Switch from percentage to pixel value on first waypoint added
-  //         let currentPixelHeight = container.offsetHeight;
-  //         container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
-  //       } else {
-  //         // If already using pixel values
-  //         let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
-  //         container.style.setProperty('--view-height', `${currentHeight + 100}px`);
-  //       }
-
-  //       // Trigger the Google Maps resize event after changing the height
-  //       setTimeout(() => {
-  //         if (mapRef.current) {
-  //           google.maps.event.trigger(mapRef.current, 'resize');
-  //         }
-  //       }, 100);
-  //     }
-  //   }
-
-  // };
-
+  //BRANDON RELEVENT CODE HERE
   const handleAddMoreClick = () => {
     setIsAdded(true);
     const defaultLocation: Location = {
@@ -228,15 +195,11 @@ const FindASchool = () => {
   
     setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
   
+    setWaypointRefs(prevRefs => {
+      return { ...prevRefs, [newWaypoint.id]: React.createRef() };
+    });
+  
     handleNewWaypoint(newWaypoint);
-
-   // setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
-  
-    // setWaypointRefs(prevRefs => {
-    //   return { ...prevRefs, [newWaypoint.id]: React.createRef() };
-    // });
-  
-    setUpdateCount(count => count + 1);
 
     if (!isMobile) {
       const container = document.querySelector('.find-a-school-container') as HTMLElement;
@@ -259,9 +222,14 @@ const FindASchool = () => {
         }, 100);
       }
     }
-   
+    setUpdateCount(count => count + 1);
 
   };
+  //BRANDON RELEVENT CODE HERE ENDS
+
+
+
+
 
   const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
@@ -341,24 +309,11 @@ const FindASchool = () => {
 
 
 
-
-  // const handleInputChange = (ref: React.RefObject<HTMLInputElement>) => {
-  //   if (ref.current && ref.current.value === '') {
-  //     setSearched(false);
-  //   } else {
-  //     setSearched(true);
-  //   }
-  // };
+  //BRANDON RELEVENT CODE HERE
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
-    
-    if (fieldId.startsWith('waypoint-')) {
-      setWaypointAddresses(prevAddresses => ({
-        ...prevAddresses,
-        [fieldId]: newValue
-      }));
-    }
   
+    // Update the address of the corresponding field
     setInputFields(prevFields =>
       prevFields.map(field => {
         if (field.id === fieldId) {
@@ -368,14 +323,11 @@ const FindASchool = () => {
       })
     );
   };
+  //BRANDON RELEVENT CODE HERE ENDS
   
-  
-  
- 
   
 
-
-
+  
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
@@ -392,7 +344,7 @@ const FindASchool = () => {
 
 
 
-
+  //BRANDON RELEVENT CODE HERE
   const renderRoute = () => {
     console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
@@ -471,9 +423,6 @@ const FindASchool = () => {
     });
   };
 
-
-
-
   const onWaypointSelected = (waypointId, selectedPlace) => {
     if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
       let newMapCenter = {
@@ -500,40 +449,9 @@ const FindASchool = () => {
       }));
     }
   };
-  
-  // const onWaypointSelected = (waypointId, selectedPlace) => {
-  //   if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
-  //     setWaypoints(prevWaypoints => {
-  //       const updatedWaypoints = prevWaypoints.map(waypoint =>
-  //         waypoint.id === waypointId
-  //           ? {
-  //             ...waypoint,
-  //             name: selectedPlace.name,
-  //             location: {
-  //               lat: selectedPlace.geometry.location.lat(),
-  //               lng: selectedPlace.geometry.location.lng(),
-  //             },
-  //             address: selectedPlace.formatted_address,
-  //           }
-  //           : waypoint
-  //       );
-  //       const updatedWaypoint = updatedWaypoints.find(wp => wp.id === waypointId);
-  //       console.log("Updated Waypoint:", updatedWaypoint);
-
-  //       return updatedWaypoints;
-  //     });
-  //   } else {
-  //     console.warn('No valid place selected');
-  //   }
-  // };
+  //BRANDON RELEVENT CODE HERE ENDS
 
 
-
-
-
-  useEffect(() => {
-    renderRoute();
-  }, [start, destination, waypoints]);
 
   useEffect(() => {
     if (nearInputRef.current) {
@@ -568,18 +486,7 @@ const FindASchool = () => {
 
 
 
-    const onWaypointAddressChange = (waypointId, newAddress) => {
-      // Update the address for the specific waypoint
-      setInputFields(prevFields =>
-        prevFields.map(field => {
-          if (field.id === `waypoint-${waypointId}`) {
-            return { ...field, address: newAddress };
-          }
-          return field;
-        })
-      );
-    };
-    
+
 
   function onPlaceSelected(place, type = 'defaultType') {
     if (place && place.geometry && place.geometry.location) {
@@ -594,20 +501,20 @@ const FindASchool = () => {
       setSearched(true);
   
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-
+      
+      
+      //BRANDON RELEVENT CODE HERE 
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.type === type) {
-            return {
-              ...field,
-              location: newMapCenter,
-              address: formattedPlaceName 
-            };
+            return { ...field, location: newMapCenter, address: formattedPlaceName };
           }
           return field;
         })
       );
-  
+      //BRANDON RELEVENT CODE HERE ENDS
+      
+      
       if (type === 'start') {
         console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
@@ -628,7 +535,6 @@ const FindASchool = () => {
 
 
 
-    
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
       const map = mapRef.current;
@@ -743,35 +649,32 @@ const FindASchool = () => {
   };
 
 
+//BRANDON RELEVENT CODE HERE 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
   
+
     const items = Array.from(inputFields);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    
-    // Update the input fields state
+  
+
     setInputFields(items.map(item => {
-      // Preserving the address value for each item
-      const fieldAddress = waypointAddresses[item.id] || item.address;
-      return { ...item, address: fieldAddress };
+      const currentRefValue = waypointRefs[item.id]?.current?.value;
+      return {
+        ...item,
+        address: currentRefValue || item.address
+      };
     }));
   
-    // Update waypointAddresses to reflect the new order
-    const updatedWaypointAddresses = {};
+    const newRefs = {};
     items.forEach(item => {
-      if (item.originalType === 'waypoint') {
-        updatedWaypointAddresses[item.id] = waypointAddresses[item.id] || '';
-      }
+      newRefs[item.id] = waypointRefs[item.id];
     });
-    setWaypointAddresses(updatedWaypointAddresses);
-  
-    // Continue with updating location data as needed
+    setWaypointRefs(newRefs); 
     updateLocationData(items);
   };
-  
-  
-  
+
   const updateLocationData = (items) => {
     const newStart = items[0].location;
     const newDestination = items[items.length - 1].location;
@@ -790,25 +693,10 @@ const FindASchool = () => {
     console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
   };
   
-    
   useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
-  
-  
-  
-  // const updateRouteDataBasedOnNewOrder = (newOrder) => {
-  //   let newStart = newOrder[0]?.location; 
-  //   let newDestination = newOrder[newOrder.length - 1]?.location;
-  //   let newWaypoints = newOrder.slice(1, -1).map(field => ({ id: field.id, location: field.location }));
-  
-  //   setLocationData({ start: newStart, waypoints: newWaypoints, destination: newDestination });
-  //   setStart(newStart); // Update start state
-  //   setDestination(newDestination); // Update destination state
-  
-  //   console.log("New location data:", { start: newStart, waypoints: newWaypoints, destination: newDestination });
-  // };
-
+  //BRANDON RELEVENT CODE HERE ENDS
 
   return (
     <div className='find-a-school-container'>
@@ -855,6 +743,7 @@ const FindASchool = () => {
                     placeholder="Enter address, city and state, or zip"
                     ref={nearInputRef}
                     onChange={(e) => handleInputChange(e, '')}
+
                     //onChange={() => handleInputChange(nearInputRef, '')}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -963,8 +852,8 @@ const FindASchool = () => {
                         </div>
 
                         {waypoints.map((waypoint, index) => {
-                        const waypointId = `waypoint-${waypoint.id}`;
-                        const waypointAddress = waypointAddresses[waypointId] || '';
+                        const waypointInputField = inputFields.find(field => field.id === `waypoint-${waypoint.id}`);
+                        const inputFieldId = `waypoint-${waypoint.id}`;
 
                           return (
                           <div key={waypoint.id} className='waypoint-input'>
@@ -991,13 +880,12 @@ const FindASchool = () => {
                                         }
                                       }}
                                       ref={waypointRefs[waypoint.id]}
-                                      id={`waypoint-${waypoint.id}`}
-                                      //key={waypointKey}
+                                      //onChange={(e) => handleInputChange(e, inputFieldId)}
+                                      id={`input_${inputFieldId}`}
                                       type="text"
-                                      value={waypointAddress}
+                                      value={waypointInputField?.address || ''}
                                       onChange={(e) => handleInputChange(e, `waypoint-${waypoint.id}`)}
                                       placeholder="Search by address, city, state, ZIP"
-
                                     />
 
                                   </Autocomplete>
@@ -1192,15 +1080,17 @@ const FindASchool = () => {
 
             )}
 
-            {waypoints && waypoints.map((waypoint, index) => (
-              <Marker
-                key={index}
-                position={waypoint.location}
-                icon={{
-                  url: svgMarkerIconStart,
-                  scaledSize: new google.maps.Size(20, 20),
-                }}
-              />
+            {waypoints && waypoints
+              .filter((waypoint): waypoint is { id: number; location: Location } => waypoint.location !== null)
+              .map((waypoint, index) => (
+                <Marker
+                  key={index}
+                  position={waypoint.location} 
+                  icon={{
+                    url: svgMarkerIconStart,
+                    scaledSize: new google.maps.Size(20, 20),
+                  }}
+                />
             ))}
 
             {destination && (

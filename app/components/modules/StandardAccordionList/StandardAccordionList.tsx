@@ -48,7 +48,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
       <div className='standard-accordion-list'>
         <div className='inner col-lg-11 offset-lg-1'>
           <div className='row text-left'>
-            {heading && <Heading level='h2' className='green pt-3' color={headingColor}>{heading}</Heading>}
+            {heading && <Heading level='h2' className='green pt-3 pb-3' color={headingColor}>{heading}</Heading>}
           </div>
           <div className='row accordions'>
             {accordion.map((accordion, index) => {
@@ -61,7 +61,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
               return (
                 <div key={index} className='accordion pt-5 pb-4 pb-xl-5'>
                   <Paragraph
-                    className={`question b4 m-0 pt-4 pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
+                    className={`question b4 m-0  pb-4 pt-lg-0 pb-lg-0 ${expandedAccordionIndex === index ? 'expanded' : ''}`}
                     onClick={() => handleQuestionClick(index)}
                     color={accordion.questionColor}
                 >
