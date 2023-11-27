@@ -4,6 +4,8 @@
         
         border-bottom: 1px solid $nav-border;
         z-index: 1200;
+        background-color: $grayscale-1;
+        //pointer-events: none;
     }
     .navbar-toggler {
         border: 1px solid $nav-border;
@@ -29,6 +31,7 @@
     .navbar-nav {
         text-align: center;
         align-items: center;
+
     }
     .navbar-logo {
         @include media-breakpoint-up(lg) {
@@ -53,6 +56,9 @@
         height: calc(100vh - 106px);
         display: block!important;
         background-color: $primary-green;
+        position: absolute;
+        top: 106px;
+        overflow-x: scroll;
         ul {
             li {
                 width: 100%;
@@ -67,6 +73,13 @@
                     line-height: 34px;
                     text-align: left;
                     padding: 0;
+                }
+                .submenu {
+                    position: absolute;
+                    top: 0;
+                    height: calc(100vh - 106px);
+                    transform: translateX(180%);
+                    transition: transform 0.3s ease-in-out;
                 }
             }
         }

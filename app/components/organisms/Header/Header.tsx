@@ -15,29 +15,31 @@ export default function Header({ menuItems }) {
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
     };
-    const renderMenuItem = (item) => {
+    const renderMenuItem = (item, index) => {
         const hasChildren = item.childItems && item.childItems.nodes.length > 0;
     
+        const key = `${item.label}-${item.url}-${item.parentId || 'root'}-${index}`;
+    
         return (
-            <li key={item.id} className={`nav-item ${hasChildren ? 'has-children' : ''}`}>
-                <Link href={item.url}  className='nav-link' passHref>
+            <li key={key} className={`nav-item ${hasChildren ? 'has-children' : ''}`}>
+                <Link className='nav-link' href={item.url} passHref>
                     {item.label}
+                    <span className="arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="white"/>
+                        </svg>
+                    </span>
                 </Link>
                 {hasChildren && (
                     <ul className="submenu">
-                        {item.childItems.nodes.map(childItem => (
-                            <li key={childItem.id} className='nav-subitem'>
-                                <Link  className='nav-link' href={childItem.url} passHref>
-                                    {childItem.label}
-                                </Link>
-                            </li>
-                        ))}
+                        {item.childItems.nodes.map((childItem, childIndex) => 
+                            renderMenuItem(childItem, childIndex)
+                        )}
                     </ul>
                 )}
             </li>
         );
     };
-    
 
     
     return (
@@ -70,8 +72,10 @@ export default function Header({ menuItems }) {
                     <div className='container'>
                         <ul className='navbar-nav'>
                         
-                        {menuItems && menuItems.filter(item => !item.parentId).map(renderMenuItem)}
-
+                        {menuItems && menuItems
+                            .filter(item => !item.parentId) // Filter top-level menu items
+                            .map((item, index) => renderMenuItem(item, index)) // Pass both item and index
+                        }
                             
                         </ul>
                         <div className='navbar-search col-lg-4'>

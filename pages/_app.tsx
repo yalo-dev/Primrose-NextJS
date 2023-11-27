@@ -26,14 +26,26 @@ function MyApp({ Component, pageProps }) {
 			const HEADER_MENU_QUERY = gql`
 			query HeaderMenu {
 				menu(id: "4", idType: DATABASE_ID) {
-				  menuItems {
+				  menuItems(first: 100) {
 					nodes {
-					  url
+					  title
 					  label
+					  url
+					  parentId
 					  childItems {
 						nodes {
-						  url
+						  title
 						  label
+						  url
+						  parentId
+						  childItems {
+							nodes {
+							  label
+							  title
+							  url
+							  parentId
+							}
+						  }
 						}
 					  }
 					}

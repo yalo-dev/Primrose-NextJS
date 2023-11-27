@@ -1,7 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import schools from '../app/data/schoolsData';
 import Button from '../app/components/atoms/Button/Button';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+
 
 const containerStyle = {
   width: '100%',
@@ -34,9 +36,24 @@ type Location = {
 
 type Waypoint = {
   id: number;
-  location: Location;
+  location: Location | null;
 };
 
+type InputField = {
+  id: string;
+  originalType: 'start' | 'waypoint' | 'destination';
+  type: 'start' | 'waypoint' | 'destination';
+  ref: React.RefObject<HTMLInputElement>;
+  autocomplete: any; 
+  location: Location | null;
+  address: string; 
+};
+
+type LocationData = {
+  start: { lat: number; lng: number; } | null;
+  waypoints: Waypoint[];
+  destination: { lat: number; lng: number; } | null;
+};
 
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
@@ -79,6 +96,7 @@ const FindASchool = () => {
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
   let geocoder;
   const MAX_DISTANCE = 10;
+  const DEFAULT_ZOOM = 5;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
   const [isAdded, setIsAdded] = useState(false);
@@ -91,12 +109,53 @@ const FindASchool = () => {
   const [waypoint, setWaypoint] = useState<{ lat: number; lng: number } | null>(null);
   const svgMarkerIconStart = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconStart)}`;
   const svgMarkerIconEnd = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconEnd)}`;
-
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
+  const [markers, setMarkers] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [waypointAddresses, setWaypointAddresses] = useState({});
 
-  const [markers, setMarkers] = useState([]); // This holds your map markers
-  const [searchText, setSearchText] = useState(''); // This holds your search input text
 
+  const [inputFields, setInputFields] = useState<InputField[]>([
+    { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
+    { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
+  ]);
+  
+  const handleNewWaypoint = (newWaypoint) => {
+    setWaypoints([...waypoints, newWaypoint]);
+  
+    const newRef = React.createRef<HTMLInputElement>();
+    waypointRefs[newWaypoint.id] = newRef;
+  
+    const newWaypointField: InputField = {
+      id: `waypoint-${newWaypoint.id}`,
+      originalType: 'waypoint',
+      type: 'waypoint',
+      ref: newRef,
+      autocomplete: null,
+      location: null, // or the appropriate value
+      address: '' // Default address is empty
+    };
+  
+    // Update state
+    setInputFields(prevFields => [...prevFields, newWaypointField]);
+  
+    console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
+  };
+  
+
+  const [locationData, setLocationData] = useState<LocationData>({
+    start: null,
+    waypoints: [],
+    destination: null
+  });
+
+  const [updateCount, setUpdateCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Updated refs", waypointRefs);
+    console.log("Update count", updateCount);
+  }, [waypointRefs, updateCount]);
+  
 
 
 
@@ -118,23 +177,66 @@ const FindASchool = () => {
     }));
   };
 
+  // const handleAddMoreClick = () => {
+  //   setIsAdded(true);
+  //   const defaultLocation: Location = {
+  //     lat: 0,
+  //     lng: 0
+  //   };
+
+  //   const newWaypoint = { id: waypoints.length, location: defaultLocation };
+
+  //   setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
+
+  //   setWaypointRefs(prevRefs => {
+  //     return { ...prevRefs, [newWaypoint.id]: React.createRef() };
+  //   });
+
+  //   if (!isMobile) {
+  //     const container = document.querySelector('.find-a-school-container') as HTMLElement;
+  //     if (container) {
+  //       if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
+  //         // Switch from percentage to pixel value on first waypoint added
+  //         let currentPixelHeight = container.offsetHeight;
+  //         container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
+  //       } else {
+  //         // If already using pixel values
+  //         let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
+  //         container.style.setProperty('--view-height', `${currentHeight + 100}px`);
+  //       }
+
+  //       // Trigger the Google Maps resize event after changing the height
+  //       setTimeout(() => {
+  //         if (mapRef.current) {
+  //           google.maps.event.trigger(mapRef.current, 'resize');
+  //         }
+  //       }, 100);
+  //     }
+  //   }
+
+  // };
+
   const handleAddMoreClick = () => {
     setIsAdded(true);
     const defaultLocation: Location = {
       lat: 0,
       lng: 0
     };
-
-    // Create a new waypoint with a unique id
-    const newWaypoint = { id: waypoints.length, location: defaultLocation };
-
-    // Add the new waypoint to the waypoints state
+  
+    const newWaypointId = waypoints.length;
+    const newWaypoint = { id: newWaypointId, location: defaultLocation };
+  
     setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
+  
+    handleNewWaypoint(newWaypoint);
 
-    // Create a ref for this new waypoint and add it to the waypointRefs state
-    setWaypointRefs(prevRefs => {
-      return { ...prevRefs, [newWaypoint.id]: React.createRef() };
-    });
+   // setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
+  
+    // setWaypointRefs(prevRefs => {
+    //   return { ...prevRefs, [newWaypoint.id]: React.createRef() };
+    // });
+  
+    setUpdateCount(count => count + 1);
 
     if (!isMobile) {
       const container = document.querySelector('.find-a-school-container') as HTMLElement;
@@ -157,6 +259,7 @@ const FindASchool = () => {
         }, 100);
       }
     }
+   
 
   };
 
@@ -190,26 +293,6 @@ const FindASchool = () => {
         }, 100);
       }
     }
-  };
-
-  const handleInputChange = (ref: React.RefObject<HTMLInputElement>) => {
-    if (ref.current && ref.current.value === '') {
-      setSearched(false);
-    } else {
-      setSearched(true);
-    }
-  };
-
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Radius of the earth in km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distance in km
-    return d * 0.621371; // Convert km to miles
   };
 
   const getCurrentLocation = () => {
@@ -255,64 +338,128 @@ const FindASchool = () => {
     getCurrentLocation();
   };
 
+
+
+
+
+  // const handleInputChange = (ref: React.RefObject<HTMLInputElement>) => {
+  //   if (ref.current && ref.current.value === '') {
+  //     setSearched(false);
+  //   } else {
+  //     setSearched(true);
+  //   }
+  // };
+  const handleInputChange = (event, fieldId) => {
+    const newValue = event.target.value;
+    
+    if (fieldId.startsWith('waypoint-')) {
+      setWaypointAddresses(prevAddresses => ({
+        ...prevAddresses,
+        [fieldId]: newValue
+      }));
+    }
+  
+    setInputFields(prevFields =>
+      prevFields.map(field => {
+        if (field.id === fieldId) {
+          return { ...field, address: newValue };
+        }
+        return field;
+      })
+    );
+  };
+  
+  
+  
+ 
+  
+
+
+
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    return d * 0.621371;
+  };
+  
+
+
+
+
   const renderRoute = () => {
+    console.log("inputFields in renderRoute():", inputFields);
+    const startField = inputFields.find(f => f.type === 'start');
+    const waypointFields = inputFields.filter(f => f.type === 'waypoint');
+    const destinationField = inputFields.find(f => f.type === 'destination');
+  
     if (!window.google || !window.google.maps) {
       console.log("Google Maps API not loaded yet.");
       return;
     }
 
     if (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng))) {
-      console.log("Start location is not defined or not in the correct format.");
+      //console.log("Start location is not defined or not in the correct format.");
       return;
     }
 
     if (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng))) {
-      console.log("Destination location is not defined or not in the correct format.");
+      //console.log("Destination location is not defined or not in the correct format.");
       return;
     }
 
-    // Ensure that we have a DirectionsRenderer instance
     if (!directionsRendererRef.current) {
       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
-        suppressMarkers: true, // Suppress the default markers
+        suppressMarkers: true,
         polylineOptions: {
-          strokeColor: '#474E4D', // Set the stroke color to red
+          strokeColor: '#474E4D',
           strokeOpacity: 1.0,
           strokeWeight: 3
         }
       });
     } else {
-      // If DirectionsRenderer already exists, just update its options
       directionsRendererRef.current.setOptions({
         polylineOptions: {
-          strokeColor: '#474E4D', // Set the stroke color to red
+          strokeColor: '#474E4D',
           strokeOpacity: 1.0,
           strokeWeight: 3
         }
       });
     }
 
-    // Ensure that the DirectionsRenderer is attached to the map
     if (mapRef.current && directionsRendererRef.current) {
       directionsRendererRef.current.setMap(mapRef.current);
     }
 
-    // Create the DirectionsService instance if needed
     const directionsService = new window.google.maps.DirectionsService();
 
-    // Define the route with waypoints if any
-    const mappedWaypoints = waypoints
-      .filter(waypoint => waypoint.location && waypoint.location.lat && waypoint.location.lng)
-      .map(waypoint => ({ location: waypoint.location, stopover: true }));
-    const route = {
-      origin: start,
-      destination: destination,
-      waypoints: mappedWaypoints,
-      travelMode: window.google.maps.TravelMode.DRIVING,
-      optimizeWaypoints: true,
-    };
+    const mappedWaypoints: google.maps.DirectionsWaypoint[] = waypoints
+    .filter(waypoint => waypoint.location) 
+    .map(waypoint => {
+      if (waypoint.location) {
+        return {
+          location: new google.maps.LatLng(waypoint.location.lat, waypoint.location.lng),
+          stopover: true
+        } as google.maps.DirectionsWaypoint;
+      }
+      return undefined;
+    })
+    .filter((waypoint): waypoint is google.maps.DirectionsWaypoint => waypoint !== undefined);
 
-    // Call the DirectionsService
+  const route: google.maps.DirectionsRequest = {
+    origin: new google.maps.LatLng(start.lat, start.lng),
+    destination: new google.maps.LatLng(destination.lat, destination.lng),
+    waypoints: mappedWaypoints,
+    travelMode: window.google.maps.TravelMode.DRIVING,
+    optimizeWaypoints: true,
+  };
+
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
@@ -324,31 +471,65 @@ const FindASchool = () => {
     });
   };
 
+
+
+
   const onWaypointSelected = (waypointId, selectedPlace) => {
     if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
-      setWaypoints(prevWaypoints => {
-        const updatedWaypoints = prevWaypoints.map(waypoint =>
-          waypoint.id === waypointId
-            ? {
-              ...waypoint,
-              name: selectedPlace.name,
-              location: {
-                lat: selectedPlace.geometry.location.lat(),
-                lng: selectedPlace.geometry.location.lng(),
-              },
-              address: selectedPlace.formatted_address,
-            }
-            : waypoint
-        );
-        const updatedWaypoint = updatedWaypoints.find(wp => wp.id === waypointId);
-        console.log("Updated Waypoint:", updatedWaypoint);
-
-        return updatedWaypoints;
-      });
-    } else {
-      console.warn('No valid place selected');
+      let newMapCenter = {
+        lat: selectedPlace.geometry.location.lat(),
+        lng: selectedPlace.geometry.location.lng(),
+      };
+  
+      const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
+  
+      setInputFields(prevFields =>
+        prevFields.map(field => {
+          if (field.id === `waypoint-${waypointId}`) {
+            return { ...field, location: newMapCenter, address: formattedPlaceName };
+          }
+          return field;
+        })
+      );
+  
+      setWaypoints(prevWaypoints => prevWaypoints.map(waypoint => {
+        if (waypoint.id === waypointId) {
+          return { ...waypoint, location: newMapCenter };
+        }
+        return waypoint;
+      }));
     }
   };
+  
+  // const onWaypointSelected = (waypointId, selectedPlace) => {
+  //   if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
+  //     setWaypoints(prevWaypoints => {
+  //       const updatedWaypoints = prevWaypoints.map(waypoint =>
+  //         waypoint.id === waypointId
+  //           ? {
+  //             ...waypoint,
+  //             name: selectedPlace.name,
+  //             location: {
+  //               lat: selectedPlace.geometry.location.lat(),
+  //               lng: selectedPlace.geometry.location.lng(),
+  //             },
+  //             address: selectedPlace.formatted_address,
+  //           }
+  //           : waypoint
+  //       );
+  //       const updatedWaypoint = updatedWaypoints.find(wp => wp.id === waypointId);
+  //       console.log("Updated Waypoint:", updatedWaypoint);
+
+  //       return updatedWaypoints;
+  //     });
+  //   } else {
+  //     console.warn('No valid place selected');
+  //   }
+  // };
+
+
+
+
 
   useEffect(() => {
     renderRoute();
@@ -385,10 +566,22 @@ const FindASchool = () => {
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
 
+
+
+    const onWaypointAddressChange = (waypointId, newAddress) => {
+      // Update the address for the specific waypoint
+      setInputFields(prevFields =>
+        prevFields.map(field => {
+          if (field.id === `waypoint-${waypointId}`) {
+            return { ...field, address: newAddress };
+          }
+          return field;
+        })
+      );
+    };
+    
+
   function onPlaceSelected(place, type = 'defaultType') {
-
-    //let newMapCenter;
-
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
         lat: place.geometry.location.lat(),
@@ -399,32 +592,43 @@ const FindASchool = () => {
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
+  
+      const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
 
+      setInputFields(prevFields =>
+        prevFields.map(field => {
+          if (field.type === type) {
+            return {
+              ...field,
+              location: newMapCenter,
+              address: formattedPlaceName 
+            };
+          }
+          return field;
+        })
+      );
+  
       if (type === 'start') {
         console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
-        console.log('start got set:', newMapCenter);
       } else if (type === 'destination') {
+        console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
-      } else if (type === 'waypoint') {
-        setWaypoint(newMapCenter);
-      }
-
-      if (type.startsWith('waypoint_')) {
+      } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
-        setWaypoints(prevWaypoints => {
-          return prevWaypoints.map(waypoint => {
-            if (waypoint.id === waypointId) {
-              return { ...waypoint, location: newMapCenter };
-            }
-            return waypoint;
-          });
-        });
+        setWaypoints(prevWaypoints => prevWaypoints.map(waypoint => {
+          if (waypoint.id === waypointId) {
+            return { ...waypoint, location: newMapCenter };
+          }
+          return waypoint;
+        }));
       }
     }
-
   };
 
+
+
+    
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
       const map = mapRef.current;
@@ -442,8 +646,8 @@ const FindASchool = () => {
           inputRef = routeInputRef2;
           break;
         case 'waypoint':
-          inputRef = waypointRefs[waypointId!]; // use the ref from waypointRefs by waypointId
-          type = `waypoint_${waypointId}`; // update the type to be unique for each waypoint
+          inputRef = waypointRefs[waypointId!];
+          type = `waypoint_${waypointId}`;
           break;
         default:
           console.log('Invalid input type');
@@ -477,7 +681,7 @@ const FindASchool = () => {
           const placesService = new google.maps.places.PlacesService(map);
           placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              console.log('Calling onPlaceSelected with type:', type);
+              console.log('Calling onPlaceSelected with location type:', type);
               onPlaceSelected(place, type);
               if (inputRef.current) {
                 inputRef.current.value = predictions[0].description;
@@ -496,14 +700,8 @@ const FindASchool = () => {
 
   const onEnterKeyPressedForWaypoint = async (waypointId: number) => {
     const place = await onEnterKeyPressed('waypoint', waypointId);
-    // onPlaceSelected(place, 'waypoint_' + waypointId);
   };
 
-  // Define your default values for center and zoom outside of your component
-  // const DEFAULT_CENTER = { lat: /* Default latitude */, lng: /* Default longitude */ };
-  const DEFAULT_ZOOM = 5;
-
-  // Inside your component
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
     setHasSearched(false);
@@ -513,17 +711,13 @@ const FindASchool = () => {
     setMapCenter(center);
     setZoomLevel(DEFAULT_ZOOM);
 
-
     setMarkers([]);
-
 
     if (directionsRendererRef.current) {
       directionsRendererRef.current.setDirections({ routes: [] });
     }
 
-
     setHoveredSchoolId(null);
-
 
     if (nearInputRef.current) nearInputRef.current.value = '';
     if (routeInputRef1.current) routeInputRef1.current.value = '';
@@ -532,8 +726,6 @@ const FindASchool = () => {
     setWaypoints([]);
 
     setSearchText('');
-
-
 
     if (mapRef.current) {
       mapRef.current.setCenter(center);
@@ -549,6 +741,74 @@ const FindASchool = () => {
     setWaypoint(null);
     setDestination(null);
   };
+
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+  
+    const items = Array.from(inputFields);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    
+    // Update the input fields state
+    setInputFields(items.map(item => {
+      // Preserving the address value for each item
+      const fieldAddress = waypointAddresses[item.id] || item.address;
+      return { ...item, address: fieldAddress };
+    }));
+  
+    // Update waypointAddresses to reflect the new order
+    const updatedWaypointAddresses = {};
+    items.forEach(item => {
+      if (item.originalType === 'waypoint') {
+        updatedWaypointAddresses[item.id] = waypointAddresses[item.id] || '';
+      }
+    });
+    setWaypointAddresses(updatedWaypointAddresses);
+  
+    // Continue with updating location data as needed
+    updateLocationData(items);
+  };
+  
+  
+  
+  const updateLocationData = (items) => {
+    const newStart = items[0].location;
+    const newDestination = items[items.length - 1].location;
+    const newWaypoints = items.slice(1, -1).map(item => ({ id: item.id, location: item.location }));
+  
+    setStart(newStart);
+    setDestination(newDestination);
+    setWaypoints(newWaypoints);
+  
+    // Update inputFields to preserve addresses and other properties
+    setInputFields(items.map(item => {
+      const originalField = inputFields.find(field => field.id === item.id);
+      return { ...item, address: originalField ? originalField.address : '' };
+    }));
+  
+    console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
+  };
+  
+    
+  useEffect(() => {
+    renderRoute();
+  }, [start, waypoints, destination]);
+  
+  
+  
+  // const updateRouteDataBasedOnNewOrder = (newOrder) => {
+  //   let newStart = newOrder[0]?.location; 
+  //   let newDestination = newOrder[newOrder.length - 1]?.location;
+  //   let newWaypoints = newOrder.slice(1, -1).map(field => ({ id: field.id, location: field.location }));
+  
+  //   setLocationData({ start: newStart, waypoints: newWaypoints, destination: newDestination });
+  //   setStart(newStart); // Update start state
+  //   setDestination(newDestination); // Update destination state
+  
+  //   console.log("New location data:", { start: newStart, waypoints: newWaypoints, destination: newDestination });
+  // };
+
 
   return (
     <div className='find-a-school-container'>
@@ -577,7 +837,6 @@ const FindASchool = () => {
 
                 <Autocomplete
                   onLoad={autocomplete => {
-                    console.log("Autocomplete1 loaded (tab-content-1)");
                     autocomplete.setComponentRestrictions({ country: 'us' });
                     autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
                     setAutocomplete1(autocomplete);
@@ -595,7 +854,8 @@ const FindASchool = () => {
                     type="text"
                     placeholder="Enter address, city and state, or zip"
                     ref={nearInputRef}
-                    onChange={() => handleInputChange(nearInputRef)}
+                    onChange={(e) => handleInputChange(e, '')}
+                    //onChange={() => handleInputChange(nearInputRef, '')}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         onEnterKeyPressed();
@@ -632,6 +892,7 @@ const FindASchool = () => {
               </div>
             </div>
             <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
+
               <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
                 <div
                   className={`add-more ${isAdded ? 'added' : ''}`}
@@ -643,133 +904,181 @@ const FindASchool = () => {
                     </svg>
                   </div>
                 </div>
-                <div className='first-input'>
-                  <div className='start'>
-                  </div>
-                  <Autocomplete
-                    onLoad={autocomplete => {
-                      autocomplete.setComponentRestrictions({
-                        country: 'us'
-                      });
-                      setAutocomplete2(autocomplete);
-                    }}
-                    onPlaceChanged={() => {
-                      if (autocomplete2) {
-                        const selectedPlace = autocomplete2.getPlace();
-                        onPlaceSelected(selectedPlace, 'start');
-                      }
-                    }}
-                  >
-                    <input
-                      ref={routeInputRef1}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          onEnterKeyPressed('start');
-                        }
-                      }}
-                      id="along"
-                      type="text"
-                      placeholder="Search by address, city, state, ZIP"
-                      onChange={() => handleInputChange(routeInputRef1)}
-                    />
-                  </Autocomplete>
-                  <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
-                    <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
-                    </svg>
-                  </div>
-                  <div className='drag-icon'>
-                    <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                      <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
-                {waypoints.map(waypoint => (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="routeInputs">
+                    {(provided) => (
+                      <div {...provided.droppableProps} ref={provided.innerRef} className={`input-wrapper ${isAdded ? 'added' : ''}`}>
 
-                  <div key={waypoint.id} className='waypoint-input'>
-                    <div className='start'>
-                    </div>
-                    <Autocomplete
-                      onLoad={autocomplete => {
-                        autocomplete.setComponentRestrictions({ country: 'us' });
-                        handleAutocompleteLoad(`waypoint_${waypoint.id}`, autocomplete);
-                      }}
-                      onPlaceChanged={() => {
-                        const selectedPlace = autocompleteInstances[`waypoint_${waypoint.id}`].getPlace();
-                        onWaypointSelected(waypoint.id, selectedPlace);
-                      }}
-                    >
-                      <input
-                        onKeyDown={(e) => {
-                          console.log("Key pressed:", e.key);
-                          if (e.key === "Enter") {
-                            onEnterKeyPressedForWaypoint(waypoint.id);
-                          }
-                        }}
-                        ref={waypointRefs[waypoint.id]}
-                        onChange={() => handleInputChange(waypointRefs[waypoint.id])}
-                        id="waypoint"
-                        type="text"
-                        placeholder="Search by address, city, state, ZIP"
-                      />
-                    </Autocomplete>
-                    <div className='drag-icon'>
-                      <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                    </div>
-                    <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
-                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
-                        <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
-                        <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
-                      </svg>
-                    </div>
-                  </div>
-                ))}
-                <div className='second-input'>
-                  <div className='end'>
-                    <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
-                    </svg>
-                  </div>
-                  <Autocomplete
-                    onLoad={autocomplete => {
-                      autocomplete.setComponentRestrictions({
-                        country: 'us'
-                      });
-                      setAutocomplete3(autocomplete);
-                    }}
-                    onPlaceChanged={() => {
-                      if (autocomplete3) {
-                        const selectedPlace = autocomplete3.getPlace();
-                        onPlaceSelected(selectedPlace, 'destination');
-                      }
-                    }}
-                  >
-                    <input
-                      id="alongEnd"
-                      type="text"
-                      placeholder="Search by address, city, state, ZIP"
-                      ref={routeInputRef2}
-                      onChange={() => handleInputChange(routeInputRef2)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          onEnterKeyPressed('destination');
-                        }
-                      }}
-                    />
-                  </Autocomplete>
-                  <div className='drag-icon'>
-                    <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                      <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
+                        <div className='first-input'>
+                          <div className='start'>
+                          </div>
+                          <Draggable key='start' draggableId='start' index={0}>
+                            {(provided) => (
+                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                <Autocomplete
+                                  onLoad={autocomplete => {
+                                    autocomplete.setComponentRestrictions({
+                                      country: 'us'
+                                    });
+                                    setAutocomplete2(autocomplete);
+                                  }}
+                                  onPlaceChanged={() => {
+                                    if (autocomplete2) {
+                                      const selectedPlace = autocomplete2.getPlace();
+                                      onPlaceSelected(selectedPlace, 'start');
+                                    }
+                                  }}
+                                >
+
+                                  <input
+                                    ref={routeInputRef1}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') {
+                                        onEnterKeyPressed('start');
+                                      }
+                                    }}
+                                    id="along"
+                                    type="text"
+                                    placeholder="Search by address, city, state, ZIP"
+                                    value={inputFields.find(field => field.type === 'start')?.address || ''}
+                                    onChange={(e) => handleInputChange(e, 'start')}
+                                    />
+
+
+                                </Autocomplete>
+                              </div>
+                            )}
+                          </Draggable>
+                          <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
+                            <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                            </svg>
+                          </div>
+                          <div className='drag-icon'>
+                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {waypoints.map((waypoint, index) => {
+                        const waypointId = `waypoint-${waypoint.id}`;
+                        const waypointAddress = waypointAddresses[waypointId] || '';
+
+                          return (
+                          <div key={waypoint.id} className='waypoint-input'>
+                            <div className='start'>
+                            </div>
+                            <Draggable key={waypoint.id} draggableId={`waypoint-${waypoint.id}`} index={index + 1}>
+                              {(provided) => (
+                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                  <Autocomplete
+                                    onLoad={autocomplete => {
+                                      autocomplete.setComponentRestrictions({ country: 'us' });
+                                      handleAutocompleteLoad(`waypoint_${waypoint.id}`, autocomplete);
+                                    }}
+                                    onPlaceChanged={() => {
+                                      const selectedPlace = autocompleteInstances[`waypoint_${waypoint.id}`].getPlace();
+                                      onWaypointSelected(waypoint.id, selectedPlace);
+                                    }}
+                                  >
+
+                                    <input
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                          onEnterKeyPressedForWaypoint(waypoint.id);
+                                        }
+                                      }}
+                                      ref={waypointRefs[waypoint.id]}
+                                      id={`waypoint-${waypoint.id}`}
+                                      //key={waypointKey}
+                                      type="text"
+                                      value={waypointAddress}
+                                      onChange={(e) => handleInputChange(e, `waypoint-${waypoint.id}`)}
+                                      placeholder="Search by address, city, state, ZIP"
+
+                                    />
+
+                                  </Autocomplete>
+                                </div>
+                              )}
+                            </Draggable>
+
+                            <div className='drag-icon'>
+                              <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              </svg>
+                            </div>
+                            <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
+                              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
+                                <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
+                                <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
+                              </svg>
+                            </div>
+                          </div>
+                          )
+                          })}
+                        
+                        <div className='second-input'>
+                          <div className='end'>
+                            <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                            </svg>
+                          </div>
+                          <Draggable key='destination' draggableId='destination' index={waypoints.length + 1}>
+                            {(provided) => (
+                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                <Autocomplete
+                                  onLoad={autocomplete => {
+                                    autocomplete.setComponentRestrictions({
+                                      country: 'us'
+                                    });
+                                    setAutocomplete3(autocomplete);
+                                  }}
+                                  onPlaceChanged={() => {
+                                    if (autocomplete3) {
+                                      const selectedPlace = autocomplete3.getPlace();
+                                      onPlaceSelected(selectedPlace, 'destination');
+                                    }
+                                  }}
+                                >
+                                  <input
+                                    id="alongEnd"
+                                    type="text"
+                                    placeholder="Search by address, city, state, ZIP"
+                                    value={inputFields.find(field => field.type === 'destination')?.address || ''}
+                                    ref={routeInputRef2}
+                                    onChange={(e) => handleInputChange(e, 'destination')}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') {
+                                        onEnterKeyPressed('destination');
+                                      }
+                                    }}
+                                  />
+
+                                </Autocomplete>
+                              </div>
+                            )}
+                          </Draggable>
+
+                          <div className='drag-icon'>
+                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
               </div>
+
             </div>
           </div>
 
@@ -842,10 +1151,9 @@ const FindASchool = () => {
             onLoad={(map) => {
               mapRef.current = map;
               directionsRendererRef.current = new google.maps.DirectionsRenderer({
-                suppressMarkers: true, // Suppress default markers
+                suppressMarkers: true,
                 preserveViewport: true
               });
-
               directionsRendererRef.current.setMap(map);
             }}
             options={{

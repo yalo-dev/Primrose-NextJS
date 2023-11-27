@@ -38,23 +38,23 @@ export default function Footer({ menuItems, siteSettings }) {
                         <NewsletterForm />
                     </div>
                     <div className='social col-12 col-lg-4 d-flex justify-content-between mt-4 mb-3 w-100'>
-                        {socialIcons.map((icon, index) => {
-                        if (icon.icon && icon.icon.sourceUrl && icon.icon.altText && icon.link && icon.link.url) {
-                            return (
-                            <Link key={index} href={icon.link.url}> {/* Key moved here */}
+                    {socialIcons.map((icon, index) => {
+                    if (icon.icon && icon.icon.sourceUrl && icon.link && icon.link.url) {
+                        return (
+                            <a key={index} href={icon.link.url} target="_blank" rel="noopener noreferrer">
                                 <img
-                                src={icon.icon.sourceUrl}
-                                alt={icon.icon.altText || 'Social Icon'}
-                                width={40}
-                                height={40}
+                                    src={icon.icon.sourceUrl}
+                                    alt={icon.icon.altText || 'Social Icon'}
+                                    width={40}
+                                    height={40}
                                 />
-                            </Link>
-                            );
-                        } else {
-                            console.log(`Missing data for icon at index ${index}`);
-                            return null;
-                        }
-                        })}
+                            </a>
+                        );
+                    } else {
+                        console.log(`Missing data for icon at index ${index}`);
+                        return null;
+                    }
+                })}
                     </div>
                 </div>
 
