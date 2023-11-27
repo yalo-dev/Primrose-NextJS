@@ -657,7 +657,7 @@ export default function ClassroomPage() {
                         {beforeAndAfterSchoolCare && (
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <Image
+                                    <img
                                         src={beforeAndAfterSchoolCare.leftColumn.image.sourceUrl}
                                         alt={beforeAndAfterSchoolCare.leftColumn.altText || 'feature image'}
                                         width={500}
@@ -677,7 +677,7 @@ export default function ClassroomPage() {
                         {summerAdventureClub && (
                             <div className='two-columns-image-and-text-alternative reverse-column'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <Image
+                                    <img
                                         src={summerAdventureClub.rightColumn.image.sourceUrl}
                                         alt={summerAdventureClub.rightColumn.altText || 'feature image'}
                                         width={500}
@@ -700,7 +700,7 @@ export default function ClassroomPage() {
                         <div className="container">
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <Image
+                                    <img
                                         src={primroseCommitment.leftColumn.image.sourceUrl}
                                         alt={primroseCommitment.leftColumn.altText || 'feature image'}
                                         width={500}
