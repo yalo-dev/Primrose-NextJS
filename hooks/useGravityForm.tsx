@@ -1,12 +1,16 @@
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react";
-import { EmailInput } from "../generated/graphql";
+import { CheckboxFieldInput, EmailFieldInput } from "../generated/graphql";
 
 export interface FieldValue {
   id: number;
 }
 
+export interface CheckboxFieldValue extends FieldValue {
+  checkboxValues: CheckboxFieldInput[];
+}
+
 export interface EmailFieldValue extends FieldValue {
-  emailValues: EmailInput;
+  emailValues: EmailFieldInput;
 }
 
 export interface StringFieldValue extends FieldValue {
@@ -17,7 +21,7 @@ export interface StringFieldValues extends FieldValue {
   values: string[];
 }
 
-export type FieldValueUnion =  StringFieldValue | StringFieldValues;
+export type FieldValueUnion =  CheckboxFieldValue | EmailFieldValue | StringFieldValue | StringFieldValues;
 
 interface Action {
   type: ACTION_TYPES;
@@ -25,6 +29,7 @@ interface Action {
 }
 
 export enum ACTION_TYPES {
+  updateCheckboxFieldValue  = 'updateCheckboxFieldValue',
   updateEmailFieldValue     = 'updateEmailFieldValue',
   updatePhoneFieldValue     = 'updatePhoneFieldValue',
   updateRadioFieldValue     = 'updateRadioFieldValue',
@@ -36,11 +41,14 @@ function reducer(state: FieldValueUnion[], action: Action) {
   const getOtherFieldValues = (id: number) => state.filter(fieldValue => fieldValue.id !== id);
 
   switch (action.type) {
+    case ACTION_TYPES.updateCheckboxFieldValue: {
+      const { id, checkboxValues } = action.fieldValue as CheckboxFieldValue;
+      return [...getOtherFieldValues(id), { id, checkboxValues }];
+    }
     case ACTION_TYPES.updateEmailFieldValue: {
       const { id, emailValues } = action.fieldValue as EmailFieldValue;
       return [...getOtherFieldValues(id), { id, emailValues }];
     }
-
     case ACTION_TYPES.updatePhoneFieldValue:
     case ACTION_TYPES.updateRadioFieldValue: 
     case ACTION_TYPES.updateSelectFieldValue:
