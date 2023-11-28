@@ -38,7 +38,7 @@ interface HorizontalTabProps {
 
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
 	
-	const [expandedTabGH, setExpandedTabGH] = useState<number | null>(0);
+	const [expandedTabGH, setExpandedTabGH] = useState<number | null>(null);
 	const [activePopupGH, setActivePopupGH] = useState<string | null>(null);
 	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
 	const buttonRefsGH = useRef<(HTMLButtonElement | null)[]>([]);

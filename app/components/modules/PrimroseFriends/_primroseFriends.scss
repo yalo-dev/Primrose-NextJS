@@ -52,64 +52,79 @@
                     }
                 }
 
-                &#pf-content-0,
-                &#pf-content-0::after {
+                &.Blue,
+                &.Blue::after {
                     border-color: #006BA6;
+                    .image-wrapper {
+                        img {
+                            background-color: #006BA6;
+                        }
+                    }
+                }
+                &.Blue
+                 {
+                    .image-wrapper {
+                        img {
+                            background-color: #006BA6;
+                            border-radius: 50%;
+                        }
+                    }
                 }
 
-                &#pf-content-1,
-                &#pf-content-1:after {
+                &.Orange,
+                &.Orange:after {
                     border-color: #FF9E1B;
                 }
-
-                &#pf-content-2,
-                &#pf-content-2::after {
+                &.Orange
+                {
+                   .image-wrapper {
+                       img {
+                           background-color: #FF9E1B;
+                           border-radius: 50%;
+                       }
+                   }
+               }
+                &.Purple,
+                &.Purple::after {
                     border-color: #814C9E;
                 }
-
-                &#pf-content-3,
-                &#pf-content-3::after {
+                &.Purple
+                {
+                   .image-wrapper {
+                       img {
+                           background-color: #814C9E;
+                           border-radius: 50%;
+                       }
+                   }
+               }
+                &.Teal,
+                &.Teal::after {
                     border-color: #00A5B5;
                 }
-
-                &#pf-content-4,
-                &#pf-content-4::after {
-                    border-color: #FF9E1B;
-                }
-
-                &#pf-content-5,
-                &#pf-content-5::after {
-                    border-color: #006BA6;
-                }
-
-                &#pf-content-6,
-                &#pf-content-6::after {
+                &.Teal
+                {
+                   .image-wrapper {
+                       img {
+                           background-color: #00A5B5;
+                           border-radius: 50%;
+                       }
+                   }
+               }
+                &.Red,
+                &.Red::after {
                     border-color: #E03C31;
-                }
-
-                &#pf-content-7,
-                &#pf-content-7::after {
-                    border-color: #FF9E1B;
-                }
-
-                &#pf-content-8,
-                &#pf-content-8::after {
-                    border-color: #00A5B5;
-                }
-
-                &#pf-content-9,
-                &#pf-content-9::after {
-                    border-color: #814C9E;
-                }
-
-                &#pf-content-10,
-                &#pf-content-10::after {
-                    border-color: #006BA6;
-                }
-
+                } 
+                &.Red
+                {
+                   .image-wrapper {
+                       img {
+                           background-color: #E03C31;
+                           border-radius: 50%;
+                       }
+                   }
+               }     
                 &#pf-content-11,
                 &#pf-content-11::after {
-                    border-color: #E03C31;
                     margin-bottom: 0;
                 }
 
@@ -231,64 +246,79 @@
             border: 1px dashed $neutral-2;
         }
 
-        &#pf-content-0,
-        &#pf-content-0::after {
+        &.Blue,
+        &.Blue::after {
             border-color: #006BA6;
+            .image-wrapper {
+                img {
+                    background-color: #006BA6;
+                }
+            }
+        }
+        &.Blue
+         {
+            .image-wrapper {
+                img {
+                    background-color: #006BA6;
+                    border-radius: 50%;
+                }
+            }
         }
 
-        &#pf-content-1,
-        &#pf-content-1:after {
+        &.Orange,
+        &.Orange:after {
             border-color: #FF9E1B;
         }
-
-        &#pf-content-2,
-        &#pf-content-2::after {
+        &.Orange
+        {
+           .image-wrapper {
+               img {
+                   background-color: #FF9E1B;
+                   border-radius: 50%;
+               }
+           }
+       }
+        &.Purple,
+        &.Purple::after {
             border-color: #814C9E;
         }
-
-        &#pf-content-3,
-        &#pf-content-3::after {
+        &.Purple
+        {
+           .image-wrapper {
+               img {
+                   background-color: #814C9E;
+                   border-radius: 50%;
+               }
+           }
+       }
+        &.Teal,
+        &.Teal::after {
             border-color: #00A5B5;
         }
-
-        &#pf-content-4,
-        &#pf-content-4::after {
-            border-color: #FF9E1B;
-        }
-
-        &#pf-content-5,
-        &#pf-content-5::after {
-            border-color: #006BA6;
-        }
-
-        &#pf-content-6,
-        &#pf-content-6::after {
+        &.Teal
+        {
+           .image-wrapper {
+               img {
+                   background-color: #00A5B5;
+                   border-radius: 50%;
+               }
+           }
+       }
+        &.Red,
+        &.Red::after {
             border-color: #E03C31;
-        }
-
-        &#pf-content-7,
-        &#pf-content-7::after {
-            border-color: #FF9E1B;
-        }
-
-        &#pf-content-8,
-        &#pf-content-8::after {
-            border-color: #00A5B5;
-        }
-
-        &#pf-content-9,
-        &#pf-content-9::after {
-            border-color: #814C9E;
-        }
-
-        &#pf-content-10,
-        &#pf-content-10::after {
-            border-color: #006BA6;
-        }
-
+        } 
+        &.Red
+        {
+           .image-wrapper {
+               img {
+                   background-color: #E03C31;
+                   border-radius: 50%;
+               }
+           }
+       }     
         &#pf-content-11,
         &#pf-content-11::after {
-            border-color: #E03C31;
             margin-bottom: 0;
         }
 
@@ -296,9 +326,7 @@
             padding-top: 1rem;
             padding-bottom: 2rem;
             text-align: center;
-            // @include media-breakpoint-up(xxl) {
-            //     padding-bottom: 0!important;
-            // }
+           
             img {
                 width: 127px;
                 height: 127px;

@@ -229,6 +229,7 @@ const FindASchool = () => {
 
 
 
+  const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
 
 
   const handleClearIconClick = (idToRemove: number) => {
@@ -265,42 +266,50 @@ const FindASchool = () => {
 
   const getCurrentLocation = () => {
     if (!geocoder) {
-      geocoder = new google.maps.Geocoder();
+        geocoder = new google.maps.Geocoder();
     }
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+        navigator.geolocation.getCurrentPosition((position) => {
+            const pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
 
-        geocoder.geocode({ 'location': pos }, (results, status) => {
-          if (status === 'OK' && results && results[0]) {
-            if (nearInputRef.current) {
-              nearInputRef.current.value = results[0].formatted_address;
+            if (activeTab === 1) { 
+                if (nearInputRef.current) {
+                    nearInputRef.current.value = "Current Location";
+                }
+                setStart(pos);
+                setShowCurrentLocationPin(false);
+            } else {
+                // Geocoding logic for other tabs
+                geocoder.geocode({ 'location': pos }, (results, status) => {
+                    if (status === 'OK' && results && results[0]) {
+                        if (routeInputRef1.current) {
+                            routeInputRef1.current.value = results[0].formatted_address;
+                        }
+                        setStart(pos);
+                    } else {
+                        alert('Geocoder failed due to: ' + status);
+                    }
+                });
             }
-            if (routeInputRef1.current) {
-              routeInputRef1.current.value = results[0].formatted_address;
-            }
-            setStart(pos);
-          } else {
-            alert('Geocoder failed due to: ' + status);
-          }
-        });
-        setUserLocation(pos);
-        setMapCenter(pos);
-        setZoomLevel(11);
-        setShowMap(true);
-        setSearched(true);
-        setHasSearched(true);
-      },
+
+            setUserLocation(pos);
+            setMapCenter(pos);
+            setZoomLevel(11);
+            setShowMap(true);
+            setSearched(true);
+            setHasSearched(true);
+        },
         () => {
-          alert("Error getting location. Please ensure location services are enabled.");
+            alert("Error getting location. Please ensure location services are enabled.");
         });
     } else {
-      alert("Your browser doesn't support geolocation.");
+        alert("Your browser doesn't support geolocation.");
     }
-  };
+};
+
 
   const handleLocationIconClick = () => {
     getCurrentLocation();
@@ -1010,7 +1019,7 @@ const FindASchool = () => {
                           mapCenter.lng,
                           school.coordinates.lat,
                           school.coordinates.lng
-                        ).toFixed(2)}mi</span>&nbsp;·&nbsp;
+                        ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
                         <span className='address'>{school.address}</span>
                       </div>
                       <div className='hours'>{school.hours}</div>
@@ -1018,10 +1027,10 @@ const FindASchool = () => {
                       <div className='button-wrap d-flex'>
                         <Button variant="primary">Schedule a Tour</Button>
                         <div className='phone ms-2'>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-                            <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                            <path d="M30.5831 27.4384L30.5833 27.4385L32.1465 28.3071L33.7097 29.1756C34.3736 29.5442 34.6663 30.3311 34.4052 31.044L30.5831 27.4384ZM30.5831 27.4384C29.9087 27.0639 29.0985 27.1531 28.5217 27.6656L28.5217 27.6657M30.5831 27.4384L28.5217 27.6657M27.9429 33.7124L27.7715 34.1821C22.5741 32.285 18.715 28.4259 16.8179 23.2285L16.8179 23.2285C15.8177 20.4881 17.2584 17.5823 19.9558 16.5949L27.9429 33.7124ZM27.9429 33.7124L27.7715 34.1821C30.5119 35.1823 33.4177 33.7416 34.4051 31.0442L27.9429 33.7124ZM21.8247 17.2899L21.825 17.2903C22.4034 18.3323 22.9825 19.3748 23.5615 20.4167L23.5616 20.4169C23.936 21.0911 23.8471 21.9019 23.3343 22.4783L21.8247 17.2899ZM21.8247 17.2899C21.4556 16.6266 20.669 16.3336 19.956 16.5948L21.8247 17.2899ZM28.5217 27.6657L28.5197 27.6674C28.0523 28.0828 27.5847 28.4983 27.1174 28.9139C24.9301 27.9282 23.0718 26.0699 22.0861 23.8826M28.5217 27.6657L22.0861 23.8826M22.0861 23.8826C22.5022 23.4148 22.9182 22.9466 23.3341 22.4785L22.0861 23.8826Z" stroke="#5E6738" />
-                          </svg>
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
+                          <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
+                        </svg>
                         </div>
                       </div>
                     </div>
@@ -1068,16 +1077,14 @@ const FindASchool = () => {
               />
             ))}
 
-            {start && (
-              <Marker
-                position={start}
-
-                icon={{
-                  url: svgMarkerIconStart,
-                  scaledSize: new google.maps.Size(20, 20),
-                }}
-              />
-
+            {start && showCurrentLocationPin && (
+                <Marker
+                    position={start}
+                    icon={{
+                        url: svgMarkerIconStart,
+                        scaledSize: new google.maps.Size(20, 20),
+                    }}
+                />
             )}
 
             {waypoints && waypoints
@@ -1151,7 +1158,7 @@ const FindASchool = () => {
                         mapCenter.lng,
                         school.coordinates.lat,
                         school.coordinates.lng
-                      ).toFixed(2)}mi</span>&nbsp;·&nbsp;
+                      ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
                       <span className='address'>{school.address}</span>
                     </div>
                     <div className='hours'>{school.hours}</div>
@@ -1159,9 +1166,9 @@ const FindASchool = () => {
                     <div className='button-wrap d-flex'>
                       <Button variant="primary">Schedule a Tour</Button>
                       <div className='phone ms-2'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                          <path d="M30.5831 27.4384L30.5833 27.4385L32.1465 28.3071L33.7097 29.1756C34.3736 29.5442 34.6663 30.3311 34.4052 31.044L30.5831 27.4384ZM30.5831 27.4384C29.9087 27.0639 29.0985 27.1531 28.5217 27.6656L28.5217 27.6657M30.5831 27.4384L28.5217 27.6657M27.9429 33.7124L27.7715 34.1821C22.5741 32.285 18.715 28.4259 16.8179 23.2285L16.8179 23.2285C15.8177 20.4881 17.2584 17.5823 19.9558 16.5949L27.9429 33.7124ZM27.9429 33.7124L27.7715 34.1821C30.5119 35.1823 33.4177 33.7416 34.4051 31.0442L27.9429 33.7124ZM21.8247 17.2899L21.825 17.2903C22.4034 18.3323 22.9825 19.3748 23.5615 20.4167L23.5616 20.4169C23.936 21.0911 23.8471 21.9019 23.3343 22.4783L21.8247 17.2899ZM21.8247 17.2899C21.4556 16.6266 20.669 16.3336 19.956 16.5948L21.8247 17.2899ZM28.5217 27.6657L28.5197 27.6674C28.0523 28.0828 27.5847 28.4983 27.1174 28.9139C24.9301 27.9282 23.0718 26.0699 22.0861 23.8826M28.5217 27.6657L22.0861 23.8826M22.0861 23.8826C22.5022 23.4148 22.9182 22.9466 23.3341 22.4785L22.0861 23.8826Z" stroke="#5E6738" />
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
+                          <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
                         </svg>
                       </div>
                     </div>

@@ -94,7 +94,7 @@ const Q1Skills: React.FC<Q1SkillsProps> = ({ eyebrow, eyebrowColor, heading, hea
 									)}
                                 </div>
 
-                                <div className="title-container">
+                                <div className="title-container pt-2">
                                     {item.title && <Subheading level='div' className='title'>{item.title}</Subheading>}
                                     {item.description && <Subheading level='div' className='desc'>{item.description}</Subheading>}
                                 </div>

@@ -7,10 +7,10 @@ import Button from '../../atoms/Button/Button';
 
 interface VerticalTabProps {
 	customizations: {
-		topPaddingMobile: string;
-		topPaddingDesktop: string;
-		bottomPaddingMobile: string;
-		bottomPaddingDesktop: string;
+		topMarginMobile: string;
+		topMarginDesktop: string;
+		bottomMarginMobile: string;
+		bottomMarginDesktop: string;
 		backgroundColor: string;
 	};
 	tabs: {
@@ -97,10 +97,10 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 
 	return (
 		<Customizations
-			topPaddingMobile={customizations?.topPaddingMobile}
-			topPaddingDesktop={customizations?.topPaddingDesktop}
-			bottomPaddingMobile={customizations?.bottomPaddingMobile}
-			bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+			topMarginMobile={customizations?.topMarginMobile}
+			topMarginDesktop={customizations?.topMarginDesktop}
+			bottomMarginMobile={customizations?.bottomMarginMobile}
+			bottomMarginDesktop={customizations?.bottomMarginDesktop}
 			colorLabelOuter={customizations?.backgroundColor}
 		>
 			<div className='container' ref={containerRefVT}>
@@ -147,7 +147,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
                                         <ColorComponent color={tab.content.headingColor}>{tab.content.heading}</ColorComponent>
                                     </Heading>}
 
-                                    {tab.content.subheading && <Subheading level='div' className='subhead b3'>
+                                    {tab.content.subheading && <Subheading level='div' className='subhead b4'>
                                         <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
                                     </Subheading>}
 
@@ -212,7 +212,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
                                         <ColorComponent color={tab.content.headingColor}>{tab.content.heading}</ColorComponent>
                                     </Heading>}
 
-                                    {tab.content.subheading && <Subheading level='div' className='subhead b3'>
+                                    {tab.content.subheading && <Subheading level='div' className='subhead b4'>
                                         <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
                                     </Subheading>}
 

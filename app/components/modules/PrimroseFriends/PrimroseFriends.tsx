@@ -10,6 +10,7 @@ interface PrimroseFriends {
         map(arg0: (tab: any, index: any) => React.JSX.Element): React.ReactNode;
         label?: string;
         tabLabelColor?: string;
+        friendColor?: string;
         content: {
             videoUrl?: {
                 url: string;
@@ -40,7 +41,7 @@ interface PrimroseFriends {
 const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) => {
     const [expandedTabPF, setExpandedTabPF] = useState<number | null>(0);
     const videoRefsPF = useRef<(HTMLVideoElement | null)[]>([]);
-    const [playingVideoPF, setPlayingVideoPF] = useState<number | null>(null); // This will store the index of the currently playing video
+    const [playingVideoPF, setPlayingVideoPF] = useState<number | null>(null); 
     const contentRefsPF = useRef<(HTMLDivElement | null)[]>([]);
     const mobileButtonRefsPF = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -223,7 +224,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 <button
                                     ref={(el) => mobileButtonRefsPF.current[index] = el}
                                     onClick={() => handleLabelClickPF(`pf-content-${index}`)}
-                                    data-id-pf={`pf-content-${index}`} // Add this attribute
+                                    data-id-pf={`pf-content-${index}`}
                                     className={expandedTabPF === index ? 'expanded' : ''}
                                 >
                                     {tab.label &&
@@ -240,7 +241,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                                 {/* Mobile: Content rendered right below the label */}
                                 <div className="d-lg-none">
                                     {expandedTabPF === index && (
-                                        <animated.div style={slideAnimationPropsPF} className="tab-content" id={`pf-content-${index}`}>
+                                        <animated.div style={slideAnimationPropsPF} className={`tab-content ${tab.friendColor || ''}`} id={`pf-content-${index}`}>
                                             <div className='wrap p-3'>
                                                 {tab.content?.image?.sourceUrl && (
                                                     <div className='image-wrapper'>
@@ -300,7 +301,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
 
                     <div className='desktop-content d-none d-lg-block col-lg-7 offset-lg-1'>
                         {tabs.map((tab, index) => (
-                            <div id={`pf-content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefsPF.current[index] = el}>
+                            <div id={`pf-content-${index}`} className={`tab-content d-flex ${tab.friendColor || ''}`} key={index} ref={el => contentRefsPF.current[index] = el}>
 
                                 <div className='wrap'>
                                     {tab.content?.image?.sourceUrl && (

@@ -12,10 +12,10 @@ interface DynamicFormProps {
         subheadingColor?: string;
     };
     customizations?: {
-        topPaddingMobile?: string;
-        topPaddingDesktop?: string;
-        bottomPaddingMobile?: string;
-        bottomPaddingDesktop?: string;
+        topMarginMobile?: string;
+        topMarginDesktop?: string;
+        bottomMarginMobile?: string;
+        bottomMarginDesktop?: string;
         outerBackgroundColor?: string;
     };
 }
@@ -63,12 +63,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form, headings, customization
 
     return (
         <Customizations
-            topPaddingMobile={customizations?.topPaddingMobile}
-            topPaddingDesktop={customizations?.topPaddingDesktop}
-            bottomPaddingMobile={customizations?.bottomPaddingMobile}
-            bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+            topMarginMobile={customizations?.topMarginMobile}
+            topMarginDesktop={customizations?.topMarginDesktop}
+            bottomMarginMobile={customizations?.bottomMarginMobile}
+            bottomMarginDesktop={customizations?.bottomMarginDesktop}
             colorLabelOuter={customizations?.outerBackgroundColor}
-        >
+        ><div className='dynamic-form'>
             <div className='container'>
                 {(heading || subheading) && (
                     <div className="heading-wrapper">
@@ -77,6 +77,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ form, headings, customization
                     </div>
                 )}
                 <div ref={formRef} className='form'></div>
+            </div>
             </div>
         </Customizations>
     );

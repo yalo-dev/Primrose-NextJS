@@ -45,7 +45,7 @@
 
                 .tab-label {
                     flex-basis: 50%;
-                    padding: 13px 15px;
+                    padding: 13px;
                     background-color: $grayscale-2;
                     border: 1px solid $grayscale-5;
 
@@ -112,7 +112,7 @@
                            
                             &::after {
                                 content: "";
-                                width: 85%;
+                                width: 90%;
                                 @include media-breakpoint-up(lg) {
                                     width: 100%;
                                 }
@@ -477,9 +477,17 @@
         display: flex;
         flex-direction: column;
         background: $white;
-
+        .school-list {
+            &:first-child {
+                .school-list-item {
+                    margin-top: 1rem;
+                }
+            }
+        }
         .school-list-item {
-            margin: 1rem;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            margin-bottom: 0;
             display: flex;
             padding: 32px 24px;
             flex-direction: column;
@@ -490,7 +498,7 @@
             color: $primary-darkgray;
             border: 1px solid $transparent;
             @include transition;
-
+            
             .name {
                 .marker svg path {
                     @include transition;
@@ -524,9 +532,9 @@
             }
 
             .hours {
-                color: $brand-blue;
+                color: $primary-darkgray;
                 font-family: Poppins;
-                font-size: 12px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 14px;
@@ -534,8 +542,8 @@
 
             .notes {
                 list-style: none;
-                //padding-left: 0.75rem;
-
+                padding-left: 0;
+                font-size: 14px;
                 // li::before {
                 //     content: "\2022";
                 //     color: $grayscale-5;

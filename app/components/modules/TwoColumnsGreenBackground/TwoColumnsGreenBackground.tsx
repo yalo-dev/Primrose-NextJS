@@ -26,11 +26,11 @@ interface TwoColumnsGreenBackground {
         };
     };
     customizations?: {
-		topPaddingMobile?: string;
-		topPaddingDesktop?: string;
-		bottomPaddingMobile?: string;
-		bottomPaddingDesktop?: string;
-	};
+        topMarginMobile?: string;
+        topMarginDesktop?: string;
+        bottomMarginMobile?: string;
+        bottomMarginDesktop?: string;
+    };
 }
 
 const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColumn, rightColumn, customizations }) => {
@@ -40,51 +40,55 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
 
 
-   return (
-        <div className='container'>
-             <Customizations
-                topPaddingMobile={customizations?.topPaddingMobile}
-                topPaddingDesktop={customizations?.topPaddingDesktop}
-                bottomPaddingMobile={customizations?.bottomPaddingMobile}
-                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-                >
-            <div className='two-columns-green-background'>
-                {(mobileImageUrl || desktopImageUrl) && (
-                    <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                       <div className='d-block d-lg-none mb-4'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
-                        {mobileImageUrl && 
-                            <img 
-                                className='d-block d-lg-none' 
-                                src={mobileImageUrl} 
-                                alt={leftColumn?.imageMobile?.altText || '' } 
-                                width={500} 
-                                height={500} 
-                            />
-                        }
-                        {desktopImageUrl && 
-                            <img 
-                                className='d-none d-lg-block' 
-                                src={desktopImageUrl} 
-                                alt={leftColumn?.imageDesktop?.altText || '' } 
-                                width={1000} 
-                                height={1000} 
-                            />
-                        }
-                </div>
-                )}
-                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
-                    <div className='d-none d-lg-block'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
-                    {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
-                    {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
-                    {rightColumn?.button?.url && rightColumn?.button?.title && (
-                        <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
-                            {rightColumn.button.title}
-                        </Button>
+    return (
+
+        <Customizations
+            topMarginMobile={customizations?.topMarginMobile}
+            topMarginDesktop={customizations?.topMarginDesktop}
+            bottomMarginMobile={customizations?.bottomMarginMobile}
+            bottomMarginDesktop={customizations?.bottomMarginDesktop}
+        >
+            <div className='bg-color'>
+            <div className='container'>
+                <div className='two-columns-green-background'>
+                    {(mobileImageUrl || desktopImageUrl) && (
+                        <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                            <div className='d-block d-lg-none mb-4'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
+                            {mobileImageUrl &&
+                                <img
+                                    className='d-block d-lg-none'
+                                    src={mobileImageUrl}
+                                    alt={leftColumn?.imageMobile?.altText || ''}
+                                    width={500}
+                                    height={500}
+                                />
+                            }
+                            {desktopImageUrl &&
+                                <img
+                                    className='d-none d-lg-block'
+                                    src={desktopImageUrl}
+                                    alt={leftColumn?.imageDesktop?.altText || ''}
+                                    width={1000}
+                                    height={1000}
+                                />
+                            }
+                        </div>
                     )}
+                    <div className='right-column col-12 c col-lg-5 offset-lg-1'>
+                        <div className='d-none d-lg-block'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>
+                        {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
+                        {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
+                        {rightColumn?.button?.url && rightColumn?.button?.title && (
+                            <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
+                                {rightColumn.button.title}
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
-            </Customizations>
-        </div>
+            </div>
+        </Customizations>
+
     );
 }
 
