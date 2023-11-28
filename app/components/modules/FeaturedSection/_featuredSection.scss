@@ -48,7 +48,7 @@
 
 }
 .featured-section {
-
+    padding: 30px 0 90px;
     @include media-breakpoint-up(lg) {
         padding: 100px 0;
     }
@@ -117,7 +117,7 @@
         justify-content: center;
         align-items: center;
         padding: 7px 6px;
-        bottom: 2rem;
+        bottom: -3.5rem;
         @include media-breakpoint-up(lg) {
             bottom: 0;
             right: 10rem

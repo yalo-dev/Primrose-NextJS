@@ -267,10 +267,10 @@ query GetModules($id: ID = "") {
 		  }
 		  ... on Page_Modules_Modules_GeneralVerticalTabs {
 			customizations {
-			  topPaddingMobile
-			  topPaddingDesktop
-			  bottomPaddingMobile
-			  bottomPaddingDesktop
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			  backgroundColor
 			}
 			tabs {

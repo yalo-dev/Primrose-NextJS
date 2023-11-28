@@ -1,5 +1,11 @@
 .general-vertical-tabs {
-
+    padding: 53px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 130px 0 140px;
+    }
+    @include media-breakpoint-up(xxl) {
+        padding: 130px 60px 140px;
+    }
     .heading-wrapper {
         max-width: 760px;
         margin: auto;
@@ -7,6 +13,9 @@
         padding-bottom: 40px;
         @include media-breakpoint-up(lg) {
             padding-bottom: 90px;
+        }
+        .b4 {
+            color: $text-gray;
         }
     }
 
@@ -24,6 +33,9 @@
             padding-left: 19px;
             padding-top: 13px;
             border-left: 1px solid $neutral-4;
+            &:last-child {
+                border-right: 1px solid $neutral-4;
+            }
         }
 
         h5 {
@@ -65,8 +77,8 @@
                 &:last-child {
                     left: 27%;
                     right: 27%;
-                    height: 6%;
-                    top: 46%;
+                    height: 5%;
+                    top: 47%;
                 }
             }
         }
@@ -103,7 +115,7 @@
             img {
                 object-fit: cover;
                 object-position: right;
-                border-radius: 1rem;
+                border-radius: 12px;
             }
             &.fullwidth {
                 width: 100%;
@@ -129,15 +141,22 @@
             h3 {
                 margin-bottom: 0;
                 padding-bottom: 23px;
+                @include media-breakpoint-up(lg) {
+                     padding-right: 10rem;
+                }
+                   
             }
             .subhead {
                 padding-bottom: 23px;
+                color: $text-gray;
             }
             .blurb {
                 padding-bottom: 23px;
+                color: $text-gray;
             }
             .table {
                 >div {
+                    color: $text-gray;
                     border-bottom: 1px solid  #E6E6E6;
                 }
             }
@@ -172,7 +191,13 @@
             right: -7rem;
             padding: 53px 40px 53px 40px;
             ul {
-                margin-bottom: 23px;
+                margin-bottom: 24px;
+                @include media-breakpoint-up(lg) {
+                    margin-bottom: 54px;
+                }
+                li {
+                    color: $text-gray;
+                }
             }
         }
        }
