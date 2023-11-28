@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 import { GfForm } from "../generated/graphql";
 
 import { client } from "../app/lib/apollo";
+import { CHECKBOX_FIELD_FIELDS } from "../components/GravityFormsFields/CheckboxField";
 import { EMAIL_FIELD_FIELDS } from "../components/GravityFormsFields/EmailField";
 import { PHONE_FIELD_FIELDS } from "../components/GravityFormsFields/PhoneField";
 import { RADIO_FIELD_FIELDS } from "../components/GravityFormsFields/RadioField";
@@ -25,6 +26,9 @@ const GET_FORM = gql`
         nodes {
           id
           type
+          ... on CheckboxField {
+            ...CheckboxFieldFields
+          }
           ... on EmailField {
             ...EmailFieldFields
           }
@@ -44,6 +48,7 @@ const GET_FORM = gql`
       }
     }
   }
+  ${CHECKBOX_FIELD_FIELDS}
   ${EMAIL_FIELD_FIELDS}
   ${PHONE_FIELD_FIELDS}
   ${RADIO_FIELD_FIELDS}
