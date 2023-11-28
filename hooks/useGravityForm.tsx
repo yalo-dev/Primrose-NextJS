@@ -1,9 +1,13 @@
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react";
+import { EmailInput } from "../generated/graphql";
 
 export interface FieldValue {
   id: number;
 }
 
+export interface EmailFieldValue extends FieldValue {
+  emailValues: EmailInput;
+}
 
 export interface StringFieldValue extends FieldValue {
   value: string;
@@ -21,6 +25,7 @@ interface Action {
 }
 
 export enum ACTION_TYPES {
+  updateEmailFieldValue     = 'updateEmailFieldValue',
   updatePhoneFieldValue     = 'updatePhoneFieldValue',
   updateRadioFieldValue     = 'updateRadioFieldValue',
   updateSelectFieldValue    = 'updateSelectFieldValue',
@@ -31,6 +36,11 @@ function reducer(state: FieldValueUnion[], action: Action) {
   const getOtherFieldValues = (id: number) => state.filter(fieldValue => fieldValue.id !== id);
 
   switch (action.type) {
+    case ACTION_TYPES.updateEmailFieldValue: {
+      const { id, emailValues } = action.fieldValue as EmailFieldValue;
+      return [...getOtherFieldValues(id), { id, emailValues }];
+    }
+
     case ACTION_TYPES.updatePhoneFieldValue:
     case ACTION_TYPES.updateRadioFieldValue: 
     case ACTION_TYPES.updateSelectFieldValue:

@@ -1,5 +1,6 @@
 import { FormField, FieldError } from "../generated/graphql";
 
+import EmailField from "./GravityFormsFields/EmailField";
 import PhoneField from "./GravityFormsFields/PhoneField";
 import RadioField from "./GravityFormsFields/RadioField";
 import TextField from "./GravityFormsFields/TextField";
@@ -12,6 +13,8 @@ interface Props {
 
 export default function GravityFormsField({ field, fieldErrors }: Props) {
   switch (field.type) {
+    case "EMAIL":
+      return <EmailField field={field} fieldErrors={fieldErrors} />;
     case "PHONE":
       return <PhoneField field={field} fieldErrors={fieldErrors} />;
     case "RADIO":
