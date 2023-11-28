@@ -21,7 +21,7 @@ export interface StringFieldValues extends FieldValue {
   values: string[];
 }
 
-export type FieldValueUnion =  StringFieldValue | StringFieldValues;
+export type FieldValueUnion =  CheckboxFieldValue | EmailFieldValue | StringFieldValue | StringFieldValues;
 
 interface Action {
   type: ACTION_TYPES;
