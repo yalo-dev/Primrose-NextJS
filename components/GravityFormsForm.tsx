@@ -62,7 +62,7 @@ export default function GravityFormsForm({ form }: Props) {
     return <p>{'Form successfully submitted - thank you.'}</p>
   }
 
-  console.log('form: ', form?.formFields?.nodes);
+  console.log('error ', data?.submitGfForm?.errors);
   console.log('state: ', state);
   return (
     <form method="post" onSubmit={handleSubmit}>

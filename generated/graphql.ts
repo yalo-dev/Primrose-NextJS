@@ -9422,13 +9422,13 @@ export type Page_Modules_Modules_DynamicForm = AcfFieldGroup & {
 /** Field Group */
 export type Page_Modules_Modules_DynamicForm_Customizations = AcfFieldGroup & {
   __typename?: 'Page_Modules_Modules_DynamicForm_Customizations';
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
   outerBackgroundColor?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -9490,12 +9490,12 @@ export type Page_Modules_Modules_FeaturedSection_Customizations = AcfFieldGroup 
   __typename?: 'Page_Modules_Modules_FeaturedSection_Customizations';
   accentLeftOrRight?: Maybe<Scalars['String']['output']>;
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -9641,6 +9641,7 @@ export type Page_Modules_Modules_GeneralHorizontalTabs = AcfFieldGroup & {
 /** Field Group */
 export type Page_Modules_Modules_GeneralHorizontalTabs_Customizations = AcfFieldGroup & {
   __typename?: 'Page_Modules_Modules_GeneralHorizontalTabs_Customizations';
+  backgroundColor?: Maybe<Scalars['String']['output']>;
   bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
   bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
@@ -9701,12 +9702,12 @@ export type Page_Modules_Modules_GeneralVerticalTabs = AcfFieldGroup & {
 export type Page_Modules_Modules_GeneralVerticalTabs_Customizations = AcfFieldGroup & {
   __typename?: 'Page_Modules_Modules_GeneralVerticalTabs_Customizations';
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -9960,6 +9961,7 @@ export type Page_Modules_Modules_PrimroseFriends_Tabs = AcfFieldGroup & {
   content?: Maybe<Page_Modules_Modules_PrimroseFriends_Tabs_Content>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
+  friendColor?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
   tabLabelColor?: Maybe<Scalars['String']['output']>;
 };
@@ -10248,12 +10250,12 @@ export type Page_Modules_Modules_TwoColumnsGreenBackground = AcfFieldGroup & {
 /** Field Group */
 export type Page_Modules_Modules_TwoColumnsGreenBackground_Customizations = AcfFieldGroup & {
   __typename?: 'Page_Modules_Modules_TwoColumnsGreenBackground_Customizations';
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -14439,13 +14441,13 @@ export type Post_Modules_Modules_DynamicForm = AcfFieldGroup & {
 /** Field Group */
 export type Post_Modules_Modules_DynamicForm_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_DynamicForm_Customizations';
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
   outerBackgroundColor?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -14507,12 +14509,12 @@ export type Post_Modules_Modules_FeaturedSection_Customizations = AcfFieldGroup 
   __typename?: 'Post_Modules_Modules_FeaturedSection_Customizations';
   accentLeftOrRight?: Maybe<Scalars['String']['output']>;
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -14658,6 +14660,7 @@ export type Post_Modules_Modules_GeneralHorizontalTabs = AcfFieldGroup & {
 /** Field Group */
 export type Post_Modules_Modules_GeneralHorizontalTabs_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_GeneralHorizontalTabs_Customizations';
+  backgroundColor?: Maybe<Scalars['String']['output']>;
   bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
   bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
@@ -14718,12 +14721,12 @@ export type Post_Modules_Modules_GeneralVerticalTabs = AcfFieldGroup & {
 export type Post_Modules_Modules_GeneralVerticalTabs_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_GeneralVerticalTabs_Customizations';
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
@@ -14977,6 +14980,7 @@ export type Post_Modules_Modules_PrimroseFriends_Tabs = AcfFieldGroup & {
   content?: Maybe<Post_Modules_Modules_PrimroseFriends_Tabs_Content>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
+  friendColor?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
   tabLabelColor?: Maybe<Scalars['String']['output']>;
 };
@@ -15265,12 +15269,12 @@ export type Post_Modules_Modules_TwoColumnsGreenBackground = AcfFieldGroup & {
 /** Field Group */
 export type Post_Modules_Modules_TwoColumnsGreenBackground_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_TwoColumnsGreenBackground_Customizations';
-  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
+  bottomMarginMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']['output']>;
-  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
-  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+  topMarginDesktop?: Maybe<Scalars['String']['output']>;
+  topMarginMobile?: Maybe<Scalars['String']['output']>;
 };
 
 /** Field Group */
