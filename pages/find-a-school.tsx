@@ -229,6 +229,7 @@ const FindASchool = () => {
 
 
 
+  const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
 
 
   const handleClearIconClick = (idToRemove: number) => {
@@ -265,42 +266,50 @@ const FindASchool = () => {
 
   const getCurrentLocation = () => {
     if (!geocoder) {
-      geocoder = new google.maps.Geocoder();
+        geocoder = new google.maps.Geocoder();
     }
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+        navigator.geolocation.getCurrentPosition((position) => {
+            const pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
 
-        geocoder.geocode({ 'location': pos }, (results, status) => {
-          if (status === 'OK' && results && results[0]) {
-            if (nearInputRef.current) {
-              nearInputRef.current.value = results[0].formatted_address;
+            if (activeTab === 1) { 
+                if (nearInputRef.current) {
+                    nearInputRef.current.value = "Current Location";
+                }
+                setStart(pos);
+                setShowCurrentLocationPin(false);
+            } else {
+                // Geocoding logic for other tabs
+                geocoder.geocode({ 'location': pos }, (results, status) => {
+                    if (status === 'OK' && results && results[0]) {
+                        if (routeInputRef1.current) {
+                            routeInputRef1.current.value = results[0].formatted_address;
+                        }
+                        setStart(pos);
+                    } else {
+                        alert('Geocoder failed due to: ' + status);
+                    }
+                });
             }
-            if (routeInputRef1.current) {
-              routeInputRef1.current.value = results[0].formatted_address;
-            }
-            setStart(pos);
-          } else {
-            alert('Geocoder failed due to: ' + status);
-          }
-        });
-        setUserLocation(pos);
-        setMapCenter(pos);
-        setZoomLevel(11);
-        setShowMap(true);
-        setSearched(true);
-        setHasSearched(true);
-      },
+
+            setUserLocation(pos);
+            setMapCenter(pos);
+            setZoomLevel(11);
+            setShowMap(true);
+            setSearched(true);
+            setHasSearched(true);
+        },
         () => {
-          alert("Error getting location. Please ensure location services are enabled.");
+            alert("Error getting location. Please ensure location services are enabled.");
         });
     } else {
-      alert("Your browser doesn't support geolocation.");
+        alert("Your browser doesn't support geolocation.");
     }
-  };
+};
+
 
   const handleLocationIconClick = () => {
     getCurrentLocation();
@@ -1068,16 +1077,14 @@ const FindASchool = () => {
               />
             ))}
 
-            {start && (
-              <Marker
-                position={start}
-
-                icon={{
-                  url: svgMarkerIconStart,
-                  scaledSize: new google.maps.Size(20, 20),
-                }}
-              />
-
+            {start && showCurrentLocationPin && (
+                <Marker
+                    position={start}
+                    icon={{
+                        url: svgMarkerIconStart,
+                        scaledSize: new google.maps.Size(20, 20),
+                    }}
+                />
             )}
 
             {waypoints && waypoints

@@ -454,6 +454,7 @@ query GetModules($id: ID = "") {
 				  url
 				}
 			  }
+			  friendColor
 			}
 			customizations {
 			  bottomPaddingDesktop
