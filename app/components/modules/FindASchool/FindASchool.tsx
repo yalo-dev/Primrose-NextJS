@@ -79,7 +79,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
 
                     {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
                     {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
-
+ 
                     {button?.url && button.title && (
                         <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'}>
                             {button.title}
