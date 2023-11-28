@@ -1,4 +1,5 @@
 .module.Page_Modules_Modules_FeaturedSection {
+    
     .accent.Left {
         position: relative;
         overflow: hidden;
@@ -47,10 +48,17 @@
 
 }
 .featured-section {
-    @include media-breakpoint-up(lg) {padding: 50px 0;}
+    padding: 30px 0 90px;
+    @include media-breakpoint-up(lg) {
+        padding: 100px 0;
+    }
     .header-section {
         text-align: left;
         margin: 15px 0 34px;
+        @include media-breakpoint-up(lg) {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
     }
     .featured-slider {
         z-index: 1;
@@ -109,7 +117,7 @@
         justify-content: center;
         align-items: center;
         padding: 7px 6px;
-        bottom: 2rem;
+        bottom: -3.5rem;
         @include media-breakpoint-up(lg) {
             bottom: 0;
             right: 10rem

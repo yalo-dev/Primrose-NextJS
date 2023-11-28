@@ -24,16 +24,34 @@ function MyApp({ Component, pageProps }) {
 		const fetchMenuItems = async () => {
 			// header menu query
 			const HEADER_MENU_QUERY = gql`
-				query HeaderMenu {
+			query HeaderMenu {
 				menu(id: "4", idType: DATABASE_ID) {
-					menuItems {
+				  menuItems(first: 100) {
 					nodes {
-						url
-						label
+					  title
+					  label
+					  url
+					  parentId
+					  childItems {
+						nodes {
+						  title
+						  label
+						  url
+						  parentId
+						  childItems {
+							nodes {
+							  label
+							  title
+							  url
+							  parentId
+							}
+						  }
+						}
+					  }
 					}
-					}
+				  }
 				}
-				}
+			  }
 			`;
 
 			// footer menu query

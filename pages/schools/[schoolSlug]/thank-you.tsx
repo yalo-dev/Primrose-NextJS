@@ -150,7 +150,7 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                                 <div className='right-column col-12 col-lg-5'>
                                     <h2 className='green'>Thank You</h2>
                                     <p className='b3'>We look forward to meeting you!</p>
-                                    <h5 className='green'>Connect With US</h5>
+                                    <h5 className='green'>Connect With Us</h5>
                                     <div className='social d-flex'>
                                         {socialLinks.facebook && (
                                         <a href={socialLinks.facebook} className='fb' target="_blank" rel="noopener noreferrer">

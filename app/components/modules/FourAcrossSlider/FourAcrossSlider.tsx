@@ -63,7 +63,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
         infinite: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024, 
@@ -97,7 +97,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
                 <div className='four-across-slider'>
                 <Slider {...settings}>
                     {fourAcrossSlider.map((slide, index) => (
-                        <div className='slide-content p-2' key={index}>
+                        <div className='slide-content' key={index}>
                             {slide.image && slide.image.sourceUrl && (
                                 <img src={slide.image.sourceUrl} alt={slide.image.altText} width="100%" height="auto" />
                             )}

@@ -101,8 +101,8 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
 								   <img
 										src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
 										alt="Avatar" 
-										width={50} 
-										height={50} 
+										width={65} 
+										height={65} 
 										className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}
 									/>
 

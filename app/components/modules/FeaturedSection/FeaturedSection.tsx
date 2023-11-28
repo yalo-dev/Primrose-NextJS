@@ -18,10 +18,10 @@ interface SliderItem {
 }
 
 interface CustomizationsProps {
-    topPaddingMobile?: string;
-    topPaddingDesktop?: string;
-    bottomPaddingMobile?: string;
-    bottomPaddingDesktop?: string;
+    topMarginMobile?: string;
+    topMarginDesktop?: string;
+    bottomMarginMobile?: string;
+    bottomMarginDesktop?: string;
     backgroundColor?: string;
     accentLeftOrRight?: string;
 }
@@ -49,21 +49,21 @@ const sliderSettings = {
 
 const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider }) => {
     return (
-        <div className={`accent ${customizations?.accentLeftOrRight || ''}`}>
             <Customizations
-                topPaddingMobile={customizations?.topPaddingMobile}
-                topPaddingDesktop={customizations?.topPaddingDesktop}
-                bottomPaddingMobile={customizations?.bottomPaddingMobile}
-                bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+                topMarginMobile={customizations?.topMarginMobile}
+                topMarginDesktop={customizations?.topMarginDesktop}
+                bottomMarginMobile={customizations?.bottomMarginMobile}
+                bottomMarginDesktop={customizations?.bottomMarginDesktop}
                 colorLabelOuter={customizations?.backgroundColor}
             >
+                 <div className={`accent ${customizations?.accentLeftOrRight || ''}`}>
                 <div className='container'>
                 <div className='featured-section row'>
-                        <div className='header-section col-lg-3'>
+                        <div className='header-section col-lg-3 col-xxl-4'>
                             {heading && <Heading level="h2" color={headingColor}>{heading}</Heading>}
                             {subheading && <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>}
                         </div>
-                        <div className='slider-section col-lg-8 offset-lg-1 '>
+                        <div className='slider-section col-lg-8 offset-lg-1 col-xxl-8 offset-xxl-0'>
                         <Slider {...sliderSettings}>
                             {slider.map((slide, index) => (
                                 <div className='featured-slider' key={index}>
@@ -79,7 +79,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                                             </Heading>
                                         }
                                         {slide.blurb &&
-                                            <Subheading level="div" className='b3' color={slide.blurbColor}>
+                                            <Subheading level="div" className='b2' color={slide.blurbColor}>
                                                 {slide.blurb}
                                             </Subheading>
                                         }
@@ -89,9 +89,9 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                         </Slider>
                         </div>
                     </div>
+                </div> 
                 </div>
             </Customizations>
-        </div>
     );
 };
 

@@ -70,7 +70,7 @@ const PathwayToOwnership: React.FC<PathwayToOwnershipProps> = ({
             <div className={`pathway-to-ownership row ${isSticky ? 'sticky' : ''}`} ref={pathwayRef}>
                     <div className="col-12 col-lg-5 offset-lg-1">
                         <div className="wrap">
-                            <Heading level="h2" color={headingColor}>{heading}</Heading>
+                            <Heading level="h2" className='green' color={headingColor}>{heading}</Heading>
                             <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>
                             <div className='d-none d-lg-block featured-img'>
                                 {image?.sourceUrl && <img src={image.sourceUrl} alt={image.altText || ''} width='536' height='520' />}

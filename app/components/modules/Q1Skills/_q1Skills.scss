@@ -7,18 +7,30 @@
     position: relative;
 
     @include media-breakpoint-up(lg) {
-        max-width: 50rem;
-        padding-left: 4rem;
+        max-width: 60rem;
+        padding-left: 8rem;
         padding-right: 20rem;
         border-top-right-radius: 30%;
-
+        &::after {
+            content: "";
+            background-image: url('/assets/Union.svg');
+            position: absolute;
+            bottom: 0rem;
+            right: -20rem;
+            width: 600px;
+            height: 600px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
     }
-
-    @include media-breakpoint-up(lg) {
-        padding-left: 8rem;
-        max-width: 60rem;
+    @include media-breakpoint-up(xxl) {
+        &::after {
+            right: -25rem;
+            width: 640px;
+            height: 640px;
+        }
     }
-
     @include media-breakpoint-up(xl) {
         max-width: 60rem;
         margin-right: 15rem;
@@ -59,30 +71,7 @@
             top: 3rem;
             right: -6rem;
         }
-    }
-
-    @include media-breakpoint-up(lg) {
-        &::after {
-            content: "";
-            background-image: url('/assets/Union.svg');
-            position: absolute;
-            bottom: 0rem;
-            right: -20rem;
-            width: 600px;
-            height: 600px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: top left;
-        }
-    }
-
-    @include media-breakpoint-up(xxl) {
-        &::after {
-            right: -25rem;
-            width: 640px;
-            height: 640px;
-        }
-    }
+    } 
 
     h5,
     h3,
@@ -93,7 +82,9 @@
             margin-bottom: 2rem;
         }
     }
-
+    .b3 {
+        margin-bottom: 40px;
+    }
     ul {
         list-style-type: none;
         padding: 0;

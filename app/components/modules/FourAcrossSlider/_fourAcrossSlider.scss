@@ -49,9 +49,42 @@
             }
         }
     }
+    .slick-prev {
+        left: -35px;
+    }
+    @include media-breakpoint-up(xl) {
+        .slick-prev, .slick-next {
+            top: 30%;
+        }
+        .slick-slide.slick-active {
+            .slide-content {
+                position: relative;
+                &::after {
+                    content: "";
+                    height: 240px;
+                    width: 1px; 
+                    background-color: $neutral-2;
+                    position: absolute;
+                    right: 0;
+                    top: 25px;
+                }
+            }
+        }
+        .slick-active + .slick-active + .slick-active + .slick-active {
+            .slide-content {
+                &::after {
+                    content: none;
+                }
+            }
+        }
+    }
     .slide-content {
         text-align: center;
         margin: auto;
+        @include media-breakpoint-up(xl) {
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
+        }
         img {
             margin: auto;
             width: 133px;
@@ -59,10 +92,18 @@
             object-fit: contain;
             object-position: center;
             margin-bottom: 35px;
+            @include media-breakpoint-up(xl) {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 55px;
+            }
         }
         h5 {
             margin-bottom: 11px;
+            color: $primary-darkgray;
         }
-
+        .b2 {
+            color: $text-gray;
+        }
     }
 }

@@ -4,8 +4,9 @@
         flex-direction: row;
         align-items: stretch;
         .left-column {
-            padding-right: 1rem;
+            padding-right: 1.5rem;
             border-radius: 30px;
+            text-align: right;
         }
     }
     .left-column {
@@ -15,6 +16,11 @@
             height: auto;
             @include media-breakpoint-up(lg) {
                 border-radius: 30px;
+
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 536px;
+                
             }
         }
     }
@@ -32,6 +38,7 @@
         }
         @include media-breakpoint-up(xxl) {
             padding: 4rem;
+            width: 620px;
         }
         h2, .b3 {
             z-index: 2;

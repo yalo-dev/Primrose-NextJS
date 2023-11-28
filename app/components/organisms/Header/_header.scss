@@ -1,17 +1,57 @@
 .header {
     background-color: $grayscale-1;
     .navbar {
-        background-color: $grayscale-1;
         border-bottom: 1px solid $nav-border;
+        z-index: 1200;
+        background-color: $grayscale-1;
     }
     .navbar-toggler {
-        border: 0;
+        border: none;
         width: auto;
+        padding: 0;
     }
-    .navbar-collapse {
-        justify-content: flex-end;
+    
+    .navbar-toggler-icon {
+        display: block;
+        position: relative;
+        height: 24px;
+        width: 30px;
+        background-image: none;
+        .bar {
+            background-color: $primary-green;
+            display: block;
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            transition: all 0.3s ease-in-out;
+            &.bar1 {
+                top: 0px;
+            }
+            
+            &.bar2 {
+                top: 11px;
+            }
+            
+            &.bar3 {
+                top: 22px;
+            }
+        } 
+        &.open {
+            .bar1 {
+                top: 11px;
+                transform: rotate(45deg);
+            }
+            .bar2 {
+                opacity: 0;
+            }
+            .bar3 {
+                top: 11px;
+                transform: rotate(-45deg);
+            }
+        }
     }
     .navbar-search {
+        position: relative;
         .hidden {
             display: none!important;
         }
@@ -19,24 +59,59 @@
             width: 50%;
         }
     }
-    .navbar-nav {
-        text-align: center;
-        align-items: center;
-    }
+
     .navbar-logo {
         @include media-breakpoint-up(lg) {
             width: 100px;
             height: auto;
         }
-    }
-    .navbar-logo {
         @include media-breakpoint-up(xl) {
             width: 200px;
         }
-    }
-    .navbar-logo {
         @include media-breakpoint-up(xxl) {
             width: 275px;
+        }
+    }
+  
+    .navbar-collapse {
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        width: 100%;
+        height: calc(100vh - 106px);
+        display: block!important;
+        background-color: $primary-green;
+        position: absolute;
+        top: 106px;
+        overflow-x: scroll;
+        justify-content: flex-end;
+        .navbar-nav {
+            text-align: center;
+            align-items: center;
+            li {
+                width: 100%;
+                border-bottom: 1px solid $nav-border;
+                padding: 24px 0;
+                a {
+                    color: $white;
+                    font-family: Poppins;
+                    font-size: 28px;
+                    font-style: normal;
+                    font-weight: 275;
+                    line-height: 34px;
+                    text-align: left;
+                    padding: 0;
+                }
+                .submenu {
+                    position: absolute;
+                    top: 0;
+                    height: calc(100vh - 106px);
+                    transform: translateX(180%);
+                    transition: transform 0.3s ease-in-out;
+                }
+            }
+        }
+        &.show {
+            transform: translateX(0);
         }
     }
 }

@@ -2,7 +2,7 @@
     background-color: $grayscale-3;
     border-radius: 10px;
     position: relative;
-    padding: 90px 20px 40px;
+    padding: 40px 20px 40px;
     overflow: hidden;
     @include media-breakpoint-up(lg) {
         padding: 90px 0 40px;
@@ -61,8 +61,8 @@
                 border: 0;
                 font-size: 1rem;
                 position: absolute;
-                top: -1.25rem;
-                right: -2rem;
+                top: 0.5rem;
+                right: -2.75rem;
                 line-height: 1;
                 padding: 0;
                 background-color: $primary-darkgray;
