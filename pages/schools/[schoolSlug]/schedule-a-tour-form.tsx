@@ -8,14 +8,10 @@ interface Props {
   }
 
   export default function ScheduleATourForm({ form }: Props) {
-    //const { title, description } = form;
   
     return (
       <main>
-        {/* <h1>{title}</h1>
-        <p>{description}</p> */}
         <GravityForm form={form} />
-        
       </main>
     );
   }
