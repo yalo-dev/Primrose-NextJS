@@ -102,7 +102,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                     {slide.imageOrVideo === 'video' && slide.video?.url &&
                                      <div className="video-wrap">
                                         <div className="responsive-video">
-                                            <video width="500" height="300"  controls>
+                                            <video width="588" height="330"  controls>
                                             <source src={slide.video.url} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video></div>
