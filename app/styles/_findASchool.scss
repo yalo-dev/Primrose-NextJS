@@ -45,7 +45,7 @@
 
                 .tab-label {
                     flex-basis: 50%;
-                    padding: 13px 15px;
+                    padding: 13px;
                     background-color: $grayscale-2;
                     border: 1px solid $grayscale-5;
 
@@ -112,7 +112,7 @@
                            
                             &::after {
                                 content: "";
-                                width: 85%;
+                                width: 90%;
                                 @include media-breakpoint-up(lg) {
                                     width: 100%;
                                 }

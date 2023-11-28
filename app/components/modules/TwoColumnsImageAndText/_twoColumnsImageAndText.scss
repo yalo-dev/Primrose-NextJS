@@ -10,7 +10,7 @@
     }
     .right-column {
         @include media-breakpoint-up(xl) {
-            max-width: 560px;
+            max-width: 536px;
         }
         h2 {
             margin-bottom: 1rem;
@@ -54,6 +54,9 @@
             border-top-right-radius: 4rem;
             text-align: center;
             border-bottom-right-radius: 0;
+            .b4, .b7 {
+                font-weight: 600;
+            }
             @include media-breakpoint-up(lg) {
                 width: 201px;
                 height: 212px;

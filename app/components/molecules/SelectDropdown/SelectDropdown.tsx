@@ -49,7 +49,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder })
     return (
       <div className={`custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
           <div className="header" onClick={() => setIsOpen(!isOpen)}>
-              {selectedOption?.label || placeholder || "Select a Classroom"}
+              {selectedOption?.label || placeholder || "Select"}
               <div className='icon'></div>
           </div>
   

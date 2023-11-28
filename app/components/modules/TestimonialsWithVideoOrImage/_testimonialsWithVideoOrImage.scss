@@ -39,6 +39,7 @@
     .slider-item {
         padding-bottom: 3rem;
         @include media-breakpoint-up(lg) {
+            padding-bottom: 0;
             display: flex!important;
             justify-content: space-between;
             .video-wrap, .image-wrap {
@@ -162,7 +163,7 @@
         }
         @include media-breakpoint-up(xxl) {
             right: 25%;
-            bottom: 3rem;
+            bottom: 0;
         }
        
         li {

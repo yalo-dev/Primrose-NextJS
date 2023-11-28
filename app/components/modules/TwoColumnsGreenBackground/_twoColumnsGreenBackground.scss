@@ -1,9 +1,16 @@
 .Page_Modules_Modules_TwoColumnsGreenBackground {
-    background-color: $primary-green;
     overflow: hidden;
+    .bg-color {
+        background-color: $primary-green;
+        overflow: hidden;
+    }
 }
 .two-columns-green-background {
     position: relative;
+    padding: 60px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 135px 0;
+    }
    h2, h5, .blurb p {
     color: $white!important;
    }
@@ -16,16 +23,18 @@
     &::after {
         content: "";
         background: var(--black-dark, #202220);
-        width: 595px;
-        height: 595px;
-        bottom: -15rem;
-        right: -25rem;
+        width: 425px;
+        height: 425px;
+        bottom: -1rem;
+        right: -65%;
         position: absolute;
         opacity: 0.1;
         border-radius: 50%;
         @include media-breakpoint-up(lg) {
-            bottom: -15rem;
-            right: -15rem;
+            bottom: -37rem;
+            right: -37rem;
+            width: 1200px;
+            height: 1200px;
         }
     }
     @include media-breakpoint-up(lg) {
@@ -68,6 +77,7 @@
             width: 100%;
             height: auto;
             border-radius: 10px;
+            max-width: 536px;
         }
     }
 }

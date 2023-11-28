@@ -101,11 +101,12 @@ query GetModules($id: ID = "") {
 			}
 			form
 			customizations {
-			  bottomPaddingDesktop
-			  bottomPaddingMobile
-			  outerBackgroundColor
-			  topPaddingDesktop
-			  topPaddingMobile
+			    outerBackgroundColor
+			    topMarginMobile
+				topMarginDesktop
+				bottomMarginMobile
+				bottomMarginDesktop
+
 			}
 		  }
 		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
@@ -645,10 +646,10 @@ query GetModules($id: ID = "") {
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsGreenBackground {
 			customizations {
-			  topPaddingMobile
-			  topPaddingDesktop
-			  bottomPaddingMobile
-			  bottomPaddingDesktop
+				topMarginMobile
+				topMarginDesktop
+				bottomMarginMobile
+				bottomMarginDesktop
 			}
 			leftColumn {
 			  imageDesktop {
