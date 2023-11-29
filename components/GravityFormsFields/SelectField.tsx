@@ -38,27 +38,29 @@ export default function SelectField({ field, fieldErrors }: Props) {
   return (
     <div id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
-      <select
-        name={String(id)}
-        id={htmlId}
-        required={Boolean(isRequired)}
-        value={selectedValue}
-        onChange={event => {
-          dispatch({
-            type: ACTION_TYPES.updateSelectFieldValue,
-            fieldValue: {
-              id,
-              value: event.target.value,
-            },
-          });
-        }}
-      >
-        {/* Always render the placeholder */}
-        <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option>
-        {choices?.map(choice => (
-          <option key={`prm_${choice?.text}`} value={choice?.value || ''}>{choice?.text || ''}</option>
-        ))}
-      </select>
+      <div className="custom-select">
+        <select
+          name={String(id)}
+          id={htmlId}
+          required={Boolean(isRequired)}
+          value={selectedValue}
+          onChange={event => {
+            dispatch({
+              type: ACTION_TYPES.updateSelectFieldValue,
+              fieldValue: {
+                id,
+                value: event.target.value,
+              },
+            });
+          }}
+        >
+          {/* Always render the placeholder */}
+          <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option>
+          {choices?.map(choice => (
+            <option key={`prm_${choice?.text}`} value={choice?.value || ''}>{choice?.text || ''}</option>
+          ))}
+        </select>
+      </div>
       {description ? <p className="field-description">{description}</p> : null}
       {fieldErrors?.length ? fieldErrors.map(fieldError => (
         <p key={fieldError.id} className="error-message">{fieldError.message}</p>

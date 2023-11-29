@@ -592,7 +592,7 @@
 .schedule-a-tour {
     //padding: 30px 0;
     @include media-breakpoint-up(lg) {
-        padding: 140px 70px;
+        padding: 100px 70px;
     }
     .form-wrapper {
         margin-top: 40px;
@@ -617,6 +617,7 @@
                 legend {
                     @extend .b3;
                 }
+                
                 input,
                 select {
                     display: flex;
@@ -626,7 +627,7 @@
                     gap: 10px;
                     border-radius: 6px;
                     border: 1px solid $neutral-2;
-                    background: $form-bg;
+                    background-color: $form-bg;
                     font-size: 18px;
                     color: $primary-darkgray;
                     &::placeholder {
@@ -634,6 +635,21 @@
                         font-weight: 300;
                     }
                 }
+                select {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    background-image: url('/assets/dropdown-icon.svg');
+                    background-repeat: no-repeat;
+                    background-position: right 10px center; 
+                    background-size: 30px;
+                    border: 1px solid #dcdcdc;
+                    padding-right: 45px;
+                }
+                .custom-select {
+                    display: inline-block;
+                    position: relative;
+                  }
                 &#field_9, &#field_10, &#field_16, &#field_17 {
                     label {
                         display: none;
