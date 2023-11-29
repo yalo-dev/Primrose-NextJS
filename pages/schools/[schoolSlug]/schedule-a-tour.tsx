@@ -1,6 +1,12 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { client } from '../../../app/lib/apollo';
+import { GfForm } from "../../../generated/graphql";
+import ScheduleATourForm from './schedule-a-tour-form';
 
+
+interface Props {
+    form: GfForm;
+}
 
 export async function getServerSideProps(context) {
     const { schoolSlug } = context.params;
@@ -41,10 +47,9 @@ export async function getServerSideProps(context) {
     `;
     const response = await client.query({
         query: GET_THANKS_FIELDS,
-        variables: { id: schoolSlug } // Changed 'slug' to 'id' to match the query
+        variables: { id: schoolSlug } 
     });
 
-    // Extract the necessary data from the response
     const schoolData = response?.data?.school;
     const schoolSettings = schoolData?.schoolSettings?.details;
 
@@ -61,7 +66,7 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours }) {
+export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, form }) {
 
     const addressDetails = corporate && corporate.address ? (
         <>
@@ -78,17 +83,17 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours 
         <div className='schedule-a-tour'>
             <div className="container">
                 <div className="row">
-                    <div className="main-wrapper">
-                        <div className="heading-wrapper col-12 col-lg-8">
-                            <h1 className='green'>
+                    <div className="main-wrapper col-12 col-lg-8">
+                        <div className="heading-wrapper">
+                            {/* <h1 className='green'>
                                 Schedule A Tour
                             </h1>
-                            <div className="b2">
+                            <div className="b3">
                                 Lorem ipsum dolor sit amet consectetur. Quam eget hendrerit nisi ultrices egestas ut vitae facilisis phasellus. Pellentesque sed senectus sed turpis eget vitae. Dictum in urna id eleifend nisi vitae.
-                            </div>
+                            </div> */}
                         </div>
                         <div className="form-wrapper">
-
+                            <ScheduleATourForm />
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">
