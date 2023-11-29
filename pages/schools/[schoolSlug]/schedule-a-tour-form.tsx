@@ -3,7 +3,7 @@ import { GfForm } from "../../../generated/graphql";
 import getGravityForm from "../../../utilities/gravity-forms";
 import GravityForm from '../../../components/GravityForm';
 
-export default function ScheduleATourForm() {
+export default function ScheduleATourForm({ onFormLoaded }) {
     const [form, setForm] = useState<GfForm | null>(null);
 
     useEffect(() => {
@@ -20,9 +20,11 @@ export default function ScheduleATourForm() {
             setForm(null); 
         }
     };
-    
+      if (form) {
+        onFormLoaded();
+      }
         fetchForm();
-    }, []);
+    }, [form]);
 
     if (!form) {
         return <div></div>; 

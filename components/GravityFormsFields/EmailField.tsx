@@ -30,7 +30,7 @@ export default function EmailField({ field, fieldErrors }: Props) {
   const value = fieldValue?.emailValues?.value || DEFAULT_VALUE;
 
   return (
-    <div id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <input
         type="email"

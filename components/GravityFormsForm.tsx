@@ -66,9 +66,10 @@ export default function GravityFormsForm({ form }: Props) {
   console.log('state: ', state);
   return (
     <form method="post" onSubmit={handleSubmit}>
+      <div className="heading-wrapper">              
         {form?.title ? <h1 className='heading green'>{form.title}</h1> : null}
         {form?.description ? <p className="desc b3">{form.description}</p> : null}
-      
+      </div>
       {formFields.map((field: FormField) => (
         <GravityFormsField
           key={field.id}
