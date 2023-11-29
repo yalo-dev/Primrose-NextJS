@@ -9,7 +9,7 @@ export default function ScheduleATourForm({ onFormLoaded }) {
     useEffect(() => {
       const fetchForm = async () => {
         try {
-            const fetchedForm = await getGravityForm(5);
+            const fetchedForm = await getGravityForm(6);
             if (fetchedForm === undefined) {
                 setForm(null);
             } else {

@@ -78,7 +78,7 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
     };
     
     function onFormLoaded() {
-        handleDropdownChange(); // This function should be defined in ScheduleATourPage
+        handleDropdownChange();
     }
 
     useEffect(() => {
@@ -117,20 +117,19 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
             return;
         }
         const selectedValue = selectElement.value;
-        console.log("Selected value:", selectedValue); // Add this line
+        console.log("Selected value:", selectedValue); 
     
         hideAllFields();
     
-        // Show fields based on the selected value
         Object.keys(fieldsToShowMapping).forEach(key => {
             if (parseInt(selectedValue) >= parseInt(key)) {
                 fieldsToShowMapping[key].forEach(fieldId => {
                     const fieldElement = document.getElementById(fieldId);
                     if (fieldElement) {
-                        console.log("Showing field:", fieldId); // Add this line
+                        console.log("Showing field:", fieldId); 
                         fieldElement.style.display = 'block';
                     } else {
-                        console.error(`Field element not found: ${fieldId}`); // Add this line
+                        console.error(`Field element not found: ${fieldId}`);
                     }
                 });
             }
