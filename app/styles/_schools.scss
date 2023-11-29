@@ -594,7 +594,38 @@
     @include media-breakpoint-up(lg) {
         padding: 140px 70px;
     }
-    .aside {
-
+    .form-wrapper {
+        margin-top: 40px;
+        margin-bottom: 60px;
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            .gfield {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-bottom: 26px;
+                label {
+                    @extend .h5;
+                }
+                input,
+                select {
+                    display: flex;
+                    width: 100%;
+                    padding: 13px 24px;
+                    align-items: center;
+                    gap: 10px;
+                    border-radius: 6px;
+                    border: 1px solid $neutral-2;
+                    background: $form-bg;
+                    font-size: 18px;
+                    color: $primary-darkgray;
+                    &::placeholder {
+                        color: $primary-darkgray;
+                        font-weight: 300;
+                    }
+                }
+            }
+        }
     }
 }

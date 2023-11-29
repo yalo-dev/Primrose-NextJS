@@ -31,7 +31,7 @@ export default function PhoneField({ field, fieldErrors }: Props) {
   const value = fieldValue?.value || DEFAULT_VALUE;
 
   return (
-    <div className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <div id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <input
         type="tel"
