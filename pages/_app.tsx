@@ -127,6 +127,7 @@ function MyApp({ Component, pageProps }) {
 				footerMenuItems={footerMenuItems}
 				siteSettings={siteSettings}
 			>
+				
 				<Component {...pageProps} />
 			</Layout>
 		</ApolloProvider>

@@ -55,7 +55,7 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
   }
 
   return (
-    <fieldset id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <legend>{label}</legend>
       {checkboxInputs.map(({ id: inputId, text, value }) =>
         <div key={inputId}>

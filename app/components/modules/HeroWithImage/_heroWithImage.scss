@@ -13,6 +13,10 @@
         justify-content: space-between;
         &.reverse-column {
             flex-direction: row-reverse;
+            .right-column {
+                margin-left: 82px;
+                margin-right: auto;
+            }
         }
     }
     .left-column {

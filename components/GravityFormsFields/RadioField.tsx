@@ -42,7 +42,7 @@ export default function RadioField({ field, fieldErrors }: Props) {
   }
 
   return (
-    <fieldset id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <legend>{label}</legend>
       <div className="input-wrappers">
         {choices?.map(input => {
@@ -58,7 +58,7 @@ export default function RadioField({ field, fieldErrors }: Props) {
                 onChange={handleChange}
               />
               <span className="radio-style"></span>
-              <label htmlFor={`choice_${databaseId}_${id}_${value}`}>{text}</label>
+              <label htmlFor={`choice_${databaseId}_${id}_${inputValue}`}>{text}</label>
             </div>
           );
         }

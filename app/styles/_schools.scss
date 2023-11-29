@@ -590,7 +590,6 @@
 }
 
 .schedule-a-tour {
-    //padding: 30px 0;
     @include media-breakpoint-up(lg) {
         padding: 100px 70px;
     }
@@ -649,25 +648,37 @@
                 .custom-select {
                     display: inline-block;
                     position: relative;
-                  }
-                &#field_9, &#field_10, &#field_16, &#field_17 {
+                }
+                &#gfield_7, &#gfield_8, &#gfield_9, &#gfield_10,
+                &#gfield_18, &#gfield_15, &#gfield_16, &#gfield_17,
+                &#gfield_24, &#gfield_25, &#gfield_26, &#gfield_27,
+                &#gfield_28, &#gfield_29, &#gfield_30, &#gfield_31,
+                &#gfield_32, &#gfield_33, &#gfield_34, &#gfield_35,
+                &#gfield_36, &#gfield_37, &#gfield_38, &#gfield_39 {
+                    display: none;
+                }
+                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, 
+                &#gfield_26, &#gfield_27, &#gfield_30, &#gfield_31, 
+                &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39 {
                     label {
                         display: none;
                     }
                 }
-                &#field_6 {
+                &#gfield_6 {
                     margin-bottom: 40px;
                 }
-                &#field_8, &#field_15 {
+                &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
                     margin-bottom: 10px;
                 }
-                &#field_9, &#field_16 {
+                &#gfield_9, &#gfield_16, &#gfield_26, &#gfield_30, &#gfield_34, &#gfield_38 {
                     margin-right: 10px;
                 }
-                &#field_9, &#field_10, &#field_16, &#field_17 {
+                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, 
+                &#gfield_26, &#gfield_27, &#gfield_30, &#gfield_31, 
+                &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39 {
                     width: calc(50% - 5px);
                 }
-                &#field_23_23 {
+                &#gfield_23_23 {
                     display: flex;
                     flex-direction: row-reverse;
                     position: relative;
@@ -700,7 +711,7 @@
                         background-repeat: no-repeat;
                     }
                 }
-                &#field_13_13 {
+                &#gfield_13_13 {
                     label {
                         font-weight: 300;
                         margin-left: 20px;
@@ -741,24 +752,31 @@
                 @include media-breakpoint-up(lg) {
                     width: calc(50% - 18px);
                     margin-bottom: 30px;
-                    &#field_1, &#field_5_5 {
+                    &#gfield_1, &#gfield_5_5 {
                         margin-right: 36px;
                     }
 
-                    &#field_7, &#field_18, &#field_11, &#field_23_23, &#field_13_13 {
+                    &#gfield_7, &#gfield_18, &#gfield_11, &#gfield_23_23, &#gfield_13_13,
+                    &#gfield_24, &#gfield_28, &#gfield_32, &#gfield_36 {
                         width: 100%;
                         margin-top: 20px;
                     }
-                    &#field_6 {
+                    &#gfield_6 {
                         width: 45%;
                     }
-                    &#field_8, &#field_9, &#field_10, &#field_15, &#field_16, &#field_17 {
+                    &#gfield_8, &#gfield_9, &#gfield_10, &#gfield_15, &#gfield_16, &#gfield_17,
+                    &#gfield_25, &#gfield_26, &#gfield_27, &#gfield_29, &#gfield_30, &#gfield_31,
+                    &#gfield_33, &#gfield_34, &#gfield_35, &#gfield_37, &#gfield_38, &#gfield_39 {
                         width: calc(33% - 15px);
                     }   
-                    &#field_8, &#field_9, &#field_15, &#field_16 {
+                    &#gfield_8, &#gfield_9, &#gfield_15, &#gfield_16,
+                    &#gfield_25, &#gfield_26, &#gfield_29, &#gfield_30, 
+                    &#gfield_33, &#gfield_34, &#gfield_37, &#gfield_38 {
                         margin-right: 26px;
                     }
-                    &#field_9, &#field_10, &#field_16, &#field_17 {
+                    &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17,
+                    &#gfield_26, &#gfield_27, &#gfield_30, &#gfield_31,
+                    &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39 {
                         margin-top: 34px;
                     }
                 }

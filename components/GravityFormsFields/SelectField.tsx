@@ -36,7 +36,7 @@ export default function SelectField({ field, fieldErrors }: Props) {
   const selectedValue = fieldValue?.value || '';
 
   return (
-    <div id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <div className="custom-select">
         <select
@@ -56,8 +56,8 @@ export default function SelectField({ field, fieldErrors }: Props) {
         >
           {/* Always render the placeholder */}
           <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option>
-          {choices?.map(choice => (
-            <option key={`prm_${choice?.text}`} value={choice?.value || ''}>{choice?.text || ''}</option>
+          {choices?.map((choice, index) => (
+            <option key={`prm_${choice?.value}-${index}`} value={choice?.value || ''}>{choice?.text || ''}</option>
           ))}
         </select>
       </div>
