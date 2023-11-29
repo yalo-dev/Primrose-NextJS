@@ -590,13 +590,19 @@
 }
 
 .schedule-a-tour {
-    padding: 30px 0;
+    //padding: 30px 0;
     @include media-breakpoint-up(lg) {
         padding: 140px 70px;
     }
     .form-wrapper {
         margin-top: 40px;
         margin-bottom: 60px;
+        @include media-breakpoint-up(lg) {
+            margin-top: 0;
+        }
+        .desc {
+            margin-bottom: 40px;
+        }
         form {
             display: flex;
             flex-wrap: wrap;
@@ -607,6 +613,9 @@
                 margin-bottom: 26px;
                 label {
                     @extend .h5;
+                }
+                legend {
+                    @extend .b3;
                 }
                 input,
                 select {
@@ -625,7 +634,123 @@
                         font-weight: 300;
                     }
                 }
+                &#field_9, &#field_10, &#field_16, &#field_17 {
+                    label {
+                        display: none;
+                    }
+                }
+                &#field_6 {
+                    margin-bottom: 40px;
+                }
+                &#field_8, &#field_15 {
+                    margin-bottom: 10px;
+                }
+                &#field_9, &#field_16 {
+                    margin-right: 10px;
+                }
+                &#field_9, &#field_10, &#field_16, &#field_17 {
+                    width: calc(50% - 5px);
+                }
+                &#field_23_23 {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    position: relative;
+                    label {
+                        display: none;
+                    }
+                    legend {
+                        padding-left: 20px;
+                    }
+                    input[type="checkbox"] {
+                        opacity: 0;
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        z-index: 1;
+                    }
+                    .checkbox-style {
+                        height: 20px; 
+                        width: 20px;  
+                        border: 1px solid $neutral-2;
+                        position: relative;
+                        display: inline-block;
+                        cursor: pointer;
+                    }
+                    input[type="checkbox"]:checked + .checkbox-style {
+                        background-image: url('/assets/checkmark.svg'); 
+                        background-size: cover; 
+                        background-size: 90%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                }
+                &#field_13_13 {
+                    label {
+                        font-weight: 300;
+                        margin-left: 20px;
+                    }
+                    legend {
+                        @extend .h5;
+                        font-weight: 700;
+                    }
+                    input[type="radio"] {
+                        opacity: 0;
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        z-index: 1;
+                    }
+                    .radio-style {
+                        height: 20px; 
+                        width: 20px;  
+                        border: 1px solid $neutral-2;
+                        border-radius: 50%;
+                        position: relative;
+                        display: inline-block;
+                        cursor: pointer;
+                    }
+                    input[type="radio"]:checked + .radio-style {
+                        background-color: $primary-green;
+                        height: 20px; 
+                        width: 20px;  
+                        border-radius: 50%;
+                    }
+                    .input-wrappers {
+                        display: flex;
+                        .input-wrapper:nth-child(2) {
+                            margin-left: 20px;
+                        }
+                    }
+                }
+                @include media-breakpoint-up(lg) {
+                    width: calc(50% - 18px);
+                    margin-bottom: 30px;
+                    &#field_1, &#field_5_5 {
+                        margin-right: 36px;
+                    }
+
+                    &#field_7, &#field_18, &#field_11, &#field_23_23, &#field_13_13 {
+                        width: 100%;
+                        margin-top: 20px;
+                    }
+                    &#field_6 {
+                        width: 45%;
+                    }
+                    &#field_8, &#field_9, &#field_10, &#field_15, &#field_16, &#field_17 {
+                        width: calc(33% - 15px);
+                    }   
+                    &#field_8, &#field_9, &#field_15, &#field_16 {
+                        margin-right: 26px;
+                    }
+                    &#field_9, &#field_10, &#field_16, &#field_17 {
+                        margin-top: 34px;
+                    }
+                }
             }
+            button {
+                width: auto;
+                @extend .primary;
+            }   
         }
     }
 }

@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { client } from '../../../app/lib/apollo';
 import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from './schedule-a-tour-form';
@@ -47,10 +47,9 @@ export async function getServerSideProps(context) {
     `;
     const response = await client.query({
         query: GET_THANKS_FIELDS,
-        variables: { id: schoolSlug } // Changed 'slug' to 'id' to match the query
+        variables: { id: schoolSlug } 
     });
 
-    // Extract the necessary data from the response
     const schoolData = response?.data?.school;
     const schoolSettings = schoolData?.schoolSettings?.details;
 

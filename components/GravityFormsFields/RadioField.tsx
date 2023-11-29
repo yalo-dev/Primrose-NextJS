@@ -44,23 +44,26 @@ export default function RadioField({ field, fieldErrors }: Props) {
   return (
     <fieldset id={htmlId} className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <legend>{label}</legend>
-      {choices?.map(input => {
-        const text = input?.text || '';
-        const inputValue = input?.value || '';
-        return (
-          <div key={inputValue}>
-            <input
-              type="radio"
-              name={String(id)}
-              id={`choice_${databaseId}_${id}_${inputValue}`}
-              value={inputValue}
-              onChange={handleChange}
-            />
-            <label htmlFor={`choice_${databaseId}_${id}_${value}`}>{text}</label>
-          </div>
-        );
-      }
-      )}
+      <div className="input-wrappers">
+        {choices?.map(input => {
+          const text = input?.text || '';
+          const inputValue = input?.value || '';
+          return (
+            <div className="input-wrapper" key={inputValue}>
+              <input
+                type="radio"
+                name={String(id)}
+                id={`choice_${databaseId}_${id}_${inputValue}`}
+                value={inputValue}
+                onChange={handleChange}
+              />
+              <span className="radio-style"></span>
+              <label htmlFor={`choice_${databaseId}_${id}_${value}`}>{text}</label>
+            </div>
+          );
+        }
+        )}
+      </div>
       {description ? <p className="field-description">{description}</p> : null}
       {fieldErrors?.length ? fieldErrors.map(fieldError => (
         <p key={fieldError.id} className="error-message">{fieldError.message}</p>

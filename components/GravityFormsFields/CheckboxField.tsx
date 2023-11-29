@@ -66,6 +66,7 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
             value={String(value)}
             onChange={handleChange}
           />
+          <span className="checkbox-style"></span>
           <label htmlFor={`input_${databaseId}_${id}_${inputId}`}>{text}</label>
         </div>
       )}
