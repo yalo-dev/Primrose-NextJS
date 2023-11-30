@@ -186,7 +186,7 @@ export default function SchoolsMenu() {
 
               <div className='nav-scroll-container' ref={scrollContainerRef}>
                 <div className='container'>
-                  <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
+                  <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4 ps-lg-0'>
                     <ListItem className={`b2 ${isActive(`/schools/${slug}`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('home')}>
                       <a className='b2' href={`/schools/${slug}/`}>
                         Home

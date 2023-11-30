@@ -27,23 +27,25 @@ const Customizations: React.FC<CustomizationsProps> = ({
     bottomMarginDesktop,
     children
 }) => {
-    
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
     useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
+        if (typeof window !== 'undefined') {
+            const handleResize = () => {
+                setWindowWidth(window.innerWidth);
+            };
 
-        window.addEventListener('resize', handleResize);
+            window.addEventListener('resize', handleResize);
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }
     }, []);
-    
-    const isMobile = windowWidth <= 767;
 
+    const isMobile = windowWidth <= 767;
+    
     const mapPaddingValue = (mobilePadding: string | undefined, desktopPadding: string | undefined, isMobile: boolean) => {
         const paddingLabel = isMobile ? mobilePadding : desktopPadding;
         const paddingMap: { [key: string]: string } = {

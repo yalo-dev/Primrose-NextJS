@@ -36,9 +36,6 @@
             }
         }
         .content-wrapper {
-            //flex-basis: 55%;
-            // margin-top: 1rem;
-            // margin-left: 1rem;
             padding: 0 !important;
             display: flex;
             justify-content: space-between;
@@ -58,7 +55,6 @@
                 }
             }
             h3.title {
-                //extending h4 styles for h3
                 font-size: 26px;
                 line-height: 32px;
                 margin: auto;
@@ -87,7 +83,6 @@
         flex-basis: calc(50% - 8px);
     }
     @include media-breakpoint-up(xl) {
-        //min-height: 480px;
         flex-basis: calc(33% - 8px);
         background-color: $card-background-color;
         border-radius: 10px;
@@ -149,7 +144,6 @@
             }
         }
         @include media-breakpoint-up(md) {
-            //flex-grow: 0;
             &.large {
                 flex-grow: 1;
                 flex-basis: 100%;
@@ -243,7 +237,6 @@
 }
 
 
-//resource card hover states
 .card.featured:first-child:hover .inner .image-wrapper .image {
     background-size: 105% auto !important;
     transition: all .5s;

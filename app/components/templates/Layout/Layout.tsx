@@ -12,7 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, menuItems, footerMenuItems, siteSettings }) => {
     return (
-        <div className='app app--container'>
+        <div id='appContainer' className='app app--container'>
             <Header menuItems={menuItems} />
             <main className='main main--container'>
                 {children}
