@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
-import Paragraph from '../../atoms/Paragraph/Paragraph';
-import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
 
 interface HomeHeroWithVideoProps {
