@@ -664,7 +664,7 @@ export default function ClassroomPage() {
                                         height={500}
                                     />
                                 </div>
-                                <div className='right-column col-12 c col-lg-4 offset-lg-1'>
+                                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
                                     <div className="b4 bold">{beforeAndAfterSchoolCare.rightColumn.heading}</div>
                                     <div className='blurb' dangerouslySetInnerHTML={{ __html: beforeAndAfterSchoolCare.rightColumn.blurb }} />
                                     <Button href={beforeAndAfterSchoolCare.rightColumn.button.url} target={beforeAndAfterSchoolCare.rightColumn.button.target} label={beforeAndAfterSchoolCare.rightColumn.button.title}>
@@ -684,7 +684,7 @@ export default function ClassroomPage() {
                                         height={500}
                                     />
                                 </div>
-                                <div className='right-column col-12 c col-lg-4 offset-lg-1'>
+                                <div className='right-column col-12 col-lg-5 offset-lg-1'>
                                     <div className="b4">{summerAdventureClub.leftColumn.heading}</div>
                                     <div className='blurb' dangerouslySetInnerHTML={{ __html: summerAdventureClub.leftColumn.blurb }} />
                                     <Button href={summerAdventureClub.leftColumn.button.url} target={summerAdventureClub.leftColumn.button.target} label={summerAdventureClub.leftColumn.button.title}>

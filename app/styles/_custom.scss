@@ -1,13 +1,6 @@
 /***********************************************************************/
 /************************* BOOTSTRAP OVERRIDES *************************/
 /***********************************************************************/
-
-@include media-breakpoint-up(xxl) {
-    .container {
-        max-width: $max-content-width;
-        margin: auto;
-    }
-}
 .container, 
 .container-fluid, 
 .container-xxl, 
@@ -19,7 +12,14 @@
     padding-left: 1rem;
     padding-right: 1rem;
 }
-
+@include media-breakpoint-up(xxl) {
+    .container {
+        max-width: $max-content-width;
+        margin: auto;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
 /***********************************************************************/
 /******************************* HELPERS *******************************/
 /***********************************************************************/

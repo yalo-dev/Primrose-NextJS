@@ -96,7 +96,12 @@
         .nav-scroll-container {
             overflow-x: scroll;
             position: relative;
-
+            -ms-overflow-style: none; 
+                scrollbar-width: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            
             @include media-breakpoint-up(lg) {
                 overflow: visible;
                 .menu-icon {

@@ -20,6 +20,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-gravity-form": "^1.0.36",
+    "react-modal": "^3.16.1",
     "react-slick": "^0.29.0",
     "react-spring": "^9.7.3",
     "react-transition-group": "^4.4.5",
