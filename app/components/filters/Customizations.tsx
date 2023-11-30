@@ -28,6 +28,12 @@ const Customizations: React.FC<CustomizationsProps> = ({
     children
 }) => {
 
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
     useEffect(() => {
@@ -134,11 +140,15 @@ const Customizations: React.FC<CustomizationsProps> = ({
         return colorMap[colorLabelOuter || ""] || "";
     };
 
-    const backgroundColor = mapColorToHex(colorLabel);
-    const outerBackgroundColor = mapColorToHexOuter(colorLabelOuter);
+    const backgroundColor = isMounted ? mapColorToHex(colorLabel) : '';
+    const outerBackgroundColor = isMounted ? mapColorToHexOuter(colorLabelOuter) : '';
+
+    if (!isMounted) {
+        return null;
+    }
 
     return (
-        <div style={{ ...paddings, ...margins, backgroundColor: outerBackgroundColor}}>
+        <div style={{ ...paddings, ...margins, backgroundColor: outerBackgroundColor }}>
             {React.cloneElement(children, {
                 style: {
                     ...children.props.style,

@@ -1058,49 +1058,59 @@
         }
     }
     .gallery-slider {
-        padding: 30px 0;
-        h2 {
-            margin-bottom: 30px;
-        }
-        .slick-slide {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            .gallery-image-container {
-                position: relative;
-                padding: 0 5px;
-                width: fit-content;
-                img {
-                    max-width: 100%; 
-                    height: 202px;
-                    border-radius: 12px;
-                    object-fit: cover;
-                    object-position: center;
-                    @include media-breakpoint-up(lg) {
-                        height: 420px;
-                    }
-                }
-
-                .enlarge-icon {
-                    position: absolute;
-                    top: 10px; 
-                    right: 10px; 
-                    z-index: 10;
-                }
-            }
-            .b2 {
-                margin-top: 10px; 
-            }
-        }
-        .ReactModal__Content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            img {
-                width: 800px;
-            }
-        }
+        position: relative;
+        overflow: hidden;
     }
+    
+    .slider-container {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .slide {
+        flex: 0 0 auto; /* Don't grow, don't shrink, auto basis */
+        height: 202px; /* Adjust height as per breakpoint */
+    }
+    
+    .slide img {
+        height: 100%;
+        width: auto;
+        cursor: pointer;
+    }
+    
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+    
+    .prev {
+        left: 10px;
+    }
+    
+    .next {
+        right: 10px;
+    }
+    
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+    
+    .modal img {
+        max-width: 90%;
+        max-height: 90vh;
+    }
+    
 }
 
 
