@@ -1,6 +1,4 @@
 .home-hero-with-video {
-    background-color: $grayscale-3;
-    border-radius: 30px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -16,34 +14,71 @@
     }
     .left-column {
         order: 2;
-        padding: 34px 20px 43px;
+       
         @include media-breakpoint-up(lg) {
             order: 1;
-            padding:2rem 5rem;
-        }
-        @include media-breakpoint-up(xl) {
-            //padding: 110px 80px 110px 40px;
-        }
         
+        }
         h1 {
             margin-bottom: 1rem;
+            color: $primary-green;
         }
         h5 {
             margin-bottom: 1rem;
+            color: $primary-green;
         }
-        p, p span {
-            @extend .b3;
-        }
-        button {
-            margin-top: 30px;
-            width: auto;
+        .find-a-location-hero {
+            border: 1px solid #E6E6E6;
+            width: 343px;
+            border-radius: 30px;
+            padding: 26px 20px;
+            height: 200px;
+            position: relative;
+            .search-field {
+                position: relative;
+                input {
+                    width: 303px;
+                    height: 50px;
+                    flex-shrink: 0;
+                    border: 1px solid #E6E6E6;
+                    border-radius: 12px;
+                    padding-left: 10px;
+                    padding-right: 25px;
+                }
+                .icon {
+                    position: absolute;
+                    top: 10px;
+                    right: 0;
+                }
+                button {
+                    position: absolute;
+                    width: auto;
+                    bottom: -60px;
+                    right: 0;
+                }
+            }
+            .link {
+                margin-top: 1.5rem;
+                a {
+                    color: $text-gray;
+                    text-decoration: underline;
+                }
+            }
+           
         }
     }
     .right-column {
         order: 1;
-        
         display: table;
         position: relative;
+        h1 {
+            margin-bottom: 1rem;
+            color: $primary-green;
+        }
+        h5 {
+            margin-bottom: 1rem;
+            color: $primary-green;
+        }
         .responsive-video {
             margin: 0;
         }
@@ -55,30 +90,13 @@
             }
         }
         video {
-            border-radius: 0;
-            border-top-right-radius: 15px;
-            border-top-left-radius: 15px;
+            border-radius: 30px;
             @include media-breakpoint-up(lg) {
                 border-radius: 20px; 
             }
             @include media-breakpoint-up(xl) {  
                 width: 100%;
             }
-        }
-    }
-    .accent {
-        pointer-events: none;
-        background-position: top;
-        background-size: 100%;
-        position: absolute;
-        width: 400px;
-        height: 400px;
-        bottom: -20rem;
-        right: -12rem;
-       
-        @include media-breakpoint-up(lg) {
-            bottom: -19rem;
-            right: 4rem;
         }
     }
 }

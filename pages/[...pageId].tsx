@@ -380,6 +380,29 @@ query GetModules($id: ID = "") {
 			  backgroundColor
 			}
 		  }
+		  ... on Page_Modules_Modules_HomeHeroWithVideo {
+			
+			customizations {
+			  backgroundColor
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			leftColumn {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			}
+			rightColumn {
+			  video {
+				target
+				title
+				url
+			  }
+			}
+		  }
 		  ... on Page_Modules_Modules_NewsletterFormCta {
 			heading
 			headingColor

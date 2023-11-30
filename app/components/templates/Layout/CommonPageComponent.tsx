@@ -10,6 +10,7 @@ import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHo
 import GeneralVerticalTabs from '../../modules/GeneralVerticalTabs/GeneralVerticalTabs';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
+import HomeHeroWithVideo from '../../modules/HomeHeroWithVideo/HomeHeroWithVideo';
 import NewsletterFormCTA from '../../modules/NewsletterFormCTA/NewsletterFormCTA';
 import PathwayToOwnership from '../../modules/PathwayToOwnership/PathwayToOwnership';
 import PrimroseFriends from '../../modules/PrimroseFriends/PrimroseFriends';
@@ -69,6 +70,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_HeroWithVideo':
                     ModuleComponent = HeroWithVideo;
+                    break;
+                case 'Page_Modules_Modules_HomeHeroWithVideo':
+                    ModuleComponent = HomeHeroWithVideo;
                     break;
                 case 'Page_Modules_Modules_NewsletterFormCta':
                     ModuleComponent = NewsletterFormCTA;
