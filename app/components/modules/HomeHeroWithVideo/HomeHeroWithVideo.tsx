@@ -4,6 +4,7 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import SchoolData from '../../../../app/data/schoolsData';
+import { GoogleMap, LoadScript, Autocomplete } from '@react-google-maps/api';
 
 interface School {
     id: number;
@@ -47,6 +48,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
     const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; // Radius of the earth in km
@@ -104,8 +106,18 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
             setLocationServicesEnabled(false);
         }
     }, []);
-    
 
+    useEffect(() => {
+        if (window.google) {
+        const autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current);
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            if (place.geometry) {
+            handleAddressSearch(place.formatted_address);
+            }
+        });
+        }
+    }, []);
 
     const findNearestSchool = (userLoc: { lat: number; lng: number }) => {
         let nearestSchool: School | null = null;
@@ -120,14 +132,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         });
 
         return nearestSchool;
-    };
-
-    const handleAddressSearch = async (address) => {
-        const location = await geocodeAddress(address);
-        if (location) {
-            const nearest = findNearestSchool(location);
-            setNearestSchool(nearest);
-        }
     };
 
     const geocodeAddress = async (address) => {
@@ -148,7 +152,13 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
 
-
+    const handleAddressSearch = async (address) => {
+        const location = await geocodeAddress(address);
+        if (location) {
+            const nearest = findNearestSchool(location);
+            setNearestSchool(nearest);
+        }
+    };
 
     return (
         <div className="container">
@@ -165,7 +175,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                             {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                         </div>
-                        <div className='find-a-location-hero'>
+                        <div className={`find-a-location-hero ${locationServicesEnabled ? '' : 'location-disabled'}`}>
                             <h5 className='heading'>
                                 <span className='icon me-2' onClick={enableLocationServices}>
                                     <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,9 +185,15 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             </h5>
 
                             <div className={`search-field ${locationServicesEnabled ? 'location-enabled' : ''}`}>
-                                <input type='search'
+                                <input
+                                    type='search'
                                     placeholder='Search by address, city, state, ZIP'
-                                // onChange={onSearchInputChange}
+                                    ref={searchInputRef}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && e.target.value) {
+                                            handleAddressSearch(e.target.value);
+                                        }
+                                    }}
                                 />
                                 <span className='icon location-icon me-2'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29" fill="none">
