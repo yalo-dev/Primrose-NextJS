@@ -105,7 +105,7 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
         allFieldIds.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
-                field.style.display = 'none';
+                field.style.display = '';
             }
         });
     }
