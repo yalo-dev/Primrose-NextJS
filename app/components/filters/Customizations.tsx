@@ -27,23 +27,31 @@ const Customizations: React.FC<CustomizationsProps> = ({
     bottomMarginDesktop,
     children
 }) => {
-    
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        setIsMounted(true);
     }, []);
-    
-    const isMobile = windowWidth <= 767;
 
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const handleResize = () => {
+                setWindowWidth(window.innerWidth);
+            };
+
+            window.addEventListener('resize', handleResize);
+
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }
+    }, []);
+
+    const isMobile = windowWidth <= 767;
+    
     const mapPaddingValue = (mobilePadding: string | undefined, desktopPadding: string | undefined, isMobile: boolean) => {
         const paddingLabel = isMobile ? mobilePadding : desktopPadding;
         const paddingMap: { [key: string]: string } = {
@@ -132,11 +140,15 @@ const Customizations: React.FC<CustomizationsProps> = ({
         return colorMap[colorLabelOuter || ""] || "";
     };
 
-    const backgroundColor = mapColorToHex(colorLabel);
-    const outerBackgroundColor = mapColorToHexOuter(colorLabelOuter);
+    const backgroundColor = isMounted ? mapColorToHex(colorLabel) : '';
+    const outerBackgroundColor = isMounted ? mapColorToHexOuter(colorLabelOuter) : '';
+
+    if (!isMounted) {
+        return null;
+    }
 
     return (
-        <div style={{ ...paddings, ...margins, backgroundColor: outerBackgroundColor}}>
+        <div style={{ ...paddings, ...margins, backgroundColor: outerBackgroundColor }}>
             {React.cloneElement(children, {
                 style: {
                     ...children.props.style,

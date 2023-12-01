@@ -625,8 +625,13 @@ const FindASchool = () => {
     setIsAdded(false);
     setMapCenter(center);
     setZoomLevel(DEFAULT_ZOOM);
-
     setMarkers([]);
+
+    if (tabIndex === 1) {
+      window.location.hash = 'nearby';
+    } else if (tabIndex === 2) {
+      window.location.hash = 'alongroute';
+    }
 
     if (directionsRendererRef.current) {
       directionsRendererRef.current.setDirections({ routes: [] });
@@ -656,6 +661,18 @@ const FindASchool = () => {
     setWaypoint(null);
     setDestination(null);
   };
+
+useEffect(() => {
+  const hash = window.location.hash;
+  if (hash === '#nearby') {
+    setActiveTab(1);
+    // Additional setup for Tab 1
+  } else if (hash === '#alongroute') {
+    setActiveTab(2);
+    // Additional setup for Tab 2
+  }
+}, []);
+
 
 
 //BRANDON RELEVENT CODE HERE 

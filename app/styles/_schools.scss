@@ -143,14 +143,6 @@
             padding: 140px 0 120px;
         }
     }
-
-    .find-a-school {
-        margin: 30px 0 60px;
-
-        @include media-breakpoint-up(lg) {
-            margin: 120px 0;
-        }
-    }
 }
 
 .staff {
@@ -786,5 +778,346 @@
                 @extend .primary;
             }   
         }
+    }
+}
+
+.school-home {
+    .hero-with-slider {
+        @include media-breakpoint-up(lg) {
+            padding-bottom: 100px
+        }
+        .left-col {
+            @include media-breakpoint-up(lg) {
+                padding-right: 20px;
+            }
+            .slick-slide {
+                border-radius:30px;
+                overflow: hidden;
+                img {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    border-radius:30px;
+                    @include media-breakpoint-up(xl) {
+                        width: 687.568px;   
+                        height: 408px;
+                        object-fit: cover;
+                        object-position: center;
+
+                        
+                    }
+                }
+            }
+            .slick-dots {
+                background-color: #FBFBFB;
+                border-radius: 1rem;
+                width: auto;
+                display: flex!important;
+                justify-content: center;
+                align-items: center;
+                padding: 7px 6px;
+                bottom: 0.5rem;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                @include media-breakpoint-up(lg) {
+                    bottom: -5rem;
+                }
+                li {
+                    margin: 0;
+                    button:before {
+                        content: '';
+                        width: 10px;  
+                        height: 10px;
+                        border-radius: 50%;
+                        background-color: $transparent;  
+                        border: 1px solid #D2D3D1;
+                        opacity: 0.5;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        @include transition;
+                        @include media-breakpoint-up(lg) {
+                            border: 1px solid #D2D3D1;
+                            
+                        }
+                    }
+                    &.slick-active button:before {
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border: unset;
+                        border-left: 6px solid transparent;
+                        border-right: 6px solid transparent;
+                        border-bottom: 10px solid $brand-orange; 
+                        background-color: transparent;
+                        opacity: 1; 
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        border-radius: 0;
+                        @include transition;
+                      
+                    }
+                }
+            }
+        }
+        .right-col {
+            padding: 20px 16px;
+            @include media-breakpoint-up(lg) {
+                border: 1px solid $neutral-1;
+                padding: 33px 40px 0;
+                border-radius: 30px;
+            }
+            .phone {
+                a {
+                    color: $text-gray;
+                }
+            }
+            .accreditations {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+            
+                .accreditation-images {
+                    @include media-breakpoint-up(lg) {
+                        flex-direction: column;
+                    }
+                }
+            }
+            .classrooms {
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding-left: 0;
+                    li {
+                        flex-basis: calc(50% - 20px);
+                        margin-left: 20px;
+                        a {
+                            color: $primary-darkgray;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+            .social-links {
+                @include media-breakpoint-up(lg) {
+                    border-bottom: 0!important;
+                }
+            }
+        }
+    }
+    .first-five {
+        padding: 30px 0 0;
+        @include media-breakpoint-up(lg) {
+            padding: 60px 0 0;
+        }
+        
+        .two-columns-image-and-text-alternative {
+            padding-top: 30px;
+            padding-bottom: 40px;
+            @include media-breakpoint-up(lg) {
+                padding: 80px 0;
+            }
+            .left-column {
+                margin-bottom: 40px;
+            }
+            .right-column {
+                button {
+                    margin-top: 40px;
+                }
+            }
+        }
+        
+        .heading-wrapper {
+            max-width: 648px;
+            text-align: center;
+            margin: auto;
+            padding-bottom: 30px;
+        }
+        .custom-select {
+            width: 216px;
+            margin-top: 0;
+            .options {
+                width: 216px;
+            }
+            @include media-breakpoint-up(lg) {
+                margin-top: 40px;
+            }
+            .header {
+                border-color: $neutral-2;
+            }
+        }
+
+    }
+    .news-slider-module {
+        padding: 30px 0 60px;
+        .heading {
+            max-width: 512px;
+            //margin-bottom: 40px;
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 50px;
+            }
+        }
+        .slick-dots {
+            background-color: #FBFBFB;
+            border-radius: 1rem;
+            width: auto;
+            display: flex!important;
+            justify-content: center;
+            align-items: center;
+            padding: 7px 6px;
+            bottom:-4.5rem;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            @include media-breakpoint-up(lg) {
+                bottom: -5rem;
+            }
+            li {
+                margin: 0;
+                button:before {
+                    content: '';
+                    width: 10px;  
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: $transparent;  
+                    border: 1px solid #D2D3D1;
+                    opacity: 0.5;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    @include transition;
+                    @include media-breakpoint-up(lg) {
+                        border: 1px solid #D2D3D1;
+                        
+                    }
+                }
+                &.slick-active button:before {
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border: unset;
+                    border-left: 6px solid transparent;
+                    border-right: 6px solid transparent;
+                    border-bottom: 10px solid $brand-orange; 
+                    background-color: transparent;
+                    opacity: 1; 
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    border-radius: 0;
+                    @include transition;
+                  
+                }
+            }
+        }
+        .news-slider-module {
+            .card-wrapper {
+                padding: 10px;
+                .card {
+                    border-radius: 30px;
+                    background-color: $grayscale-2;
+                    .featured-image {
+                        min-height: 198px;
+                        border-top-right-radius: 30px;
+                        border-top-left-radius: 30px;
+                        background-size: cover;
+                        background-position: center;
+                        @include media-breakpoint-up(lg) {
+                            min-height: 240px;
+                        }
+                    }
+                    .info {
+                        padding: 30px;
+                        .excerpt p {
+                            color: $primary-darkgray;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 300;
+                            line-height: 20px; 
+                            margin-bottom: 0;
+                        }
+                        button {
+                            margin-top: 36px;
+                        }
+                    }
+                }
+            }  
+        }
+    }
+    .reviews {
+        @include media-breakpoint-up(lg) {
+            margin-right: 30px;
+        }
+        @include media-breakpoint-up(xxl) {
+            margin-right: 150px;
+        }
+    }
+    .gallery-slider {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .slider-container {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .slide {
+        flex: 0 0 auto; 
+        height: 202px; 
+    }
+    
+    .slide img {
+        height: 100%;
+        width: auto;
+        cursor: pointer;
+    }
+    
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+    
+    .prev {
+        left: 10px;
+    }
+    
+    .next {
+        right: 10px;
+    }
+    
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+    
+    .modal img {
+        max-width: 90%;
+        max-height: 90vh;
+    }
+    
+}
+
+
+.find-a-school {
+    margin: 30px 0 60px;
+
+    @include media-breakpoint-up(lg) {
+        margin: 120px 0;
     }
 }
