@@ -15,6 +15,7 @@ interface OptionType {
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
+    centerModule?: boolean;
     rightColumn?: {
         heading?: string;
         subheading?: string;
@@ -59,8 +60,8 @@ interface TwoColumnsImageAndTextProps {
 	};
 }
 
-const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, customizations }) => {
-    const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
+const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations }) => {
+    const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center' : ''}`;
 
     // Use imageDesktop as fallback if imageMobile is not available
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;

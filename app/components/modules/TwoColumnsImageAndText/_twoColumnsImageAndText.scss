@@ -81,6 +81,14 @@
             }
         }
     }
+    &.center {
+        @include media-breakpoint-up(lg) {
+            justify-content: center;
+            .left-column {
+                margin-left: 0;
+            }
+        }
+    }
 }
 
 .module.Page_Modules_Modules_TwoColumnsImageAndText {

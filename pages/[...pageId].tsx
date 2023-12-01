@@ -773,6 +773,7 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			switchColumnOrderOnDesktop
+			centerModule
 			customizations {
 			  bottomPaddingDesktop
 			  bottomPaddingMobile
