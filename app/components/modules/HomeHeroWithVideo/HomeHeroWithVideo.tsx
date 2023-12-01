@@ -4,7 +4,6 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import SchoolData from '../../../../app/data/schoolsData';
-import { GoogleMap, LoadScript, Autocomplete } from '@react-google-maps/api';
 
 interface School {
     id: number;
@@ -42,13 +41,31 @@ interface HomeHeroWithVideoProps {
     };
 }
 
+const loadGoogleMapsScript = (callback) => {
+    if (window.google) {
+      callback(); // Script already loaded
+      return;
+    }
+  
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => callback();
+    document.head.appendChild(script);
+  };
+
 const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrderOnDesktop, centerModule, leftColumn, rightColumn, customizations }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const className = `home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`;
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
     const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
+    let autocomplete = null;    
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; // Radius of the earth in km
@@ -70,18 +87,27 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
 
     const enableLocationServices = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                setUserLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                });
-            }, (error) => {
-                console.log("Error enabling location services:", error);
-            });
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userLoc = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    setUserLocation(userLoc);
+                    const nearest = findNearestSchool(userLoc);
+                    setNearestSchool(nearest);
+                },
+                (error) => {
+                    console.error("Error enabling location services:", error);
+                    // Handle errors here (user denied the request, etc.)
+                }
+            );
         } else {
             console.log("Geolocation is not supported by this browser.");
+            // Handle the case where the browser doesn't support Geolocation
         }
     };
+    
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -108,16 +134,31 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     }, []);
 
     useEffect(() => {
-        if (window.google) {
-        const autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current);
-        autocomplete.addListener("place_changed", () => {
-            const place = autocomplete.getPlace();
-            if (place.geometry) {
-            handleAddressSearch(place.formatted_address);
+        loadGoogleMapsScript(() => {
+            if (searchInputRef.current) {
+                autocompleteRef.current = new window.google.maps.places.Autocomplete(
+                    searchInputRef.current
+                );
+    
+                autocompleteRef.current.addListener("place_changed", () => {
+                    const place = autocompleteRef.current?.getPlace();
+                    if (place && place.geometry) {
+                        handleAddressSearch(place.formatted_address || place.name);
+                    }
+                    setIsDropdownOpen(false); // Close dropdown after selection
+                });
+    
+                // Listener to detect opening of suggestions dropdown
+                searchInputRef.current.addEventListener('input', () => {
+                    setIsDropdownOpen(true);
+                });
             }
         });
-        }
     }, []);
+    
+    
+      
+      
 
     const findNearestSchool = (userLoc: { lat: number; lng: number }) => {
         let nearestSchool: School | null = null;
@@ -143,14 +184,15 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 const location = data.results[0].geometry.location;
                 return { lat: location.lat, lng: location.lng };
             } else {
-                console.error('Geocoding failed:', data.status);
+                console.error('Geocoding failed:', data.status, data.error_message);
                 return null;
             }
         } catch (error) {
-            console.error('Geocoding failed:', error);
+            console.error('Geocoding network error:', error);
             return null;
         }
     };
+    
 
     const handleAddressSearch = async (address) => {
         const location = await geocodeAddress(address);
@@ -185,17 +227,30 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             </h5>
 
                             <div className={`search-field ${locationServicesEnabled ? 'location-enabled' : ''}`}>
-                                <input
-                                    type='search'
-                                    placeholder='Search by address, city, state, ZIP'
-                                    ref={searchInputRef}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && e.target.value) {
-                                            handleAddressSearch(e.target.value);
+                            <input
+                                type='search'
+                                placeholder='Search by address, city, state, ZIP'
+                                ref={searchInputRef}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault(); // Prevent the default form submit behavior
+                                        if (isDropdownOpen && autocompleteRef.current) {
+                                            // Simulate a click on the first suggestion
+                                            const firstSuggestion = document.querySelector('.pac-item');
+                                            if (firstSuggestion instanceof HTMLElement) {
+                                                firstSuggestion.click();
+                                            }
+                                        } else {
+                                            const target = e.target as HTMLInputElement;
+                                            if (target.value) {
+                                                handleAddressSearch(target.value);
+                                            }
                                         }
-                                    }}
-                                />
-                                <span className='icon location-icon me-2'>
+                                    }
+                                }}
+                            />
+
+                                <span className='icon location-icon me-2' onClick={enableLocationServices}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29" fill="none">
                                         <path fillRule="evenodd" clipRule="evenodd" d="M4.05454 4.20281C-0.164013 8.47353 -0.164013 15.4082 4.05454 19.6786L11.6975 27.4167L19.3404 19.6786C23.5589 15.4082 23.5589 8.47353 19.3404 4.20281C15.1224 -0.0676034 8.27253 -0.0676034 4.05454 4.20281ZM11.8415 16.5565C14.3879 16.5565 16.4524 14.4539 16.4524 11.8602C16.4524 9.26653 14.3879 7.16391 11.8415 7.16391C9.29522 7.16391 7.23069 9.26653 7.23069 11.8602C7.23069 14.4539 9.29522 16.5565 11.8415 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                                     </svg>
@@ -207,7 +262,15 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         <path d="M24.7656 25.2773L29.9883 30.5001" stroke="white"/>
                                     </svg>
                                 </span>
-                                <Button className='primary'>Search</Button>
+                                <Button 
+                                    className='primary'
+                                    onClick={() => {
+                                        const searchInput = searchInputRef.current;
+                                        if (searchInput && searchInput.value) {
+                                            handleAddressSearch(searchInput.value);
+                                        }
+                                    }}
+                                >Search</Button>
                             </div>
                             <div className='link'>
                                 <span className='icon me-2'>
