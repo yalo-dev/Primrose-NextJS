@@ -48,11 +48,15 @@
             .icon {
                 cursor: pointer;
             }
+            
             &.location-disabled {
                 border-bottom-left-radius: 30px;
                 border-bottom-right-radius: 30px;
                 ~ .nearest-school-info {
                     display: none;
+                    &.nearest-school-found {
+                        display: block;
+                    }
                 }
                 .search-icon {
                     display: none;
@@ -60,6 +64,10 @@
                 .location-icon {
                     display: block;
                 }
+            }
+            &.search-field-active {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
             }
             @include media-breakpoint-up(lg) {
                 width: 100%;
@@ -161,6 +169,7 @@
             border-bottom-right-radius: 30px;
             width: 343px;
             margin: auto;
+            
             .name-wrapper { 
                 h5 {
                     color: $text-gray;

@@ -765,6 +765,13 @@ query GetModules($id: ID = "") {
 				title
 				url
 			  }
+			  options {
+				option {
+				  target
+				  title
+				  url
+				}
+			  }
 			}
 			switchColumnOrderOnDesktop
 			customizations {
