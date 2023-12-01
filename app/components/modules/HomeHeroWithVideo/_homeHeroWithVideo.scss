@@ -18,7 +18,7 @@
        
         @include media-breakpoint-up(lg) {
             order: 1;
-            width: 536px;
+            width: 553px;
         
         }
         h1 {
@@ -79,6 +79,30 @@
                         bottom: 0;
                     }
                 }
+                &.location-enabled {
+                    .search-icon {
+                        display: none;
+                        @include media-breakpoint-up(lg) {
+                            display: block;
+                            top: 25px;
+                            right: 10px;
+                        }
+                    }
+                    button {
+                        @include media-breakpoint-up(lg) {
+                            display: none;
+                        }
+                    }
+                    .location-icon {
+                        display: none;
+                    }
+                    input {
+                        padding-right: 10px;
+                        @include media-breakpoint-up(lg) {
+                            width: 100%;
+                        }
+                    }
+                }
             }
             .link {
                 margin-top: 1.5rem;
@@ -89,11 +113,19 @@
                 a {
                     color: $text-gray;
                     text-decoration: underline;
+                    font-family: Poppins;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 14px; 
                     @include media-breakpoint-up(lg) {
                         margin-top: -5.75rem;
                         margin-right: 0;
                         margin-left: auto;
                         text-align: right;
+                        font-size: 16px;
+                        font-weight: 300;
+                        line-height: 26px;
                     }
                 }
             }
@@ -114,6 +146,9 @@
             }
             .phone {
                 color: $text-gray;
+            }
+            button {
+                width: auto;
             }
             @include media-breakpoint-up(lg) {
                 width: 100%;
@@ -137,13 +172,38 @@
         }
         .video-wrapper {
             margin: 0;
-            width: 343px;
-            height: 298px;
+            width: 343px; /* Set the width of your frame */
+            height: 298px; /* Set the height of your frame */
             overflow: hidden;
-            video {
-
+            border-radius: 30px;
+            position: relative; /* Needed for positioning the video correctly */
+            margin: 20px auto;
+            @include media-breakpoint-up(lg) {
+                margin: 0;
+                margin-left: 1rem;
+                width: 350px;
+                height: 400px;
+            }
+            @include media-breakpoint-up(xl) {
+                width: 525px;
+                height: 525px;
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 676px;
+                height: 683px;
             }
         }
+        
+        .video-wrapper video {
+            width: 100%; /* Ensure video covers the full width */
+            height: 100%; /* Ensure video covers the full height */
+            object-fit: cover; /* This makes the video cover the available space without distorting aspect ratio */
+            position: absolute; /* Position it absolutely within the wrapper */
+            top: 50%; /* Center it vertically */
+            left: 50%; /* Center it horizontally */
+            transform: translate(-50%, -50%); /* Adjust the positioning to truly center it */
+        }
+        
         @include media-breakpoint-up(lg) {
            
         }

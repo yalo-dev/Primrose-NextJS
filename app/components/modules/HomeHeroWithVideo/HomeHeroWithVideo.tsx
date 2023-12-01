@@ -46,6 +46,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const className = `home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`;
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
+    const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; // Radius of the earth in km
@@ -91,15 +92,20 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     setUserLocation(userLoc);
                     const nearest = findNearestSchool(userLoc);
                     setNearestSchool(nearest);
+                    setLocationServicesEnabled(true);
                 },
                 (error) => {
                     console.log("Error enabling location services:", error);
+                    setLocationServicesEnabled(false);
                 }
             );
         } else {
             console.log("Geolocation is not supported by this browser.");
+            setLocationServicesEnabled(false);
         }
     }, []);
+    
+
 
     const findNearestSchool = (userLoc: { lat: number; lng: number }) => {
         let nearestSchool: School | null = null;
@@ -168,7 +174,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 </span>Find a School Near You
                             </h5>
 
-                            <div className='search-field'>
+                            <div className={`search-field ${locationServicesEnabled ? 'location-enabled' : ''}`}>
                                 <input type='search'
                                     placeholder='Search by address, city, state, ZIP'
                                 // onChange={onSearchInputChange}
@@ -176,6 +182,13 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 <span className='icon location-icon me-2'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29" fill="none">
                                         <path fillRule="evenodd" clipRule="evenodd" d="M4.05454 4.20281C-0.164013 8.47353 -0.164013 15.4082 4.05454 19.6786L11.6975 27.4167L19.3404 19.6786C23.5589 15.4082 23.5589 8.47353 19.3404 4.20281C15.1224 -0.0676034 8.27253 -0.0676034 4.05454 4.20281ZM11.8415 16.5565C14.3879 16.5565 16.4524 14.4539 16.4524 11.8602C16.4524 9.26653 14.3879 7.16391 11.8415 7.16391C9.29522 7.16391 7.23069 9.26653 7.23069 11.8602C7.23069 14.4539 9.29522 16.5565 11.8415 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                                    </svg>
+                                </span>
+                                <span className='icon search-icon'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none">
+                                        <circle cx="21.2344" cy="21.5" r="21" fill="#5E6738"/>
+                                        <circle cx="20.3959" cy="19.8178" r="7.06" stroke="white"/>
+                                        <path d="M24.7656 25.2773L29.9883 30.5001" stroke="white"/>
                                     </svg>
                                 </span>
                                 <Button className='primary'>Search</Button>
