@@ -206,11 +206,11 @@
         }
         .video-wrapper {
             margin: 0;
-            width: 343px; /* Set the width of your frame */
-            height: 298px; /* Set the height of your frame */
+            min-width: 343px; 
+            height: 298px; 
             overflow: hidden;
             border-radius: 30px;
-            position: relative; /* Needed for positioning the video correctly */
+            position: relative;
             margin: 20px auto;
             @include media-breakpoint-up(lg) {
                 margin: 0;
