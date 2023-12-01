@@ -5,6 +5,13 @@ import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
 import ColorComponent from '../../filters/ColorComponent';
 import BackgroundColorComponent from '../../filters/BackgroundColorComponent';
+import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
+
+interface OptionType {
+    label: string;
+    url: string;
+    target?: string;
+}
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
@@ -16,6 +23,13 @@ interface TwoColumnsImageAndTextProps {
             target?: string;
             title?: string;
             url?: string;
+        };
+        options?: {
+            option?: {
+                target?: string;
+                title?: string;
+                url?: string;
+            }[];
         };
     };
     leftColumn?: {
@@ -51,7 +65,22 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
     // Use imageDesktop as fallback if imageMobile is not available
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
+    
+    
+    let dropdownOptions: OptionType[] = [];
 
+    if (rightColumn?.options && Array.isArray(rightColumn.options)) {
+        dropdownOptions = rightColumn.options.flatMap(dropItem => {
+            if (dropItem.option) {
+                return {
+                    label: dropItem.option.title || "", 
+                    url: dropItem.option.url || "", 
+                    target: dropItem.option.target || "_self"
+                };
+            }
+            return [];
+        });
+    }
 
    return (
         <div className='container'>
@@ -101,11 +130,16 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
                     {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
-                    {rightColumn?.button?.url && rightColumn?.button?.title && (
-                        <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
-                            {rightColumn.button.title}
-                        </Button>
-                    )}
+                    <div className='d-lg-flex'>  
+                        {rightColumn?.button?.url && rightColumn?.button?.title && (
+                            <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
+                                {rightColumn.button.title}
+                            </Button>
+                        )}
+                        {(dropdownOptions.length > 0) && (
+                            <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
+                        )}
+                    </div>
                 </div>
             </div>
             </Customizations>
