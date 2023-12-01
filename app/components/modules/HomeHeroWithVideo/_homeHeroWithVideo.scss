@@ -21,14 +21,20 @@
             width: 553px;
         
         }
-        h1 {
-            margin-bottom: 1rem;
-            color: $primary-green;
+        .heading-wrapper {
+            h1 {
+                margin-bottom: 1rem;
+                color: $primary-green;
+            }
+            h5 {
+                margin-bottom: 1rem;
+                color: $primary-green;
+                @include media-breakpoint-up(xl) {
+                    margin-bottom: 2.75rem;
+                }
+            }
         }
-        h5 {
-            margin-bottom: 1rem;
-            color: $primary-green;
-        }
+        
         .find-a-location-hero {
             border: 1px solid #E6E6E6;
             width: 343px;
@@ -39,6 +45,22 @@
             height: 200px;
             position: relative;
             margin: auto;
+            .icon {
+                cursor: pointer;
+            }
+            &.location-disabled {
+                border-bottom-left-radius: 30px;
+                border-bottom-right-radius: 30px;
+                ~ .nearest-school-info {
+                    display: none;
+                }
+                .search-icon {
+                    display: none;
+                }
+                .location-icon {
+                    display: block;
+                }
+            }
             @include media-breakpoint-up(lg) {
                 width: 100%;
                 padding: 32px 42px;
@@ -107,7 +129,7 @@
             .link {
                 margin-top: 1.5rem;
                 @include media-breakpoint-up(lg) {
-                    margin-top: -7rem;
+                    margin-top: -6.5rem;
                     text-align: right;
                 }
                 a {
@@ -169,6 +191,7 @@
         h5 {
             margin-bottom: 1rem;
             color: $primary-green;
+           
         }
         .video-wrapper {
             margin: 0;
