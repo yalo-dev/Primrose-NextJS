@@ -37,7 +37,8 @@
         
         .find-a-location-hero {
             border: 1px solid #E6E6E6;
-            width: 343px;
+            min-width: 343px;
+            width: 100%;
             border-radius: 30px;
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
@@ -77,7 +78,8 @@
             .search-field {
                 position: relative;
                 input {
-                    width: 303px;
+                    width: 100%;
+                    min-width: 303px;
                     height: 50px;
                     flex-shrink: 0;
                     border: 1px solid #E6E6E6;
