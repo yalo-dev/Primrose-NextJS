@@ -8,6 +8,7 @@
         flex-direction: row;
         align-items: center;
         min-height: 590px;
+        justify-content: space-between;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -17,6 +18,7 @@
        
         @include media-breakpoint-up(lg) {
             order: 1;
+            width: 536px;
         
         }
         h1 {
@@ -31,9 +33,17 @@
             border: 1px solid #E6E6E6;
             width: 343px;
             border-radius: 30px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             padding: 26px 20px;
             height: 200px;
             position: relative;
+            margin: auto;
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+                padding: 32px 42px;
+            
+            }
             .search-field {
                 position: relative;
                 input {
@@ -44,27 +54,73 @@
                     border-radius: 12px;
                     padding-left: 10px;
                     padding-right: 25px;
+                    @include media-breakpoint-up(lg) {
+                        width: 80%;
+                        height: 70px;
+                        top: 10px;
+                        position: relative;
+                    }
                 }
                 .icon {
                     position: absolute;
                     top: 10px;
                     right: 0;
+                    @include media-breakpoint-up(lg) {
+                        right: 20%;
+                        top: 30px;
+                    }
                 }
                 button {
                     position: absolute;
                     width: auto;
                     bottom: -60px;
                     right: 0;
+                    @include media-breakpoint-up(lg) {
+                        bottom: 0;
+                    }
                 }
             }
             .link {
                 margin-top: 1.5rem;
+                @include media-breakpoint-up(lg) {
+                    margin-top: -7rem;
+                    text-align: right;
+                }
                 a {
                     color: $text-gray;
                     text-decoration: underline;
+                    @include media-breakpoint-up(lg) {
+                        margin-top: -5.75rem;
+                        margin-right: 0;
+                        margin-left: auto;
+                        text-align: right;
+                    }
                 }
             }
            
+        }
+        .nearest-school-info {
+            background-color: #FBFBFB;
+            padding: 26px 20px;
+            border: 1px solid #E6E6E6;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            width: 343px;
+            margin: auto;
+            .name-wrapper { 
+                h5 {
+                    color: $text-gray;
+                }      
+            }
+            .phone {
+                color: $text-gray;
+            }
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+                padding: 32px 42px;
+            
+            }
+
         }
     }
     .right-column {
@@ -79,24 +135,17 @@
             margin-bottom: 1rem;
             color: $primary-green;
         }
-        .responsive-video {
+        .video-wrapper {
             margin: 0;
+            width: 343px;
+            height: 298px;
+            overflow: hidden;
+            video {
+
+            }
         }
         @include media-breakpoint-up(lg) {
-            display: flex;
-            height: fit-content;
-            .responsive-video {
-                margin: 2rem;
-            }
-        }
-        video {
-            border-radius: 30px;
-            @include media-breakpoint-up(lg) {
-                border-radius: 20px; 
-            }
-            @include media-breakpoint-up(xl) {  
-                width: 100%;
-            }
+           
         }
     }
 }
