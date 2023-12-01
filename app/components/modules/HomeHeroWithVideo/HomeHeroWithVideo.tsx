@@ -143,7 +143,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 autocompleteRef.current.addListener("place_changed", () => {
                     const place = autocompleteRef.current?.getPlace();
                     if (place && place.geometry) {
-                        handleAddressSearch(place.formatted_address || place.name);
+                        geocodeAddress(place.formatted_address || place.name);
                     }
                     setIsDropdownOpen(false); // Close dropdown after selection
                 });
@@ -155,10 +155,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
             }
         });
     }, []);
-    
-    
-      
-      
 
     const findNearestSchool = (userLoc: { lat: number; lng: number }) => {
         let nearestSchool: School | null = null;
@@ -171,36 +167,85 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 nearestSchool = { ...school, distance: distance.toFixed(2) };
             }
         });
-
-        return nearestSchool;
+        console.log(nearestSchool);
+        setNearestSchool(nearestSchool);
+        setLocationServicesEnabled(true);
+        //setNearestSchool(nearestSchool);
     };
 
+
+    // useEffect(() => {
+    //     const findNearestSchool = (userLoc: { lat: number; lng: number }) => {
+    //         let nearestSchool: School | null = null;
+    //         let minDistance = Infinity;
+    
+    //         SchoolData.forEach((school) => {
+    //             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
+    //             if (distance < minDistance) {
+    //                 minDistance = distance;
+    //                 nearestSchool = { ...school, distance: distance.toFixed(2) };
+    //             }
+    //         });
+    //         console.log(nearestSchool);
+    //         setNearestSchool(nearestSchool);
+    //         //setNearestSchool(nearestSchool);
+    //     };
+    // }, []);
+    // const geocodeAddress = async (address) => {
+    //     try {
+    //         const apiKey = "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw";
+    //         const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
+    //         const data = await response.json();
+    //         if (data.status === "OK") {
+    //             const location = data.results[0].geometry.location;
+    //             return { lat: location.lat, lng: location.lng };
+    //         } else {
+    //             console.error('Geocoding failed:', data.status, data.error_message);
+    //             return null;
+    //         }
+    //     } catch (error) {
+    //         console.error('Geocoding network error:', error);
+    //         return null;
+    //     }
+    // };
+   
+   
+   
     const geocodeAddress = async (address) => {
+        console.log(address);
+        console.log(encodeURIComponent(address));
         try {
-            const apiKey = "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw";
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
-            const data = await response.json();
-            if (data.status === "OK") {
-                const location = data.results[0].geometry.location;
-                return { lat: location.lat, lng: location.lng };
-            } else {
-                console.error('Geocoding failed:', data.status, data.error_message);
-                return null;
-            }
+            // const {GeoCoder} = await google.maps.importLibrary("geocoding")
+            let geoc = new google.maps.Geocoder();
+                geoc.geocode( { address: address } )
+                .then((results) => {
+                    // const { results } = result;
+                    console.log(results);
+                    console.log(results.results[0]);
+                    console.log(results.results[0].geometry.location.lat());
+                    console.log(results.results[0].geometry.location.lng());
+                    findNearestSchool( {lat: results.results[0].geometry.location.lat(), lng: results.results[0].geometry.location.lng()} )
+                    //findNearestSchool;
+                })
+                .catch((e) => {
+                  console.error("Geocode was not successful for the following reason: " + e);
+                });
         } catch (error) {
-            console.error('Geocoding network error:', error);
+            console.error('Geocoding failed:', error);
             return null;
         }
     };
-    
 
-    const handleAddressSearch = async (address) => {
-        const location = await geocodeAddress(address);
-        if (location) {
-            const nearest = findNearestSchool(location);
-            setNearestSchool(nearest);
-        }
-    };
+    // const handleAddressSearch = async (address) => {
+    //     // const location = await geocodeAddress(address);
+    //     if (location) {
+    //         console.log('me' + location);
+    //         const nearest = findNearestSchool(location);
+    //         setNearestSchool(nearest);
+    //     } else {
+    //         console.log('location not found we said it');
+    //     }
+    // };
 
     return (
         <div className="container">
@@ -243,7 +288,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         } else {
                                             const target = e.target as HTMLInputElement;
                                             if (target.value) {
-                                                handleAddressSearch(target.value);
+                                                geocodeAddress(target.value);
                                             }
                                         }
                                     }
@@ -267,7 +312,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                     onClick={() => {
                                         const searchInput = searchInputRef.current;
                                         if (searchInput && searchInput.value) {
-                                            handleAddressSearch(searchInput.value);
+                                            geocodeAddress(searchInput.value);
                                         }
                                     }}
                                 >Search</Button>
