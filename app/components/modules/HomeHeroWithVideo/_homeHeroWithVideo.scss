@@ -8,6 +8,7 @@
         flex-direction: row;
         align-items: center;
         min-height: 590px;
+        justify-content: space-between;
         &.reverse-column {
             flex-direction: row-reverse;
         }
@@ -17,6 +18,7 @@
        
         @include media-breakpoint-up(lg) {
             order: 1;
+            width: 553px;
         
         }
         h1 {
@@ -31,9 +33,17 @@
             border: 1px solid #E6E6E6;
             width: 343px;
             border-radius: 30px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             padding: 26px 20px;
             height: 200px;
             position: relative;
+            margin: auto;
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+                padding: 32px 42px;
+            
+            }
             .search-field {
                 position: relative;
                 input {
@@ -44,27 +54,108 @@
                     border-radius: 12px;
                     padding-left: 10px;
                     padding-right: 25px;
+                    @include media-breakpoint-up(lg) {
+                        width: 80%;
+                        height: 70px;
+                        top: 10px;
+                        position: relative;
+                    }
                 }
                 .icon {
                     position: absolute;
                     top: 10px;
                     right: 0;
+                    @include media-breakpoint-up(lg) {
+                        right: 20%;
+                        top: 30px;
+                    }
                 }
                 button {
                     position: absolute;
                     width: auto;
                     bottom: -60px;
                     right: 0;
+                    @include media-breakpoint-up(lg) {
+                        bottom: 0;
+                    }
+                }
+                &.location-enabled {
+                    .search-icon {
+                        display: none;
+                        @include media-breakpoint-up(lg) {
+                            display: block;
+                            top: 25px;
+                            right: 10px;
+                        }
+                    }
+                    button {
+                        @include media-breakpoint-up(lg) {
+                            display: none;
+                        }
+                    }
+                    .location-icon {
+                        display: none;
+                    }
+                    input {
+                        padding-right: 10px;
+                        @include media-breakpoint-up(lg) {
+                            width: 100%;
+                        }
+                    }
                 }
             }
             .link {
                 margin-top: 1.5rem;
+                @include media-breakpoint-up(lg) {
+                    margin-top: -7rem;
+                    text-align: right;
+                }
                 a {
                     color: $text-gray;
                     text-decoration: underline;
+                    font-family: Poppins;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 14px; 
+                    @include media-breakpoint-up(lg) {
+                        margin-top: -5.75rem;
+                        margin-right: 0;
+                        margin-left: auto;
+                        text-align: right;
+                        font-size: 16px;
+                        font-weight: 300;
+                        line-height: 26px;
+                    }
                 }
             }
            
+        }
+        .nearest-school-info {
+            background-color: #FBFBFB;
+            padding: 26px 20px;
+            border: 1px solid #E6E6E6;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            width: 343px;
+            margin: auto;
+            .name-wrapper { 
+                h5 {
+                    color: $text-gray;
+                }      
+            }
+            .phone {
+                color: $text-gray;
+            }
+            button {
+                width: auto;
+            }
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+                padding: 32px 42px;
+            
+            }
+
         }
     }
     .right-column {
@@ -79,24 +170,42 @@
             margin-bottom: 1rem;
             color: $primary-green;
         }
-        .responsive-video {
+        .video-wrapper {
             margin: 0;
-        }
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            height: fit-content;
-            .responsive-video {
-                margin: 2rem;
-            }
-        }
-        video {
+            width: 343px; /* Set the width of your frame */
+            height: 298px; /* Set the height of your frame */
+            overflow: hidden;
             border-radius: 30px;
+            position: relative; /* Needed for positioning the video correctly */
+            margin: 20px auto;
             @include media-breakpoint-up(lg) {
-                border-radius: 20px; 
+                margin: 0;
+                margin-left: 1rem;
+                width: 350px;
+                height: 400px;
             }
-            @include media-breakpoint-up(xl) {  
-                width: 100%;
+            @include media-breakpoint-up(xl) {
+                width: 525px;
+                height: 525px;
             }
+            @include media-breakpoint-up(xxl) {
+                width: 676px;
+                height: 683px;
+            }
+        }
+        
+        .video-wrapper video {
+            width: 100%; /* Ensure video covers the full width */
+            height: 100%; /* Ensure video covers the full height */
+            object-fit: cover; /* This makes the video cover the available space without distorting aspect ratio */
+            position: absolute; /* Position it absolutely within the wrapper */
+            top: 50%; /* Center it vertically */
+            left: 50%; /* Center it horizontally */
+            transform: translate(-50%, -50%); /* Adjust the positioning to truly center it */
+        }
+        
+        @include media-breakpoint-up(lg) {
+           
         }
     }
 }
