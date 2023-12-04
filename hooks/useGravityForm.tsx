@@ -54,6 +54,7 @@ function reducer(state: FieldValueUnion[], action: Action) {
     case ACTION_TYPES.updateSelectFieldValue:
     case ACTION_TYPES.updateTextFieldValue: {
       const { id, value } = action.fieldValue as StringFieldValue;
+      console.log('updateSelectFieldValue', id, value);
       return [...getOtherFieldValues(id), { id, value }];
     }
     default:

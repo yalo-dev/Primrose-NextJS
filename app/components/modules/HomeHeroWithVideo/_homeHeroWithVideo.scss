@@ -37,7 +37,8 @@
         
         .find-a-location-hero {
             border: 1px solid #E6E6E6;
-            width: 343px;
+            min-width: 343px;
+            width: 100%;
             border-radius: 30px;
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
@@ -48,11 +49,15 @@
             .icon {
                 cursor: pointer;
             }
+            
             &.location-disabled {
                 border-bottom-left-radius: 30px;
                 border-bottom-right-radius: 30px;
                 ~ .nearest-school-info {
                     display: none;
+                    &.nearest-school-found {
+                        display: block;
+                    }
                 }
                 .search-icon {
                     display: none;
@@ -60,6 +65,10 @@
                 .location-icon {
                     display: block;
                 }
+            }
+            &.search-field-active {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
             }
             @include media-breakpoint-up(lg) {
                 width: 100%;
@@ -69,7 +78,8 @@
             .search-field {
                 position: relative;
                 input {
-                    width: 303px;
+                    width: 100%;
+                    min-width: 303px;
                     height: 50px;
                     flex-shrink: 0;
                     border: 1px solid #E6E6E6;
@@ -161,6 +171,7 @@
             border-bottom-right-radius: 30px;
             width: 343px;
             margin: auto;
+            
             .name-wrapper { 
                 h5 {
                     color: $text-gray;
@@ -195,11 +206,11 @@
         }
         .video-wrapper {
             margin: 0;
-            width: 343px; /* Set the width of your frame */
-            height: 298px; /* Set the height of your frame */
+            min-width: 343px; 
+            height: 298px; 
             overflow: hidden;
             border-radius: 30px;
-            position: relative; /* Needed for positioning the video correctly */
+            position: relative;
             margin: 20px auto;
             @include media-breakpoint-up(lg) {
                 margin: 0;

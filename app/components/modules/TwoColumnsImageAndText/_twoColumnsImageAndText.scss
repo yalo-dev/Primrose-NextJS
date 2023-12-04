@@ -28,6 +28,19 @@
             margin-top: 30px;
             width: auto;
         }
+        .custom-select {
+            @include media-breakpoint-up(lg) {
+                margin-top: 30px;
+                margin-left: 1rem;
+                width: 216px;
+                .options {
+                    width: 216px;
+                }
+            }
+            .header {
+                border: 1px solid $neutral-2;
+            }
+        }
     }
     .left-column {
         margin-bottom: 60px;
@@ -68,4 +81,16 @@
             }
         }
     }
+    &.center {
+        @include media-breakpoint-up(lg) {
+            justify-content: center;
+            .left-column {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.module.Page_Modules_Modules_TwoColumnsImageAndText {
+    overflow-x: visible;
 }
