@@ -807,8 +807,8 @@ const HomePage = () => {
   if (loading) return <p></p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  console.log('Fetched Data:', data);
-  console.log('Modules:', data.page.modules.modules);
+//   console.log('Fetched Data:', data);
+//   console.log('Modules:', data.page.modules.modules);
 
   const modules = data?.page?.modules?.modules || [];
 

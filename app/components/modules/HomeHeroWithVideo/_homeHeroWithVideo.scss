@@ -49,6 +49,23 @@
             .icon {
                 cursor: pointer;
             }
+            .location-icon {
+                svg {
+                    transition: fill ease-in-out 0.5;
+                    path {
+                        transition: stroke ease-in-out 0.5;
+                    }
+                }
+                &:hover {
+                    svg {
+                        fill: $primary-green;
+                        path {
+                            stroke: $primary-green;
+                        }
+                    }
+                }
+            }
+            
             
             &.location-disabled {
                 border-bottom-left-radius: 30px;
@@ -69,6 +86,9 @@
             &.search-field-active {
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
+                ~ .nearest-school-info {
+                    display: block;
+                }
             }
             @include media-breakpoint-up(lg) {
                 width: 100%;
@@ -85,7 +105,7 @@
                     border: 1px solid #E6E6E6;
                     border-radius: 12px;
                     padding-left: 10px;
-                    padding-right: 25px;
+                    padding-right: 40px;
                     @include media-breakpoint-up(lg) {
                         width: 80%;
                         height: 70px;
@@ -229,17 +249,53 @@
         }
         
         .video-wrapper video {
-            width: 100%; /* Ensure video covers the full width */
-            height: 100%; /* Ensure video covers the full height */
-            object-fit: cover; /* This makes the video cover the available space without distorting aspect ratio */
-            position: absolute; /* Position it absolutely within the wrapper */
-            top: 50%; /* Center it vertically */
-            left: 50%; /* Center it horizontally */
-            transform: translate(-50%, -50%); /* Adjust the positioning to truly center it */
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
         }
         
         @include media-breakpoint-up(lg) {
            
         }
     }
+}
+
+
+.hp-popup-modal {
+    z-index: 10000000;
+    position: absolute;
+    background: white;
+    border: 1px solid $neutral-1;
+    border-radius: 30px;
+    padding: 2rem;
+    min-width: 15rem;
+    max-width: 30rem;
+    top: 25%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    button {
+        padding: 5px;
+        width: auto;
+        background-color: $primary-green;
+        color: $white;
+        line-height: 1;
+        border-radius: 50%;
+        right: 10px;
+        top: 10px;
+        
+        width: 30px;
+        height: 30px;
+        position: absolute;
+    }
+    &.open {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

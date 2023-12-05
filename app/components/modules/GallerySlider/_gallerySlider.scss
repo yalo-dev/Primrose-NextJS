@@ -1,0 +1,53 @@
+.gallery-slider {
+    position: relative;
+    overflow: hidden;
+
+    .slider-container {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .slide {
+        flex: 0 0 auto; 
+        height: 202px; 
+    }
+    
+    .slide img {
+        height: 100%;
+        width: auto;
+        cursor: pointer;
+    }
+    
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+    
+    .prev {
+        left: 10px;
+    }
+    
+    .next {
+        right: 10px;
+    }
+    
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+    
+    .modal img {
+        max-width: 90%;
+        max-height: 90vh;
+    }
+}
