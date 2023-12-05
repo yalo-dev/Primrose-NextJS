@@ -21,8 +21,8 @@
             order: 1;
             padding:2rem 5rem;
         }
-        @include media-breakpoint-up(xl) {
-            //padding: 110px 80px 110px 40px;
+        @include media-breakpoint-up(xxl) {
+            padding: 110px 80px 110px 40px;
         }
         
         h1 {
