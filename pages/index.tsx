@@ -99,7 +99,10 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
-			form
+			formid
+			portalid
+			region
+			version
 			customizations {
 			    outerBackgroundColor
 			    topMarginMobile
