@@ -13,6 +13,7 @@ export const TEXT_FIELD_FIELDS = gql`
     cssClass
     isRequired
     placeholder
+    visibility
   }
 `;
 
