@@ -163,8 +163,6 @@ export default function ClassroomPage() {
         }
     }, []);
 
-
-
     useEffect(() => {
         if (router.isReady) {
             const slugFromArray = Array.isArray(router.query.schoolSlug)

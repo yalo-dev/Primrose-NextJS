@@ -1,53 +1,63 @@
 .gallery-slider {
     position: relative;
     overflow: hidden;
+    font-family: 'Your Font Family', sans-serif; /* Replace with your actual font family */
+}
 
-    .slider-container {
-        display: flex;
-        transition: transform 0.3s ease-in-out;
+.gallery-slider .slider-container {
+    display: flex;
+    will-change: transform; /* Optimizes the sliding animation */
+    transition: transform 0.5s ease;
+}
+
+.gallery-slider .slide {
+    flex: 0 0 auto; /* Do not grow, do not shrink, automatic width based on content */
+    margin-right: 16px; /* Space between slides */
+    height: 202px; /* Fixed height for each slide */
+    display: flex;
+    justify-content: center; /* Center the image in the slide */
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px; /* Rounded corners as seen in the provided layout */
+}
+
+.gallery-slider img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Ensures the image is fully visible */
+}
+
+/* Arrow buttons */
+.gallery-slider .arrow {
+    width: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Above the image */
+}
+
+.gallery-slider .prev {
+    left: 10px;
+}
+
+.gallery-slider .next {
+    right: 10px;
+}
+
+@media (min-width: 768px) {
+    .gallery-slider .slide {
+        height: auto; /* Adjust if you have a specific height for desktop */
     }
-    
-    .slide {
-        flex: 0 0 auto; 
-        height: 202px; 
-    }
-    
-    .slide img {
-        height: 100%;
-        width: auto;
-        cursor: pointer;
-    }
-    
-    .arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        background: none;
-        border: none;
-    }
-    
-    .prev {
-        left: 10px;
-    }
-    
-    .next {
-        right: 10px;
-    }
-    
-    .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(0, 0, 0, 0.7);
-        padding: 20px;
-        z-index: 1000;
-        cursor: pointer;
-    }
-    
-    .modal img {
-        max-width: 90%;
-        max-height: 90vh;
-    }
+}
+
+/* Styles for the modal if used */
+.modal {
+    /* Previous modal styles */
 }

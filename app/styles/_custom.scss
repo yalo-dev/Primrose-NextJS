@@ -28,7 +28,11 @@
 }
 
 .green {
-    color: $primary-green;
+    color: $primary-green !important;
+}
+
+.blue {
+    color: $brand-blue !important;
 }
 
 //to offset space for the nav 
