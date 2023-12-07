@@ -77,6 +77,7 @@ export async function getServerSideProps(context) {
             }
             homepage {
               gallery {
+                title
                 caption
                 image {
                   altText

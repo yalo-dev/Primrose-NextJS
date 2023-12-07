@@ -223,16 +223,7 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
   const handleSelectedGroups = (selectedValues) => {
     setSelectedGroups(selectedValues);
   };
-  // useEffect(() => {
-  //   if (selectedGroups.includes('All') || selectedGroups.length === 0) {
-  //     setFilteredStaffMembers(staff.staffMembers);
-  //   } else {
-  //     const filtered = staff.staffMembers.filter(member =>
-  //       selectedGroups.length === 0 || selectedGroups.includes(member.group)
-  //   );
-  //   setFilteredStaffMembers(filtered);
-  //   }
-  // }, [selectedGroups, staff.staffMembers]);
+
   useEffect(() => {
     const filtered = selectedGroups.length === 0 || selectedGroups.includes('All') 
         ? staff.staffMembers 
@@ -241,10 +232,8 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
     setFilteredStaffMembers(filtered);
 }, [selectedGroups, staff.staffMembers]);
 
-
   return (
     <div className='staff'>
-      {/* Staff Members Section */}
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>

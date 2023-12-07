@@ -393,8 +393,14 @@
             border: 0.668px solid #E6E6E6;
             background: var(--black-neutral, #F1F1EF);
             width: 375px;
+            // height: 144px;
             padding-right: 0px;
             position: relative;
+            img {
+                height:  144px;
+                display: block;
+
+            }
             @include media-breakpoint-up(lg) {
                 flex-basis: calc(50% - 13px);
                 @include transitionAll();
@@ -1065,4 +1071,119 @@
     @include media-breakpoint-up(lg) {
         margin: 120px 0;
     }
+}
+
+
+.classroom-type {
+    .general-horizontal-tabs-module {
+        padding-bottom: 30px;
+
+        @include media-breakpoint-up(lg) {
+            padding-bottom: 100px;
+        }
+
+        .inner {
+            padding-bottom: 15px;
+
+            @include media-breakpoint-up(lg) {
+                flex-basis: 20%;
+
+                &.sticky {
+                    position: sticky;
+                    height: fit-content;
+                }
+            }
+        }
+
+        .heading {
+            padding: 30px 0 8px;
+            margin-bottom: 0;
+
+            @include media-breakpoint-up(lg) {
+                padding: 70px 0 88px;
+            }
+        }
+
+        img {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            width: 343px;
+            height: 285px;
+            object-fit: cover;
+            object-position: center;
+            @include media-breakpoint-up(lg) {
+                margin-top: 0;
+                margin-bottom: 0;
+                width: 383px;
+                height: 319px;
+            }
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        button.primary {
+            margin-top: 40px;
+            background-color: $primary-green;
+            width: auto;
+        }
+
+        .tab-content {
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+
+            &.active {
+                max-height: 600px;
+                opacity: 1;
+            }
+
+            @include media-breakpoint-up(lg) {
+                opacity: 1;
+                max-height: max-content;
+            }
+        }
+
+        @include media-breakpoint-up(lg) {
+            .desktop-content {
+                .tab-content {
+                    &::before {
+                        content: none;
+                    }
+                    .content-wrapper {
+                        flex-basis: 50%;
+                    }
+                }
+            }
+        }
+    }
+
+    // .general-horizontal-tabs-module {
+    //     .tab-content  {
+    //         transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+    //         overflow: hidden;
+    //         max-height: 0;
+    //         opacity: 0;
+    //         &.active {
+    //             max-height: 700px;
+    //             opacity: 1;
+    //         }
+    //         img {
+    //             margin-top: 1rem;
+    //             margin-bottom: 1rem;
+    //             width: 343px;
+    //             height: 285px;
+    //             object-fit: cover;
+    //             object-position: center;
+    //             @include media-breakpoint-up(lg) {
+    //                 margin-top: 0;
+    //                 margin-bottom: 0;
+    //                 width: 383px;
+    //                 height: 319px;
+    //             }
+    //         }
+    //     }
+    // }
 }
