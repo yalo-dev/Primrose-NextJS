@@ -44,20 +44,11 @@ const GallerySlider = ({ gallery }) => {
         const totalSlidesWidth = slideWidths.reduce((acc, width) => acc + width, 0);
         const viewportWidth = sliderRef.current ? sliderRef.current.offsetWidth : window.innerWidth;
     
-        // Adjust for the additional margin on the first slide
-        const firstSlideMargin = 16; // Adjust this value if the margin changes
-    
         let translateWidth = slideWidths.slice(0, currentIndex).reduce((acc, width) => acc + width, 0);
     
-        // When it's the last slide, adjust the translation width to account for the additional margin
-        if (currentIndex === gallery.length - 1) {
-            // Calculate the normal translation width required to bring the last slide into view
+        // Simply adjust the translation width to fit the viewport
+        if (totalSlidesWidth - translateWidth < viewportWidth) {
             translateWidth = totalSlidesWidth - viewportWidth;
-            // Adjust the translation to account for the first slide's additional margin
-            translateWidth += firstSlideMargin;
-        } else {
-            // For other slides, adjust the translation normally
-            translateWidth = Math.min(translateWidth, totalSlidesWidth - viewportWidth);
         }
     
         // Ensure the translation doesn't exceed the bounds
@@ -66,10 +57,6 @@ const GallerySlider = ({ gallery }) => {
         console.log(`Calculated translate width: ${translateWidth}`);
         return translateWidth;
     };
-    
-    
-    
-    
     
     useEffect(() => {
         if (sliderRef.current) {

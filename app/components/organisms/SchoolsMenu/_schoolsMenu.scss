@@ -1,8 +1,8 @@
 .navbar-schools {
-    position: fixed;
+    position: absolute;
     width: 100%;
     z-index: 1130;
-    top: 100px;
+    top: 99px;
     left: 0;
     border-top: 1px solid $nav-border;
     border-bottom: 1px solid $nav-border;
@@ -215,11 +215,11 @@
     }
 
     @include media-breakpoint-up(lg) {
-        top: 96px;
+        //top: 96px;
     }
 
     @include media-breakpoint-up(xl) {
-        top: 88px;
+       //top: 88px;
     }
 }
 
