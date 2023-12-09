@@ -13,7 +13,6 @@
             }
         }
     }
-
     .general-horizontal-tabs-module {
         padding-bottom: 30px;
 
@@ -119,7 +118,6 @@
             }
         }
     }
-
     .additional-offerings {
         .heading {
             padding: 30px 0 40px;
@@ -134,7 +132,6 @@
             padding-bottom: 40px;
         }
     }
-
     .primrose-commitment {
         background-color: $grayscale-3;
         padding: 30px 0;
@@ -146,78 +143,6 @@
 }
 
 .staff {
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        opacity: 0;
-        pointer-events: none;
-        visibility: hidden;
-        @include transitionAll;
-
-        &.show {
-            opacity: 1;
-            pointer-events: auto;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: $white;
-            padding: 20px;
-            border-radius: 5px;
-            transform: scale(0.95);
-            @include transitionAll;
-
-            @include media-breakpoint-up(lg) {
-                min-height: 464px;
-                max-width: 1144px;
-                margin: auto;
-                top: calc(50% - 464px);
-                border-radius: 30px;
-
-                .two-columns-image-and-text-alternative {
-                    align-items: flex-start;
-
-                }
-            }
-
-            &.show {
-                transform: scale(1);
-            }
-        }
-
-        .close {
-            text-align: right;
-            top: -0.5rem;
-            position: relative;
-        }
-
-        .left-column {
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        img {
-            height: 216px;
-            object-fit: cover;
-            object-position: top;
-
-            @include media-breakpoint-up(lg) {
-                height: 269px;
-            }
-        }
-
-        .b4 {
-            font-weight: 600;
-        }
-    }
     .heading {
         text-align: center;
         padding: 40px 0;
@@ -399,6 +324,7 @@
             img {
                 height:  144px;
                 display: block;
+                object-fit: cover;
 
             }
             @include media-breakpoint-up(lg) {
@@ -478,11 +404,76 @@
     .franchise-owners {
         padding: 30px auto;
     }
-    .find-a-school {
-        margin: 30px 0 60px;
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        @include transitionAll;
 
-        @include media-breakpoint-up(lg) {
-            margin: 120px 0;
+        &.show {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: $white;
+            padding: 20px;
+            border-radius: 5px;
+            transform: scale(0.95);
+            @include transitionAll;
+
+            @include media-breakpoint-up(lg) {
+                min-height: 464px;
+                max-width: 1144px;
+                margin: auto;
+                top: calc(50% - 464px);
+                border-radius: 30px;
+
+                .two-columns-image-and-text-alternative {
+                    align-items: flex-start;
+
+                }
+            }
+
+            &.show {
+                transform: scale(1);
+            }
+        }
+
+        .close {
+            text-align: right;
+            top: -0.5rem;
+            position: relative;
+        }
+
+        .left-column {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        img {
+            height: 216px;
+            object-fit: cover;
+            object-position: top;
+
+            @include media-breakpoint-up(lg) {
+                height: 269px;
+            }
+        }
+
+        .b4 {
+            font-weight: 600;
         }
     }
 }
@@ -560,7 +551,6 @@
             font-weight: 600;
         }
     }
-
     .thank {
         .left-column img {
             @include media-breakpoint-up(lg) {
@@ -568,7 +558,6 @@
             }
         }
     }
-
     .franchise-owners {
         padding: 30px 0;
 
@@ -576,7 +565,6 @@
             padding: 50px 0;
         }
     }
-
     .meet-staff {
         padding: 30px 0;
 
@@ -1065,14 +1053,6 @@
     }    
 }
 
-.find-a-school {
-    margin: 30px 0 60px;
-
-    @include media-breakpoint-up(lg) {
-        margin: 120px 0;
-    }
-}
-
 
 .classroom-type {
     .general-horizontal-tabs-module {
@@ -1111,9 +1091,14 @@
             height: 285px;
             object-fit: cover;
             object-position: center;
+            border-radius: 12px;
             @include media-breakpoint-up(lg) {
                 margin-top: 0;
                 margin-bottom: 0;
+                width: 250px;
+                height: 200px;
+            }
+            @include media-breakpoint-up(xxl) {
                 width: 383px;
                 height: 319px;
             }
@@ -1159,31 +1144,29 @@
             }
         }
     }
+    .general-vertical-tabs {
+        padding-top: 30px;
+        @include media-breakpoint-up(lg) {
+            padding-top: 60px;
+        }
+    }
+    .background-color {
+        background-color: #FBFBFB;
+        padding-bottom: 30px; 
+        @include media-breakpoint-up(lg) {
+            padding-bottom: 60px;
+        }
+    }
+}
 
-    // .general-horizontal-tabs-module {
-    //     .tab-content  {
-    //         transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-    //         overflow: hidden;
-    //         max-height: 0;
-    //         opacity: 0;
-    //         &.active {
-    //             max-height: 700px;
-    //             opacity: 1;
-    //         }
-    //         img {
-    //             margin-top: 1rem;
-    //             margin-bottom: 1rem;
-    //             width: 343px;
-    //             height: 285px;
-    //             object-fit: cover;
-    //             object-position: center;
-    //             @include media-breakpoint-up(lg) {
-    //                 margin-top: 0;
-    //                 margin-bottom: 0;
-    //                 width: 383px;
-    //                 height: 319px;
-    //             }
-    //         }
-    //     }
-    // }
+
+
+
+//THIS IS THE COMPONENT WITH THE BLUE BACKGROUND AND SCROLLING IMAGES IT IS A SHARED COMPONENT SO IT'S STYLED OUTSIDE OF PAGE CLASSES
+.find-a-school {
+    margin: 30px 0 60px;
+
+    @include media-breakpoint-up(lg) {
+        margin: 120px 0;
+    }
 }

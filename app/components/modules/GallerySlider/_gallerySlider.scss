@@ -1,63 +1,53 @@
 .gallery-slider {
     position: relative;
     overflow: hidden;
-    font-family: 'Your Font Family', sans-serif; /* Replace with your actual font family */
-}
-
-.gallery-slider .slider-container {
-    display: flex;
-    will-change: transform; /* Optimizes the sliding animation */
-    transition: transform 0.5s ease;
-}
-
-.gallery-slider .slide {
-    flex: 0 0 auto; /* Do not grow, do not shrink, automatic width based on content */
-    margin-right: 16px; /* Space between slides */
-    height: 202px; /* Fixed height for each slide */
-    display: flex;
-    justify-content: center; /* Center the image in the slide */
-    align-items: center;
-    flex-direction: column;
-    border-radius: 8px; /* Rounded corners as seen in the provided layout */
-}
-
-.gallery-slider img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain; /* Ensures the image is fully visible */
-}
-
-/* Arrow buttons */
-.gallery-slider .arrow {
-    width: auto;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2; /* Above the image */
-}
-
-.gallery-slider .prev {
-    left: 10px;
-}
-
-.gallery-slider .next {
-    right: 10px;
-}
-
-@media (min-width: 768px) {
-    .gallery-slider .slide {
-        height: auto; /* Adjust if you have a specific height for desktop */
+    padding: 50px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 80px 0;
     }
-}
-
-/* Styles for the modal if used */
-.modal {
-    /* Previous modal styles */
+    .slider-container {
+        display: flex;
+        align-items: flex-start;
+        will-change: transform; 
+        transition: transform 0.5s ease;
+        .slide {
+            flex: 0 0 auto; 
+            margin-right: 16px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            img {
+                max-width: 100%;
+                height: 202px;
+                object-fit: contain; 
+                border-radius: 8px; 
+                
+                @include media-breakpoint-up(lg) {
+                    height: 420px;
+                }
+            }
+        }
+    }
+    .arrows {
+        .arrow {
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            
+            &.prev {
+                left: 10px;
+                margin-right: 20px;
+            }
+            &.next {
+                right: 10px;
+            }
+            &.disabled {
+                opacity: 0.5; 
+                cursor: not-allowed; 
+                
+              }
+              
+        }
+    } 
 }
