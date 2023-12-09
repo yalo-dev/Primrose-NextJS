@@ -231,6 +231,7 @@ export default function ClassroomTypePage({ school }) {
     const classroomExperienceData = school?.schoolSettings?.details?.corporate?.classroomExperienceTabs?.infant || {};
     const tabHeading = experienceTabsData?.heading || 'Our Classroom Experience';
     const tabSubheading = experienceTabsData?.subheading || '';
+    const galleryData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.experienceTabs?.classroomGallery || [];
 
     const hardcodedTabs = [
       {
@@ -269,7 +270,7 @@ export default function ClassroomTypePage({ school }) {
       {
         label: "Classroom Gallery",
         content: {
-          heading: "PUT GALLERY HERE",
+          component: <GallerySlider gallery={galleryData} />
         },
         // No image for Tab 4 as per the provided data structure
       },
@@ -337,17 +338,20 @@ export default function ClassroomTypePage({ school }) {
                   ref={el => contentRefsVT.current[index] = el}
                   className={`tab-content ${expandedTabVT === index ? 'expanded' : ''}`}
                 >
-                  <div className='image-wrapper fullwidth'>
-                    <img
-                      src={tab.image?.sourceUrl || 'defaultImageUrl'}
-                      alt={tab.image?.altText || 'Default Alt Text'}
-                    />
-                  </div>
+                  {tab.image?.sourceUrl && tab.image.sourceUrl !== 'defaultImageUrl' && (
+                    <div className='image-wrapper fullwidth'>
+                      <img
+                        src={tab.image.sourceUrl}
+                        alt={tab.image.altText || 'Default Alt Text'}
+                      />
+                    </div>
+                  )}
                   <div className='content'>
                     <Heading level='h3'>{tab.content.heading}</Heading>
                     {isClient && (
                       <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb || '' }}></p>
                     )}
+                    {tab.content.component} 
                   </div>
                 </div>
               </div>
@@ -375,17 +379,23 @@ export default function ClassroomTypePage({ school }) {
                   ref={el => contentRefsVT.current[index] = el}
                   className={`tab-content ${expandedTabVT === index ? 'expanded' : ''}`}
                 >
-                  <div className='content col-6'>
-                    <Heading level='h3'>{tab.content.heading}</Heading>
-                    {isClient && (
-                      <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb || '' }}></p>
-                    )}                  </div>
-                  <div className='image-wrapper fullwidth'>
-                    <img
-                      src={tab.image?.sourceUrl || 'defaultImageUrl'}
-                      alt={tab.image?.altText || 'Default Alt Text'}
-                    />
-                  </div>
+                  {tab.content.heading || (isClient && tab.content.blurb) ? (
+                    <div className='content col-6'>
+                      <Heading level='h3'>{tab.content.heading}</Heading>
+                      {isClient && tab.content.blurb && (
+                        <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb }}></p>
+                      )}
+                    </div>
+                  ) : null}
+                  {tab.content.component}   
+                  {tab.image?.sourceUrl && tab.image.sourceUrl !== 'defaultImageUrl' && (
+                    <div className='image-wrapper fullwidth'>
+                      <img
+                        src={tab.image.sourceUrl}
+                        alt={tab.image.altText || 'Default Alt Text'}
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -725,263 +735,263 @@ export default function ClassroomTypePage({ school }) {
 
   }, []);
 
-    const handleTabClick = (tabId: string) => {
-        const mobileBreakpoint = 992;
-        if (window.innerWidth > mobileBreakpoint) {
-            return;
-        }
-        if (activeTab === tabId) {
-            setActiveTab(null);
-        } else {
-            setActiveTab(tabId);
-        }
-    };
+  const handleTabClick = (tabId: string) => {
+    const mobileBreakpoint = 992;
+    if (window.innerWidth > mobileBreakpoint) {
+      return;
+    }
+    if (activeTab === tabId) {
+      setActiveTab(null);
+    } else {
+      setActiveTab(tabId);
+    }
+  };
 
-    const heroData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.hero;
-    const shouldReverseColumn = true; 
-    const heroProps = {
-        leftColumn: {
-            image: {
-                sourceUrl: heroData?.image?.sourceUrl,
-                altText: heroData?.image?.altText || ''
-            },
-        },
-        rightColumn: {
-            heading: heroData?.heading,
-            blurb: heroData?.blurb,
-            button: {
-                target: heroData?.button?.target || '_self',
-                title: heroData?.button?.title,
-                url: heroData?.button?.url
-            },
-            // Add other properties as needed, like eyebrow, eyebrowColor, etc.
-        },
-        switchColumnOrderOnDesktop: shouldReverseColumn,
-        // Add other properties as needed, like accent, switchColumnOrderOnDesktop, customizations, etc.
-    };
+  const heroData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.hero;
+  const shouldReverseColumn = true;
+  const heroProps = {
+    leftColumn: {
+      image: {
+        sourceUrl: heroData?.image?.sourceUrl,
+        altText: heroData?.image?.altText || ''
+      },
+    },
+    rightColumn: {
+      heading: heroData?.heading,
+      blurb: heroData?.blurb,
+      button: {
+        target: heroData?.button?.target || '_self',
+        title: heroData?.button?.title,
+        url: heroData?.button?.url
+      },
+      // Add other properties as needed, like eyebrow, eyebrowColor, etc.
+    },
+    switchColumnOrderOnDesktop: shouldReverseColumn,
+    // Add other properties as needed, like accent, switchColumnOrderOnDesktop, customizations, etc.
+  };
 
   return (
 
     <div className='classroom-type pt-4 pb-4'>
       <HeroWithImage {...heroProps} />
       <div className="container">
-      <div className="general-horizontal-tabs-module">
-        <h2 className="heading">Overview of Learning Domains</h2>
-        <div className="general-horizontal-tabs">
-          <div className="inner">
-            {isDomainSelected('Language and Literacy') && (
-              <div>
-                <button data-target="infant" className={`clickable ${activeTab === 'infant' ? 'expanded' : ''}`} onClick={() => handleTabClick('infant')}>
-                  <Heading level='h5'>Language and Literacy
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
+        <div className="general-horizontal-tabs-module">
+          <h2 className="heading">Overview of Learning Domains</h2>
+          <div className="general-horizontal-tabs">
+            <div className="inner">
+              {isDomainSelected('Language and Literacy') && (
+                <div>
+                  <button data-target="infant" className={`clickable ${activeTab === 'infant' ? 'expanded' : ''}`} onClick={() => handleTabClick('infant')}>
+                    <Heading level='h5'>Language and Literacy
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
 
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'infant' ? 'active' : ''}`} style={{ opacity: activeTab === 'infant' ? '1' : '0' }}>
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'infant' ? 'active' : ''}`} style={{ opacity: activeTab === 'infant' ? '1' : '0' }}>
 
-                    <img src="/assets/tabpic1.png" alt="Language and Literacy" />
+                      <img src="/assets/tabpic1.png" alt="Language and Literacy" />
 
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>Language and Literacy</Heading>
-                      <Subheading level='div' className='b3'>From the moment they are born, babies listen, process and imitate speech sounds they hear. That’s why your child’s teachers interact with your baby in meaningful “serve and return” exchanges, like responding to babbles, gestures or cries with eye contact, encouragement and more.</Subheading>
-                    
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {isDomainSelected('STEM') && (
-              <div>
-                <button data-target="toddler" className={`clickable ${activeTab === 'toddler' ? 'expanded' : ''}`} onClick={() => handleTabClick('toddler')}>
-                  <Heading level='h5'>Science, Technology, Engineering and Math
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>Language and Literacy</Heading>
+                        <Subheading level='div' className='b3'>From the moment they are born, babies listen, process and imitate speech sounds they hear. That’s why your child’s teachers interact with your baby in meaningful “serve and return” exchanges, like responding to babbles, gestures or cries with eye contact, encouragement and more.</Subheading>
 
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'toddler' ? 'active' : ''}`} style={{ opacity: activeTab === 'toddler' ? '1' : '0' }}>
-
-                  <img src="/assets/tabpic2.png" alt="Toddler" />
-
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>STEM</Heading>
-                      <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Physical Development') && (
-              <div>
-                <button data-target="early-preschool" className={`clickable ${activeTab === 'early-preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('early-preschool')}>
-                  <Heading level='h5'>Physical Development
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
+              )}
+              {isDomainSelected('STEM') && (
+                <div>
+                  <button data-target="toddler" className={`clickable ${activeTab === 'toddler' ? 'expanded' : ''}`} onClick={() => handleTabClick('toddler')}>
+                    <Heading level='h5'>Science, Technology, Engineering and Math
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
 
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'early-preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'early-preschool' ? '1' : '0' }}>
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'toddler' ? 'active' : ''}`} style={{ opacity: activeTab === 'toddler' ? '1' : '0' }}>
 
-                    <img src="/assets/tabpic3.png" alt="Early Preschool" />
+                      <img src="/assets/tabpic2.png" alt="Toddler" />
 
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>Physical Development</Heading>
-                      <Subheading level='div' className='b3'>Motor skills are important building blocks for physical activity. Your child's teacher helps your infant focus on key small and large motor skills throughout each day.</Subheading>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {isDomainSelected('Music, Creative Arts and Expression') && (
-              <div>
-                <button data-target="preschool" className={`clickable ${activeTab === 'preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool')}>
-                  <Heading level='h5'>Music, Creative Arts and Expression
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
-
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'preschool' ? '1' : '0' }}>
-
-                    <img src="/assets/tabpic4.png" alt="Preschool" />
-
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>Music, Creative Arts and Expression</Heading>
-                      <Subheading level='div' className='b3'>Visual and creative arts stimulate your child’s imagination and critical-thinking skills, which help in other areas of learning and development.</Subheading>
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>STEM</Heading>
+                        <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Social Studies and Emotional Skills') && (
-              <div>
-                <button data-target="pre-kindergarten" className={`clickable ${activeTab === 'pre-kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('pre-kindergarten')}>
-                  <Heading level='h5'>Social Studies and Emotional Skills
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
+              )}
+              {isDomainSelected('Physical Development') && (
+                <div>
+                  <button data-target="early-preschool" className={`clickable ${activeTab === 'early-preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('early-preschool')}>
+                    <Heading level='h5'>Physical Development
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
 
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'pre-kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'pre-kindergarten' ? '1' : '0' }}>
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'early-preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'early-preschool' ? '1' : '0' }}>
 
-                    <img src="/assets/tabpic5.png" alt="Pre-Kindergarten" />
+                      <img src="/assets/tabpic3.png" alt="Early Preschool" />
 
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>Social Studies and Emotional Skills'</Heading>
-                      <Subheading level='div' className='b3'>Children enter the world as natural scientists, curious to observe and explore how the world works and their role in it. While math and science may sound like big topics for an infant, they’re learning about shapes as they interact with toys, they explore numbers as teachers count their toes and they use all their senses to explore problems and try to find solutions.</Subheading>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {isDomainSelected('Character Development and Life Skills') && (
-              <div>
-                <button data-target="kindergarten" className={`clickable ${activeTab === 'kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('kindergarten')}>
-                  <Heading level='h5'>Character Development and Life Skills
-                    <div id="button">
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </Heading>
-                </button>
-
-                {/* Mobile: Content rendered right below the label */}
-                <div className="d-lg-none">
-                  <div className={`tab-content ${activeTab === 'kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'kindergarten' ? '1' : '0' }}>
-
-                    <img src="/assets/tabpic6.png" alt="Kindergarten" />
-
-                    <div className='content-wrapper'>
-                      <Heading level='h3'>Character Development and Life Skills</Heading>
-                      <Subheading level='div' className='b3'>We believe who children become is as important as what they know. That’s why Infant teachers develop loving, nurturing relationships with your baby to build a sense of security and trust that lays the foundation for social skills later in life.</Subheading>
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>Physical Development</Heading>
+                        <Subheading level='div' className='b3'>Motor skills are important building blocks for physical activity. Your child's teacher helps your infant focus on key small and large motor skills throughout each day.</Subheading>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+              {isDomainSelected('Music, Creative Arts and Expression') && (
+                <div>
+                  <button data-target="preschool" className={`clickable ${activeTab === 'preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool')}>
+                    <Heading level='h5'>Music, Creative Arts and Expression
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
 
-          {/* Desktop: Content rendered outside the loop in a designated area */}
-          <div className='desktop-content d-none d-lg-block'>
-            {isDomainSelected('Language and Literacy') && (
-              <div id="infant" className="tab-content d-flex">
-                <img src="/assets/tabpic1.png" alt="Language and Literacy" />
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'preschool' ? '1' : '0' }}>
 
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Language and Literacy</Heading>
-                  <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+                      <img src="/assets/tabpic4.png" alt="Preschool" />
+
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>Music, Creative Arts and Expression</Heading>
+                        <Subheading level='div' className='b3'>Visual and creative arts stimulate your child’s imagination and critical-thinking skills, which help in other areas of learning and development.</Subheading>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('STEM') && (
-              <div id="toddler" className="tab-content d-flex">
-                <img src="/assets/tabpic2.png" alt="STEM" />
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Science, Technology, Engineering and Math</Heading>
-                  <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+              )}
+              {isDomainSelected('Social Studies and Emotional Skills') && (
+                <div>
+                  <button data-target="pre-kindergarten" className={`clickable ${activeTab === 'pre-kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('pre-kindergarten')}>
+                    <Heading level='h5'>Social Studies and Emotional Skills
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
+
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'pre-kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'pre-kindergarten' ? '1' : '0' }}>
+
+                      <img src="/assets/tabpic5.png" alt="Pre-Kindergarten" />
+
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>Social Studies and Emotional Skills'</Heading>
+                        <Subheading level='div' className='b3'>Children enter the world as natural scientists, curious to observe and explore how the world works and their role in it. While math and science may sound like big topics for an infant, they’re learning about shapes as they interact with toys, they explore numbers as teachers count their toes and they use all their senses to explore problems and try to find solutions.</Subheading>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Physical Development') && (
-              <div id="early-preschool" className="tab-content d-flex">
-                <img src="/assets/tabpic3.png" alt="Physical Development" />
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Physical Development</Heading>
-                  <Subheading level='div' className='b3'>Motor skills are important building blocks for physical activity. Your child's teacher helps your infant focus on key small and large motor skills throughout each day.</Subheading>
+              )}
+              {isDomainSelected('Character Development and Life Skills') && (
+                <div>
+                  <button data-target="kindergarten" className={`clickable ${activeTab === 'kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('kindergarten')}>
+                    <Heading level='h5'>Character Development and Life Skills
+                      <div id="button">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </Heading>
+                  </button>
+
+                  {/* Mobile: Content rendered right below the label */}
+                  <div className="d-lg-none">
+                    <div className={`tab-content ${activeTab === 'kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'kindergarten' ? '1' : '0' }}>
+
+                      <img src="/assets/tabpic6.png" alt="Kindergarten" />
+
+                      <div className='content-wrapper'>
+                        <Heading level='h3'>Character Development and Life Skills</Heading>
+                        <Subheading level='div' className='b3'>We believe who children become is as important as what they know. That’s why Infant teachers develop loving, nurturing relationships with your baby to build a sense of security and trust that lays the foundation for social skills later in life.</Subheading>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Music, Creative Arts and Expression') && (
-              <div id="preschool" className="tab-content d-flex">
- <img src="/assets/tabpic4.png" alt="Music, Creative Arts and Expression" />
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Music, Creative Arts and Expression</Heading>
-                  <Subheading level='div' className='b3'>Visual and creative arts stimulate your child’s imagination and critical-thinking skills, which help in other areas of learning and development.</Subheading>
+              )}
+            </div>
+
+            {/* Desktop: Content rendered outside the loop in a designated area */}
+            <div className='desktop-content d-none d-lg-block'>
+              {isDomainSelected('Language and Literacy') && (
+                <div id="infant" className="tab-content d-flex">
+                  <img src="/assets/tabpic1.png" alt="Language and Literacy" />
+
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Language and Literacy</Heading>
+                    <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Social Studies and Emotional Skills') && (
-              <div id="pre-kindergarten" className="tab-content d-flex">
- <img src="/assets/tabpic5.png" alt="Social Studies and Emotional Skills" />
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Social Studies and Emotional Skills</Heading>
-                  <Subheading level='div' className='b3'>Children enter the world as natural scientists, curious to observe and explore how the world works and their role in it. While math and science may sound like big topics for an infant, they’re learning about shapes as they interact with toys, they explore numbers as teachers count their toes and they use all their senses to explore problems and try to find solutions.</Subheading>
+              )}
+              {isDomainSelected('STEM') && (
+                <div id="toddler" className="tab-content d-flex">
+                  <img src="/assets/tabpic2.png" alt="STEM" />
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Science, Technology, Engineering and Math</Heading>
+                    <Subheading level='div' className='b3'>Infants are very perceptive of the people around them. Your baby is learning about the people in their immediate surroundings and how to interact kindly with others. Teachers help your child learn about others through books, images, and scenarios with the Primrose Friends puppets.</Subheading>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isDomainSelected('Character Development and Life Skills') && (
-              <div id="kindergarten" className="tab-content d-flex">
- <img src="/assets/tabpic6.png" alt="Character Development and Life Skills" />
-                <div className='content-wrapper'>
-                  <Heading level='h3'>Character Development and Life Skills</Heading>
-                  <Subheading level='div' className='b3'>We believe who children become is as important as what they know. That’s why Infant teachers develop loving, nurturing relationships with your baby to build a sense of security and trust that lays the foundation for social skills later in life.</Subheading>
+              )}
+              {isDomainSelected('Physical Development') && (
+                <div id="early-preschool" className="tab-content d-flex">
+                  <img src="/assets/tabpic3.png" alt="Physical Development" />
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Physical Development</Heading>
+                    <Subheading level='div' className='b3'>Motor skills are important building blocks for physical activity. Your child's teacher helps your infant focus on key small and large motor skills throughout each day.</Subheading>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+              {isDomainSelected('Music, Creative Arts and Expression') && (
+                <div id="preschool" className="tab-content d-flex">
+                  <img src="/assets/tabpic4.png" alt="Music, Creative Arts and Expression" />
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Music, Creative Arts and Expression</Heading>
+                    <Subheading level='div' className='b3'>Visual and creative arts stimulate your child’s imagination and critical-thinking skills, which help in other areas of learning and development.</Subheading>
+                  </div>
+                </div>
+              )}
+              {isDomainSelected('Social Studies and Emotional Skills') && (
+                <div id="pre-kindergarten" className="tab-content d-flex">
+                  <img src="/assets/tabpic5.png" alt="Social Studies and Emotional Skills" />
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Social Studies and Emotional Skills</Heading>
+                    <Subheading level='div' className='b3'>Children enter the world as natural scientists, curious to observe and explore how the world works and their role in it. While math and science may sound like big topics for an infant, they’re learning about shapes as they interact with toys, they explore numbers as teachers count their toes and they use all their senses to explore problems and try to find solutions.</Subheading>
+                  </div>
+                </div>
+              )}
+              {isDomainSelected('Character Development and Life Skills') && (
+                <div id="kindergarten" className="tab-content d-flex">
+                  <img src="/assets/tabpic6.png" alt="Character Development and Life Skills" />
+                  <div className='content-wrapper'>
+                    <Heading level='h3'>Character Development and Life Skills</Heading>
+                    <Subheading level='div' className='b3'>We believe who children become is as important as what they know. That’s why Infant teachers develop loving, nurturing relationships with your baby to build a sense of security and trust that lays the foundation for social skills later in life.</Subheading>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </div>
       <div className='background-color'>
         {StaffMembers()}
@@ -997,11 +1007,10 @@ export default function ClassroomTypePage({ school }) {
             }
           }}
           {...generalButtonCTAProps} />
-        </div>
+      </div>
       {CustomVerticalTab()}
       {testimonialSection()}
       {findASchool()}
-
     </div>
   );
 
