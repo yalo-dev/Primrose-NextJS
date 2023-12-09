@@ -739,7 +739,6 @@ export default function ClassroomTypePage({ school }) {
 
     const heroData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.hero;
     const shouldReverseColumn = true; 
-    // Preparing props for the HeroWithImage component
     const heroProps = {
         leftColumn: {
             image: {
@@ -765,7 +764,6 @@ export default function ClassroomTypePage({ school }) {
 
     <div className='classroom-type pt-4 pb-4'>
       <HeroWithImage {...heroProps} />
-
       <div className="container">
       <div className="general-horizontal-tabs-module">
         <h2 className="heading">Overview of Learning Domains</h2>
@@ -985,19 +983,21 @@ export default function ClassroomTypePage({ school }) {
         </div>
       </div>
       </div>
-      {StaffMembers()}
-      <GeneralButtonCTA
-        variation="violet"
-        buttonStyle="white"
-        accents={{
-          accentOne: {
-            sourceUrl: '/assets/transparent-square.svg',
-          },
-          accentTwo: {
-            sourceUrl: '/assets/transparent-circle.svg',
-          }
-        }}
-        {...generalButtonCTAProps} />
+      <div className='background-color'>
+        {StaffMembers()}
+        <GeneralButtonCTA
+          variation="violet"
+          buttonStyle="white"
+          accents={{
+            accentOne: {
+              sourceUrl: '/assets/transparent-square.svg',
+            },
+            accentTwo: {
+              sourceUrl: '/assets/transparent-circle.svg',
+            }
+          }}
+          {...generalButtonCTAProps} />
+        </div>
       {CustomVerticalTab()}
       {testimonialSection()}
       {findASchool()}
