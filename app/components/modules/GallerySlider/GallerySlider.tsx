@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const GallerySlider = ({ gallery }) => {
+let sliderIdCounter = 0;
+
+const GallerySlider = ({ gallery, uniqueId }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [slideWidths, setSlideWidths] = useState<number[]>([]);
     const sliderRef = useRef<HTMLDivElement>(null);
     const [imageWidths, setImageWidths] = useState<number[]>([]);
     const [isPrevArrowDisabled, setIsPrevArrowDisabled] = useState(true);
     const [isNextArrowDisabled, setIsNextArrowDisabled] = useState(false);
+    const instanceId = useRef(sliderIdCounter++).current;
+    const combinedUniqueId = `${uniqueId}-${instanceId}`;
 
     const handleImageLoad = (index, width) => {
         const slideWidthWithMargin = index < gallery.length - 1 ? width + 16 : width;
@@ -23,8 +27,24 @@ const GallerySlider = ({ gallery }) => {
     };
 
     useEffect(() => {
-        const imageElements = document.querySelectorAll('.gallery-slider .slide img');
+        const sliderContainer = sliderRef.current;
+        if (!sliderContainer) return;
 
+        const handleImageLoad = (index, width) => {
+            const slideWidthWithMargin = index < gallery.length - 1 ? width + 16 : width;
+            setSlideWidths((prevWidths) => {
+                const newWidths = [...prevWidths];
+                newWidths[index] = slideWidthWithMargin;
+                return newWidths;
+            });
+            setImageWidths((prevImageWidths) => {
+                const newImageWidths = [...prevImageWidths];
+                newImageWidths[index] = width;
+                return newImageWidths;
+            });
+        };
+
+        const imageElements = sliderContainer.querySelectorAll('.gallery-slider .slide img');
         imageElements.forEach((element, index) => {
             const img = element as HTMLImageElement;
             if (img.complete) {
@@ -35,7 +55,7 @@ const GallerySlider = ({ gallery }) => {
                 };
             }
         });
-    }, []);
+    }, [gallery]);
 
     useEffect(() => {
     }, [slideWidths]);
@@ -92,7 +112,7 @@ const GallerySlider = ({ gallery }) => {
     
 
     return (
-        <div className="gallery-slider">
+        <div className={`gallery-slider ${combinedUniqueId}`}>
             <div className='container d-flex justify-content-between align-items-center'>
                 <h2 className='mb-3 mb-lg-5'>Gallery</h2>
                 <div className='arrows mb-3 mb-lg-5'>
