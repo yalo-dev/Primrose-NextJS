@@ -580,7 +580,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         }
 
         return (
-            <GallerySlider gallery={galleryData} />
+            <GallerySlider gallery={galleryData} uniqueId="gallerySlider" />
         );
     }
     return (

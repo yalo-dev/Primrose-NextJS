@@ -66,12 +66,10 @@ const GallerySlider = ({ gallery, uniqueId }) => {
     
         let translateWidth = slideWidths.slice(0, currentIndex).reduce((acc, width) => acc + width, 0);
     
-        // Simply adjust the translation width to fit the viewport
         if (totalSlidesWidth - translateWidth < viewportWidth) {
             translateWidth = totalSlidesWidth - viewportWidth;
         }
     
-        // Ensure the translation doesn't exceed the bounds
         translateWidth = Math.max(0, Math.min(translateWidth, totalSlidesWidth));
     
         console.log(`Calculated translate width: ${translateWidth}`);
