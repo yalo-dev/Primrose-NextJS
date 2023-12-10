@@ -108,7 +108,7 @@
         transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
         max-height: 0;
         opacity: 0; 
-        margin-top: 19px;
+        
         position: relative;
         .image-wrapper {
             text-align: center;
@@ -116,6 +116,8 @@
                 object-fit: cover;
                 object-position: right;
                 border-radius: 12px;
+                width: 341px;
+                height: 287px;
             }
             &.fullwidth {
                 width: 100%;
@@ -167,12 +169,12 @@
     }
 
     .tab-content.expanded {
-        max-height: 1500px;  /* or some sufficiently large value */
+        max-height: 1500px; 
         opacity: 1;
+        margin-top: 19px;
     }
 
     .desktop-layout {
-        
         .buttons-container {
             display: flex;
             flex-wrap: nowrap;
@@ -183,13 +185,18 @@
         }
        .tab-content {
         display: flex;
-        margin-top: 41px;
+       
+        &.expanded {
+            margin-top: 41px;
+            min-height: 490px;;
+        }
         .content {
             border-radius: 12px;
             margin-bottom: 6rem;
             bottom: -6rem;
             right: -7rem;
             padding: 53px 40px 53px 40px;
+            height: fit-content;
             ul {
                 margin-bottom: 24px;
                 @include media-breakpoint-up(lg) {
@@ -213,12 +220,11 @@
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
           }
-          
-          .fade-out {
+        .fade-out {
             margin-top: 0;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
-          }
+        }
     }
     
 }

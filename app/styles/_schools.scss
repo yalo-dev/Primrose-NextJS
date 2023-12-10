@@ -1149,6 +1149,27 @@
         @include media-breakpoint-up(lg) {
             padding-top: 60px;
         }
+        .tab-content.gallery {
+            display: block;
+        }
+        .gallery-wrapper {
+            background-color: #F1F1EF;
+            border-radius: 30px;
+            .gallery-slider {    
+                .arrows .arrow {
+                    background-color: #E6E7E4;
+                }
+                .container {
+                    justify-content: end!important;
+                }
+                h2 {
+                    display: none;
+                }
+                .caption-wrapper {
+                    margin-top: 16px;
+                }
+            }
+        }
     }
     .background-color {
         background-color: #FBFBFB;

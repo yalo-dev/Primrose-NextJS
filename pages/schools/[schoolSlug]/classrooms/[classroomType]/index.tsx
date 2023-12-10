@@ -270,7 +270,7 @@ export default function ClassroomTypePage({ school }) {
       {
         label: "Classroom Gallery",
         content: {
-          component: <GallerySlider gallery={galleryData} />
+          component: <GallerySlider gallery={galleryData} uniqueId="gallerySlider" />
         },
         // No image for Tab 4 as per the provided data structure
       },
@@ -336,8 +336,9 @@ export default function ClassroomTypePage({ school }) {
                 </button>
                 <div
                   ref={el => contentRefsVT.current[index] = el}
-                  className={`tab-content ${expandedTabVT === index ? 'expanded' : ''}`}
-                >
+                  className={`tab-content ${expandedTabVT === index ? 'expanded' : ''} ${tab.content.component ? 'gallery' : ''}`}
+                  >
+                   {tab.content.component}
                   {tab.image?.sourceUrl && tab.image.sourceUrl !== 'defaultImageUrl' && (
                     <div className='image-wrapper fullwidth'>
                       <img
@@ -346,20 +347,21 @@ export default function ClassroomTypePage({ school }) {
                       />
                     </div>
                   )}
-                  <div className='content'>
-                    <Heading level='h3'>{tab.content.heading}</Heading>
-                    {isClient && (
-                      <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb || '' }}></p>
-                    )}
-                    {tab.content.component} 
-                  </div>
+                  {tab.content.heading || (isClient && tab.content.blurb) ? (
+                    <div className='content'>
+                      <Heading level='h3'>{tab.content.heading}</Heading>
+                      {isClient && tab.content.blurb && (
+                        <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb }}></p>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ))}
           </div>
 
           {/* Desktop layout */}
-          <div className="desktop-layout d-none d-lg-block">
+          <div className="desktop-layout d-lg-block d-none">
             <div className="buttons-container">
               {hardcodedTabs.map((tab, index) => (
                 <button
@@ -377,17 +379,9 @@ export default function ClassroomTypePage({ school }) {
                 <div
                   key={index}
                   ref={el => contentRefsVT.current[index] = el}
-                  className={`tab-content ${expandedTabVT === index ? 'expanded' : ''}`}
-                >
-                  {tab.content.heading || (isClient && tab.content.blurb) ? (
-                    <div className='content col-6'>
-                      <Heading level='h3'>{tab.content.heading}</Heading>
-                      {isClient && tab.content.blurb && (
-                        <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb }}></p>
-                      )}
-                    </div>
-                  ) : null}
-                  {tab.content.component}   
+                  className={`tab-content ${expandedTabVT === index ? 'expanded' : ''} ${tab.content.component ? 'gallery' : ''}`}
+                  >
+                  <div className='gallery-wrapper'>{tab.content.component}</div>
                   {tab.image?.sourceUrl && tab.image.sourceUrl !== 'defaultImageUrl' && (
                     <div className='image-wrapper fullwidth'>
                       <img
@@ -396,6 +390,15 @@ export default function ClassroomTypePage({ school }) {
                       />
                     </div>
                   )}
+                  {tab.content.heading || (isClient && tab.content.blurb) ? (
+                    <div className='content col-6'>
+                      <Heading level='h3'>{tab.content.heading}</Heading>
+                      {isClient && tab.content.blurb && (
+                        <p className='b3' dangerouslySetInnerHTML={{ __html: tab.content.blurb }}></p>
+                      )}
+                    </div>
+                  ) : null}
+                 
                 </div>
               ))}
             </div>
@@ -764,7 +767,6 @@ export default function ClassroomTypePage({ school }) {
         title: heroData?.button?.title,
         url: heroData?.button?.url
       },
-      // Add other properties as needed, like eyebrow, eyebrowColor, etc.
     },
     switchColumnOrderOnDesktop: shouldReverseColumn,
     // Add other properties as needed, like accent, switchColumnOrderOnDesktop, customizations, etc.
