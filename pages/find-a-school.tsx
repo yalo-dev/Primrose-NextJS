@@ -66,15 +66,15 @@ const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   `;
 };
 
-const svgIconStart = `
-<svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" stroke-width="1.5"/>
+const svgIconEnd = `
+<svg width="34" height="39" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" fill="#555F68" stroke-width="1.5"/>
 </svg>
 `;
 
-const svgIconEnd = `
+const svgIconStart = `
 <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="8.5" cy="9.34973" r="7.75" stroke="#5E6738" stroke-width="1.5"/>
+<circle cx="8.5" cy="9.34973" r="7.75" fill="#006BA6" stroke="#006BA6" stroke-width="1.5"/>
 </svg>
 
 `;
@@ -1099,7 +1099,7 @@ useEffect(() => {
                     position={start}
                     icon={{
                         url: svgMarkerIconStart,
-                        scaledSize: new google.maps.Size(20, 20),
+                        scaledSize: new google.maps.Size(25, 25),
                     }}
                 />
             )}
@@ -1112,7 +1112,7 @@ useEffect(() => {
                   position={waypoint.location} 
                   icon={{
                     url: svgMarkerIconStart,
-                    scaledSize: new google.maps.Size(20, 20),
+                    scaledSize: new google.maps.Size(25, 25),
                   }}
                 />
             ))}
@@ -1122,7 +1122,7 @@ useEffect(() => {
                 position={destination}
                 icon={{
                   url: svgMarkerIconEnd,
-                  scaledSize: new google.maps.Size(20, 20),
+                  scaledSize: new google.maps.Size(25, 25),
                 }}
               />
             )}

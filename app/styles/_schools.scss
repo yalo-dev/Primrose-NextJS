@@ -152,8 +152,7 @@
     }
     .filter {
 
-        select, 
-        .multi-select-dropdown {
+        select, .custom-select  {
             height: 50px;
             border: 1px solid $grayscale-3;
             border-radius: 5px;
@@ -163,7 +162,8 @@
             -moz-appearance: none;
             -webkit-appearance: none;
             appearance: none;
-            .multi-select-dropdown .option.active {
+
+            .option.active {
                 background-color: blue; 
             }
             &:first-child {
@@ -179,6 +179,7 @@
                 padding: 12px 10px;
                 padding-right: 35px;
                 background-color: $transparent;
+                border: 0;
                 @include media-breakpoint-up(xl) {
                    min-width: 10rem;
                 }
@@ -212,6 +213,7 @@
                     position: absolute;
                     width: 120%;
                     left: -1.5rem;
+                    top: 3rem;
                     overflow: hidden;
                     height: 0;
                     transition: height 0.3s ease-out;
@@ -318,14 +320,15 @@
             border: 0.668px solid #E6E6E6;
             background: var(--black-neutral, #F1F1EF);
             width: 375px;
-            // height: 144px;
             padding-right: 0px;
             position: relative;
             img {
-                height:  144px;
+                height:  100px;
                 display: block;
                 object-fit: cover;
-
+                @include media-breakpoint-up(lg) {
+                    height:  144px;
+                }
             }
             @include media-breakpoint-up(lg) {
                 flex-basis: calc(50% - 13px);
@@ -341,7 +344,7 @@
                 border: 0;
                 font-size: 1rem;
                 position: absolute;
-                top: calc(50% - 1rem);
+                top: 2rem;
                 right: 0.5rem;
                 line-height: 1;
                 padding: 0;
@@ -463,13 +466,8 @@
         }
 
         img {
-            height: 216px;
             object-fit: cover;
             object-position: top;
-
-            @include media-breakpoint-up(lg) {
-                height: 269px;
-            }
         }
 
         .b4 {
@@ -634,6 +632,8 @@
                 .custom-select {
                     display: inline-block;
                     position: relative;
+                    width: 100%;
+                    margin-top: 0;
                 }
                 
                 &#gfield_18, &#gfield_15, &#gfield_16, &#gfield_17,
@@ -748,7 +748,7 @@
                         margin-top: 20px;
                     }
                     &#gfield_6 {
-                        width: 45%;
+                        width: 47%;
                     }
                     &#gfield_8, &#gfield_9, &#gfield_10, &#gfield_15, &#gfield_16, &#gfield_17,
                     &#gfield_25, &#gfield_26, &#gfield_27, &#gfield_29, &#gfield_30, &#gfield_31,

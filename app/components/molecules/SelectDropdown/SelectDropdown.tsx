@@ -10,9 +10,10 @@ interface OptionType {
 interface SelectDropdownProps {
     options: OptionType[];
     placeholder?: string;
+    onSelect?: (selectedOption: OptionType) => void; // Add onSelect prop
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<OptionType | null>(null); 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -35,7 +36,8 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder })
     }, []);
 
     const handleOptionClick = (option: OptionType, event: React.MouseEvent) => {
-      event.preventDefault(); 
+        event.preventDefault(); 
+      onSelect?.(option);
       if (option.target === '_blank') {
           window.open(option.url, option.target);
       } else {

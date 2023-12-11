@@ -6,6 +6,7 @@ import Heading from '../../../app/components/atoms/Heading/Heading';
 import Subheading from '../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../app/components/atoms/Button/Button';
 import { MultiSelectDropdown } from '../../../app/components/molecules/MultiSelectDropdown/MultiSelectDropdown';
+import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
 
 interface StaffMember {
   altText?: string;
@@ -108,6 +109,7 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff.staffMembers);
+  const [selectedGroup, setSelectedGroup] = useState('All'); // Initialize selectedGroup with 'All'
 
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
@@ -218,19 +220,27 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
     { label: 'Leadership', value: 'Leadership' },
     { label: 'Teachers', value: 'Teacher' },
     { label: 'Staff', value: 'Staff' }
-  ];
+].map(group => ({ label: group.label, url: `#${group.value}` }));
 
-  const handleSelectedGroups = (selectedValues) => {
-    setSelectedGroups(selectedValues);
-  };
+// ... (rest of your code)
 
-  useEffect(() => {
-    const filtered = selectedGroups.length === 0 || selectedGroups.includes('All') 
-        ? staff.staffMembers 
-        : staff.staffMembers.filter(member => selectedGroups.includes(member.group));
+const handleSelectedGroup = (selectedOption) => {
+  const selectedGroup = selectedOption.url.substring(1); // Assuming the URL is something like '#Leadership'
+  console.log('Selected Group:', selectedGroup); // Debugging
+  setSelectedGroup(selectedGroup);
+};
 
-    setFilteredStaffMembers(filtered);
-}, [selectedGroups, staff.staffMembers]);
+useEffect(() => {
+  console.log('Selected Group in useEffect:', selectedGroup); // Debugging
+  const filtered = selectedGroup === 'All' 
+      ? staff.staffMembers 
+      : staff.staffMembers.filter(member => member.group === selectedGroup);
+
+  console.log('Filtered Staff Members:', filtered); // Debugging
+  setFilteredStaffMembers(filtered);
+}, [selectedGroup, staff.staffMembers]);
+
+// ... (rest of your code)
 
   return (
     <div className='staff'>
@@ -239,12 +249,11 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
           <div className='heading'>
             <h1>Teachers & Staff</h1>
             <div className='filter'>
-               <MultiSelectDropdown
+            <SelectDropdown
                 options={groupOptions}
-                onSelect={handleSelectedGroups}
-                placeholder="All Teachers & Staff"
-                selected={selectedGroups}
-              />
+                placeholder="Select A Category"
+                onSelect={handleSelectedGroup}
+            />
             </div>
           </div>
           <div className='staff-members'>
@@ -252,14 +261,18 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
             {filteredStaffMembers.slice(0, visibleStaffCount).map((member, index) => (
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
-                  <div className='col-5'>
+                  <div className='col-4'>
                     {member.image && <img src={member.image.sourceUrl} alt={member.name} className='img-fluid' />}
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
                       <h5 className='mb-0'>{member.name}</h5>
                       <div className='b3'>{member.title}</div>
-                      <span className='staff-group'>{member.group}</span>
+                      {/* <span className='staff-group'>{member.group}</span> */}
+                    </div>
+                    <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>
+                      <span></span>
+                      <span></span>
                     </div>
                   </div>
                   <div className='col-12'>
@@ -271,10 +284,7 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
                       <div className='b3 p-3' dangerouslySetInnerHTML={{ __html: member.bio }} />
                     </div>
                   </div>
-                  <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>
-                    <span></span>
-                    <span></span>
-                  </div>
+                 
                 </div>
               </div>
             ))}
