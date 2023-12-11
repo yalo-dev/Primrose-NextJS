@@ -32,18 +32,21 @@ function MyApp({ Component, pageProps }) {
 					  label
 					  url
 					  parentId
-					  childItems {
+					  cssClasses
+					  childItems(first: 100) {
 						nodes {
 						  title
 						  label
 						  url
 						  parentId
-						  childItems {
+						  cssClasses
+						  childItems(first: 100) {
 							nodes {
 							  label
 							  title
 							  url
 							  parentId
+							  cssClasses
 							}
 						  }
 						}
