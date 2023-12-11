@@ -1,50 +1,50 @@
 .module.Page_Modules_Modules_FeaturedSection {
     
-    .accent.Left {
-        position: relative;
-        overflow: hidden;
-        &::after {
-            overflow: hidden;
-            content: "";
-            width: 200%;
-            height: 100%;
-            top: 0;
-            left: -17rem;
-            background-image: url(/assets/accent-left.svg);
-            position: absolute;
-            background-size: cover;
-            background-position: top center;
-            background-repeat: no-repeat;
-            transform: scalex(-1);
-            pointer-events: none;
-            @include media-breakpoint-up(lg) {
-                left: -25rem;
-                width: 100%;
-            }
-        }
-    }
-    .accent.Right {
-        position: relative;
-        overflow: hidden;
-        &::after {
-            overflow: hidden;
-            content: "";
-            width: 200%;
-            height: 100%;
-            top: 0;
-            right: -17rem;
-            background-image: url(/assets/accent-left.svg);
-            position: absolute;
-            background-size: cover;
-            background-position: top center;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            @include media-breakpoint-up(lg) {
-                right: -25rem;
-                width: 100%;
-            }
-        }
-    }
+    // .accent.Left {
+    //     position: relative;
+    //     overflow: hidden;
+    //     &::after {
+    //         overflow: hidden;
+    //         content: "";
+    //         width: 200%;
+    //         height: 100%;
+    //         top: 0;
+    //         left: -17rem;
+    //         background-image: url(/assets/accent-left.svg);
+    //         position: absolute;
+    //         background-size: cover;
+    //         background-position: top center;
+    //         background-repeat: no-repeat;
+    //         transform: scalex(-1);
+    //         pointer-events: none;
+    //         @include media-breakpoint-up(lg) {
+    //             left: -25rem;
+    //             width: 100%;
+    //         }
+    //     }
+    // }
+    // .accent.Right {
+    //     position: relative;
+    //     overflow: hidden;
+    //     &::after {
+    //         overflow: hidden;
+    //         content: "";
+    //         width: 200%;
+    //         height: 100%;
+    //         top: 0;
+    //         right: -17rem;
+    //         background-image: url(/assets/accent-left.svg);
+    //         position: absolute;
+    //         background-size: cover;
+    //         background-position: top center;
+    //         background-repeat: no-repeat;
+    //         pointer-events: none;
+    //         @include media-breakpoint-up(lg) {
+    //             right: -25rem;
+    //             width: 100%;
+    //         }
+    //     }
+    // }
 
 }
 .featured-section {
