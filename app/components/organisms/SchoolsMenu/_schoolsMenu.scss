@@ -62,7 +62,7 @@
                 &:not(.navitem--main):not(:last-of-type) {
                     &::after {
                         color: $neutral-1;
-                        content: '/';
+                        content: '|';
                         position: absolute;
                         bottom: -1px;
                         right: -4px;
@@ -113,7 +113,7 @@
                     .submenu-wrapper {
                         visibility: visible;
                         opacity: 1;
-                        max-height: 460px;
+                        max-height: 515px;
                       }
                       .menu-icon {
                         svg {

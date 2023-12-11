@@ -37,16 +37,12 @@
 
 //to offset space for the nav 
 .main--container {
-    margin-top: 108px;
+    margin-top: 100px;
     overflow: hidden;
 
     @include media-breakpoint-up(lg) {
-        margin-top: 97px;
+       
         overflow: visible;
-    }
-
-    @include media-breakpoint-up(xl) {
-        margin-top: 90px;
     }
 }
 
