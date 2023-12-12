@@ -274,85 +274,76 @@ export default function ResourceComponent({ singleSlug }) {
 					</div>
 				)}
 
-			
 
-			{newsletterFormCta && (
-			<div className='container mt-lg-4 pt-lg-4'>
-				<div className='newsletter-form-cta'>
-					<div className='row'>
-						<div className='col-12 content'>
-							{newsletterFormCta.heading && <Heading level='h3'>{newsletterFormCta.heading}</Heading>}
-							{newsletterFormCta.subheading && <Paragraph className='b3'>{newsletterFormCta.subheading}</Paragraph>}
-							<NewsletterForm />
-							<div className='accent-one'
-								style={{ backgroundImage: `url('${newsletterFormCta.accentOne?.sourceUrl}')` }} 
-							></div>
-							<div className='accent-two'
-								style={{ backgroundImage: `url('${newsletterFormCta.accentTwo?.sourceUrl}')` }} 
-							></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			)}
-	  
-			{relatedArticles?.length > 0 && (
-				<div className='related pt-4 mt-4 mb-4 pb-4'>
-					<div className='container'>
-						<h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
-						<div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
-							{relatedArticles.map((relatedArticle, index) => (
-								<ResourceCard
-									key={index}
-									resource={relatedArticle}
-									showFeaturedImage={true}
-									className="medium"
-								/>
-							))}
-						</div>
-					</div>
-				</div>
-			)}
 
-			{seasonalBanner && (
-			<div className='container pt-2 mt-2 pt-4 mt-4'>
-				<div className='seasonal-banner'>
-					<div className='row'>
-						<div className='col-12 col-lg-6 top'>
-							<div className='accents'></div>
-							<img
-								src="/assets/stock-seasonal-baby.png"
-								alt="seasonal baby picture"
-								width={250}
-								height={250}
-							/>
+				{newsletterFormCta && (newsletterFormCta.heading || newsletterFormCta.subheading || newsletterFormCta.accentOne || newsletterFormCta.accentTwo) && (
+					<div className='container mt-lg-4 pt-lg-4'>
+						<div className='newsletter-form-cta'>
+							<div className='row'>
+								<div className='col-12 content'>
+									{newsletterFormCta.heading && <Heading level='h3'>{newsletterFormCta.heading}</Heading>}
+									{newsletterFormCta.subheading && <Paragraph className='b3'>{newsletterFormCta.subheading}</Paragraph>}
+									<NewsletterForm />
+									<div className='accent-one' style={{ backgroundImage: `url('${newsletterFormCta.accentOne?.sourceUrl || 'defaultImageURL.jpg'}')` }}></div>
+									<div className='accent-two' style={{ backgroundImage: `url('${newsletterFormCta.accentTwo?.sourceUrl || 'defaultImageURL.jpg'}')` }}></div>
+								</div>
+							</div>
 						</div>
-						<div className='col-12 col-lg-6 bottom'>
-							{seasonalBanner.heading && <Heading level='h3'>{seasonalBanner.heading}</Heading>}
-							{seasonalBanner.subheading && <Paragraph className='b3'>{seasonalBanner.subheading}</Paragraph>}
-							{seasonalBanner.button?.title && seasonalBanner.button.url && (
-								<Button
-									variant="primary"
-									label={seasonalBanner.button.title}
-									href={seasonalBanner.button.url}
-									target={seasonalBanner.button.target}
-								/>
-							)}
-							<div className='accents'></div>
-						</div>
-						<div className='accent-one'
-								style={{ backgroundImage: `url('${seasonalBanner.accentOne?.sourceUrl}')` }} 
-							></div>
-							<div className='accent-two'
-								style={{ backgroundImage: `url('${seasonalBanner.accentTwo?.sourceUrl}')` }} 
-							></div>
-							<div className='accent-three'
-								style={{ backgroundImage: `url('${seasonalBanner.accentThree?.sourceUrl}')` }} 
-							></div>
 					</div>
-				</div>
-			</div>
-			)}
+				)}
+
+
+				{relatedArticles?.length > 0 && (
+					<div className='related pt-4 mt-4 mb-4 pb-4'>
+						<div className='container'>
+							<h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
+							<div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
+								{relatedArticles.map((relatedArticle, index) => (
+									<ResourceCard
+										key={index}
+										resource={relatedArticle}
+										showFeaturedImage={true}
+										className="medium"
+									/>
+								))}
+							</div>
+						</div>
+					</div>
+				)}
+
+				{seasonalBanner && (seasonalBanner.heading || seasonalBanner.subheading || seasonalBanner.button || seasonalBanner.accentOne || seasonalBanner.accentTwo || seasonalBanner.accentThree) && (
+					<div className='container pt-2 mt-2 pt-4 mt-4'>
+						<div className='seasonal-banner'>
+							<div className='row'>
+								<div className='col-12 col-lg-6 top'>
+									<div className='accents'></div>
+									<img
+										src="/assets/stock-seasonal-baby.png"
+										alt="seasonal baby picture"
+										width={250}
+										height={250}
+									/>
+								</div>
+								<div className='col-12 col-lg-6 bottom'>
+									{seasonalBanner.heading && <Heading level='h3'>{seasonalBanner.heading}</Heading>}
+									{seasonalBanner.subheading && <Paragraph className='b3'>{seasonalBanner.subheading}</Paragraph>}
+									{seasonalBanner.button?.title && seasonalBanner.button.url && (
+										<Button
+											variant="primary"
+											label={seasonalBanner.button.title}
+											href={seasonalBanner.button.url}
+											target={seasonalBanner.button.target}
+										/>
+									)}
+									<div className='accents'></div>
+								</div>
+								<div className='accent-one' style={{ backgroundImage: `url('${seasonalBanner.accentOne?.sourceUrl || 'defaultImageURL.jpg'}')` }}></div>
+								<div className='accent-two' style={{ backgroundImage: `url('${seasonalBanner.accentTwo?.sourceUrl || 'defaultImageURL.jpg'}')` }}></div>
+								<div className='accent-three' style={{ backgroundImage: `url('${seasonalBanner.accentThree?.sourceUrl || 'defaultImageURL.jpg'}')` }}></div>
+							</div>
+						</div>
+					</div>
+				)}
 
 			</div>
 		</>

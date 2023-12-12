@@ -31,7 +31,6 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 
     let tags = [...resource.resourceTags.nodes];
     if (isResourceFeatured && !tags.some(tag => tag.slug === 'featured')) {
-        // Add the "Featured" tag
         tags = [{ name: 'Featured', slug: 'featured' }, ...tags];
     }
 
