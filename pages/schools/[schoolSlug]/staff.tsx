@@ -240,10 +240,8 @@ useEffect(() => {
   setFilteredStaffMembers(filtered);
 }, [selectedGroup, staff.staffMembers]);
 
-// ... (rest of your code)
-
   return (
-    <div className='staff'>
+    <div className='school staff'>
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>

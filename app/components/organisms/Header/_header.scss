@@ -6,6 +6,7 @@
         z-index: 1200;
         background-color: $grayscale-1;
         height: 100px;
+        padding: 0;;
         @include media-breakpoint-up(lg) {
             display: flex;
             flex-wrap: wrap;
@@ -105,7 +106,7 @@
             flex-basis: 70%;
             position: unset;
             .nav-wrapper {
-                height: auto!important;
+                height: 99px!important;
             }
         }
        
@@ -117,30 +118,37 @@
                 justify-content: flex-end;
                 width: 70%;
             }
-            @include media-breakpoint-up(xxl) {
-              
-                width: 75%;
-            }
             li {
                 width: 100%;
+                height: auto;
                 border-bottom: 1px solid rgb(223 226 212 / 20%);
                 padding: 24px 0;
                 @include media-breakpoint-up(lg) {
                     border-bottom: 0;
+                    height: 100px;
+                    padding: 0;
                     &.has-children {
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        flex-basis: 15%;
-                        &:last-child {
+                        flex-basis: 16%;
+                        &:last-child, &:nth-child(2) {
                             flex-basis: 25%;
                         }
                     }
                 }
                 @include media-breakpoint-up(xl) {
-                    padding: 32px 0;
+                    //padding: 32px 0;
                 }
-                
+                @include media-breakpoint-up(xxl) {
+               
+                    &.has-children {
+                        flex-basis: 12%;
+                        &:last-child, &:nth-child(2) {
+                            flex-basis: 20%;
+                        }
+                    }
+                }
                 a, >div {
                     color: $white;
                     font-family: Poppins;
@@ -177,14 +185,16 @@
                         overflow-y: hidden;
                         transform: translate(0);
                         position: absolute;
-                        top: 85px;
+                        top: 99px;
                         left: 0;
                         pointer-events: none;
                         opacity: 0;
                         width: 20rem;
                         height: auto;
                         transition: all 0.3s ease-in-out;
-                        padding-bottom: 20px;
+                        padding-bottom: 0;
+                        border-bottom-left-radius: 10px;
+                        border-bottom-right-radius: 10px;
                         .parent {
                             display: none;
                         }
@@ -198,8 +208,17 @@
                     .nav-item {
                         padding: 10px;
                         border-bottom: 0;
-                        @include media-breakpoint-up(lg){
+                        height: auto;
+                        @include media-breakpoint-up(lg) {
                             padding: 5px;
+                            border-radius: 0;
+                            border-bottom: 1px solid #DFE2D4;
+                            border-left: 1px solid #DFE2D4;
+                            border-right: 1px solid #DFE2D4;
+                            &:last-child {
+                                border-bottom-left-radius: 12px;
+                                border-bottom-right-radius: 12px;
+                            }
                         }
                         .nav-link {
                             @include media-breakpoint-up(lg){
@@ -215,7 +234,9 @@
                             cursor: auto;
                         }
                         @include media-breakpoint-up(lg){
-                            padding-top: 0;
+                            margin-top: 0;
+                            padding-top: 15px;
+                            border-bottom: 0;
                         }
                         a span {
                             font-family: Poppins;
@@ -317,7 +338,7 @@
             }
         }
         .clear-icon {
-            right: 6.25rem;
+            left: 70%;
             top: 0.75rem;
             z-index: 1;
             transition: all 0.3s ease;

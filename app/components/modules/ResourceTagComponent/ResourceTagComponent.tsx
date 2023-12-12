@@ -14,14 +14,14 @@ query GetResourcesByTag {
       slug
       uri
       date
-      resourceTypes {
+      resourceTypes(first: 500) {
         nodes {
           uri
           slug
           name
         }
       }
-      resourceTags {
+      resourceTags(first: 500) {
         nodes {
           uri
           slug
@@ -36,6 +36,47 @@ query GetResourcesByTag {
       }
     }
   }
+  resourcesSettings {
+	resourceSettings {
+	  featuredResources {
+	  ... on Resource {
+		id
+		title
+		uri
+		slug
+		featuredImage {
+		node {
+		  altText
+		  sourceUrl
+		}
+		}
+		excerpt
+		date
+		resourceFields {
+		content
+		displayAuthor
+		fieldGroupName
+		}
+		resourceTags {
+		nodes {
+		  slug
+		  link
+		  uri
+		  name
+		}
+		}
+		resourceTypes {
+		nodes {
+		  slug
+		  uri
+		  name
+		  link
+		}
+		}
+	  }
+	  }
+	}
+	}
 }
 `;
 
@@ -47,33 +88,25 @@ function scrollToTop() {
         }
     }, 100);
 }
-
+interface FeaturedResource {
+    id: string;
+    title: string;
+}
 function ResourceTagComponent() {
 	const { loading, error, data } = useQuery(RESOURCES_BY_TAG_QUERY);
-	const router = useRouter();
-	const [currentPage, setCurrentPage] = useState(1);
-	const desiredSlug = router.isReady && router.query.slug && Array.isArray(router.query.slug) ? router.query.slug[0] : null;
-	
-	const resourcesPerPage = 9;
+    const router = useRouter();
+    const [currentPage, setCurrentPage] = useState(1);
+    const desiredSlug = router.query.slug ? router.query.slug[0] : null;
+    
+    const featuredResourceIds = data?.resourcesSettings?.resourceSettings?.featuredResources.map(fr => fr.id) || [];
 
-	useEffect(() => {
-		setCurrentPage(1);
-	}, [desiredSlug]);
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [desiredSlug]);
 
-	  
-	if (loading) return <p></p>;
-	if (error) return <p>Error: {error.message}</p>;
-	if (!desiredSlug) return null;
-
-	const filteredResources = data.resources.nodes.filter(resource =>
-		resource.resourceTags.nodes.some(tag => tag.slug === desiredSlug)
-	);
-
-	const totalPages = Math.ceil(filteredResources.length / resourcesPerPage);
-	const indexOfLastResource = currentPage * resourcesPerPage;
-	const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
-	const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource);
-
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+    if (!desiredSlug) return null;
 	function getTagNameBySlug(slug) {
 		const tag = data.resources.nodes.find(resource =>
 		  resource.resourceTags.nodes.some(tag => tag.slug === slug)
@@ -87,18 +120,27 @@ function ResourceTagComponent() {
 		return null;
 	  }
 
+    const resourcesPerPage = 9;
+    const filteredResources = desiredSlug === 'featured' 
+        ? data.resourcesSettings.resourceSettings.featuredResources
+        : data.resources.nodes.filter(resource => resource.resourceTags.nodes.some(tag => tag.slug === desiredSlug));
+
+    const totalPages = Math.ceil(filteredResources.length / resourcesPerPage);
+    const currentResources = filteredResources.slice((currentPage - 1) * resourcesPerPage, currentPage * resourcesPerPage);
+
 	return (
 		<div className='container'>
 			<div id='all' className='resources-container'>
-			<Heading level='h1'>{getTagNameBySlug(desiredSlug)}</Heading>
-				<div className='gap d-flex flex-wrap mb-5 mt-5'>
-					{currentResources.map(resource => (
-						<ResourceCard
-							key={resource.id}
-							resource={resource}
-							showFeaturedImage={true}
-						/>
-					))}
+                <Heading level='h1'>{desiredSlug === 'featured' ? 'Featured Resources' : getTagNameBySlug(desiredSlug)}</Heading>
+                <div className='gap d-flex flex-wrap mb-5 mt-5'>
+                    {currentResources.map(resource => (
+                        <ResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            showFeaturedImage={true}
+                            isFeatured={resource.isFeatured}
+                        />
+                    ))}
 				</div>
 				<div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
 					<button className='prev' disabled={currentPage === 1} onClick={() => {setCurrentPage(currentPage - 1); scrollToTop();}}>

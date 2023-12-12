@@ -54,7 +54,7 @@
             height: auto;
             border-radius: 10px;
             @include media-breakpoint-up(xl) {
-                width: 536px;
+                max-width: 536px;
             }
         }
         .announcement {
@@ -79,6 +79,24 @@
                 bottom: 0;
                 padding: 31px;
 
+            }
+        }
+    }
+    &.reverse-column {
+        .left-column {
+           
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 30px;
+                margin-right: 0;
+                margin-left: auto;
+            }
+            img {
+         
+                @include media-breakpoint-up(xl) {
+
+                    margin-right: 0;
+                    margin-left: auto;
+                }
             }
         }
     }

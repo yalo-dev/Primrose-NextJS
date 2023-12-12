@@ -356,7 +356,6 @@ export default function ClassroomPage() {
     const hasMultipleOfferings = !!summerAdventureClub && !!beforeAndAfterSchoolCare;
 
     const primroseCommitment = data?.school?.schoolSettings?.classrooms?.primroseCommitment || {};
-   // const hasPrimroseCommitment = !!primroseCommitment;
     const hasPrimroseCommitmentData = primroseCommitment && 
     primroseCommitment.leftColumn.image?.sourceUrl && 
     primroseCommitment.rightColumn.heading && 
@@ -365,7 +364,6 @@ export default function ClassroomPage() {
     primroseCommitment.rightColumn.button.title;
 
     const ScheduleATour = data?.school?.schoolSettings?.details?.general?.scheduleATour || {};
-    //const hasScheduleATour = !!ScheduleATour.heading || !!ScheduleATour.subheading || !!ScheduleATour.button || (ScheduleATour.images && ScheduleATour.images.length > 0);
     const hasScheduleATourData = ScheduleATour &&
     (ScheduleATour.heading || ScheduleATour.subheading) && 
     (ScheduleATour.button?.url && ScheduleATour.button.title) &&
@@ -374,7 +372,7 @@ export default function ClassroomPage() {
 
     return (
         <>
-            <div className="classrooms">
+            <div className="school classrooms">
                 <div className="container">
                     <div className="hero-with-image-module">
                         <div className='hero-with-image reverse-column'>

@@ -74,7 +74,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
     };
 
     return (
-        <div className="container">
+        <div className="container jumbo">
             <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}

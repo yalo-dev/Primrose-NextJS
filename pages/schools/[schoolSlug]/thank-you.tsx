@@ -129,7 +129,7 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
     };
 
     return (
-        <div className='thank-you'>
+        <div className='school thank-you'>
             <div className='container'>
                  {/* Thank You Section */}
                 

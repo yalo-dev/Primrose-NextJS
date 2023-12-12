@@ -1184,7 +1184,7 @@
 
 
 //THIS IS THE COMPONENT WITH THE BLUE BACKGROUND AND SCROLLING IMAGES IT IS A SHARED COMPONENT SO IT'S STYLED OUTSIDE OF PAGE CLASSES
-.find-a-school {
+.school .find-a-school {
     margin: 30px 0 60px;
 
     @include media-breakpoint-up(lg) {
