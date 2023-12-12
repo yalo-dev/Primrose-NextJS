@@ -112,6 +112,47 @@ query GetSingleResource($id: ID!) {
 		}
 	  }
 	}
+	resourcesSettings {
+		resourceSettings {
+		  featuredResources {
+			... on Resource {
+			  id
+			  title
+			  uri
+			  slug
+			  featuredImage {
+				node {
+				  altText
+				  sourceUrl
+				}
+			  }
+			  excerpt
+			  date
+			  resourceFields {
+				content
+				displayAuthor
+				fieldGroupName
+			  }
+			  resourceTags {
+				nodes {
+				  slug
+				  link
+				  uri
+				  name
+				}
+			  }
+			  resourceTypes {
+				nodes {
+				  slug
+				  uri
+				  name
+				  link
+				}
+			  }
+			}
+		  }
+		}
+	  }
   }
 `;
 
@@ -236,7 +277,7 @@ export default function ResourceComponent({ singleSlug }) {
 			
 
 			{newsletterFormCta && (
-			<div className='container'>
+			<div className='container mt-lg-4 pt-lg-4'>
 				<div className='newsletter-form-cta'>
 					<div className='row'>
 						<div className='col-12 content'>
@@ -256,8 +297,8 @@ export default function ResourceComponent({ singleSlug }) {
 			)}
 	  
 			{relatedArticles?.length > 0 && (
-				<div className='related'>
-					<div className='container ps-3 pe-3 pt-4 mt-4 mb-4'>
+				<div className='related pt-4 mt-4 mb-4 pb-4'>
+					<div className='container'>
 						<h2 className='green pb-2 pb-xl-5 pt-xl-5'>Related Articles</h2>
 						<div className='d-flex flex-column flex-xl-row justify-content-between gap-4'>
 							{relatedArticles.map((relatedArticle, index) => (
@@ -274,7 +315,7 @@ export default function ResourceComponent({ singleSlug }) {
 			)}
 
 			{seasonalBanner && (
-			<div className='container'>
+			<div className='container pt-2 mt-2 pt-4 mt-4'>
 				<div className='seasonal-banner'>
 					<div className='row'>
 						<div className='col-12 col-lg-6 top'>

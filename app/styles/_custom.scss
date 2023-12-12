@@ -35,13 +35,11 @@
     color: $brand-blue !important;
 }
 
-//to offset space for the nav 
 .main--container {
     margin-top: 100px;
     overflow: hidden;
 
     @include media-breakpoint-up(lg) {
-       
         overflow: visible;
     }
 }

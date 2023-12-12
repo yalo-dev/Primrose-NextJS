@@ -1,5 +1,6 @@
 .header {
     background-color: $grayscale-1;
+    //height: 100px;
     .navbar {
         border-bottom: 1px solid $nav-border;
         z-index: 1200;
@@ -20,12 +21,14 @@
         @include media-breakpoint-up(lg) {
             width: 150px;
             height: auto;
+            
         }
         @include media-breakpoint-up(xl) {
             width: 200px;
         }
         @include media-breakpoint-up(xxl) {
             width: 275px;
+            padding-left: 60px;
         }
     }
     .navbar-toggler {
@@ -271,7 +274,10 @@
     .navbar-search {
         position: relative;
         padding: 0 16px;
-
+        
+        @include media-breakpoint-up(xxl) {
+            padding-right: 60px;
+        }
         .hidden {
             display: none!important;
         }

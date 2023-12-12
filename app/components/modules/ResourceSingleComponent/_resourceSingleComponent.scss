@@ -1,29 +1,30 @@
 .resource {
     .hero {
+        max-width: 1400px;
+        background-color: #814C9E;
+        color: $grayscale-1;
+        overflow:hidden;
+        
         .image-wrapper img {
             width: 100%;
             height: auto;
         }
         @include media-breakpoint-down(sm) {
-            //height: 85vh;
             .image-wrapper img {
-                max-height: 48vh; /* Limit the height on mobile */
+                max-height: 48vh;
                 object-fit: cover;
                 width: auto;
             }
         }
-        background-color: #814C9E;
-        color: $grayscale-1;
         
-        overflow:hidden;
         h1 {
             @extend .h2;
             color: $grayscale-1 !important;
         }
         @include media-breakpoint-up(lg) {
             border-radius: .75rem;
-            margin-top: 20px;
             margin-bottom: 4rem;
+            margin-top: 7.5rem;
         }
         .inner {
             @include media-breakpoint-up(lg) {
