@@ -44,9 +44,9 @@
                 border-bottom-left-radius: 15px;
                 height: 100%;
             }
-            @include media-breakpoint-up(xxl) {
-                max-width: 688px;
-            }
+            // @include media-breakpoint-up(xxl) {
+            //     max-width: 688px;
+            // }
             &.padded {
                 height: 80%;
                 width: 80%;

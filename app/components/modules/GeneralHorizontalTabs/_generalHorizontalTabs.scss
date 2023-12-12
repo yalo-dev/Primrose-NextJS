@@ -208,7 +208,7 @@
             .details-container {
                 background-color: $grayscale-1;
                 border: 1px solid #ccc;
-                padding: 10px;
+                padding: 1rem 2.5rem 1rem 1rem;
                 border-radius: 20px;
                 border-top-left-radius: 0;
                 border-top-right-radius: 0;
@@ -221,6 +221,7 @@
                 right: 0.5rem;
                 width: 30px;
                 height: 30px;
+                cursor: pointer;
                 svg {
                     width: 30px;
                     height: 30px;

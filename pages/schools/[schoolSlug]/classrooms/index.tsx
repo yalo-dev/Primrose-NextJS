@@ -373,7 +373,7 @@ export default function ClassroomPage() {
     return (
         <>
             <div className="school classrooms">
-                <div className="container">
+                <div className="container jumbo">
                     <div className="hero-with-image-module">
                         <div className='hero-with-image reverse-column'>
                             {heroWithImage?.leftColumn?.image?.sourceUrl && (
@@ -417,6 +417,8 @@ export default function ClassroomPage() {
                             )}
                         </div>
                     </div>
+                </div>
+                <div className="container">
                     <div className="general-horizontal-tabs-module">
                         <h2 className="heading">Classrooms Offered</h2>
                         <div className="general-horizontal-tabs">

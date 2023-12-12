@@ -315,7 +315,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                             <div className="accreditation-images  d-flex">
                                                 {accreditations.map((accreditation, index) => (
                                                     <div key={`accreditation-${index}`} className="accreditation-image">
-                                                        <img className='me-2' width='60' height='60' src={accreditation.image.sourceUrl} alt={accreditation.altText || 'Accreditation Image'} />
+                                                        <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60' src={accreditation.image.sourceUrl} alt={accreditation.altText || 'Accreditation Image'} />
                                                     </div>
                                                 ))}
                                             </div>

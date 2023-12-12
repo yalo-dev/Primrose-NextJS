@@ -225,7 +225,7 @@
 
 .school-margin-top {
     display: block;
-    height: 208px;
+    height: 300px;
 
     @include media-breakpoint-up(lg) {
         height:222px;
@@ -233,7 +233,7 @@
 }
 
 .classroom-margin {
-    height: 20px;
+    height: 100px;
 }
 
 .submenu-wrapper {

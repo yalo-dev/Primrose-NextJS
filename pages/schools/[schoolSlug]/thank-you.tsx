@@ -114,10 +114,10 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                         </svg>
                     </div>
                     <div className='two-columns-image-and-text-alternative'>
-                        <div className='left-column col-12 col-lg-5'>
+                        <div className='left-column'>
                             <img src={imageSrc} alt='Franchise Owner' />
                         </div>
-                        <div className='right-column col-12 col-lg-5 offset-lg-1'>
+                        <div className='right-column'>
                             <h5 className='b4'>{staff.franchiseOwners.leftColumn?.name}</h5>
                             <div className='b3 pb-3'>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</div>
                             <p className='b2' dangerouslySetInnerHTML={{ __html: bio }} />
