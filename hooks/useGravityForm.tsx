@@ -62,7 +62,8 @@ function reducer(state: FieldValueUnion[], action: Action) {
   }
 }
 
-const DEFAULT_STATE: FieldValueUnion[] = [];
+const SET_VALUE = 'AISHA Testing this dynamic value for school slug';
+const DEFAULT_STATE: FieldValueUnion[] = [  { id: 11, value: SET_VALUE  } ];
 
 const GravityFormContext = createContext<{
   state: FieldValueUnion[];
