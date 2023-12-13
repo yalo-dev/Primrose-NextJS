@@ -39,6 +39,13 @@ export default function GravityFormsForm({ form }: Props) {
   const formFields = form?.formFields?.nodes || [];
   const { state } = useGravityForm();
 
+// state.forEach((fieldValue: any) => {
+//   if (fieldValue.id === 11) {
+//     fieldValue.value = schoolSlugInput;
+//     console.log('fieldValue.value: ', fieldValue.value);
+//   }
+// }
+// );
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (loading) return;

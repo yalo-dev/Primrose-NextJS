@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { GfForm } from "../../../generated/graphql";
+import { FormField, GfForm } from "../../../generated/graphql";
 import getGravityForm from "../../../utilities/gravity-forms";
 import GravityForm from '../../../components/GravityForm';
 
-export default function ScheduleATourForm({ onFormLoaded }) {
+export default function ScheduleATourForm({ onFormLoaded, handleHiddenFields, schoolSlug }) {
+    console.log('schoolSlug: ', schoolSlug); 
     const [form, setForm] = useState<GfForm | null>(null);
+    const [appendSchoolID, setappendSchoolID] = useState(schoolSlug);
+    console.log('appendSchoolID: ', appendSchoolID);
 
     useEffect(() => {
       const fetchForm = async () => {
@@ -15,6 +18,19 @@ export default function ScheduleATourForm({ onFormLoaded }) {
             } else {
                 setForm(fetchedForm);
             }
+            
+            if (form?.formFields?.nodes) {
+                form.formFields.nodes.forEach((field: FormField) => {
+                  if (field.type === 'TEXT' && field.databaseId === 11) {
+                    
+                    //setappendSchoolID(schoolSlug);
+                    //field['value'] === appendSchoolID;
+                    //field['value'] === schoolSlug;
+                    console.log(field['value'])
+                  }
+                });
+              }
+            console.log( appendSchoolID);
         } catch (error) {
             console.error("Error fetching form:", error);
             setForm(null); 
@@ -22,6 +38,7 @@ export default function ScheduleATourForm({ onFormLoaded }) {
     };
       if (form) {
         onFormLoaded();
+        handleHiddenFields();
       }
         fetchForm();
     }, [form]);

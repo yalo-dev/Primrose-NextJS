@@ -56,6 +56,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            schoolSlugInput: schoolData?.slug,
             corporate: schoolSettings?.corporate,
             socialLinks: {
                 facebook: schoolSettings?.general?.facebook?.url,
@@ -67,7 +68,8 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, form }) {
+export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolSlugInput, form }) { 
+    console.log("School ID:", schoolSlugInput);
     const fieldsToShowMapping = {
         "1": ["#gfield_7", "#gfield_8", "#gfield_9", "#gfield_10"],
         "2": ["#gfield_15", "#gfield_16", "#gfield_17"],
@@ -80,6 +82,14 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
     function onFormLoaded() {
         handleDropdownChange();
     }
+
+    useEffect(() => {
+        const hiddenField = document.getElementById('field_11'); 
+        
+        if (hiddenField) {
+            hiddenField.addEventListener('load', handleHiddenFields);
+        }
+    }, []);
 
     useEffect(() => {
         const selectField = document.getElementById('field_6');
@@ -110,6 +120,17 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
         });
     }
 
+    const [SchoolID, setSchoolID] = useState(schoolSlugInput);
+    function handleHiddenFields() {
+         //e.preventDefault();
+        //formFields?.nodes.find(field => field?.type === 'TEXT' && field?.databaseId === 11);
+        const addSchoolID = document.getElementById('field_11') as HTMLInputElement; 
+    
+        SchoolID && (addSchoolID.value = SchoolID);
+
+        console.log("School ID Value:", addSchoolID['value'] ) ;        
+        
+    }
     function handleDropdownChange() {
         const selectElement = document.getElementById('field_6') as HTMLSelectElement;
         if (!selectElement) {
@@ -154,7 +175,7 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
                 <div className="row">
                     <div className="main-wrapper col-12 col-lg-8">
                         <div className="form-wrapper">
-                            <ScheduleATourForm onFormLoaded={onFormLoaded} />
+                            <ScheduleATourForm onFormLoaded={onFormLoaded} schoolSlug={schoolSlugInput} handleHiddenFields={handleHiddenFields}/>
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">
