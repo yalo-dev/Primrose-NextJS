@@ -66,7 +66,6 @@ export async function getServerSideProps(context) {
     };
 }
 
-
 export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, form }) {
     const fieldsToShowMapping = {
         "1": ["#gfield_7", "#gfield_8", "#gfield_9", "#gfield_10"],

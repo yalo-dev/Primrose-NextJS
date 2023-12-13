@@ -228,7 +228,10 @@
     height: 300px;
 
     @include media-breakpoint-up(lg) {
-        height:222px;
+        height: 250px;
+    }
+    @include media-breakpoint-up(xxl) {
+        height: 225px;
     }
 }
 
@@ -238,8 +241,8 @@
 
 .submenu-wrapper {
     position: relative;
-    top: 320px;
-    width: 343px;
+    top: 300px;
+    min-width: 343px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -293,7 +296,8 @@
     }
 
     .placeholder-text {
-        width: 100%;
+        width: 343px;
+        margin: auto;
         border-radius: 6px;
         border: 1px solid #E6E6E6;
         background-color: $white;
@@ -339,7 +343,7 @@
             border: 1px solid #E6E6E6;
             border-radius: 6px;
             background-color: $white;
-
+            margin: auto;
             @include media-breakpoint-up(lg) {
                 background-color: $white;
                 border-top-left-radius: 0;

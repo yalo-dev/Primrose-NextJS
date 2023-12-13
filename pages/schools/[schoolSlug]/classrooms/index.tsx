@@ -175,7 +175,7 @@ export default function ClassroomPage() {
     }, [router.isReady, router.query.schoolSlug]);
 
     useEffect(() => {
-        const navHeight = 317;
+        const navHeight = 100;
         const desktopBreakpoint = 992;
         const offsetToUnstick = 150;
 

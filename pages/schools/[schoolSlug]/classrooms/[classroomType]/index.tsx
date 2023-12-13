@@ -211,6 +211,11 @@ interface StaffMember {
 }
 
 export default function ClassroomTypePage({ school }) {
+
+  const hasData = (data) => {
+    return data && Object.keys(data).length > 0 && data.constructor === Object;
+  };
+
   const featuredBanner = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.featuredBanner || {};
 
   const generalButtonCTAProps = {
@@ -219,6 +224,7 @@ export default function ClassroomTypePage({ school }) {
     subheading: featuredBanner.blurb,
     button: featuredBanner.button,
   };
+  const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
 
   const CustomVerticalTab = () => {
     const [isClient, setIsClient] = useState(false);
@@ -602,7 +608,7 @@ export default function ClassroomTypePage({ school }) {
               {assignedStaffMembers.slice(0, visibleStaffCount).map((member, index) => (
                 <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                   <div className='row align-items-center'>
-                    <div className='col-5'>
+                    <div className='col-4'>
                       {member.image && <img src={member.image.sourceUrl} alt={member.name} className='img-fluid' />}
                     </div>
                     <div className='col-7 '>
@@ -647,7 +653,7 @@ export default function ClassroomTypePage({ school }) {
   };
 
   useEffect(() => {
-    const navHeight = 317;
+    const navHeight = 100;
     const desktopBreakpoint = 992;
     const offsetToUnstick = 150;
 
@@ -677,7 +683,6 @@ export default function ClassroomTypePage({ school }) {
         return;
       }
 
-      // Desktop logic for expanding tabs based on scroll
       document.querySelectorAll('.general-horizontal-tabs-module .tab-content').forEach((section) => {
         if (isElementInViewport(section)) {
           const target = section.getAttribute('id');
@@ -997,6 +1002,7 @@ export default function ClassroomTypePage({ school }) {
       </div>
       <div className='background-color'>
         {StaffMembers()}
+       {shouldRenderCTA && (
         <GeneralButtonCTA
           variation="violet"
           buttonStyle="white"
@@ -1008,7 +1014,9 @@ export default function ClassroomTypePage({ school }) {
               sourceUrl: '/assets/transparent-circle.svg',
             }
           }}
-          {...generalButtonCTAProps} />
+          {...generalButtonCTAProps}
+        />
+        )}
       </div>
       {CustomVerticalTab()}
       {testimonialSection()}

@@ -329,12 +329,12 @@
     }
 
     .staff-members {
-        margin: 40px 0;
+        margin: 40px auto;
         gap: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
-
+        max-width: 1150px;
         @include media-breakpoint-up(lg) {
             flex-direction: row;
             flex-wrap: wrap;
