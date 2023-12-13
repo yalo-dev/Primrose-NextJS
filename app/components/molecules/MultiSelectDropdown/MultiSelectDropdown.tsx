@@ -14,7 +14,6 @@ interface MultiSelectProps {
 
 export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
     const { options, onSelect, placeholder = "Select" } = props;
-    //const selected = props.selected || [];
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -50,13 +49,6 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
         e.stopPropagation();
     };
 
-    // const toggleOption = (value: string) => {
-    //     const newSelected = selected.includes(value)
-    //         ? selected.filter(v => v !== value)
-    //         : [...selected, value];
-
-    //     onSelect(newSelected);
-    // };
     const toggleOption = (value: string) => {
         const newSelected = selected.includes(value)
             ? selected.filter(v => v !== value)
@@ -66,7 +58,7 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
         onSelect(newSelected);
     };
     return (
-<div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
+        <div className={`multi-select-dropdown custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
                 {placeholder}
                 <div className='icon'></div>
@@ -75,7 +67,7 @@ export const MultiSelectDropdown: React.FC<MultiSelectProps> = (props) => {
             <div className="options" style={{ height: `${contentHeight}px` }}>
                 <div ref={contentRef}>
                     {options.map(opt => (
-                            <div key={opt.value} className={`option ${selected.includes(opt.value) ? 'active' : ''}`}>
+                        <div key={opt.value} className={`option ${selected.includes(opt.value) ? 'active' : ''}`}>
                             <input
                                 type="checkbox"
                                 id={opt.value}

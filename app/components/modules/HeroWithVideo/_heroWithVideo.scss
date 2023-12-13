@@ -19,10 +19,12 @@
         padding: 34px 20px 43px;
         @include media-breakpoint-up(lg) {
             order: 1;
-            padding:2rem 5rem;
+            padding: 2rem;
         }
         @include media-breakpoint-up(xxl) {
-            padding: 110px 80px 110px 40px;
+            width: 536px;
+            padding: 0;
+            margin: auto;
         }
         
         h1 {

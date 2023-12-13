@@ -104,12 +104,11 @@ query GetModules($id: ID = "") {
 			region
 			version
 			customizations {
-			    outerBackgroundColor
-			    topMarginMobile
-				topMarginDesktop
-				bottomMarginMobile
-				bottomMarginDesktop
-
+			  outerBackgroundColor
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
@@ -385,7 +384,6 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_HomeHeroWithVideo {
-				
 			customizations {
 			  backgroundColor
 			  bottomPaddingDesktop
@@ -405,8 +403,13 @@ query GetModules($id: ID = "") {
 				title
 				url
 			  }
+			  videoOrImage
+			  image {
+				altText
+				sourceUrl
+			  }
 			}
-		}
+		  }
 		  ... on Page_Modules_Modules_NewsletterFormCta {
 			heading
 			headingColor
@@ -672,10 +675,10 @@ query GetModules($id: ID = "") {
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsGreenBackground {
 			customizations {
-				topMarginMobile
-				topMarginDesktop
-				bottomMarginMobile
-				bottomMarginDesktop
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			}
 			leftColumn {
 			  imageDesktop {

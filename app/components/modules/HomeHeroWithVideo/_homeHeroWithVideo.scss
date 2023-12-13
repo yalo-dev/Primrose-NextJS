@@ -19,18 +19,17 @@
         @include media-breakpoint-up(lg) {
             order: 1;
             width: 553px;
-        
         }
         .heading-wrapper {
             h1 {
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
                 color: $primary-green;
             }
             h5 {
                 margin-bottom: 1rem;
                 color: $primary-green;
                 @include media-breakpoint-up(xl) {
-                    margin-bottom: 2.75rem;
+                    margin-bottom: 4rem;
                 }
             }
         }

@@ -54,6 +54,7 @@
             max-width: 268px;
             @include media-breakpoint-up(lg) {
                 max-width: unset;
+                margin-right: 10rem;
             }
         }
         .accent {
@@ -84,7 +85,7 @@
                 bottom: -39rem;
             }
             @include media-breakpoint-up(xxl) {
-                bottom: -37rem;
+                bottom: -38rem;
                 right: -14rem;
             }
         }
@@ -103,8 +104,8 @@
                 bottom: -15rem;
             }
             @include media-breakpoint-up(xxl) {
-                bottom: -3rem;
-                right: -25rem;
+                bottom: -7rem;
+                right: -26rem;
             }
         }
         .custom-select {
@@ -236,4 +237,7 @@
         }
 
     }
+}
+.module.Page_Modules_Modules_ClassroomSelectAndImage {
+    overflow-x: visible;
 }

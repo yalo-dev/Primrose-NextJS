@@ -18,26 +18,27 @@ const RESOURCE_TYPES_AND_TAGS_QUERY = gql`
     }
   }
 `;
-export default function SlugComponent({ categoryNames: initialCategoryNames, categoryTags: initialCategoryTags, slug: serverSideSlug }: { categoryNames: string[], categoryTags: string[], slug: string | string[] }) {
-	const router = useRouter();
-	const { slug = serverSideSlug } = router.query;
-	const singleSlug = Array.isArray(slug) ? slug[slug.length - 1] : slug;
 
-	const { loading, error, data } = useQuery(RESOURCE_TYPES_AND_TAGS_QUERY);
+export default function SlugComponent({ categoryNames: initialCategoryNames, categoryTags: initialCategoryTags, slug: serverSideSlug }) {
+  const router = useRouter();
+  const { slug = serverSideSlug } = router.query;
+  const singleSlug = Array.isArray(slug) ? slug[slug.length - 1] : slug;
 
-	const categoryNames = loading || error ? initialCategoryNames : data.resourceTypes.nodes.map((node: { slug: string }) => node.slug);
-	const categoryTags = loading || error ? initialCategoryTags : data.resourceTags.nodes.map((node: { slug: string }) => node.slug);
+  const { loading, error, data } = useQuery(RESOURCE_TYPES_AND_TAGS_QUERY);
 
-	if (loading) return <p></p>;
-	if (error) return <p>Error: {error.message}</p>;
+  const categoryNames = loading || error ? initialCategoryNames : data.resourceTypes.nodes.map(node => node.slug);
+  const categoryTags = loading || error ? initialCategoryTags : data.resourceTags.nodes.map(node => node.slug);
 
-	if (categoryNames.includes(singleSlug as string)) {
-		return <CategoryComponent />;
-	} else if (categoryTags.includes(singleSlug as string)) {
-		return <TagComponent />;
-	} else if (singleSlug) {
-		return <ResourceComponent singleSlug={singleSlug} />;
-	} else {
-		return <p>Not found</p>;
-	}
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  if (categoryNames.includes(singleSlug)) {
+    return <CategoryComponent />;
+  } else if (categoryTags.includes(singleSlug) || singleSlug === 'featured') {
+    return <TagComponent />;
+  } else if (singleSlug) {
+    return <ResourceComponent singleSlug={singleSlug} />;
+  } else {
+    return <p>Not found</p>;
+  }
 }

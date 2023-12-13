@@ -163,8 +163,6 @@ export default function ClassroomPage() {
         }
     }, []);
 
-
-
     useEffect(() => {
         if (router.isReady) {
             const slugFromArray = Array.isArray(router.query.schoolSlug)
@@ -177,7 +175,7 @@ export default function ClassroomPage() {
     }, [router.isReady, router.query.schoolSlug]);
 
     useEffect(() => {
-        const navHeight = 317;
+        const navHeight = 100;
         const desktopBreakpoint = 992;
         const offsetToUnstick = 150;
 
@@ -358,15 +356,24 @@ export default function ClassroomPage() {
     const hasMultipleOfferings = !!summerAdventureClub && !!beforeAndAfterSchoolCare;
 
     const primroseCommitment = data?.school?.schoolSettings?.classrooms?.primroseCommitment || {};
-    const hasPrimroseCommitment = !!primroseCommitment;
+    const hasPrimroseCommitmentData = primroseCommitment && 
+    primroseCommitment.leftColumn.image?.sourceUrl && 
+    primroseCommitment.rightColumn.heading && 
+    primroseCommitment.rightColumn.blurb && 
+    primroseCommitment.rightColumn.button.url && 
+    primroseCommitment.rightColumn.button.title;
 
     const ScheduleATour = data?.school?.schoolSettings?.details?.general?.scheduleATour || {};
-    const hasScheduleATour = !!ScheduleATour.heading || !!ScheduleATour.subheading || !!ScheduleATour.button || (ScheduleATour.images && ScheduleATour.images.length > 0);
+    const hasScheduleATourData = ScheduleATour &&
+    (ScheduleATour.heading || ScheduleATour.subheading) && 
+    (ScheduleATour.button?.url && ScheduleATour.button.title) &&
+    ScheduleATour.images && ScheduleATour.images.some(img => img.image.sourceUrl);
+
 
     return (
         <>
-            <div className="classrooms">
-                <div className="container">
+            <div className="school classrooms">
+                <div className="container jumbo">
                     <div className="hero-with-image-module">
                         <div className='hero-with-image reverse-column'>
                             {heroWithImage?.leftColumn?.image?.sourceUrl && (
@@ -410,6 +417,8 @@ export default function ClassroomPage() {
                             )}
                         </div>
                     </div>
+                </div>
+                <div className="container">
                     <div className="general-horizontal-tabs-module">
                         <h2 className="heading">Classrooms Offered</h2>
                         <div className="general-horizontal-tabs">
@@ -486,6 +495,32 @@ export default function ClassroomPage() {
                                                 <div className='content-wrapper'>
                                                     <Heading level='h3'>Our Early Preschool Classroom</Heading>
                                                     <Subheading level='div' className='b3'>Our Early Preschool teachers partner with you to help your child learn important independent life skills like potty training and hand washing while paying close attention to all aspects of your child's development.</Subheading>
+                                                    <Button variant="primary" href="#">Learn More</Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {isClassroomSelected('Preschool Pathways') && (
+                                    <div>
+                                        <button data-target="preschool-pathways" className={`clickable ${activeTab === 'preschool-pathways' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool-pathways')}>
+                                            <Heading level='h5'>Preschool Pathways
+                                                <div id="button">
+                                                    <span></span>
+                                                    <span></span>
+                                                </div>
+                                            </Heading>
+                                        </button>
+
+                                        {/* Mobile: Content rendered right below the label */}
+                                        <div className="d-lg-none">
+                                            <div className={`tab-content ${activeTab === 'preschool-pathways' ? 'active' : ''}`} style={{ opacity: activeTab === 'preschool-pathways' ? '1' : '0' }}>
+
+                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
+
+                                                <div className='content-wrapper'>
+                                                    <Heading level='h3'>Our Preschool Pathways Classroom</Heading>
+                                                    <Subheading level='div' className='b3'>Guided by our exclusive Balanced Learning® approach, our teachers will help your child build confidence through unique experiences and fun activities that prepare them for preschool. This program helps your child stay with a consistent group of peers as they observe, explore and learn about interacting with others and the environment around them.</Subheading>
                                                     <Button variant="primary" href="#">Learn More</Button>
                                                 </div>
                                             </div>
@@ -610,6 +645,18 @@ export default function ClassroomPage() {
                                         </div>
                                     </div>
                                 )}
+                                 {isClassroomSelected('Preschool Pathways') && (
+                                    <div id="preschool-pathways" className="tab-content d-flex">
+
+                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
+
+                                        <div className='content-wrapper'>
+                                            <Heading level='h3'>Our Preschool Pathways Classroom</Heading>
+                                            <Subheading level='div' className='b3'>Guided by our exclusive Balanced Learning® approach, our teachers will help your child build confidence through unique experiences and fun activities that prepare them for preschool. This program helps your child stay with a consistent group of peers as they observe, explore and learn about interacting with others and the environment around them..</Subheading>
+                                            <Button variant="primary" href="#">Learn More</Button>
+                                        </div>
+                                    </div>
+                                )}
                                 {isClassroomSelected('Preschool') && (
                                     <div id="preschool" className="tab-content d-flex">
 
@@ -695,13 +742,13 @@ export default function ClassroomPage() {
                         )}
                     </div>
                 </div>
-                {hasPrimroseCommitment && (
+                {hasPrimroseCommitmentData && (
                     <div className="primrose-commitment">
                         <div className="container">
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     <img
-                                        src={primroseCommitment.leftColumn.image.sourceUrl}
+                                        src={primroseCommitment.leftColumn.image?.sourceUrl}
                                         alt={primroseCommitment.leftColumn.altText || 'feature image'}
                                         width={500}
                                         height={500}
@@ -718,7 +765,7 @@ export default function ClassroomPage() {
                         </div>
                     </div>
                 )}
-                {hasScheduleATour && (
+                {hasScheduleATourData && (
                     <div className='container'>
                         <div className='find-a-school'>
                             <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>

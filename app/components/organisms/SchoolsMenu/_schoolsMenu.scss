@@ -1,8 +1,8 @@
 .navbar-schools {
-    position: fixed;
+    position: absolute;
     width: 100%;
     z-index: 1130;
-    top: 107px;
+    top: 99px;
     left: 0;
     border-top: 1px solid $nav-border;
     border-bottom: 1px solid $nav-border;
@@ -62,7 +62,7 @@
                 &:not(.navitem--main):not(:last-of-type) {
                     &::after {
                         color: $neutral-1;
-                        content: '/';
+                        content: '|';
                         position: absolute;
                         bottom: -1px;
                         right: -4px;
@@ -113,7 +113,7 @@
                     .submenu-wrapper {
                         visibility: visible;
                         opacity: 1;
-                        max-height: 460px;
+                        max-height: 515px;
                       }
                       .menu-icon {
                         svg {
@@ -215,31 +215,34 @@
     }
 
     @include media-breakpoint-up(lg) {
-        top: 96px;
+        //top: 96px;
     }
 
     @include media-breakpoint-up(xl) {
-        top: 88px;
+       //top: 88px;
     }
 }
 
 .school-margin-top {
     display: block;
-    height: 208px;
+    height: 300px;
 
     @include media-breakpoint-up(lg) {
-        height:222px;
+        height: 250px;
+    }
+    @include media-breakpoint-up(xxl) {
+        height: 225px;
     }
 }
 
 .classroom-margin {
-    height: 20px;
+    height: 100px;
 }
 
 .submenu-wrapper {
     position: relative;
-    top: 320px;
-    width: 343px;
+    top: 300px;
+    min-width: 343px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -293,7 +296,8 @@
     }
 
     .placeholder-text {
-        width: 100%;
+        width: 343px;
+        margin: auto;
         border-radius: 6px;
         border: 1px solid #E6E6E6;
         background-color: $white;
@@ -339,7 +343,7 @@
             border: 1px solid #E6E6E6;
             border-radius: 6px;
             background-color: $white;
-
+            margin: auto;
             @include media-breakpoint-up(lg) {
                 background-color: $white;
                 border-top-left-radius: 0;

@@ -37,7 +37,7 @@ const StandardAccordionList: React.FC<StandardAccordionListProps> = ({ heading, 
   };
 
   return (
-    <div className="container">
+    <div className="container jumbo">
 		<Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}

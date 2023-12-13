@@ -77,6 +77,7 @@ export async function getServerSideProps(context) {
             }
             homepage {
               gallery {
+                title
                 caption
                 image {
                   altText
@@ -314,7 +315,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                             <div className="accreditation-images  d-flex">
                                                 {accreditations.map((accreditation, index) => (
                                                     <div key={`accreditation-${index}`} className="accreditation-image">
-                                                        <img className='me-2' width='60' height='60' src={accreditation.image.sourceUrl} alt={accreditation.altText || 'Accreditation Image'} />
+                                                        <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60' src={accreditation.image.sourceUrl} alt={accreditation.altText || 'Accreditation Image'} />
                                                     </div>
                                                 ))}
                                             </div>
@@ -579,11 +580,11 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         }
 
         return (
-            <GallerySlider gallery={galleryData} />
+            <GallerySlider gallery={galleryData} uniqueId="gallerySlider" />
         );
     }
     return (
-        <div className='school-home pt-4 pb-4'>
+        <div className='school school-home pt-4 pb-4'>
             {renderHeroWithSlider()}
             {firstFive()}
             {renderNewsSlider()}

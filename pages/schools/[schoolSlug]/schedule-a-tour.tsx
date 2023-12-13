@@ -170,7 +170,7 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
 
 
     return (
-        <div className='schedule-a-tour'>
+        <div className='school schedule-a-tour'>
             <div className="container">
                 <div className="row">
                     <div className="main-wrapper col-12 col-lg-8">
