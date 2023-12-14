@@ -16,8 +16,8 @@ const Tag: React.FC<TagProps> = ({ label, isFeatured, tagSlug }) => {
   }
 
   const handleTagClick = (e: React.MouseEvent) => {
-    e.preventDefault();   // Prevent default click behavior
-    e.stopPropagation(); // Prevent triggering parent's click handler
+    e.preventDefault();   
+    e.stopPropagation();
     router.push(`/resources/${tagSlug}`);
   };
   

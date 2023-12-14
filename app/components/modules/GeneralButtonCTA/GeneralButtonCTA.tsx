@@ -77,7 +77,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
     }
 
 	return (
-		<div className="container">
+		<div className="container jumbo">
 		<Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}

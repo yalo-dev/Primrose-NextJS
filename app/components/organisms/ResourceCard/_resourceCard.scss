@@ -136,7 +136,7 @@
             .content-wrapper {
                 margin-left: 0;
                 height: 100%;
-                padding: 1rem !important;
+                //padding: 1rem !important;
                 margin-top: 0;
             }
             .tags {
@@ -167,7 +167,7 @@
                     }
                     .content-wrapper {
                         flex-basis: 50%;
-                        padding: 70px 20px 2rem !important;
+                        padding: 70px 20px 1rem !important;
                         min-height: 480px;
                         .title {
                             font-size: 40px;
@@ -237,18 +237,3 @@
 }
 
 
-.card.featured:first-child:hover .inner .image-wrapper .image {
-    background-size: 105% auto !important;
-    transition: all .5s;
-    @include media-breakpoint-up(xl) {
-        background-size: auto 105% !important;
-    }
-}
-.card.medium:hover .image-wrapper .image{
-    background-size: 105% auto !important;
-    transition: all .5s;
-}
-.card:hover .image-wrapper .image{
-    background-size: 105% auto !important;
-    transition: all .5s;
-}

@@ -18,6 +18,10 @@
         margin: auto;
         padding-left: 60px;
         padding-right: 60px;
+        &.jumbo {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
     }
 }
 /***********************************************************************/
@@ -28,21 +32,19 @@
 }
 
 .green {
-    color: $primary-green;
+    color: $primary-green !important;
 }
 
-//to offset space for the nav 
+.blue {
+    color: $brand-blue !important;
+}
+
 .main--container {
-    margin-top: 108px;
+    margin-top: 100px;
     overflow: hidden;
 
     @include media-breakpoint-up(lg) {
-        margin-top: 97px;
         overflow: visible;
-    }
-
-    @include media-breakpoint-up(xl) {
-        margin-top: 90px;
     }
 }
 
@@ -68,4 +70,23 @@
     @include media-breakpoint-up(xl) {
         padding-left: 8rem;
     }
+}
+
+
+/* For Internet Explorer */
+input[type="search"]::-ms-clear {
+    display: none;
+}
+
+/* For Microsoft Edge */
+input[type="search"]::-ms-reveal {
+    display: none;
+}
+
+/* For WebKit browsers like Chrome and Safari */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
 }

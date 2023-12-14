@@ -17,7 +17,7 @@
                 padding: 2rem;
                 margin-bottom: 2rem;
                 &::before {
-                    content: "";
+                    //content: "";
                     background-image: url('/assets/tab-accent.svg');
                     background-repeat: no-repeat;
                     background-position: bottom right;
@@ -208,12 +208,24 @@
             .details-container {
                 background-color: $grayscale-1;
                 border: 1px solid #ccc;
-                padding: 10px;
+                padding: 1rem 2.5rem 1rem 1rem;
                 border-radius: 20px;
                 border-top-left-radius: 0;
                 border-top-right-radius: 0;
                 border-top: 0;
                 padding: 1.5rem;
+            }
+            .close-icon {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
 
@@ -278,8 +290,8 @@
     .container.sticky .inner {
         position: sticky;
         height: 100%;
-        top: 120px;  /* Account for the navigation */
-        z-index: 10; /* Optional: This is to ensure that the div.inner is on top of other content */
+        top: 120px;  
+        z-index: 10; 
         bottom: 0;
         left: 0;
         right: 0;

@@ -12,35 +12,77 @@ export async function getServerSideProps() {
         const RESOURCES_QUERY = gql`
         query GetResources {
             resources(first: 500) {
-                nodes {
-                    title
-                    excerpt
-                    slug
+              nodes {
+                id
+                title
+                excerpt
+                slug
+                uri
+                date
+                resourceTypes(first: 500) {
+                  nodes {
                     uri
+                    slug
+                    name
+                  }
+                }
+                resourceTags(first: 500) {
+                  nodes {
+                    uri
+                    slug
+                    name
+                  }
+                }
+                featuredImage {
+                  node {
+                    sourceUrl
+                    altText
+                  }
+                }
+              }
+            }
+            resourcesSettings {
+              resourceSettings {
+                featuredResources {
+                  ... on Resource {
+                    id
+                    title
+                    uri
+                    slug
+                    featuredImage {
+                      node {
+                        altText
+                        sourceUrl
+                      }
+                    }
+                    excerpt
                     date
-                    resourceTypes {
-                        nodes {
-                            uri
-                            slug
-                            name
-                        }
+                    resourceFields {
+                      content
+                      displayAuthor
+                      fieldGroupName
                     }
                     resourceTags {
-                        nodes {
-                            uri
-                            slug
-                            name
-                        }
+                      nodes {
+                        slug
+                        link
+                        uri
+                        name
+                      }
                     }
-                    featuredImage {
-                        node {
-                            sourceUrl
-                            altText
-                        }
+                    resourceTypes {
+                      nodes {
+                        slug
+                        uri
+                        name
+                        link
+                      }
                     }
+                  }
                 }
+              }
             }
-        }`;
+          }`;
 
         const FILTER_TERMS_QUERY = gql`
         query GetFilterTerms {
@@ -66,6 +108,7 @@ export async function getServerSideProps() {
         return {
             props: {
                 resources: resourceData.data.resources.nodes,
+                featuredResources: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
                 filterTerms: filterTermsData.data
             },
         };
@@ -73,38 +116,35 @@ export async function getServerSideProps() {
     } catch (error) {
         console.error("Error fetching data", error);
         return {
-            props: { resources: [], filterTerms: [] },
+            props: { resources: [], featuredResources: [], filterTerms: [] },
         };
     }
 }
 
-export default function ResourcesList({ resources, filterTerms }) {
+export default function ResourcesList({ resources, featuredResources, filterTerms }) {
+    const featuredResourceIds = featuredResources.map(fr => fr.id);
+    const displayedFeaturedResources = featuredResources.slice(0, 5);
 
-    // featured section sorted by publication date
-    const featuredResources = resources.filter(resource => {
-        return resource?.resourceTags?.nodes?.some(tag => tag.slug === "featured");
-    }).sort((a, b) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
-
-    // limit featured sections to display 5
-    const firstFiveFeaturedResources = featuredResources.slice(0, 5);
-
-    // filter resources by resource-type and exclude all featured resources from the resource-type sections
     const filterResourcesByTypeAndExcludeFeatured = (typeSlug) => {
-        return resources.filter(resource => {
-            return (
-                resource.resourceTypes.nodes.some(type => type.slug === typeSlug) &&
-                !resource.resourceTags.nodes.some(tag => tag.slug === "featured")
-            );
-        });
+        return resources.filter(resource =>
+            resource.resourceTypes.nodes.some(type => type.slug === typeSlug) &&
+            !featuredResourceIds.includes(resource.id)
+        );
     };
+    
+    const sortByDateDescending = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
-    // limit resource-type sections to display 3
-    const familiesResources = filterResourcesByTypeAndExcludeFeatured("families").slice(0, 3);
-    const educatorsResources = filterResourcesByTypeAndExcludeFeatured("educators").slice(0, 3);
-    const newsroomResources = filterResourcesByTypeAndExcludeFeatured("newsroom").slice(0, 3);
-
+    const familiesResources = filterResourcesByTypeAndExcludeFeatured("families")
+        .sort(sortByDateDescending)
+        .slice(0, 3);
+    const educatorsResources = filterResourcesByTypeAndExcludeFeatured("educators")
+        .sort(sortByDateDescending)
+        .slice(0, 3);
+    const newsroomResources = filterResourcesByTypeAndExcludeFeatured("newsroom")
+        .sort(sortByDateDescending)
+        .slice(0, 3);
+        
+    
     const {
         filteredResources,
         SearchAndFilterUI,
@@ -146,21 +186,29 @@ export default function ResourcesList({ resources, filterTerms }) {
         if (!resourceList || resourceList.length === 0) {
             return null;
         }
+
         return (
             <div className='gap d-flex flex-wrap'>
                 {resourceList.map((resource, index) => {
+    
+                    if (!resource) {
+                        return null;
+                    }
+    
                     const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
                     const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
                     const shouldAddNewsroomClass = isNewsroom && !isFeatured;
                     const className = classNames[index] || classNames[classNames.length - 1];
-
+    
                     return (
                         <ResourceCard
-                            key={`${resource.title}-${index}`}
+                            key={resource.id}
                             resource={resource}
                             showFeaturedImage={showFeaturedImage}
                             className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
                             showExcerptIfNoImage={showExcerptIfNoImage}
+                            featuredResourceIds={featuredResourceIds}
+                            
                         />
                     );
                 })}
@@ -172,9 +220,16 @@ export default function ResourcesList({ resources, filterTerms }) {
     const resourcesPerPage = 9;
     const indexOfLastResource = currentPage * resourcesPerPage;
     const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
-    const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource);
     const totalPages = Math.ceil(filteredResources.length / resourcesPerPage);
     const allResourcesRef = useRef<HTMLDivElement>(null);
+    
+
+    const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource)
+    .map(resource => ({
+        ...resource,
+        isFeatured: featuredResourceIds.includes(resource.id)
+    }));
+
 
     const scrollToAllResources = () => {
         allResourcesRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -230,7 +285,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                 document.querySelectorAll('#all .card').forEach((card: any) => {
                     card.style.height = 'auto';
                 });
-                return; 
+                return;
             }
 
             const cards = document.querySelectorAll('#all .card');
@@ -261,7 +316,7 @@ export default function ResourcesList({ resources, filterTerms }) {
         <>
             <div className='container'>
                 <div className='resources-container'>
-                    {renderResourceItems(firstFiveFeaturedResources, true, ['featured large', 'featured medium'])}
+                    {renderResourceItems(displayedFeaturedResources, true, ['featured large', 'featured medium'])}
                 </div>
                 <div className='resources-container'>
                     {renderTitle("For Families", "/resources/families")}
@@ -275,6 +330,7 @@ export default function ResourcesList({ resources, filterTerms }) {
                     {renderTitle("Newsroom", "/resources/newsroom")}
                     {renderResourceItems(newsroomResources, false, ['newsroom'])}
                 </div>
+
                 <div id='all' className='resources-container' ref={allResourcesRef}>
                     <div className='title-and-search-container'>
                         {renderTitle("All Stories & Resources")}

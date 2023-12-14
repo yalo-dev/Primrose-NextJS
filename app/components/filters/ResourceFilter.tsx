@@ -22,6 +22,7 @@ interface ResourceTypes {
 }
 
 interface Resource {
+    id: any;
     title: string;
     excerpt: string;
     slug: string;

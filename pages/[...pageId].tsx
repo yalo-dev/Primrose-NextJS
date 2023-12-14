@@ -99,13 +99,16 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
-			form
+			formid
+			portalid
+			region
+			version
 			customizations {
-			    outerBackgroundColor
-			    topMarginMobile
-				topMarginDesktop
-				bottomMarginMobile
-				bottomMarginDesktop
+			  outerBackgroundColor
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			}
 		  }
 		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
@@ -381,7 +384,6 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_HomeHeroWithVideo {
-			
 			customizations {
 			  backgroundColor
 			  bottomPaddingDesktop
@@ -400,6 +402,11 @@ query GetModules($id: ID = "") {
 				target
 				title
 				url
+			  }
+			  videoOrImage
+			  image {
+				altText
+				sourceUrl
 			  }
 			}
 		  }
@@ -668,10 +675,10 @@ query GetModules($id: ID = "") {
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsGreenBackground {
 			customizations {
-				topMarginMobile
-				topMarginDesktop
-				bottomMarginMobile
-				bottomMarginDesktop
+			  topMarginMobile
+			  topMarginDesktop
+			  bottomMarginMobile
+			  bottomMarginDesktop
 			}
 			leftColumn {
 			  imageDesktop {

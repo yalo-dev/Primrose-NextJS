@@ -46,7 +46,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
     const className = `hero-with-image ${switchColumnOrderOnDesktop ? 'reverse-column' : ''}`;
 
     return (
-        <div className="container">
+        <div className="container jumbo">
 		<Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}

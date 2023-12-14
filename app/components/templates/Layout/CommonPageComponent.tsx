@@ -118,8 +118,7 @@ export const CommonPageComponent = ({ modules }) => {
             }
             return (
                 <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`}>
-
-                    {console.log("Current module: ", module)}
+                {/* {console.log("Current module: ", module)} */}
 
                     {ModuleComponent && <ModuleComponent {...module} />}
                 </section>
