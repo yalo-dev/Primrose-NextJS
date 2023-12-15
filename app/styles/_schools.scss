@@ -672,6 +672,7 @@
 
                 label {
                     @extend .h5;
+                    text-wrap: nowrap;
                 }
 
                 legend {
@@ -877,7 +878,7 @@
                     }
                 }
 
-                @include media-breakpoint-up(lg) {
+                @include media-breakpoint-up(xl) {
                     width: calc(50% - 18px);
                     margin-bottom: 30px;
 
@@ -921,7 +922,7 @@
                     &#gfield_37,
                     &#gfield_38,
                     &#gfield_39 {
-                        width: calc(33% - 15px);
+                        width: calc(33% - 16px);
                     }
 
                     &#gfield_8,
