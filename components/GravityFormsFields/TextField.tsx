@@ -30,11 +30,17 @@ export default function TextField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
+  let setDisabled = false;
+
+  if(field?.databaseId === 7 || field?.databaseId === 18 || field?.databaseId === 24 || field?.databaseId === 28 || field?.databaseId === 32 || field?.databaseId === 36) {
+    setDisabled = true;
+  }
 
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <input
+        disabled={setDisabled} 
         type="text"
         name={String(id)}
         id={htmlId}

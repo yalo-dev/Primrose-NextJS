@@ -716,41 +716,44 @@
                     margin-top: 0;
                 }
 
-                &#gfield_18,
-                &#gfield_15,
-                &#gfield_16,
-                &#gfield_17,
-                &#gfield_24,
-                &#gfield_25,
-                &#gfield_26,
-                &#gfield_27,
-                &#gfield_28,
-                &#gfield_29,
-                &#gfield_30,
-                &#gfield_31,
-                &#gfield_32,
-                &#gfield_33,
-                &#gfield_34,
-                &#gfield_35,
-                &#gfield_36,
-                &#gfield_37,
-                &#gfield_38,
-                &#gfield_39 {
+                input[disabled]#field_7,
+                input[disabled]#field_18,
+                input[disabled]#field_24,
+                input[disabled]#field_28,
+                input[disabled]#field_32,
+                input[disabled]#field_36,
+                select[disabled]#field_8,
+                select[disabled]#field_9,
+                select[disabled]#field_10,
+                select[disabled]#field_15,
+                select[disabled]#field_16,
+                select[disabled]#field_17,
+                select[disabled]#field_25,
+                select[disabled]#field_26,
+                select[disabled]#field_27,
+                select[disabled]#field_29,
+                select[disabled]#field_30,
+                select[disabled]#field_31,
+                select[disabled]#field_33,
+                select[disabled]#field_34,
+                select[disabled]#field_35,
+                select[disabled]#field_37,
+                select[disabled]#field_38,
+                select[disabled]#field_39
+                {
+                    display: none !important;
+                }
+                &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
+                &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
                     display: none;
                 }
+                &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
+                    margin-top: 5px;
+                }
 
-                &#gfield_9,
-                &#gfield_10,
-                &#gfield_16,
-                &#gfield_17,
-                &#gfield_26,
-                &#gfield_27,
-                &#gfield_30,
-                &#gfield_31,
-                &#gfield_34,
-                &#gfield_35,
-                &#gfield_38,
-                &#gfield_39 {
+                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 
+                &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39
+                {
                     label {
                         display: none;
                     }
@@ -879,7 +882,7 @@
 
                 @include media-breakpoint-up(lg) {
                     width: calc(50% - 18px);
-                    margin-bottom: 30px;
+                    //margin-bottom: 30px;
 
                     &#gfield_1,
                     &#gfield_5_5 {
@@ -896,7 +899,7 @@
                     &#gfield_32,
                     &#gfield_36 {
                         width: 100%;
-                        margin-top: 20px;
+                        //margin-top: 20px;
                     }
 
                     &#gfield_6 {
@@ -951,7 +954,7 @@
                     &#gfield_35,
                     &#gfield_38,
                     &#gfield_39 {
-                        margin-top: 34px;
+                        margin-top: 5px;
                     }
                 }
             }
