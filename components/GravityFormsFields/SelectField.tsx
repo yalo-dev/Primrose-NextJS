@@ -34,12 +34,23 @@ export default function SelectField({ field, fieldErrors }: Props) {
   const value = fieldValue?.value || String(defaultValue);
   const options = choices?.map(choice => ({ value: choice?.value, label: choice?.text })) || [];
   const selectedValue = fieldValue?.value || '';
+  let setDisabled = false;
+  
+  if(field?.databaseId === 8 || field?.databaseId === 9 || field?.databaseId === 10 || 
+    field?.databaseId === 15 || field?.databaseId === 16 || field?.databaseId === 17 ||
+    field?.databaseId === 25 || field?.databaseId === 26 || field?.databaseId === 27 ||
+    field?.databaseId === 29 || field?.databaseId === 30 || field?.databaseId === 31 ||
+    field?.databaseId === 33 || field?.databaseId === 34 || field?.databaseId === 35 ||
+    field?.databaseId === 37 || field?.databaseId === 38 || field?.databaseId === 39 ) {
+    setDisabled = true;
+  }
 
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <div className="custom-select">
         <select
+          disabled={setDisabled}
           name={String(id)}
           id={htmlId}
           required={Boolean(isRequired)}

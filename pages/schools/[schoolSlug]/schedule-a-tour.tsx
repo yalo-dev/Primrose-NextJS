@@ -2,8 +2,6 @@ import { gql } from '@apollo/client';
 import { client } from '../../../app/lib/apollo';
 import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from './schedule-a-tour-form';
-import { useEffect, useState } from 'react';
-
 
 interface Props {
     form: GfForm;
@@ -68,95 +66,7 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolSlugInput, form }) { 
-    console.log("School ID:", schoolSlugInput);
-    const fieldsToShowMapping = {
-        "1": ["#gfield_7", "#gfield_8", "#gfield_9", "#gfield_10"],
-        "2": ["#gfield_15", "#gfield_16", "#gfield_17"],
-        "3": ["#gfield_25", "#gfield_26", "#gfield_27"],
-        "4": ["#gfield_29", "#gfield_30", "#gfield_31"],
-        "5": ["#gfield_33", "#gfield_34", "#gfield_35"],
-        "6": ["#gfield_37", "#gfield_38", "#gfield_39"],
-    };
-    
-    function onFormLoaded() {
-        handleDropdownChange();
-    }
-
-    useEffect(() => {
-        const hiddenField = document.getElementById('field_11'); 
-        
-        if (hiddenField) {
-            hiddenField.addEventListener('load', handleHiddenFields);
-        }
-    }, []);
-
-    useEffect(() => {
-        const selectField = document.getElementById('field_6');
-        if (selectField) {
-            selectField.addEventListener('change', handleDropdownChange);
-        }
-
-        return () => {
-            if (selectField) {
-                selectField.removeEventListener('change', handleDropdownChange);
-            }
-        };
-    }, []);
-
-    function hideAllFields() {
-        // List all field IDs
-        const allFieldIds = ["gfield_7", "gfield_8", "gfield_9", "gfield_10", 
-                             "gfield_15", "gfield_16", "gfield_17", 
-                             "gfield_25", "gfield_26", "gfield_27", 
-                             "gfield_29", "gfield_30", "gfield_31", 
-                             "gfield_33", "gfield_34", "gfield_35", 
-                             "gfield_37", "gfield_38", "gfield_39"];
-        allFieldIds.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (field) {
-                field.style.display = '';
-            }
-        });
-    }
-
-    const [SchoolID, setSchoolID] = useState(schoolSlugInput);
-    function handleHiddenFields() {
-         //e.preventDefault();
-        //formFields?.nodes.find(field => field?.type === 'TEXT' && field?.databaseId === 11);
-        const addSchoolID = document.getElementById('field_11') as HTMLInputElement; 
-    
-        SchoolID && (addSchoolID.value = SchoolID);
-
-        console.log("School ID Value:", addSchoolID['value'] ) ;        
-        
-    }
-    function handleDropdownChange() {
-        const selectElement = document.getElementById('field_6') as HTMLSelectElement;
-        if (!selectElement) {
-            console.error('Select element not found');
-            return;
-        }
-        const selectedValue = selectElement.value;
-        console.log("Selected value:", selectedValue); 
-    
-        hideAllFields();
-    
-        Object.keys(fieldsToShowMapping).forEach(key => {
-            if (parseInt(selectedValue) >= parseInt(key)) {
-                fieldsToShowMapping[key].forEach(fieldId => {
-                    const fieldElement = document.getElementById(fieldId);
-                    if (fieldElement) {
-                        console.log("Showing field:", fieldId); 
-                        fieldElement.style.display = 'block';
-                    } else {
-                        console.error(`Field element not found: ${fieldId}`);
-                    }
-                });
-            }
-        });
-    }
-    
+export default function ScheduleATourPage({ corporate, socialLinks, schoolHours }) { 
 
     const addressDetails = corporate && corporate.address ? (
         <>
@@ -175,7 +85,7 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
                 <div className="row">
                     <div className="main-wrapper col-12 col-lg-8">
                         <div className="form-wrapper">
-                            <ScheduleATourForm onFormLoaded={onFormLoaded} schoolSlug={schoolSlugInput} handleHiddenFields={handleHiddenFields}/>
+                            <ScheduleATourForm  />
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">
