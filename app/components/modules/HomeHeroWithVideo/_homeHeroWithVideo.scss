@@ -28,9 +28,9 @@
             h5 {
                 margin-bottom: 1rem;
                 color: $primary-green;
-                @include media-breakpoint-up(xl) {
-                    margin-bottom: 4rem;
-                }
+                // @include media-breakpoint-up(xl) {
+                //     margin-bottom: 4rem;
+                // }
             }
         }
         

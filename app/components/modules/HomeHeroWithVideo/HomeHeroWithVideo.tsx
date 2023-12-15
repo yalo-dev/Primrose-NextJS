@@ -306,7 +306,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                                 </a>
                                             </div>
                                         </div>
-
+                                        <a className='green underline pt-4 d-block' href='/find-a-school'>View all locations nearest you</a>
                                     </>
                                 )}
                             </div>
