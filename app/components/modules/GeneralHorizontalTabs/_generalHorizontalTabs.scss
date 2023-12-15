@@ -161,6 +161,9 @@
             transition: opacity 0.3s ease-in-out;
             pointer-events: none;
             @include transition;
+            @include media-breakpoint-up(lg) {
+                max-width: 25rem;
+            }
             P {
                 @extend .b3;
             }
@@ -194,7 +197,7 @@
                 color: $grayscale-1;
                 background-color: $brand-blue;
                 border: 1rem;
-                padding: 1rem;
+                padding: 1rem 2.5rem 1rem 1rem;
                 width: 100%;
                 border-top-left-radius: 25px;
                 border-top-right-radius: 25px;
