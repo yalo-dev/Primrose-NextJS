@@ -278,18 +278,9 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                             <div className='col right-col col-12 col-lg-6'>
                                 <div className='d-lg-flex'>
                                     <div className='info-wrapper'>
-                                        <div className='hours'><h5 className='green'>Hours & Location</h5><span className='b3'>{schoolHoursFormatted}</span></div>
-                                        <div className='phone'><span className='b3'><a href={`tel:${corporate.phoneNumber}`}>{corporate.phoneNumber}</a></span></div>
-                                        <div className='address'>
-                                            <span className='icon me-2'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
-                                                    <path fillRule="evenodd" clipRule="evenodd" d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z" stroke="#555F68" strokeWidth="1.5" />
-                                                </svg>
-                                            </span>
-                                            <span className='b3'>{corporate.address.streetAddress} {corporate.address.streetAddress2}, {corporate.address.city}, {corporate.address.state} {corporate.address.zipcode}</span>
-                                        </div>
+                                        <h5 className='green'>The Leader in Early Education and Care®️</h5>
                                         <div className='classrooms'>
-                                            <h5 className='mt-4 green'>Age Groups Served</h5>
+                                            <h5 className='mt-4 green'>Children Served</h5>
                                             <ul>
                                                 {classroomsData
                                                     .filter(classroom => classroom !== "Summer Adventure Club" && classroom !== "Before & After Care")
@@ -308,6 +299,17 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                                 }
                                             </ul>
                                         </div>
+                                        <div className='hours'><h5 className='green'>Hours & Location</h5><span className='b3'>{schoolHoursFormatted}</span></div>
+                                        <div className='phone'><span className='b3'><a href={`tel:${corporate.phoneNumber}`}>{corporate.phoneNumber}</a></span></div>
+                                        <div className='address'>
+                                            <span className='icon me-2'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z" stroke="#555F68" strokeWidth="1.5" />
+                                                </svg>
+                                            </span>
+                                            <span className='b3'>{corporate.address.streetAddress} {corporate.address.streetAddress2}, {corporate.address.city}, {corporate.address.state} {corporate.address.zipcode}</span>
+                                        </div>
+                                        
                                     </div>
                                     {accreditations && (
                                         <div className='accreditations'>
@@ -322,7 +324,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                         </div>
                                     )}
                                 </div>
-                                <div className='social-links d-flex justify-content-center align-center border-top border-bottom mt-3 mb-3 pt-2 pb-2'>
+                                <div className='social-links d-flex justify-content-center align-center border-top border-bottom mt-3 mb-3 mb-lg-0 pt-2 pb-2'>
                                     {facebook && (
                                         <a href={facebook.url} target={facebook.target} title={facebook.title} rel="noopener noreferrer">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
