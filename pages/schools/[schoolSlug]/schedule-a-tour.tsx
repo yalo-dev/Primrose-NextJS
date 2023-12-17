@@ -17,7 +17,6 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            details {
               general {
                 instagram {
                   url
@@ -27,6 +26,8 @@ export async function getServerSideProps(context) {
                 }
                 schoolHours
               }
+          }
+          schoolCorporate{
               corporate {
                 emailAddress
                 phoneNumber
@@ -39,7 +40,6 @@ export async function getServerSideProps(context) {
                   zipcode
                 }
               }
-            }
           }
         }
       }
@@ -50,12 +50,12 @@ export async function getServerSideProps(context) {
     });
 
     const schoolData = response?.data?.school;
-    const schoolSettings = schoolData?.schoolSettings?.details;
+    const schoolSettings = schoolData?.schoolSettings;
 
     return {
         props: {
             schoolSlugInput: schoolData?.slug,
-            corporate: schoolSettings?.corporate,
+            corporate: schoolCorporate?.corporate,
             socialLinks: {
                 facebook: schoolSettings?.general?.facebook?.url,
                 instagram: schoolSettings?.general?.instagram?.url

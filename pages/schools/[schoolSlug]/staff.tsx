@@ -29,7 +29,6 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            details {
               general {
                 scheduleATour {
                   heading
@@ -47,7 +46,7 @@ export async function getServerSideProps(context) {
                   }
                 }
               }
-            }
+            
             staff {
               staffMembers {
                 altText
@@ -70,12 +69,12 @@ export async function getServerSideProps(context) {
                   image {
                     sourceUrl
                   }
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
+    }
     `;
 
   const response = await client.query({
@@ -84,7 +83,7 @@ export async function getServerSideProps(context) {
   });
 
   const staff = response?.data?.school?.schoolSettings?.staff;
-  const ScheduleATour = response?.data?.school?.schoolSettings?.details?.general?.scheduleATour;
+  const ScheduleATour = response?.data?.school?.schoolSettings?.general?.scheduleATour;
 
   return {
     props: {

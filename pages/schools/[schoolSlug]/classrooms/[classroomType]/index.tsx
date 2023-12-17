@@ -23,7 +23,6 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            details {
               general {
                 scheduleATour {
                   heading
@@ -41,16 +40,7 @@ export async function getServerSideProps(context) {
                   }
                 }
               }
-              corporate {
-                classroomExperienceTabs {
-                  infant {
-                    aDayInTheLife
-                    fieldGroupName
-                    nutrition
-                  }
-                }
-              }
-            }
+            
             classrooms {
               classroomSelection {
                 classroomDetails {
@@ -154,6 +144,13 @@ export async function getServerSideProps(context) {
                 }
                 selectClassrooms
               }
+              classroomExperienceTabs {
+                  infant {
+                    aDayInTheLife
+                    fieldGroupName
+                    nutrition
+                  }
+                }
             }
             staff {
               staffMembers {
@@ -234,7 +231,7 @@ export default function ClassroomTypePage({ school }) {
     }, []);
 
     const experienceTabsData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.experienceTabs || {};
-    const classroomExperienceData = school?.schoolSettings?.details?.corporate?.classroomExperienceTabs?.infant || {};
+    const classroomExperienceData = school?.schoolSettings?.classroomExperienceTabs?.infant || {};
     const tabHeading = experienceTabsData?.heading || 'Our Classroom Experience';
     const tabSubheading = experienceTabsData?.subheading || '';
     const galleryData = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.experienceTabs?.classroomGallery || [];
@@ -473,7 +470,7 @@ export default function ClassroomTypePage({ school }) {
   }
 
   const findASchool = () => {
-    const ScheduleATour = school?.schoolSettings?.details?.general?.scheduleATour || {};
+    const ScheduleATour = school?.schoolSettings?.general?.scheduleATour || {};
     const hasScheduleATour = !!ScheduleATour.heading || !!ScheduleATour.subheading || !!ScheduleATour.button || (ScheduleATour.images && ScheduleATour.images.length > 0);
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);

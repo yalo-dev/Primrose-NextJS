@@ -9,13 +9,10 @@ export async function getServerSideProps() {
         schools {
           nodes {
             uri
-            schoolSettings {
-                details {
-                    corporate {
-                        schoolName
-                      }
+            schoolCorporate{
+                corporate{
+                    schoolName
                 }
-              
             }
           }
         }
@@ -43,7 +40,7 @@ export default function Schools({ schools }) {
                     <div className=''>
                         {
                             schools.map((school, index) => {
-                                const schoolName = school.schoolSettings?.details?.corporate?.schoolName;
+                                const schoolName = school.schoolCorporate?.corporate?.schoolName;
                                 return (
                                     <div className='card p-2' key={school.uri}>
                                          <a href={`${school.uri}`}>

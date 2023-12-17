@@ -12,12 +12,12 @@ const GET_SCHOOL_DETAILS = gql`
       id
       slug
       uri
-      schoolSettings {
-        details {
-          corporate {
+      schoolCorporate{
+        corporate{
             schoolName
-          }
         }
+      }
+      schoolSettings {
         classrooms {
           classroomSelection {
             selectClassrooms
@@ -40,7 +40,7 @@ export default function SchoolsMenu() {
     skip: !schoolSlug, 
   });
 
-  const schoolName = data?.school?.schoolSettings?.details?.corporate?.schoolName;
+  const schoolName = data?.school?.schoolCorporate?.corporate?.schoolName;
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);

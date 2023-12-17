@@ -18,7 +18,6 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            details {
                 general {
                   instagram {
                     url
@@ -54,7 +53,7 @@ export async function getServerSideProps(context) {
                   }
                 }
               }
-            }
+            
           }
         }
       }

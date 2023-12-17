@@ -24,9 +24,8 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
-          schoolSettings {
-            details {
-              corporate {
+          schoolCorporate{
+            corporate {
                 schoolName
                 address {
                   streetAddress
@@ -41,6 +40,8 @@ export async function getServerSideProps(context) {
                 longitude
                 schoolOpening
               }
+          }
+          schoolSettings {
               general {
                 facebook {
                   target
@@ -67,7 +68,6 @@ export async function getServerSideProps(context) {
                       sourceUrl
                     }
                   }
-                }
               }
             }
             classrooms {
@@ -233,12 +233,12 @@ export default function SchoolMainPage({ school, schoolSlug }) {
 
     const renderHeroWithSlider = () => {
         const { heroWithSlider } = schoolSettings.homepage;
-        const { corporate, general } = schoolSettings.details;
+        const { corporate, general } = schoolSettings;
         const { accreditations } = schoolSettings.homepage.heroWithSlider.rightColumn;
-        const { classrooms } = schoolSettings.details;
+        const { classrooms } = schoolSettings;
         const classroomsData = schoolSettings?.classrooms?.classroomSelection?.selectClassrooms;
         let schoolHoursFormatted = general.schoolHours;
-        const { facebook, instagram } = schoolSettings.details.general;
+        const { facebook, instagram } = schoolSettings.general;
 
         if (!classroomsData) {
             console.log("Classrooms data is not available.");
@@ -348,7 +348,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         );
     };
     const findASchool = () => {
-        const ScheduleATour = school?.schoolSettings?.details?.general?.scheduleATour || {};
+        const ScheduleATour = school?.schoolSettings?.general?.scheduleATour || {};
         const hasScheduleATour = !!ScheduleATour.heading || !!ScheduleATour.subheading || !!ScheduleATour.button || (ScheduleATour.images && ScheduleATour.images.length > 0);
         const leftScrollerRef = useRef<HTMLDivElement>(null);
         const rightScrollerRef = useRef<HTMLDivElement>(null);
