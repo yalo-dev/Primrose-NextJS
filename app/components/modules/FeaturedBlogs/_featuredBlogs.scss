@@ -1,0 +1,40 @@
+.featured-blogs {
+    .heading-wrapper {
+        max-width: 30rem;
+    }
+    .cards {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+        }
+        .card.featured {
+            margin: 1rem 0;
+            &:hover {
+                .inner {
+                    .image-wrapper {
+                     
+                            .image {
+                                background-size: 105% auto;
+                            }
+                        
+                    }
+                }
+            }
+            .inner {
+               
+                .content-wrapper {
+                    padding: 2rem 1rem!important;
+                }
+            }
+            @include media-breakpoint-up(lg) {
+                flex-basis: calc(33% - 1rem);
+                margin-right: 1rem;
+                &:last-child {
+                    margin-right: 0;
+                }
+                .category {
+                    margin-top: 1.5rem;
+                }
+            }
+        }
+    }
+}

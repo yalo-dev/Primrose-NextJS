@@ -1,29 +1,8 @@
 .testimonials-with-video-or-image {
+    @include media-breakpoint-up(lg) {
+        display: flex;
+    }
     .header-wrap {
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            .heading {
-                flex-basis: 30%;
-            }
-            .subheading-btn {
-                flex-basis: 50%;
-            }
-        } 
-        @include media-breakpoint-up(lg) {
-            .subheading-btn {
-                margin-right: 5rem;
-                flex-basis: 30%;
-            }
-        } 
-        @include media-breakpoint-up(xxl) {
-            .subheading-btn {
-                margin-right: 10rem;
-                margin-left: 4rem;
-            }
-            margin-left: 4rem;
-        } 
         h2 {
             margin-bottom: 18px;
         }
@@ -35,13 +14,24 @@
             margin-bottom: 60px;
             width: auto;
         }
+        @include media-breakpoint-up(lg) {
+            max-width: 420px;
+        }
+        @include media-breakpoint-up(xxl) {
+            margin-right: 140px;
+        }
+    }
+    .slider-wrap {
+        @include media-breakpoint-up(lg) {
+            max-width: 588px;
+            width: 100%;
+        }
     }
     .slider-item {
         padding-bottom: 3rem;
         @include media-breakpoint-up(lg) {
             padding-bottom: 0;
-            display: flex!important;
-            justify-content: space-between;
+           
             .video-wrap, .image-wrap {
                 flex-basis: 42%;
             }
@@ -49,14 +39,6 @@
                 flex-basis: 34%;
                 margin-right: 5rem;
             }
-        }
-        @include media-breakpoint-up(xxl) {
-            display: flex!important;
-            justify-content: space-between;
-            .video-wrap, .image-wrap {
-                margin-left: 4rem;
-            }
-           
         }
         .video-wrap {
             .responsive-video {
@@ -69,7 +51,6 @@
             }
         }
         .image-wrap {
-            //pointer-events: none;
             img {
                 border-radius: 1rem;
                 width: 100%;
@@ -78,14 +59,8 @@
                 object-fit: cover;
                 object-position: center;
                 @include media-breakpoint-up(lg) {
-                    height: 219px;
-                }
-                @include media-breakpoint-up(xl) {
-                    height: 261px;
-                }
-                @include media-breakpoint-up(xxl) {
+                    height: 329px;
                     width: 588px;
-                    height: 330px;
                 }
             }
         }
@@ -94,30 +69,19 @@
         padding-top: 4rem;
         position: relative;
         @include media-breakpoint-up(lg) {
-            padding-left: 2rem;
-        }
-        @include media-breakpoint-up(xxl) {
-            padding-left: 0
+            padding-top: 7rem;
         }
         .b4 {
             color: $text-gray;
         }
         .sign {
             text-align: left;
-            margin-left: 10rem;
             margin-top: 1rem;
-            @include media-breakpoint-up(lg) {
-                margin-left: 2rem;
-            }
-            @include media-breakpoint-up(xxl) {
-                margin-left: 50%;
-            }
             .name {
-                font-weight: 900!important;
+                font-weight: 900 !important;
                 color: $text-gray;
             }
         }
-       
         &::before {
             position: absolute;
             top: 1rem;
@@ -133,14 +97,14 @@
             @include media-breakpoint-up(lg) {
                 width: 75px;
                 height: 56px;
-                top: 0;
+                top: 2rem;
             }
-            @include media-breakpoint-up(lg) {
-               left: 2rem;
-            }
-            @include media-breakpoint-up(xxl) {
-               left: 0
-            }
+            // @include media-breakpoint-up(lg) {
+            //    left: 2rem;
+            // }
+            // @include media-breakpoint-up(xxl) {
+            //    left: 0
+            // }
         }
     }
     .slick-dots {
@@ -155,16 +119,19 @@
         position: relative;
         margin: auto;
         @include media-breakpoint-up(lg) {
-            bottom: 10rem;
-            right: 30%;
+            right: 0rem;
+            bottom: -3rem;
+            margin: unset;
+            left: 0;
+            position: absolute;
         }
-        @include media-breakpoint-up(xl) {
-            bottom: 6rem;
-        }
-        @include media-breakpoint-up(xxl) {
-            right: 25%;
-            bottom: 0;
-        }
+        // @include media-breakpoint-up(xl) {
+        //     bottom: 6rem;
+        // }
+        // @include media-breakpoint-up(xxl) {
+        //     right: 25%;
+        //     bottom: 0;
+        // }
        
         li {
             margin: 0;

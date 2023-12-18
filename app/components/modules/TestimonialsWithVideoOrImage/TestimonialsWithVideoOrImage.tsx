@@ -77,15 +77,14 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                 >
                 <div className="testimonials-with-video-or-image">
                 <div className="header-wrap">
-                    <div className="heading">
+                 
                         {heading && <Heading level='h2' color={headingColor}>{heading}</Heading>}
-                    </div>
-                    <div className="subheading-btn">
+                   
                     {subheading && <Subheading level='div' className='b3' color={subheadingColor}>{subheading}</Subheading>}
                     {button?.url && button.title &&
                         <Button variant={buttonStyle || 'primary'} href={button.url} target={button.target || '_self'} label={button.title} />
                     }
-                    </div>
+                
                 </div>
                 <div className="slider-wrap">
                     <Slider {...sliderSettings}>

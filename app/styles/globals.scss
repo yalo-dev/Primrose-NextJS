@@ -16,10 +16,12 @@
 @import '../components/organisms/ResourcesMenu/reseourcesMenu';
 @import '../components/organisms/SchoolsMenu/schoolsMenu';
 
-
+@import '../components/modules/BlockAndSlider/blockAndSlider';
 @import '../components/modules/ClassroomSelectAndImage/classroomSelectAndImage';
 @import '../components/modules/ClassroomSelectAndContent/classroomSelectAndContent';
+@import '../components/modules/DynamicColumns/dynamicColumns';
 @import '../components/modules/DynamicForm/dynamicForm';
+@import '../components/modules/FeaturedBlogs/featuredBlogs';
 @import '../components/modules/FeaturedSection/featuredSection';
 @import '../components/modules/FindASchool/findASchool';
 @import '../components/modules/FourAcrossSlider/fourAcrossSlider';
@@ -40,6 +42,7 @@
 @import '../components/modules/SeasonalBanner/seasonalbanner';
 @import '../components/modules/StandardAccordionList/standardAccordionList';
 @import '../components/modules/TestimonialsWithVideoOrImage/testimonialsWithVideoOrImage';
+@import '../components/modules/TwoColumnsFeaturedBlock/twoColumnsFeaturedBlock';
 @import '../components/modules/TwoColumnsFeaturedImage/twoColumnsFeaturedImage';
 @import '../components/modules/TwoColumnsGreenBackground/twoColumnsGreenBackground';
 @import '../components/modules/TwoColumnsImageAndText/twoColumnsImageAndText';

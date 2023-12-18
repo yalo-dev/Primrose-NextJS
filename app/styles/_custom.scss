@@ -38,9 +38,19 @@
 .blue {
     color: $brand-blue !important;
 }
+
+.white {
+    color: $white !important;
+}
+
 .underline {
     text-decoration: underline !important;
 }
+
+.bold {
+    font-weight: 900 !important;
+}
+
 .main--container {
     margin-top: 100px;
     overflow: hidden;

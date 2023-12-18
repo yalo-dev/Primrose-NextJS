@@ -207,7 +207,7 @@
                 width: 430px;
                 height: 430px;
                 object-fit: cover;
-                object-position: 700%;
+                object-position: center;
                 position: absolute;
                 bottom: -10rem;
                 right: -9rem;
@@ -226,7 +226,8 @@
     
                 @include media-breakpoint-up(xxl) {
                     right: -7rem;
-                    bottom: -11rem;
+                    bottom: -10rem;
+                    object-fit: contain;
 
                 }
             }

@@ -9,6 +9,29 @@ query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {
 	  modules {
 		modules {
+			... on Page_Modules_Modules_BlockAndSlider {
+				blurb
+				heading
+				image {
+				  altText
+				  sourceUrl
+				}
+				customizations {
+				  bottomMarginDesktop
+				  bottomMarginMobile
+				  topMarginDesktop
+				  topMarginMobile
+				}
+				slider {
+				  blurb
+				  fieldGroupName
+				  title
+				  icon {
+					altText
+					sourceUrl
+				  }
+				}
+			  }
 		  ... on Page_Modules_Modules_ClassroomSelectAndContent {
 			accents {
 			  accentOne {
@@ -92,6 +115,59 @@ query GetModules($id: ID = "") {
 			  backgroundColorRight
 			}
 		  }
+		  ... on Page_Modules_Modules_DynamicColumns {
+			heading
+			headingColor
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+			columns {
+			  image {
+			  	altText
+			  	sourceUrl
+			    }
+			  title
+			  blurb
+			  button {
+			    target
+			    title
+			    url
+			  }
+			  columnWidth
+			  components {
+				... on Page_Modules_Modules_DynamicColumns_columns_Components_Button {
+				  buttonStyle
+				  button {
+					target
+					title
+					url
+				  }
+				}
+				... on Page_Modules_Modules_DynamicColumns_columns_Components_Heading {
+				  heading
+				  headingColor
+				  headingSize
+				}
+				... on Page_Modules_Modules_DynamicColumns_columns_Components_Image {
+				  image {
+					altText
+					sourceUrl
+				  }
+				}
+				... on Page_Modules_Modules_DynamicColumns_columns_Components_BodyCopy {
+				  bodyCopy
+				  bodyCopyColor
+				  bodyCopySize
+				}
+				... on Page_Modules_Modules_DynamicColumns_columns_Components_WysiwygEditor {
+				  wysiwyg
+				}
+			  }
+			}
+		  }
 		  ... on Page_Modules_Modules_DynamicForm {
 			headings {
 			  heading
@@ -122,6 +198,49 @@ query GetModules($id: ID = "") {
 			subheadingColor
 			subheadingSize
 			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+		  }
+		  ... on Page_Modules_Modules_FeaturedBlogs {
+			heading
+			headingColor
+			blogs {
+			  ... on Resource {
+				id
+				title
+				uri
+				slug
+				featuredImage {
+				  node {
+					altText
+					sourceUrl
+				  }
+				}
+				excerpt
+				date
+				resourceTags {
+				  nodes {
+					slug
+					link
+					uri
+					name
+				  }
+				}
+				resourceTypes {
+				  nodes {
+					slug
+					uri
+					name
+					link
+				  }
+				}
+			  }
+			}
+			customizations {
+			  backgroundColor
 			  bottomPaddingDesktop
 			  bottomPaddingMobile
 			  topPaddingDesktop
@@ -629,6 +748,38 @@ query GetModules($id: ID = "") {
 			  }
 			}
 		  }
+		  ... on Page_Modules_Modules_TwoColumnsFeaturedBlock {
+			leftColumn {
+			  imageDesktop {
+				sourceUrl
+				altText
+			  }
+			  imageMobile {
+				sourceUrl
+				altText
+			  }
+			}
+			rightColumn {
+			  heading
+			  headingColor
+			  subheading
+			  subheadingColor
+			  blurb
+			  blurbColor
+			  icon {
+				sourceUrl
+				altText
+			  }
+			}
+			switchColumnOrderOnDesktop
+			centerModule
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			}
+		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
 			leftColumn {
 			  heading
@@ -801,6 +952,17 @@ query GetModules($id: ID = "") {
 		}
 	  }
 	}
+	resourcesSettings {
+		resourceSettings {
+		  featuredResources {
+			... on Resource {
+			  id
+			  slug
+			  uri
+			}
+		  }
+		}
+	  }
   }
 `;
 
@@ -825,6 +987,7 @@ const DynamicPage = () => {
 	if (error) return <p>Error: {error.message}</p>;
   
 	const modules = data?.page?.modules?.modules || [];
+
 	return <CommonPageComponent modules={modules} />;
   };
   

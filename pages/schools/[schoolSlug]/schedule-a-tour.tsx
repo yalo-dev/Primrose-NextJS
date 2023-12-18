@@ -11,33 +11,31 @@ export async function getServerSideProps(context) {
     const { schoolSlug } = context.params;
 
     const GET_THANKS_FIELDS = gql`
-        query SchoolData($id: ID!) {
-            school(id: $id, idType: URI) {
+    query SchoolData($id: ID!) {
+        school(id: $id, idType: URI) {
           id
           slug
           uri
           schoolSettings {
-            details {
-              general {
-                instagram {
-                  url
-                }
-                facebook {
-                  url
-                }
-                schoolHours
+            general {
+              instagram {
+                url
               }
-              corporate {
-                emailAddress
-                phoneNumber
-                schoolName
-                address {
-                  streetAddress
-                  streetAddress2
-                  city
-                  state
-                  zipcode
-                }
+              facebook {
+                url
+              }
+              schoolHours
+            }
+            corporate {
+              emailAddress
+              phoneNumber
+              schoolName
+              address {
+                streetAddress
+                streetAddress2
+                city
+                state
+                zipcode
               }
             }
           }
@@ -50,7 +48,7 @@ export async function getServerSideProps(context) {
     });
 
     const schoolData = response?.data?.school;
-    const schoolSettings = schoolData?.schoolSettings?.details;
+    const schoolSettings = schoolData?.schoolSettings;
 
     return {
         props: {

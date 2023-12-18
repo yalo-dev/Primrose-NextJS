@@ -1,0 +1,54 @@
+.dynamic-columns {
+    .columns {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        flex-direction: column;
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+        }
+        .column {
+            flex-basis: 100%;
+            margin: 1rem auto 3rem;
+            @include media-breakpoint-up(md) {
+                flex-basis: 50%;
+                margin: 0;
+                margin-bottom: 2rem;
+                &:nth-child(even) {
+                    padding-left: 1rem;
+                }
+                &:nth-child(odd) {
+                    padding-right: 1rem;
+                }
+            }
+            @include media-breakpoint-up(lg) {
+                flex-basis: 25%;
+                margin-bottom: 0;
+                &:nth-child(even) {
+                    padding-left: 0;
+                    padding-right: 1rem;
+                }
+                &:nth-child(odd) {
+                    padding-left: 0;
+                    padding-right: 1rem;
+                }
+                &:last-child {
+                    padding-right: 0;
+                }
+            }
+            img {
+                min-width: 343px;
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
+                @include media-breakpoint-up(md) {
+                    min-width: unset;
+                }
+            }
+            button {
+                width: auto;
+            }
+        }
+    }
+
+}

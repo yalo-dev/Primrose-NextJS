@@ -1,6 +1,9 @@
+import BlockAndSlider from '../../modules/BlockAndSlider/BlockAndSlider';
 import ClassroomSelectAndContent from '../../modules/ClassroomSelectAndContent/ClassroomSelectAndContent';
 import ClassroomSelectAndImage from '../../modules/ClassroomSelectAndImage/ClassroomSelectAndImage';
+import DynamicColumns from '../../modules/DynamicColumns/DynamicColumns';
 import DynamicForm from '../../modules/DynamicForm/DynamicForm';
+import FeaturedBlogs from '../../modules/FeaturedBlogs/FeaturedBlogs';
 import FeaturedSection from '../../modules/FeaturedSection/FeaturedSection';
 import FindASchool from '../../modules/FindASchool/FindASchool';
 import FourAcrossSlider from '../../modules/FourAcrossSlider/FourAcrossSlider';
@@ -19,6 +22,7 @@ import QuoteTestimonials from '../../modules/QuoteTestimonials/QuoteTestimonials
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
 import StandardAccordionList from '../../modules/StandardAccordionList/StandardAccordionList';
 import TestimonialsWithVideoOrImage from '../../modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
+import TwoColumnsFeaturedBlock from '../../modules/TwoColumnsFeaturedBlock/TwoColumnsFeaturedBlock';
 import TwoColumnsFeaturedImage from '../../modules/TwoColumnsFeaturedImage/TwoColumnsFeaturedImage';
 import TwoColumnsGreenBackground from '../../modules/TwoColumnsGreenBackground/TwoColumnsGreenBackground';
 import TwoColumnsImageAndTextAlternative from '../../modules/TwoColumnsImageAndTextAlternative/TwoColumnsImageAndTextAlternative';
@@ -35,11 +39,17 @@ export const CommonPageComponent = ({ modules }) => {
             let ModuleComponent;
 
             switch (module.__typename) {
+                case 'Page_Modules_Modules_BlockAndSlider':
+                    ModuleComponent = BlockAndSlider;
+                    break;
                 case 'Page_Modules_Modules_ClassroomSelectAndImage':
                     ModuleComponent = ClassroomSelectAndImage;
                     break;
                 case 'Page_Modules_Modules_ClassroomSelectAndContent':
                     ModuleComponent = ClassroomSelectAndContent;
+                    break;
+                case 'Page_Modules_Modules_DynamicColumns':
+                    ModuleComponent = DynamicColumns;
                     break;
                 case 'Page_Modules_Modules_DynamicForm':
                     ModuleComponent = DynamicForm;
@@ -47,6 +57,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_EyebrowHeadingSubheading':
                     ModuleComponent = EyebrowHeadingSubheading;
                     break;
+                case 'Page_Modules_Modules_FeaturedBlogs':
+                    ModuleComponent = FeaturedBlogs;
+                break;
                 case 'Page_Modules_Modules_FeaturedSection':
                     ModuleComponent = FeaturedSection;
                 break;
@@ -98,6 +111,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_TestimonialsWithVideoOrImage':
                     ModuleComponent = TestimonialsWithVideoOrImage;
                     break;
+                case 'Page_Modules_Modules_TwoColumnsFeaturedBlock':
+                    ModuleComponent = TwoColumnsFeaturedBlock;
+                    break;
                 case 'Page_Modules_Modules_TwoColumnsFeaturedImage':
                     ModuleComponent = TwoColumnsFeaturedImage;
                     break;
@@ -118,8 +134,7 @@ export const CommonPageComponent = ({ modules }) => {
             }
             return (
                 <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`}>
-                {/* {console.log("Current module: ", module)} */}
-
+                    {console.log("Current module: ", module)}
                     {ModuleComponent && <ModuleComponent {...module} />}
                 </section>
             );

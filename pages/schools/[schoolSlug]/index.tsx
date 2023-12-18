@@ -9,7 +9,7 @@ import Heading from '../../../app/components/atoms/Heading/Heading';
 import Subheading from '../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../app/components/atoms/Button/Button';
 import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
-import NewsSlider from '../../../app/components/modules/FeaturedBlogs/NewsSlider';
+import NewsSlider from '../../../app/components/modules/NewsSlider/NewsSlider';
 import QuoteTestimonials from '../../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
 

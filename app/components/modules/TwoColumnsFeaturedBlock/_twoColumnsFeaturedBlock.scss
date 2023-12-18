@@ -1,0 +1,93 @@
+.two-columns-featured-block {
+    display: flex;
+    flex-direction: column;
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: stretch;
+        &.reverse-column {
+            flex-direction: row-reverse;
+        }
+    }
+    .right-column {
+        background-color: $grayscale-3;
+        border-radius: 30px;
+        padding: 20px;
+        @include media-breakpoint-up(lg) {
+            width: 620px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 60px;
+            margin-left: 20px;
+        }
+        h2 {
+            margin-bottom: 1rem;
+        }
+        h5 {
+            margin-bottom: 1rem;
+            color: $text-gray;
+        }
+        .blurb { 
+            p {
+                @extend .b3;
+            }
+        }
+        .icon {
+            img {
+                @include media-breakpoint-up(lg) {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+        }
+    }
+    .left-column {
+        margin-bottom: 20px;
+        position: relative;
+        @include media-breakpoint-up(lg) {
+            margin-bottom: 0;
+            max-width: 536px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            @include media-breakpoint-up(xl) {
+                max-width: 536px;
+            }
+        }
+    }
+    &.reverse-column {
+        .left-column {
+           
+            @include media-breakpoint-up(lg) {
+                //margin-bottom: 30px;
+                margin-right: 0;
+                margin-left: auto;
+            }
+            img {
+         
+                @include media-breakpoint-up(xl) {
+
+                    margin-right: 0;
+                    margin-left: auto;
+                }
+            }
+        }
+        .right-column {
+            @include media-breakpoint-up(lg) {
+                margin-left: 0;
+                margin-right: 20px;
+            }
+        }
+    }
+    &.center {
+        @include media-breakpoint-up(lg) {
+            justify-content: center;
+            .left-column {
+                margin-left: 0;
+            }
+        }
+    }
+}
