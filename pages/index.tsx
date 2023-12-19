@@ -908,6 +908,13 @@ query GetModules($id: ID = "") {
 				midLineColor
 				topLineColor
 			  }
+			  imageOrVideo
+			  video {
+				target
+				title
+				url
+			  }
+			  showAnnouncementTile
 			}
 			rightColumn {
 			  heading

@@ -2,7 +2,7 @@
     background-color: $primary-green;
     color: $white;
     .container {
-        padding: 60px 0;
+        padding: 60px 1rem;
         @include media-breakpoint-up(lg) {
             padding: 120px;
         }
@@ -18,6 +18,7 @@
             }
             &:nth-child(2) {
                 order: 1;
+                width: 100%;
             }
             @include media-breakpoint-up(lg) {
                 &:first-child {
@@ -26,6 +27,11 @@
                 }
                 &:nth-child(2) {
                     order: 2;
+                }
+            }
+            @include media-breakpoint-up(xxl) {
+                &:nth-child(2) {
+                    margin-right: 3rem;
                 }
             }
         }
@@ -38,20 +44,21 @@
     }
     .slider {
         margin-top: 2rem;
-       
+        .slick-slide {
+            @include media-breakpoint-up(md) {
+                padding: 0.5rem;
+            }
+        }
         .slide {
             max-width: 348px;
             min-height: 250px;
             padding: 1rem;
             display: flex!important;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             border: 1px solid $white;
             border-radius: 12px;
-            @include media-breakpoint-up(lg) {
-                margin: 0.5rem;
-            }
             .icon {
                 background-color: $white;
                 border-radius: 50%;

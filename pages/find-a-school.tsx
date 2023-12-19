@@ -74,7 +74,7 @@ const svgIconEnd = `
 
 const svgIconStart = `
 <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="8.5" cy="9.34973" r="7.75" fill="#006BA6" stroke="#006BA6" stroke-width="1.5"/>
+<circle cx="8.5" cy="9.34973" r="7.75" fill="#5E6738" stroke="#5E6738" stroke-width="1.5"/>
 </svg>
 
 `;

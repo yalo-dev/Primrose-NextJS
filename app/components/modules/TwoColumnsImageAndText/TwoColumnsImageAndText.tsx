@@ -42,6 +42,12 @@ interface TwoColumnsImageAndTextProps {
             sourceUrl?: string;
             altText?: string;
         };
+        video?: {
+            target?: string;
+            title?: string;
+            url?: string;
+        };
+        imageOrVideo?: 'Image' | 'Video';
         announcement?: {
             backgroundColor?: string;
             bottomLine?: string;
@@ -51,6 +57,7 @@ interface TwoColumnsImageAndTextProps {
             midLineColor?: string;
             topLineColor?: string;
         };
+        showAnnouncementTile?: boolean;
     };
     customizations?: {
 		topPaddingMobile?: string;
@@ -63,11 +70,46 @@ interface TwoColumnsImageAndTextProps {
 const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations }) => {
     const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center' : ''}`;
 
-    // Use imageDesktop as fallback if imageMobile is not available
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
-    
-    
+  
+    const renderMedia = () => {
+        if (leftColumn?.imageOrVideo === 'Image') {
+            return (
+                <>
+                    {leftColumn.imageMobile?.sourceUrl && 
+                        <img 
+                            className='d-block d-lg-none' 
+                            src={desktopImageUrl} 
+                            alt={leftColumn.imageMobile.altText || ''} 
+                        />
+                    }
+                    {leftColumn.imageDesktop?.sourceUrl && 
+                        <img 
+                            className='d-none d-lg-block' 
+                            src={mobileImageUrl} 
+                            alt={leftColumn.imageDesktop.altText || ''} 
+                        />
+                    }
+                </>
+            );
+        } else if (leftColumn?.imageOrVideo === 'Video') {
+            return leftColumn?.video?.url && (
+                <div className='video-wrapper'>
+                    <video 
+                    className='d-block w-100'
+                    src={leftColumn.video.url} 
+                    autoPlay 
+                    muted 
+                    loop 
+                    />
+                </div>
+            );
+        }
+        return null;
+    };
+
+
     let dropdownOptions: OptionType[] = [];
 
     if (rightColumn?.options && Array.isArray(rightColumn.options)) {
@@ -92,41 +134,24 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
                 >
             <div className={className}>
-                {(mobileImageUrl || desktopImageUrl) && (
-                    <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                        {mobileImageUrl && 
-                            <img 
-                                className='d-block d-lg-none' 
-                                src={mobileImageUrl} 
-                                alt={leftColumn?.imageMobile?.altText || '' } 
-                                width={500} 
-                                height={500} 
-                            />
-                        }
-                        {desktopImageUrl && 
-                            <img 
-                                className='d-none d-lg-block' 
-                                src={desktopImageUrl} 
-                                alt={leftColumn?.imageDesktop?.altText || '' } 
-                                width={1000} 
-                                height={1000} 
-                            />
-                        }
-                        {leftColumn?.announcement && (
-                               <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
-                                    {leftColumn.announcement.topLine && 
-                                    <div className='b4'>
-                                        <ColorComponent color={leftColumn.announcement.topLineColor}>
-                                        {leftColumn.announcement.topLine}
-                                        </ColorComponent>
-                                    </div>
-                                    }
-                                    {leftColumn.announcement.midLine && <ColorComponent color={leftColumn.announcement.midLineColor}><div className='b7 mb-1 mt-1'>{leftColumn.announcement.midLine}</div></ColorComponent>}
-                                    {leftColumn.announcement.bottomLine && <ColorComponent color={leftColumn.announcement.bottomLineColor}><div className='b3'>{leftColumn.announcement.bottomLine}</div></ColorComponent>}
-                            </BackgroundColorComponent>
-                        )}
+               
+                <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                    {renderMedia()}
+                    {leftColumn?.showAnnouncementTile && leftColumn?.announcement && (
+                        <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
+                            {leftColumn.announcement.topLine && 
+                                <div className='b4'>
+                                    <ColorComponent color={leftColumn.announcement.topLineColor}>
+                                    {leftColumn.announcement.topLine}
+                                    </ColorComponent>
+                                </div>
+                                }
+                                {leftColumn.announcement.midLine && <ColorComponent color={leftColumn.announcement.midLineColor}><div className='b7 mb-1 mt-1'>{leftColumn.announcement.midLine}</div></ColorComponent>}
+                                {leftColumn.announcement.bottomLine && <ColorComponent color={leftColumn.announcement.bottomLineColor}><div className='b3'>{leftColumn.announcement.bottomLine}</div></ColorComponent>}
+                        </BackgroundColorComponent>
+                    )}
                 </div>
-                )}
+       
                 <div className='right-column col-12 c col-lg-5 offset-lg-1'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}

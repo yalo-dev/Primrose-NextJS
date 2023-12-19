@@ -1,0 +1,50 @@
+.search-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .search-heading {
+    margin-bottom: 20px;
+  }
+  
+  .search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between elements */
+  }
+  
+  .search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    /* Add styles for your search icon here */
+  }
+  
+  .search-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    background-color: #4caf50; /* Example button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-disclaimer {
+    color: #666; /* Example text color */
+    font-size: 0.875em;
+    margin-top: 20px;
+  }
+  
