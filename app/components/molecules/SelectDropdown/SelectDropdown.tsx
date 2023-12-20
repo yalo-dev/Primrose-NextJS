@@ -3,6 +3,7 @@ import { useSpring, animated } from 'react-spring';
 
 interface OptionType {
     label: string;
+    value: string;
     url: string;
     target?: string;
 }
@@ -10,10 +11,11 @@ interface OptionType {
 interface SelectDropdownProps {
     options: OptionType[];
     placeholder?: string;
-    onSelect?: (selectedOption: OptionType) => void; 
+    onSelect?: (selectedOption: OptionType | string) => void;
+    returnFullOption?: boolean; // new prop to determine behavior
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, returnFullOption = false }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -37,17 +39,16 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
 
     const handleOptionClick = (option: OptionType, event: React.MouseEvent) => {
         event.preventDefault();
-        onSelect?.(option);
-        if (option.target === '_blank') {
-            window.open(option.url, option.target);
+        if (returnFullOption) {
+            onSelect?.(option); 
         } else {
-            window.location.href = option.url;
+            // If you want to use only the label or value
+            onSelect?.(option.value); // or option.label based on your needs
         }
         setSelectedOption(option);
         setIsOpen(false);
     };
-
-
+    
     return (
         <div className={`custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
