@@ -3,7 +3,6 @@ import { useSpring, animated } from 'react-spring';
 
 interface OptionType {
     label: string;
-    value: string;
     url: string;
     target?: string;
 }
@@ -42,13 +41,13 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
         if (returnFullOption) {
             onSelect?.(option); 
         } else {
-            // If you want to use only the label or value
-            onSelect?.(option.value); // or option.label based on your needs
+            onSelect?.(option.label); 
         }
         setSelectedOption(option);
         setIsOpen(false);
     };
-    
+
+
     return (
         <div className={`custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>

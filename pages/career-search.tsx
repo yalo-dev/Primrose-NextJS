@@ -19,12 +19,6 @@ interface Job {
   created_at: string;
 }
 
-interface OptionType {
-  label: string;
-  value: string;
-  // Add other properties as needed
-}
-
 
 const SearchComponent = () => {
   const [distance, setDistance] = useState<string | null>(null);
@@ -35,23 +29,17 @@ const SearchComponent = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
 
   const distanceOptions = [
-    { label: 'Within 1 miles', value: '1',  url: '#', target: '_self' },
-    { label: 'Within 5 miles', value: '5', url: '#', target: '_self' },
-    { label: 'Within 10 miles', value: '10', url: '#', target: '_self' },
-    { label: 'Within 25 miles', value: '25', url: '#', target: '_self' },
-    { label: 'Within 50 miles', value: '50', url: '#', target: '_self' },
-    { label: 'Within 100 miles', value: '100', url: '#', target: '_self' },
+    { label: 'Within 1 miles', url: '#', target: '_self' },
+    { label: 'Within 5 miles', url: '#', target: '_self' },
+    { label: 'Within 10 miles', url: '#', target: '_self' },
+    { label: 'Within 25 miles', url: '#', target: '_self' },
+    { label: 'Within 50 miles', url: '#', target: '_self' },
+    { label: 'Within 100 miles', url: '#', target: '_self' },
     // ... add more options as needed
   ];
 
-  const handleDistanceChange = (selectedOption: string | OptionType) => {
-    if (typeof selectedOption === 'string') {
-      // Handle the case where selectedOption is a string
-      setDistance(selectedOption);
-    } else {
-      // Handle the case where selectedOption is an OptionType
-      setDistance(selectedOption.value);
-    }
+  const handleDistanceChange = (selectedDistance: string) => {
+    setDistance(selectedDistance);
   };
 
   const handleInputChange = (event) => {
@@ -69,11 +57,6 @@ const SearchComponent = () => {
     setSearchPerformed(true); 
     
     try {
-      const queryParams = new URLSearchParams({
-        term: searchTerm,
-        distance: distance
-      }).toString();
-
       const response = await fetch(`/api/fetchJobs?&distance=${distance}`);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -103,7 +86,6 @@ const SearchComponent = () => {
                   type="text"
                   value={searchTerm}
                   placeholder="Enter address, city and state, or zip"
-                  onChange={handleInputChange} // Add this line
                 />
                 <div className='icon'>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29" fill="none">
