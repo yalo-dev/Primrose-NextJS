@@ -5,15 +5,15 @@
       margin: auto;
       &.searched {
         display: flex;
-        max-width: initial;
+        max-width: 1440px;
         .search-results {
           display: flex;
           flex-wrap: wrap;
           justify-content: flex-end;
-          margin-top: 4rem;
+          margin-top: 6rem;
           .job-tile {
             width: calc(50% - 1rem);
-            margin: 0.5rem;
+            margin-left: 1rem;
             margin-bottom: 1rem;
             max-width: 424px;
             h5 {
