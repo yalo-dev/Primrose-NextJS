@@ -17,25 +17,53 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            general {
-              instagram {
-                url
+            details {
+              corporate {
+                schoolOpening
+                schoolName
+                phoneNumber
+                longitude
+                latitude
+                formNotificationEmail
+                emailAddress
+                address {
+                  city
+                  state
+                  streetAddress
+                  streetAddress2
+                  zipcode
+                }
               }
-              facebook {
-                url
-              }
-              schoolHours
-            }
-            corporate {
-              emailAddress
-              phoneNumber
-              schoolName
-              address {
-                streetAddress
-                streetAddress2
-                city
-                state
-                zipcode
+              general {
+                facebook {
+                  target
+                  title
+                  url
+                }
+                contactEmail {
+                  email
+                }
+                instagram {
+                  target
+                  title
+                  url
+                }
+                scheduleATour {
+                  heading
+                  button {
+                    target
+                    title
+                    url
+                  }
+                  images {
+                    altText
+                    image {
+                      sourceUrl
+                    }
+                  }
+                  subheading
+                }
+                schoolHours
               }
             }
           }
@@ -48,17 +76,17 @@ export async function getServerSideProps(context) {
     });
 
     const schoolData = response?.data?.school;
-    const schoolSettings = schoolData?.schoolSettings;
+    const schoolSettings = schoolData?.schoolSettings || {};
 
     return {
         props: {
-            schoolSlugInput: schoolData?.slug,
-            corporate: schoolSettings?.corporate,
+            schoolSlugInput: schoolData?.slug || '',
+            corporate: schoolSettings?.corporate || {}, // Fallback to an empty object if corporate is undefined
             socialLinks: {
-                facebook: schoolSettings?.general?.facebook?.url,
-                instagram: schoolSettings?.general?.instagram?.url
+                facebook: schoolSettings?.general?.facebook?.url || '',
+                instagram: schoolSettings?.general?.instagram?.url || ''
             },
-            schoolHours: schoolSettings?.general?.schoolHours
+            schoolHours: schoolSettings?.general?.schoolHours || ''
         },
     };
 }
@@ -87,13 +115,15 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours 
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">
+                    {corporate && corporate.address && (
                         <div className="address b3 border-bottom pt-3 pb-3">
-                            {corporate.address.streetAddress}&nbsp;
-                            {corporate.address.streetAddress2}<br />
-                            {corporate.address.city},&nbsp;
-                            {corporate.address.state}<br />
-                            {corporate.address.zipcode}
+                            {corporate.address.streetAddress && <>{corporate.address.streetAddress}&nbsp;</>}
+                            {corporate.address.streetAddress2 && <><br />{corporate.address.streetAddress2}</>}
+                            {corporate.address.city && <><br />{corporate.address.city},&nbsp;</>}
+                            {corporate.address.state && <>{corporate.address.state}<br /></>}
+                            {corporate.address.zipcode && <>{corporate.address.zipcode}</>}
                         </div>
+                    )}
                         {schoolHours && (
                             <div className="hours border-bottom pt-3 pb-3">
 
