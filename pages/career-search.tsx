@@ -48,14 +48,9 @@ const SearchComponent = () => {
 
 
   const handleSearch = async () => {
-    if (!searchTerm || !distance) {
-      setError('Please enter both a search term and select a distance.');
-      return;
-    }
     setError(null);
     setIsLoading(true);
     setSearchPerformed(true); 
-    
     try {
       const response = await fetch(`/api/fetchJobs?&distance=${distance}`);
       if (!response.ok) {
@@ -63,7 +58,6 @@ const SearchComponent = () => {
       }
       const jobs = await response.json();
       setJobs(jobs); 
-
     } catch (error) {
       console.error('Error fetching jobs:', error);
       setError(error.message);
@@ -84,7 +78,6 @@ const SearchComponent = () => {
                 <input
                   className="search-input"
                   type="text"
-                  value={searchTerm}
                   placeholder="Enter address, city and state, or zip"
                 />
                 <div className='icon'>

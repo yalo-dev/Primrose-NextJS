@@ -1431,7 +1431,52 @@
     }
 }
 
-
+.school-careers {
+    .jobs-container {
+        background-color: $grayscale-2;
+        padding: 4rem 0;
+        .heading-wrapper {
+            text-align: center;
+            max-width: 700px;
+            margin: auto;
+        }
+        .job-tile-wrapper {
+            @include media-breakpoint-up(lg) {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: flex-start;
+            }
+            .job-tile {
+                width: 100%;
+                background-color: $white;
+                @include media-breakpoint-up(lg) {
+                    width: 450px;
+                }
+                @include media-breakpoint-up(xxl) {
+                    width: 563px;
+                    h5 {
+                        margin-bottom: 2rem;
+                    }
+                    button {
+                        margin-top: 2rem;
+                    }
+                }
+            }
+        }
+    }
+    .testimonials-with-video-or-image {
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+        @include media-breakpoint-up(lg) {
+            margin-bottom: 10rem;
+        }
+    }
+    .gallery-slider {
+        background-color: $grayscale-2;
+    }
+}
 
 
 //THIS IS THE COMPONENT WITH THE BLUE BACKGROUND AND SCROLLING IMAGES IT IS A SHARED COMPONENT SO IT'S STYLED OUTSIDE OF PAGE CLASSES
