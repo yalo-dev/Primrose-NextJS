@@ -17,15 +17,7 @@ export async function getServerSideProps(context) {
           slug
           uri
           schoolSettings {
-            general {
-              instagram {
-                url
-              }
-              facebook {
-                url
-              }
-              schoolHours
-            }
+            
             corporate {
               emailAddress
               phoneNumber
@@ -55,10 +47,10 @@ export async function getServerSideProps(context) {
             schoolSlugInput: schoolData?.slug,
             corporate: schoolSettings?.corporate,
             socialLinks: {
-                facebook: schoolSettings?.general?.facebook?.url,
-                instagram: schoolSettings?.general?.instagram?.url
+                facebook: 'http://facebook.com/',
+                instagram: 'http://www.instagram.com/'
             },
-            schoolHours: schoolSettings?.general?.schoolHours
+            schoolHours: 'M-F, 8am-6pm'
         },
     };
 }
