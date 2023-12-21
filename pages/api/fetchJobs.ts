@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await fetch(`https://api.careerplug.com/jobs${queryParams}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${process.env.CAREERPLUG_ACCESS_TOKEN}`, // Use environment variable for the token
+        'Authorization': `Bearer ${process.env.URoFxHsRXMDP9pI6L8hKmAnoEXIcs8vKju58FdzLPKU}`, // Use environment variable for the token
       },
     });
 
