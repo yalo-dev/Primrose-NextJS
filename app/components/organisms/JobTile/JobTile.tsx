@@ -8,14 +8,19 @@ interface Job {
         name: string;
         city: string;
         state: string;
-        street: string;
     };
     employment: {
         name: string;
     };
     created_at: string;
 }
-const JobTile: React.FC<{ job: Job }> = ({ job }) => {
+
+interface JobTileProps {
+    job: Job;
+    baseUrl: string; // Add this prop
+}
+
+const JobTile: React.FC<JobTileProps> = ({ job, baseUrl }) => {
     // Format date from created_at
     const postedDate = new Date(job.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -37,7 +42,7 @@ const JobTile: React.FC<{ job: Job }> = ({ job }) => {
             <p className='b2'>{`${jobCity}, ${jobState}`}</p>
             <p className="employment-type mb-3">{jobEmploymentType}</p>
             <p className='b2 post-date'>Posted: {postedDate}</p>
-            <Button variant='primary' href={`/jobs/${job.id}`}>
+            <Button variant='primary' href={`${baseUrl}/${job.id}`}>
                 Learn More
             </Button>
         </div>

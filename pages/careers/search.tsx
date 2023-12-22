@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import SelectDropdown from '../app/components/molecules/SelectDropdown/SelectDropdown';
-import Button from '../app/components/atoms/Button/Button';
-import JobTile from '../app/components/organisms/JobTile/JobTile';
+import SelectDropdown from '../../app/components/molecules/SelectDropdown/SelectDropdown';
+import Button from '../../app/components/atoms/Button/Button';
+import JobTile from '../../app/components/organisms/JobTile/JobTile';
 
 
 interface Job {
@@ -110,7 +110,7 @@ const SearchComponent = () => {
             <p>Error: {error}</p>
           ) : (
             jobs.map(job => (
-              <JobTile key={job.id} job={job} />
+              <JobTile job={job} baseUrl={`/careers`} />
             ))
           )}
         </div>
