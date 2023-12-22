@@ -1,11 +1,12 @@
-import { client } from '../../../app/lib/apollo';
+import { client } from '../../../../app/lib/apollo';
 import { gql } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
-import TestimonialsWithVideoOrImage from '../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
-import "slick-carousel/slick/slick.css"; 
+import GallerySlider from '../../../../app/components/modules/GallerySlider/GallerySlider';
+import TestimonialsWithVideoOrImage from '../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import JobTile from '../../../app/components/organisms/JobTile/JobTile';
+import JobTile from '../../../../app/components/organisms/JobTile/JobTile';
+import Button from '../../../../app/components/atoms/Button/Button';
 
 interface Job {
     id: number;
@@ -14,7 +15,6 @@ interface Job {
         name: string;
         city: string;
         state: string;
-        street: string;
     };
     employment: {
         name: string;
@@ -58,37 +58,14 @@ export async function getServerSideProps(context) {
             }
             jobPostings {
               jobTitle
-              applicationLink
-              hiringManagerEmail
               jobType
               jobDescription
               postDate
-              socialShareButtons {
-                email {
-                  target
-                  url
-                  title
-                }
-                facebook {
-                  target
-                  title
-                  url
-                }
-                linkedin {
-                  url
-                  target
-                  title
-                }
-                twitter {
-                  target
-                  title
-                  url
-                }
-              }
+              jobId
             }
           }
           schoolCorporateSettings {
-            careerPlugSchoolId
+            careerplugSchoolId
             address {
               city
               state
@@ -107,7 +84,8 @@ export async function getServerSideProps(context) {
         if (!school) {
             return { notFound: true };
         }
-        const careerPlugSchoolId = school.schoolCorporateSettings.careerPlugSchoolId;
+        const careerPlugSchoolId = school.schoolCorporateSettings.careerplugSchoolId || null;
+
 
         return {
             props: {
@@ -129,74 +107,35 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
     const [schoolJobs, setSchoolJobs] = useState<Job[]>([]);
     const [cmsJobs, setCmsJobs] = useState(school.schoolAdminSettings.jobPostings || []);
     const [isLoading, setIsLoading] = useState(true);
+    const { city, state } = school.schoolCorporateSettings.address || {};
 
     useEffect(() => {
-        if (careerPlugSchoolId) {
-            async function fetchJobs() {
-                setIsLoading(true);
-                try {
-                    const response = await fetch(`/api/fetchJobs`);
-                    const data = await response.json();
-                    const schoolId = parseInt(careerPlugSchoolId);
-                    const filteredJobs = data.filter(job => {
-                        const accountId = parseInt(job.location?.account?.id);
-                        return accountId === schoolId;
-                    });
-                    setSchoolJobs(filteredJobs);
-                } catch (error) {
-                    console.error('Error fetching jobs:', error);
-                } finally {
-                    setIsLoading(false);
-                }
+        async function fetchJobs() {
+            try {
+                const response = await fetch(`/api/fetchJobs`);
+                const data = await response.json();
+                const schoolId = parseInt(careerPlugSchoolId);
+                const filteredJobs = data.filter(job => {
+                    const accountId = parseInt(job.location?.account?.id);
+                    return accountId === schoolId;
+                });
+                setSchoolJobs(filteredJobs);
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
             }
-            fetchJobs();
+        }
+
+        setIsLoading(true);
+        if (careerPlugSchoolId) {
+            fetchJobs().finally(() => setIsLoading(false));
+        } else {
+            setIsLoading(false);
         }
     }, [careerPlugSchoolId]);
-    
+
     useEffect(() => {
         console.log("Updated Jobs State:", schoolJobs);
     }, [schoolJobs]);
-    
-    useEffect(() => {
-        if (!careerPlugSchoolId) {
-            const formattedCmsJobs = cmsJobs.map((job, index) => {
-                let formattedDate = 'Date Not Available';
-                if (job.postDate) {
-                    const [day, month, year] = job.postDate.split('/').map(part => parseInt(part, 10));
-                    const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                    const parsedDate = new Date(isoDate);
-                    if (!isNaN(parsedDate.getTime())) {
-                        formattedDate = parsedDate.toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'numeric',
-                            day: 'numeric',
-                        });
-                    } else {
-                        formattedDate = 'Invalid Date Format';
-                    }
-                }
-                return {
-                    id: index, // setting a unique number for key prop
-                    name: job.jobTitle || 'No Job Title Available',
-                    location: {
-                        name: school.title,
-                        city: school.schoolCorporateSettings.address.city,
-                        state: school.schoolCorporateSettings.address.state,
-                        street: '', // Make sure this is acceptable for your JobTile component
-                    },
-                    employment: {
-                        name: job.jobType || 'Employment Type Not Specified'
-                    },
-                    created_at: formattedDate
-                };
-            });
-        
-            setSchoolJobs(formattedCmsJobs);
-            setIsLoading(false);
-        }
-    }, [careerPlugSchoolId, cmsJobs, school]);
-
-    
 
     const jobPosts = () => {
         const jobsToRender = careerPlugSchoolId ? schoolJobs : cmsJobs;
@@ -214,26 +153,53 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
                         <h1>Open Positions</h1>
                         <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
                     </div>
+
                     <div className='job-tile-wrapper pt-5 pb-5'>
-                    {jobsToRender.map((job, index) => (
-                        <JobTile key={job.id || index} job={job} />
-                        ))}
+                        {careerPlugSchoolId ? (
+                            // Map over schoolJobs and render with JobTile if careerPlugSchoolId is present
+                            schoolJobs.length > 0 ? (
+                                schoolJobs.map((job, index) => (
+                                    <JobTile key={index} job={job} baseUrl={`/schools/${school.slug}/careers`} />
+                                ))
+                            ) : (
+                                <p>No job postings available.</p>
+                            )
+                        ) : (
+                            // Map over cmsJobs and render with a different layout if careerPlugSchoolId is not present
+                            cmsJobs.length > 0 ? (
+                                cmsJobs.map((job, index) => (
+                                    <div key={index} className="job-tile">
+                                        <h5>{job.jobTitle || 'No Title'}</h5>
+                                        <p className='b3 green mb-2'>{school.title || 'No School Name'}</p>
+                                        <p className='b2'>{`${city || 'No City'}, ${state || 'No State'}`}</p>
+                                        <p className="employment-type mb-3">{job.jobType || 'No Type'}</p>
+                                        <p className='b2 post-date'>Posted: {job.postDate || 'No Date'}</p>
+                                        <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
+                                            Learn More
+                                        </Button>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No job postings available.</p>
+                            )
+                        )}
                     </div>
                 </div>
             </div>
         );
-    };    
+
+    };
 
     const testimonialSection = () => {
         const testimonialsData = testimonials;
-    
+
         if (!testimonialsData) {
             return null;
         }
-    
+
         const sliderItems = testimonialsData.map(item => {
             const testimonial = item.testimonials;
-    
+
             return {
                 image: {
                     sourceUrl: testimonial.featuredImage?.sourceUrl,
@@ -246,21 +212,21 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
                 // Add 'video' property if applicable
             };
         });
-    
+
         return (
             <section className="module Page_Modules_Modules_TestimonialsWithVideoOrImage" id="Page_Modules_Modules_TestimonialsWithVideoOrImage4">
-               
-                    <TestimonialsWithVideoOrImage
-                        slider={sliderItems}
-                        heading="A Teacher’s Perspective" // Replace with dynamic heading if available
-                        subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
-                        // Add other props as required
-                    />
-           
+
+                <TestimonialsWithVideoOrImage
+                    slider={sliderItems}
+                    heading="A Teacher’s Perspective" // Replace with dynamic heading if available
+                    subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
+                // Add other props as required
+                />
+
             </section>
         );
     };
-    
+
     const gallerySlider = () => {
         const galleryData = gallery;
 
@@ -272,12 +238,14 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
             <GallerySlider gallery={galleryData} uniqueId="gallerySlider" />
         );
     }
+
     return (
         <div className='school school-careers'>
             {jobPosts()}
             {testimonialSection()}
-            {gallerySlider()} 
-         
+            {gallerySlider()}
         </div>
     );
 }
+
+
