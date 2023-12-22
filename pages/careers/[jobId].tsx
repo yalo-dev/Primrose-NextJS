@@ -133,7 +133,7 @@ const JobPostPage = () => {
             <div className='container d-lg-flex justify-content-between'>
                 <div className='main'>
                     <div className='back-container mt-3 mb-4'>
-                        <Link href='/schools/atlanta-school/careers' passHref>
+                        <Link href='/careers/search' passHref>
                             <span className='arrow'>
                                 <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.78906 1L-0.000412507 6.26316L5.78906 11" stroke="#18211F" />
