@@ -23,7 +23,11 @@ const GET_SCHOOL_DETAILS = gql`
             selectClassrooms
           }
         }
+        
       }
+      schoolCorporateSettings {
+          schoolName
+        }
     }
   }
 `;
@@ -40,7 +44,8 @@ export default function SchoolsMenu() {
     skip: !schoolSlug, 
   });
 
-  const schoolName = data?.school?.schoolSettings?.details?.corporate?.schoolName;
+  const schoolName = data?.school?.schoolCorporateSettings?.schoolName;
+  console.log(schoolName);
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
