@@ -20,7 +20,7 @@ interface JobTileProps {
     baseUrl: string; // Add this prop
 }
 
-const JobTile: React.FC<JobTileProps> = ({ job, baseUrl }) => {
+const JobTile: React.FC<JobTileProps> = ({ job, baseUrl, page }) => {
     // Format date from created_at
     const postedDate = new Date(job.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -36,7 +36,7 @@ const JobTile: React.FC<JobTileProps> = ({ job, baseUrl }) => {
     const jobEmploymentType = job.employment?.name || 'Employment Type Not Specified';
 
     return (
-        <div className="job-tile">
+        <div data-page={page} className="job-tile">
             <h5>{jobName}</h5>
             <p className='b3 green mb-2'>{jobLocationName}</p>
             <p className='b2'>{`${jobCity}, ${jobState}`}</p>

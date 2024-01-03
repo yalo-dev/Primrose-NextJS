@@ -37,13 +37,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Fetching all jobs
       const position = typeof req.query.position === 'string' ? req.query.position : req.query.position?.[0];
       const distance = typeof req.query.distance === 'string' ? req.query.distance : req.query.distance?.[0];
+      
       let queryParams = '';
 
       if (position || distance) {
         const params = new URLSearchParams();
-        if (position) params.append('position', position);
-        if (distance) params.append('distance', distance);
+        if (position) params.append('postal_code', position);
+        if (distance) params.append('postal_code_radius', distance);
         queryParams = `?${params.toString()}`;
+        console.log(queryParams);
       }
 
       response = await fetch(`https://api.careerplug.com/jobs${queryParams}`, {
@@ -57,6 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const responseData = await response.json();
+    console.log(responseData);
     res.status(200).json(responseData);
   } catch (error) {
     console.error(error);

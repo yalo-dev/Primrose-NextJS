@@ -96,7 +96,17 @@ const JobPostPage = () => {
     // Handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        setIsSubmitted(true);
+        console.log(formData);
+        /*response = await fetch(`/api/fetchJobs`, {
+        method: 'POST', 
+        headers: {
+        'content-type': 'applicaiton/json;charset=UTF-8',
+        }, 
+        body: JSON.stringify({
+            email:
+        }),
+        })*/
+        //setIsSubmitted(true);
     };
 
     // Go to the next form step
@@ -127,7 +137,46 @@ const JobPostPage = () => {
     if (!jobDetails) return <p>Job not found</p>;
 
     const schoolName = jobDetails.location?.name || 'Not specified';
-
+    
+    
+    const PreScreen = (qs): React.ReactNode => {
+    console.log(qs);
+        return (
+        <div className="prescreen">
+            {
+            qs.map(psq =>{
+                if(!psq.id.includes('phone_number')){
+                    if(psq.type == 'text'){
+                        return(
+                        <>
+                        <label htmlFor={psq.id}>{psq.question}</label>
+                        <input type="text" id={psq.id} name={psq.id} placeholder={psq.question} required={psq.required} />
+                        </>
+                        )
+                    }else if(psq.type == 'select'){
+                        return(
+                        <>
+                        <label htmlFor={psq.id}>{psq.question}</label>
+                        <select required={psq.required} name={psq.id} id={psq.id}>
+                            <option disabled>Select</option>
+                            {
+                            psq.options.map(opt => {
+                                return (<option value={opt.value}>{opt.label}</option>);
+                            }
+                            )
+                            }
+                        </select>
+                        </>
+                        )
+                    }
+                }
+            })
+            
+            }
+        </div>
+        )
+    }
+    
     return (
         <div className='single-job-post pt-5 pb-5'>
             <div className='container d-lg-flex justify-content-between'>
@@ -225,8 +274,8 @@ const JobPostPage = () => {
                                         <label htmlFor="state">State</label>
                                         <input type="text" id="state" name="state" placeholder='State' />
 
-                                        <label htmlFor="zipCode">Zip code</label>
-                                        <input type="text" id="zipCode" name="zipCode" placeholder='Zip code' />
+                                        <label htmlFor="postal_code">Zip code</label>
+                                        <input type="text" id="postal_code" name="postal_code" placeholder='Zip code' />
                                     </div>
                                 )}
                                 {currentStep === 2 && (
@@ -236,40 +285,10 @@ const JobPostPage = () => {
 
                                         <label htmlFor="coverLetter">Cover Letter</label>
                                         <input type="file" id="coverLetter" name="coverLetter" placeholder='Cover Letter' />
-
-                                        <label htmlFor="recentJobTitle">Recent Job Title</label>
-                                        <input type="text" id="recentJobTitle" name="recentJobTitle" placeholder='Recent Job Title' />
-
-                                        <label htmlFor="recentEmployer">Recent Employer</label>
-                                        <input type="text" id="recentEmployer" name="recentEmployer" placeholder='Recent Employer' />
-
-                                        <label htmlFor="schedule">This position may require you to work certain evenings (for marketing/events) and/or Saturdays. Can you work this schedule?*</label>
-                                        <SelectDropdown
-                                            options={scheduleOptions}
-                                            placeholder="Select"
-                                            onSelect={handleSelect('schedule')}
-                                        />
-
-
-                                        <label htmlFor="liftUp">Are you able to lift up to 35 lbs?*</label>
-                                        <SelectDropdown
-                                            options={liftUpOptions}
-                                            placeholder="Select"
-                                            onSelect={handleSelect('liftUp')}
-                                        />
-
-                                        <label htmlFor="references">Are you willing to provide us with 3 professional references?*</label>
-                                        <SelectDropdown
-                                            options={referencesOptions}
-                                            placeholder="Select"
-                                            onSelect={handleSelect('references')}
-                                        />
-
-                                        <div className='checkbox-wrap d-flex align-items-start'>
-                                            <input type="checkbox" id="referred" name="referred" defaultChecked />
-                                            <span className="checkbox-style"></span>
-                                            <label htmlFor="referred">I was referred to this position by a current employee</label>
+                                        <div id="prescreen">
+                                        {PreScreen(jobDetails.prescreen_questions)} 
                                         </div>
+                                        
 
                                     </div>
                                 )}
