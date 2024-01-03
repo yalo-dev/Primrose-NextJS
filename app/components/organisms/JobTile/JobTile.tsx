@@ -18,6 +18,7 @@ interface Job {
 interface JobTileProps {
     job: Job;
     baseUrl: string; // Add this prop
+    page?: number;
 }
 
 const JobTile: React.FC<JobTileProps> = ({ job, baseUrl, page }) => {

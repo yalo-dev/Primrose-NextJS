@@ -15,6 +15,13 @@ interface JobDetail {
         id: number;
         name: string;
     };
+    prescreen_questions: {
+        id: string;
+        type: string;
+        question: string;
+        required: boolean;
+        options: any;
+    }
 }
 
 const JobPostPage = () => {
@@ -286,7 +293,9 @@ const JobPostPage = () => {
                                         <label htmlFor="coverLetter">Cover Letter</label>
                                         <input type="file" id="coverLetter" name="coverLetter" placeholder='Cover Letter' />
                                         <div id="prescreen">
-                                        {PreScreen(jobDetails.prescreen_questions)} 
+                                        {
+                                        PreScreen(jobDetails.prescreen_questions)
+                                        }
                                         </div>
                                         
 
