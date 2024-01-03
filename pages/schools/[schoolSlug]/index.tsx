@@ -586,7 +586,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         );
     }
     return (
-        <div className='school school-home pt-4 pb-4'>
+        <div className='school school-home pt-5 pb-4'>
             {renderHeroWithSlider()}
             {firstFive()}
             {renderNewsSlider()}
