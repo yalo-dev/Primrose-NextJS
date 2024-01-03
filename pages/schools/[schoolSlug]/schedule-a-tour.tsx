@@ -81,7 +81,7 @@ export async function getServerSideProps(context) {
     return {
         props: {
             schoolSlugInput: schoolData?.slug || '',
-            corporate: schoolSettings?.corporate || {}, // Fallback to an empty object if corporate is undefined
+            corporate: schoolSettings?.corporate || {}, 
             socialLinks: {
                 facebook: schoolSettings?.general?.facebook?.url || '',
                 instagram: schoolSettings?.general?.instagram?.url || ''
