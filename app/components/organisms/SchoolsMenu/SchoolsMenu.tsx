@@ -252,7 +252,9 @@ export default function SchoolsMenu() {
       </div>
       <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div>
       {selectedClassrooms.length > 0 && (
-        <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'submenu-wrapper d-block d-lg-none' : 'submenu-wrapper hidden'}`} onClick={toggleSubmenu}>
+        <div className={`${(
+            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`)
+            ) ? 'submenu-wrapper d-block d-lg-none' : 'submenu-wrapper hidden'}`} onClick={toggleSubmenu}>
           <div className='placeholder-text green'>Explore Classrooms & Programs
           <span className={`icon ${isSubmenuVisible ? 'active' : ''}`}>
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -261,7 +263,9 @@ export default function SchoolsMenu() {
             </svg>
           </span>
           </div>
-          <div className={`submenu ${isSubmenuVisible ? 'visible' : ''} ${isActive(`/schools/${slug}/classrooms`) ? '' : 'hidden'}`}>
+          <div className={`submenu ${isSubmenuVisible ? 'visible' : ''} ${(
+            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`)
+            ) ? '' : 'hidden'}`}>
             <div className='list-wrap'>
               {generateClassroomSubmenu()}
             </div>
