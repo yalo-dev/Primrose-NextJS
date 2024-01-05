@@ -243,7 +243,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 																	)}
 																</button>
 
-																<span className='ps-4' color={item.textColor}>{item.text}</span>
+																<span onClick={(event) => handleIconClickGH(index, idx, event)} className={`ps-4 icon-container-headline-mobile ${activePopupGH === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`} color={item.textColor}>{item.text}</span>
 																<div className={`details-popup ${activePopupGH === `${index}-${idx}` ? 'active' : ''}`}>
 																	<div className='title-container'>
 																		{item.text && <Subheading level='div' className='title'>{item.text}</Subheading>}
@@ -308,7 +308,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 														)}
 													</button>
 
-													<span className='ps-4' color={item.textColor}>{item.text}</span>
+													<span onClick={(event) => handleIconClickGH(index, idx, event)} className={`ps-4 icon-container-headline ${activePopupGH === `${index}-${idx}` ? 'active' : ''} ${item.detailsPopUp ? 'has-popup' : ''}`} color={item.textColor}>{item.text}</span>
 													<div className={`details-popup ${activePopupGH === `${index}-${idx}` ? 'active' : ''}`}>
 														{item.detailsPopUp && (
 															<>
