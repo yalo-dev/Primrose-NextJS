@@ -61,7 +61,7 @@ export async function getServerSideProps(context) {
               jobType
               jobDescription
               postDate
-              jobId
+              
             }
           }
           schoolCorporateSettings {
