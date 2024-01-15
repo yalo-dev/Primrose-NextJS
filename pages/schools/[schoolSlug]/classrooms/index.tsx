@@ -372,7 +372,7 @@ export default function ClassroomPage() {
 
     return (
         <>
-            <div className="school classrooms">
+            <div className="school classrooms pt-4 pb-4">
                 <div className="container jumbo">
                     <div className="hero-with-image-module">
                         <div className='hero-with-image reverse-column'>
