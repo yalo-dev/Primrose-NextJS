@@ -2,7 +2,7 @@ import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
     const GET_SCHOOLS = gql`
     query GetSchools {
@@ -17,6 +17,9 @@ export async function getServerSideProps() {
                 }
               
             }
+            schoolCorporateSettings {
+                schoolName
+              }
           }
         }
       }
@@ -43,7 +46,7 @@ export default function Schools({ schools }) {
                     <div className=''>
                         {
                             schools.map((school, index) => {
-                                const schoolName = school.schoolSettings?.details?.corporate?.schoolName;
+                                const schoolName = school.schoolCorporateSettings?.schoolName;
                                 return (
                                     <div className='card p-2' key={school.uri}>
                                          <a href={`${school.uri}`}>

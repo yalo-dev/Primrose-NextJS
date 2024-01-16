@@ -1,6 +1,7 @@
 import { client } from '../../../app/lib/apollo';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
+
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
@@ -15,7 +16,6 @@ import GallerySlider from '../../../app/components/modules/GallerySlider/Gallery
 
 
 export async function getServerSideProps(context) {
-
     const { schoolSlug } = context.params;
 
     const GET_SCHOOLS = gql`
@@ -193,6 +193,95 @@ export async function getServerSideProps(context) {
               }
             }
           }
+          schoolCorporateSettings {
+              accreditations {
+                ... on Accreditation {
+                  id
+                  title
+                  accreditations {
+                    image {
+                      altText
+                      mediaItemUrl
+                    }
+                  }
+                }
+              }
+              address {
+                streetAddress
+                streetAddress2
+                zipcode
+                state
+                city
+                googlePlaceUrl
+                latitude
+                longitude
+              }
+              emailAddress
+              phoneNumber
+              preopening
+              schoolName
+              virtualTourUrl
+              homepageHeroImage {
+                altText
+                mediaItemUrl
+              }
+              openingIn {
+                season
+                year
+              }
+              homepageSubheadline {
+                description
+                title
+              }
+              corporateChildcare
+              careerplugSchoolId
+            }
+            schoolAdminSettings {
+              accreditation {
+                imageAlt
+                image {
+                  mediaItemUrl
+                }
+              }
+              classroomsOffered
+              displayEmergencyAlert
+              emergencyMessage {
+                message
+                expirationDate
+              }
+              enrollingNow
+              facebookLink
+              instagramLink
+              gallery {
+                caption
+                fieldGroupName
+                title
+              }
+              hiringNow
+              hoursOfOperation {
+                closingTime
+                openingTime
+              }
+              yelpLink
+              newsItems {
+                content
+                expires
+                newsImage {
+                  imageAlt
+                  image {
+                    mediaItemUrl
+                  }
+                }
+                publishDate
+                shortDescription
+                title
+              }
+              googleLink
+              meetStaffImage{
+                mediaItemUrl
+              }
+            }
+ 
         }
       }
     `;
@@ -223,10 +312,13 @@ export async function getServerSideProps(context) {
 
 export default function SchoolMainPage({ school, schoolSlug }) {
     const { schoolSettings } = school;
+    const corporateSettings = school.schoolCorporateSettings;
+    const adminSettings = school.schoolAdminSettings;
+    const {schoolAdminSettings} = school;
     const newsItems = school.schoolSettings.homepage.news.newsItems;
     const [isClient, setIsClient] = useState(false);
     const { testimonials } = school.schoolSettings.homepage;
-
+    console.log(corporateSettings);
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -236,10 +328,11 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         const { corporate, general } = schoolSettings.details;
         const { accreditations } = schoolSettings.homepage.heroWithSlider.rightColumn;
         const { classrooms } = schoolSettings.details;
-        const classroomsData = schoolSettings?.classrooms?.classroomSelection?.selectClassrooms;
+        const classroomsData = schoolAdminSettings?.classroomsOffered;
         let schoolHoursFormatted = general.schoolHours;
         const { facebook, instagram } = schoolSettings.details.general;
-
+        
+        console.log(adminSettings);
         if (!classroomsData) {
             console.log("Classrooms data is not available.");
             return;
@@ -264,11 +357,11 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                         <div className='row'>
                             <div className='col left-col col-12 col-lg-6'>
                                 <div>
-                                    {heroWithSlider && heroWithSlider.leftColumn && heroWithSlider.leftColumn.images && (
+                                    {corporateSettings.homepageHeroImage  && (
                                         <Slider {...settings}>
-                                            {heroWithSlider.leftColumn.images.map((image, index) => (
+                                            {corporateSettings.homepageHeroImage.map((image, index) => (
                                                 <div className='image-wrapper d-block' key={index}>
-                                                    <img src={image.image.sourceUrl} alt={image.altText || 'Hero Image'} />
+                                                    <img src={image.mediaItemUrl} alt={image.altText || 'Hero Image'} />
                                                 </div>
                                             ))}
                                         </Slider>
@@ -299,41 +392,46 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                                 }
                                             </ul>
                                         </div>
-                                        <div className='hours'><h5 className='green'>Hours & Location</h5><span className='b3'>{schoolHoursFormatted}</span></div>
-                                        <div className='phone'><span className='b3'><a href={`tel:${corporate.phoneNumber}`}>{corporate.phoneNumber}</a></span></div>
+                                        <div className='hours'><h5 className='green'>Hours & Location</h5><span className='b3'>M-F {adminSettings.hoursOfOperation.openingTime}-{adminSettings.hoursOfOperation.closingTime}</span></div>
+                                        <div className='phone'><span className='b3'><a href={`tel:${corporateSettings.phoneNumber}`}>{corporateSettings.phoneNumber}</a></span></div>
                                         <div className='address'>
                                             <span className='icon me-2'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z" stroke="#555F68" strokeWidth="1.5" />
                                                 </svg>
                                             </span>
-                                            <span className='b3'>{corporate.address.streetAddress} {corporate.address.streetAddress2}, {corporate.address.city}, {corporate.address.state} {corporate.address.zipcode}</span>
+                                            <span className='b3'>{corporateSettings.address.streetAddress} {corporateSettings.address.streetAddress2}, {corporateSettings.address.city}, {corporateSettings.address.state} {corporateSettings.address.zipcode}</span>
                                         </div>
                                         
                                     </div>
-                                    {accreditations && (
+                                    {corporateSettings.accreditations && (
                                         <div className='accreditations'>
                                             <h5 className='mt-3 green'>Accreditation</h5>
                                             <div className="accreditation-images  d-flex">
-                                                {accreditations.map((accreditation, index) => (
+                                                {corporateSettings.accreditations.map((accreditation, index) => (
                                                     <div key={`accreditation-${index}`} className="accreditation-image">
-                                                        <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60' src={accreditation.image.sourceUrl} alt={accreditation.altText || 'Accreditation Image'} />
+                                                        <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60' src={accreditation.accreditations.image.mediaItemUrl} alt={accreditation.title || 'Accreditation Image'} />
                                                     </div>
                                                 ))}
+                                                {adminSettings.accreditation.image && (
+                                                    <div className="accreditation-image">
+                                                        <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60' src={adminSettings.accreditation.image.mediaItemUrl} alt={adminSettings.accreditation.imageAlt} />
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     )}
                                 </div>
                                 <div className='social-links d-flex justify-content-center align-center border-top border-bottom mt-3 mb-3 mb-lg-0 pt-2 pb-2'>
-                                    {facebook && (
-                                        <a href={facebook.url} target={facebook.target} title={facebook.title} rel="noopener noreferrer">
+                                    {adminSettings.facebookLink && (
+                                        <a href={adminSettings.facebookLink} target="_blank" title="Facebook" rel="noopener noreferrer">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                                                 <path d="M45 30.0919C45 21.7567 38.2846 15 30.0019 15C21.7154 15.0019 15 21.7567 15 30.0937C15 37.6247 20.4856 43.8676 27.6547 45V34.4544H23.8489V30.0937H27.6584V26.766C27.6584 22.9846 29.8988 20.8961 33.324 20.8961C34.9663 20.8961 36.6817 21.1905 36.6817 21.1905V24.9025H34.79C32.9284 24.9025 32.3472 26.0667 32.3472 27.261V30.0919H36.5054L35.8418 34.4526H32.3453V44.9981C39.5144 43.8658 45 37.6228 45 30.0919Z" fill="black" />
                                             </svg>
                                         </a>
                                     )}
-                                    {instagram && (
-                                        <a href={instagram.url} target={instagram.target} title={instagram.title} rel="noopener noreferrer">
+                                    {adminSettings.instagramLink && (
+                                        <a href={adminSettings.instagramLink} target="_blank" title="Instagram" rel="noopener noreferrer">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M36.7368 15H23.2848C18.7166 15 15 18.714 15 23.2789V36.7211C15 41.2862 18.7166 45 23.2848 45H36.7368C41.3054 45 45.0219 41.286 45.0219 36.7211V23.2789C45.0221 18.714 41.3054 15 36.7368 15ZM42.3584 36.7211C42.3584 39.8185 39.8366 42.3383 36.737 42.3383H23.2848C20.1853 42.3384 17.6637 39.8185 17.6637 36.7211V23.2789C17.6637 20.1817 20.1853 17.6617 23.2848 17.6617H36.7368C39.8364 17.6617 42.3583 20.1817 42.3583 23.2789V36.7211H42.3584ZM30.0141 22.2703C25.7484 22.2703 22.2782 25.7381 22.2782 30.0006C22.2782 34.2629 25.7484 37.7305 30.0141 37.7305C34.2797 37.7305 37.75 34.2629 37.75 30.0006C37.75 25.7381 34.2797 22.2703 30.0141 22.2703ZM30.0141 35.0685C27.2174 35.0685 24.9419 32.795 24.9419 30.0004C24.9419 27.2056 27.2172 24.9319 30.0141 24.9319C32.811 24.9319 35.0863 27.2056 35.0863 30.0004C35.0863 32.795 32.8108 35.0685 30.0141 35.0685ZM36.6956 20.5853C37.058 20.2216 37.5622 20.014 38.0754 20.014C38.5904 20.014 39.0947 20.2216 39.4569 20.5853C39.821 20.9473 40.0288 21.4513 40.0288 21.9659C40.0288 22.4787 39.821 22.9827 39.4569 23.3465C39.0929 23.7085 38.5904 23.9178 38.0754 23.9178C37.5622 23.9178 37.0578 23.7085 36.6956 23.3465C36.3315 22.9827 36.122 22.4789 36.122 21.9659C36.122 21.4513 36.3314 20.9473 36.6956 20.5853Z" fill="black" />
                                             </svg>
@@ -436,7 +534,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     const firstFive = () => {
         const firstFiveData = school.schoolSettings.homepage.firstFive;
         const staffData = school.schoolSettings.homepage.firstFive.staff;
-        const classroomsData = schoolSettings?.classrooms?.classroomSelection?.selectClassrooms;
+        const classroomsData = schoolAdminSettings?.classroomsOffered;
         const dropdownOptions = classroomsData.map(classroom => ({
             label: classroom,
             value: classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-')
@@ -447,27 +545,29 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                     <div className='container'>
                         <div className='row'>
                             <div className='col-12 heading-wrapper pb-lg-5'>
-                                <h2 className='h1'>{firstFiveData.heading}</h2>
-                                <div className='b3'>{firstFiveData.subheading}</div>
+                                <h2 className='h1'>{corporateSettings.homepageSubheadline.title}</h2>
+                                <div className='b3'>{corporateSettings.homepageSubheadline.description.replace('[CITY]', corporateSettings.address.city)}</div>
                             </div>
                             <div className='classrooms'>
                                 <div className='two-columns-image-and-text-alternative'>
                                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                         <img
-                                            src={firstFiveData.classrooms.leftColumn.image.sourceUrl}
-                                            alt={firstFiveData.classrooms.leftColumn.altText || 'feature image'}
+                                            src='https://primroseschstg.wpenginepowered.com/wp-content/uploads/2023/08/stock.png'
+                                            alt='child in daycare classroom'
                                             width={500}
                                             height={500}
                                         />
                                     </div>
                                     <div className='right-column col-12 col-lg-5 offset-lg-1'>
-                                        <h2 className="">{firstFiveData.classrooms.rightColumn.heading}</h2>
-                                        <div className='blurb' dangerouslySetInnerHTML={{ __html: firstFiveData.classrooms.rightColumn.blurb }} />
+                                        <h2 className="">Our Classrooms & Programs</h2>
+                                        <div className='blurb' >
+                                            Our time-tested approach to early childhood education is designed to foster good character and grow social and emotional skills while also building literacy, and math skills.
+                                        </div>
 
                                         <div className='d-lg-flex align-center'>
                                             <div className='me-2 mb-2 mb-lg-0'>
-                                                <Button href={firstFiveData.classrooms.rightColumn.button.url} target={firstFiveData.classrooms.rightColumn.button.target} label={firstFiveData.classrooms.rightColumn.button.title}>
-                                                    {firstFiveData.classrooms.rightColumn.button.title}
+                                                <Button href={schoolSlug + "/classrooms"}>
+                                                    Explore Education & Care
                                                 </Button>
                                             </div>
                                             <SelectDropdown options={dropdownOptions} placeholder="Explore Classrooms" />
@@ -479,17 +579,20 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                 <div className='two-columns-image-and-text-alternative reverse-column'>
                                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                         <img
-                                            src={firstFiveData.staff.rightColumn.image.sourceUrl}
-                                            alt={firstFiveData.staff.rightColumn.altText || 'staff image'}
+                                            src={adminSettings.meetStaffImage.mediaItemUrl}
+                                            alt="staff image"
                                             width={500}
                                             height={500}
                                         />
                                     </div>
                                     <div className='right-column col-12 col-lg-5 offset-lg-1'>
-                                        <h2 className="">{firstFiveData.staff.leftColumn.heading}</h2>
-                                        <div className='blurb' dangerouslySetInnerHTML={{ __html: firstFiveData.staff.leftColumn.blurb }} />
-                                        <Button href={firstFiveData.staff.leftColumn.button.url} target={firstFiveData.staff.leftColumn.button.target} label={firstFiveData.staff.leftColumn.button.title}>
-                                            {firstFiveData.staff.leftColumn.button.title}
+                                        <h2 className="">Meet Our Teachers & Staff</h2>
+                                        <div className='blurb' >
+                                        When children feel safe, loved and confident, they can learn and grow to their fullest potential. That’s why Primrose school teachers and staff are dedicated to creating an environment that helps lay the foundation for a lifelong love of learning.
+
+                                        </div>
+                                        <Button href={schoolSlug + "/staff"} >
+                                            Learn More
                                         </Button>
                                     </div>
                                 </div>

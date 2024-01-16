@@ -28,6 +28,9 @@ const GET_SCHOOL_DETAILS = gql`
       schoolCorporateSettings {
           schoolName
         }
+        schoolAdminSettings {
+            classroomsOffered
+        }
     }
   }
 `;
@@ -47,7 +50,7 @@ export default function SchoolsMenu() {
   const schoolName = data?.school?.schoolCorporateSettings?.schoolName;
   console.log(schoolName);
   const slug = data?.school?.slug;
-  const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
+  const selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
