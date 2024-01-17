@@ -1,4 +1,8 @@
 .general-horizontal-tabs {
+    .general-horizontal-tabs button {
+        color:$text-gray;
+    }
+
     @include media-breakpoint-up(lg) {
         display: flex;
         justify-content: space-between;
