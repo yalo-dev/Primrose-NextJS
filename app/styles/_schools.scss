@@ -668,6 +668,18 @@
             display: flex;
             flex-wrap: wrap;
 
+            div[hidden]#gfield_1,
+            div[hidden]#gfield_3,
+            div[hidden]#gfield_6,
+            div[hidden]#gfield_11
+            {
+                display: flex !important;
+            }
+            div[hidden]#gfield_7
+            {
+                display: none !important;
+            }
+
             .gfield {
                 display: flex;
                 flex-direction: column;

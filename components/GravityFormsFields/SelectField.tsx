@@ -46,7 +46,7 @@ export default function SelectField({ field, fieldErrors }: Props) {
   }
 
   return (
-    <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
       <label htmlFor={htmlId}>{label}</label>
       <div className="custom-select">
         <select
