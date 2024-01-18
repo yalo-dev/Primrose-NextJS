@@ -70,14 +70,11 @@ interface DynamicColumnsProps {
   customizations?: CustomizationsData;
 }
 
-const getColumnClass = (columnWidth) => {
-  switch (columnWidth) {
-    case '25%': return 'quarter';
-    case '33%': return 'third';
-    case '50%': return 'half';
-    case '66%': return 'two-third';
-    case '75%': return 'three-fourth';
-    case '100%': return 'full';
+const getColumnClass = (columns) => {
+  switch (columns.length) {
+    case 2: return 'col-12 col-md-6';
+    case 3: return 'col-12 col-md-4';
+    case 4: return 'col-12 col-md-3';
     default: return '';
   }
 };
@@ -94,44 +91,18 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
     >
       <div className='dynamic-columns'>
         <div className='container'>
-          <div className='col-12 col-lg-6'>{heading && <h2 className='green mb-5'>{heading}</h2>}</div>
-          <div className='columns'>
+          <div className='row'>
           {columns.map((column, columnIndex) => ( 
-            <div key={columnIndex} className={`column ${getColumnClass(column.columnWidth)}`}>
-              {column.image && <img src={column.image.sourceUrl} alt={column.image.altText} />}
+            <div key={columnIndex} className={`${getColumnClass(columns)}`}>
+              {column.image && <img src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
               {column.title && <p className='b4 bold mt-3'>{column.title}</p>}
-              {column.blurb && <p className='b2 mb-4'>{column.blurb}</p>}
+              {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
               {column.button && (
-                <Button href={column.button.url} target={column.button.target}>
-                  {column.button.title}
+                <Button href={column.button.buttonLink.url} target={column.button.buttonLink.target}>
+                  {column.button.buttonLink.title}
                 </Button>
               )}
-              {/* {column.components.map((component, componentIndex) => {
-                if ('image' in component) {
-                  return <img key={componentIndex} src={component.image.sourceUrl} alt={component.image.altText} />;
-                }
-                if ('bodyCopy' in component) {
-                  return <p key={componentIndex} className={component.bodyCopySize}>{component.bodyCopy}</p>;
-                }
-                if ('button' in component) {
-                  return (
-                    <Button key={componentIndex} href={component.button.url} target={component.button.target} variant={component.buttonStyle}>
-                      {component.button.title}
-                    </Button>
-                  );
-                }
-                if ('heading' in component) {
-                  return (
-                    <Heading key={componentIndex} level={component.headingSize} color={component.headingColor}>
-                      {component.heading}
-                    </Heading>
-                  );
-                }
-                if ('wysiwyg' in component) {
-                  return <div key={componentIndex} dangerouslySetInnerHTML={{ __html: component.wysiwyg }} />;
-                }
-                return null;
-              })} */}
+              
             </div>
           ))}
           </div>
