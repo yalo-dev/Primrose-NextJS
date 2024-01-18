@@ -114,6 +114,11 @@ export default function Header({ menuItems }) {
                                 <Link onClick={resetNav} className='nav-link' href={childItem.url} passHref>
                                     <span className="b4">{childItem.label}</span>
                                 </Link>
+                                {childItem.label === 'Open a School' && (
+                                    <Link onClick={resetNav} className='nav-link child-sub' href="/path-to-opening" passHref>
+                                        <span className="b4">- Path to Ownership</span>
+                                    </Link>   
+                                )}
                             </li>
                         ))}
                     </ul>
