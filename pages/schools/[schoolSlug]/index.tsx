@@ -492,7 +492,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                     rightScroller.scrollTop = rightScroller.scrollHeight / 2;
                 }
             }
-        };
+        }; 
 
         useEffect(() => {
             const checkIfImagesLoaded = () => {
