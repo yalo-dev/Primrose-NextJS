@@ -133,7 +133,7 @@
                         align-items: center;
                         flex-basis: 16%;
                         &:last-child, &:nth-child(2) {
-                            flex-basis: 25%;
+                            flex-basis: 30%;
                         }
                     }
                 }
@@ -226,6 +226,9 @@
                                     font-size: 14px;
                                 }
                             }
+                        }
+                        .nav-link.child-sub {
+                            font-size: 12px;
                         }
                     }
                     .category {
