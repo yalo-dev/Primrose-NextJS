@@ -32,7 +32,6 @@ interface DynamicFormProps {
 
 const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, moduleId, formid, portalid, region, version }) => {
   const formRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const loadScript = (src, id) => {
       return new Promise<void>((resolve, reject) => {
@@ -79,7 +78,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, mod
       bottomMarginDesktop={customizations.bottomMarginDesktop}
       colorLabelOuter={customizations.outerBackgroundColor}
     >
-      <div className='dynamic-form'>
+      <div id={`${moduleId}`} className='dynamic-form'>
         <div className='container'>
           {headings.heading && <Heading level='h2' color={headings.headingColor}>{headings.heading}</Heading>}
           {headings.subheading && <Subheading level='div' className='b3' color={headings.subheadingColor}>{headings.subheading}</Subheading>}
