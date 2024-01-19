@@ -38,7 +38,9 @@ const JobTile: React.FC<JobTileProps> = ({ job, baseUrl, page }) => {
 
     return (
         <div data-page={page} className="job-tile">
-            <h5>{jobName}</h5>
+            <a href={`${baseUrl}/${job.id}`}>
+                <h5>{jobName}</h5>
+            </a>
             <p className='b3 green mb-2'>{jobLocationName}</p>
             <p className='b2'>{`${jobCity}, ${jobState}`}</p>
             <p className="employment-type mb-3">{jobEmploymentType}</p>
