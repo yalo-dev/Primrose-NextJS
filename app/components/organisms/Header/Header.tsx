@@ -1,10 +1,26 @@
-import Image from "next/legacy/image";
 import Link from 'next/link';
 import Button from '../../../../app/components/atoms/Button/Button';
 import { useRouter } from 'next/router';
 import ResourcesMenu from '../ResourcesMenu/ResourcesMenu';
 import SchoolsMenu from '../SchoolsMenu/SchoolsMenu';
 import { useEffect, useRef, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_TRENDING_SEARCH_ITEMS = gql`
+  query GetTrendingSearchItems {
+    siteSettings {
+      siteSettings {
+        trendingSearches {
+          searchItem {
+            target
+            title
+            url
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default function Header({ menuItems }) {
     const router = useRouter();
@@ -16,7 +32,8 @@ export default function Header({ menuItems }) {
     const [inputText, setInputText] = useState('');
     const [isDesktopSearchActive, setIsDesktopSearchActive] = useState(false);
     const desktopSearchBarRef = useRef<HTMLDivElement>(null);
-
+    const { data, loading, error } = useQuery(GET_TRENDING_SEARCH_ITEMS);
+  
 
     const toggleDesktopSearch = () => {
         setIsDesktopSearchActive(!isDesktopSearchActive);
@@ -31,7 +48,6 @@ export default function Header({ menuItems }) {
             setInputText('');
         }
     };
-
 
     const toggleSubmenu = (key) => {
         if (activeSubmenu === key) {
@@ -57,11 +73,13 @@ export default function Header({ menuItems }) {
         setActiveSubmenu(null);
         setIsNavOpen(false);
         setIsSearchActive(false);
+        setIsDesktopSearchActive(false);
+        setInputText('');
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        router.push(`/search?query=${encodeURIComponent(inputText)}`);
+        router.push(`/search?query=${encodeURIComponent(inputText.trim())}`);
         resetNav();
     };
 
@@ -142,18 +160,7 @@ export default function Header({ menuItems }) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    
-    const handleTrendingSearchClick = (searchTerm) => {
-        // Set the search term as the input text
-        setInputText(searchTerm);
-    
-        // Perform the search by navigating to the search results page
-        router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
-    
-        // Optionally, reset the navigation state
-        resetNav();
-    };
-    
+
     return (
         <header className='header'>
             <title>Primrose Schools</title>
@@ -247,53 +254,48 @@ export default function Header({ menuItems }) {
                     </div>
                 </div>
                 <div ref={desktopSearchBarRef} className={`desktop-search-bar ${isDesktopSearchActive ? 'show' : ''}`}>
-                    <div className="container position-relative">
-                        <div className='search-icon desktop d-none d-lg-flex'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="white" />
-                            </svg>
-                        </div>
-                        <input
-                            className='form-control'
-                            type='search'
-                            name='search'
-                            id='desktop-search'
-                            placeholder=''
-                            aria-label='Search'
-                            required
-                            value={inputText}
-                            onChange={handleInputChange}
-                        />
-                        <button type="submit" hidden>Search</button>
-                        <div className={`clear-icon ${inputText ? 'show' : ''}`} onClick={clearInput}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                                <circle cx="15" cy="14.8492" r="9.75" transform="rotate(45 15 14.8492)" stroke="#E6E6E6" strokeWidth="1.5" />
-                                <rect x="17.7266" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.7266 11.2129)" fill="#E6E6E6" />
-                                <rect x="11.3633" y="12.1218" width="1.28571" height="9" transform="rotate(-45 11.3633 12.1218)" fill="#E6E6E6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div className={`trending-searches ${inputText ? 'hide' : ''}`}>
-                        <div className="container d-flex">
-                            <h5 className="title">Trending Searches:</h5>
-                            <div className="suggestions">
-                                <ul>
-                                    <li className="b3" onClick={() => handleTrendingSearchClick('Primrose Schools near me')}>
-                                        Primrose Schools near me
-                                    </li>
-                                    <li className="b3" onClick={() => handleTrendingSearchClick('Primrose Curriculum Examples')}>
-                                        Primrose Curriculum Examples
-                                    </li>
-                                    <li className="b3" onClick={() => handleTrendingSearchClick('Own a Primrose School')}>
-                                        Own a Primrose School
-                                    </li>
-                                    <li className="b3" onClick={() => handleTrendingSearchClick('Careers at Primrose')}>
-                                        Careers at Primrose
-                                    </li>
-                                </ul>
+                    <form role='search' onSubmit={handleSearchSubmit}>
+                        <div className="container position-relative">
+                            <div className='search-icon desktop d-none d-lg-flex'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="white" />
+                                </svg>
+                            </div>
+                            <input
+                                className='form-control'
+                                type='search'
+                                name='search'
+                                id='desktop-search'
+                                placeholder=''
+                                aria-label='Search'
+                                required
+                                value={inputText}
+                                onChange={handleInputChange}
+                            />
+                            <button type="submit" hidden>Search</button>
+                            <div className={`clear-icon ${inputText ? 'show' : ''}`} onClick={clearInput}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                    <circle cx="15" cy="14.8492" r="9.75" transform="rotate(45 15 14.8492)" stroke="#E6E6E6" strokeWidth="1.5" />
+                                    <rect x="17.7266" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.7266 11.2129)" fill="#E6E6E6" />
+                                    <rect x="11.3633" y="12.1218" width="1.28571" height="9" transform="rotate(-45 11.3633 12.1218)" fill="#E6E6E6" />
+                                </svg>
                             </div>
                         </div>
-                    </div>
+                        <div className={`trending-searches ${inputText ? 'hide' : ''}`}>
+                            <div className="container d-flex">
+                                <h5 className="title">Trending Searches:</h5>
+                                <div className="suggestions">
+                                    <ul>
+                                        {data && data.siteSettings.siteSettings.trendingSearches.map((item, index) => (
+                                            <li  className="b3" key={index}>
+                                                <a  href={item.searchItem.url} target={item.searchItem.target}>{item.searchItem.title}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </nav>
             {showResourcesMenu && <ResourcesMenu />}
