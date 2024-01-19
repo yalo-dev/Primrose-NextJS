@@ -13,3 +13,6 @@
 
 # dependencies
 /node_modules/
+
+# IDE files
+.idea/
