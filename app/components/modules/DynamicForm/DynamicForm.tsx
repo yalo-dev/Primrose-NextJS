@@ -16,6 +16,7 @@ interface DynamicFormProps {
     subheading?: string;
     subheadingColor?: string;
   };
+  moduleId?: string;
   formid?: string;
   portalid?: string;
   region?: string;
@@ -29,7 +30,7 @@ interface DynamicFormProps {
   };
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations , formid, portalid, region, version }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, moduleId, formid, portalid, region, version }) => {
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations , fo
     const createForm = () => {
       if (window.hbspt && formRef.current) {
         window.hbspt.forms.create({
+          moduleId: moduleId,
           region: region,
           portalId: portalid,
           formId: formid,
