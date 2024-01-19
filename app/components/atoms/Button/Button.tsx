@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { ButtonHTMLAttributes } from 'react';
+import {decode} from 'html-entities';
 
 type ButtonVariants = 'primary' | 'secondary' | 'white';
 
@@ -27,11 +28,11 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, targe
     if (href) {
         return (
             <Link href={href} passHref>
-                <button className={buttonClass} {...props}>{label || children}</button>
+                <button className={buttonClass} {...props}>{decode(label) || children}</button>
             </Link>
         );
     }
-    return <button className={buttonClass} {...props}>{label || children}</button>;
+    return <button className={buttonClass} {...props}>{decode(label) || children}</button>;
 }
 
 export default Button;
