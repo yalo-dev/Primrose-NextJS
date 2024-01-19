@@ -154,6 +154,7 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
+			moduleId
 			formid
 			portalid
 			region
