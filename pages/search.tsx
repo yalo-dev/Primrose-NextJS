@@ -3,7 +3,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import FourPanels from '../app/components/modules/FourPanels/FourPanels';
 import debounce from 'lodash.debounce';
 import ResourceCard from '../app/components/organisms/ResourceCard/ResourceCard';
-import ResourceCardWrapper from './ResourceCardWrapper';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_TITLE_FOR_PANELS = gql`
+  query GetTitleForPanels {
+    siteSettings {
+      siteSettings {
+        titleFor4Panels
+      }
+    }
+  }
+`;
+
 
 interface SearchResult {
     id: number;
@@ -14,7 +25,19 @@ interface SearchResult {
         rendered: string;
     };
     link: string;
+    date?: any; // Assuming date is a string (e.g., "2023-09-14T02:39:30")
+    featuredImage?: {
+        sourceUrl: string;
+        altText?: string;
+    };
+    resourceTypes?: number[]; // Assuming these are arrays of IDs
+    resourceTags?: number[];
+    // Add additional properties to store the fetched names
+    resourceTypeNames?: string[];
+    resourceTagNames?: string[];
 }
+
+
 
 const SearchPage: React.FC = () => {
     const router = useRouter();
@@ -29,6 +52,8 @@ const SearchPage: React.FC = () => {
     const isResource = (post) => post.link.includes('/resources/');
     const isLocation = (post) => post.link.includes('/schools/');
 
+    const { data: titleData, loading: titleLoading, error: titleError } = useQuery(GET_TITLE_FOR_PANELS);
+
     useEffect(() => {
         if (typeof query === 'string') {
             setSearchTerm(query);
@@ -36,7 +61,7 @@ const SearchPage: React.FC = () => {
         }
     }, [query]);
 
-    const fetchSearchResults = async (searchTerm) => {
+    const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
         setError('');
         try {
@@ -55,24 +80,31 @@ const SearchPage: React.FC = () => {
             let results = await Promise.all(responses.map(response => response.json()));
             results = results.flat(); // Flatten the array of arrays
     
+            // Function to fetch names for tags and types
+            const fetchNames = async (ids: number[], endpoint: string) => {
+                return Promise.all(ids.map(async id => {
+                    const response = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/${endpoint}/${id}`);
+                    const data = await response.json();
+                    return data.name;
+                }));
+            };
+    
             // Fetch additional data for each resource
             const resultsWithAdditionalData = await Promise.all(results.map(async (resource) => {
                 if (resource.type === 'resources') {
-                    // Fetch featured image
-                    const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
-                    const mediaData = await mediaResponse.json();
-                    resource.featuredImage = {
-                        sourceUrl: mediaData.source_url,
-                        altText: mediaData.alt_text
-                    };
+                    // Fetch featured image if available
+                    if (resource.featured_media) {
+                        const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
+                        const mediaData = await mediaResponse.json();
+                        resource.featuredImage = {
+                            sourceUrl: mediaData.source_url,
+                            altText: mediaData.alt_text
+                        };
+                    }
     
-                    // Fetch resource tags and types
-                    const tagsResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/tags?post=${resource.id}`);
-                    const typesResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/types?post=${resource.id}`);
-                    const [tagsData, typesData] = await Promise.all([tagsResponse.json(), typesResponse.json()]);
-    
-                    resource.resourceTags = tagsData;
-                    resource.resourceTypes = typesData;
+                    // Fetch names for resource tags and types
+                    resource.resourceTypeNames = resource.resource_type ? await fetchNames(resource.resource_type, 'resource_type') : [];
+                    resource.resourceTagNames = resource.resource_tag ? await fetchNames(resource.resource_tag, 'resource_tag') : [];
                 }
                 return resource;
             }));
@@ -86,8 +118,6 @@ const SearchPage: React.FC = () => {
         }
     };
     
-    
-
     const updateUrlAfterTyping = useCallback(debounce((value) => {
         router.push(`/search?query=${encodeURIComponent(value)}`, undefined, { shallow: true });
     }, 500), [router]);
@@ -126,18 +156,64 @@ const SearchPage: React.FC = () => {
         }
     };
 
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
     const renderResults = () => {
         switch (activeFilter) {
-            // Inside the renderResults function in SearchPage component
-        case 'Stories & Resources':
-        return searchResults.filter(isResource).map((resource) => (
-            <div className='result' key={resource.id}>
-                <h5 className='title' dangerouslySetInnerHTML={{ __html: resource.title.rendered }} />
-                <div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
-                <a className='b2 link' href={resource.link}>{resource.link}</a>
-            </div>
-            ));
+            case 'Stories & Resources':
+            return (
+                <div className="resource-cards">
+                    {searchResults.filter(isResource).map((resource) => {
+                        // Format the date
+                        const date = new Date(resource.date);
+                        const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
 
+                        return (
+                            <div key={resource.id} className="card medium">
+                                {/* Resource card content */}
+                                <a href={resource.link}>
+                                    <div className="inner">
+                                        {resource.featuredImage && (
+                                            <div className="image-wrapper">
+                                                <div
+                                                    className="image"
+                                                    style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
+                                                    aria-label={resource.title.rendered}
+                                                ></div>
+                                            </div>
+                                        )}
+                                        <div className="content-wrapper">
+                                            <div className="details-wrapper">
+                                                <div className="details d-flex justify-start align-items-center">
+                                                    <div className="caption position-relative me-3">
+                                                        {resource.resourceTypeNames?.join(", ")}
+                                                    </div>
+                                                    <div className="date mb-0">{formattedDate}</div>
+                                                </div>
+                                                <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
+                                                <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
+                                            </div>
+                                            <div className="tags-wrapper">
+                                                <div className="tags d-flex flex-wrap">
+                                                    {resource.resourceTagNames?.map((tag, index) => (
+                                                        <div key={index} className="tag category mt-0">
+                                                            {decodeHtml(tag)}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
             case 'Locations':
                 return searchResults
                     .filter(isLocation)
@@ -224,7 +300,13 @@ const SearchPage: React.FC = () => {
                         searchTerm && (
                             <>
                                 <h3 className='pt-5'>Sorry, no matches were found.</h3>
-                                <div className='b4 pt-4'>Quick links: </div>
+                                {titleLoading ? (
+                                    <p></p>
+                                ) : titleError ? (
+                                    <p>Error: {titleError.message}</p>
+                                ) : (
+                                    <div className='b4 pt-4'>{titleData.siteSettings.siteSettings.titleFor4Panels}</div>
+                                )}
                                 <FourPanels />
                             </>
                         )

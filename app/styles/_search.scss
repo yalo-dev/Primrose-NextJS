@@ -55,6 +55,7 @@
         }
     }
     .results {
+        padding-bottom: 30px;
         .result {
             padding-top: 40px; 
             padding-bottom: 1rem;
@@ -71,6 +72,12 @@
             .link {
                 word-wrap: break-word;
             }
+        }
+        .resource-cards {
+            padding-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .four-panels  {
             @include media-breakpoint-up(lg) {
