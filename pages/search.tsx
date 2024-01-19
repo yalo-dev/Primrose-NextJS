@@ -4,6 +4,7 @@ import FourPanels from '../app/components/modules/FourPanels/FourPanels';
 import debounce from 'lodash.debounce';
 import ResourceCard from '../app/components/organisms/ResourceCard/ResourceCard';
 import { gql, useQuery } from '@apollo/client';
+import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 
 const GET_TITLE_FOR_PANELS = gql`
   query GetTitleForPanels {
@@ -15,7 +16,6 @@ const GET_TITLE_FOR_PANELS = gql`
   }
 `;
 
-
 interface SearchResult {
     id: number;
     title: {
@@ -25,18 +25,22 @@ interface SearchResult {
         rendered: string;
     };
     link: string;
-    date?: any; // Assuming date is a string (e.g., "2023-09-14T02:39:30")
+    date?: any; 
     featuredImage?: {
         sourceUrl: string;
         altText?: string;
     };
-    resourceTypes?: number[]; // Assuming these are arrays of IDs
+    resourceTypes?: number[]; 
     resourceTags?: number[];
-    // Add additional properties to store the fetched names
     resourceTypeNames?: string[];
     resourceTagNames?: string[];
 }
 
+interface Option {
+    className: any;
+    label: string;
+    value: string;
+}
 
 
 const SearchPage: React.FC = () => {
@@ -51,9 +55,21 @@ const SearchPage: React.FC = () => {
     const [filter, setFilter] = useState('all');
     const isResource = (post) => post.link.includes('/resources/');
     const isLocation = (post) => post.link.includes('/schools/');
-
     const { data: titleData, loading: titleLoading, error: titleError } = useQuery(GET_TITLE_FOR_PANELS);
+    // const [resourceTagsOptions, setResourceTagsOptions] = useState([]);
+    // const [selectedTags, setSelectedTags] = useState([]);
+    // const [filteredSearchResults, setFilteredSearchResults] = useState<SearchResult[]>([]);
 
+    const [resourceTagsOptions, setResourceTagsOptions] = useState<Option[]>([]);
+
+    const tagClassName = (tagId) => {
+        // Convert tagId to a string
+        const tagIdStr = tagId.toString();
+        const tagOption = resourceTagsOptions.find(option => option.value === tagIdStr);
+        return tagOption ? `tag-${tagOption.label.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}` : '';
+    };
+    
+    
     useEffect(() => {
         if (typeof query === 'string') {
             setSearchTerm(query);
@@ -61,12 +77,32 @@ const SearchPage: React.FC = () => {
         }
     }, [query]);
 
+    useEffect(() => {
+        const fetchResourceTags = async () => {
+            try {
+                const response = await fetch('https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resource_tag?per_page=100');
+                const tags = await response.json();
+                const options = tags.map(tag => ({ 
+                    label: decodeHtml(tag.name), 
+                    value: tag.id.toString(),
+                    className: tagClassName(decodeHtml(tag.name)) // Add class name here
+                }));
+                setResourceTagsOptions(options);
+            } catch (error) {
+                console.error('Error fetching resource tags:', error);
+            }
+        };
+    
+        fetchResourceTags();
+    }, []);
+    
+
+
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
         setError('');
         try {
             const perPage = 100;
-            // URLs for different content types
             const pageUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
             const schoolUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
             const resourceUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
@@ -78,9 +114,8 @@ const SearchPage: React.FC = () => {
             ]);
     
             let results = await Promise.all(responses.map(response => response.json()));
-            results = results.flat(); // Flatten the array of arrays
+            results = results.flat(); 
     
-            // Function to fetch names for tags and types
             const fetchNames = async (ids: number[], endpoint: string) => {
                 return Promise.all(ids.map(async id => {
                     const response = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/${endpoint}/${id}`);
@@ -89,10 +124,8 @@ const SearchPage: React.FC = () => {
                 }));
             };
     
-            // Fetch additional data for each resource
             const resultsWithAdditionalData = await Promise.all(results.map(async (resource) => {
                 if (resource.type === 'resources') {
-                    // Fetch featured image if available
                     if (resource.featured_media) {
                         const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
                         const mediaData = await mediaResponse.json();
@@ -101,15 +134,20 @@ const SearchPage: React.FC = () => {
                             altText: mediaData.alt_text
                         };
                     }
-    
-                    // Fetch names for resource tags and types
+                    
+        
+                    // return resource;
                     resource.resourceTypeNames = resource.resource_type ? await fetchNames(resource.resource_type, 'resource_type') : [];
                     resource.resourceTagNames = resource.resource_tag ? await fetchNames(resource.resource_tag, 'resource_tag') : [];
                 }
+                if (resource.resource_tag) {
+                    const tagClassNames = await fetchNames(resource.resource_tag, 'resource_tag');
+                    resource.tagClasses = tagClassNames.map(tagClassName).join(' ');
+                }
                 return resource;
             }));
-    
             setSearchResults(resultsWithAdditionalData);
+        
         } catch (error) {
             console.error(error);
             setError('Failed to load search results: ' + error.message);
@@ -148,33 +186,59 @@ const SearchPage: React.FC = () => {
     const filteredResults = () => {
         switch (activeFilter) {
             case 'Stories & Resources':
-                return searchResults.filter(result => result.link.includes('/resources/'));
+                return searchResults.filter(isResource);
             case 'Locations':
-                return searchResults.filter(result => result.link.includes('/schools/'));
+                return searchResults.filter(isLocation);
             default:
                 return searchResults;
         }
     };
 
+    const handleFilterChange = (newFilter) => {
+        setActiveFilter(newFilter);
+    };
+   
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
     }
 
+    const handleTagSelection = (selectedValues: string[]) => {
+        const selectedClasses = selectedValues.map(value => {
+            const option = resourceTagsOptions.find(opt => opt.value === value);
+            return option ? option.className : '';
+        });
+        const resourceCards = document.querySelectorAll('.resource-cards .card');
+    
+        resourceCards.forEach(card => {
+            const htmlCard = card as HTMLElement;
+            const matchesFilter = selectedClasses.some(className => htmlCard.classList.contains(className));
+            htmlCard.style.display = matchesFilter || selectedClasses.length === 0 ? '' : 'none';
+        });
+    };
+    
     const renderResults = () => {
         switch (activeFilter) {
             case 'Stories & Resources':
             return (
+                <>
+                <CustomMultiSelectDropdown
+                    options={resourceTagsOptions}
+                    onSelect={handleTagSelection}
+                    placeholder="All Topics"
+                />
                 <div className="resource-cards">
                     {searchResults.filter(isResource).map((resource) => {
                         // Format the date
                         const date = new Date(resource.date);
                         const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+                        // Compute tag classes for each resource
+                        const tagClasses = resource.resourceTags?.map(tagId => tagClassName(tagId)).join(' ') || '';
 
                         return (
-                            <div key={resource.id} className="card medium">
-                                {/* Resource card content */}
+                            <div key={resource.id} className={`card medium ${tagClasses}`}>
+                            {/* Resource card content */}
                                 <a href={resource.link}>
                                     <div className="inner">
                                         {resource.featuredImage && (
@@ -213,6 +277,7 @@ const SearchPage: React.FC = () => {
                         );
                     })}
                 </div>
+                </>
             );
             case 'Locations':
                 return searchResults
@@ -236,9 +301,6 @@ const SearchPage: React.FC = () => {
         }
     };
     
-    const handleFilterChange = (newFilter) => {
-        setActiveFilter(newFilter);
-    };
 
 
     if (loading) return <p></p>;
