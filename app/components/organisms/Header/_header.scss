@@ -421,6 +421,7 @@
             }
         }
         .clear-icon {
+            cursor: pointer;
             right: 4rem;
             position: absolute;
             opacity: 0;
@@ -455,6 +456,9 @@
                 li {
                     padding: 0.5rem;
                     cursor: pointer;
+                     a {
+                        color: $text-gray;
+                     }
                 }
             }
         }
