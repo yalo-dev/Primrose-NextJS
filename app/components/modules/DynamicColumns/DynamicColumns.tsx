@@ -45,13 +45,20 @@ interface Column {
   image?: {
     altText: string;
     sourceUrl: string;
+    columnImage: {
+      sourceUrl: string;
+      altText: string;
+    }
   };
   title?: string;
   blurb?: string;
   button?: {
-    target: string;
-    title: string;
-    url: string;
+    buttonLink: {
+      target: string;
+      title: string;
+      url: string;
+    }
+    buttonStyle: string;
   };
   components: Component[];
 }
