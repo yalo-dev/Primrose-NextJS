@@ -6,6 +6,7 @@ import PhoneField from "./GravityFormsFields/PhoneField";
 import RadioField from "./GravityFormsFields/RadioField";
 import TextField from "./GravityFormsFields/TextField";
 import SelectField from "./GravityFormsFields/SelectField";
+import HiddenField from "./GravityFormsFields/HiddenField";
 
 interface Props {
   field: FormField;
@@ -26,6 +27,8 @@ export default function GravityFormsField({ field, fieldErrors }: Props) {
       return <SelectField field={field} fieldErrors={fieldErrors} />;
     case "TEXT":
       return <TextField field={field} fieldErrors={fieldErrors} />;
+    case "HIDDEN":
+      return <HiddenField field={field} />
     default:
       return <p>{`Field type not supported: ${field.type}.`}</p>;
   }
