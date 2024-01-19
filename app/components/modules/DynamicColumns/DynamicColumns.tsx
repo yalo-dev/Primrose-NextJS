@@ -101,7 +101,7 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
           <div className='row'>
           {columns.map((column, columnIndex) => ( 
             <div key={columnIndex} className={`${getColumnClass(columns)}`}>
-              {column.image && column.image.columnImage.sourceUrl && <Image src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
+              {column.image && column.image.columnImage.sourceUrl && <img src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
               {column.title && <p className='b4 bold mt-3'>{column.title}</p>}
               {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
               {column.button && (
