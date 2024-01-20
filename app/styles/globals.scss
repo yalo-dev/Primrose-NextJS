@@ -392,12 +392,16 @@ hr {
 .locations .accordion-body{
     font-size: .9rem;
     padding: 3rem 2rem;
+    
+}
+.locations .accordion-body .schools{
     display:flex; 
     flex-direction:column;
     flex-wrap:wrap;
     max-height:750px;
+    padding-bottom: 3rem;
 }
-.locations .accordion-body a{
+.locations .accordion-body a.school{
     color: #373A36;
     text-decoration: underline;;
     padding: 0rem 2rem .75rem 0rem;
@@ -405,21 +409,54 @@ hr {
         width:33%;
     }
 }
+.locations .accordion-button{
+    background-color:white;
+}
 .locations .accordion-button::after{
-    //content: "\2014";
+    content: "\2014";
     width: 2.5rem;
     height:2.5rem;
-    background-color: #006ba6;
+    background-color: #ffffff;
+    border:1px solid #006ba6;
     font-weight:200;
-    color:white;
+    color:#006ba6;
     font-size: 1.25rem;
     border-radius: 50%;
     text-align: center;
     line-height:2.5rem;
-    content: "\FF0B";
     background-image:none;
+}
+.locations .accordion-button.collapsed::after{
+    //content: "\2014";
+    content: "\FF0B";
+    background-color: #006ba6;
+    color:white;
 }
 .locations .accordion-button:focus {
     border:none !important;
     box-shadow:none;
+}
+a.link {
+    color: $primary-green;
+    position: relative;
+    font-size: 14px;
+
+    &::after {
+        position: absolute;
+        content: '>';
+        right: -1rem;
+        top: -4px;
+        width: 10px;
+        height: 10px;
+        font-size: 1.25rem;
+        font-weight: 100;
+        @include transitionAll;
+    }
+    &:hover {
+        color: $brand-blue;
+        &::after {
+            right: -1.5rem;
+            color: $brand-blue;
+        }
+    }
 }

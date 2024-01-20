@@ -152,11 +152,14 @@ export default function Locations({ markets, schools }) {
                                     </h2>
                                     <div id={"collapse" + index} className="accordion-collapse collapse" data-bs-parent={"#" + slugify(state, {lower:true})}>
                                         <div className="accordion-body">
+                                            <div className="schools">
                                         {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (
                                             <>
-                                            <a href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
+                                            <a class="school" href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
                                             </>
                                         ))}
+                                            </div>
+                                        <a class="link" href={market.uri}>Learn more about schools in this area</a>
                                         </div>
                                     </div>
 
