@@ -86,7 +86,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
     
     
     return (
-        <div className="container">
+        <div>
             <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}
@@ -95,6 +95,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
                 colorLabel={customizations?.backgroundColor}
             >
                 <div className='four-across-slider'>
+                    <div className='container'>
                 <Slider {...settings}>
                     {fourAcrossSlider.map((slide, index) => (
                         <div className='slide-content' key={index}>
@@ -111,6 +112,7 @@ const FourAcrossSlider: React.FC<FourAcrossSliderProps> = ({ fourAcrossSlider, c
                     ))}
                     
                 </Slider>
+                    </div>
                 </div>
             </Customizations>
         </div>

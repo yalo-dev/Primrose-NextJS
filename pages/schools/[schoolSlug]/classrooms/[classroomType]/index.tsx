@@ -779,7 +779,7 @@ export default function ClassroomTypePage({ school }) {
 
   return (
 
-    <div className='school classroom-type pt-4 pb-4'>
+    <div className='school classroom-type'>
       <HeroWithImage {...heroProps} />
       <div className="container">
         <div className="general-horizontal-tabs-module">

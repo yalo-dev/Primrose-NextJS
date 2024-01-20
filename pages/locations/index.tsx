@@ -117,3 +117,4 @@ export default function Locations({ markets, schools }) {
         </>
     );
 }
+

@@ -3,6 +3,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'custom';
 @import 'careers';
+@import 'search';
 
 @import '../components/atoms/Button/button';
 @import '../components/atoms/Tag/tag';
@@ -17,7 +18,7 @@
 @import '../components/organisms/ResourceCard/resourceCard';
 @import '../components/organisms/ResourcesMenu/reseourcesMenu';
 @import '../components/organisms/SchoolsMenu/schoolsMenu';
-
+  
 @import '../components/modules/BlockAndSlider/blockAndSlider';
 @import '../components/modules/ClassroomSelectAndImage/classroomSelectAndImage';
 @import '../components/modules/ClassroomSelectAndContent/classroomSelectAndContent';
@@ -26,7 +27,9 @@
 @import '../components/modules/FeaturedBlogs/featuredBlogs';
 @import '../components/modules/FeaturedSection/featuredSection';
 @import '../components/modules/FindASchool/findASchool';
+@import '../components/modules/FindASchoolMap/findASchoolMap';
 @import '../components/modules/FourAcrossSlider/fourAcrossSlider';
+@import '../components/modules/FourPanels/fourPanels';
 @import '../components/modules/GallerySlider/gallerySlider';
 @import '../components/modules/GeneralButtonCTA/generalButtonCTA';
 @import '../components/modules/GeneralHorizontalTabs/generalHorizontalTabs';
@@ -139,7 +142,7 @@ h2 {
     }
 
 }
-
+ 
 h3 {
     font-size: 26px;
     font-weight: 300;

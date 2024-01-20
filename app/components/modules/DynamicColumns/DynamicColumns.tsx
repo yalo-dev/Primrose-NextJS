@@ -2,6 +2,7 @@ import React from 'react';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
+import Image from "next/legacy/image";
 
 
 interface ImageComponent {
@@ -43,15 +44,21 @@ type Component = ImageComponent | BodyCopyComponent | ButtonComponent | HeadingC
 interface Column {
   columnWidth: string;
   image?: {
-    altText: string;
-    sourceUrl: string;
+    imageType: string;
+    columnImage: {
+      sourceUrl: string;
+      altText: string;
+    }
   };
   title?: string;
   blurb?: string;
   button?: {
-    target: string;
-    title: string;
-    url: string;
+    buttonLink: {
+      target: string;
+      title: string;
+      url: string;
+    }
+    buttonStyle: string;
   };
   components: Component[];
 }
@@ -94,7 +101,7 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
           <div className='row'>
           {columns.map((column, columnIndex) => ( 
             <div key={columnIndex} className={`${getColumnClass(columns)}`}>
-              {column.image && <img src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
+              {column.image && column.image.columnImage.sourceUrl && <img src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
               {column.title && <p className='b4 bold mt-3'>{column.title}</p>}
               {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
               {column.button && (

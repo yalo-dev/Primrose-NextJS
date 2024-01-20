@@ -115,59 +115,38 @@ query GetModules($id: ID = "") {
 			  backgroundColorRight
 			}
 		  }
-		  ... on Page_Modules_Modules_DynamicColumns {
-			heading
-			headingColor
-			customizations {
-			  bottomPaddingDesktop
-			  bottomPaddingMobile
-			  topPaddingDesktop
-			  topPaddingMobile
-			}
-			columns {
-			  image {
-			  	altText
-			  	sourceUrl
-			    }
-			  title
-			  blurb
-			  button {
-			    target
-			    title
-			    url
-			  }
-			  columnWidth
-			  components {
-				... on Page_Modules_Modules_DynamicColumns_columns_Components_Button {
-				  buttonStyle
-				  button {
-					target
-					title
-					url
-				  }
-				}
-				... on Page_Modules_Modules_DynamicColumns_columns_Components_Heading {
-				  heading
-				  headingColor
-				  headingSize
-				}
-				... on Page_Modules_Modules_DynamicColumns_columns_Components_Image {
-				  image {
-					altText
-					sourceUrl
-				  }
-				}
-				... on Page_Modules_Modules_DynamicColumns_columns_Components_BodyCopy {
-				  bodyCopy
-				  bodyCopyColor
-				  bodyCopySize
-				}
-				... on Page_Modules_Modules_DynamicColumns_columns_Components_WysiwygEditor {
-				  wysiwyg
-				}
-			  }
-			}
-		  }
+          ... on Page_Modules_Modules_DynamicColumns {
+              fieldGroupName
+              columns {
+                blurb
+                fieldGroupName
+                button {
+                  buttonLink {
+                    target
+                    title
+                    url
+                  }
+                  buttonStyle
+                  fieldGroupName
+                }
+                image {
+                  columnImage {
+                    altText
+                    sourceUrl
+                  }
+                  imageType
+                }
+                title
+              }
+              acfeFlexibleToggle
+              customizations {
+                bottomPaddingDesktop
+                bottomPaddingMobile
+                topPaddingDesktop
+                topPaddingMobile
+              }
+              moduleId
+            }
 		  ... on Page_Modules_Modules_DynamicForm {
 			headings {
 			  heading
@@ -175,6 +154,7 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
+			moduleId
 			formid
 			portalid
 			region
