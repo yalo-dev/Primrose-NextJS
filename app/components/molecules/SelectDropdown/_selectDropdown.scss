@@ -58,6 +58,8 @@
         position: absolute;
         width: 16rem;
         overflow: hidden;
+        max-height:585px;
+        overflow-y: auto;
         height: 0;
         transition: height 0.3s ease-out;
         top: 3rem;

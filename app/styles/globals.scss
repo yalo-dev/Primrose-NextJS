@@ -376,3 +376,50 @@ hr {
     border-radius:6px;
     border-color: #e6e6e6;
 }
+.locations .accordion{
+   margin-bottom:2.75rem;
+}
+.locations .accordion h5{
+    color: #555f68;
+    margin: .7rem 0 .25rem 0;
+}
+.locations .accordion-flush .accordion-item:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+.locations .accordion-button{
+    padding: 1rem .75rem;
+}
+.locations .accordion-body{
+    font-size: .9rem;
+    padding: 3rem 2rem;
+    display:flex; 
+    flex-direction:column;
+    flex-wrap:wrap;
+    max-height:750px;
+}
+.locations .accordion-body a{
+    color: #373A36;
+    text-decoration: underline;;
+    padding: 0rem 2rem .75rem 0rem;
+    @include media-breakpoint-up(lg) {
+        width:33%;
+    }
+}
+.locations .accordion-button::after{
+    //content: "\2014";
+    width: 2.5rem;
+    height:2.5rem;
+    background-color: #006ba6;
+    font-weight:200;
+    color:white;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height:2.5rem;
+    content: "\FF0B";
+    background-image:none;
+}
+.locations .accordion-button:focus {
+    border:none !important;
+    box-shadow:none;
+}
