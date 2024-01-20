@@ -8,6 +8,7 @@ import SelectDropdown from '../../app/components/molecules/SelectDropdown/Select
 import bootstrap from 'bootstrap';
 import Script from 'next/script';
 import { Http2ServerResponse } from 'http2';
+import $ from 'jquery';
 
 const slugify = require('slugify');
 
@@ -83,7 +84,8 @@ export default function Locations({ markets, schools }) {
        
         if(school.markets.nodes.length>0){
             if(!schools_arr[school.markets.nodes[0].name]){
-                schools_arr[school.markets.nodes[0].name] = []
+                
+                schools_arr[school.markets.nodes[0].name] = new Array();
             }
             schools_arr[school.markets.nodes[0].name].push(school);
         }
@@ -117,7 +119,6 @@ export default function Locations({ markets, schools }) {
     return (
         
         <>
-            <Script strategy="beforeInteractive" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" />
             <div className='container-fluid bg-gray heading py-5'>
                 <div className='row py-5 '>
                     <div className='col-12 text-center'>
@@ -138,7 +139,7 @@ export default function Locations({ markets, schools }) {
                     {states.map((state, i) => (
                         <>
                         <div id={slugify(state, {lower:true}) + "_section"} className="state_section">
-                        <span class="subheading" key={i}>{state}</span>
+                        <span className="subheading" key={i}>{state}</span>
                         <div className="accordion accordion-flush" id={slugify(state, {lower:true})}>
                         {markets.map((market, index) => market.markets.marketState == state && (
                             <>
@@ -155,11 +156,11 @@ export default function Locations({ markets, schools }) {
                                             <div className="schools">
                                         {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (
                                             <>
-                                            <a class="school" href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
+                                            <a className="school" href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
                                             </>
                                         ))}
                                             </div>
-                                        <a class="link" href={market.uri}>Learn more about schools in this area</a>
+                                        <a className="link" href={market.uri}>Learn more about schools in this area</a>
                                         </div>
                                     </div>
 
