@@ -94,6 +94,9 @@ body {
     padding: 0;
     font-weight: 300;
 }
+.bg-gray{
+    background-color: $grayscale-3;
+}
 @media screen and (max-width: 991px){
     body{
         margin-top:100px;
@@ -360,4 +363,13 @@ hr {
 
 .module {
     overflow-x: hidden;
+}
+
+.heading .custom-select{
+    margin-left:auto;
+    margin-right:auto;
+}
+.heading .custom-select .header{
+    border-radius:6px;
+    border-color: #e6e6e6;
 }
