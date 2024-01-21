@@ -1,19 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-import schools from '../../../../app/data/schoolsData';
 import Button from '../../../../app/components/atoms/Button/Button';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-
 
 const containerStyle = {
   width: '100%',
   height: '350px'
 };
 
-const center = {
-  lat: 39.8283,
-  lng: -98.5795
-};
+
 
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
@@ -78,29 +73,52 @@ const svgIconStart = `
 </svg>
 
 `;
+interface SchoolsArray{
+  id: number;
+  name: string;
+  address: string;
+  hours: string;
+  notes: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+}
 
-const FindASchool = () => {
+interface FindASchoolMapProps{
+  schools?: SchoolsArray[];
+  title?: string;
+  center?: Location;
+}
+const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
+  const{
+    schools,
+    title,
+    center
+  } = props;
+
+  
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
   const [mapCenter, setMapCenter] = useState(center);
   const [activeTab, setActiveTab] = useState(1);
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [hasSearched, setHasSearched] = useState(true);
   const [searched, setSearched] = useState(false);
   const nearInputRef = useRef<HTMLInputElement>(null);
   const routeInputRef1 = useRef<HTMLInputElement>(null);
   const routeInputRef2 = useRef<HTMLInputElement>(null);
   const routeInputRef3 = useRef<HTMLInputElement>(null);
-  const [zoomLevel, setZoomLevel] = useState(5);
-  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
+  const [zoomLevel, setZoomLevel] = useState(9);
+  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(center);
   let geocoder;
-  const MAX_DISTANCE = 10;
+  const MAX_DISTANCE = 100000;
   const DEFAULT_ZOOM = 5;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
-  const [isAdded, setIsAdded] = useState(false);
+  const [isAdded, setIsAdded] = useState(true);
   const [autocompleteInstances, setAutocompleteInstances] = useState({});
   const directionsRendererRef = useRef<google.maps.DirectionsRenderer | null>(null);
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
@@ -114,9 +132,7 @@ const FindASchool = () => {
   const [markers, setMarkers] = useState([]);
   const [searchText, setSearchText] = useState('');
 
-
-
-
+ 
 
   //BRANDON RELEVENT CODE HERE
   const [inputFields, setInputFields] = useState<InputField[]>([
@@ -460,7 +476,7 @@ const FindASchool = () => {
   };
   //BRANDON RELEVENT CODE HERE ENDS
 
-
+//console.log(schools);
 
   useEffect(() => {
     if (nearInputRef.current) {
@@ -476,7 +492,6 @@ const FindASchool = () => {
       }
     };
   }, []);
-
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
       mapCenter.lat,
@@ -486,8 +501,8 @@ const FindASchool = () => {
     );
     return distance <= MAX_DISTANCE;
   });
-
   const sortedSchools = [...filteredSchools].map((school) => {
+    
     const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
     return { ...school, distance: dist };
   }).sort((a, b) => a.distance - b.distance)
@@ -725,7 +740,12 @@ useEffect(() => {
   //BRANDON RELEVENT CODE HERE ENDS
 
   return (
-    <div className='find-a-school-container'>
+    <div id="map" className={'find-a-school-container ' + (title? 'title': '')}>
+      {title && (
+        <div className="map-title">
+          <h3>{title}</h3>
+        </div>
+      )}
       <LoadScript
         googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
         libraries={GOOGLE_MAP_LIBRARIES}
@@ -1087,7 +1107,6 @@ useEffect(() => {
 
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
-                  scaledSize: new google.maps.Size(30, 30),
                 }}
                 onMouseOver={() => setHoveredSchoolId(school.id)}
                 onMouseOut={() => setHoveredSchoolId(null)}
@@ -1200,4 +1219,4 @@ useEffect(() => {
   );
 };
 
-export default FindASchool;
+export default FindASchoolMap;

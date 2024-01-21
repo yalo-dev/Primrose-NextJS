@@ -398,8 +398,11 @@ hr {
     display:flex; 
     flex-direction:column;
     flex-wrap:wrap;
-    max-height:750px;
     padding-bottom: 3rem;
+    @include media-breakpoint-up(lg) {
+        
+    max-height:750px;
+    }
 }
 .locations .accordion-body a.school{
     color: #373A36;
@@ -459,4 +462,42 @@ a.link {
             color: $brand-blue;
         }
     }
+}
+div.market>div{
+    margin: 1.5rem auto;
+}
+div.market .hero-with-image{
+    background-color: #5E6738;
+    color:white;
+}
+div.market .hero-with-image h1, div.market .hero-with-image p{
+    color:white;
+}
+div.market .two-columns-image-and-text{
+    margin-top: 7.5rem;
+    margin-bottom: 4rem;
+}
+.find-a-school-container{
+    margin: 0 auto;
+    overflow:visible;
+}
+.find-a-school-container.title{
+    margin-top:9.125rem;
+    margin-bottom:0;
+}
+.find-a-school-container .map-title{
+    top:-9.125rem;
+    position:absolute;
+    width:100%;
+    left:0;
+    background-color: #5e6738;
+    color:white;
+    height: 9.125rem;
+    text-align:center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.map-title h3{
+    color:white;
 }

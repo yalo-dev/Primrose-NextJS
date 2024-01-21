@@ -5,6 +5,7 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
+import parse from 'html-react-parser';
 
 interface HeroWithImageProps {
     leftColumn?: {
@@ -65,7 +66,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                         {rightColumn.eyebrow && <Subheading level='div' className='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Subheading>}
                         {rightColumn.heading && <Heading level='h1' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
-                        {rightColumn?.blurb && <Paragraph className='b2' color={rightColumn.blurbColor}>{rightColumn.blurb}</Paragraph>}
+                        {rightColumn?.blurb && <Paragraph className='b2' color={rightColumn.blurbColor}>{parse(rightColumn.blurb)}</Paragraph>}
                         {rightColumn.button?.url && rightColumn.button.title && (
 							<Button variant={rightColumn.buttonStyle || 'primary'} href={rightColumn.button.url} target={rightColumn.button.target || '_self'}>
 								{rightColumn.button.title}

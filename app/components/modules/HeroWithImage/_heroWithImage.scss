@@ -29,8 +29,7 @@
        
         img {
             border-radius: 0;
-            border-top-right-radius: 15px;
-            border-top-left-radius: 15px;
+            
             object-fit: cover;
             object-position: center;
             width: 100%;
@@ -39,9 +38,7 @@
                 height: 369px;
             }
             @include media-breakpoint-up(lg) {
-                border-top-right-radius: 0;
-                border-top-left-radius: 15px;
-                border-bottom-left-radius: 15px;
+                
                 height: 100%;
             }
             // @include media-breakpoint-up(xxl) {

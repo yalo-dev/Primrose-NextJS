@@ -4,7 +4,7 @@ import Customizations from '../../filters/Customizations';
 import ColorComponent from '../../filters/ColorComponent';
 
 interface QuoteTestimonialsProps {
-	customizations: {
+	customizations?: {
 		topPaddingMobile: string;
 		topPaddingDesktop: string;
 		bottomPaddingMobile: string;
@@ -27,8 +27,8 @@ interface QuoteTestimonialsProps {
 			blurbColor: string;
 		};
 	}[];
-	heading: string;
-	headingColor: string;
+	heading?: string;
+	headingColor?: string;
 }
 const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
 	tabs,

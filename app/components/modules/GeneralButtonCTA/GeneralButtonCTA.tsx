@@ -13,7 +13,7 @@ interface OptionType {
 }
 
 interface GeneralButtonCTAProps {
-	accents: {
+	accents?: {
         accentOne?: {
             sourceUrl?: string;
         }
@@ -115,14 +115,7 @@ const GeneralButtonCTA: React.FC<GeneralButtonCTAProps> = ({ accents, icon, head
                 
 
 					</div>
-					<div className='accent'>
-						<div className='accent-one'
-							style={{ backgroundImage: `url('${accents.accentOne?.sourceUrl}')` }} 
-						></div>
-						<div className='accent-two'
-							style={{ backgroundImage: `url('${accents.accentTwo?.sourceUrl}')` }} 
-						></div>
-					</div>
+					
 				</div>
 			
 			</Customizations>

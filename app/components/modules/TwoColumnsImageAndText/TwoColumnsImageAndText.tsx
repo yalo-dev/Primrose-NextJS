@@ -47,7 +47,7 @@ interface TwoColumnsImageAndTextProps {
             title?: string;
             url?: string;
         };
-        imageOrVideo?: 'Image' | 'Video';
+        imageOrVideo?: string;
         announcement?: {
             backgroundColor?: string;
             bottomLine?: string;
