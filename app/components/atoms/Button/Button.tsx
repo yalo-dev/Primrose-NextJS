@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label?: string;
     href?: string;
     target?: string;
-    children?: string;
+    children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, target, children, ...props }) => {
@@ -28,11 +28,11 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, targe
     if (href) {
         return (
             <Link href={href} passHref>
-                <button className={buttonClass} {...props}>{decode(label) || decode(children)}</button>
+                <button className={buttonClass} {...props}>{decode(label) || children}</button>
             </Link>
         );
     }
-    return <button className={buttonClass} {...props}>{decode(label) || decode(children)}</button>;
+    return <button className={buttonClass} {...props}>{decode(label) || children}</button>;
 }
 
 export default Button;
