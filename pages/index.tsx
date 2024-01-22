@@ -643,6 +643,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_SeasonalBanner {
+			moduleId
 			accentOne {
 			  sourceUrl
 			}
@@ -651,6 +652,10 @@ query GetModules($id: ID = "") {
 			}
 			accentThree {
 			  sourceUrl
+			}
+			image {
+				sourceUrl
+				altText
 			}
 			heading
 			headingColor
