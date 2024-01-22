@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FourPanels from '../app/components/modules/FourPanels/FourPanels';
-import debounce from 'lodash.debounce';
-import ResourceCard from '../app/components/organisms/ResourceCard/ResourceCard';
 import { gql, useQuery } from '@apollo/client';
 import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 
@@ -42,7 +40,6 @@ interface Option {
     value: string;
 }
 
-
 const SearchPage: React.FC = () => {
     const router = useRouter();
     const { query } = router.query;
@@ -52,15 +49,11 @@ const SearchPage: React.FC = () => {
     const [error, setError] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
     const [activeFilter, setActiveFilter] = useState('Top Results');
-    const [filter, setFilter] = useState('all');
     const isResource = (post) => post.link.includes('/resources/');
     const isLocation = (post) => post.link.includes('/schools/');
     const { data: titleData, loading: titleLoading, error: titleError } = useQuery(GET_TITLE_FOR_PANELS);
-    // const [resourceTagsOptions, setResourceTagsOptions] = useState([]);
-    // const [selectedTags, setSelectedTags] = useState([]);
-    // const [filteredSearchResults, setFilteredSearchResults] = useState<SearchResult[]>([]);
-
     const [resourceTagsOptions, setResourceTagsOptions] = useState<Option[]>([]);
+    const [searchPerformed, setSearchPerformed] = useState(false);
 
     const tagClassName = (tagId) => {
         // Convert tagId to a string
@@ -68,8 +61,7 @@ const SearchPage: React.FC = () => {
         const tagOption = resourceTagsOptions.find(option => option.value === tagIdStr);
         return tagOption ? `tag-${tagOption.label.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}` : '';
     };
-    
-    
+
     useEffect(() => {
         if (typeof query === 'string') {
             setSearchTerm(query);
@@ -96,8 +88,6 @@ const SearchPage: React.FC = () => {
         fetchResourceTags();
     }, []);
     
-
-
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
         setError('');
@@ -134,9 +124,6 @@ const SearchPage: React.FC = () => {
                             altText: mediaData.alt_text
                         };
                     }
-                    
-        
-                    // return resource;
                     resource.resourceTypeNames = resource.resource_type ? await fetchNames(resource.resource_type, 'resource_type') : [];
                     resource.resourceTagNames = resource.resource_tag ? await fetchNames(resource.resource_tag, 'resource_tag') : [];
                 }
@@ -155,32 +142,18 @@ const SearchPage: React.FC = () => {
             setLoading(false);
         }
     };
-    
-    const updateUrlAfterTyping = useCallback(debounce((value) => {
-        router.push(`/search?query=${encodeURIComponent(value)}`, undefined, { shallow: true });
-    }, 500), [router]);
 
-    const debouncedSearch = useCallback(debounce((search) => {
-        fetchSearchResults(search);
-        inputRef.current?.focus();
-    }, 500), []);
-
+   const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm) {
+        fetchSearchResults(searchTerm);
+        router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
+        setSearchPerformed(true);
+    }
+};
     const handleInputChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
-        if (value) {
-            debouncedSearch(value);
-            updateUrlAfterTyping(value);
-        } else {
-            setSearchResults([]);
-            updateUrlAfterTyping('');
-        }
-    };
-
-    const clearInput = () => {
-        setSearchTerm('');
-        setSearchResults([]);
-        updateUrlAfterTyping('');
     };
 
     const filteredResults = () => {
@@ -204,6 +177,11 @@ const SearchPage: React.FC = () => {
         return txt.value;
     }
 
+    const clearInput = () => {
+        setSearchTerm('');
+        setSearchPerformed(false);
+    };
+
     const handleTagSelection = (selectedValues: string[]) => {
         const selectedClasses = selectedValues.map(value => {
             const option = resourceTagsOptions.find(opt => opt.value === value);
@@ -213,96 +191,121 @@ const SearchPage: React.FC = () => {
     
         resourceCards.forEach(card => {
             const htmlCard = card as HTMLElement;
-            const matchesFilter = selectedClasses.some(className => htmlCard.classList.contains(className));
+            const matchesFilter = selectedClasses.some(className => 
+                className && htmlCard.classList.contains(className)
+            );
             htmlCard.style.display = matchesFilter || selectedClasses.length === 0 ? '' : 'none';
         });
     };
     
     const renderResults = () => {
-        switch (activeFilter) {
-            case 'Stories & Resources':
-            return (
-                <>
-                <CustomMultiSelectDropdown
-                    options={resourceTagsOptions}
-                    onSelect={handleTagSelection}
-                    placeholder="All Topics"
-                />
-                <div className="resource-cards">
-                    {searchResults.filter(isResource).map((resource) => {
-                        // Format the date
-                        const date = new Date(resource.date);
-                        const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-                        // Compute tag classes for each resource
-                        const tagClasses = resource.resourceTags?.map(tagId => tagClassName(tagId)).join(' ') || '';
+        const renderTitleAndFourPanels = () => (
+            <>
+                {!titleLoading && !titleError && (
+                    <div className='b4 pt-4'>{titleData.siteSettings.siteSettings.titleFor4Panels}</div>
+                )}
+                <FourPanels />
+            </>
+        );
+    
+        // Show the title and 4 panels if no search has been performed yet
+        if (!searchPerformed) {
+            return renderTitleAndFourPanels();
+        }
+    
+        if (searchPerformed) {
+            if (filteredResults().length === 0) {
+                return (
+                    <>
+                        <h3 className='pt-5'>Sorry, no matches were found.</h3>
+                        {renderTitleAndFourPanels()}
+                    </>
+                );
+            }
+    
+            switch (activeFilter) {
+                case 'Stories & Resources':
+                return (
+                    <>
+                    <CustomMultiSelectDropdown
+                        options={resourceTagsOptions}
+                        onSelect={handleTagSelection}
+                        placeholder="All Topics"
+                    />
+                    <div className="resource-cards">
+                        {searchResults.filter(isResource).map((resource) => {
+                            // Format the date
+                            const date = new Date(resource.date);
+                            const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+                            // Compute tag classes for each resource
+                            const tagClasses = resource.resourceTags?.map(tagId => tagClassName(tagId)).join(' ') || '';
 
-                        return (
-                            <div key={resource.id} className={`card medium ${tagClasses}`}>
-                            {/* Resource card content */}
-                                <a href={resource.link}>
-                                    <div className="inner">
-                                        {resource.featuredImage && (
-                                            <div className="image-wrapper">
-                                                <div
-                                                    className="image"
-                                                    style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
-                                                    aria-label={resource.title.rendered}
-                                                ></div>
-                                            </div>
-                                        )}
-                                        <div className="content-wrapper">
-                                            <div className="details-wrapper">
-                                                <div className="details d-flex justify-start align-items-center">
-                                                    <div className="caption position-relative me-3">
-                                                        {resource.resourceTypeNames?.join(", ")}
-                                                    </div>
-                                                    <div className="date mb-0">{formattedDate}</div>
+                            return (
+                                <div key={resource.id} className={`card medium ${tagClasses}`}>
+                                {/* Resource card content */}
+                                    <a href={resource.link}>
+                                        <div className="inner">
+                                            {resource.featuredImage && (
+                                                <div className="image-wrapper">
+                                                    <div
+                                                        className="image"
+                                                        style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
+                                                        aria-label={resource.title.rendered}
+                                                    ></div>
                                                 </div>
-                                                <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
-                                                <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
-                                            </div>
-                                            <div className="tags-wrapper">
-                                                <div className="tags d-flex flex-wrap">
-                                                    {resource.resourceTagNames?.map((tag, index) => (
-                                                        <div key={index} className="tag category mt-0">
-                                                            {decodeHtml(tag)}
+                                            )}
+                                            <div className="content-wrapper">
+                                                <div className="details-wrapper">
+                                                    <div className="details d-flex justify-start align-items-center">
+                                                        <div className="caption position-relative me-3">
+                                                            {resource.resourceTypeNames?.join(", ")}
                                                         </div>
-                                                    ))}
+                                                        <div className="date mb-0">{formattedDate}</div>
+                                                    </div>
+                                                    <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
+                                                    <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
+                                                </div>
+                                                <div className="tags-wrapper">
+                                                    <div className="tags d-flex flex-wrap">
+                                                        {resource.resourceTagNames?.map((tag, index) => (
+                                                            <div key={index} className="tag category mt-0">
+                                                                {decodeHtml(tag)}
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    </>
+                );
+                case 'Locations':
+                    return searchResults
+                        .filter(isLocation)
+                        .map((school) => (
+                            <div className='school-result' key={school.id}>
+                                <h5 className='title' dangerouslySetInnerHTML={{ __html: school.title.rendered }} />
+                                <p dangerouslySetInnerHTML={{ __html: school.excerpt.rendered }} />
+                                <a className='b2 link' href={school.link}>Learn more</a>
                             </div>
-                        );
-                    })}
-                </div>
-                </>
-            );
-            case 'Locations':
-                return searchResults
-                    .filter(isLocation)
-                    .map((school) => (
-                        <div className='school-result' key={school.id}>
-                            <h5 className='title' dangerouslySetInnerHTML={{ __html: school.title.rendered }} />
-                            <p dangerouslySetInnerHTML={{ __html: school.excerpt.rendered }} />
-                            <a className='b2 link' href={school.link}>Learn more</a>
+                        ));
+                default:
+                    // 'Top Results' or default case
+                    return searchResults.map(post => (
+                        <div className='result' key={post.id}>
+                            <h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                            <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                            <a className='b2 link' href={post.link}>{post.link}</a>
                         </div>
                     ));
-            default:
-                // 'Top Results' or default case
-                return searchResults.map(post => (
-                    <div className='result' key={post.id}>
-                        <h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-                        <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
-                        <a className='b2 link' href={post.link}>{post.link}</a>
-                    </div>
-                ));
+            }
         }
     };
     
-
-
     if (loading) return <p></p>;
     if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
@@ -311,27 +314,29 @@ const SearchPage: React.FC = () => {
             <div className='search-bar-container'>
                 <div className='container border-bottom'>
                     <div className='search col-lg-10 offset-lg-1'>
-                        <label htmlFor='search' className='hidden'>Search</label>
-                        <input
-                            ref={inputRef}
-                            className='form-control'
-                            type='search'
-                            name='search'
-                            id='search'
-                            placeholder='Search...'
-                            aria-label='Search'
-                            required
-                            value={searchTerm}
-                            onChange={handleInputChange}
-                        />
-                        <button type="submit" hidden>Search</button>
-                        <div className={`clear-icon ${searchTerm ? 'active' : ''}`} onClick={clearInput}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
-                                <circle cx="10.5" cy="11.35" r="9.75" stroke="#5E6738" strokeWidth="1.5" />
-                                <rect x="13.2266" y="7.71297" width="1.28571" height="9" transform="rotate(45 13.2266 7.71297)" fill="#5E6738" />
-                                <rect x="6.86719" y="8.62239" width="1.28571" height="9" transform="rotate(-45 6.86719 8.62239)" fill="#5E6738" />
-                            </svg>
-                        </div>
+                        <form onSubmit={handleSearchSubmit}>
+                            <label htmlFor='search' className='hidden'>Search</label>
+                            <input
+                                ref={inputRef}
+                                className='form-control'
+                                type='search'
+                                name='search'
+                                id='search'
+                                placeholder='Search...'
+                                aria-label='Search'
+                                required
+                                value={searchTerm}
+                                onChange={handleInputChange}
+                            />
+                            <button type="submit" hidden>Search</button>
+                            <div className={`clear-icon ${searchTerm ? 'active' : ''}`} onClick={clearInput}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
+                                    <circle cx="10.5" cy="11.35" r="9.75" stroke="#5E6738" strokeWidth="1.5" />
+                                    <rect x="13.2266" y="7.71297" width="1.28571" height="9" transform="rotate(45 13.2266 7.71297)" fill="#5E6738" />
+                                    <rect x="6.86719" y="8.62239" width="1.28571" height="9" transform="rotate(-45 6.86719 8.62239)" fill="#5E6738" />
+                                </svg>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div>
@@ -358,24 +363,10 @@ const SearchPage: React.FC = () => {
             </div>
             <div className='container'>
                 <div className='results col-lg-10 offset-lg-1'>
-                    {filteredResults().length > 0 ? renderResults() : (
-                        searchTerm && (
-                            <>
-                                <h3 className='pt-5'>Sorry, no matches were found.</h3>
-                                {titleLoading ? (
-                                    <p></p>
-                                ) : titleError ? (
-                                    <p>Error: {titleError.message}</p>
-                                ) : (
-                                    <div className='b4 pt-4'>{titleData.siteSettings.siteSettings.titleFor4Panels}</div>
-                                )}
-                                <FourPanels />
-                            </>
-                        )
-                    )}
+                {renderResults()}
                 </div>
             </div>
-            {activeFilter === 'Top Results' && filteredResults().length > 0 && <FourPanels />}
+            {searchPerformed && activeFilter === 'Top Results' && filteredResults().length > 0 && <FourPanels />}
         </div>
     );
 };
