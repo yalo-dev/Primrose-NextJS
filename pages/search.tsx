@@ -54,12 +54,10 @@ const SearchPage: React.FC = () => {
     const { data: titleData, loading: titleLoading, error: titleError } = useQuery(GET_TITLE_FOR_PANELS);
     const [resourceTagsOptions, setResourceTagsOptions] = useState<Option[]>([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
+    const [hasVisibleResources, setHasVisibleResources] = useState(true);
 
-    const tagClassName = (tagId) => {
-        // Convert tagId to a string
-        const tagIdStr = tagId.toString();
-        const tagOption = resourceTagsOptions.find(option => option.value === tagIdStr);
-        return tagOption ? `tag-${tagOption.label.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}` : '';
+    const tagClassName = (tagName) => {
+        return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
     };
 
     useEffect(() => {
@@ -74,11 +72,15 @@ const SearchPage: React.FC = () => {
             try {
                 const response = await fetch('https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resource_tag?per_page=100');
                 const tags = await response.json();
-                const options = tags.map(tag => ({ 
-                    label: decodeHtml(tag.name), 
-                    value: tag.id.toString(),
-                    className: tagClassName(decodeHtml(tag.name)) // Add class name here
-                }));
+                const options = tags.map(tag => {
+                    // Decode HTML entities and then replace & with 'and'
+                    const tagName = decodeHtml(tag.name).replace(/&/g, 'and');
+                    return {
+                        label: tagName,
+                        value: tag.id.toString(),
+                        className: `tag-${tagName.replace(/\s+/g, '-').toLowerCase()}` // Modify the class name here
+                    };
+                });
                 setResourceTagsOptions(options);
             } catch (error) {
                 console.error('Error fetching resource tags:', error);
@@ -86,7 +88,7 @@ const SearchPage: React.FC = () => {
         };
     
         fetchResourceTags();
-    }, []);
+    }, []); 
     
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
@@ -143,14 +145,15 @@ const SearchPage: React.FC = () => {
         }
     };
 
-   const handleSearchSubmit = (e) => {
+    const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchTerm) {
         fetchSearchResults(searchTerm);
         router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
         setSearchPerformed(true);
     }
-};
+    };
+
     const handleInputChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
@@ -174,7 +177,7 @@ const SearchPage: React.FC = () => {
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
-        return txt.value;
+        return txt.value; // Just decode, no replacement here
     }
 
     const clearInput = () => {
@@ -189,14 +192,23 @@ const SearchPage: React.FC = () => {
         });
         const resourceCards = document.querySelectorAll('.resource-cards .card');
     
+        let visibleResourceCount = 0;
         resourceCards.forEach(card => {
             const htmlCard = card as HTMLElement;
             const matchesFilter = selectedClasses.some(className => 
                 className && htmlCard.classList.contains(className)
             );
-            htmlCard.style.display = matchesFilter || selectedClasses.length === 0 ? '' : 'none';
+            if (matchesFilter || selectedClasses.length === 0) {
+                htmlCard.style.display = '';
+                visibleResourceCount++;
+            } else {
+                htmlCard.style.display = 'none';
+            }
         });
+    
+        setHasVisibleResources(visibleResourceCount > 0);
     };
+    
     
     const renderResults = () => {
         const renderTitleAndFourPanels = () => (
@@ -208,7 +220,6 @@ const SearchPage: React.FC = () => {
             </>
         );
     
-        // Show the title and 4 panels if no search has been performed yet
         if (!searchPerformed) {
             return renderTitleAndFourPanels();
         }
@@ -234,15 +245,13 @@ const SearchPage: React.FC = () => {
                     />
                     <div className="resource-cards">
                         {searchResults.filter(isResource).map((resource) => {
-                            // Format the date
+
                             const date = new Date(resource.date);
                             const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-                            // Compute tag classes for each resource
-                            const tagClasses = resource.resourceTags?.map(tagId => tagClassName(tagId)).join(' ') || '';
+                            const tagClasses = resource.resourceTagNames?.map(tagName => tagClassName(tagName)).join(' ') || '';
 
                             return (
                                 <div key={resource.id} className={`card medium ${tagClasses}`}>
-                                {/* Resource card content */}
                                     <a href={resource.link}>
                                         <div className="inner">
                                             {resource.featuredImage && (
@@ -280,6 +289,13 @@ const SearchPage: React.FC = () => {
                                 </div>
                             );
                         })}
+                        {/* Display the message if no resources are visible */}
+                        {!hasVisibleResources && (
+                            <div className="no-resources-message">
+                                <h3 className='pt-5'>Sorry, no matches were found.</h3>
+                                {renderTitleAndFourPanels()}
+                            </div>
+                        )}
                     </div>
                     </>
                 );
