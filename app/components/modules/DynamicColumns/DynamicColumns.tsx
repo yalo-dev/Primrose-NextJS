@@ -1,14 +1,12 @@
 import React from 'react';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import Heading from '../../atoms/Heading/Heading';
-import Image from "next/legacy/image";
-
 
 interface ImageComponent {
   image: {
     altText: string;
     sourceUrl: string;
+    imageType: 'Icon' | 'Normal Image'; // Add the imageType property
   };
 }
 
@@ -34,12 +32,10 @@ interface HeadingComponent {
 }
 
 interface wysiwygComponent {
-  wysiwyg: string; 
+  wysiwyg: string;
 }
 
-
 type Component = ImageComponent | BodyCopyComponent | ButtonComponent | HeadingComponent | wysiwygComponent;
-
 
 interface Column {
   columnWidth: string;
@@ -75,6 +71,7 @@ interface DynamicColumnsProps {
   heading?: string;
   columns: Column[];
   customizations?: CustomizationsData;
+  moduleId?: string;
 }
 
 const getColumnClass = (columns) => {
@@ -86,8 +83,8 @@ const getColumnClass = (columns) => {
   }
 };
 
-const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, customizations }) => {
-
+const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, customizations, moduleId }) => {
+  const isTwoColumns = columns.length === 2;
 
   return (
     <Customizations
@@ -96,22 +93,48 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
       bottomPaddingMobile={customizations?.bottomPaddingMobile}
       bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
     >
-      <div className='dynamic-columns'>
+      <div className='dynamic-columns' id={moduleId}>
         <div className='container'>
-          <div className='row'>
-          {columns.map((column, columnIndex) => ( 
-            <div key={columnIndex} className={`${getColumnClass(columns)}`}>
-              {column.image && column.image.columnImage.sourceUrl && <img src={column.image.columnImage.sourceUrl} alt={column.image.columnImage.altText} />}
-              {column.title && <p className='b4 bold mt-3'>{column.title}</p>}
-              {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
-              {column.button && (
-                <Button href={column.button.buttonLink.url} target={column.button.buttonLink.target}>
-                  {column.button.buttonLink.title}
-                </Button>
-              )}
-              
-            </div>
-          ))}
+          <div className='row d-flex flex-row flex-wrap justify-content-center'>
+            {columns.map((column, columnIndex) => (
+              <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column justify-content-between`}>
+                {column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
+                  <img
+                    src={column.image.columnImage.sourceUrl}
+                    alt={column.image.columnImage.altText}
+                    className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image'}
+                  />
+                )}
+                {isTwoColumns && column.title && (
+                  <div className="title-container column-gap">
+                    <h3>{column.title}</h3>
+                  </div>
+                )}
+                {!isTwoColumns && column.title && <p className='b4 bold mt-3'>{column.title}</p>}
+                {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
+                {column.button && (
+                  <div className='link-container'>
+                    {column.button.buttonStyle === 'Style 1' ? (
+                      <Button
+                        href={column.button.buttonLink.url}
+                        target={column.button.buttonLink.target}
+                        variant="primary" // Use 'primary' variant for Style 1
+                      >
+                        {column.button.buttonLink.title}
+                      </Button>
+                    ) : column.button.buttonStyle === 'Style 2' ? (
+                      <a
+                        href={column.button.buttonLink.url}
+                        target={column.button.buttonLink.target}
+                        className="custom-style-2"
+                      >
+                        {column.button.buttonLink.title}
+                      </a>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
