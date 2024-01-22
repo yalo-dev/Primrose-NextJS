@@ -28,7 +28,7 @@ interface HeroWithImageProps {
             title?: string;
             url?: string;
         };
-        buttonStyle?: 'primary' | 'secondary' | 'white'; 
+        buttonStyle?: string; 
     };
     accent?: {
         sourceUrl?: string;

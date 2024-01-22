@@ -33,9 +33,10 @@ export default function Location({ locationData }){
   console.log(locationData);
     const market = locationData.data.market;
     const router = useRouter();
+
     const hero_props = {
       leftColumn: {image: {sourceUrl: market.marketSettings.heroImage.sourceUrl, altText: market.marketSettings.heroImage.altText}},
-      rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}},
+      rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
     };

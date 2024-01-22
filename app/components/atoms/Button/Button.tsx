@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { ButtonHTMLAttributes } from 'react';
 import {decode} from 'html-entities';
 
-type ButtonVariants = 'primary' | 'secondary' | 'white';
+type ButtonVariants = string;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariants;
