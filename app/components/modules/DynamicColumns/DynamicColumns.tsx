@@ -97,7 +97,7 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
         <div className='container'>
           <div className='row d-flex flex-row flex-wrap justify-content-center'>
             {columns.map((column, columnIndex) => (
-              <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column justify-content-between`}>
+              <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column`}>
                 {column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
                   <img
                     src={column.image.columnImage.sourceUrl}
