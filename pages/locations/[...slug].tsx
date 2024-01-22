@@ -105,7 +105,8 @@ export default function Location({ locationData }){
           })
         });
     const testimonials_props = {
-      tabs: testimonials
+      tabs: testimonials,
+      heading: "See What Families Are Saying"
     }
     const cta_props = {
       subheading: market.marketSettings.schoolLocatorCta.paragraph,
