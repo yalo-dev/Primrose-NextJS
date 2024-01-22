@@ -79,6 +79,14 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		}
 	}, []);
 
+	const springInAnimation = useSpring({
+        from: {opacity: 0, transform: 'translateX(-250px)'},
+		opacity: expandedTabGH !== null ? 1 : 0,
+        delay: 500,
+    	transform: expandedTabGH !== null ? 'translateX(0px)' : 'translateX(-250px)',
+		config: { mass: 2, tension: 2000, friction: 60, duration: 230 }
+    });
+
 	const slideAnimationPropsGH = useSpring({
 		opacity: expandedTabGH !== null ? 1 : 0,
 		transform: expandedTabGH !== null ? 'scaleY(1)' : 'scaleY(0)',
@@ -213,7 +221,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 								{/* Mobile: Content rendered right below the label */}
 								<div className="d-lg-none">
 									{expandedTabGH === index && (
-										<animated.div style={slideAnimationPropsGH} className="tab-content" ref={(el) => contentRefsGH.current[index] = el}
+										<animated.div style={springInAnimation} className="tab-content" ref={(el) => contentRefsGH.current[index] = el}
 										>
 											{tab.content.image?.sourceUrl && (
 												<div className='image-wrapper'>
