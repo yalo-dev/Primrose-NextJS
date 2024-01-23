@@ -8,6 +8,7 @@ import GeneralButtonCTA from '../../../../app/components/modules/GeneralButtonCT
 import GallerySlider from '../../../../app/components/modules/GallerySlider/GallerySlider';
 import FindASchoolMap from '../../../../app/components/modules/FindASchoolMap/FindASchoolMap';
 import OpenPositions from '../../../../app/components/modules/OpenPositions/OpenPositions';
+import LargeCardSlider from '../../../../app/components/modules/LargeCardSlider/LargeCardSlider';
 
 const GET_LOCATIONS = gql`
 query GetLocations {
@@ -86,6 +87,36 @@ export default function Location({ locationData }){
       heading: market.marketSettings.testimonialsSectionTitle,
       subheading: market.marketSettings.testimonialsSectionDescription
     }
+    let benefits = market.marketSettings.schoolBenefitsSection;
+    
+    let benefitsItems = [];
+    benefits.benefits.map((benefit, index) =>{
+        benefitsItems.push({
+            icon: {
+                sourceUrl: benefit.icon.sourceUrl,
+                altText: benefit.icon.altText
+            },
+            title: benefit.title,
+            paragraph: benefit.paragraph
+        });
+    }
+    );
+    const benefits_props={
+        buttonStyle: 'secondary',
+        button: {
+            title: benefits.cta.title,
+            target: benefits.cta.target,
+            url: benefits.cta.url
+        },
+        heading: benefits.headline,
+        paragraph: benefits.paragraph,
+        image: {
+            altText: benefits.image.altText,
+            sourceUrl: benefits.image.sourceUrl
+        },
+        slider: benefitsItems
+    }
+    console.log(benefits_props);
 
     const schools = [];
 
@@ -120,6 +151,7 @@ export default function Location({ locationData }){
           
             <HeroWithImage {...hero_props} />
             <TwoColumnsImageAndText  {...fiftyFifty1_props} />
+            <LargeCardSlider {...benefits_props} />
             <TestimonialsWithVideoOrImage {...testimonials_props} />
             <OpenPositions {...positions_props} />
             <FindASchoolMap {...map_props} />
@@ -271,16 +303,27 @@ export default function Location({ locationData }){
                     }
                     schoolBenefitsSection {
                         benefits {
+                            paragraph
+                            title,
+                        
+                            icon {
+                                altText
+                                mediaItemUrl
+                                sourceUrl
+                            }
+                        }
+                        cta {
+                            target
+                            title
+                            url
+                        }
+                        headline
                         paragraph
-                        title
-                        icon {
+                        image{
                             altText
                             mediaItemUrl
                             sourceUrl
                         }
-                        }
-                        headline
-                        paragraph
                     }
                 }
             }
