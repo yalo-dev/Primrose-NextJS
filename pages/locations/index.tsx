@@ -126,7 +126,7 @@ export default function Locations({ markets, schools }) {
                         <h1>All Locations</h1>
                         <SelectDropdown
                           options={statesOptions}
-                          placeholder="States"
+                          placeholder="All States"
                           onSelect={handleStateFilter}
                           returnFullOption={false}
                         />

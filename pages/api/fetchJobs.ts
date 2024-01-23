@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'node-fetch'; 
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
-
+import $ from 'jquery';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const jobId = typeof req.query.jobId === 'string' ? req.query.jobId : null;
 
@@ -19,8 +19,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       `,
     });
+    
+    const api_data = {
+      "client_secret": "ICQmNDK4rIXCYPn7jRVX2SmaRrktOPyvvT6m3N57tqM",
+      "client_id": "vXoZDKq1bwAzM5H2vkEvB3YavPOoVTmiqrSrnhz_lfg",
+      "grant_type": "client_credentials"
+    };
+    const token_req = await fetch(`https://app.careerplug.com/oauth/token`, {
+    method:'POST',
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    body: JSON.stringify(api_data)
+  });
+  const token:any = await token_req.json();
+console.log(token);
 
-    const apiKey = data.siteSettings.siteSettings.careerplugApiKey;
+const apiKey:any = token.access_token;
     if (!apiKey) {
       throw new Error('API key not found');
     }

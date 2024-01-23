@@ -4,6 +4,8 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 interface SliderItem {
     image?: {
@@ -16,7 +18,7 @@ interface SliderItem {
     testimonialColor?: string;
     title?: string;
     titleColor?: string;
-    imageOrVideo?: 'image' | 'video';
+    imageOrVideo?: string;
     video?: {
         target?: string;
         title?: string;
@@ -25,7 +27,7 @@ interface SliderItem {
 }
 
 interface TestimonialsWithVideoOrImageProps {
-    buttonStyle?: 'primary' | 'secondary' | 'white'; 
+    buttonStyle?: string; 
     button?: {
         target?: string;
         title?: string;

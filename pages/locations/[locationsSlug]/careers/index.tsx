@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-import { client } from '../../app/lib/apollo';
+import { client } from '../../../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import HeroWithImage from '../../app/components/modules/HeroWithImage/HeroWithImage';
-import TwoColumnsImageAndText from '../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
-import QuoteTestimonials from '../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
-import GeneralButtonCTA from '../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
-import GallerySlider from '../../app/components/modules/GallerySlider/GallerySlider';
-import FindASchoolMap from '../../app/components/modules/FindASchoolMap/FindASchoolMap';
+import HeroWithImage from '../../../../app/components/modules/HeroWithImage/HeroWithImage';
+import TwoColumnsImageAndText from '../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
+import TestimonialsWithVideoOrImage from '../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
+import GeneralButtonCTA from '../../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
+import GallerySlider from '../../../../app/components/modules/GallerySlider/GallerySlider';
+import FindASchoolMap from '../../../../app/components/modules/FindASchoolMap/FindASchoolMap';
+import OpenPositions from '../../../../app/components/modules/OpenPositions/OpenPositions';
 
 const GET_LOCATIONS = gql`
 query GetLocations {
@@ -35,8 +36,8 @@ export default function Location({ locationData }){
     const router = useRouter();
 
     const hero_props = {
-      leftColumn: {image: {sourceUrl: market.marketSettings.heroImage.sourceUrl, altText: market.marketSettings.heroImage.altText}},
-      rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
+      leftColumn: {image: {sourceUrl: market.marketSettings.careersHero.heroImage.sourceUrl, altText: market.marketSettings.careersHero.heroImage.altText}},
+      rightColumn: {heading: "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
     };
@@ -44,84 +45,48 @@ export default function Location({ locationData }){
       switchColumnOrderOnDesktop: false,
       centerModule: true,
       rightColumn: {
-        heading: market.marketSettings.fiftyFifty1.title,
-        blurb: market.marketSettings.fiftyFifty1.paragraph,
+        heading: market.marketSettings.careersFiftyFifty1.title,
+        blurb: market.marketSettings.careersFiftyFifty1.paragraph,
         button: {
-          title: market.marketSettings.fiftyFifty1.cta?.title,
-          url: market.marketSettings.fiftyFifty1.cta?.url,
-          target: market.marketSettings.fiftyFifty1.cta?.target
+          title: market.marketSettings.careersFiftyFifty1.cta?.title,
+          url: market.marketSettings.careersFiftyFifty1.cta?.url,
+          target: market.marketSettings.careersFiftyFifty1.cta?.target
         }
       },
         leftColumn: {
           imageOrVideo: "Image",
           imageDesktop: {
-           sourceUrl: market.marketSettings.fiftyFifty1.image.sourceUrl,
-           altText: market.marketSettings.fiftyFifty1.image.altText
+           sourceUrl: market.marketSettings.careersFiftyFifty1.image.sourceUrl,
+           altText: market.marketSettings.careersFiftyFifty1.image.altText
           },
           imageMobile: {
-            sourceUrl: market.marketSettings.fiftyFifty1.image.sourceUrl,
-            altText: market.marketSettings.fiftyFifty1.image.altText
+            sourceUrl: market.marketSettings.careersFiftyFifty1.image.sourceUrl,
+            altText: market.marketSettings.careersFiftyFifty1.image.altText
            }
 
         }
       }
-      const fiftyFifty2_props = {
-        switchColumnOrderOnDesktop: true,
-        centerModule: true,
-        rightColumn: {
-          heading: market.marketSettings.fiftyFifty2.title,
-          blurb: market.marketSettings.fiftyFifty2.paragraph,
-          button: {
-            title: market.marketSettings.fiftyFifty2.cta?.title,
-            url: market.marketSettings.fiftyFifty2.cta?.url,
-            target: market.marketSettings.fiftyFifty2.cta?.target
-          }
-        },
-          leftColumn: {
-            imageOrVideo: "Image",
-            imageDesktop: {
-             sourceUrl: market.marketSettings.fiftyFifty2.image.sourceUrl,
-             altText: market.marketSettings.fiftyFifty2.image.altText
-            },
-            imageMobile: {
-              sourceUrl: market.marketSettings.fiftyFifty2.image.sourceUrl,
-              altText: market.marketSettings.fiftyFifty2.image.altText
-             }
-  
-          }
-        }
+     
       const testimonials = [];
-      market.marketSettings.testimonials.map((testimonial, index) => {
+      market.marketSettings.careersTestimonials.map((testimonial, index) => {
           testimonials.push({
-            avatar: {
+            imageOrVideo: 'image',
+            image: {
               sourceUrl: testimonial.testimonialImage.sourceUrl,
               altText: testimonial.testimonialImage.altText
             },
-            name: testimonial.name,
+            title: testimonial.name,
             position: testimonial.title,
-            content: {
-              heading: testimonial.headline,
-              blurb: testimonial.testimonial
-            }
+            testimonial: testimonial.testimonial
+            
           })
         });
     const testimonials_props = {
-      tabs: testimonials,
-      heading: "See What Families Are Saying"
+      slider: testimonials,
+      heading: market.marketSettings.testimonialsSectionTitle,
+      subheading: market.marketSettings.testimonialsSectionDescription
     }
-    const cta_props = {
-      subheading: market.marketSettings.schoolLocatorCta.paragraph,
-      heading: market.name + " Area Schools",
-      image: {
-        sourceUrl: market.marketSettings.schoolLocatorCta.image.sourceUrl,
-        altText: market.marketSettings.schoolLocatorCta.image.altText
-      },
-      button: {
-        title: "See Nearest Schools",
-        url: "#map"
-      }
-    }
-    const gallery_props = { gallery: market.marketSettings.gallery, uniqueId: 1};
+
     const schools = [];
 
     market.schools.nodes.map((school, index) => {
@@ -146,17 +111,19 @@ export default function Location({ locationData }){
         lng: market.marketSettings.marketCenter.longitude
       }
     }
+    const positions_props = {
+        careerPlugId: 123456
+    }
     return(
         <>
         <div className="modules--container market mt-5 pt-5">
           
             <HeroWithImage {...hero_props} />
             <TwoColumnsImageAndText  {...fiftyFifty1_props} />
-            <QuoteTestimonials {...testimonials_props} />
-            <TwoColumnsImageAndText  {...fiftyFifty2_props} />
-            <GeneralButtonCTA {...cta_props} />
-            <GallerySlider {...gallery_props} />
+            <TestimonialsWithVideoOrImage {...testimonials_props} />
+            <OpenPositions {...positions_props} />
             <FindASchoolMap {...map_props} />
+            
         </div>
         
         </>
@@ -164,9 +131,9 @@ export default function Location({ locationData }){
 }
 
 //export async function getStaticProps({params={slug:""}, preview=false} = {}) {
-  export async function getServerSideProps({params={slug:""}, preview=false} = {}) {
-    const slug  = params.slug;
-    console.log(slug);
+  export async function getServerSideProps({params={locationsSlug:""}, preview=false} = {}) {
+    const slug  = params.locationsSlug;
+    console.log(params); 
     const GET_LOCATION = gql`
         query GetLocationData {
             market(id: "${'locations/' + slug}", idType: URI) {
@@ -266,6 +233,55 @@ export default function Location({ locationData }){
                     latitude
                     longitude
                   }
+                  careerplugSchoolId
+                    careersFiftyFifty1 {
+                        cta {
+                        target
+                        title
+                        url
+                        }
+                        image {
+                        altText
+                        mediaItemUrl
+                        sourceUrl
+                        }
+                        paragraph
+                        title
+                    }
+                    careersHero {
+                        heroDisclaimer
+                        heroImage{
+                            altText
+                            mediaItemUrl
+                            sourceUrl
+                        }
+                        heroParagraph
+                    }
+                    testimonialsSectionDescription
+                    testimonialsSectionTitle
+                    careersTestimonials {
+                        name
+                        testimonial
+                        title
+                        testimonialImage {
+                        altText
+                        mediaItemUrl
+                        sourceUrl
+                        }
+                    }
+                    schoolBenefitsSection {
+                        benefits {
+                        paragraph
+                        title
+                        icon {
+                            altText
+                            mediaItemUrl
+                            sourceUrl
+                        }
+                        }
+                        headline
+                        paragraph
+                    }
                 }
             }
         }
