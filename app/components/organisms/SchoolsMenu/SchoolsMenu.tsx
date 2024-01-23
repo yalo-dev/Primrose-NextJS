@@ -256,7 +256,7 @@ export default function SchoolsMenu() {
       <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div>
       {selectedClassrooms.length > 0 && (
         <div className={`${(
-            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
+            isActive(`/schools/${slug}`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
             ) ? 'submenu-wrapper d-block d-lg-none' : 'submenu-wrapper hidden'}`} onClick={toggleSubmenu}>
           <div className='placeholder-text green'>Explore Classrooms & Programs
           <span className={`icon ${isSubmenuVisible ? 'active' : ''}`}>
@@ -267,7 +267,7 @@ export default function SchoolsMenu() {
           </span>
           </div>
           <div className={`submenu ${isSubmenuVisible ? 'visible' : ''} ${(
-            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
+            isActive(`/schools/${slug}`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
             ) ? '' : 'hidden'}`}>
             <div className='list-wrap'>
               {generateClassroomSubmenu()}
