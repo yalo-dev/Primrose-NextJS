@@ -22,7 +22,7 @@ button {
     }
     &.secondary {
         background-color: $grayscale-1;
-        color: $text-gray;
+        color: $primary-darkgray;
         &:hover {
             background-color: $primary-darkgray;
             color: $grayscale-1;
