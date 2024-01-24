@@ -55,7 +55,7 @@
         }
     }
     .results {
-        padding-bottom: 30px;
+       // padding-bottom: 30px;
         .result {
             padding-top: 40px; 
             padding-bottom: 1rem;
@@ -89,6 +89,14 @@
                     width: unset;
                     margin-left: unset;
                 }
+            }
+        }
+        .find-a-school-container {
+            &.title {
+                margin-top: 0!important
+            }
+            .map-title {
+                display: none;
             }
         }
     }

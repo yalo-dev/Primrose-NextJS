@@ -5,6 +5,7 @@ import { gql, useQuery } from '@apollo/client';
 import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 import React from 'react';
 import Button from '../app/components/atoms/Button/Button';
+import FindASchoolMap from '../app/components/modules/FindASchoolMap/FindASchoolMap';
 
 const GET_TITLE_FOR_PANELS = gql`
   query GetTitleForPanels {
@@ -47,7 +48,7 @@ interface Option {
 
 interface ApiResponse {
     name?: string;
-  }
+}
 
 const SearchPage: React.FC = () => {
     const router = useRouter();
@@ -113,7 +114,7 @@ const SearchPage: React.FC = () => {
             setSearchPerformed(true); 
           }
         }
-      }, [router.query.query]);
+    }, [router.query.query]);
       
     const getTotalFilteredResults = (): number => {
         switch (activeFilter) {
@@ -133,7 +134,7 @@ const SearchPage: React.FC = () => {
           setItemsPerPage(6); 
         }
         setCurrentPage(1); 
-      }, [activeFilter]);
+    }, [activeFilter]);
     
     const getTotalPages = () => {
         return Math.ceil(getTotalFilteredResults() / itemsPerPage);
@@ -226,7 +227,7 @@ const SearchPage: React.FC = () => {
         }
     }
     return names;
-};
+    };
 
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
@@ -301,7 +302,6 @@ const SearchPage: React.FC = () => {
                 break;
         }
 
-        // Apply pagination specifically to the filtered results
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         return results.slice(startIndex, endIndex);
@@ -314,7 +314,7 @@ const SearchPage: React.FC = () => {
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
-        return txt.value; // Just decode, no replacement here
+        return txt.value; 
     }
 
     const clearInput = () => {
@@ -346,8 +346,26 @@ const SearchPage: React.FC = () => {
         setHasVisibleResources(visibleResourceCount > 0);
         setCurrentPage(1);
     };
-
-
+    const schoolsData = [
+        {
+          id: 1,
+          name: "Primrose School of Midtown",
+          address: "123 Main St, Midtown, USA",
+          hours: "8:00 AM - 5:00 PM",
+          notes: "Offering summer programs",
+          coordinates: {
+            lat: 33.7815,
+            lng: -84.3865
+          }
+        },
+        // ... more school objects ...
+      ];
+    
+      // An example center location (e.g., the center of Atlanta, GA)
+      const mapCenter = {
+        lat: 33.7490,
+        lng: -84.3880
+      };
     const renderResults = () => {
         const renderTitleAndFourPanels = () => (
             <div className='container col-lg-10 offset-lg-1'>
@@ -448,11 +466,13 @@ const SearchPage: React.FC = () => {
                         </>
                     );
                 case 'Locations':
-                    return(
-                        <>
-                        <h1>LOCATION MAP COMPONENT</h1>
-                        </>
-                    );
+                    return (
+                        <FindASchoolMap
+          schools={schoolsData}
+          title="Find A School"
+          center={mapCenter}
+        />
+                      );
                 default:
                     const paginatedTopResults = getPaginatedResults();
                 
