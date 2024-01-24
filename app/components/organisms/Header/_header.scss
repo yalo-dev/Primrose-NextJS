@@ -308,6 +308,11 @@
         .hidden {
             display: none!important;
         }
+        form {
+            button {
+                width:100%;
+            }
+        }
         .search-icon {
             background-color: $white;
             border-radius: 50%;
@@ -393,6 +398,12 @@
                 transform: translateX(100px); 
                 opacity: 0;
                 pointer-events: none;
+
+                a {
+                    button {
+                        width: 100%;
+                    }
+                }
             }
             .location-icon {
                 opacity: 1;
