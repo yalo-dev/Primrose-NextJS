@@ -65,8 +65,7 @@ const SearchPage: React.FC = () => {
     const [searchPerformed, setSearchPerformed] = useState(false);
     const [hasVisibleResources, setHasVisibleResources] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
-    
+    const [itemsPerPage, setItemsPerPage] = useState(6);
 
     const tagClassName = (tagName) => {
         return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
@@ -85,12 +84,11 @@ const SearchPage: React.FC = () => {
                 const response = await fetch('https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resource_tag?per_page=100');
                 const tags = await response.json();
                 const options = tags.map(tag => {
-                    // Decode HTML entities and then replace & with 'and'
                     const tagName = decodeHtml(tag.name).replace(/&/g, 'and');
                     return {
                         label: tagName,
                         value: tag.id.toString(),
-                        className: `tag-${tagName.replace(/\s+/g, '-').toLowerCase()}` // Modify the class name here
+                        className: `tag-${tagName.replace(/\s+/g, '-').toLowerCase()}` 
                     };
                 });
                 setResourceTagsOptions(options);
@@ -107,14 +105,12 @@ const SearchPage: React.FC = () => {
     }, [activeFilter]); 
 
     useEffect(() => {
-        // Check if the query parameter is present
         if (router.query.query) {
           const searchQuery = Array.isArray(router.query.query) ? router.query.query[0] : router.query.query;
           
-          // Perform the search if the search term exists
           if (searchQuery) {
             fetchSearchResults(searchQuery);
-            setSearchPerformed(true); // Ensure the search is performed
+            setSearchPerformed(true); 
           }
         }
       }, [router.query.query]);
@@ -130,10 +126,19 @@ const SearchPage: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        if (activeFilter === 'Stories & Resources') {
+          setItemsPerPage(12); 
+        } else {
+          setItemsPerPage(6); 
+        }
+        setCurrentPage(1); 
+      }, [activeFilter]);
+    
     const getTotalPages = () => {
         return Math.ceil(getTotalFilteredResults() / itemsPerPage);
     };
-
+    
     const getPaginatedResults = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -145,7 +150,7 @@ const SearchPage: React.FC = () => {
 
         const handlePageClick = pageNumber => {
             setCurrentPage(pageNumber);
-        };
+    };
 
         return (
             <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
