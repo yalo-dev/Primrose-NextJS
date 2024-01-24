@@ -3,8 +3,7 @@ import React from 'react';
 const FourPanels = () => {
     return (
         <div className='four-panels'>
-            <div className='container'>
-                <div className='panels col-lg-10 offset-lg-1'>
+                <div className='panels'>
                     <a href='/find-a-school' className='panel teal'>
                         <h5 className='b5 white bold'>Find a<br />School</h5>
                         <img src='assets/findaschool.png' alt='find a school' />
@@ -22,7 +21,6 @@ const FourPanels = () => {
                         <img src='assets/franchising.png' alt='franchising' />
                     </a>
                 </div>
-            </div>
         </div>
     );
 };

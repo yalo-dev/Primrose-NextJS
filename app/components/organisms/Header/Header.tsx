@@ -5,6 +5,7 @@ import ResourcesMenu from '../ResourcesMenu/ResourcesMenu';
 import SchoolsMenu from '../SchoolsMenu/SchoolsMenu';
 import { useEffect, useRef, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
+import React from 'react';
 
 const GET_TRENDING_SEARCH_ITEMS = gql`
   query GetTrendingSearchItems {
@@ -78,10 +79,16 @@ export default function Header({ menuItems }) {
     };
 
     const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        router.push(`/search?query=${encodeURIComponent(inputText.trim())}`);
-        resetNav();
+        e.preventDefault(); // Prevent default form submission behavior
+        if (inputText.trim()) {
+            console.log(`Searching for: ${inputText.trim()}`); // Debugging log
+            router.push(`/search?query=${encodeURIComponent(inputText.trim())}`);
+            resetNav();
+        } else {
+            console.log("Empty search query"); // Debugging log
+        }
     };
+    
 
     const renderMenuItem = (item, index) => {
         const hasChildren = item.childItems && item.childItems.nodes.length > 0;
