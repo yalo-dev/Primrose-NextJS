@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import FourPanels from '../app/components/modules/FourPanels/FourPanels';
 import { gql, useQuery } from '@apollo/client';
 import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
+import React from 'react';
+import Button from '../app/components/atoms/Button/Button';
 
 const GET_TITLE_FOR_PANELS = gql`
   query GetTitleForPanels {
@@ -23,15 +25,18 @@ interface SearchResult {
         rendered: string;
     };
     link: string;
-    date?: any; 
+    date?: any;
     featuredImage?: {
         sourceUrl: string;
         altText?: string;
     };
-    resourceTypes?: number[]; 
+    resourceTypes?: number[];
     resourceTags?: number[];
     resourceTypeNames?: string[];
     resourceTagNames?: string[];
+    featured_media?: number;
+    resource_type?: number[];
+    resource_tag?: number[];
 }
 
 interface Option {
@@ -39,6 +44,10 @@ interface Option {
     label: string;
     value: string;
 }
+
+interface ApiResponse {
+    name?: string;
+  }
 
 const SearchPage: React.FC = () => {
     const router = useRouter();
@@ -55,6 +64,9 @@ const SearchPage: React.FC = () => {
     const [resourceTagsOptions, setResourceTagsOptions] = useState<Option[]>([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
     const [hasVisibleResources, setHasVisibleResources] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
+    
 
     const tagClassName = (tagName) => {
         return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
@@ -86,57 +98,168 @@ const SearchPage: React.FC = () => {
                 console.error('Error fetching resource tags:', error);
             }
         };
-    
+
         fetchResourceTags();
-    }, []); 
+    }, []);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [activeFilter]); 
+
+    useEffect(() => {
+        // Check if the query parameter is present
+        if (router.query.query) {
+          const searchQuery = Array.isArray(router.query.query) ? router.query.query[0] : router.query.query;
+          
+          // Perform the search if the search term exists
+          if (searchQuery) {
+            fetchSearchResults(searchQuery);
+            setSearchPerformed(true); // Ensure the search is performed
+          }
+        }
+      }, [router.query.query]);
+      
+    const getTotalFilteredResults = (): number => {
+        switch (activeFilter) {
+            case 'Stories & Resources':
+                return searchResults.filter(isResource).length;
+            case 'Locations':
+                return searchResults.filter(isLocation).length;
+            default:
+                return searchResults.length;
+        }
+    };
+
+    const getTotalPages = () => {
+        return Math.ceil(getTotalFilteredResults() / itemsPerPage);
+    };
+
+    const getPaginatedResults = () => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return searchResults.slice(startIndex, endIndex);
+    };
+
+    const renderPaginationControls = () => {
+        const totalPages = getTotalPages(); 
+
+        const handlePageClick = pageNumber => {
+            setCurrentPage(pageNumber);
+        };
+
+        return (
+            <div className="pagination mt-4 mb-4 d-flex align-items-center justify-content-center">
+                <Button
+                    className='prev'
+                    disabled={currentPage <= 1}
+                    onClick={() => {
+                        setCurrentPage(prev => prev - 1);
+                    }} 
+                    label={''}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M5.67652 0.206047C6.05792 0.520326 6.10946 1.08083 5.79162 1.45796L1.79788 6.19685L5.7662 10.5132C6.10016 10.8764 6.07309 11.4386 5.70573 11.7688C5.33837 12.0991 4.76984 12.0723 4.43587 11.709L0.467559 7.39271C-0.135971 6.73625 -0.157669 5.74029 0.416712 5.05875L4.41045 0.319858C4.72828 -0.0572766 5.29513 -0.108231 5.67652 0.206047Z" fill="#555F68" />
+                    </svg>
+                </Button>
     
+                {[...Array(totalPages).keys()].map(num => (
+                    <Button
+                        key={num}
+                        className={num + 1 === currentPage ? 'active' : 'non'}
+                        onClick={() => handlePageClick(num + 1)}
+                        label={`${num + 1}`}
+                    />
+                ))}
+    
+                <Button
+                    className='next'
+                    disabled={currentPage >= totalPages}
+                    onClick={() => {
+                        setCurrentPage(prev => prev + 1);
+                    }} 
+                    label={''}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 0.206047C-0.0579243 0.520326 -0.109455 1.08083 0.208378 1.45796L4.20212 6.19685L0.233801 10.5132C-0.100161 10.8764 -0.0730881 11.4386 0.294271 11.7688C0.66163 12.0991 1.23016 12.0723 1.56413 11.709L5.53244 7.39271C6.13597 6.73625 6.15767 5.74029 5.58329 5.05875L1.58955 0.319858C1.27172 -0.0572766 0.704875 -0.108231 0.323475 0.206047Z" fill="#555F68" />
+                    </svg>
+                </Button>
+            </div>
+        );
+    };
+    
+    const fetchBatch = async (url: string, accumulatedResults: SearchResult[] = []): Promise<SearchResult[]> => {
+        const response = await fetch(url);
+        const newResults: SearchResult[] = await response.json();
+        const allResults = accumulatedResults.concat(newResults);
+    
+        // Check if there are more results to fetch
+        if (newResults.length === 100) {
+            const nextUrl = new URL(url);
+            const currentPageNumber = nextUrl.searchParams.get('page');
+            if (currentPageNumber !== null) {
+                const nextPageNumber = parseInt(currentPageNumber) + 1;
+                nextUrl.searchParams.set('page', nextPageNumber.toString());
+                return fetchBatch(nextUrl.href, allResults);
+            }
+        }
+    
+        return allResults;
+    };
+
+   const fetchNames = async (ids: number[], endpoint: string): Promise<string[]> => {
+    const names: string[] = [];
+    for (const id of ids) {
+        try {
+            const response = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/${endpoint}/${id}`);
+            const data: ApiResponse = await response.json();
+
+            if (data.name) {
+                names.push(data.name);
+            } else {
+                console.warn(`Name property not found in response for id ${id}`);
+            }
+        } catch (error) {
+            console.error(`Error fetching data from ${endpoint}/${id}:`, error);
+        }
+    }
+    return names;
+};
+
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
         setError('');
         try {
-            const perPage = 100;
-            const pageUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
-            const schoolUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
-            const resourceUrl = `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=${perPage}`;
+            const baseUrls = [
+                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`,
+                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`,
+                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`
+            ];
     
-            const responses = await Promise.all([
-                fetch(pageUrl),
-                fetch(schoolUrl),
-                fetch(resourceUrl)
-            ]);
+            const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
+            const flatResults = batchResults.flat();
     
-            let results = await Promise.all(responses.map(response => response.json()));
-            results = results.flat(); 
+            const resultsWithAdditionalData = await Promise.all(flatResults.map(async (resource) => {
+                const enhancedResource: SearchResult = { ...resource };
     
-            const fetchNames = async (ids: number[], endpoint: string) => {
-                return Promise.all(ids.map(async id => {
-                    const response = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/${endpoint}/${id}`);
-                    const data = await response.json();
-                    return data.name;
-                }));
-            };
-    
-            const resultsWithAdditionalData = await Promise.all(results.map(async (resource) => {
-                if (resource.type === 'resources') {
-                    if (resource.featured_media) {
-                        const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
-                        const mediaData = await mediaResponse.json();
-                        resource.featuredImage = {
-                            sourceUrl: mediaData.source_url,
-                            altText: mediaData.alt_text
-                        };
-                    }
-                    resource.resourceTypeNames = resource.resource_type ? await fetchNames(resource.resource_type, 'resource_type') : [];
-                    resource.resourceTagNames = resource.resource_tag ? await fetchNames(resource.resource_tag, 'resource_tag') : [];
+                if (resource.featured_media) {
+                    const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
+                    const mediaData = await mediaResponse.json();
+                    enhancedResource.featuredImage = {
+                        sourceUrl: mediaData.source_url,
+                        altText: mediaData.alt_text
+                    };
                 }
+    
+                if (resource.resource_type) {
+                    enhancedResource.resourceTypeNames = await fetchNames(resource.resource_type, 'resource_type');
+                }
+    
                 if (resource.resource_tag) {
-                    const tagClassNames = await fetchNames(resource.resource_tag, 'resource_tag');
-                    resource.tagClasses = tagClassNames.map(tagClassName).join(' ');
+                    enhancedResource.resourceTagNames = await fetchNames(resource.resource_tag, 'resource_tag');
                 }
-                return resource;
+    
+                return enhancedResource;
             }));
+    
             setSearchResults(resultsWithAdditionalData);
-        
         } catch (error) {
             console.error(error);
             setError('Failed to load search results: ' + error.message);
@@ -146,12 +269,12 @@ const SearchPage: React.FC = () => {
     };
 
     const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchTerm) {
-        fetchSearchResults(searchTerm);
-        router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
-        setSearchPerformed(true);
-    }
+        e.preventDefault();
+        if (searchTerm) {
+            fetchSearchResults(searchTerm);
+            router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
+            setSearchPerformed(true);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -159,21 +282,30 @@ const SearchPage: React.FC = () => {
         setSearchTerm(value);
     };
 
-    const filteredResults = () => {
+    const getFilteredResults = (): SearchResult[] => {
+        let results: SearchResult[] = [];
         switch (activeFilter) {
             case 'Stories & Resources':
-                return searchResults.filter(isResource);
+                results = searchResults.filter(isResource);
+                break;
             case 'Locations':
-                return searchResults.filter(isLocation);
+                results = searchResults.filter(isLocation);
+                break;
             default:
-                return searchResults;
+                results = searchResults;
+                break;
         }
-    };
+
+        // Apply pagination specifically to the filtered results
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return results.slice(startIndex, endIndex);
+    }; 
 
     const handleFilterChange = (newFilter) => {
         setActiveFilter(newFilter);
     };
-   
+
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -191,11 +323,11 @@ const SearchPage: React.FC = () => {
             return option ? option.className : '';
         });
         const resourceCards = document.querySelectorAll('.resource-cards .card');
-    
+
         let visibleResourceCount = 0;
         resourceCards.forEach(card => {
             const htmlCard = card as HTMLElement;
-            const matchesFilter = selectedClasses.some(className => 
+            const matchesFilter = selectedClasses.some(className =>
                 className && htmlCard.classList.contains(className)
             );
             if (matchesFilter || selectedClasses.length === 0) {
@@ -205,123 +337,138 @@ const SearchPage: React.FC = () => {
                 htmlCard.style.display = 'none';
             }
         });
-    
+
         setHasVisibleResources(visibleResourceCount > 0);
+        setCurrentPage(1);
     };
-    
-    
+
+
     const renderResults = () => {
         const renderTitleAndFourPanels = () => (
-            <>
+            <div className='container col-lg-10 offset-lg-1'>
                 {!titleLoading && !titleError && (
                     <div className='b4 pt-4'>{titleData.siteSettings.siteSettings.titleFor4Panels}</div>
                 )}
                 <FourPanels />
-            </>
+            </div>
         );
-    
+
         if (!searchPerformed) {
             return renderTitleAndFourPanels();
         }
-    
+
         if (searchPerformed) {
-            if (filteredResults().length === 0) {
+            if (getFilteredResults().length === 0) {
                 return (
                     <>
+                    <div className='container col-lg-10 offset-lg-1'>
                         <h3 className='pt-5'>Sorry, no matches were found.</h3>
-                        {renderTitleAndFourPanels()}
+                    </div>
+                    {renderTitleAndFourPanels()}
                     </>
                 );
             }
-    
+
             switch (activeFilter) {
                 case 'Stories & Resources':
-                return (
-                    <>
-                    <CustomMultiSelectDropdown
-                        options={resourceTagsOptions}
-                        onSelect={handleTagSelection}
-                        placeholder="All Topics"
-                    />
-                    <div className="resource-cards">
-                        {searchResults.filter(isResource).map((resource) => {
+                    const paginatedResources = getFilteredResults(); // Corrected here
 
-                            const date = new Date(resource.date);
-                            const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-                            const tagClasses = resource.resourceTagNames?.map(tagName => tagClassName(tagName)).join(' ') || '';
+                    return (
+                        <>
+                        <div className='container col-lg-10 offset-lg-1'>
+                            <CustomMultiSelectDropdown
+                                options={resourceTagsOptions}
+                                onSelect={handleTagSelection}
+                                placeholder="All Topics"
+                            />
+                            <div className="resource-cards">
+                                {paginatedResources.map((resource) => {
 
-                            return (
-                                <div key={resource.id} className={`card medium ${tagClasses}`}>
-                                    <a href={resource.link}>
-                                        <div className="inner">
-                                            {resource.featuredImage && (
-                                                <div className="image-wrapper">
-                                                    <div
-                                                        className="image"
-                                                        style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
-                                                        aria-label={resource.title.rendered}
-                                                    ></div>
-                                                </div>
-                                            )}
-                                            <div className="content-wrapper">
-                                                <div className="details-wrapper">
-                                                    <div className="details d-flex justify-start align-items-center">
-                                                        <div className="caption position-relative me-3">
-                                                            {resource.resourceTypeNames?.join(", ")}
+                                    const date = new Date(resource.date);
+                                    const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+                                    const tagClasses = resource.resourceTagNames?.map(tagName => tagClassName(tagName)).join(' ') || '';
+
+                                    return (
+                                        <div key={resource.id} className={`card medium ${tagClasses}`}>
+                                            <a href={resource.link}>
+                                                <div className="inner">
+                                                    {resource.featuredImage && (
+                                                        <div className="image-wrapper">
+                                                            <div
+                                                                className="image"
+                                                                style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
+                                                                aria-label={resource.title.rendered}
+                                                            ></div>
                                                         </div>
-                                                        <div className="date mb-0">{formattedDate}</div>
-                                                    </div>
-                                                    <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
-                                                    <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
-                                                </div>
-                                                <div className="tags-wrapper">
-                                                    <div className="tags d-flex flex-wrap">
-                                                        {resource.resourceTagNames?.map((tag, index) => (
-                                                            <div key={index} className="tag category mt-0">
-                                                                {decodeHtml(tag)}
+                                                    )}
+                                                    <div className="content-wrapper">
+                                                        <div className="details-wrapper">
+                                                            <div className="details d-flex justify-start align-items-center">
+                                                                <div className="caption position-relative me-3">
+                                                                    {resource.resourceTypeNames?.join(", ")}
+                                                                </div>
+                                                                <div className="date mb-0">{formattedDate}</div>
                                                             </div>
-                                                        ))}
+                                                            <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
+                                                            <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
+                                                        </div>
+                                                        <div className="tags-wrapper">
+                                                            <div className="tags d-flex flex-wrap">
+                                                                {resource.resourceTagNames?.map((tag, index) => (
+                                                                    <div key={index} className="tag category mt-0">
+                                                                        {decodeHtml(tag)}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
-                            );
-                        })}
+                                    );
+                                })}
+                                
+                            </div>
+                        </div>
                         {/* Display the message if no resources are visible */}
                         {!hasVisibleResources && (
                             <div className="no-resources-message">
-                                <h3 className='pt-5'>Sorry, no matches were found.</h3>
+                                <div className='container col-lg-10 offset-lg-1'>
+                                    <h3 className='pt-5'>Sorry, no matches were found.</h3>
+                                </div>
                                 {renderTitleAndFourPanels()}
                             </div>
                         )}
-                    </div>
-                    </>
-                );
+                        {renderPaginationControls()}
+                        </>
+                    );
                 case 'Locations':
-                    return searchResults
-                        .filter(isLocation)
-                        .map((school) => (
-                            <div className='school-result' key={school.id}>
-                                <h5 className='title' dangerouslySetInnerHTML={{ __html: school.title.rendered }} />
-                                <p dangerouslySetInnerHTML={{ __html: school.excerpt.rendered }} />
-                                <a className='b2 link' href={school.link}>Learn more</a>
-                            </div>
-                        ));
+                    return(
+                        <>
+                        <h1>LOCATION MAP COMPONENT</h1>
+                        </>
+                    );
                 default:
-                    // 'Top Results' or default case
-                    return searchResults.map(post => (
-                        <div className='result' key={post.id}>
-                            <h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-                            <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
-                            <a className='b2 link' href={post.link}>{post.link}</a>
-                        </div>
-                    ));
+                    const paginatedTopResults = getPaginatedResults();
+                
+                    return (
+                        <>
+                            <div className='container col-lg-10 offset-lg-1'>
+                                {paginatedTopResults.map(post => (
+                                    <div className='result' key={post.id}>
+                                        <h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                        <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                                        <a className='b2 link' href={post.link}>{post.link}</a>
+                                    </div>
+                                ))}
+                            </div>
+                            {renderPaginationControls()}
+                        </>
+                    );
             }
         }
     };
-    
+
     if (loading) return <p></p>;
     if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
@@ -377,12 +524,10 @@ const SearchPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className='container'>
-                <div className='results col-lg-10 offset-lg-1'>
+            <div className='results'>
                 {renderResults()}
-                </div>
             </div>
-            {searchPerformed && activeFilter === 'Top Results' && filteredResults().length > 0 && <FourPanels />}
+            <div className='container col-lg-10 offset-lg-1'>{searchPerformed && activeFilter === 'Top Results' && getFilteredResults().length > 0 && <FourPanels />}</div>
         </div>
     );
 };
