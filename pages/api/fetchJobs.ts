@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token:any = await token_req.json();
 console.log(token);
 
-const apiKey:any = token.access_token;
+const apiKey = data.siteSettings.siteSettings.careerplugApiKey;
     if (!apiKey) {
       throw new Error('API key not found');
     }

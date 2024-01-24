@@ -37,6 +37,7 @@
 @import '../components/modules/HeroWithImage/heroWithImage';
 @import '../components/modules/HeroWithVideo/heroWithVideo';
 @import '../components/modules/HomeHeroWithVideo/homeHeroWithVideo';
+@import '../components/modules/LargeCardSlider/largeCardSlider';
 @import '../components/modules/Newsletter/newsletter';
 @import '../components/modules/NewsletterFormCTA/newsletterFormCTA';
 @import '../components/modules/PathwayToOwnership/pathwayToOwnership';
@@ -88,7 +89,9 @@ html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
 }
-
+.row{
+    width:100%;
+}
 body {
     font-size: $font-size;
     background-color: $grayscale-1;
@@ -469,6 +472,9 @@ div.market>div{
 div.market .hero-with-image{
     background-color: #5E6738;
     color:white;
+}
+div.market .hero-with-image button{
+    background-color:white;
 }
 div.market .hero-with-image h1, div.market .hero-with-image p{
     color:white;
