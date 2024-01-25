@@ -319,15 +319,15 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                     {renderResourceItems(displayedFeaturedResources, true, ['featured large', 'featured medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("For Families", "/resources/families")}
+                    {renderTitle("For Families", "/stories-resources/families")}
                     {renderResourceItems(familiesResources, true, ['families medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("For Educators", "/resources/educators")}
+                    {renderTitle("For Educators", "/stories-resources/educators")}
                     {renderResourceItems(educatorsResources, true, ['educators medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("Newsroom", "/resources/newsroom")}
+                    {renderTitle("Newsroom", "/stories-resources/newsroom")}
                     {renderResourceItems(newsroomResources, false, ['newsroom'])}
                 </div>
 
