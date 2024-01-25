@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-import Button from '../../../../app/components/atoms/Button/Button';
+import Button from '../../atoms/Button/Button';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const containerStyle = {
@@ -757,10 +757,7 @@ useEffect(() => {
           <h3>{title}</h3>
         </div>
       )}
-      <LoadScript
-        googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
-        libraries={GOOGLE_MAP_LIBRARIES}
-      >
+      
         <div className='search-box-container'>
           <div className='tabs'>
             <div className='tab-labels'>
@@ -1225,7 +1222,6 @@ useEffect(() => {
             ))}
           </div>
         </div>
-      </LoadScript>
     </div>
   );
 };
