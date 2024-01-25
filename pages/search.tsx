@@ -6,7 +6,13 @@ import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMul
 import React from 'react';
 import Button from '../app/components/atoms/Button/Button';
 import FindASchoolMap from '../app/components/modules/FindASchoolMap/FindASchoolMap';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import schoolData from '../app/data/schoolsData';
+import $ from 'jquery';
 
+
+let geocoder:any;
+let place:any;
 const GET_TITLE_FOR_PANELS = gql`
   query GetTitleForPanels {
     siteSettings {
@@ -16,6 +22,7 @@ const GET_TITLE_FOR_PANELS = gql`
     }
   }
 `;
+const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 interface SearchResult {
     id: number;
@@ -49,7 +56,15 @@ interface Option {
 interface ApiResponse {
     name?: string;
 }
-
+interface Place{
+    
+        address_components: any[];
+        formatted_address: string;
+        geometry: any;
+        place_id: string;
+        types: string[];
+    
+}
 const SearchPage: React.FC = () => {
     const router = useRouter();
     const { query } = router.query;
@@ -67,22 +82,58 @@ const SearchPage: React.FC = () => {
     const [hasVisibleResources, setHasVisibleResources] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
-
+    const schools = schoolData;
+    
     const tagClassName = (tagName) => {
         return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
     };
-
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
+      });   
     useEffect(() => {
-        if (typeof query === 'string') {
-            setSearchTerm(query);
-            fetchSearchResults(query);
+        
+       
+            
+            if (typeof query === 'string') {
+                let place_geocode = geocodeSearchTerm(query);
+                
+               
+                setSearchTerm(query);
+                fetchSearchResults(query);
+            }
+                
+                
+            
+    }, [isLoaded]);
+    if(isLoaded && !geocoder){
+        geocoder = new window.google.maps.Geocoder();
+    }
+    const geocodeSearchTerm = async(searchTerm:string) => {
+        
+        if(geocoder){
+            geocoder.geocode({ 'address': searchTerm }, (results, status) => {
+                if (status === 'OK' && results && results[0]) {
+                    place = results[0];
+                    console.log(results[0]);
+                    console.log(place);
+                        setActiveFilter('Locations');
+                    
+                    return results[0];
+                } else {
+                    setActiveFilter('Top Results');
+                    return false;
+                }
+            });
         }
-    }, [query]);
-
+    }
     useEffect(() => {
         const fetchResourceTags = async () => {
+
+            
+            
             try {
-                const response = await fetch('https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resource_tag?per_page=100');
+                const response = await fetch('${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resource_tag?per_page=100');
                 const tags = await response.json();
                 const options = tags.map(tag => {
                     const tagName = decodeHtml(tag.name).replace(/&/g, 'and');
@@ -107,14 +158,19 @@ const SearchPage: React.FC = () => {
 
     useEffect(() => {
         if (router.query.query) {
+            
           const searchQuery = Array.isArray(router.query.query) ? router.query.query[0] : router.query.query;
           
           if (searchQuery) {
+
+            setSearchTerm(searchQuery);
+            let gst = geocodeSearchTerm(searchQuery);
+
             fetchSearchResults(searchQuery);
-            setSearchPerformed(true); 
-          }
+            setSearchPerformed(true);
         }
-    }, [router.query.query]);
+        }
+    }, [router.query.query, isLoaded]);
       
     const getTotalFilteredResults = (): number => {
         switch (activeFilter) {
@@ -214,7 +270,7 @@ const SearchPage: React.FC = () => {
     const names: string[] = [];
     for (const id of ids) {
         try {
-            const response = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/${endpoint}/${id}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/${endpoint}/${id}?per_page=10&page=1`);
             const data: ApiResponse = await response.json();
 
             if (data.name) {
@@ -234,11 +290,11 @@ const SearchPage: React.FC = () => {
         setError('');
         try {
             const baseUrls = [
-                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`,
-                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`,
-                `https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=100&page=1`
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`,
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`,
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`
             ];
-    
+            
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
             const flatResults = batchResults.flat();
     
@@ -246,7 +302,7 @@ const SearchPage: React.FC = () => {
                 const enhancedResource: SearchResult = { ...resource };
     
                 if (resource.featured_media) {
-                    const mediaResponse = await fetch(`https://primroseschstg.wpenginepowered.com/wp-json/wp/v2/media/${resource.featured_media}`);
+                    const mediaResponse = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/media/${resource.featured_media}`);
                     const mediaData = await mediaResponse.json();
                     enhancedResource.featuredImage = {
                         sourceUrl: mediaData.source_url,
@@ -272,11 +328,15 @@ const SearchPage: React.FC = () => {
         } finally {
             setLoading(false);
         }
+            
+        
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
+        setSearchTerm(e.target.value);
         if (searchTerm) {
+            geocodeSearchTerm(searchTerm);
             fetchSearchResults(searchTerm);
             router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
             setSearchPerformed(true);
@@ -293,6 +353,8 @@ const SearchPage: React.FC = () => {
         switch (activeFilter) {
             case 'Stories & Resources':
                 results = searchResults.filter(isResource);
+                console.log('stories and resources');
+                console.log(results);
                 break;
             case 'Locations':
                 results = searchResults.filter(isLocation);
@@ -346,26 +408,7 @@ const SearchPage: React.FC = () => {
         setHasVisibleResources(visibleResourceCount > 0);
         setCurrentPage(1);
     };
-    const schoolsData = [
-        {
-          id: 1,
-          name: "Primrose School of Midtown",
-          address: "123 Main St, Midtown, USA",
-          hours: "8:00 AM - 5:00 PM",
-          notes: "Offering summer programs",
-          coordinates: {
-            lat: 33.7815,
-            lng: -84.3865
-          }
-        },
-        // ... more school objects ...
-      ];
     
-      // An example center location (e.g., the center of Atlanta, GA)
-      const mapCenter = {
-        lat: 33.7490,
-        lng: -84.3880
-      };
     const renderResults = () => {
         const renderTitleAndFourPanels = () => (
             <div className='container col-lg-10 offset-lg-1'>
@@ -466,12 +509,14 @@ const SearchPage: React.FC = () => {
                         </>
                     );
                 case 'Locations':
+                    let fas_props = {
+                        place: place,
+                        schools: schools
+                    }
                     return (
-                        <FindASchoolMap
-          schools={schoolsData}
-          title="Find A School"
-          center={mapCenter}
-        />
+                        <>
+                         <FindASchoolMap {...fas_props} /> 
+                        </>
                       );
                 default:
                     const paginatedTopResults = getPaginatedResults();
@@ -498,6 +543,7 @@ const SearchPage: React.FC = () => {
     if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
     return (
+        
         <div className='search-container'>
             <div className='search-bar-container'>
                 <div className='container border-bottom'>
@@ -557,4 +603,6 @@ const SearchPage: React.FC = () => {
     );
 };
 
+
 export default SearchPage;
+

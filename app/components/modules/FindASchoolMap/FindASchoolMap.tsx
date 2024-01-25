@@ -28,7 +28,10 @@ type Location = {
   lat: number;
   lng: number;
 };
-
+const map_center = {
+  lat: 39.8283,
+  lng: -98.5795
+};
 type Waypoint = {
   id: number;
   location: Location | null;
@@ -89,15 +92,16 @@ interface FindASchoolMapProps{
   schools?: SchoolsArray[];
   title?: string;
   center?: Location;
+  place?: any;
 }
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
-  const{
+  let{
     schools,
     title,
-    center
+    center = map_center,
+    place
   } = props;
-
-  
+  console.log(schools);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -176,7 +180,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     //BRANDON RELEVENT CODE HERE ENDS
 
 
-
+  useEffect(() => {
+    console.log('place');
+    console.log(place);
+    onPlaceSelected(place);
+  }, []);
 
 
   useEffect(() => {
@@ -496,8 +504,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const distance = calculateDistance(
       mapCenter.lat,
       mapCenter.lng,
-      school.coordinates.lat,
-      school.coordinates.lng
+      school.coordinates?.lat,
+      school.coordinates?.lng
     );
     return distance <= MAX_DISTANCE;
   });
@@ -1021,12 +1029,12 @@ useEffect(() => {
             className="list-scroller desktop"
           >
             <div className="nearby-schools-list">
-              {sortedSchools.map((school) => (
-                <div key={school.id} className="school-list">
+              {sortedSchools.map((school, index) => (
+                <div key={index} className="school-list">
                   <a href={`/school/${school.id}`}>
 
                     <div
-                      key={school.id}
+                      key={index}
                       className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                       onMouseOver={() => setHoveredSchoolId(school.id)}
                       onMouseOut={() => setHoveredSchoolId(null)}
@@ -1100,9 +1108,9 @@ useEffect(() => {
               ]
             }}
           >
-            {sortedSchools.map((school) => (
+            {sortedSchools.map((school, index) => (
               <Marker
-                key={school.id}
+                key={index}
                 position={school.coordinates}
 
                 icon={{
@@ -1159,12 +1167,12 @@ useEffect(() => {
           className="list-scroller mobile"
         >
           <div className="nearby-schools-list">
-            {sortedSchools.map((school) => (
-              <div key={school.id} className="school-list">
+            {sortedSchools.map((school, index) => (
+              <div key={index} className="school-list">
                 <a href={`/school/${school.id}`}>
 
                   <div
-                    key={school.id}
+                    key={index}
                     className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                     onMouseOver={() => setHoveredSchoolId(school.id)}
                     onMouseOut={() => setHoveredSchoolId(null)}

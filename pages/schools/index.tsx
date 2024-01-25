@@ -6,20 +6,14 @@ export async function getStaticProps() {
 
     const GET_SCHOOLS = gql`
     query GetSchools {
-        schools {
+        schools (first:100000) {
           nodes {
             uri
-            schoolSettings {
-                details {
-                    corporate {
-                        schoolName
-                      }
-                }
-              
-            }
+            title
             schoolCorporateSettings {
-                schoolName
+                schoolOfAtOn
               }
+            
           }
         }
       }
@@ -45,8 +39,9 @@ export default function Schools({ schools }) {
                     </h1>
                     <div className=''>
                         {
+                            
                             schools.map((school, index) => {
-                                const schoolName = school.schoolCorporateSettings?.schoolName;
+                                const schoolName = "Primrose School " +  school.schoolCorporateSettings?.schoolOfAtOn + " " + school.title;
                                 return (
                                     <div className='card p-2' key={school.uri}>
                                          <a href={`${school.uri}`}>

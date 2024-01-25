@@ -12,6 +12,7 @@ const GET_SCHOOL_DETAILS = gql`
       id
       slug
       uri
+      title
       schoolSettings {
         details {
           corporate {
@@ -26,7 +27,7 @@ const GET_SCHOOL_DETAILS = gql`
         
       }
       schoolCorporateSettings {
-          schoolName
+          schoolOfAtOn
         }
         schoolAdminSettings {
             classroomsOffered
@@ -47,7 +48,7 @@ export default function SchoolsMenu() {
     skip: !schoolSlug, 
   });
 
-  const schoolName = data?.school?.schoolCorporateSettings?.schoolName;
+  const schoolName = "Primrose Schools " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
   console.log(schoolName);
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
