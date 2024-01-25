@@ -228,6 +228,9 @@
                             }
                         }
                         .nav-link {
+                            &:hover {
+                                color: $brand-blue;
+                            }
                             @include media-breakpoint-up(lg){
                                 .b4 {
                                     font-size: 14px;
@@ -242,6 +245,9 @@
                         padding-top: 25px;
                         a {
                             cursor: auto;
+                            &:hover {
+                                color: $primary-green !important;
+                            }
                         }
                         @include media-breakpoint-up(lg){
                             margin-top: 0;
@@ -327,6 +333,14 @@
             align-items: center;
             margin-right: 1rem;
             z-index: 5;
+            &:hover {
+                background-color: $primary-darkgray;
+                svg {
+                    path {
+                        fill: $white;
+                    }
+                }
+            }
             &.desktop {
                 cursor: pointer;
             }
