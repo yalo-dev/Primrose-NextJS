@@ -13,6 +13,7 @@ import SelectDropdown from '../../../app/components/molecules/SelectDropdown/Sel
 import NewsSlider from '../../../app/components/modules/NewsSlider/NewsSlider';
 import QuoteTestimonials from '../../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
+import EmergencyAlert from '../../../app/components/modules/EmergencyAlert/EmergencyAlert';
 
 
 export async function getServerSideProps(context) {
@@ -341,7 +342,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function SchoolMainPage({ school, schoolSlug }) {
-    const { schoolSettings } = school;
+    const {schoolSettings } = school;
     const corporateSettings = school.schoolCorporateSettings;
     const adminSettings = school.schoolAdminSettings;
     const {schoolAdminSettings} = school;
@@ -711,6 +712,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     }
     return (
         <div className='school school-home'>
+            <EmergencyAlert/>
             {renderHeroWithSlider()}
             {firstFive()}
             {renderNewsSlider()}
