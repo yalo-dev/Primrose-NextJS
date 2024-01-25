@@ -32,11 +32,10 @@ interface ImageComponent {
 }
 
 interface ButtonComponent {
-  button: {
+  
     target: string;
     title: string;
     url: string;
-  };
   buttonStyle?: 'primary' | 'secondary' | 'white';
 }
 
