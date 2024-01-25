@@ -5,7 +5,7 @@ import { gql, useQuery } from '@apollo/client';
 import { CustomMultiSelectDropdown } from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 import React from 'react';
 import Button from '../app/components/atoms/Button/Button';
-import FindASchoolMap from '../app/components/modules/FindASchoolMap/FindASchoolMap';
+import MapSearch from '../app/components/modules/MapSearch/MapSearch';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import schoolData from '../app/data/schoolsData';
 import $ from 'jquery';
@@ -84,12 +84,14 @@ const SearchPage: React.FC = () => {
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const schools = schoolData;
     
+    console.log(router);
     const tagClassName = (tagName) => {
         return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
     };
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
+        googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
+        libraries: ['places'],
       });   
     useEffect(() => {
         
@@ -101,11 +103,35 @@ const SearchPage: React.FC = () => {
                
                 setSearchTerm(query);
                 fetchSearchResults(query);
+                setSearchPerformed(true);
+            }else if( router.query.query === 'string') {
+                
+                let gst = geocodeSearchTerm(router.query.query);
+                setSearchTerm(router.query.query);
+                fetchSearchResults(router.query.query);
+                setSearchPerformed(true);
             }
+            console.log("loading");
+            console.log(loading);
                 
                 
             
     }, [isLoaded]);
+    /* useEffect(() => {
+        if (router.query.query) {
+            
+          const searchQuery = Array.isArray(router.query.query) ? router.query.query[0] : router.query.query;
+          
+          if (searchQuery) {
+
+            setSearchTerm(searchQuery);
+            let gst = geocodeSearchTerm(searchQuery);
+
+            fetchSearchResults(searchQuery);
+            setSearchPerformed(true);
+        }
+        }
+    }, [router, isLoaded]); */
     if(isLoaded && !geocoder){
         geocoder = new window.google.maps.Geocoder();
     }
@@ -156,21 +182,7 @@ const SearchPage: React.FC = () => {
         setCurrentPage(1);
     }, [activeFilter]); 
 
-    useEffect(() => {
-        if (router.query.query) {
-            
-          const searchQuery = Array.isArray(router.query.query) ? router.query.query[0] : router.query.query;
-          
-          if (searchQuery) {
-
-            setSearchTerm(searchQuery);
-            let gst = geocodeSearchTerm(searchQuery);
-
-            fetchSearchResults(searchQuery);
-            setSearchPerformed(true);
-        }
-        }
-    }, [router.query.query, isLoaded]);
+    
       
     const getTotalFilteredResults = (): number => {
         switch (activeFilter) {
@@ -338,7 +350,7 @@ const SearchPage: React.FC = () => {
         if (searchTerm) {
             geocodeSearchTerm(searchTerm);
             fetchSearchResults(searchTerm);
-            router.push(`/search?query=${encodeURIComponent(searchTerm)}`, undefined, { shallow: true });
+            router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
             setSearchPerformed(true);
         }
     };
@@ -515,7 +527,7 @@ const SearchPage: React.FC = () => {
                     }
                     return (
                         <>
-                         <FindASchoolMap {...fas_props} /> 
+                         <MapSearch {...fas_props} /> 
                         </>
                       );
                 default:
