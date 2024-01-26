@@ -132,9 +132,15 @@ export const CommonPageComponent = ({ modules }) => {
                 default:
                     ModuleComponent = null;
             }
+            // Determine the id to be used
+            const moduleIdToUse = module.moduleId || module.__typename;
+
+            // Add moduleId to moduleProps if it's not empty
+            const moduleProps = module.moduleId ? { ...module, moduleId: module.moduleId } : module;
+
             return (
-                <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`}>
-                    {ModuleComponent && <ModuleComponent {...module} />}
+                <section id={moduleIdToUse} className={`module ${module.__typename}`} key={index} >
+                    {ModuleComponent && <ModuleComponent {...moduleProps} />}
                 </section>
             );
         })}
