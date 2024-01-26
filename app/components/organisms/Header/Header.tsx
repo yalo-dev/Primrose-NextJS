@@ -34,19 +34,27 @@ export default function Header({ menuItems }) {
     const [isDesktopSearchActive, setIsDesktopSearchActive] = useState(false);
     const desktopSearchBarRef = useRef<HTMLDivElement>(null);
     const { data, loading, error } = useQuery(GET_TRENDING_SEARCH_ITEMS);
-  
+    const mobileSearchInputRef = useRef<HTMLInputElement>(null);
+    const desktopSearchInputRef = useRef<HTMLInputElement>(null);
 
-    const toggleDesktopSearch = () => {
-        setIsDesktopSearchActive(!isDesktopSearchActive);
-    };
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
     };
+
+    const toggleDesktopSearch = () => {
+        setIsDesktopSearchActive(!isDesktopSearchActive);
+        // Focus on the desktop search input when it becomes active
+        if (!isDesktopSearchActive) {
+            setTimeout(() => desktopSearchInputRef.current?.focus(), 0);
+        }
+    };
+
     const toggleSearch = () => {
         setIsSearchActive(!isSearchActive);
+        // Focus on the mobile search input when it becomes active
         if (!isSearchActive) {
-            setInputText('');
+            setTimeout(() => mobileSearchInputRef.current?.focus(), 0);
         }
     };
 
@@ -211,7 +219,7 @@ export default function Header({ menuItems }) {
                                 <div className={`navbar-search pb-4 pb-lg-0 ${isSearchActive ? 'active' : ''}`}>
                                     <form className='d-flex' role='search' onSubmit={handleSearchSubmit}>
                                         <label htmlFor='search' className='hidden'>Search</label>
-                                        <div className='search-icon d-lg-none d-flex' onClick={toggleSearch}>
+                                        <div className='search-icon d-lg-none d-flex' onClick={() => { console.log('Search icon clicked'); toggleSearch(); }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
                                             </svg>
@@ -231,6 +239,7 @@ export default function Header({ menuItems }) {
                                             required
                                             value={inputText}
                                             onChange={handleInputChange}
+                                            ref={mobileSearchInputRef} 
                                         />
                                         <button type="submit" hidden>Search</button>
                                         <div
@@ -263,7 +272,11 @@ export default function Header({ menuItems }) {
                 <div ref={desktopSearchBarRef} className={`desktop-search-bar ${isDesktopSearchActive ? 'show' : ''}`}>
                     <form role='search' onSubmit={handleSearchSubmit}>
                         <div className="container position-relative">
-                            <div className='search-icon desktop d-none d-lg-flex'>
+                     
+                        <div className='search-icon desktop d-none d-lg-flex' onClick={() => { 
+                            console.log('Desktop Search icon clicked'); 
+                            toggleDesktopSearch(); 
+                        }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="white" />
                                 </svg>
@@ -278,6 +291,7 @@ export default function Header({ menuItems }) {
                                 required
                                 value={inputText}
                                 onChange={handleInputChange}
+                                ref={desktopSearchInputRef}
                             />
                             <button type="submit" hidden>Search</button>
                             <div className={`clear-icon ${inputText ? 'show' : ''}`} onClick={clearInput}>
