@@ -220,6 +220,31 @@
             color: $primary-green;
            
         }
+        .image-wrapper {
+            
+            @include media-breakpoint-up(lg) {
+                margin-left: 1rem;
+            }
+            img {
+                border-radius: 30px;
+                margin: 20px auto;
+                width: 100%;
+                
+                @include media-breakpoint-up(lg) {
+                    min-width: 350px;
+                    width: 350px;
+                    height: auto;
+                }
+                @include media-breakpoint-up(xl) {
+                    min-width: 525px;
+                    height: auto;
+                }
+                @include media-breakpoint-up(xxl) {
+                    min-width: 676px;
+                    height: auto;
+                }
+            }
+        }
         .video-wrapper {
             margin: 0;
             min-width: 343px; 
