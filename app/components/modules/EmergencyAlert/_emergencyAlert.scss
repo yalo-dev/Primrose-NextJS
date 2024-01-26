@@ -1,53 +1,98 @@
-.emergency-alert {
+// .emergency-alert {
 
-    .emergency-message-container {
-        border: 1px solid #E6E6E6; /* Border color */
-        background-color: #F5F5F5; /* Light gray background */
-        border-radius: 10px; /* Rounded corners */
-        margin-top: 0px !important;
+//     .emergency-message-container {
+//         border: 1px solid #E6E6E6; /* Border color */
+//         background-color: #F5F5F5; /* Light gray background */
+//         border-radius: 10px; /* Rounded corners */
+//         margin-top: 0px !important;
 
-        .icon-container {
-            display: flex;
-            align-items: center;
-      
-            // Add a green divider line
-            .divider-line {
-              height: 40px; // Adjust the height as needed
-              width: 2px; // Adjust the width as needed
-              background-color: #5E6738; // Green color
-              margin-right: 24px; // Adjust the margin as needed
-              margin-left: 24px; // Adjust the margin as needed
-            }
-          }
+//         .icon-container {
+//             display: flex;
+//             align-items: center;
 
-        text {
-            fill: #FFF; /* Fill color for the exclamation mark */
+//             // Add a green divider line
+//             .divider-line {
+//               height: 40px; // Adjust the height as needed
+//               width: 2px; // Adjust the width as needed
+//               background-color: #5E6738; // Green color
+//               margin-right: 24px; // Adjust the margin as needed
+//               margin-left: 24px; // Adjust the margin as needed
+//             }
+//           }
+
+//         text {
+//             fill: #FFF; /* Fill color for the exclamation mark */
+//         }
+
+//         .message {
+//             // margin-right: 24px;
+//             // max-width: 400px; // Adjust the max-width as needed
+//             // font-size: 14px; // Adjust the font-size as needed
+//             p{
+//                 margin-bottom: 0px !important;
+//                 strong {
+//                     color: #5E6738; // Set the green color for bold text
+//                   }
+//             }
+//           }
+
+//           button {
+//             white-space: nowrap; // Prevent button from breaking into multiple lines
+//           }
+
+//   .dismiss-button {
+//     margin-left: 24px; // Align the dismiss button to the right
+//     margin-right: 15px;
+//     cursor: pointer;
+//     background: none;
+//     border: none;
+//     padding: 0;
+//     display: inline;
+//   }
+//     }
+// }
+
+.divider-line {
+    height: 40px; // Adjust the height as needed
+    width: 4px; // Adjust the width as needed
+    background-color: #5E6738; // Green color
+    margin-right: 24px; // Adjust the margin as needed
+    margin-left: 24px; // Adjust the margin as needed
+}
+
+.message {
+    margin-right: 24px;
+    margin-bottom: 0px !important;
+
+    p {
+        margin-bottom: 0px !important;
+
+        strong {
+            color: #5E6738; // Set the green color for bold text
         }
-
-        .message {
-            // margin-right: 24px;
-            // max-width: 400px; // Adjust the max-width as needed
-            // font-size: 14px; // Adjust the font-size as needed
-            p{
-                margin-bottom: 0px !important;
-                strong {
-                    color: #5E6738; // Set the green color for bold text
-                  }
-            }
-          }
-      
-          button {
-            white-space: nowrap; // Prevent button from breaking into multiple lines
-          }
-
-          .dismiss-button {
-            margin-left: 24px; // Align the dismiss button to the right
-            margin-right: 15px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            display: inline;
-          }
     }
+}
+
+button {
+    white-space: nowrap; // Prevent button from breaking into multiple lines
+}
+
+.emergency-message-container {
+    border: 1px solid #E6E6E6;
+    /* Border color */
+    background-color: #F5F5F5;
+    /* Light gray background */
+    border-radius: 10px;
+    /* Rounded corners */
+    margin-top: 0px !important;
+}
+
+.dismiss-button {
+    margin-left: 24px; // Align the dismiss button to the right
+    margin-right: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline;
 }
