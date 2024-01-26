@@ -21,179 +21,19 @@ export async function getServerSideProps(context) {
 
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
+        siteSettings {
+          siteSettings {
+            defaultStaffPhoto {
+              altText
+              mediaItemUrl
+              sourceUrl
+            }
+          }
+        }
         school(id: $id, idType: URI) {
           id
           slug
           uri
-          schoolSettings {
-            details {
-              corporate {
-                schoolName
-                address {
-                  streetAddress
-                  streetAddress2
-                  city
-                  state
-                  zipcode
-                }
-                emailAddress
-                phoneNumber
-                latitude
-                longitude
-                schoolOpening
-              }
-              general {
-                facebook {
-                  target
-                  title
-                  url
-                }
-                instagram {
-                  target
-                  title
-                  url
-                }
-                schoolHours
-                scheduleATour {
-                  heading
-                  subheading
-                  button {
-                    target
-                    title
-                    url
-                  }
-                  images {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-            }
-            classrooms {
-              classroomSelection {
-                selectClassrooms
-              }
-            }
-            homepage {
-              gallery {
-                title
-                caption
-                image {
-                  altText
-                  sourceUrl
-                }
-                altText
-              }
-              heroWithSlider {
-                leftColumn {
-                  images {
-                    image {
-                      sourceUrl
-                    }
-                    altText
-                  }
-                }
-                rightColumn {
-                  accreditations {
-                    image {
-                      sourceUrl
-                    }
-                    altText
-                  }
-                }
-              }
-              firstFive {
-                heading
-                subheading
-                classrooms {
-                  leftColumn {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                  rightColumn {
-                    heading
-                    blurb
-                    button {
-                      target
-                      title
-                      url
-                    }
-                  }
-                }
-                staff {
-                  leftColumn {
-                    heading
-                    blurb
-                    button {
-                      target
-                      title
-                      url
-                    }
-                  }
-                  rightColumn {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-              news {
-                heading
-                newsItems {
-                  ... on Resource {
-                    id
-                    title
-                    uri
-                    excerpt
-                    featuredImage {
-                      node {
-                        sourceUrl
-                      }
-                    }
-                  }
-                }
-              }
-              testimonials {
-                facebook {
-                  target
-                  title
-                  url
-                }
-                google {
-                  target
-                  title
-                  url
-                }
-                heading
-                yelp {
-                  target
-                  title
-                  url
-                }
-                testimonials {
-                  ... on Testimonial {
-                    id
-                    testimonials {
-                      name
-                      title
-                      heading
-                      testimonial
-                    }
-                    featuredImage {
-                      node {
-                        sourceUrl
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
           schoolCorporateSettings {
               accreditations {
                 ... on Accreditation {
@@ -346,22 +186,15 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     const corporateSettings = school.schoolCorporateSettings;
     const adminSettings = school.schoolAdminSettings;
     const {schoolAdminSettings} = school;
-    const newsItems = school.schoolSettings.homepage.news.newsItems;
     const [isClient, setIsClient] = useState(false);
-    const { testimonials } = school.schoolSettings.homepage;
     console.log(corporateSettings);
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     const renderHeroWithSlider = () => {
-        const { heroWithSlider } = schoolSettings.homepage;
-        const { corporate, general } = schoolSettings.details;
-        const { accreditations } = schoolSettings.homepage.heroWithSlider.rightColumn;
-        const { classrooms } = schoolSettings.details;
         const classroomsData = schoolAdminSettings?.classroomsOffered;
         let schoolHoursFormatted = "M-F " + schoolAdminSettings.hoursOfOperation.openingTime + " - " + schoolAdminSettings.hoursOfOperation.closingTime;
-        const { facebook, instagram } = schoolSettings.details.general;
         
 
         const settings = {
@@ -554,8 +387,6 @@ export default function SchoolMainPage({ school, schoolSlug }) {
         )
     }
     const firstFive = () => {
-        const firstFiveData = school.schoolSettings.homepage.firstFive;
-        const staffData = school.schoolSettings.homepage.firstFive.staff;
         const classroomsData = schoolAdminSettings?.classroomsOffered;
         const dropdownOptions = classroomsData.map(classroom => ({
             label: classroom,
@@ -657,7 +488,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                 blurb: testimonial.testimonials.testimonial
             }
         }));
-        const heading = testimonials.heading || 'Default Heading';
+        const heading = "See What Families Are Saying";
 
         return (
             <>
