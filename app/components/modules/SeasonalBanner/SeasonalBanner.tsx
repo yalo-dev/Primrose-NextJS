@@ -11,7 +11,6 @@ interface SeasonalButtonProps {
 }
 
 interface SeasonalBannerProps {
-    moduleId?: string;
     image?: {
         sourceUrl?: string;
         altText?: string;
@@ -34,10 +33,10 @@ interface SeasonalBannerProps {
 	};
 }
 
-const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ moduleId, image, heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
-    console.log('SeasonalBann: '+ image?.sourceUrl + image?.altText + moduleId );
+const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ image, heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
+
     return (
-        <div className="container" id={`${moduleId}`}>
+        <div className="container">
 		<Customizations
 		   topPaddingMobile={customizations?.topPaddingMobile}
 		   topPaddingDesktop={customizations?.topPaddingDesktop}
