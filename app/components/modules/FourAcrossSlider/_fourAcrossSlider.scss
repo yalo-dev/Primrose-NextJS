@@ -12,7 +12,7 @@
         margin: auto;
         position: relative;
         width: fit-content;
-       
+        margin-bottom: 30px;
         li {
             margin: 0;
             button:before {
@@ -50,7 +50,26 @@
         }
     }
     .slick-prev {
-        left: -35px;
+        left: -5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    .slick-next {
+        right: 5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    @include media-breakpoint-up(sm) {
+        .slick-prev {
+            left: -30px;
+        }
+        .slick-next {
+            right: -20px;
+        }
     }
     @include media-breakpoint-up(xl) {
         .slick-prev, .slick-next {
