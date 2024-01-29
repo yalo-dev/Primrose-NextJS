@@ -162,6 +162,10 @@
                     text-align: left;
                     padding: 0;
                     padding-left: 16px;
+
+                    &:hover {
+                        color: $brand-blue;
+                    }
                     @include media-breakpoint-up(lg) {
                         color: $primary-green;
                         font-family: Poppins;

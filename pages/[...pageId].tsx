@@ -10,6 +10,7 @@ query GetModules($id: ID = "") {
 	  modules {
 		modules {
 			... on Page_Modules_Modules_BlockAndSlider {
+				moduleId
 				blurb
 				heading
 				image {
@@ -33,6 +34,7 @@ query GetModules($id: ID = "") {
 				}
 			  }
 		  ... on Page_Modules_Modules_ClassroomSelectAndContent {
+			moduleId
 			accents {
 			  accentOne {
 				sourceUrl
@@ -80,6 +82,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_ClassroomSelectAndImage {
+			moduleId
 			leftColumn {
 			  image {
 				sourceUrl
@@ -136,7 +139,11 @@ query GetModules($id: ID = "") {
                   }
                   imageType
                 }
-                title
+                title {
+					columnTitle
+					headingLevel
+					fieldGroupName
+				  }
               }
               acfeFlexibleToggle
               customizations {
@@ -168,6 +175,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
+			moduleId
 			alignment
 			eyebrow
 			eyebrowColor
@@ -185,6 +193,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_FeaturedBlogs {
+			moduleId
 			heading
 			headingColor
 			blogs {
@@ -228,6 +237,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_FeaturedSection {
+			moduleId
 			heading
 			headingColor
 			subheading
@@ -252,6 +262,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_FindASchool {
+			moduleId
 			heading
 			headingColor
 			subheading
@@ -277,6 +288,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_FourAcrossSlider {
+			moduleId
 			customizations {
 			  backgroundColor
 			  bottomPaddingDesktop
@@ -296,6 +308,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralButtonCta {
+			moduleId
 			icon {
 			  sourceUrl
 			  altText
@@ -338,6 +351,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralHorizontalTabs {
+			moduleId
 			tabs {
 			  label
 			  tabLabelColor
@@ -368,6 +382,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_GeneralVerticalTabs {
+			moduleId
 			customizations {
 			  topMarginMobile
 			  topMarginDesktop
@@ -414,6 +429,7 @@ query GetModules($id: ID = "") {
 			subheadingColor
 		  }
 		  ... on Page_Modules_Modules_HeroWithImage {
+			moduleId
 			leftColumn {
 			  image {
 				sourceUrl
@@ -449,6 +465,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_HeroWithVideo {
+			moduleId
 			leftColumn {
 			  eyebrow
 			  eyebrowColor
@@ -483,6 +500,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_HomeHeroWithVideo {
+			moduleId
 			customizations {
 			  backgroundColor
 			  bottomPaddingDesktop
@@ -510,6 +528,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_NewsletterFormCta {
+			moduleId
 			heading
 			headingColor
 			subheading
@@ -529,6 +548,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_PathwayToOwnership {
+			moduleId
 			heading
 			subheading
 			subheadingColor
@@ -558,6 +578,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_PrimroseFriends {
+			moduleId
 			tabs {
 			  label
 			  tabLabelColor
@@ -593,6 +614,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_Q1Skills {
+			moduleId
 			eyebrow
 			eyebrowColor
 			heading
@@ -617,6 +639,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_QuoteTestimonials {
+			moduleId
 			customizations {
 			  bottomPaddingDesktop
 			  bottomPaddingMobile
@@ -676,6 +699,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_StandardAccordionList {
+			moduleId
 			heading
 			headingColor
 			accordion {
@@ -698,6 +722,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TestimonialsWithVideoOrImage {
+			moduleId
 			buttonStyle
 			button {
 			  target
@@ -734,6 +759,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedBlock {
+			moduleId
 			leftColumn {
 			  imageDesktop {
 				sourceUrl
@@ -766,6 +792,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedImage {
+			moduleId
 			leftColumn {
 			  heading
 			  headingColor
@@ -810,6 +837,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsGreenBackground {
+			moduleId
 			customizations {
 			  topMarginMobile
 			  topMarginDesktop
@@ -842,6 +870,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsImageAndTextAlternative {
+			moduleId
 			customizations {
 			  bottomPaddingDesktop
 			  bottomPaddingMobile
@@ -875,6 +904,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_TwoColumnsImageAndText {
+			moduleId
 			leftColumn {
 			  imageDesktop {
 				sourceUrl
@@ -932,6 +962,7 @@ query GetModules($id: ID = "") {
 			}
 		  }
 		  ... on Page_Modules_Modules_WysiwygEditor {
+			moduleId
 			editor
 			customizations {
 			  bottomPaddingDesktop

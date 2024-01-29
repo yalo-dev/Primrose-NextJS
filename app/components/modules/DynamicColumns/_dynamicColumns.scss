@@ -1,6 +1,7 @@
 // Existing styles for DynamicColumns
 .dynamic-columns {
     padding-bottom: 136px;
+    display: flex;
   
     .container {
       .icon-image {
@@ -42,10 +43,22 @@
         }
       }
       .title-container {
+        h5 {
+          color: $primary-darkgray;
+        }
         &.column-gap {
           margin-top: 23px; 
         }
       }
     }
   }
-  
+
+  @media (max-width: 767px) {
+    .dynamic-columns {
+      padding-bottom: 40px;
+    }
+    .col-12{
+      margin-bottom: 20px !important;
+      margin-top: 20px;
+    }
+  }

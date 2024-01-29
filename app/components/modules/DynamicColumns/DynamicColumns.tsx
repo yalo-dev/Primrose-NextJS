@@ -46,7 +46,10 @@ interface Column {
       altText: string;
     }
   };
-  title?: string;
+  title?: {
+    columnTitle: string;
+    headingLevel?: 'h2' | 'h3' | 'h4' | 'h5';
+  }
   blurb?: string;
   button?: {
     buttonLink: {
@@ -105,12 +108,11 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
                     className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image'}
                   />
                 )}
-                {isTwoColumns && column.title && (
-                  <div className="title-container column-gap">
-                    <h3>{column.title}</h3>
-                  </div>
-                )}
-                {!isTwoColumns && column.title && <p className='b4 bold mt-3'>{column.title}</p>}
+                <div className="title-container column-gap">
+                  {column.title && column.title.headingLevel && (
+                    React.createElement(column.title.headingLevel, null, column.title.columnTitle)
+                  )}
+                </div>
                 {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
                 {column.button && (
                   <div className='link-container'>
