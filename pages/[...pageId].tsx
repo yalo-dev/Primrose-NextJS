@@ -139,7 +139,11 @@ query GetModules($id: ID = "") {
                   }
                   imageType
                 }
-                title
+                title {
+					columnTitle
+					headingLevel
+					fieldGroupName
+				  }
               }
               acfeFlexibleToggle
               customizations {
