@@ -118,6 +118,17 @@ query GetModules($id: ID = "") {
 			  backgroundColorRight
 			}
 		  }
+		  ... on Page_Modules_Modules_ContentWithSchoolhouse {
+			moduleId
+			editor
+			customizations {
+			  backgroundColor
+			  topPaddingMobile
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  bottomPaddingDesktop
+			}
+		  }
           ... on Page_Modules_Modules_DynamicColumns {
               fieldGroupName
               columns {
