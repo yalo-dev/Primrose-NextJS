@@ -8,7 +8,7 @@ const BlockAndSlider = ({ blurb, heading, image, customizations, slider }) => {
     const sliderSettings = {
         dots: true,
         arrows: false,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
