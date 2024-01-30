@@ -15,6 +15,8 @@ import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/H
 export async function getServerSideProps(context) {
 
   const { schoolSlug } = context.params;
+  console.log('context');
+  console.log(context);
 
   const GET_CLASSROOM_TYPE = gql`
       query GetSchoolDetails($id: ID!) {
@@ -210,8 +212,8 @@ interface StaffMember {
   group: string;
 }
 
-export default function ClassroomTypePage({ school }) {
-
+export default function ClassroomTypePage({ school, schoolSlug }) {
+  console.log(schoolSlug);
   const hasData = (data) => {
     return data && Object.keys(data).length > 0 && data.constructor === Object;
   };
