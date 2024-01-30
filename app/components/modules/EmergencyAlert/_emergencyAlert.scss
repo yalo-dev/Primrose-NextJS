@@ -44,6 +44,11 @@ button {
     display: inline;
 }
 
+.col {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
 
 /* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 767px) {
