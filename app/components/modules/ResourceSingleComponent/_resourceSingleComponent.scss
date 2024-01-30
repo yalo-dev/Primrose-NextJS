@@ -61,76 +61,7 @@
                 }
             }
         }
-        .content-wrapper {
-            // &::before {
-            //     content: "";
-            //     background-image: url('/assets/accent-orange-square.svg');
-            //     position: absolute;
-            //     width: 20vw;
-            //     height: 20vw;
-            //     left: 2rem;
-            //     top: -27vw;
-            //     background-size: contain;
-            //     background-repeat: no-repeat;
-            //     transform: rotate(100deg);
-            //     @include media-breakpoint-up(sm) {
-            //         left: 3rem;
-            //         top: -10rem;
-            //         width: 6rem;
-            //         height: 6rem;
-            //         transform: rotate(30deg);
-            //     }
-            //     @include media-breakpoint-up(lg) {
-            //         left: -11rem;
-            //         top: -4rem;
-            //         width: 6rem;
-            //         height: 6rem;
-            //         transform: rotate(30deg);
-            //     }
-            //     @include media-breakpoint-up(xl) {
-            //         top: -7rem;
-            //     }
-            //     @include media-breakpoint-up(xxl) {
-            //         left: -10rem;
-            //         top: -6rem;
-            //         transform: rotate(46deg);
-            //     }
-            // }
-            // &::after {
-            //     content: "";
-            //     background-image: url('/assets/accent-red-triangle.svg');
-            //     position: absolute;
-            //     width: 20vw;
-            //     height: 20vw;
-            //     right: 2rem;
-            //     top: -29vw;
-            //     transform: rotate(100deg);
-            //     background-size: contain;
-            //     background-repeat: no-repeat;
-            //     @include media-breakpoint-up(sm) { 
-            //         padding-bottom: 0;
-            //         top: -11rem;
-            //         width: 6rem;
-            //         height: 6rem;
-            //         transform: rotate(99deg);
-            //         right: 3rem;
-            //     }
-            //     @include media-breakpoint-up(lg) { 
-            //         padding-bottom: 0;
-            //         top: 15rem;
-            //         width: 6rem;
-            //         height: 6rem;
-            //         transform: rotate(99deg);
-            //         right: unset;
-            //         left: -12rem;
-            //     }
-            //     @include media-breakpoint-up(xxl) {
-            //         top: 15rem;
-            //         transform: rotate(78deg);
-            //         left: -10rem;
-            //     }
-            // }
-        }
+        
         .details {
             .caption {
                 color: $grayscale-1;
