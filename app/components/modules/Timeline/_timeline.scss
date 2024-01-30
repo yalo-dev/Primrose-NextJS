@@ -1,19 +1,19 @@
 .timeline {
     .heading-wrapper {
         max-width: 50rem;
-        margin: 2rem auto;
+        margin: 4rem auto;
         text-align: center;
     }
-    // .sticky-div {
-    //     position: fixed;
-    //     width: 100%;
-    // }
-    // .sticky-div-margin {
-    //     height: 250px;
-    // }
+    .sticky-div.sticky {
+        position: fixed;
+        top: 100px;
+        width: 100%;
+        background: $white;
+        z-index: 999;
+    }
     .timeline-tiles {
         margin-left: 1rem;
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(xxl) {
             margin-left: 3rem;
         }
         .tile {
@@ -28,7 +28,9 @@
             justify-content: center;
             align-items: center;
             @include transitionAll();
-        
+            p {
+                margin-bottom: 0;
+            }
         }
         .slick-current { 
             .tile {
@@ -42,11 +44,50 @@
     }
     .timeline-content {
         .content-wrapper {
-            &.reverse {
+            .content {
                 @include media-breakpoint-up(lg) {
-                    .content {
+                    padding: 2rem 0;
+                }
+                .image-wrapper {
+                    padding: 1rem 0;
+                    img {
+                       object-fit: cover;
+                       object-position: center;
+                       width: 100%;
+                       border-radius: 12px;
+                    }
+                }
+                .text-wrapper {
+                    padding: 1rem 0;
+                    @include media-breakpoint-up(lg) {
+                        padding-left: 3rem;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    @include media-breakpoint-up(xxl) {
+                        padding-left: 7rem;       
+                    }
+                }
+                @include media-breakpoint-up(lg) {
+                    display: flex;
+                    align-items: center;
+                    padding-left: 5rem;
+                }
+                @include media-breakpoint-up(xxl) {
+                    padding: 4rem 0;  
+                    padding-left: 7rem;   
+                       
+                }
+                .col {
+                    @include media-breakpoint-up(lg) {
+                        flex-basis: 50%;
+                    }
+                }
+            }
+            &.reverse {
+                .content {
+                    @include media-breakpoint-up(lg) {
                         flex-direction: row-reverse;
-                        
                     }
                 }
                 .text-wrapper {
@@ -56,54 +97,20 @@
                     }
                     @include media-breakpoint-up(xxl) {
                         padding-left: 0;
-                        padding-right: 5rem;
+                        padding-right: 7rem;
                     }
-                }
-            }
-           
-        }
-        .content {
-            @include media-breakpoint-up(lg) {
-                padding: 2rem 0;
-            }
-            .image-wrapper {
-                padding: 1rem 0;
-                img {
-                   object-fit: cover;
-                   object-position: center;
-                   width: 100%;
-                   border-radius: 12px;
-                }
-            }
-            .text-wrapper {
-                padding: 1rem 0;
-                @include media-breakpoint-up(lg) {
-                    padding-left: 3rem;
-                    display: flex;
-                    flex-direction: column;
-                }
-                @include media-breakpoint-up(xxl) {
-                    padding-left: 5rem;
-                    
-                }
-            }
-            @include media-breakpoint-up(lg) {
-                display: flex;
-                align-items: center;
-                padding-left: 5rem;
-            }
-            .col {
-                @include media-breakpoint-up(lg) {
-                    flex-basis: 50%;
                 }
             }
         }
     }
     .slick-prev {
         left: unset;
-        top: -2rem;
+        top: -2.5rem;
         transform: scale(-1, -1);
         right: 5rem;
+        @include media-breakpoint-up(xxl) {
+            right: 8rem;
+        }
         &.disabled {
             opacity: 0.25;
         }
@@ -113,8 +120,11 @@
     }
     .slick-next {
         left: unset;
-        top: -2rem;
+        top: -2.5rem;
         right: 2rem;
+        @include media-breakpoint-up(xxl) {
+            right: 5rem;
+        }
         &.disabled {
             opacity: 0.25;
         }
@@ -122,4 +132,9 @@
             content: none;
         }
     }
+}
+
+
+.module.Page_Modules_Modules_Timeline {
+ overflow-x: auto;
 }
