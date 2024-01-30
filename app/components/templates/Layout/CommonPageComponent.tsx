@@ -22,6 +22,7 @@ import QuoteTestimonials from '../../modules/QuoteTestimonials/QuoteTestimonials
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
 import StandardAccordionList from '../../modules/StandardAccordionList/StandardAccordionList';
 import TestimonialsWithVideoOrImage from '../../modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
+import Timeline from '../../modules/Timeline/Timeline';
 import TwoColumnsFeaturedBlock from '../../modules/TwoColumnsFeaturedBlock/TwoColumnsFeaturedBlock';
 import TwoColumnsFeaturedImage from '../../modules/TwoColumnsFeaturedImage/TwoColumnsFeaturedImage';
 import TwoColumnsGreenBackground from '../../modules/TwoColumnsGreenBackground/TwoColumnsGreenBackground';
@@ -110,6 +111,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_TestimonialsWithVideoOrImage':
                     ModuleComponent = TestimonialsWithVideoOrImage;
+                    break;
+                case 'Page_Modules_Modules_Timeline':
+                    ModuleComponent = Timeline;
                     break;
                 case 'Page_Modules_Modules_TwoColumnsFeaturedBlock':
                     ModuleComponent = TwoColumnsFeaturedBlock;

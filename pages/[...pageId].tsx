@@ -758,6 +758,35 @@ query GetModules($id: ID = "") {
 			  }
 			}
 		  }
+		  ... on Page_Modules_Modules_Timeline {
+            customizations {
+              bottomPaddingDesktop
+              bottomPaddingMobile
+              topPaddingDesktop
+              topPaddingMobile
+            }
+            heading
+            headingColor
+            subheading
+            subheadingColor
+            tilesTitle
+            tilesTitleColor
+            tiles {
+              tileBlurb
+              tileTitle
+              content {
+                blurb
+                blurbColor
+                title
+                titleColor
+                switchColumns
+                image {
+                  altText
+                  sourceUrl
+                }
+              }
+            }
+          }
 		  ... on Page_Modules_Modules_TwoColumnsFeaturedBlock {
 			moduleId
 			leftColumn {
