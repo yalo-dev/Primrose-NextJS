@@ -17,6 +17,7 @@ import HomeHeroWithVideo from '../../modules/HomeHeroWithVideo/HomeHeroWithVideo
 import NewsletterFormCTA from '../../modules/NewsletterFormCTA/NewsletterFormCTA';
 import PathwayToOwnership from '../../modules/PathwayToOwnership/PathwayToOwnership';
 import PrimroseFriends from '../../modules/PrimroseFriends/PrimroseFriends';
+import ContentWithSchoolhouse from '../../modules/ContentWithSchoolhouse/ContentWithSchoolhouse';
 import Q1Skills from '../../modules/Q1Skills/Q1Skills';
 import QuoteTestimonials from '../../modules/QuoteTestimonials/QuoteTestimonials';
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
@@ -48,6 +49,9 @@ export const CommonPageComponent = ({ modules }) => {
                     break;
                 case 'Page_Modules_Modules_ClassroomSelectAndContent':
                     ModuleComponent = ClassroomSelectAndContent;
+                    break;
+                case 'Page_Modules_Modules_ContentWithSchoolhouse':
+                    ModuleComponent = ContentWithSchoolhouse;
                     break;
                 case 'Page_Modules_Modules_DynamicColumns':
                     ModuleComponent = DynamicColumns;
