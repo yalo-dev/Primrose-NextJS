@@ -11,6 +11,7 @@ import EyebrowHeadingSubheading from '../../modules/EyebrowHeadingSubheading/Eye
 import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import GeneralVerticalTabs from '../../modules/GeneralVerticalTabs/GeneralVerticalTabs';
+import HarmonyAndHeart from '../../modules/HarmonyAndHeart/HarmonyAndHeart';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
 import HomeHeroWithVideo from '../../modules/HomeHeroWithVideo/HomeHeroWithVideo';
@@ -83,6 +84,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_GeneralVerticalTabs':
                     ModuleComponent = GeneralVerticalTabs;
                 break;
+                case 'Page_Modules_Modules_HarmonyAndHeart':
+                    ModuleComponent = HarmonyAndHeart;
+                    break;
                 case 'Page_Modules_Modules_HeroWithImage':
                     ModuleComponent = HeroWithImage;
                     break;

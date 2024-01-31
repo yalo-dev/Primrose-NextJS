@@ -439,6 +439,46 @@ query GetModules($id: ID = "") {
 			subheading
 			subheadingColor
 		  }
+		  ... on Page_Modules_Modules_HarmonyAndHeart {
+			acfeFlexibleToggle
+			fieldGroupName
+			leftColumn {
+			  displayMusicPlayer
+			  heading
+			  musicPlayer {
+				artistAuthor
+				audio {
+				  url
+				}
+				coverImage {
+				  altText
+				  sourceUrl
+				}
+				trackTitle
+			  }
+			}
+			moduleId
+			rightHarmonyColumn {
+			  musicCollection {
+				appleMusicLink {
+				  target
+				  title
+				  url
+				}
+				description
+				image {
+				  altText
+				  sourceUrl
+				}
+				spotifyLink {
+				  target
+				  title
+				  url
+				}
+				title
+			  }
+			}
+		  }
 		  ... on Page_Modules_Modules_HeroWithImage {
 			moduleId
 			leftColumn {
