@@ -1,0 +1,220 @@
+.harmony-and-heart {
+    @include media-breakpoint-up(lg) {
+      &.sticky .left-column {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+      }
+  
+      &.sticky .wrap {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .content-container {
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 14px;
+  }
+
+  .music-row {
+    align-items: center;
+  }
+  
+
+.music-player-container {
+    display: flex;
+width: 100%;
+height: 100%;
+padding: 8px;
+flex-direction: column;
+align-items: flex-start;
+border-radius: 12px;
+background: #5E6738;
+  }
+  
+  .cover-image {
+    width: 104px;
+height: 104px;
+object-fit: cover;
+padding: 0px !important;
+  }
+  
+  .info-container {
+    display: flex;
+flex-direction: column;
+gap: 4px;
+flex: 1 0 0;
+  }
+
+  .content-container {
+    display: flex;
+flex-direction: column;
+  }
+
+  .music-head {
+    color: #5E6738
+  }
+  
+  .artist {
+    color: #FFF;
+    margin-bottom: 0px !important;
+  }
+  
+  .track-title {
+    color: #FFF;
+    margin-bottom: 0px !important;
+  }
+
+// /* Add this to your CSS file */
+// .custom-audio-player::-webkit-media-controls-enclosure {
+//   background-color: #5E6738;
+// }
+
+
+.custom-audio-player::-webkit-media-controls-panel {
+  background-color: #5E6738;;
+}
+
+.custom-audio-player::-webkit-media-controls-panel {
+  background-color: #5E6738;;
+}
+.custom-audio-player::-webkit-media-controls-play-button {
+  background-color: #B1D4E0;
+  border-radius: 50%;
+}
+.custom-audio-player::-webkit-media-controls-play-button:hover {
+  background-color: rgba(177,212,224, .7);
+}
+
+/* Default styles for larger screens */
+.collection-image {
+  max-width: 320px;
+  max-height: 320px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+  .music-collection-item{
+    display: flex;
+align-items: center;
+gap: 40px;
+margin-bottom: 40px;
+padding-left: 0px;
+padding-right: 0px;
+  }
+
+  .harmony-and-heart {
+    @include media-breakpoint-up(lg) {
+        &.sticky .wrap {
+            position: sticky;
+            top: 100px;
+        }
+        h2 {
+            margin-bottom: 1rem;
+        }
+    }
+    .wrap {
+        .b3 {
+            color: $text-gray;
+        }
+    }
+}
+.right-column {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.module.Page_Modules_Modules_HarmonyAndHeart {
+    overflow-x: visible;
+}
+// Add these styles to your CSS file or inline styles
+.music-container {
+  display: flex;
+  align-items: center; // Vertical alignment
+}
+
+.music-buttons-row {
+  display: flex;
+  align-items: center; // Vertical alignment
+
+  h5{
+    margin-bottom: 0px;
+  }
+}
+
+.music-button {
+  margin-left: 10px; // Optional: Adjust margin between buttons
+}
+
+.music-right-column{
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.music-left-column{ 
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+/* Add this to your stylesheet or inline style */
+.hover-effect:hover {
+  /* Add your desired hover effect styles here */
+  transform: scale(1.1); /* Example: Enlarge the button on hover */
+  transition: transform 0.3s ease; /* Example: Add a smooth transition */
+}
+
+
+/* Add this to your existing CSS or create a new CSS file */
+@media only screen and (max-width: 767px) {
+  .harmony-and-heart {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+  }
+
+  .music-row{
+    margin-bottom: 0px;
+    align-items: normal;
+  }
+
+  .left-column {
+    order: 2;
+    padding-left: 0px;
+    padding-right: 0px;
+    flex-basis: 100%;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .right-column {
+    margin-top: 40px;
+    order: 1;
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+
+  .music-collection-item {
+    margin-bottom: 20px;
+  }
+
+  .collection-image {
+    width: 100%;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .content-container {
+    padding-left: 20px;
+  }
+
+  .music-head,
+  .blurb {
+    text-align: left;
+  }
+}

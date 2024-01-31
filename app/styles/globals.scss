@@ -36,6 +36,7 @@
 @import '../components/modules/GeneralButtonCTA/generalButtonCTA';
 @import '../components/modules/GeneralHorizontalTabs/generalHorizontalTabs';
 @import '../components/modules/GeneralVerticalTabs/generalVerticalTabs';
+@import '../components/modules/HarmonyAndHeart/harmonyAndHeart';
 @import '../components/modules/HeroWithImage/heroWithImage';
 @import '../components/modules/HeroWithVideo/heroWithVideo';
 @import '../components/modules/HomeHeroWithVideo/homeHeroWithVideo';
@@ -126,6 +127,29 @@ h6 {
     font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
     font-style: normal;
 }
+
+.editor h1,
+.editor h2,
+.editor h3,
+.editorh4 {
+    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
+}
+
+.editor h5,
+.editor h6,
+.editor p {
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+
+}
+
+.editor ul,
+.editor ul li {
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+}
+
+
 
 h1 {
     font-size: 34px;
