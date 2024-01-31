@@ -5,12 +5,13 @@
     margin-left: -1.25rem;
     border-radius: 20px;
     position: relative;
-
+    margin-top: 2rem;
     @include media-breakpoint-up(lg) {
         max-width: 60rem;
         padding-left: 8rem;
         padding-right: 20rem;
         border-top-right-radius: 30%;
+        margin-top: unset;
         &::after {
             content: "";
             background-image: url('/assets/Union.svg');
