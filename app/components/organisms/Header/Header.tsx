@@ -209,14 +209,14 @@ export default function Header({ menuItems }) {
 
                     <div className={`collapse navbar-collapse ${isNavOpen ? 'show' : ''}`} id='navbarContent'>
                         <div className='container p-0 h-100'>
-                            <div className='nav-wrapper d-flex flex-column flex-lg-row justify-content-between align-items-lg-center h-100'>
-                                <ul className='navbar-nav'>
+                            <div className='nav-wrapper d-flex flex-column flex-lg-row justify-content-start justify-content-lg-between align-items-lg-center h-100'>
+                                <ul className='navbar-nav order-2 order-lg-1'>
                                     {menuItems && menuItems
                                         .filter(item => !item.parentId)
                                         .map((item, index) => renderMenuItem(item, index))
                                     }
                                 </ul>
-                                <div className={`navbar-search pb-4 pb-lg-0 ${isSearchActive ? 'active' : ''}`}>
+                                <div className={`navbar-search mt-4 mt-lg-0 pb-4 pb-lg-0 order-1 order-lg-2 ${isSearchActive ? 'active' : ''}`}>
                                     <form className='d-flex' role='search' onSubmit={handleSearchSubmit}>
                                         <label htmlFor='search' className='hidden'>Search</label>
                                         <div className='search-icon d-lg-none d-flex' onClick={() => { console.log('Search icon clicked'); toggleSearch(); }}>
