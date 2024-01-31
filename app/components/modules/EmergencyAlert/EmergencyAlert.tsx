@@ -109,7 +109,7 @@ const EmergencyAlert = () => {
           {emergencyMessages.map((emergencyMessage: EmergencyMessage, index: number) => (
             !dismissedAlerts[index] && !isAlertExpired(emergencyMessage.expirationDate) && (
               <div key={index} className="row mb-5">
-                <div className="col">
+                <div className="emergency col">
                   <div className="emergency-message-container d-flex align-items-center p-4 border">
                     {emergencyMessage.icon && (
                       <div className="icon-container mr-3">

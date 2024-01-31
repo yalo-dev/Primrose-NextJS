@@ -79,9 +79,9 @@ interface DynamicColumnsProps {
 
 const getColumnClass = (columns) => {
   switch (columns.length) {
-    case 2: return 'col-12 col-md-6';
-    case 3: return 'col-12 col-md-4';
-    case 4: return 'col-12 col-md-3';
+    case 2: return 'dynamic-length col-12 col-md-6';
+    case 3: return 'dynamic-length col-12 col-md-4';
+    case 4: return 'dynamic-length col-12 col-md-3';
     default: return '';
   }
 };
