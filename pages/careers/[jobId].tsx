@@ -165,7 +165,7 @@ const JobPostPage = () => {
                         <>
                         <label htmlFor={psq.id}>{psq.question}</label>
                         <select required={psq.required} name={psq.id} id={psq.id}>
-                            <option disabled>Select</option>
+                            <option>Select</option>
                             {
                             psq.options.map(opt => {
                                 return (<option value={opt.value}>{opt.label}</option>);
