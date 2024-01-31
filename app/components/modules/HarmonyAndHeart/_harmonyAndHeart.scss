@@ -69,25 +69,26 @@ flex-direction: column;
     margin-bottom: 0px !important;
   }
 
-/* Add this to your CSS file */
-.custom-audio-player::-webkit-media-controls-enclosure {
-  background-color: #5E6738;
+// /* Add this to your CSS file */
+// .custom-audio-player::-webkit-media-controls-enclosure {
+//   background-color: #5E6738;
+// }
+
+
+.custom-audio-player::-webkit-media-controls-panel {
+  background-color: #5E6738;;
 }
 
-.custom-audio-player::-webkit-media-controls-timeline {
-    -webkit-appearance: media-slider;
-    display: flex;
-    flex: 1 1 auto;
-    height: 8px;
-    margin: 0 15px 0 0;
-    padding: 0;
-    background-color: #FFF;
-    min-width: 25px;
-    border: initial;
-    color: inherit;
-    opacity: 1;
+.custom-audio-player::-webkit-media-controls-panel {
+  background-color: #5E6738;;
 }
-
+.custom-audio-player::-webkit-media-controls-play-button {
+  background-color: #B1D4E0;
+  border-radius: 50%;
+}
+.custom-audio-player::-webkit-media-controls-play-button:hover {
+  background-color: rgba(177,212,224, .7);
+}
 
 /* Default styles for larger screens */
 .collection-image {
@@ -140,6 +141,10 @@ padding-right: 0px;
 .music-buttons-row {
   display: flex;
   align-items: center; // Vertical alignment
+
+  h5{
+    margin-bottom: 0px;
+  }
 }
 
 .music-button {
@@ -176,14 +181,6 @@ padding-right: 0px;
     align-items: normal;
   }
 
-  .music-left-column{
-    order: 1;
-  }
-
-  .music-right-column{
-    order: 2;
-  }
-
   .left-column {
     order: 2;
     padding-left: 0px;
@@ -213,7 +210,7 @@ padding-right: 0px;
   }
 
   .content-container {
-    padding: 15px;
+    padding-left: 20px;
   }
 
   .music-head,

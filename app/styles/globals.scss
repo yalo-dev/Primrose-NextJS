@@ -128,6 +128,29 @@ h6 {
     font-style: normal;
 }
 
+.editor h1,
+.editor h2,
+.editor h3,
+.editorh4 {
+    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
+}
+
+.editor h5,
+.editor h6,
+.editor p {
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+
+}
+
+.editor ul,
+.editor ul li {
+    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+}
+
+
+
 h1 {
     font-size: 34px;
     font-weight: 200;
