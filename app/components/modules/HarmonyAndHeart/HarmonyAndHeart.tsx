@@ -104,7 +104,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
                       <p className='artist b2'>{leftColumn.musicPlayer?.artistAuthor}</p>
                       <p className='track-title b2'>{leftColumn.musicPlayer?.trackTitle}</p>
                     </div>
-                    <audio controls="true" className='audio-player custom-audio-player'>
+                    <audio controls className='audio-player custom-audio-player'>
                       <source src={leftColumn.musicPlayer?.audio?.url} type='audio/mp3' />
                       Your browser does not support the audio tag.
                     </audio>
