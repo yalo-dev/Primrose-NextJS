@@ -298,6 +298,55 @@ query GetModules($id: ID = "") {
 			  bottomPaddingDesktop
 			}
 		  }
+		  ... on Page_Modules_Modules_FindASchoolMap {
+            center {
+              latitude
+              longitude
+            }
+            customizations {
+              bottomPaddingDesktop
+              bottomPaddingMobile
+              topPaddingDesktop
+              topPaddingMobile
+            }
+            heading
+			headingColor
+			backgroundColor
+            moduleId
+            schools {
+              ... on School {
+                id
+                title
+                uri
+                slug
+                schoolCorporateSettings {
+                  schoolName
+                  phoneNumber
+                  address {
+                    streetAddress
+                    streetAddress2
+                    city
+                    state
+                    zipcode
+                    latitude
+                    longitude
+                  }
+                  corporateChildcare
+                  preopening
+                  openingIn {
+                    season
+                  }
+                }
+                schoolAdminSettings {
+                  hoursOfOperation {
+                    closingTime
+                    openingTime
+                  }
+                  enrollingNow
+                }
+              }
+            }
+          }
 		  ... on Page_Modules_Modules_FourAcrossSlider {
 			moduleId
 			customizations {
