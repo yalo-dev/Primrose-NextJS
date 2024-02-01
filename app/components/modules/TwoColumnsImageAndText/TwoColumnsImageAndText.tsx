@@ -135,7 +135,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 >
             <div className={className}>
                
-                <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                <div className='left-column col-12 col-lg-6'>
                     {renderMedia()}
                     {leftColumn?.showAnnouncementTile && leftColumn?.announcement && (
                         <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
@@ -152,7 +152,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     )}
                 </div>
        
-                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
+                <div className='right-column col-12 c col-lg-6 offset-lg-1'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
                     {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
