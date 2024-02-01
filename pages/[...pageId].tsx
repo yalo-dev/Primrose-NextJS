@@ -1024,6 +1024,12 @@ query GetModules($id: ID = "") {
 				title
 				url
 			  }
+			  buttonTwoStyle
+			  buttonTwo {
+				target
+				title
+				url
+			  }
 			  options {
 				option {
 				  target
