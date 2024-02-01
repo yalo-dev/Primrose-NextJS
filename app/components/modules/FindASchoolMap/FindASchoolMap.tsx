@@ -8,8 +8,6 @@ const containerStyle = {
   height: '350px'
 };
 
-
-
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 type School = {
@@ -28,10 +26,12 @@ type Location = {
   lat: number;
   lng: number;
 };
+
 const map_center = {
   lat: 39.8283,
   lng: -98.5795
 };
+
 type Waypoint = {
   id: number;
   location: Location | null;
@@ -46,7 +46,6 @@ type InputField = {
   location: Location | null;
   address: string;
 };
-
 
 type LocationData = {
   start: { lat: number; lng: number; } | null;
@@ -76,6 +75,7 @@ const svgIconStart = `
 </svg>
 
 `;
+
 interface SchoolsArray{
   id: number;
   name: string;
@@ -91,17 +91,28 @@ interface SchoolsArray{
 interface FindASchoolMapProps{
   schools?: SchoolsArray[];
   title?: string;
+  heading?: string;
+  headingColor?: any;
+  backgroundColor?: any;
   center?: Location;
   place?: any;
 }
+
+
+
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     schools,
     title,
+    heading,
+    headingColor, 
+    backgroundColor, 
     center = map_center,
     place
   } = props;
   console.log(schools);
+
+  
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -138,7 +149,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
- 
+
+
+  useEffect(() => {
+    if (props.center) {
+      setMapCenter(props.center);
+    }
+  }, [props.center]);
+
+
+
 
   //BRANDON RELEVENT CODE HERE
   const [inputFields, setInputFields] = useState<InputField[]>([
@@ -181,13 +201,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   }, [waypointRefs, updateCount]);
     //BRANDON RELEVENT CODE HERE ENDS
 
-
   useEffect(() => {
     console.log('place');
     console.log(place);
     onPlaceSelected(place);
   }, []);
-
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -206,7 +224,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       [key]: autocomplete
     }));
   };
-
 
   //BRANDON RELEVENT CODE HERE
   const handleAddMoreClick = () => {
@@ -252,8 +269,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   };
   //BRANDON RELEVENT CODE HERE ENDS
-
-
 
   const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
 
@@ -341,9 +356,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     getCurrentLocation();
   };
 
-
-
-
   //BRANDON RELEVENT CODE HERE
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
@@ -360,10 +372,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   //BRANDON RELEVENT CODE HERE ENDS
   
-  
-
-  
-
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -376,9 +384,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     return d * 0.621371;
   };
   
-
-
-
   //BRANDON RELEVENT CODE HERE
   const renderRoute = () => {
     console.log("inputFields in renderRoute():", inputFields);
@@ -518,10 +523,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
 
-
-
-
-
   function onPlaceSelected(place, type = 'defaultType') {
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
@@ -566,8 +567,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
     }
   };
-
-
 
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
@@ -687,18 +686,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setDestination(null);
   };
 
-useEffect(() => {
-  const hash = window.location.hash;
-  if (hash === '#nearby') {
-    setActiveTab(1);
-    // Additional setup for Tab 1
-  } else if (hash === '#alongroute') {
-    setActiveTab(2);
-    // Additional setup for Tab 2
-  }
-}, []);
-
-
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#nearby') {
+      setActiveTab(1);
+      // Additional setup for Tab 1
+    } else if (hash === '#alongroute') {
+      setActiveTab(2);
+      // Additional setup for Tab 2
+    }
+  }, []);
 
 //BRANDON RELEVENT CODE HERE 
   const handleDragEnd = (result) => {
@@ -752,9 +749,14 @@ useEffect(() => {
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
   return (
     <div id="map" className={'find-a-school-container ' + (title? 'title': '')}>
-      {title && (
+       {title && (
         <div className="map-title">
           <h3>{title}</h3>
+        </div>
+      )}
+       {heading && (
+        <div className="map-title" style={{ color: headingColor, backgroundColor: backgroundColor }}>
+          <h3>{heading}</h3>
         </div>
       )}
       <LoadScript
