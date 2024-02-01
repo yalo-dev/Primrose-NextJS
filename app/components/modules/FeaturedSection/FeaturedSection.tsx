@@ -59,11 +59,11 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                  <div className={`accent ${customizations?.accentLeftOrRight || ''}`}>
                 <div className='container'>
                 <div className='featured-section row'>
-                        <div className='header-section col-lg-3 col-xxl-4'>
+                        <div className='header-section col-lg-4 col-xxl-4'>
                             {heading && <Heading level="h2" color={headingColor}>{heading}</Heading>}
                             {subheading && <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>}
                         </div>
-                        <div className='slider-section col-lg-8 offset-lg-1 col-xxl-8 offset-xxl-0'>
+                        <div className='slider-section col-lg-7 offset-lg-1 col-xxl-8 offset-xxl-0'>
                         <Slider {...sliderSettings}>
                             {slider.map((slide, index) => (
                                 <div className='featured-slider' key={index}>
