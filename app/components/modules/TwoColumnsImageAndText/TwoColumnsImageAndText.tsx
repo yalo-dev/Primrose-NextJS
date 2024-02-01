@@ -13,6 +13,11 @@ interface OptionType {
     target?: string;
 }
 
+interface ButtonProps {
+    // Other props...
+    variant?: 'primary' | 'secondary'; // Make sure to include this line
+}
+
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
     centerModule?: boolean;
@@ -25,6 +30,13 @@ interface TwoColumnsImageAndTextProps {
             title?: string;
             url?: string;
         };
+        buttonStyle?: 'Green' | 'White';
+        buttonTwo?: {
+            target?: string;
+            title?: string;
+            url?: string;
+        }
+        buttonTwoStyle?: string;
         options?: {
             option?: {
                 target?: string;
@@ -60,35 +72,35 @@ interface TwoColumnsImageAndTextProps {
         showAnnouncementTile?: boolean;
     };
     customizations?: {
-		topPaddingMobile?: string;
-		topPaddingDesktop?: string;
-		bottomPaddingMobile?: string;
-		bottomPaddingDesktop?: string;
-	};
+        topPaddingMobile?: string;
+        topPaddingDesktop?: string;
+        bottomPaddingMobile?: string;
+        bottomPaddingDesktop?: string;
+    };
 }
 
-const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations }) => {
+const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations}) => {
     const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center' : ''}`;
 
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
-  
+
     const renderMedia = () => {
         if (leftColumn?.imageOrVideo === 'Image') {
             return (
                 <>
-                    {leftColumn.imageMobile?.sourceUrl && 
-                        <img 
-                            className='d-block d-lg-none' 
-                            src={desktopImageUrl} 
-                            alt={leftColumn.imageMobile.altText || ''} 
+                    {leftColumn.imageMobile?.sourceUrl &&
+                        <img
+                            className='d-block d-lg-none'
+                            src={desktopImageUrl}
+                            alt={leftColumn.imageMobile.altText || ''}
                         />
                     }
-                    {leftColumn.imageDesktop?.sourceUrl && 
-                        <img 
-                            className='d-none d-lg-block' 
-                            src={mobileImageUrl} 
-                            alt={leftColumn.imageDesktop.altText || ''} 
+                    {leftColumn.imageDesktop?.sourceUrl &&
+                        <img
+                            className='d-none d-lg-block'
+                            src={mobileImageUrl}
+                            alt={leftColumn.imageDesktop.altText || ''}
                         />
                     }
                 </>
@@ -96,12 +108,12 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
         } else if (leftColumn?.imageOrVideo === 'Video') {
             return leftColumn?.video?.url && (
                 <div className='video-wrapper'>
-                    <video 
-                    className='d-block w-100'
-                    src={leftColumn.video.url} 
-                    autoPlay 
-                    muted 
-                    loop 
+                    <video
+                        className='d-block w-100'
+                        src={leftColumn.video.url}
+                        autoPlay
+                        muted
+                        loop
                     />
                 </div>
             );
@@ -116,8 +128,8 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
         dropdownOptions = rightColumn.options.flatMap(dropItem => {
             if (dropItem.option) {
                 return {
-                    label: dropItem.option.title || "", 
-                    url: dropItem.option.url || "", 
+                    label: dropItem.option.title || "",
+                    url: dropItem.option.url || "",
                     target: dropItem.option.target || "_self"
                 };
             }
@@ -125,9 +137,9 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
         });
     }
 
-   return (
+    return (
         <div className='container'>
-             <Customizations
+            <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}
                 bottomPaddingMobile={customizations?.bottomPaddingMobile}
@@ -158,10 +170,27 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
                     <div className='d-lg-flex'>  
                         {rightColumn?.button?.url && rightColumn?.button?.title && (
-                            <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
-                                {rightColumn.button.title}
-                            </Button>
-                        )}
+                                <Button
+                                    href={rightColumn.button.url}
+                                    target={rightColumn.button.target}
+                                    label={rightColumn.button.title}
+                                    variant={rightColumn.buttonStyle === 'Green' ? 'primary' : 'secondary'}
+                                    // Add additional conditions for other styles if needed
+                                >
+                                    {rightColumn.button.title}
+                                </Button>
+                            )}
+                            {rightColumn?.buttonTwo?.url && rightColumn?.buttonTwo?.title && (
+                                <Button
+                                    href={rightColumn.buttonTwo.url}
+                                    target={rightColumn.buttonTwo.target}
+                                    label={rightColumn.buttonTwo.title}
+                                    variant={rightColumn.buttonTwoStyle === 'Green' ? 'primary' : 'secondary'}
+                                    // Add additional conditions for other styles if needed
+                                >
+                                    {rightColumn.buttonTwo.title}
+                                </Button>
+                            )}
                         {(dropdownOptions.length > 0) && (
                             <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
                         )}
