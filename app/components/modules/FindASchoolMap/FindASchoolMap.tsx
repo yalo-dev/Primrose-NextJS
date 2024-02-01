@@ -1087,7 +1087,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                 <div className="nearby-schools-list">
                   {sortedSchools.map((school, index) => (
                     <div key={index} className="school-list">
-                      <a href={`/school/${school.id}`}>
+                      <a href={`/school/${school.slug}`}>
 
                         <div
                           key={index}
@@ -1238,7 +1238,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               <div className="nearby-schools-list">
                 {sortedSchools.map((school, index) => (
                   <div key={index} className="school-list">
-                    <a href={`/school/${school.id}`}>
+                    <a href={`/school/${school.slug}`}>
 
                       <div
                         key={index}
