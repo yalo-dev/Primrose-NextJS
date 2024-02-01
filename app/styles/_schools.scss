@@ -48,7 +48,13 @@
                 padding: 70px 0 88px;
             }
         }
+        img{
+            width:385px;
+            height:320px;
+            object-fit: cover;
+            border-radius:1rem;
 
+        }
         .video-wrapper {
             width: 343px;
             height: 192px;
@@ -138,6 +144,12 @@
 
         .two-columns-image-and-text-alternative {
             padding-bottom: 40px;
+
+            .blurb p{
+                font-size:1rem;
+                font-weight: 400 !important;
+                line-height: 1.625rem;
+            }
         }
     }
 

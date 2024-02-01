@@ -1,117 +1,162 @@
 import { useQuery, gql } from "@apollo/client";
 import Image from "next/legacy/image";
 import { useRouter } from 'next/router';
+import GeneralHorizontalTabs from "../../../../app/components/modules/GeneralHorizontalTabs/GeneralHorizontalTabs";
 import Heading from "../../../../app/components/atoms/Heading/Heading";
 import Subheading from "../../../../app/components/atoms/Subheading/Subheading";
 import Paragraph from "../../../../app/components/atoms/Paragraph/Paragraph";
 import Button from "../../../../app/components/atoms/Button/Button";
 import { useEffect, useRef, useState } from "react";
 
+const slugify = require('slugify');
+
+
 const GET_SCHOOL_DETAILS = gql`
 query SchoolData($id: ID!) {
-    school(id: $id, idType: URI) {
-      id
-      slug
-      uri
-      schoolSettings {
-        classrooms {
-          heroWithImage {
-            leftColumn {
-              image {
-                sourceUrl
-              }
-            }
-            rightColumn {
-              heading
-              blurb
-              icon {
-                sourceUrl
-                altText
-              }
-            }
-          }
-          classroomSelection {
-            selectClassrooms
-          }
-          additionalOfferings {
-            summerAdventureClub {
-              leftColumn {
-                blurb
-                heading
-                button {
-                  target
-                  title
-                  url
-                }
-              }
-              rightColumn {
-                altText
-                image {
-                  sourceUrl
-                }
-              }
-            }
-            beforeAndAfterSchoolCare {
-              leftColumn {
-                altText
-                image {
-                  sourceUrl
-                }
-              }
-              rightColumn {
-                blurb
-                heading
-                button {
-                  target
-                  title
-                  url
-                }
-              }
-            }
-          }
-          primroseCommitment {
-            leftColumn {
+    classroom(id: "our-classrooms", idType: URI) {
+        title
+        classroomModules {
+          classroomHero {
+            heroImage {
               altText
-              image {
-                sourceUrl
-              }
+              mediaItemUrl
+              sourceUrl
             }
-            rightColumn {
-              blurb
-              heading
-              button {
-                target
-                title
-                url
-              }
+            paragraph
+            title
+            heroVideo {
+              mediaItemUrl
+              sourceUrl
+            }
+            icon {
+              altText
+              mediaItemUrl
+              sourceUrl
             }
           }
-        }
-        details {
-          general {
-            scheduleATour {
-              heading
-              subheading
-              button {
-                target
-                title
-                url
-              }
-              images {
-                altText
+          isClassroom
+          verticalTabs {
+            tabs {
+              content {
+                cta {
+                  target
+                  title
+                  url
+                }
+                heading
+                headingColor
                 image {
+                  altText
+                  mediaItemUrl
                   sourceUrl
                 }
+                list {
+                  detailsPopUp
+                  icon {
+                    altText
+                    mediaItemUrl
+                    sourceUrl
+                  }
+                  text
+                  textColor
+                }
+                subheading
+                subheadingColor
               }
+              tabLabelColor
+              label
             }
           }
         }
       }
+    school(id: $id, idType: URI) {
+      id
+      slug
+      uri
+      schoolAdminSettings {
+        accreditation {
+          imageAlt
+          image {
+            mediaItemUrl
+          }
+        }
+        classroomsOffered
+        extraCareOffered
+        primroseCommitment
+        displayEmergencyAlert
+        emergencyMessage {
+          message
+          expirationDate
+        }
+        enrollingNow
+        facebookLink
+        instagramLink
+        gallery {
+          caption
+          title
+          imageAlt
+          image {
+            mediaItemUrl
+            sourceUrl
+          }
+        }
+        hiringNow
+        hoursOfOperation {
+          closingTime
+          openingTime
+        }
+        satImages {
+          image {
+            mediaItemUrl
+            sourceUrl
+          }
+          imageAlt
+        }
+        yelpLink
+        newsItems {
+          content
+          expires
+          newsImage {
+            imageAlt
+            image {
+              mediaItemUrl
+            }
+          }
+          publishDate
+          shortDescription
+          title
+        }
+        googleLink
+        meetStaffImage{
+          mediaItemUrl
+        }
+        testimonials {
+          ... on Testimonial {
+            id
+            featuredImage {
+              node {
+                altText
+                mediaItemUrl
+                sourceUrl
+              }
+            }
+            title
+            testimonials {
+              title
+              testimonial
+              heading
+              name
+            }
+          }
+        }
+      }
+      
     }
   }
 `;
 
 export default function ClassroomPage() {
+    
     const router = useRouter();
     const [currentSlug, setCurrentSlug] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<string | null>(null);
@@ -122,7 +167,7 @@ export default function ClassroomPage() {
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
     const [allImagesLoaded, setAllImagesLoaded] = useState(false);
-
+    
     const scrollContent = () => {
         const leftScroller = leftScrollerRef.current;
         const rightScroller = rightScrollerRef.current;
@@ -295,7 +340,7 @@ export default function ClassroomPage() {
             clearInterval(intervalId);
         };
     }, []);
-
+    console.log(data);
     if (loading) return <div></div>;
     if (error) return <div></div>;
     if (!data?.school) return <div></div>;
@@ -344,55 +389,61 @@ export default function ClassroomPage() {
         );
     };
 
-    const { heroWithImage } = data.school.schoolSettings.classrooms;
-
-    const selectedClassrooms = data?.school?.schoolSettings?.classrooms?.classroomSelection?.selectClassrooms || [];
+    const  heroWithImage  = data.classroom.classroomModules.classroomHero;
+    
+    let selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
+    /* if(data?.school?.schoolAdminSettings?.extraCareOffered != "none"){
+        selectedClassrooms.push(data?.school?.schoolAdminSettings?.extraCareOffered);
+    } */
     const isClassroomSelected = (classroomType) => {
         return selectedClassrooms.includes(classroomType);
     };
 
-    const { summerAdventureClub, beforeAndAfterSchoolCare } = data?.school?.schoolSettings?.classrooms?.additionalOfferings || {};
-    const hasOfferings = !!summerAdventureClub || !!beforeAndAfterSchoolCare;
-    const hasMultipleOfferings = !!summerAdventureClub && !!beforeAndAfterSchoolCare;
+    const hasOfferings = data?.school?.schoolAdminSettings?.extraCareOffered != 'None' || selectedClassrooms.includes('Summer Adventure Club');
+    const hasMultipleOfferings = data?.school?.schoolAdminSettings?.extraCareOffered != 'None'  && selectedClassrooms.includes('Summer Adventure Club');
+    console.log(data.school.schoolAdminSettings.extraCareOffered);
+    const summerAdventureClub = selectedClassrooms.includes("Summer Adventure Club");
 
-    const primroseCommitment = data?.school?.schoolSettings?.classrooms?.primroseCommitment || {};
-    const hasPrimroseCommitmentData = primroseCommitment && 
-    primroseCommitment.leftColumn.image?.sourceUrl && 
-    primroseCommitment.rightColumn.heading && 
-    primroseCommitment.rightColumn.blurb && 
-    primroseCommitment.rightColumn.button.url && 
-    primroseCommitment.rightColumn.button.title;
+    const beforeAndAfterSchoolCare = data?.school?.schoolAdminSettings?.extraCareOffered;
 
-    const ScheduleATour = data?.school?.schoolSettings?.details?.general?.scheduleATour || {};
-    const hasScheduleATourData = ScheduleATour &&
-    (ScheduleATour.heading || ScheduleATour.subheading) && 
-    (ScheduleATour.button?.url && ScheduleATour.button.title) &&
-    ScheduleATour.images && ScheduleATour.images.some(img => img.image.sourceUrl);
+    const primroseCommitment = data?.school?.schoolAdminSettings?.primroseCommitment;
+    
 
-
+    const ScheduleATour = data?.school?.schoolAdminSettings?.satImages || {};
+    const classroom = data?.classroom || {};
+    const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
     return (
         <>
             <div className="school classrooms">
                 <div className="container jumbo">
                     <div className="hero-with-image-module">
                         <div className='hero-with-image reverse-column'>
-                            {heroWithImage?.leftColumn?.image?.sourceUrl && (
+                            {heroWithImage?.heroVideo?.sourceUrl &&(
+                                <video 
+                                src={heroWithImage.heroVideo.sourceUrl} 
+                                autoPlay 
+                                muted
+                                playsInline
+                                />
+                            )}
+                            {!heroWithImage?.heroVideo?.sourceUrl && (
                                 <div className='left-column col-12 col-lg-6'>
                                     <Image
-                                        src={heroWithImage.leftColumn.image.sourceUrl}
-                                        alt="Hero Image"
+                                        src={heroWithImage?.heroImage?.sourceUrl}
+                                        alt={heroWithImage?.heroImage?.altText}
                                         layout="fill"
                                         objectFit="cover"
                                         priority
                                     />
                                 </div>
                             )}
-                            {heroWithImage?.rightColumn && (
+                            {heroWithImage.icon.sourceUrl && (
                                 <div className='right-column col-12 col-lg-6'>
-                                    {heroWithImage?.rightColumn?.icon?.sourceUrl && (
+                                    {heroWithImage?.icon?.sourceUrl && (
                                         <div className='icon d-none d-lg-block'>
+                                            
                                             <Image
-                                                src={heroWithImage.rightColumn.icon.sourceUrl}
+                                                src={heroWithImage?.icon?.sourceUrl}
                                                 alt="Hero Image"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -400,407 +451,154 @@ export default function ClassroomPage() {
                                             />
                                         </div>
                                     )}
-                                    {heroWithImage.rightColumn.eyebrow && <Heading level='h5'>{heroWithImage.rightColumn.eyebrow}</Heading>}
-                                    {heroWithImage.rightColumn.heading && <Heading level='h2'>{heroWithImage.rightColumn.heading}</Heading>}
-                                    {heroWithImage.rightColumn.subheading && <Subheading level='h5'>{heroWithImage.rightColumn.subheading}</Subheading>}
-                                    {heroWithImage.rightColumn.blurb && <Paragraph className='b2'>{heroWithImage.rightColumn.blurb}</Paragraph>}
-                                    {heroWithImage.rightColumn.button?.url && heroWithImage.rightColumn.button.title && (
-                                        <Button
-                                            variant='primary'
-                                            href={heroWithImage.rightColumn.button.url}
-                                            target={heroWithImage.rightColumn.button.target || '_self'}
-                                        >
-                                            {heroWithImage.rightColumn.button.title}
-                                        </Button>
-                                    )}
+                                    {heroWithImage.title && <Heading level='h2'>{heroWithImage.title}</Heading>}
+                                    {heroWithImage.paragraph && <div dangerouslySetInnerHTML={{__html:heroWithImage.paragraph}}></div>}
+                                    
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
-                <div className="container">
-                    <div className="general-horizontal-tabs-module">
-                        <h2 className="heading">Classrooms Offered</h2>
-                        <div className="general-horizontal-tabs">
-                            <div className="inner">
-                                {isClassroomSelected('Infant') && (
-                                    <div>
-                                        <button data-target="infant" className={`clickable ${activeTab === 'infant' ? 'expanded' : ''}`} onClick={() => handleTabClick('infant')}>
-                                            <Heading level='h5'>Infant
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
+               
+                
+                {tabs && (
+            <div className="container">
+                <div className="general-horizontal-tabs-module">
+                    <h2 className="heading">Classrooms Offered</h2>
+                    <div className="general-horizontal-tabs">
+                        <div className="inner">
+                            {tabs.map((tab, index) => (
+                                <div>
+                                    <button data-target={slugify(tab.label)} className={`clickable ${activeTab === slugify(tab.label) ? 'expanded' : ''}`} onClick={() => handleTabClick(slugify(tab.tabLabel))}>
+                                        <Heading level='h5'>{tab.label}
+                                            <div id="button">
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </Heading>
+                                    </button>
 
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'infant' ? 'active' : ''}`} style={{ opacity: activeTab === 'infant' ? '1' : '0' }}>
+                                    {/* Mobile: Content rendered right below the label */}
+                                    <div className="d-lg-none">
+                                        <div className={`tab-content ${activeTab === slugify(tab.label) ? 'active' : ''}`} style={{ opacity: activeTab === slugify(tab.label) ? '1' : '0' }}>
 
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/1.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Infant Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>At this age, your infant is mainly learning through observation and exploration. For example, as our Infant teachers talk and sing with your child during feeding, diaper changes and playtime, your little one is beginning to understand language and conversation. Nurturing interactions like these will fill your child's day and can be adapted and personalized to meet their individual needs.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
+                                            <img src={tab.content.image} />
+                                            <div className='content-wrapper'>
+                                                <Heading level='h3'>{tab.content.heading}</Heading>
+                                                <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>
+                                                <Button variant="primary" href={tab.content.cta.url}>{tab.content.cta.title}</Button>
                                             </div>
                                         </div>
                                     </div>
-                                )}
-                                {isClassroomSelected('Toddler') && (
-                                    <div>
-                                        <button data-target="toddler" className={`clickable ${activeTab === 'toddler' ? 'expanded' : ''}`} onClick={() => handleTabClick('toddler')}>
-                                            <Heading level='h5'>Toddler
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
+                                </div>
+                            ))}
+                       </div>     
+                            <div className='desktop-content d-none d-lg-block'>
+                                {tabs.map((tab, index) => (
+                                
+                                    <div id={slugify(tab.label)} className="tab-content d-flex">
 
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'toddler' ? 'active' : ''}`} style={{ opacity: activeTab === 'toddler' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/2.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Toddler Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>In our Toddler program, you'll find carefully selected equipment that our newest walkers love to climb on, crawl through and hide in while stretching their gross motor skills. Teachers also use books, toys, games and other materials to create exciting explorations into colors, shapes, science and more.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
+                                        <img src={tab.content.image?.sourceUrl} />
+                                        <div className='content-wrapper'>
+                                            <Heading level='h3'>{tab.content.heading}</Heading>
+                                            <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>
+                                            <Button variant="primary" href={"/schools/" + currentSlug + "/classrooms/" + slugify(tab.label, {lower:true})}>{tab.content.cta.title}</Button>
                                         </div>
                                     </div>
-                                )}
-                                {isClassroomSelected('Early Preschool') && (
-                                    <div>
-                                        <button data-target="early-preschool" className={`clickable ${activeTab === 'early-preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('early-preschool')}>
-                                            <Heading level='h5'>Early Preschool
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
-
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'early-preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'early-preschool' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Early Preschool Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>Our Early Preschool teachers partner with you to help your child learn important independent life skills like potty training and hand washing while paying close attention to all aspects of your child's development.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Preschool Pathways') && (
-                                    <div>
-                                        <button data-target="preschool-pathways" className={`clickable ${activeTab === 'preschool-pathways' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool-pathways')}>
-                                            <Heading level='h5'>Preschool Pathways
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
-
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'preschool-pathways' ? 'active' : ''}`} style={{ opacity: activeTab === 'preschool-pathways' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Preschool Pathways Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>Guided by our exclusive Balanced Learning® approach, our teachers will help your child build confidence through unique experiences and fun activities that prepare them for preschool. This program helps your child stay with a consistent group of peers as they observe, explore and learn about interacting with others and the environment around them.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Preschool') && (
-                                    <div>
-                                        <button data-target="preschool" className={`clickable ${activeTab === 'preschool' ? 'expanded' : ''}`} onClick={() => handleTabClick('preschool')}>
-                                            <Heading level='h5'>Preschool
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
-
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'preschool' ? 'active' : ''}`} style={{ opacity: activeTab === 'preschool' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/4.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Preschool Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>Your preschooler is beginning to connect letters, sounds and numbers, expanding their world through reading and math. They’re building critical-thinking skills, early physical fitness and an understanding of nutrition. Our teachers support that learning and encourage your child to think in new and different ways.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Pre-Kindergarten') && (
-                                    <div>
-                                        <button data-target="pre-kindergarten" className={`clickable ${activeTab === 'pre-kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('pre-kindergarten')}>
-                                            <Heading level='h5'>Pre-Kindergarten
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
-
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'pre-kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'pre-kindergarten' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/5.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Pre-Kindergarten Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>In our Pre-Kindergarten program, your child begins to develop emergent reading, writing, science, technology, engineering and math skills within large-group, small-group and independent settings.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Kindergarten') && (
-                                    <div>
-                                        <button data-target="kindergarten" className={`clickable ${activeTab === 'kindergarten' ? 'expanded' : ''}`} onClick={() => handleTabClick('kindergarten')}>
-                                            <Heading level='h5'>Kindergarten
-                                                <div id="button">
-                                                    <span></span>
-                                                    <span></span>
-                                                </div>
-                                            </Heading>
-                                        </button>
-
-                                        {/* Mobile: Content rendered right below the label */}
-                                        <div className="d-lg-none">
-                                            <div className={`tab-content ${activeTab === 'kindergarten' ? 'active' : ''}`} style={{ opacity: activeTab === 'kindergarten' ? '1' : '0' }}>
-
-                                                <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/6.mov" />
-
-                                                <div className='content-wrapper'>
-                                                    <Heading level='h3'>Our Kindergarten Classroom</Heading>
-                                                    <Subheading level='div' className='b3'>Our teachers use engaging programs and activities that promote social, emotional, physical, cognitive, creative and character development so your child is prepared to take on elementary school and beyond.</Subheading>
-                                                    <Button variant="primary" href="#">Learn More</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                )
                                 )}
                             </div>
-
-                            {/* Desktop: Content rendered outside the loop in a designated area */}
-                            <div className='desktop-content d-none d-lg-block'>
-                                {isClassroomSelected('Infant') && (
-                                    <div id="infant" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/1.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Infant Classroom</Heading>
-                                            <Subheading level='div' className='b3'>At this age, your infant is mainly learning through observation and exploration. For example, as our Infant teachers talk and sing with your child during feeding, diaper changes and playtime, your little one is beginning to understand language and conversation. Nurturing interactions like these will fill your child's day and can be adapted and personalized to meet their individual needs.</Subheading>
-                                            <Button href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Toddler') && (
-                                    <div id="toddler" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/2.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Toddler Classroom</Heading>
-                                            <Subheading level='div' className='b3'>In our Toddler program, you'll find carefully selected equipment that our newest walkers love to climb on, crawl through and hide in while stretching their gross motor skills. Teachers also use books, toys, games and other materials to create exciting explorations into colors, shapes, science and more.</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Early Preschool') && (
-                                    <div id="early-preschool" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Early Preschool Classroom</Heading>
-                                            <Subheading level='div' className='b3'>Our Early Preschool teachers partner with you to help your child learn important independent life skills like potty training and hand washing while paying close attention to all aspects of your child's development.</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                 {isClassroomSelected('Preschool Pathways') && (
-                                    <div id="preschool-pathways" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/3.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Preschool Pathways Classroom</Heading>
-                                            <Subheading level='div' className='b3'>Guided by our exclusive Balanced Learning® approach, our teachers will help your child build confidence through unique experiences and fun activities that prepare them for preschool. This program helps your child stay with a consistent group of peers as they observe, explore and learn about interacting with others and the environment around them..</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Preschool') && (
-                                    <div id="preschool" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/4.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Preschool Classroom</Heading>
-                                            <Subheading level='div' className='b3'>Your preschooler is beginning to connect letters, sounds and numbers, expanding their world through reading and math. They’re building critical-thinking skills, early physical fitness and an understanding of nutrition. Our teachers support that learning and encourage your child to think in new and different ways.</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Pre-Kindergarten') && (
-                                    <div id="pre-kindergarten" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/5.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Pre-Kindergarten Classroom</Heading>
-                                            <Subheading level='div' className='b3'>In our Pre-Kindergarten program, your child begins to develop emergent reading, writing, science, technology, engineering and math skills within large-group, small-group and independent settings.</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
-                                {isClassroomSelected('Kindergarten') && (
-                                    <div id="kindergarten" className="tab-content d-flex">
-
-                                        <CustomVideoComponent src="http://primroseschdev.wpengine.com/wp-content/uploads/2023/10/6.mov" />
-
-                                        <div className='content-wrapper'>
-                                            <Heading level='h3'>Our Kindergarten Classroom</Heading>
-                                            <Subheading level='div' className='b3'>Our teachers use engaging programs and activities that promote social, emotional, physical, cognitive, creative and character development so your child is prepared to take on elementary school and beyond.</Subheading>
-                                            <Button variant="primary" href="#">Learn More</Button>
-                                        </div>
-                                    </div>
-                                )}
+                    
+                </div>
+            </div>
+            <div className="additional-offerings">
+                    {hasOfferings && (
+                        <h2 className="heading offset-lg-1">{hasMultipleOfferings ? 'Additional Offerings' : 'Additional Offering'}</h2>
+                    )}
+                    {/* Render Before and After School Care */}
+                    {beforeAndAfterSchoolCare && (
+                        <div className='two-columns-image-and-text-alternative'>
+                            <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                                <img
+                                    src='https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg.png'
+                                    alt="Kids in After School Program"
+                                    width={500}
+                                    height={500}
+                                />
+                            </div>
+                            <div className='right-column col-12 c col-lg-5 offset-lg-1'>
+                                <div className="b4 bold">{beforeAndAfterSchoolCare}</div>
+                                <div className='blurb' ><p>Whether your child is a budding actor, tech wizard, athlete, author or rock star, there’s something for everyone in our Explorer program.</p></div>
+                                <Button href={"/schools/" + currentSlug + "/classrooms/before-after-school"} label="Learn More">
+                                    "Learn More"
+                                </Button>
                             </div>
                         </div>
-                    </div>
-                    <div className="additional-offerings">
-                        {hasOfferings && (
-                            <h2 className="heading offset-lg-1">{hasMultipleOfferings ? 'Additional Offerings' : 'Additional Offering'}</h2>
-                        )}
-                        {/* Render Before and After School Care */}
-                        {beforeAndAfterSchoolCare && (
-                            <div className='two-columns-image-and-text-alternative'>
-                                <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <img
-                                        src={beforeAndAfterSchoolCare.leftColumn.image.sourceUrl}
-                                        alt={beforeAndAfterSchoolCare.leftColumn.altText || 'feature image'}
-                                        width={500}
-                                        height={500}
-                                    />
-                                </div>
-                                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
-                                    <div className="b4 bold">{beforeAndAfterSchoolCare.rightColumn.heading}</div>
-                                    <div className='blurb' dangerouslySetInnerHTML={{ __html: beforeAndAfterSchoolCare.rightColumn.blurb }} />
-                                    <Button href={beforeAndAfterSchoolCare.rightColumn.button.url} target={beforeAndAfterSchoolCare.rightColumn.button.target} label={beforeAndAfterSchoolCare.rightColumn.button.title}>
-                                        {beforeAndAfterSchoolCare.rightColumn.button.title}
-                                    </Button>
-                                </div>
+                    )}
+                    {/* Render Summer Adventure Club */}
+                    {summerAdventureClub && (
+                        <div className='two-columns-image-and-text-alternative reverse-column'>
+                            <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                                <img
+                                    src="https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg-1.png"
+                                    alt="Student in Summer Adventure Club"
+                                    width={500}
+                                    height={500}
+                                />
                             </div>
-                        )}
-                        {/* Render Summer Adventure Club */}
-                        {summerAdventureClub && (
-                            <div className='two-columns-image-and-text-alternative reverse-column'>
-                                <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <img
-                                        src={summerAdventureClub.rightColumn.image.sourceUrl}
-                                        alt={summerAdventureClub.rightColumn.altText || 'feature image'}
-                                        width={500}
-                                        height={500}
-                                    />
-                                </div>
-                                <div className='right-column col-12 col-lg-5 offset-lg-1'>
-                                    <div className="b4">{summerAdventureClub.leftColumn.heading}</div>
-                                    <div className='blurb' dangerouslySetInnerHTML={{ __html: summerAdventureClub.leftColumn.blurb }} />
-                                    <Button href={summerAdventureClub.leftColumn.button.url} target={summerAdventureClub.leftColumn.button.target} label={summerAdventureClub.leftColumn.button.title}>
-                                        {summerAdventureClub.leftColumn.button.title}
-                                    </Button>
-                                </div>
+                            <div className='right-column col-12 col-lg-5 offset-lg-1'>
+                                <div className="b4">Summer Adventure Club</div>
+                                <div className='blurb'><p>Each week at Summer Adventure Club, your child tries a variety of hands-on activities — like sports, robotics and arts — that help build skills around literacy, creative problem solving, STEM and more.</p></div>
+                                <Button href={"/schools/" + currentSlug + "/classrooms/summer-adventure-club"}  label="Learn More">
+                                    Learn More
+                                </Button>
                             </div>
-                        )}
+                        </div>
+                    )}
+                </div>
+            </div>             
+                )}
+                            
+
+             
+                
+                
+                {ScheduleATour && (
+                    <div className='container'>
+                    <div className='find-a-school'>
+                        <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
+                             <Heading level='h2'>Our family would love to meet yours.</Heading>
+                            <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
+                          
+                                <Button variant="secondary" href={"/" + currentSlug + "/schedule-a-tour"}>
+                                    Schedule A Tour
+                                </Button>
+                            
+                        </div>
+                        <div className='right-column col-4 col-lg-5 col-xxl-6'>
+                            {ScheduleATour && ScheduleATour.length > 0 && (
+                                <>
+                                    <div className="image-scroller first" ref={leftScrollerRef}>
+                                        {ScheduleATour.map((imgObj, idx) => (
+                                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                                        ))}
+                                        {ScheduleATour.map((imgObj, idx) => (
+                                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                                        ))}
+                                    </div>
+                                    <div className="image-scroller second" ref={rightScrollerRef}>
+                                        {ScheduleATour.map((imgObj, idx) => (
+                                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                                        ))}
+                                        {ScheduleATour.map((imgObj, idx) => (
+                                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
-                {hasPrimroseCommitmentData && (
-                    <div className="primrose-commitment">
-                        <div className="container">
-                            <div className='two-columns-image-and-text-alternative'>
-                                <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <img
-                                        src={primroseCommitment.leftColumn.image?.sourceUrl}
-                                        alt={primroseCommitment.leftColumn.altText || 'feature image'}
-                                        width={500}
-                                        height={500}
-                                    />
-                                </div>
-                                <div className='right-column col-12 col-lg-4 offset-lg-1'>
-                                    <Heading level='h2'>{primroseCommitment.rightColumn.heading}</Heading>
-                                    <div className='blurb' dangerouslySetInnerHTML={{ __html: primroseCommitment.rightColumn.blurb }} />
-                                    <Button href={primroseCommitment.rightColumn.button.url} target={primroseCommitment.rightColumn.button.target} label={primroseCommitment.rightColumn.button.title}>
-                                        {primroseCommitment.rightColumn.button.title}
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                {hasScheduleATourData && (
-                    <div className='container'>
-                        <div className='find-a-school'>
-                            <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-                                {ScheduleATour.heading && <Heading level='h2'>{ScheduleATour.heading}</Heading>}
-                                {ScheduleATour.subheading && <Subheading level='div' className='b3'>{ScheduleATour.subheading}</Subheading>}
-                                {ScheduleATour.button?.url && ScheduleATour.button.title && (
-                                    <Button variant='secondary' href={ScheduleATour.button.url} target={ScheduleATour.button.target || '_self'}>
-                                        {ScheduleATour.button.title}
-                                    </Button>
-                                )}
-                            </div>
-                            <div className='right-column col-4 col-lg-5 col-xxl-6'>
-                                {ScheduleATour.images && ScheduleATour.images.length > 0 && (
-                                    <>
-                                        <div className="image-scroller first" ref={leftScrollerRef}>
-                                            {ScheduleATour.images.map((imgObj, idx) => (
-                                                imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                            ))}
-                                            {ScheduleATour.images.map((imgObj, idx) => (
-                                                imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                            ))}
-                                        </div>
-                                        <div className="image-scroller second" ref={rightScrollerRef}>
-                                            {ScheduleATour.images.map((imgObj, idx) => (
-                                                imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                            ))}
-                                            {ScheduleATour.images.map((imgObj, idx) => (
-                                                imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </div>
                 )}
             </div>
         </>
