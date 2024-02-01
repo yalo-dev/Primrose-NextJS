@@ -1,5 +1,5 @@
-.find-a-school-container {
-    padding-top: 1rem;
+.find-a-school-cms-container {
+    //padding-top: 1rem;
     position: relative;
     background-color: $neutral-2;
     overflow: hidden;
@@ -10,6 +10,18 @@
         padding-top: 0;
         background-color: $transparent;
         height: var(--view-height);
+    }
+
+    .map-title {
+        width: 100%;
+        left: 0;
+        background-color: #5e6738;
+        color: white;
+        height: 9.125rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .search-box-container {
@@ -29,13 +41,11 @@
         @include media-breakpoint-up(lg) {
             width: 516px;
             position: absolute;
-            top: 5rem;
+            top: 13rem;
             left: 5rem;
             border-radius: 10px;
-           
-            
         }
-
+        
         .tabs {
             .tab-labels {
                 display: flex;
