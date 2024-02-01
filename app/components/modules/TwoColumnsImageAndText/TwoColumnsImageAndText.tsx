@@ -191,9 +191,9 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                                     {rightColumn.buttonTwo.title}
                                 </Button>
                             )}
-                        {(dropdownOptions.length > 0) && (
+                        {/* {(dropdownOptions.length > 0) && (
                             <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>
