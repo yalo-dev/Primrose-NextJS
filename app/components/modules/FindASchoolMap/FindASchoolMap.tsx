@@ -94,7 +94,7 @@ interface FindASchoolMapProps{
   heading?: string;
   headingColor?: any;
   backgroundColor?: any;
-  center?: Location;
+  center?: any;
   place?: any;
 }
 
@@ -110,8 +110,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     center = map_center,
     place
   } = props;
-  console.log(schools);
+  console.log(center);
 
+  
   
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
@@ -153,7 +154,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   useEffect(() => {
     if (props.center) {
-      setMapCenter(props.center);
+      let newCenter = {lat: (props.center.latitude), lng: (props.center.longitude)};
+      setMapCenter(newCenter);
+      console.log(mapCenter);
     }
   }, [props.center]);
 
