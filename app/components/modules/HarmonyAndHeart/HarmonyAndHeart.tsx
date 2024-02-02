@@ -1,17 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../../atoms/Heading/Heading';
-import Subheading from '../../atoms/Subheading/Subheading';
-import Button from '../../atoms/Button/Button';
-import Customizations from '../../filters/Customizations';
-import ColorComponent from '../../filters/ColorComponent';
-import BackgroundColorComponent from '../../filters/BackgroundColorComponent';
-import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
-
-interface OptionType {
-  label: string;
-  url: string;
-  target?: string;
-}
 
 interface HarmonyAndHeartProps {
   leftColumn?: {
@@ -49,7 +37,6 @@ interface HarmonyAndHeartProps {
       };
       title?: string;
     }[];
-    // ... other right column fields
   };
 }
 
@@ -86,9 +73,9 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
 
   return (
     <div className='container'>
-      <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}`} ref={pathwayRef}>
+      <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}` } ref={pathwayRef} >
         <div className='left-column col-lg-4 '>
-          <div className='wrap'>
+          <div className='wrap mt-4'>
             {leftColumn?.displayMusicPlayer && (
               <>
                 <Heading level='h2'>{leftColumn.heading}</Heading>
@@ -104,7 +91,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
                       <p className='artist b2'>{leftColumn.musicPlayer?.artistAuthor}</p>
                       <p className='track-title b2'>{leftColumn.musicPlayer?.trackTitle}</p>
                     </div>
-                    <audio controls className='audio-player custom-audio-player'>
+                    <audio controls controlsList="nodownload noplaybackrate" className='audio-player custom-audio-player'>
                       <source src={leftColumn.musicPlayer?.audio?.url} type='audio/mp3' />
                       Your browser does not support the audio tag.
                     </audio>
