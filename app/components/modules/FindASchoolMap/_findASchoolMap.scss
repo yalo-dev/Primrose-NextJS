@@ -477,7 +477,7 @@
                 left: 0;
                 background: $white;
                 border-radius: 10px;
-                overflow-x: scroll;
+                overflow-y: scroll;
                 @include transitionAll;
             }
         }
