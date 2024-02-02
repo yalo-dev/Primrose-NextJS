@@ -26,9 +26,12 @@
         }
         button {
             margin-top: 30px;
-            width: auto;
-            border: 1px solid #000000;
             margin-right: 10px;
+            width: auto;
+            border: 1px solid #E6E6E6;
+            @media only screen and (max-width: 767px) {
+                margin-right: 0px;
+            }
         }
         .custom-select {
             margin-top: 15px;
@@ -46,8 +49,11 @@
         }
     }
     .left-column {
-        margin-bottom: 60px;
+        // margin-bottom: 60px;
         position: relative;
+        @media only screen and (max-width: 767px) {
+            order: 1;
+        }
         @include media-breakpoint-up(lg) {
             margin-bottom: 30px;
         }
@@ -61,7 +67,7 @@
         }
         .video-wrapper {
             margin: 0;
-            min-width: 343px; 
+            // min-width: 343px; 
             height: 332px; 
             overflow: hidden;
             border-radius: 30px;
@@ -73,7 +79,7 @@
             }
             @include media-breakpoint-up(xl) {
                 width: 536px;
-                height: 520px;
+                height: 420px;
             }
         }
         
@@ -108,7 +114,6 @@
                 left: -3rem;
                 bottom: 0;
                 padding: 31px;
-
             }
         }
     }

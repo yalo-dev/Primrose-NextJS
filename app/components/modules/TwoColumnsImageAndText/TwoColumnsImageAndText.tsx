@@ -114,7 +114,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                         autoPlay
                         muted
                         loop
-                    />
+                        />
                 </div>
             );
         }
@@ -147,7 +147,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 >
             <div className={className}>
                
-                <div className='left-column col-12 col-lg-6'>
+                <div className='left-column col-12 col-lg-6 offset-lg-1'>
                     {renderMedia()}
                     {leftColumn?.showAnnouncementTile && leftColumn?.announcement && (
                         <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
@@ -164,18 +164,17 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     )}
                 </div>
        
-                <div className='right-column col-12 c col-lg-6 offset-lg-1'>
+                <div className='right-column col-12 c col-lg-6'>
                     {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
                     {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
-                    <div className='d-lg-flex'>  
+                    <div className='button-container d-flex'>  
                         {rightColumn?.button?.url && rightColumn?.button?.title && (
                                 <Button
                                     href={rightColumn.button.url}
                                     target={rightColumn.button.target}
                                     label={rightColumn.button.title}
                                     variant={rightColumn.buttonStyle === 'Green' ? 'primary' : 'secondary'}
-                                    // Add additional conditions for other styles if needed
                                 >
                                     {rightColumn.button.title}
                                 </Button>
@@ -186,7 +185,6 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                                     target={rightColumn.buttonTwo.target}
                                     label={rightColumn.buttonTwo.title}
                                     variant={rightColumn.buttonTwoStyle === 'Green' ? 'primary' : 'secondary'}
-                                    // Add additional conditions for other styles if needed
                                 >
                                     {rightColumn.buttonTwo.title}
                                 </Button>

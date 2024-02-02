@@ -181,6 +181,10 @@ padding-right: 0px;
   color: #373A36;
 }
 
+.col-12.d-block.d-md-none {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 
 /* Add this to your existing CSS or create a new CSS file */
 @media only screen and (max-width: 767px) {
