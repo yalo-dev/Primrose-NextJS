@@ -1,17 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../../atoms/Heading/Heading';
-import Subheading from '../../atoms/Subheading/Subheading';
-import Button from '../../atoms/Button/Button';
-import Customizations from '../../filters/Customizations';
-import ColorComponent from '../../filters/ColorComponent';
-import BackgroundColorComponent from '../../filters/BackgroundColorComponent';
-import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
-
-interface OptionType {
-  label: string;
-  url: string;
-  target?: string;
-}
 
 interface HarmonyAndHeartProps {
   leftColumn?: {
@@ -49,7 +37,6 @@ interface HarmonyAndHeartProps {
       };
       title?: string;
     }[];
-    // ... other right column fields
   };
 }
 
@@ -86,7 +73,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
 
   return (
     <div className='container'>
-      <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}` } style={{ paddingTop: '80px' }}ref={pathwayRef} >
+      <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}` } ref={pathwayRef} >
         <div className='left-column col-lg-4 '>
           <div className='wrap mt-4'>
             {leftColumn?.displayMusicPlayer && (
