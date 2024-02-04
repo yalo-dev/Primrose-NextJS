@@ -5,6 +5,9 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    &.reverse-column .left-column {
+        order: 1;
+    }
     @include media-breakpoint-up(lg) {
         margin: auto;
         flex-direction: row;
