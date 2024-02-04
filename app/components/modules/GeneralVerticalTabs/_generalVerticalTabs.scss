@@ -1,0 +1,230 @@
+.general-vertical-tabs {
+    padding: 53px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 130px 0 140px;
+    }
+    @include media-breakpoint-up(xxl) {
+        padding: 130px 60px 140px;
+    }
+    .heading-wrapper {
+        max-width: 760px;
+        margin: auto;
+        text-align: center;
+        padding-bottom: 40px;
+        @include media-breakpoint-up(lg) {
+            padding-bottom: 90px;
+        }
+        .b4 {
+            color: $text-gray;
+        }
+    }
+
+    .tab-button {
+        background: $transparent;
+        text-align: left;
+        padding-left: 0;
+        border-bottom: 1px solid $neutral-4;
+        border-radius: 0;
+        position: relative;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        width: 100%;
+        @include media-breakpoint-up(lg) {
+            padding-left: 19px;
+            padding-top: 13px;
+            border-left: 1px solid $neutral-4;
+            &:last-child {
+                border-right: 1px solid $neutral-4;
+            }
+        }
+
+        h5 {
+            margin: 0;
+        }
+
+        #button {
+            width: 2rem;
+            height: 2rem;
+            border: 0;
+            font-size: 1rem;
+            position: absolute;
+            top: 1.25rem;
+            right: 0;
+            line-height: 1;
+            padding: 0;
+            border-radius: 50%;
+            background-color: $brand-blue;
+            border: 1px solid $brand-blue;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
+
+            span {
+                position: absolute;
+                transition: 300ms;
+                border-radius: 2px;
+                background-color: $grayscale-1;
+
+                &:first-child {
+                    top: 30%;
+                    bottom: 25%;
+                    width: 5%;
+                    left: 49%;
+                    height: 40%;
+                }
+
+                &:last-child {
+                    left: 27%;
+                    right: 27%;
+                    height: 5%;
+                    top: 47%;
+                }
+            }
+        }
+
+        &.active {
+            color: $brand-blue;
+            border-bottom: 4px solid $brand-orange;
+
+            #button {
+                background-color: $transparent;
+
+                span {
+                    transform: rotate(90deg);
+                    background-color: $brand-blue;
+
+                    &:last-child {
+                        left: 50%;
+                        right: 50%;
+                    }
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+        max-height: 0;
+        opacity: 0; 
+        
+        position: relative;
+        .image-wrapper {
+            text-align: center;
+            img {
+                object-fit: cover;
+                object-position: right;
+                border-radius: 12px;
+                width: 341px;
+                height: 287px;
+            }
+            &.fullwidth {
+                width: 100%;
+                @include media-breakpoint-up(lg) {
+                    position: absolute;
+                }
+            }
+        }
+        .content {
+            background-color: $grayscale-1;
+            border-radius: 1rem;
+            padding: 23px 15px;
+            margin-left: 15px;
+            margin-right: 15px;
+            bottom: 3rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0px 0px 10px 0px rgba(185, 208, 208, 0.20);
+            .eyebrow {
+                color: $brand-blue;
+                padding-bottom: 23px;
+            }
+            h3 {
+                margin-bottom: 0;
+                padding-bottom: 23px;
+                @include media-breakpoint-up(lg) {
+                     padding-right: 10rem;
+                }
+                   
+            }
+            .subhead {
+                padding-bottom: 23px;
+                color: $text-gray;
+            }
+            .blurb {
+                padding-bottom: 23px;
+                color: $text-gray;
+            }
+            .table {
+                >div {
+                    color: $text-gray;
+                    border-bottom: 1px solid  #E6E6E6;
+                }
+            }
+            button {
+                width: auto;
+            }
+        }
+    }
+
+    .tab-content.expanded {
+        max-height: 1500px; 
+        opacity: 1;
+        margin-top: 19px;
+    }
+
+    .desktop-layout {
+        .buttons-container {
+            display: flex;
+            flex-wrap: nowrap;
+            >button {
+                width: auto;
+                flex-grow: 1;
+            }
+        }
+       .tab-content {
+        display: flex;
+       
+        &.expanded {
+            margin-top: 41px;
+            min-height: 490px;;
+        }
+        .content {
+            border-radius: 12px;
+            margin-bottom: 6rem;
+            bottom: -6rem;
+            right: -7rem;
+            padding: 53px 40px 53px 40px;
+            height: fit-content;
+            ul {
+                margin-bottom: 24px;
+                @include media-breakpoint-up(lg) {
+                    margin-bottom: 54px;
+                }
+                li {
+                    color: $text-gray;
+                }
+            }
+        }
+       }
+        .image-wrapper {
+            height: 100%;
+            width: 100%;
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        .fade-in {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+          }
+        .fade-out {
+            margin-top: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+    }
+    
+}

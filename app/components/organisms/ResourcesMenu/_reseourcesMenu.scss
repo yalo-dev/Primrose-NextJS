@@ -1,0 +1,63 @@
+.navbar-resources {
+    position: absolute;
+    width: 100%;
+    z-index: 1130;
+    top: 99px;
+    left: 0;
+    padding: 23px 0;
+    background-color: $grayscale-2;
+    border-top: 1px solid $nav-border;
+    border-bottom: 1px solid $nav-border;
+    // @include media-breakpoint-up(lg) {
+    //    top: 96px;
+    // }
+
+    // @include media-breakpoint-up(xl) {
+    //    top: 73px;
+    // }
+    ul {
+        white-space: nowrap;
+        list-style-type: none;
+        max-width: $max-content-width;
+        li {
+            a {
+                color: $text-gray;
+            }
+            &:not(.navitem--main):not(:last-of-type)  {
+                &::after {
+                    color: $neutral-1;
+                    content: '|';
+                    position: absolute;
+                    bottom: -3px;
+                    right: 7px;
+                }
+            }
+         
+            &::before {
+                content: "";
+                position: absolute;
+                height: 3px;
+                width: calc(100% - 24px);
+                background-color: $transparent;
+                bottom: -3px;
+                @include transitionAll;
+            }
+            &.active {
+                &::before {    
+                    background-color: $primary-green;
+                }
+            }
+        }
+    }
+}
+
+.resource-margin-top {
+    display: block; 
+    height: 100px;
+    @include media-breakpoint-up(sm) {
+        height: 72px;
+    }
+    @include media-breakpoint-up(lg) {
+        height: 74px;
+    }
+}

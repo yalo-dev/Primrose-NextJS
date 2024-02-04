@@ -1,0 +1,113 @@
+footer {
+    background-color: $primary-green;
+    color: $white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    @include media-breakpoint-up(lg) {
+        padding-top: 80px;
+        padding-bottom: 60px;
+    }
+    .logo {}
+    .nav {
+        @include media-breakpoint-up(lg) {
+            padding-left: 2rem;
+        }
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            li {
+                flex-basis: 50%;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 22px;
+                padding-left: 1rem;
+                a {
+                    color: $white;
+                    &:hover {
+                        color: $primary-darkgray;
+                    }
+                }
+            }
+        }
+    }
+    .wrap {
+        @include media-breakpoint-up(lg) {
+            order: 4;
+        }
+        .newsletter-form-wrapper {
+            h4 {
+                color: $white;
+            }
+            .form-group input.email {
+                border-radius: 6px;
+                background: #4f5538;
+                border-color:  #4f5538;
+                color: $white;
+                &::placeholder {
+                    color: $white;
+                }
+            }
+            .form-button input.primary {
+                background-color: $white;
+                color: $primary-darkgray;
+            }
+        }
+        .social {}
+    }
+    .util-menu {
+        padding-left: 1rem;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        margin-bottom: 40px;
+        @include media-breakpoint-up(lg) {
+            order: 3;
+            padding-left: 2rem;
+        }
+        li {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 20px; 
+            padding-left: 0;
+            a {
+                color: $white;
+                &:hover {
+                    color: $primary-darkgray;
+                }
+            }
+            @include media-breakpoint-up(xxl) {
+                min-width: unset;
+            }
+        }
+    }
+    .bottom {
+     
+        .text {
+            font-family: Poppins;
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 18px;
+            margin-bottom: 10px;
+        }
+
+        .disclaimer {
+            font-family: Poppins;
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 14px;
+            margin-bottom: 20px;
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+.tag {
+    padding: 7px 10px;
+    margin: 5px 8px 5px 0;
+    border-radius: 3px;
+    text-align: center;
+    width: fit-content;
+    white-space: nowrap;
+    cursor: pointer;
+    @extend p;
+    &.category {
+        background-color: $grayscale-1;;
+        color: $text-gray;
+        border: 1px solid $nav-border;
+    }
+    &.featured {
+        background-color: $primary-green;
+        color: $grayscale-1;;
+        border: 1px solid $primary-green;
+    }
+    @include media-breakpoint-up(md) {
+        padding: 8px;
+    }
+}

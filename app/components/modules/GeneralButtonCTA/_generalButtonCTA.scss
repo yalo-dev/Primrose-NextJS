@@ -1,0 +1,389 @@
+.general-button-cta {
+    position: relative;
+    background-color: $grayscale-4;
+    border-radius: 10px;
+    padding: 30px 20px 125px;
+    overflow: visible;
+    @include media-breakpoint-up(lg) {
+        min-height: 300px;
+    }
+    &#selectActive {
+        padding: 96px 20px 281px;
+        height: 500px;
+        @include media-breakpoint-up(lg) {
+            height: auto;
+        }
+        .accent-one {
+            top: 24rem;
+            right: -10rem;
+        }
+
+        @include media-breakpoint-up(lg) {
+            padding: 57px 40px 53px;
+            .accent-one {
+                top: 11rem;
+                right: 0rem;
+            }
+        }
+
+        @include media-breakpoint-up(xxl) {
+            .accent-one {
+                right: 15rem;
+            }
+        }
+        .custom-select {
+            height: 50px;
+            color: $primary-green;
+            width: 256px;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            margin: 3rem 0 0;
+            z-index: 4;
+            cursor: pointer;
+    
+            .icon {
+                background-image: url("data:image/svg+xml, %3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23DFE2D3'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.20605 13.3235C9.52033 12.9421 10.0808 12.8905 10.458 13.2084L15.1968 17.2021L19.5132 13.2338C19.8764 12.8998 20.4386 12.9269 20.7688 13.2943C21.0991 13.6616 21.0723 14.2302 20.709 14.5641L16.3927 18.5324C15.7363 19.136 14.7403 19.1577 14.0587 18.5833L9.31986 14.5895C8.94272 14.2717 8.89177 13.7049 9.20605 13.3235Z' fill='%235E6738'/%3E%3C/svg%3E");
+                background-size: 30px;
+                background-repeat: no-repeat;
+                background-position: 95%;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                @include transition;
+            }
+    
+            &.active {
+                .icon {
+                    transform: rotate(-180deg);
+                }
+            }
+    
+            .header {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 12px 10px;
+                padding-right: 35px;
+                border: 1px solid $text-gray;
+                border-radius: 25px;
+                background-color: $grayscale-1;
+                z-index: 5;
+                position: relative;
+                ;
+                font-size: 14px;
+    
+                @include media-breakpoint-up(xl) {
+                    min-width: 10rem;
+                }
+    
+                @include media-breakpoint-up(xxl) {
+                    min-width: 12rem;
+                }
+            }
+    
+    
+            .options {
+                background: $grayscale-1;
+                z-index: 1;
+                position: absolute;
+                width: 16rem;
+                overflow: hidden;
+                height: 0;
+                transition: height 0.3s ease-out;
+                top: 2rem;
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                @include dropShadow;
+    
+                .option {
+                    padding: 17px 40px;
+                    width: 100%;
+                    border-bottom: 1px solid $neutral-2;
+                    background: $grayscale-1;
+    
+                    a {
+                        color: $primary-darkgray;
+                    }
+    
+                    &:first-child {
+                        padding-top: 2rem;
+                    }
+    
+                    &:last-child {
+                        border-bottom-left-radius: 15px;
+                        border-bottom-right-radius: 15px;
+                    }
+    
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+    
+                    label {
+                        display: inline-block;
+                        position: relative;
+                        cursor: pointer;
+                        user-select: none;
+    
+                        &::before {
+                            content: "";
+                            border: 2px solid $neutral-2;
+                            position: absolute;
+                            top: 6px;
+                            left: -20px;
+                            width: 12px;
+                            height: 12px;
+                            background-color: $grayscale-1;
+                            border-radius: 3px;
+    
+                        }
+                    }
+    
+                    input[type="checkbox"]:checked+label::after {
+                        content: "";
+                        position: absolute;
+                        top: 9px;
+                        left: -17px;
+                        width: 6px;
+                        height: 6px;
+                        background-color: $primary-green;
+                        border-radius: 2px;
+                    }
+                }
+            }
+    
+            &:first-child {
+                margin-right: 2%;
+            }
+    
+            &:nth-child(2) {
+                .options {
+                    right: 0;
+                }
+            }
+        }
+    
+    }
+
+    &#imageActive {
+        min-height: 532px;
+        @include media-breakpoint-up(lg) {
+            min-height: 300px;
+        }
+        .accent-one {
+            top: 18rem;
+            right: -6rem;
+            transform: rotate(14deg);
+
+            @include media-breakpoint-up(lg) {
+                top: 12rem;
+                right: 16rem;
+                transform: rotate(0);
+            }
+        }
+        .image-wrap {
+            padding-bottom: 4rem;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            position: absolute;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+    
+            @include media-breakpoint-up(lg) {
+                padding-bottom: 0;
+                border-top-right-radius: 30px;
+                border-bottom-right-radius: 30px;
+            }
+    
+            img {
+                width: 100%;
+                height: 262px;
+                object-fit: cover;
+                object-position: center;
+                position: absolute;
+                bottom: -1rem;
+                z-index: 3;
+                border-top-right-radius: 50%;
+                border-top-left-radius: 50%;
+    
+    
+                @include media-breakpoint-up(lg) {
+                    width: 600px;
+                    height: 600px;
+                    border-radius: 50%;
+                    // border-top-left-radius: 12rem;
+                   // border-bottom-left-radius: 12rem;
+                    bottom: -14rem;
+                    right: -17rem;
+                }
+    
+                @include media-breakpoint-up(xxl) {
+                    right: -7rem;
+                    bottom: -10rem;
+                    object-fit: contain;
+
+                }
+            }
+        }
+    }
+
+    h2 {
+        margin-bottom: 1rem;
+        z-index: 4;
+        position: relative;
+    }
+
+    .b3 {
+        margin-bottom: 1rem;
+        z-index: 4;
+        position: relative;
+    }
+
+    button {
+        width: auto;
+        margin-top: 10px;
+        z-index: 4;
+        position: relative;
+    }
+
+
+    @include media-breakpoint-up(lg) {
+        border-radius: 30px;
+        padding: 40px;
+
+        .icon {
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .wrapper {
+            max-width: 35rem;
+        }
+    }
+
+    .accent {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        border-radius: 10px;
+
+        @include media-breakpoint-up(lg) {
+            border-radius: 30px;
+        }
+    }
+
+    .accent-one {
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 790px;
+        height: 790px;
+        position: absolute;
+        top: 20rem;
+        right: -10rem;
+        pointer-events: none;
+
+        @include media-breakpoint-up(lg) {
+            top: 13rem;
+            right: 3rem;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            top: 8rem;
+            right: 16rem;
+        }
+    }
+
+    .accent-two {
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: -21rem;
+        right: -14rem;
+        pointer-events: none;
+
+        @include media-breakpoint-up(lg) {
+            right: -12rem;
+            top: -18rem;
+        }
+    }
+
+    &.Blue {
+        background-color: #006ba7;
+        color: $grayscale-1;
+
+        .accent {
+            filter: opacity(0.3);
+        }
+
+        h2 {
+            color: $grayscale-1;
+        }
+
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+
+    &.Green {
+        background-color: #5e6738;
+        color: $grayscale-1;
+
+        .accent {
+            filter: opacity(0.3);
+        }
+
+        h2 {
+            color: $grayscale-1;
+        }
+
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+
+    &.Purple, &.violet {
+        background-color: #814c9e;
+        color: $grayscale-1;
+
+        .accent {
+            filter: opacity(0.3);
+        }
+
+        h2 {
+            color: $grayscale-1;
+        }
+
+        .icon {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}
+
+
+.module.Page_Modules_Modules_GeneralButtonCta {
+    overflow: visible;
+}

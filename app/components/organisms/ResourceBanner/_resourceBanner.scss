@@ -1,0 +1,31 @@
+.resource-banner {
+    border-top: 1px solid $neutral-2;
+    border-bottom: 1px solid $neutral-2;
+    p {
+        margin-bottom: 0;
+        @extend .b3;
+    }
+    h1,h2,h3,h4,h5,h6 {
+        margin-bottom: 0;
+    }
+    @include media-breakpoint-up(lg) {
+        .families > div {
+            &:first-child {
+                flex-basis: 58%;
+            }
+            &:nth-child(2) {
+                flex-basis: 36%;
+            }
+        }
+        button:not(.newsletter-form button) {
+            min-width: 12rem;
+
+        }
+        .right {
+            width: 50%;
+            //margin-right: 0;
+            text-align: right;
+        }
+    }
+   
+}

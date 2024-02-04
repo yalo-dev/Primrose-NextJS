@@ -1,0 +1,109 @@
+.emergency-message-container {
+    border: 1px solid #E6E6E6;
+    /* Border color */
+    background-color: #F5F5F5;
+    /* Light gray background */
+    border-radius: 10px;
+    /* Rounded corners */
+    margin-top: 0px !important;
+    display: flex;
+}
+
+.divider-line {
+    height: 40px; // Adjust the height as needed
+    min-width: 2px; // Adjust the width as needed
+    background-color: #5E6738; // Green color
+    margin-right: 24px; // Adjust the margin as needed
+    margin-left: 24px; // Adjust the margin as needed
+}
+
+.message {
+    margin-right: 24px;
+    margin-bottom: 0px !important;
+
+    p {
+        margin-bottom: 0px !important;
+
+        strong {
+            color: #5E6738; // Set the green color for bold text
+        }
+    }
+}
+
+button {
+    white-space: nowrap; // Prevent button from breaking into multiple lines
+}
+
+.dismiss-button {
+    margin-left: 24px; // Align the dismiss button to the right
+    margin-right: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline;
+}
+
+.emergency {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+/* Media query for smaller screens (e.g., mobile devices) */
+@media (max-width: 767px) {
+    .emergency-message-container {
+        flex-direction: column;
+        /* Stack containers vertically */
+        padding: 1.875rem 1.125rem !important;
+    }
+
+    .row {
+        margin-bottom: 1.875rem;
+    }
+
+    .icon-container {
+        order: 1;
+        /* Move icon to the top */
+        align-self: flex-start;
+        /* Align icon to the top left */
+    }
+
+    .dismiss-button {
+        order: 1;
+        /* Keep dismiss button on the same row as the icon */
+        align-self: flex-end;
+        /* Align dismiss button to the top right */
+        position: absolute;
+        margin-right: 0rem;
+    }
+
+    .divider-line {
+        order: 2;
+        /* Move divider line under the icon and dismiss button */
+        height: 2px;
+        /* Adjust the height as needed */
+        min-width: 100%;
+        /* Make it span the full width for a horizontal line */
+        background-color: #5E6738;
+        /* Green color */
+        margin-bottom: 1.25rem;
+        /* Adjust the margin as needed */
+        margin-top: 1.25rem;
+    }
+
+    .message-container {
+        order: 3;
+        /* Move message under the divider line */
+        flex-grow: 1;
+        /* Allow the message container to grow and fill the available space */
+    }
+
+    .button-container {
+        order: 4;
+        /* Move button under the message */
+        align-self: flex-start;
+        /* Align button to the left */
+        margin-top: 1.25rem;
+    }
+}

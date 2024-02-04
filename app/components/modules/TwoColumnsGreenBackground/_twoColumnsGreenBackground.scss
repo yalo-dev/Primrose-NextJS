@@ -1,0 +1,83 @@
+.Page_Modules_Modules_TwoColumnsGreenBackground {
+    overflow: hidden;
+    .bg-color {
+        background-color: $primary-green;
+        overflow: hidden;
+    }
+}
+.two-columns-green-background {
+    position: relative;
+    padding: 60px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 135px 0;
+    }
+   h2, h5, .blurb p {
+    color: $white!important;
+   }
+   ul li {
+    @extend .b3;
+   }
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    &::after {
+        content: "";
+        background: var(--black-dark, #202220);
+        width: 425px;
+        height: 425px;
+        bottom: -1rem;
+        right: -65%;
+        position: absolute;
+        opacity: 0.1;
+        border-radius: 50%;
+        @include media-breakpoint-up(lg) {
+            bottom: -37rem;
+            right: -37rem;
+            width: 1200px;
+            height: 1200px;
+        }
+    }
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        &.reverse-column {
+            flex-direction: row-reverse;
+        }
+    }
+    .right-column {
+        z-index: 1;
+        @include media-breakpoint-up(xl) {
+            //padding: 0 45px 0 50px;
+        }
+        h2 {
+            margin-bottom: 1rem;
+        }
+        h5 {
+            margin-bottom: 1rem;
+            color: $text-gray;
+        }
+        .blurb { 
+            p {
+                @extend .b3;
+            }
+        }
+        button {
+            margin-top: 30px;
+            width: auto;
+        }
+    }
+    .left-column {
+        margin-bottom: 34px;
+        position: relative;
+        z-index: 1;
+        @include media-breakpoint-up(lg) {
+            margin-bottom: 30px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            max-width: 536px;
+        }
+    }
+}

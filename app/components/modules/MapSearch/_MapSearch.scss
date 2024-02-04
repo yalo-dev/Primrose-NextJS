@@ -1,0 +1,558 @@
+.find-a-school-container {
+    padding-top: 1rem;
+    position: relative;
+    background-color: $neutral-2;
+    overflow: hidden;
+    --view-height: 100%; 
+      
+    
+    @include media-breakpoint-up(lg) {
+        padding-top: 0;
+        background-color: $transparent;
+        height: var(--view-height);
+    }
+
+    .search-box-container {
+        position: relative;
+        z-index: 999;
+       
+        &::after{ 
+            content: "";
+                width: 100%;
+                height: 3rem;
+                top: 3rem;
+                left: 0;
+                position: absolute;
+                background: $white;
+                z-index: -1;
+        }
+        @include media-breakpoint-up(lg) {
+            width: 516px;
+            position: absolute;
+            top: 5rem;
+            left: 5rem;
+            border-radius: 10px;
+           
+            
+        }
+
+        .tabs {
+            .tab-labels {
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                text-align: left;
+
+                .tab-label {
+                    flex-basis: 50%;
+                    padding: 13px;
+                    background-color: $grayscale-2;
+                    border: 1px solid $grayscale-5;
+
+                    border-bottom: 0;
+                    color: $text-gray;
+                    border-radius: 0;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom: 1px solid $grayscale-5;
+                    cursor: pointer;
+                    @extend .b3;
+
+
+                    @include media-breakpoint-up(lg) {
+                        height: 73px;
+                        display: flex;
+                        align-items: center;
+                        padding: 13px 25px;
+                    }
+
+                    &:not(.active) {
+                        border-bottom-left-radius: 10px;
+
+                        &.tab-label-1 {
+                            border-bottom-right-radius: 10px;
+                        }
+
+                        &.tab-label-2 {
+                            border-bottom-left-radius: 10px;
+                        }
+                    }
+
+                    &.active {
+                        font-family: Poppins;
+                        font-size: 14px;
+                        font-style: normal;
+                        background-color: $white;
+                        border-bottom: 0;
+                        border-left: 0;
+                        border-right: 0;
+                        line-height: 20px;
+                        color: $primary-green;
+                        position: relative;
+
+                        .b3 {
+                            font-weight: 600 !important;
+                            position: relative;
+                            &::after {
+                                content: "";
+                                width: 100%;
+                                height: 2px;
+                                background-color: $brand-orange;
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                @include media-breakpoint-up(lg) {
+                                    bottom: -1rem;
+                                }
+                            }
+                        }
+
+                       &:nth-child(2) {
+                        .b3 {
+                           
+                            &::after {
+                                content: "";
+                                width: 90%;
+                                @include media-breakpoint-up(lg) {
+                                    width: 100%;
+                                }
+                            }
+                        }
+
+                       }
+                    }
+                }
+
+            }
+
+            .tab-content {
+                display: none;
+                background: $white;
+
+                @include media-breakpoint-up(lg) {
+                    border-radius: 10px;
+                }
+
+                &.active {
+                    display: block;
+                    //padding: 1rem 0 4rem;
+
+                    @include media-breakpoint-up(lg) {
+                        padding: 0
+                    }
+
+                    input {
+                        box-sizing: border-box;
+                        border: 1px solid rgba(185, 188, 188, 0.40);
+                        width: 90%;
+                        height: 70px;
+                        margin: 1rem;
+                        padding: 0px 20px 0 20px;
+                        border-radius: 5px;
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 22px;
+
+                        @include media-breakpoint-up(lg) {
+                            margin: 2rem 1.5rem;
+                        }
+                    }
+
+                    .input-wrapper {
+                        position: relative;
+                        border-bottom-left-radius: 10px;
+                        border-bottom-right-radius: 10px;
+                        border-bottom: 1px solid rgba(185, 188, 188, 0.40);
+
+                        .location-icon {
+                            position: absolute;
+                            top: 2.25rem;
+                            right: 5rem;
+                            background-color: $white;
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                            cursor: pointer;
+                            @include transition;
+
+                            @include media-breakpoint-up(lg) {
+                                top: 3.25rem;
+                            }
+                        }
+
+                        .search-icon {
+                            position: absolute;
+                            top: 2rem;
+                            right: 2rem;
+                            width: 35px;
+                            height: 35px;
+                            background-color: $white;
+                            cursor: pointer;
+                            @include transition;
+
+                            svg {
+                                width: 35px;
+                                height: 35px;
+                            }
+
+                            @include media-breakpoint-up(lg) {
+                                top: 3rem;
+                                right: 2.5rem;
+                            }
+                        }
+
+                        .clear-icon {
+                            position: absolute;
+                            background-color: $white;
+                            top: 2.25rem;
+                            right: 2rem;
+                            width: 30px;
+                            height: 30px;
+                            cursor: pointer;
+                            @include transition;
+
+                            @include media-breakpoint-up(lg) {
+                                top: 3.25rem;
+                            }
+
+                        }
+                    }
+                }
+
+                &.tab-content-2 {
+                    .input-wrapper {
+
+                        .add-more {
+                            position: absolute;
+                            bottom: 4.5rem;
+                            z-index: 999;
+                            left: 0.75rem;
+
+                            @include media-breakpoint-up(lg) {
+                                bottom: 5rem;
+                            }
+
+                            &.added {
+                                bottom: 7.5rem;
+
+                                .add {
+                                    &::after {
+                                        content: none;
+                                    }
+                                }
+                            }
+
+                            .add {
+                                position: relative;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.85rem;
+                                    left: 0.75rem;
+                                    border-left: 1px dashed $primary-green;
+                                }
+                            }
+
+                        }
+
+                        input {
+                            width: calc(100% - 6rem);
+                            height: 70px;
+                            margin: 0.5rem 3rem 0.5rem;
+                        }
+
+                        .first-input,
+                        .second-input {
+                            position: relative;
+
+                            .start {
+                                width: 17px;
+                                height: 17px;
+                                border: 1px solid $primary-green;
+                                border-radius: 50%;
+                                top: 2.25rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.45rem;
+                                    left: 0.45rem;
+                                    border-left: 1px dashed $primary-green;
+
+                                }
+                            }
+
+                            .end {
+                                width: 17px;
+                                height: 28px;
+                                top: 1.75rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                svg {
+                                    width: 17px;
+                                    height: 28px;
+                                }
+                            }
+                        }
+
+                        .waypoint-input {
+                            position: relative;
+
+                            .start {
+                                width: 17px;
+                                height: 17px;
+                                border: 1px solid $primary-green;
+                                border-radius: 50%;
+                                top: 2.25rem;
+                                position: absolute;
+                                left: 1rem;
+
+                                &::after {
+                                    content: "";
+                                    width: 1px;
+                                    height: 10px;
+                                    position: absolute;
+                                    top: 1.5rem;
+                                    left: 0.45rem;
+                                    border-left: 1px dashed $primary-green;
+
+                                }
+                            }
+
+                            .clear-icon {
+                                top: 1.75rem;
+                                right: 0.75rem;
+                            }
+                        }
+
+                        .location-icon {
+                            position: absolute;
+                            top: 1.75rem;
+                            right: 5.5rem;
+                            background-color: $white;
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                            cursor: pointer;
+                            @include transition;
+
+                            @include media-breakpoint-up(lg) {
+                                top: 2rem;
+                                right: 6rem;
+                            }
+                        }
+
+                        .drag-icon {
+                            position: absolute;
+                            top: 1.85rem;
+                            right: 3.25rem;
+                            width: 40px;
+                            height: 25px;
+                            background-color: $white;
+                            cursor: pointer;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            @include transition;
+
+                            svg {
+                                width: 20px;
+                                height: 8px;
+                            }
+
+                            @include media-breakpoint-up(lg) {
+                                top: 2rem;
+                                right: 3.5rem;
+                            }
+                        }
+
+                        &.added {
+                            .first-input {
+                                .start {
+                                    &::after {
+                                        content: "";
+
+                                        height: 50px;
+                                    }
+                                }
+                            }
+
+                            .waypoint-input {
+                                .start {
+                                    &::after {
+                                        content: "";
+
+                                        height: 50px;
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        @include media-breakpoint-up(lg) {
+                            #alongEnd {
+                                margin-bottom: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .google-map-container {
+        overflow: hidden;
+        &.hidden {
+            display: none;
+        }
+
+        .gmnoprint {
+            display: none;
+        }
+
+        >div {
+            height: 350px;
+        }
+
+        @include media-breakpoint-up(lg) {
+            >div {
+                height: 100vh !important;
+
+            }
+
+            &.shift {
+                >div {
+                    width: 150% !important;
+
+                }
+
+            }
+        }
+
+        @include media-breakpoint-up(xxl) {
+            &.shift {
+                >div {
+                    width: 125% !important;
+
+                }
+
+            }
+        }
+    }
+
+    .list-scroller {
+        &.desktop {
+            display: none;
+        }
+        @include media-breakpoint-up(lg) {
+            &.mobile {
+                display: none!important;
+            }
+            &.desktop {
+                display: flex;
+                flex-direction: column;
+                width: 516px;
+                height: 30rem;
+                position: relative;
+                top: 30px;
+                left: 0;
+                background: $white;
+                border-radius: 10px;
+                overflow-y: scroll;
+                @include transitionAll;
+            }
+        }
+    }
+
+    .nearby-schools-list {
+        display: flex;
+        flex-direction: column;
+        background: $white;
+        .school-list {
+            &:first-child {
+                .school-list-item {
+                    margin-top: 1rem;
+                }
+            }
+        }
+        .school-list-item {
+            margin-left: 1rem;
+            margin-right: 1rem;
+            margin-bottom: 0;
+            display: flex;
+            padding: 32px 24px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            align-self: stretch;
+            border-radius: 12px;
+            color: $primary-darkgray;
+            border: 1px solid $transparent;
+            @include transition;
+            
+            .name {
+                .marker svg path {
+                    @include transition;
+                }
+            }
+
+            &:hover,
+            &:active,
+            &:focus,
+            &.hovered {
+                @include transition;
+                border: 1px solid $neutral-2;
+                background: $white;
+                box-shadow: 0px 4px 10px 0px rgba(212, 214, 214, 0.20);
+
+                .name {
+                    .marker path {
+                        fill: $brand-orange;
+                    }
+                }
+            }
+
+            .address {
+                color: $primary-darkgray;
+                font-family: Poppins;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 22px;
+                text-decoration-line: underline;
+            }
+
+            .hours {
+                color: $primary-darkgray;
+                font-family: Poppins;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 14px;
+            }
+
+            .notes {
+                list-style: none;
+                padding-left: 0;
+                font-size: 14px;
+                // li::before {
+                //     content: "\2022";
+                //     color: $grayscale-5;
+                //     font-weight: bold;
+                //     display: inline-block;
+                //     width: 1em;
+                //     margin-left: -1em;
+                // }
+            }
+        }
+    }
+}

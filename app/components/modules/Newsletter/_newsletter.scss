@@ -1,0 +1,31 @@
+.newsletter {
+    background-color: $grayscale-2;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+
+    .blurb {
+       @extend .b3;
+    }
+    @include media-breakpoint-up(lg) {
+        border-top-left-radius: 4rem;
+        border-top-right-radius: 4rem;
+        margin-top: 15rem;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            background-image: url(/assets/newsletter-graphic.png);
+            @include backgroundProperties;
+            background-position: left bottom;
+            background-color: $transparent;
+            width: 600px;
+            height: 400px;
+            right: 50%;
+            bottom: 0;
+            z-index: 999;
+            
+        }
+    }
+}

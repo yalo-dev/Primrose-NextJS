@@ -1,0 +1,18 @@
+# local env files
+.env.local
+
+# next.js
+/.next/
+
+# vercel
+.vercel
+
+# misc
+*.gz
+.DS_Store
+
+# dependencies
+/node_modules/
+
+# IDE files
+.idea/

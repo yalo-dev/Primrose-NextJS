@@ -1,0 +1,70 @@
+.contentwithschoolhouse {
+    background-color: $grayscale-3;
+    padding: 56px 1rem;
+    margin-right: -1.25rem;
+    margin-left: -1.25rem;
+    border-radius: 20px;
+    position: relative;
+    margin-top: 2rem;
+    @include media-breakpoint-up(lg) {
+        max-width: 60rem;
+        padding-left: 8rem;
+        padding-right: 20rem;
+        border-top-right-radius: 30%;
+        margin-top: unset;
+        &::after {
+            content: "";
+            background-image: url('/assets/Union.svg');
+            position: absolute;
+            bottom: 0rem;
+            right: -20rem;
+            width: 600px;
+            height: 600px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+    }
+    @include media-breakpoint-up(xxl) {
+        &::after {
+            right: -25rem;
+            width: 640px;
+            height: 640px;
+        }
+    }
+    @include media-breakpoint-up(xl) {
+        max-width: 60rem;
+        margin-right: 15rem;
+        margin-left: auto;
+        padding-top: 7rem;
+        padding-bottom: 7rem;
+        padding-left: 7rem;
+        padding-right: 19rem;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        margin-right: 16rem;
+    }
+
+    &::before {
+        content: "";
+        background-color: $q1circle;
+        position: absolute;
+        top: -2rem;
+        right: -8rem;
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        z-index: -1;
+
+        @include media-breakpoint-up(xl) {
+            top: 0rem;
+            right: -3rem;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            top: 3rem;
+            right: -6rem;
+        }
+    } 
+}

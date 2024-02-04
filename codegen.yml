@@ -1,0 +1,7 @@
+overwrite: true
+schema: "https://primroseschstg.wpenginepowered.com/graphql"
+generates:
+  generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"

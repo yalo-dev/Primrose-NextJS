@@ -1,0 +1,221 @@
+.resource {
+    .hero {
+        max-width: 1400px;
+        background-color: #814C9E;
+        color: $grayscale-1;
+        overflow:hidden;
+        
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+        }
+        @include media-breakpoint-down(sm) {
+            .image-wrapper img {
+                max-height: 48vh;
+                object-fit: cover;
+                width: auto;
+            }
+        }
+        
+        h1 {
+            @extend .h2;
+            color: $grayscale-1 !important;
+        }
+        @include media-breakpoint-up(lg) {
+            border-radius: .75rem;
+            margin-bottom: 4rem;
+            margin-top: 7.5rem;
+        }
+        .inner {
+            @include media-breakpoint-up(lg) {
+                overflow: hidden;
+                margin: auto;
+                max-height: 35rem;
+                //max-width: $max-content-width;
+                .content-wrapper {
+                    max-width: calc($max-content-width - 50%);
+                    flex-basis: 50%;
+                }
+            }
+        }
+        .image-wrapper {
+            @include media-breakpoint-up(lg) {
+                flex-basis: 50%;
+                text-align: right;
+                max-width: calc($max-content-width - 50%);
+                flex-basis: 50%;
+                padding-right: 4rem;
+            }
+            img {
+                width: 100%;
+               // min-height: 27rem;
+                border-bottom-left-radius: 50%;
+                border-bottom-right-radius: 50%;
+                object-fit: cover;
+                object-position: center;
+                @include media-breakpoint-up(lg) {
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 50%;
+                    border-top-right-radius: 50%;
+                    
+                }
+            }
+        }
+        
+        .details {
+            .caption {
+                color: $grayscale-1;
+                color:  $grayscale-1;
+                &::after {
+                    content: "·";
+                    position: absolute;
+                    top: -1px;
+                    right: -10px;
+                    font-size: 20px;
+                }
+            }
+            .date {
+                p {
+                    color:  #E6DBEC;
+                }
+            }
+        }
+        .title {
+            border-bottom: 1px solid $resource-hero-border;
+        }
+        .author {
+            color: #E6DBEC;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 26px;
+        }
+        .read-time {
+            text-align: right;
+            margin: 10px 0;
+            position: relative;
+            margin-right: 0;
+            margin-left: auto;
+            p {
+                color: $grayscale-1;
+            }
+            &::after {
+                content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.5' stroke='%23D8C8E1'/%3E%3Cline x1='7.5' y1='4' x2='7.5' y2='9' stroke='%23D8C8E1'/%3E%3Cline x1='7' y1='8.5' x2='12' y2='8.5' stroke='%23D8C8E1'/%3E%3C/svg%3E");
+                position: absolute;
+                top: -0.15rem;
+                right: 4.5rem;
+            }
+        }
+    }
+    .social {
+        
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            font-size: 0;
+            margin: 5px;
+            @include transitionAll; 
+            svg {
+                @include transitionAll; 
+            }
+            &:hover {
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+                &:last-child {
+                    svg {
+                        width: 35px;
+                        height: 25px;
+                    }
+                } 
+            }
+        }
+        @include media-breakpoint-up(xl) {
+            position: absolute;
+            left: 10%;
+        }
+    }
+    .resourece-content {
+        max-width: 760px;
+        h1,h2,h3,h4,h5,h6 {
+            font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        h5 {
+            margin: 36px 0 9px;
+            @include media-breakpoint-up(xl) {
+                margin: 36px 0 12px;
+            }
+            @extend .b4;
+        }
+        p {
+            @extend .b3;
+        }
+        ul {
+            list-style: none;
+            font-size: 14px;
+            @include media-breakpoint-up(xl) {
+                font-size: 16px;
+            }
+            li::before {
+                content: "\2022"; 
+                color: $brand-blue; 
+                font-weight: bold;
+                display: inline-block;
+                width: 1em;
+                margin-left: -1em;
+              }
+        }
+    }
+    .content-width {
+        max-width: 760px;
+        margin: auto;
+        .tags {
+            border-top: 1px solid $grayscale-5;
+            border-bottom: 1px solid $grayscale-5;
+            padding: 40px 0;
+            margin: 2rem 0;
+            .tag {
+                font-size: 12px;
+                line-height: 14px;
+                margin-top: 0;
+            }
+        }
+    }
+    .related {
+        h2 {
+            padding-top: 60px;
+        }
+        .card {
+            border-bottom: 1px solid $grayscale-3 !important;
+            @include media-breakpoint-up(xl) {
+                border-bottom: 0 !important;
+            }
+        }
+        @include media-breakpoint-down(sm) {
+            .card {
+                .inner {
+                    display: flex;
+                    padding-bottom: 1rem;
+                    height: 100%;
+                    justify-content: center;
+                    align-items: center;
+                    .content-wrapper {
+                        .title {
+                            padding-bottom: 7px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .seasonal-banner {
+        margin: 2rem 0;
+        @include media-breakpoint-up(lg) {
+            margin: 4rem 0;
+        }
+    }
+}

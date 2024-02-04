@@ -1,0 +1,33 @@
+.Page_Modules_Modules_DynamicForm {
+    .dynamic-form {
+        padding: 50px 0;
+        @include media-breakpoint-up(lg) {
+            padding: 80px 0 100px;
+        }
+    }
+    .container {
+        max-width: 1096px;
+        margin: auto;
+        .heading-wrapper {
+            padding: 24px 20px 0;
+            @include media-breakpoint-up(lg) {
+                padding: 50px 0 0;
+            }
+            h2 {
+                margin-bottom: 18px;
+            }
+        }
+        .form {
+            margin-top: 34px;
+            margin-bottom: 30px;
+            background-color: $white;
+            padding: 34px 30px;
+            border-radius: 10px;
+            @include media-breakpoint-up(lg) {
+                padding: 50px 112px;
+                border-radius: 30px;
+                margin-top: 37px;
+            }
+        }
+    }
+}

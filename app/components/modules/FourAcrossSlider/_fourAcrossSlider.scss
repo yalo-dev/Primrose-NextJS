@@ -1,0 +1,129 @@
+.four-across-slider {
+    //padding: 20px 36px 60px;
+    .slick-dots {
+        background: #FBFBFB;
+        border-radius: 1rem;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 6px;
+        bottom: -3rem;
+        text-align: center;
+        margin: auto;
+        position: relative;
+        width: fit-content;
+        margin-bottom: 30px;
+        li {
+            margin: 0;
+            button:before {
+                content: '';
+                width: 10px;  
+                height: 10px;
+                border-radius: 50%;
+                background-color: $white;  
+                border: 1px solid #D2D3D1;
+                opacity: 0.5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                @include transition;
+            }
+            &.slick-active button:before {
+                content: '';
+                width: 0;
+                height: 0;
+                border: unset;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 10px solid $brand-orange; 
+                background-color: transparent;
+                opacity: 1; 
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 0;
+                @include transition;
+              
+            }
+        }
+    }
+    .slick-prev {
+        left: -5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    .slick-next {
+        right: 5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    @include media-breakpoint-up(sm) {
+        .slick-prev {
+            left: -30px;
+        }
+        .slick-next {
+            right: -20px;
+        }
+    }
+    @include media-breakpoint-up(xl) {
+        .slick-prev, .slick-next {
+            top: 30%;
+        }
+        .slick-slide.slick-active {
+            .slide-content {
+                position: relative;
+                &::after {
+                    content: "";
+                    height: 240px;
+                    width: 1px; 
+                    background-color: $neutral-2;
+                    position: absolute;
+                    right: 0;
+                    top: 25px;
+                }
+            }
+        }
+        .slick-active + .slick-active + .slick-active + .slick-active {
+            .slide-content {
+                &::after {
+                    content: none;
+                }
+            }
+        }
+    }
+    .slide-content {
+        text-align: center;
+        margin: auto;
+        @include media-breakpoint-up(xl) {
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
+        }
+        img {
+            margin: auto;
+            width: 133px;
+            height: 133px;
+            object-fit: contain;
+            object-position: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            @include media-breakpoint-up(xl) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        h5 {
+            margin-bottom: 11px;
+            color: $primary-darkgray;
+        }
+        .b2 {
+            color: $text-gray;
+            margin-bottom: 48px;
+        }
+    }
+}

@@ -1,0 +1,243 @@
+.classroom-select-and-image {
+    @include media-breakpoint-up(lg) {
+        display: flex; 
+        flex-direction: row;
+        align-items: stretch;
+        .left-column {
+            padding-right: 1.5rem;
+            border-radius: 30px;
+            text-align: right;
+        }
+    }
+    .left-column {
+        img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            @include media-breakpoint-up(lg) {
+                border-radius: 30px;
+
+            }
+            @include media-breakpoint-up(xxl) {
+                width: 536px;
+                
+            }
+        }
+    }
+
+    .right-column {
+        background-color: $neutral-4;
+        border-radius: 10px;
+        margin-top: 1rem;
+        padding: 4rem 2rem;
+        position: relative;
+        min-height: 343px;
+        @include media-breakpoint-up(lg) {
+            margin: 0;
+            border-radius: 30px;
+        }
+        @include media-breakpoint-up(xxl) {
+            padding: 4rem;
+            width: 620px;
+        }
+        h2, .b3 {
+            z-index: 2;
+            position: relative;
+        }
+        h2 {
+            max-width: 15rem;
+            @include media-breakpoint-up(lg) {
+                max-width: unset;
+            }
+        }
+        .b3 {
+            max-width: 268px;
+            @include media-breakpoint-up(lg) {
+                max-width: unset;
+                margin-right: 10rem;
+            }
+        }
+        .accent {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            border-radius: 10px;
+            @include media-breakpoint-up(lg) {
+                border-radius: 30px;
+            }
+        }
+        .accent-one {
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: top left;
+            width: 790px;
+            height: 790px;
+            position: absolute;
+            bottom: -42rem;
+            right: -17rem;
+            z-index: 2;
+            pointer-events: none;
+            @include media-breakpoint-up(lg) {
+                bottom: -39rem;
+            }
+            @include media-breakpoint-up(xxl) {
+                bottom: -38rem;
+                right: -14rem;
+            }
+        }
+        .accent-two {
+            content: "";
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: top left;
+            width: 550px;
+            height: 484px;
+            position: absolute;
+            bottom: -17rem;
+            right: -28rem;
+            pointer-events: none;
+            @include media-breakpoint-up(lg) {
+                bottom: -15rem;
+            }
+            @include media-breakpoint-up(xxl) {
+                bottom: -7rem;
+                right: -26rem;
+            }
+        }
+        .custom-select {
+            height: 50px;
+            color: $primary-green;
+            width: 256px;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            margin: 50px 0 0;
+            z-index: 4;
+            cursor: pointer;
+            .icon {
+                background-image: url("data:image/svg+xml, %3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23DFE2D3'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.20605 13.3235C9.52033 12.9421 10.0808 12.8905 10.458 13.2084L15.1968 17.2021L19.5132 13.2338C19.8764 12.8998 20.4386 12.9269 20.7688 13.2943C21.0991 13.6616 21.0723 14.2302 20.709 14.5641L16.3927 18.5324C15.7363 19.136 14.7403 19.1577 14.0587 18.5833L9.31986 14.5895C8.94272 14.2717 8.89177 13.7049 9.20605 13.3235Z' fill='%235E6738'/%3E%3C/svg%3E");
+                background-size: 30px;
+                background-repeat: no-repeat;
+                background-position: 95%;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                @include transition;
+            }
+
+            &.active {
+                .icon {
+                    transform: rotate(-180deg);
+                }
+            }
+
+            .header {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 12px 10px;
+                padding-right: 35px;
+                border: 1px solid $text-gray;
+                border-radius: 25px;
+                background-color: $grayscale-1;
+                z-index: 5;
+                position: relative;
+                font-size: 14px;
+
+                @include media-breakpoint-up(xl) {
+                    min-width: 10rem;
+                }
+
+                @include media-breakpoint-up(xxl) {
+                    min-width: 12rem;
+                }
+            }
+
+
+            .options {
+                background: $grayscale-1;
+                z-index: 1;
+                position: absolute;
+                width: 16rem;
+                overflow: hidden;
+                height: 0;
+                transition: height 0.3s ease-out;
+                top: 2rem;
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                @include dropShadow;
+                .option {
+                    padding: 17px 40px;
+                    width: 100%;
+                    border-bottom: 1px solid $neutral-2;
+                    background: $grayscale-1;
+                    a {color: $primary-darkgray;}
+                    &:first-child {
+                        padding-top: 2rem;
+                    }
+                    &:last-child {
+                        border-bottom-left-radius: 15px;
+                        border-bottom-right-radius: 15px;
+                    }
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+
+                    label {
+                        display: inline-block;
+                        position: relative;
+                        cursor: pointer;
+                        user-select: none;
+
+                        &::before {
+                            content: "";
+                            border: 2px solid $neutral-2;
+                            position: absolute;
+                            top: 6px;
+                            left: -20px;
+                            width: 12px;
+                            height: 12px;
+                            background-color: $grayscale-1;
+                            border-radius: 3px;
+
+                        }
+                    }
+
+                    input[type="checkbox"]:checked+label::after {
+                        content: "";
+                        position: absolute;
+                        top: 9px;
+                        left: -17px;
+                        width: 6px;
+                        height: 6px;
+                        background-color: $primary-green;
+                        border-radius: 2px;
+                    }
+                }
+            }
+
+            &:first-child {
+                margin-right: 2%;
+            }
+
+            &:nth-child(2) {
+                .options {
+                    right: 0;
+                }
+            }
+        }
+
+    }
+}
+.module.Page_Modules_Modules_ClassroomSelectAndImage {
+    overflow-x: hidden;
+}

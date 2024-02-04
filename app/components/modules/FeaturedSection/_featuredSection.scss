@@ -1,0 +1,169 @@
+.module.Page_Modules_Modules_FeaturedSection {
+    
+    // .accent.Left {
+    //     position: relative;
+    //     overflow: hidden;
+    //     &::after {
+    //         overflow: hidden;
+    //         content: "";
+    //         width: 200%;
+    //         height: 100%;
+    //         top: 0;
+    //         left: -17rem;
+    //         background-image: url(/assets/accent-left.svg);
+    //         position: absolute;
+    //         background-size: cover;
+    //         background-position: top center;
+    //         background-repeat: no-repeat;
+    //         transform: scalex(-1);
+    //         pointer-events: none;
+    //         @include media-breakpoint-up(lg) {
+    //             left: -25rem;
+    //             width: 100%;
+    //         }
+    //     }
+    // }
+    // .accent.Right {
+    //     position: relative;
+    //     overflow: hidden;
+    //     &::after {
+    //         overflow: hidden;
+    //         content: "";
+    //         width: 200%;
+    //         height: 100%;
+    //         top: 0;
+    //         right: -17rem;
+    //         background-image: url(/assets/accent-left.svg);
+    //         position: absolute;
+    //         background-size: cover;
+    //         background-position: top center;
+    //         background-repeat: no-repeat;
+    //         pointer-events: none;
+    //         @include media-breakpoint-up(lg) {
+    //             right: -25rem;
+    //             width: 100%;
+    //         }
+    //     }
+    // }
+
+}
+.featured-section {
+    padding: 30px 0 90px;
+    @include media-breakpoint-up(lg) {
+        padding: 100px 0;
+    }
+    .header-section {
+        text-align: left;
+        margin: 15px 0 34px;
+        @include media-breakpoint-up(lg) {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+    }
+    .featured-slider {
+        z-index: 1;
+        position: relative;
+      
+        @include media-breakpoint-up(lg) {
+            display: flex !important;
+            justify-content: space-around;
+            align-items: flex-start;
+            .image {
+                padding: 0;
+                flex-basis: 60%;
+                img {
+                   
+                    margin: auto;
+                }
+            }
+            .content {
+                flex-basis: 35%;
+                .b3 {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        @include media-breakpoint-up(xl) {
+            .image {
+                img {
+                    width: 448px;
+                    height: 321px;
+                    max-width: unset;
+                }
+            }
+        }
+        img {
+            border-radius: 10px;
+            object-fit: cover;
+            object-position: center;
+            max-width: 344px;
+            width: 100%;
+            height: 333px;
+        }
+        .b4 {
+            font-weight: 900;
+            margin-top: 34px;
+            margin-bottom: 14px;
+        }
+        .b3 {
+            margin-bottom: 110px;
+        }
+    }
+    .slick-dots {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+        width: auto;
+        display: flex!important;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 6px;
+        bottom: -3.5rem;
+        @include media-breakpoint-up(lg) {
+            bottom: 0;
+            right: 10rem
+        }
+        @include media-breakpoint-up(xl) {
+            right: 13rem
+        }
+        @include media-breakpoint-up(xxl) {
+            right: 18rem;
+            bottom: 3rem;
+        }
+       
+        li {
+            margin: 0;
+            button:before {
+                content: '';
+                width: 10px;  
+                height: 10px;
+                border-radius: 50%;
+                background-color: $transparent;  
+                border: 1px solid $white;
+                opacity: 0.5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                @include transition;
+            }
+            &.slick-active button:before {
+                content: '';
+                width: 0;
+                height: 0;
+                border: unset;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 10px solid $brand-orange; 
+                background-color: transparent;
+                opacity: 1; 
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 0;
+                @include transition;
+              
+            }
+        }
+    }
+}

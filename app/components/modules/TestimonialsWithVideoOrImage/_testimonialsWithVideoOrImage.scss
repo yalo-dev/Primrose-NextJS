@@ -1,0 +1,176 @@
+.testimonials-with-video-or-image {
+    @include media-breakpoint-up(lg) {
+        display: flex;
+    }
+    .header-wrap {
+        h2 {
+            margin-bottom: 18px;
+        }
+        .b3{
+            margin-bottom: 35px;
+            color: $text-gray;
+        }
+        button {
+            margin-bottom: 60px;
+            width: auto;
+        }
+        @include media-breakpoint-up(lg) {
+            max-width: 420px;
+        }
+        @include media-breakpoint-up(xxl) {
+            margin-right: 140px;
+        }
+    }
+    .slider-wrap {
+        @include media-breakpoint-up(lg) {
+            max-width: 588px;
+            width: 100%;
+        }
+    }
+    .slider-item {
+        padding-bottom: 3rem;
+        @include media-breakpoint-up(lg) {
+            padding-bottom: 0;
+           
+            .video-wrap, .image-wrap {
+                flex-basis: 42%;
+            }
+            .text-wrap {
+                flex-basis: 34%;
+                margin-right: 5rem;
+            }
+        }
+        .video-wrap {
+            .responsive-video {
+                margin: 0;
+                aspect-ratio: unset;
+            }
+            video {
+                aspect-ratio: 588 / 330;
+                display: block;
+            }
+        }
+        .image-wrap {
+            img {
+                border-radius: 1rem;
+                width: 100%;
+                height: 100%;
+                aspect-ratio: 588 / 330;
+                object-fit: cover;
+                object-position: center;
+                @include media-breakpoint-up(lg) {
+                    height: 329px;
+                    width: 588px;
+                }
+            }
+        }
+    }
+    .text-wrap {
+        padding-top: 4rem;
+        position: relative;
+        @include media-breakpoint-up(lg) {
+            padding-top: 7rem;
+        }
+        .b4 {
+            color: $text-gray;
+        }
+        .sign {
+            text-align: left;
+            margin-top: 1rem;
+            .name {
+                font-weight: 900 !important;
+                color: $text-gray;
+            }
+        }
+        &::before {
+            position: absolute;
+            top: 1rem;
+            left: 0;
+            width: 48px;
+            height: 35px;
+            content: "";
+            background-image: url('/assets/quote.svg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+    
+            @include media-breakpoint-up(lg) {
+                width: 75px;
+                height: 56px;
+                top: 2rem;
+            }
+            // @include media-breakpoint-up(lg) {
+            //    left: 2rem;
+            // }
+            // @include media-breakpoint-up(xxl) {
+            //    left: 0
+            // }
+        }
+    }
+    .slick-dots {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+        width: fit-content;
+        display: flex!important;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 6px;
+        bottom: 2rem;
+        position: relative;
+        margin: auto;
+        @include media-breakpoint-up(lg) {
+            right: 0rem;
+            bottom: -3rem;
+            margin: unset;
+            left: 0;
+            position: absolute;
+        }
+        // @include media-breakpoint-up(xl) {
+        //     bottom: 6rem;
+        // }
+        // @include media-breakpoint-up(xxl) {
+        //     right: 25%;
+        //     bottom: 0;
+        // }
+       
+        li {
+            margin: 0;
+            button:before {
+                content: '';
+                width: 10px;  
+                height: 10px;
+                border-radius: 50%;
+                background-color: $transparent;  
+                border: 1px solid #D2D3D1;
+                opacity: 0.5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                @include transition;
+            }
+            &.slick-active button:before {
+                content: '';
+                width: 0;
+                height: 0;
+                border: unset;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 10px solid $brand-orange; 
+                background-color: transparent;
+                opacity: 1; 
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 0;
+                @include transition;
+              
+            }
+        }
+    }
+}
+
+.module.Page_Modules_Modules_TestimonialsWithVideoOrImage {
+    overflow: hidden;
+}

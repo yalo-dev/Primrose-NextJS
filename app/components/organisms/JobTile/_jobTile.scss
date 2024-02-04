@@ -1,0 +1,24 @@
+.job-tile {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: $text-gray;
+  a {
+    color: $text-gray;
+  }
+  }
+  .employment-type {
+    display: inline-block;
+    padding: 3px 8px;
+    margin: 5px 0;
+    border: 1px solid $neutral-2;
+    border-radius: 2px;
+
+  }
+  .post-date {
+    color: $grayscale-6;
+  }
+  button {
+    width: auto;
+  }
