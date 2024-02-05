@@ -1,5 +1,5 @@
-.find-a-school-container {
-    padding-top: 1rem;
+.find-a-school-cms-container {
+    //padding-top: 1rem;
     position: relative;
     background-color: $neutral-2;
     overflow: hidden;
@@ -12,30 +12,40 @@
         height: var(--view-height);
     }
 
+    .map-title {
+        width: 100%;
+        left: 0;
+        background-color: #5e6738;
+        color: white;
+        height: 9.125rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .search-box-container {
         position: relative;
         z-index: 999;
        
-        &::after{ 
-            content: "";
-                width: 100%;
-                height: 3rem;
-                top: 3rem;
-                left: 0;
-                position: absolute;
-                background: $white;
-                z-index: -1;
-        }
-        @include media-breakpoint-up(lg) {
-            width: 516px;
-            position: absolute;
-            top: 5rem;
-            left: 5rem;
-            border-radius: 10px;
-           
-            
-        }
-
+        // &::after{ 
+        //     content: "";
+        //         width: 100%;
+        //         height: 3rem;
+        //         top: 3rem;
+        //         left: 0;
+        //         position: absolute;
+        //         background: $white;
+        //         z-index: -1;
+        // }
+        // @include media-breakpoint-up(lg) {
+        //     width: 516px;
+        //     position: absolute;
+        //     top: 13rem;
+        //     left: 5rem;
+        //     border-radius: 10px;
+        // }
+        
         .tabs {
             .tab-labels {
                 display: flex;
@@ -462,12 +472,12 @@
                 flex-direction: column;
                 width: 516px;
                 height: 30rem;
-                position: relative;
+                position: absolute;
                 top: 30px;
                 left: 0;
                 background: $white;
                 border-radius: 10px;
-                overflow-x: scroll;
+                overflow-y: scroll;
                 @include transitionAll;
             }
         }
@@ -481,6 +491,11 @@
             &:first-child {
                 .school-list-item {
                     margin-top: 1rem;
+                }
+            }
+            &:last-child {
+                .school-list-item {
+                    margin-bottom: 1rem;
                 }
             }
         }
@@ -524,7 +539,7 @@
             .address {
                 color: $primary-darkgray;
                 font-family: Poppins;
-                font-size: 14px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 22px;
@@ -534,7 +549,7 @@
             .hours {
                 color: $primary-darkgray;
                 font-family: Poppins;
-                font-size: 14px;
+                font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 14px;
