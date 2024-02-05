@@ -397,7 +397,7 @@ hr {
 }
 
 .module {
-    overflow-x: hidden;
+    // overflow-x: hidden;
 }
 
 .heading .custom-select{
@@ -428,7 +428,7 @@ hr {
 }
 .locations .accordion-body .schools{
     display:flex; 
-    flex-direction:column;
+    flex-direction:row;
     flex-wrap:wrap;
     padding-bottom: 3rem;
     @include media-breakpoint-up(lg) {

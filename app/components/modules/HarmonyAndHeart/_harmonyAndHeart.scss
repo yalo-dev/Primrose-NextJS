@@ -1,6 +1,6 @@
 .harmony-and-heart {
   @include media-breakpoint-up(lg) {
-    &.sticky .left-column {
+    &.sticky .left-harmony-column {
       position: sticky;
       top: 100px;
       height: fit-content;
@@ -146,13 +146,9 @@
   }
 }
 
-.right-column {
+.right-harmony-column {
   padding-left: 0px;
   padding-right: 0px;
-}
-
-.module.Page_Modules_Modules_HarmonyAndHeart {
-  overflow-x: hidden;
 }
 
 // Add these styles to your CSS file or inline styles
@@ -211,7 +207,7 @@
     align-items: normal;
   }
 
-  .left-column {
+  .left-harmony-column {
     order: 2;
     padding-left: 0px;
     padding-right: 0px;
@@ -222,7 +218,7 @@
     margin-bottom: 20px;
   }
 
-  .right-column {
+  .right-harmony-column {
     margin-top: 40px;
     order: 1;
     margin-left: 0px;
