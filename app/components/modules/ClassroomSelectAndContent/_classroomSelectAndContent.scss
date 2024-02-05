@@ -25,27 +25,27 @@
             height: 680px;
         }
 
-        &::after {
-            content: "";
-            background-color: $primary-darkgray;
-            opacity: 0.1;
-            border-radius: 50%;
-            position: absolute;
-            width: 547px;
-            height: 547px;
-            top: 60%;
-            right: -6rem;
-            @include media-breakpoint-up(xl) {
-                width: 800px;
-                height: 800px;
-                top: 49%;
-                right: -21rem;
-            }
-            @include media-breakpoint-up(xxl){
-                top: 41%;
-                right: -13rem;
-            }
-        }
+        // &::after {
+        //     content: "";
+        //     background-color: $primary-darkgray;
+        //     opacity: 0.1;
+        //     border-radius: 50%;
+        //     position: absolute;
+        //     width: 547px;
+        //     height: 547px;
+        //     top: 60%;
+        //     right: -6rem;
+        //     @include media-breakpoint-up(xl) {
+        //         width: 800px;
+        //         height: 800px;
+        //         top: 49%;
+        //         right: -21rem;
+        //     }
+        //     @include media-breakpoint-up(xxl){
+        //         top: 41%;
+        //         right: -13rem;
+        //     }
+        // }
         .content-wrap {
             max-width: 25rem;
             @include media-breakpoint-up(lg) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-import Button from '../../atoms/Button/Button';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const containerStyle = {
@@ -8,21 +7,7 @@ const containerStyle = {
   height: '350px'
 };
 
-
-
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
-
-type School = {
-  id: number;
-  name: string;
-  address: string;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-};
 
 type Location = {
   lat: number;
@@ -46,7 +31,6 @@ type InputField = {
   location: Location | null;
   address: string;
 };
-
 
 type LocationData = {
   start: { lat: number; lng: number; } | null;
@@ -76,10 +60,14 @@ const svgIconStart = `
 </svg>
 
 `;
+
 interface SchoolsArray{
   id: number;
+  slug: string,
+  uri: string,
   name: string;
   address: string;
+  phoneNumber: any;
   hours: string;
   notes: string;
   coordinates: {
@@ -94,6 +82,7 @@ interface FindASchoolMapProps{
   center?: Location;
   place?: any;
 }
+
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     schools,
@@ -137,10 +126,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-
- 
-
-  //BRANDON RELEVENT CODE HERE
+  const [updateCount, setUpdateCount] = useState(0);
+  const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
@@ -173,21 +160,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     destination: null
   });
 
-  const [updateCount, setUpdateCount] = useState(0);
-
   useEffect(() => {
     console.log("Updated refs", waypointRefs);
     console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
-    //BRANDON RELEVENT CODE HERE ENDS
-
-
+    
   useEffect(() => {
     console.log('place');
     console.log(place);
     onPlaceSelected(place);
   }, []);
-
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -207,8 +189,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }));
   };
 
-
-  //BRANDON RELEVENT CODE HERE
   const handleAddMoreClick = () => {
     setIsAdded(true);
     const defaultLocation: Location = {
@@ -251,12 +231,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setUpdateCount(count => count + 1);
 
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-
-
-
-  const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
-
 
   const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
@@ -334,17 +308,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     } else {
         alert("Your browser doesn't support geolocation.");
     }
-};
-
+  };
 
   const handleLocationIconClick = () => {
     getCurrentLocation();
   };
 
-
-
-
-  //BRANDON RELEVENT CODE HERE
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
   
@@ -358,11 +327,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       })
     );
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-  
-  
-
-  
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
@@ -376,10 +340,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     return d * 0.621371;
   };
   
-
-
-
-  //BRANDON RELEVENT CODE HERE
   const renderRoute = () => {
     console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
@@ -484,9 +444,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }));
     }
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-
-//console.log(schools);
 
   useEffect(() => {
     if (nearInputRef.current) {
@@ -502,6 +459,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
     };
   }, []);
+
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
       mapCenter.lat,
@@ -511,16 +469,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     );
     return distance <= MAX_DISTANCE;
   });
+
   const sortedSchools = [...filteredSchools].map((school) => {
-    
     const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
     return { ...school, distance: dist };
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
-
-
-
-
 
   function onPlaceSelected(place, type = 'defaultType') {
     if (place && place.geometry && place.geometry.location) {
@@ -537,7 +491,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
       
       
-      //BRANDON RELEVENT CODE HERE 
+      
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.type === type) {
@@ -546,8 +500,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           return field;
         })
       );
-      //BRANDON RELEVENT CODE HERE ENDS
-      
+            
       
       if (type === 'start') {
         console.log('New start position:', newMapCenter);
@@ -566,8 +519,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
     }
   };
-
-
 
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
@@ -687,20 +638,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setDestination(null);
   };
 
-useEffect(() => {
-  const hash = window.location.hash;
-  if (hash === '#nearby') {
-    setActiveTab(1);
-    // Additional setup for Tab 1
-  } else if (hash === '#alongroute') {
-    setActiveTab(2);
-    // Additional setup for Tab 2
-  }
-}, []);
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#nearby') {
+      setActiveTab(1);
+      // Additional setup for Tab 1
+    } else if (hash === '#alongroute') {
+      setActiveTab(2);
+      // Additional setup for Tab 2
+    }
+  }, []);
 
-
-
-//BRANDON RELEVENT CODE HERE 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
   
@@ -747,9 +695,10 @@ useEffect(() => {
   useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
-  //BRANDON RELEVENT CODE HERE ENDS
+  
   if (loading) return <p></p>;
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
+
   return (
     <div id="map" className={'find-a-school-container ' + (title? 'title': '')}>
       {title && (
@@ -1031,7 +980,7 @@ useEffect(() => {
             <div className="nearby-schools-list">
               {sortedSchools.map((school, index) => (
                 <div key={index} className="school-list">
-                  <a href={`/school/${school.id}`}>
+                  <a href={`${school.uri}`}>
 
                     <div
                       key={index}
@@ -1068,16 +1017,21 @@ useEffect(() => {
                         <span className='address'>{school.address}</span>
                       </div>
                       <div className='hours'>{school.hours}</div>
-                      <ul className='notes'><li>{school.notes}</li></ul>
+                      {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                       <div className='button-wrap d-flex'>
-                        <Button variant="primary">Schedule a Tour</Button>
-                        <div className='phone ms-2'>
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
-                          <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
-                        </svg>
+                          <button
+                            className="button primary"
+                            onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
+                          >
+                            Schedule a Tour
+                          </button>
+                          <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                              <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
+                            </svg>
+                          </a>
                         </div>
-                      </div>
                     </div>
                   </a>
                 </div>
@@ -1169,7 +1123,7 @@ useEffect(() => {
           <div className="nearby-schools-list">
             {sortedSchools.map((school, index) => (
               <div key={index} className="school-list">
-                <a href={`/school/${school.id}`}>
+                <a href={`${school.uri}`}>
 
                   <div
                     key={index}
@@ -1206,16 +1160,21 @@ useEffect(() => {
                       <span className='address'>{school.address}</span>
                     </div>
                     <div className='hours'>{school.hours}</div>
-                    <ul className='notes'><li>{school.notes}</li></ul>
+                    {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                     <div className='button-wrap d-flex'>
-                      <Button variant="primary">Schedule a Tour</Button>
-                      <div className='phone ms-2'>
-                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
-                          <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
-                        </svg>
-                      </div>
-                    </div>
+                          <button
+                            className="button primary"
+                            onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
+                          >
+                            Schedule a Tour
+                          </button>
+                          <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                              <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
+                            </svg>
+                          </a>
+                        </div>
                   </div>
                 </a>
               </div>
