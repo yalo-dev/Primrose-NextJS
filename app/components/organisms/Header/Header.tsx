@@ -117,7 +117,7 @@ export default function Header({ menuItems }) {
                             <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="white" />
                         </svg>
                     </span>
-                </div>
+                </div> 
                 {hasChildren && (
                     <ul className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
                         <div className="back" onClick={closeSubmenu}>
@@ -159,6 +159,7 @@ export default function Header({ menuItems }) {
             </li>
         );
     };
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
