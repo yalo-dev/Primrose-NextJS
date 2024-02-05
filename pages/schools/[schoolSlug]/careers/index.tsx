@@ -43,19 +43,18 @@ export async function getServerSideProps(context) {
               caption
             }
             testimonialsCareers {
-              ... on Testimonial {
-                id
-                testimonials {
-                  name
-                  title
-                  testimonial
-                  featuredImage {
+                headline
+                name
+                title
+                testimonial
+                testimonialImage {
+                  altText
+                  image {
+                    mediaItemUrl
                     sourceUrl
-                    altText
                   }
                 }
               }
-            }
             jobPostings {
               jobTitle
               jobType
@@ -80,7 +79,8 @@ export async function getServerSideProps(context) {
             query: GET_SCHOOLS,
             variables: { id: `/schools/${schoolSlug}/` },
         });
-
+        console.log("!!!!! repsonse !!!!!")
+        console.log(response);
         const school = response?.data?.school;
         if (!school) {
             return { notFound: true };
@@ -206,12 +206,12 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
         }
 
         const sliderItems = testimonialsData.map(item => {
-            const testimonial = item.testimonials;
+            const testimonial = item;
 
             return {
                 image: {
-                    sourceUrl: testimonial.featuredImage?.sourceUrl,
-                    altText: testimonial.featuredImage?.altText || 'Testimonial Image'
+                    sourceUrl: testimonial.testimonialImage?.image?.sourceUrl,
+                    altText: testimonial.testimonialImage?.altText || 'Testimonial Image'
                 },
                 testimonial: testimonial.testimonial,
                 title: testimonial.name,

@@ -182,7 +182,7 @@
             border-radius: 5px;
             color: $primary-green;
             width: 226px;
-            left: calc(50% - 113px);
+            //left: calc(50% - 113px);
             -moz-appearance: none;
             -webkit-appearance: none;
             appearance: none;
@@ -192,7 +192,7 @@
             }
 
             &:first-child {
-                margin-right: 2%;
+                //margin-right: 2%;
             }
 
             .header {
@@ -465,6 +465,15 @@
 
     .franchise-owners {
         padding: 30px auto;
+
+        .bio{
+            display:-webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 6;
+            max-height:175px;
+            overflow:hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .modal-overlay {
@@ -527,6 +536,10 @@
 
             &.show {
                 transform: scale(1);
+            }
+            .modal-bio{
+                height:370px;
+                overflow-y: auto;
             }
         }
 

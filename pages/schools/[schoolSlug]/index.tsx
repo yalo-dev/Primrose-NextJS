@@ -355,7 +355,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                          <Heading level='h2'>Our family would love to meet yours.</Heading>
                         <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
                       
-                            <Button variant="secondary" href={"/" + school.slug + "/schedule-a-tour"}>
+                            <Button variant="secondary" href={"/schools/" + school.slug + "/schedule-a-tour"}>
                                 Schedule A Tour
                             </Button>
                         

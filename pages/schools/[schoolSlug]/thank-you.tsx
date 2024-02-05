@@ -17,44 +17,41 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
-          schoolSettings {
-            details {
-                general {
-                  instagram {
-                    url
-                  }
-                  facebook {
-                    url
-                  }
+          schoolAdminSettings {
+            instagramLink
+            yelpLink
+            googleLink
+            facebookLink
+            hoursOfOperation {
+              openingTime
+              closingTime
+            }
+            meetStaffImage {
+                altText
+                mediaItemUrl
+                sourceUrl
+            }
+            franchiseOwner {
+                bio
+                multipleOwners
+                name
+                image {
+                    mediaItemUrl
+                    sourceUrl
                 }
             }
-            staff {
-              meetOurStaff {
-                leftColumn {
-                  altText
-                  image {
-                    sourceUrl
-                  }
-                }
-                rightColumn {
-                  blurb
-                  heading
-                }
-              }
-              franchiseOwners {
-                leftColumn {
-                  name
-                  bio
-                  oneOrMultiple
-                }
-                rightColumn {
-                  altText
-                  image {
-                    sourceUrl
-                  }
-                }
-              }
+          }
+          schoolCorporateSettings {
+            schoolName
+            careerplugSchoolId
+            address {
+              city
+              state
+              zipcode
+              streetAddress
+              streetAddress2
             }
+            phoneNumber
           }
         }
       }
@@ -65,27 +62,27 @@ export async function getServerSideProps(context) {
     });
 
     // Extract the data
-    const { staff, details } = response?.data?.school?.schoolSettings;
-    const { general } = details;
-
+    const staff = response?.data?.school?.schoolAdminSettings.meetStaffImage;
+    const school = response?.data?.school;
     return {
         props: {
+            school,
             staff,
             schoolSlug,
             socialLinks: {
-                facebook: general.facebook.url,
-                instagram: general.instagram.url
+                facebook: school.schoolAdminSettings.facebookLink,
+                instagram: school.schoolAdminSettings.instagramLink
             }
         },
     };
 
 }
 
-export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
+export default function ThankYouPage({ school, staff, schoolSlug, socialLinks }) {
 
     const [showModal, setShowModal] = useState(false);
-    const { meetOurStaff } = staff;
-
+    const meetOurStaff = staff;
+    const franchiseOwner = school.schoolAdminSettings.franchiseOwner;
     const handleOpenModal = () => {
         setShowModal(true);
         document.body.style.overflow = 'hidden';
@@ -118,9 +115,9 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                             <img src={imageSrc} alt='Franchise Owner' />
                         </div>
                         <div className='right-column'>
-                            <h5 className='b4'>{staff.franchiseOwners.leftColumn?.name}</h5>
-                            <div className='b3 pb-3'>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</div>
-                            <p className='b2' dangerouslySetInnerHTML={{ __html: bio }} />
+                            <h5 className='b4'>{franchiseOwner.name}</h5>
+                            <div className='b3 pb-3'>{!franchiseOwner.multipleOwners  ? 'Franchise Owner' : 'Franchise Owners'}</div>
+                            <div className='modal-bio' dangerouslySetInnerHTML={{ __html: bio }} />
                         </div>
                     </div>
                 </div>
@@ -130,14 +127,13 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
 
     return (
         <div className='school thank-you'>
-            <div className='container'>
+            <div className='container staff'>
                  {/* Thank You Section */}
                 
                     <div className='franchise-owners'>
-                        {staff.franchiseOwners && (
+                        {franchiseOwner && (
                             <div className='thank two-columns-image-and-text-alternative reverse-column'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    {staff.franchiseOwners.rightColumn?.image && (
                                         <img
                                             src='/assets/baby.png'
                                             alt='feature image'
@@ -145,7 +141,6 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                                             width="500"
                                             height="500"
                                         />
-                                    )}
                                 </div>
                                 <div className='right-column col-12 col-lg-5'>
                                     <h2 className='green'>Thank You</h2>
@@ -202,13 +197,13 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                 {/* Franchise Owners Section */}
               
                     <div className='franchise-owners'>
-                        {staff.franchiseOwners && (
+                        {franchiseOwner && (
                             <div className='two-columns-image-and-text-alternative reverse-column'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    {staff.franchiseOwners.rightColumn?.image && (
+                                    {franchiseOwner.image && (
                                         <img
-                                            src={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                                            alt={staff.franchiseOwners.rightColumn.altText || 'feature image'}
+                                            src={franchiseOwner.image.sourceUrl}
+                                            alt={'Franchise Owner ' + franchiseOwner.name || 'feature image'}
                                             className='img-fluid'
                                             width="500"
                                             height="500"
@@ -216,15 +211,15 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                                     )}
                                 </div>
                                 <div className='right-column col-12 col-lg-5'>
-                                    <h2>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</h2>
-                                    <h5>{staff.franchiseOwners.leftColumn?.name}</h5>
-                                    <p className='b3'>{truncateText(staff.franchiseOwners.leftColumn?.bio, 280)}</p>
+                                    <h2>{!franchiseOwner.multipleOwners ? 'Franchise Owner' : 'Franchise Owners'}</h2>
+                                    <h5>{franchiseOwner?.name}</h5>
+                                    <div className='bio' dangerouslySetInnerHTML={{__html: franchiseOwner.bio}} />
                                     <Button onClick={handleOpenModal}>Read More</Button>
                                     <Modal
                                         show={showModal}
                                         onClose={handleCloseModal}
-                                        imageSrc={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                                        bio={staff.franchiseOwners.leftColumn.bio}
+                                        imageSrc={franchiseOwner.image.sourceUrl}
+                                        bio={franchiseOwner.bio}
                                     />
                                 </div>
                             </div>
@@ -237,10 +232,10 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                         {meetOurStaff && (
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    {meetOurStaff.leftColumn.image && (
+                                    {meetOurStaff && (
                                         <img
-                                            src={meetOurStaff.leftColumn.image.sourceUrl}
-                                            alt={meetOurStaff.leftColumn.altText || 'Staff Image'}
+                                            src={meetOurStaff.sourceUrl}
+                                            alt={meetOurStaff.altText || 'Staff Image'}
                                             className='img-fluid'
                                             width="500"
                                             height="500"
@@ -248,8 +243,8 @@ export default function ThankYouPage({ staff, schoolSlug, socialLinks }) {
                                     )}
                                 </div>
                                 <div className='right-column col-12 col-lg-4 offset-lg-1'>
-                                    <h2>{meetOurStaff.rightColumn.heading}</h2>
-                                    <p className='b3'>{meetOurStaff.rightColumn.blurb}</p>
+                                    <h2>Meet Our Staff</h2>
+                                    <p className='b3'>When children feel safe, loved and confident, they can learn and grow to their fullest potential. That’s why Primrose school teachers and staff are dedicated to creating an environment that helps lay the foundation for a lifelong love of learning.</p>
                                         <Button
                                             href={`/schools/${schoolSlug}/staff`} 
                                             target='self'

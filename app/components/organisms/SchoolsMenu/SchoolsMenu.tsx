@@ -13,19 +13,6 @@ const GET_SCHOOL_DETAILS = gql`
       slug
       uri
       title
-      schoolSettings {
-        details {
-          corporate {
-            schoolName
-          }
-        }
-        classrooms {
-          classroomSelection {
-            selectClassrooms
-          }
-        }
-        
-      }
       schoolCorporateSettings {
           schoolOfAtOn
         }

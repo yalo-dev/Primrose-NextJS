@@ -13,60 +13,32 @@ export async function getServerSideProps(context) {
     const GET_THANKS_FIELDS = gql`
     query SchoolData($id: ID!) {
         school(id: $id, idType: URI) {
-          id
-          slug
-          uri
-          schoolSettings {
-            details {
-              corporate {
-                schoolOpening
-                schoolName
-                phoneNumber
-                longitude
-                latitude
-                formNotificationEmail
-                emailAddress
-                address {
-                  city
-                  state
-                  streetAddress
-                  streetAddress2
-                  zipcode
-                }
-              }
-              general {
-                facebook {
-                  target
-                  title
-                  url
-                }
-                contactEmail {
-                  email
-                }
-                instagram {
-                  target
-                  title
-                  url
-                }
-                scheduleATour {
-                  heading
-                  button {
-                    target
-                    title
-                    url
-                  }
-                  images {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                  subheading
-                }
-                schoolHours
+            id
+            slug
+            uri
+            title
+            schoolAdminSettings {
+              instagramLink
+              yelpLink
+              googleLink
+              facebookLink
+              hoursOfOperation {
+                openingTime
+                closingTime
               }
             }
-          }
+            schoolCorporateSettings {
+              schoolName
+              careerplugSchoolId
+              address {
+                city
+                state
+                zipcode
+                streetAddress
+                streetAddress2
+              }
+              phoneNumber
+            }
         }
       }
     `;
@@ -76,17 +48,17 @@ export async function getServerSideProps(context) {
     });
 
     const schoolData = response?.data?.school;
-    const schoolSettings = schoolData?.schoolSettings || {};
+    const schoolSettings = schoolData.schoolAdminSettings || {};
 
     return {
         props: {
             schoolSlugInput: schoolData?.slug || '',
-            corporate: schoolSettings?.corporate || {}, 
+            corporate: schoolData?.schoolCorporateSettings || {}, 
             socialLinks: {
-                facebook: schoolSettings?.general?.facebook?.url || '',
-                instagram: schoolSettings?.general?.instagram?.url || ''
+                facebook: schoolSettings?.facebookLink || '',
+                instagram: schoolSettings?.instagramLink || ''
             },
-            schoolHours: schoolSettings?.general?.schoolHours || ''
+            schoolHours: 'M-F ' + schoolSettings?.hoursOfOperation.openingTime + " - " + schoolSettings?.hoursOfOperation.closingTime || ''
         },
     };
 }

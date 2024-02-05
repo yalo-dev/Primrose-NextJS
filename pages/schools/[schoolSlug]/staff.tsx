@@ -28,49 +28,39 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
-          schoolSettings {
-            details {
-              general {
-                scheduleATour {
-                  heading
-                  subheading
-                  button {
-                    target
-                    title
-                    url
-                  }
-                  images {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                }
+          schoolAdminSettings {
+            staffMembers {
+              bio
+              classroomAssignment
+              group
+              image {
+                mediaItemUrl
+                sourceUrl
+              }
+              altText
+              name
+              title
+            }
+            meetStaffImage {
+              altText
+              mediaItemUrl
+              sourceUrl
+            }
+            satImages {
+              imageAlt
+              image {
+                mediaItemUrl
+                sourceUrl
               }
             }
-            staff {
-              staffMembers {
+            franchiseOwner {
+              bio
+              multipleOwners
+              name
+              image {
                 altText
-                image {
-                  sourceUrl
-                }
-                name
-                title
-                bio
-                group
-              }
-              franchiseOwners {
-                leftColumn {
-                  name
-                  bio
-                  oneOrMultiple
-                }
-                rightColumn {
-                  altText
-                  image {
-                    sourceUrl
-                  }
-                }
+                sourceUrl
+                mediaItemUrl
               }
             }
           }
@@ -83,21 +73,23 @@ export async function getServerSideProps(context) {
     variables: { id: schoolSlug }
   });
 
-  const staff = response?.data?.school?.schoolSettings?.staff;
-  const ScheduleATour = response?.data?.school?.schoolSettings?.details?.general?.scheduleATour;
-
+  const staff = response?.data?.school?.schoolAdminSettings?.staffMembers;
+  const ScheduleATour = response?.data?.school?.schoolAdminSettings?.satImages;
+  const franchiseOwner = response?.data?.school?.schoolAdminSettings?.franchiseOwner;
+  console.log(staff);
   return {
     props: {
       staff,
       schoolSlug,
-      ScheduleATour
+      ScheduleATour,
+      franchiseOwner
     },
   };
 }
 
-export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
+export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseOwner }) {
 
-  const hasScheduleATour = !!ScheduleATour?.heading || !!ScheduleATour?.subheading || !!ScheduleATour?.button || (ScheduleATour?.images && ScheduleATour?.images.length > 0);
+  const hasScheduleATour = ScheduleATour?.length > 0;
 
   const leftScrollerRef = useRef<HTMLDivElement>(null);
   const rightScrollerRef = useRef<HTMLDivElement>(null);
@@ -108,14 +100,14 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
   const initialStaffCount = 20;
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
-  const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff.staffMembers);
+  const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
   const [selectedGroup, setSelectedGroup] = useState('All'); // Initialize selectedGroup with 'All'
 
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };
 
-  const canLoadMore = staff.staffMembers.length > visibleStaffCount;
+  const canLoadMore = staff.length > visibleStaffCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
@@ -192,12 +184,12 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
           </div>
           <div className='two-columns-image-and-text-alternative'>
             <div className='left-column'>
-              <img src={imageSrc} alt='Franchise Owner' />
+              <img src={franchiseOwner.image.sourceUrl} alt={'Franchise Owner ' + franchiseOwner.name} />
             </div>
             <div className='right-column'>
-              <h5 className='b4'>{staff.franchiseOwners.leftColumn?.name}</h5>
-              <div className='b3 pb-3'>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</div>
-              <p className='b2' dangerouslySetInnerHTML={{ __html: bio }} />
+              <h5 className='b4'>{franchiseOwner.name}</h5>
+              <div className='b3 pb-3'>{franchiseOwner.multipleOwners ? 'Franchise Owners' : 'Franchise Owner'}</div>
+              <div className="modal-bio" dangerouslySetInnerHTML={{__html:franchiseOwner.bio}} />
             </div>
           </div>
         </div>
@@ -233,12 +225,12 @@ const handleSelectedGroup = (selectedOption) => {
 useEffect(() => {
   console.log('Selected Group in useEffect:', selectedGroup); // Debugging
   const filtered = selectedGroup === 'All' 
-      ? staff.staffMembers 
-      : staff.staffMembers.filter(member => member.group === selectedGroup);
+      ? staff 
+      : staff.filter(member => member.group === selectedGroup);
 
   console.log('Filtered Staff Members:', filtered); // Debugging
   setFilteredStaffMembers(filtered);
-}, [selectedGroup, staff.staffMembers]);
+}, [selectedGroup, staff]);
 
   return (
     <div className='school staff'>
@@ -298,13 +290,13 @@ useEffect(() => {
         {/* Franchise Owners Section */}
         <div className='row'>
           <div className='franchise-owners'>
-            {staff.franchiseOwners && (
+            {franchiseOwner && (
               <div className='two-columns-image-and-text-alternative reverse-column'>
                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                  {staff.franchiseOwners.rightColumn?.image && (
+                  {franchiseOwner?.image && (
                     <img
-                      src={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                      alt={staff.franchiseOwners.rightColumn.altText || 'feature image'}
+                      src={franchiseOwner.image.sourceUrl}
+                      alt={'Franchise Owner ' + franchiseOwner.name}
                       className='img-fluid'
                       width="500"
                       height="500"
@@ -312,15 +304,15 @@ useEffect(() => {
                   )}
                 </div>
                 <div className='right-column col-12 col-lg-5'>
-                  <h2>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</h2>
-                  <h5>{staff.franchiseOwners.leftColumn?.name}</h5>
-                  <p className='b3'>{truncateText(staff.franchiseOwners.leftColumn?.bio, 280)}</p>
+                  <h2>{!franchiseOwner.multipleOwners ? 'Franchise Owner' : 'Franchise Owners'}</h2>
+                  <h5>{franchiseOwner.name}</h5>
+                  <div className="bio" dangerouslySetInnerHTML={{__html:franchiseOwner.bio}} />
                   <Button onClick={handleOpenModal}>Read More</Button>
                   <Modal
                     show={showModal}
                     onClose={handleCloseModal}
-                    imageSrc={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                    bio={staff.franchiseOwners.leftColumn.bio}
+                    imageSrc={franchiseOwner.image.sourceUrl}
+                    bio={franchiseOwner.bio}
                   />
                 </div>
               </div>
@@ -329,41 +321,41 @@ useEffect(() => {
         </div>
       </div>
       {hasScheduleATour && (
-        <div className='container'>
-          <div className='find-a-school'>
-            <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-              {ScheduleATour?.heading && <Heading level='h2'>{ScheduleATour.heading}</Heading>}
-              {ScheduleATour?.subheading && <Subheading level='div' className='b3'>{ScheduleATour.subheading}</Subheading>}
-              {ScheduleATour?.button?.url && ScheduleATour?.button.title && (
-                <Button variant='secondary' href={ScheduleATour.button.url} target={ScheduleATour.button.target || '_self'}>
-                  {ScheduleATour.button.title}
-                </Button>
-              )}
-            </div>
-            <div className='right-column col-4 col-lg-5 col-xxl-6'>
-              {ScheduleATour.images && ScheduleATour.images.length > 0 && (
-                <>
-                  <div className="image-scroller first" ref={leftScrollerRef}>
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                  </div>
-                  <div className="image-scroller second" ref={rightScrollerRef}>
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+         <div className='container'>
+         <div className='find-a-school'>
+             <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
+                  <Heading level='h2'>Our family would love to meet yours.</Heading>
+                 <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
+               
+                     <Button variant="secondary" href={"/schools/" + schoolSlug + "/schedule-a-tour"}>
+                         Schedule A Tour
+                     </Button>
+                 
+             </div>
+             <div className='right-column col-4 col-lg-5 col-xxl-6'>
+                 {ScheduleATour && ScheduleATour.length > 0 && (
+                     <>
+                         <div className="image-scroller first" ref={leftScrollerRef}>
+                             {ScheduleATour.map((imgObj, idx) => (
+                                 imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                             ))}
+                             {ScheduleATour.map((imgObj, idx) => (
+                                 imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                             ))}
+                         </div>
+                         <div className="image-scroller second" ref={rightScrollerRef}>
+                             {ScheduleATour.map((imgObj, idx) => (
+                                 imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                             ))}
+                             {ScheduleATour.map((imgObj, idx) => (
+                                 imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
+                             ))}
+                         </div>
+                     </>
+                 )}
+             </div>
+         </div>
+     </div>
       )}
     </div>
   );
