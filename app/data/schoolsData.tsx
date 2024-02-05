@@ -2,7 +2,9 @@ import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
 
 export interface School {
-    id: number;
+    id: any;
+    uri: string;
+    slug: string;
     name: string;
     address: string;
     hours: string;
@@ -19,6 +21,8 @@ export interface School {
     query GetSchools {
         schools (first:1000) {
           nodes {
+            id
+            slug
             uri
             title
             schoolCorporateSettings {
@@ -51,7 +55,9 @@ export interface School {
     let schoolAddress = school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode;
     
     _schools.push({
-      id: 1,
+      id: school.id,
+      slug: school.slug,
+      uri: school.uri,
       name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
       address: schoolAddress,
       hours: "M-F 7:00AM-6:00PM",

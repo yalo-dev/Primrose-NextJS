@@ -189,9 +189,24 @@
             margin: auto;
             
             .name-wrapper { 
+                &:hover {
+                    h5 {
+                        color: $brand-blue;
+                    }    
+                    .icon {
+                        margin-right: -1rem;
+                        svg path {
+                            fill: $brand-blue;
+                        }
+                    }
+                }
                 h5 {
                     color: $text-gray;
-                }      
+                    @include transitionAll;
+                }    
+                .icon {
+                    @include transitionAll;
+                }  
             }
             .phone {
                 color: $text-gray;
