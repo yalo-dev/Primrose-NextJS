@@ -74,7 +74,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
   return (
     <div className='container'>
       <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}` } ref={pathwayRef} >
-        <div className='left-column col-lg-4 '>
+        <div className='left-harmony-column col-lg-4 '>
           <div className='wrap mt-4'>
             {leftColumn?.displayMusicPlayer && (
               <>
@@ -102,7 +102,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
           </div>
         </div>
 
-        <div className='right-column col-lg-7 offset-1'>
+        <div className='right-harmony-column col-lg-7 offset-1'>
           {rightHarmonyColumn?.musicCollection?.map((collection, index) => (
             <div key={index} className='container music-collection-item'>
               <div className='row music-row mb-3'>
