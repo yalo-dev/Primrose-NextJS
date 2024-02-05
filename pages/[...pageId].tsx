@@ -1079,6 +1079,7 @@ query GetModules($id: ID = "") {
 				title
 				url
 			  }
+			  showDropdown
 			  options {
 				option {
 				  target

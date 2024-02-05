@@ -13,11 +13,6 @@ interface OptionType {
     target?: string;
 }
 
-interface ButtonProps {
-    // Other props...
-    variant?: 'primary' | 'secondary'; // Make sure to include this line
-}
-
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
     centerModule?: boolean;
@@ -30,13 +25,14 @@ interface TwoColumnsImageAndTextProps {
             title?: string;
             url?: string;
         };
-        buttonStyle?: 'Green' | 'White';
+        buttonStyle?: string;
         buttonTwo?: {
             target?: string;
             title?: string;
             url?: string;
         }
         buttonTwoStyle?: string;
+        showDropdown?: boolean;
         options?: {
             option?: {
                 target?: string;
@@ -174,7 +170,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                                     href={rightColumn.button.url}
                                     target={rightColumn.button.target}
                                     label={rightColumn.button.title}
-                                    variant={rightColumn.buttonStyle === 'Green' ? 'primary' : 'secondary'}
+                                    variant={rightColumn.buttonStyle || 'primary'}
                                 >
                                     {rightColumn.button.title}
                                 </Button>
@@ -184,14 +180,14 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                                     href={rightColumn.buttonTwo.url}
                                     target={rightColumn.buttonTwo.target}
                                     label={rightColumn.buttonTwo.title}
-                                    variant={rightColumn.buttonTwoStyle === 'Green' ? 'primary' : 'secondary'}
+                                    variant={rightColumn.buttonTwoStyle || 'primary'}
                                 >
                                     {rightColumn.buttonTwo.title}
                                 </Button>
                             )}
-                        {/* {(dropdownOptions.length > 0) && (
-                            <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
-                        )} */}
+                        {rightColumn?.showDropdown && dropdownOptions && dropdownOptions.length > 0 && (
+                                <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
+                            )}
                     </div>
                 </div>
             </div>
