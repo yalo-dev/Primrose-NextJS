@@ -171,7 +171,7 @@ export default function Location({ locationData }){
         query GetLocationData {
             market(id: "${'locations/' + slug}", idType: URI) {
                 name
-                schools (first:100000) {
+                schools (first:100000, where: {orderby: {field: TITLE, order: ASC}) {
                   nodes {
                     title
                     uri
