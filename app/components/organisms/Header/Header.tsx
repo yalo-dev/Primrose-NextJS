@@ -302,20 +302,7 @@ export default function Header({ menuItems }) {
                                 </svg>
                             </div>
                         </div>
-                        <div className={`trending-searches ${inputText ? 'hide' : ''}`}>
-                            <div className="container d-flex">
-                                <h5 className="title">Trending Searches:</h5>
-                                <div className="suggestions">
-                                    <ul>
-                                        {data && data.siteSettings.siteSettings.trendingSearches.map((item, index) => (
-                                            <li  className="b3" key={index}>
-                                                <a  href={item.searchItem.url} target={item.searchItem.target}>{item.searchItem.title}</a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </nav>

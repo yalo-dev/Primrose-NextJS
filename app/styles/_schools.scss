@@ -358,7 +358,7 @@
             flex-wrap: wrap;
             align-items: flex-start;
             gap: 26px;
-            margin: 40px 150px 100px;
+            margin: 40px auto;
         }
 
         .staff-member {
@@ -368,7 +368,9 @@
             width: 375px;
             padding-right: 0px;
             position: relative;
-
+            .col-4{
+                padding:0;
+            }
             img {
                 height: 100px;
                 display: block;

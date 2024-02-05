@@ -82,7 +82,6 @@ query SchoolData($id: ID!) {
         }
         classroomsOffered
         extraCareOffered
-        primroseCommitment
         displayEmergencyAlert
         emergencyMessage {
           message
@@ -281,7 +280,7 @@ export default function ClassroomPage() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-
+ 
     useEffect(() => {
         if (data) {
             const handleClick = (event) => {
@@ -340,7 +339,7 @@ export default function ClassroomPage() {
             clearInterval(intervalId);
         };
     }, []);
-    console.log(data);
+    console.log(error);
     if (loading) return <div></div>;
     if (error) return <div></div>;
     if (!data?.school) return <div></div>;
@@ -437,7 +436,7 @@ export default function ClassroomPage() {
                                     />
                                 </div>
                             )}
-                            {heroWithImage.icon.sourceUrl && (
+                            {heroWithImage?.icon?.sourceUrl && (
                                 <div className='right-column col-12 col-lg-6'>
                                     {heroWithImage?.icon?.sourceUrl && (
                                         <div className='icon d-none d-lg-block'>
@@ -570,7 +569,7 @@ export default function ClassroomPage() {
                              <Heading level='h2'>Our family would love to meet yours.</Heading>
                             <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
                           
-                                <Button variant="secondary" href={"/" + currentSlug + "/schedule-a-tour"}>
+                                <Button variant="secondary" href={"/schools/" + currentSlug + "/schedule-a-tour"}>
                                     Schedule A Tour
                                 </Button>
                             
