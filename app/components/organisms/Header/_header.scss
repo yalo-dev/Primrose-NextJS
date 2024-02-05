@@ -99,7 +99,7 @@
             background-color: $white;
             height: auto;
             width: auto;
-            //position: relative;
+            position: relative;
             top: 0;
             overflow-y: hidden;
             overflow: visible;
@@ -297,7 +297,7 @@
                     }
                 }
                 @include media-breakpoint-up(lg) {
-                    //position: relative;
+                    position: relative;
                     
                     &:hover {
                         .submenu {
