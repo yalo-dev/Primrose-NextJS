@@ -135,7 +135,7 @@ export default function Locations({ markets, schools }) {
             </div>
             <div className='container locations py-5'>
 
-                <div className='row py-5'>
+                <div className='row py-md-5 py-0'>
 
                     {states.map((state, i) => (
                         <>
@@ -149,7 +149,7 @@ export default function Locations({ markets, schools }) {
 
                                     <h2 className="accordion-header" id={'heading'+index}>
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
-                                            <h5>{market.name}</h5>
+                                        <h5 style={{ whiteSpace: 'normal' }}>{market.name}</h5>
                                         </button>
                                     </h2>
                                     <div id={"collapse" + index} className="accordion-collapse collapse" data-bs-parent={"#" + slugify(state, {lower:true})}>

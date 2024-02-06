@@ -76,9 +76,9 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
       <div className={`harmony-and-heart row ${isSticky ? 'sticky' : ''}` } ref={pathwayRef} >
         <div className='left-harmony-column col-lg-4 '>
           <div className='wrap mt-4'>
+          <Heading level='h2'>{leftColumn.heading}</Heading>
             {leftColumn?.displayMusicPlayer && (
               <>
-                <Heading level='h2'>{leftColumn.heading}</Heading>
                 <div className='music-player-container'>
                   <div className='row'>
                     <img

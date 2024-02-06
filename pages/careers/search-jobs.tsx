@@ -29,7 +29,7 @@ const SearchComponent = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
 
   const distanceOptions = [
-    { label: 'Within 1 miles', value: '1', url: '#', target: '_self' },
+    { label: 'Within 1 mile', value: '1', url: '#', target: '_self' },
     { label: 'Within 5 miles', value: '5', url: '#', target: '_self' },
     { label: 'Within 10 miles', value: '10', url: '#', target: '_self' },
     { label: 'Within 25 miles', value: '25', url: '#', target: '_self' },
