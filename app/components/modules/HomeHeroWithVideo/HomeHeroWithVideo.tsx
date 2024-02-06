@@ -6,7 +6,9 @@ import Button from '../../atoms/Button/Button';
 import SchoolData from '../../../../app/data/schoolsData';
 
 interface School {
-    id: number;
+    id: any;
+    slug: string,
+    uri: string, 
     name: string;
     address: string;
     hours: string;
@@ -219,7 +221,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 >
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-none d-lg-block'>
+                            <div className='heading-wrapper d-none d-lg-block pt-5'>
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
@@ -284,7 +286,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 {nearestSchool && (
                                     <>
                                         <div className='name-wrapper d-flex justify-content-between'>
-                                            <div className='name'><h5>{nearestSchool.name}</h5></div>
+                                            <a href={nearestSchool.uri} className='name'><h5>{nearestSchool.name}</h5></a>
                                             <div className='icon'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#555F68" />
@@ -330,7 +332,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             )}
 
                             {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
-                                <div className='image-wrapper'>
+                                <div className='image-wrapper mb-4 mb-lg-0'>
                                     <img
                                         src={rightColumn.image?.sourceUrl}
                                         alt={rightColumn.image?.altText}

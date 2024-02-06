@@ -17,18 +17,6 @@ const center = {
 
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
-type School = {
-  id: number;
-  name: string;
-  address: string;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-};
-
 type Location = {
   lat: number;
   lng: number;
@@ -48,7 +36,6 @@ type InputField = {
   location: Location | null;
   address: string;
 };
-
 
 type LocationData = {
   start: { lat: number; lng: number; } | null;
@@ -115,15 +102,12 @@ const FindASchool = () => {
   const [searchText, setSearchText] = useState('');
 
 
-
-
-
-  //BRANDON RELEVENT CODE HERE
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
   
+
   const handleNewWaypoint = (newWaypoint) => {
     setWaypoints([...waypoints, newWaypoint]);
   
@@ -145,23 +129,22 @@ const FindASchool = () => {
     console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
   };
   
+
   const [locationData, setLocationData] = useState<LocationData>({
     start: null,
     waypoints: [],
     destination: null
   });
 
+
   const [updateCount, setUpdateCount] = useState(0);
+
 
   useEffect(() => {
     console.log("Updated refs", waypointRefs);
     console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
-    //BRANDON RELEVENT CODE HERE ENDS
-
-
-
-
+  
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -174,15 +157,15 @@ const FindASchool = () => {
     };
   }, []);
 
+
   const handleAutocompleteLoad = (key, autocomplete) => {
     setAutocompleteInstances(prev => ({
       ...prev,
       [key]: autocomplete
     }));
   };
+ 
 
-
-  //BRANDON RELEVENT CODE HERE
   const handleAddMoreClick = () => {
     setIsAdded(true);
     const defaultLocation: Location = {
@@ -225,8 +208,6 @@ const FindASchool = () => {
     setUpdateCount(count => count + 1);
 
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-
 
 
   const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
@@ -263,6 +244,7 @@ const FindASchool = () => {
       }
     }
   };
+
 
   const getCurrentLocation = () => {
     if (!geocoder) {
@@ -308,17 +290,14 @@ const FindASchool = () => {
     } else {
         alert("Your browser doesn't support geolocation.");
     }
-};
+  };
 
 
   const handleLocationIconClick = () => {
     getCurrentLocation();
   };
 
-
-
-
-  //BRANDON RELEVENT CODE HERE
+ 
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
   
@@ -332,11 +311,7 @@ const FindASchool = () => {
       })
     );
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-  
-  
 
-  
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
@@ -350,10 +325,7 @@ const FindASchool = () => {
     return d * 0.621371;
   };
   
-
-
-
-  //BRANDON RELEVENT CODE HERE
+ 
   const renderRoute = () => {
     console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
@@ -432,6 +404,7 @@ const FindASchool = () => {
     });
   };
 
+
   const onWaypointSelected = (waypointId, selectedPlace) => {
     if (selectedPlace && selectedPlace.geometry && selectedPlace.geometry.location) {
       let newMapCenter = {
@@ -458,8 +431,6 @@ const FindASchool = () => {
       }));
     }
   };
-  //BRANDON RELEVENT CODE HERE ENDS
-
 
 
   useEffect(() => {
@@ -477,6 +448,7 @@ const FindASchool = () => {
     };
   }, []);
 
+
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
       mapCenter.lat,
@@ -487,14 +459,12 @@ const FindASchool = () => {
     return distance <= MAX_DISTANCE;
   });
 
+
   const sortedSchools = [...filteredSchools].map((school) => {
     const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
     return { ...school, distance: dist };
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
-
-
-
 
 
   function onPlaceSelected(place, type = 'defaultType') {
@@ -512,7 +482,7 @@ const FindASchool = () => {
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
       
       
-      //BRANDON RELEVENT CODE HERE 
+      
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.type === type) {
@@ -521,7 +491,7 @@ const FindASchool = () => {
           return field;
         })
       );
-      //BRANDON RELEVENT CODE HERE ENDS
+    
       
       
       if (type === 'start') {
@@ -541,8 +511,6 @@ const FindASchool = () => {
       }
     }
   };
-
-
 
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
@@ -674,8 +642,6 @@ useEffect(() => {
 }, []);
 
 
-
-//BRANDON RELEVENT CODE HERE 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
   
@@ -722,7 +688,7 @@ useEffect(() => {
   useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
-  //BRANDON RELEVENT CODE HERE ENDS
+
 
   return (
     <div className='find-a-school-container'>
@@ -1001,10 +967,10 @@ useEffect(() => {
             className="list-scroller desktop"
           >
             <div className="nearby-schools-list">
-              {sortedSchools.map((school) => (
+            {sortedSchools.map((school) => {
+              return (
                 <div key={school.id} className="school-list">
-                  <a href={`/school/${school.id}`}>
-
+                  <a href={`${school.uri}`}>
                     <div
                       key={school.id}
                       className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
@@ -1053,7 +1019,8 @@ useEffect(() => {
                     </div>
                   </a>
                 </div>
-              ))}
+              );
+            })}
             </div>
           </div>
         </div>
@@ -1142,8 +1109,7 @@ useEffect(() => {
           <div className="nearby-schools-list">
             {sortedSchools.map((school) => (
               <div key={school.id} className="school-list">
-                <a href={`/school/${school.id}`}>
-
+                <a href={`${school.uri}`}>
                   <div
                     key={school.id}
                     className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}

@@ -20,6 +20,7 @@
             }
             .clear-icon {
                 position: absolute;
+                cursor: pointer;
                 right: 1rem;
                 top: 0.75rem;
                 opacity: 0;
@@ -36,6 +37,7 @@
             .filter {
                 @include transitionAll();
                 position: relative;
+                cursor: pointer;
                 &.active {
                     &::after {
                         content: "";
@@ -55,13 +57,17 @@
         }
     }
     .results {
-       // padding-bottom: 30px;
         .result {
             padding-top: 40px; 
             padding-bottom: 1rem;
             border-bottom: 1px solid $neutral-2;
             .title {
                 font-weight: bold;
+                color: $primary-darkgray;
+                @include transitionAll;
+                &:hover {
+                    color: $brand-blue;
+                }
             }
             .excerpt {
                 p {
