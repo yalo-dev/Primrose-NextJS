@@ -569,7 +569,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     return (
       <div className='staff'>
         <div className='heading'>
-          <h2>Our {classroom.title} Classroom Faculty & Staff</h2>
+          <h2>Our {classroom.title} Classroom Teachers & Staff</h2>
         </div>
         <div className='row'>
           <div className='staff-members-section'>
