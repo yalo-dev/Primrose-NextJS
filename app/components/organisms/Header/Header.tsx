@@ -101,6 +101,10 @@ export default function Header({ menuItems }) {
     const renderMenuItem = (item, index) => {
         const hasChildren = item.childItems && item.childItems.nodes.length > 0;
 
+        const twoColumns = item.childItems && item.childItems.nodes.length > 4;
+
+        const threeColumns = item.childItems && item.childItems.nodes.length > 8;
+
         const key = `${item.label}-${item.url}-${item.parentId || 'root'}-${index}`;
 
         const isSubmenuActive = activeSubmenu === key;
@@ -119,42 +123,60 @@ export default function Header({ menuItems }) {
                     </span>
                 </div> 
                 {hasChildren && (
-                    <ul className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
-                        <div className="back" onClick={closeSubmenu}>
-                            <button>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M5.34278 9.48477C5.6479 9.23335 5.68913 8.78495 5.43486 8.48324L2.23987 4.69213L5.41452 1.23907C5.68169 0.94847 5.66003 0.498731 5.36615 0.234549C5.07226 -0.0296345 4.61743 -0.0082178 4.35026 0.282382L1.17561 3.73545C0.692786 4.26061 0.675427 5.05738 1.13493 5.60261L4.32992 9.39373C4.58419 9.69543 5.03766 9.7362 5.34278 9.48477Z" fill="#5E6738" />
-                                </svg>
-                            </button>
-                            <span>
-                                Back
-                            </span>
-                        </div>
-                        <div className="parent">
-                            <Link onClick={resetNav} className='nav-link w-100' href={item.url} passHref>
-                                <h2 className="w-100 d-flex">
-                                    <span>{item.label}</span>
-                                    <span className="arrow ms-4 me-3">
+                    <div className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
+                        <div className={`container`}>
+                            <div className={`submenu-parent-link`}>
+                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
+                                    <h3>
+                                        {item.label}
+                                        <span className='icon ps-3'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#5e6738" />
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#555F68" />
                                         </svg>
                                     </span>
-                                </h2>
-                            </Link>
-                        </div>
-                        {item.childItems.nodes.map((childItem, childIndex) => (
-                            <li key={`child-${childItem.label}-${childItem.url}-${childIndex}`} className={`${childItem.cssClasses} nav-item`}>
-                                <Link onClick={resetNav} className='nav-link' href={childItem.url} passHref>
-                                    <span className="b4">{childItem.label}</span>
+                                    </h3>
+                                    
                                 </Link>
-                                {childItem.label === 'Open a School' && (
-                                    <Link onClick={resetNav} className='nav-link child-sub' href="/path-to-opening" passHref>
-                                        <span className="b4">- Path to Opening</span>
-                                    </Link>   
-                                )}
-                            </li>
-                        ))}
-                    </ul>
+                            </div>
+                            
+                            <ul className={`${twoColumns ? 'double-column' : ''} ${threeColumns ? 'triple-column' : ''}`}>
+                                <div className="back" onClick={closeSubmenu}>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10" fill="none">
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M5.34278 9.48477C5.6479 9.23335 5.68913 8.78495 5.43486 8.48324L2.23987 4.69213L5.41452 1.23907C5.68169 0.94847 5.66003 0.498731 5.36615 0.234549C5.07226 -0.0296345 4.61743 -0.0082178 4.35026 0.282382L1.17561 3.73545C0.692786 4.26061 0.675427 5.05738 1.13493 5.60261L4.32992 9.39373C4.58419 9.69543 5.03766 9.7362 5.34278 9.48477Z" fill="#5E6738" />
+                                        </svg>
+                                    </button>
+                                    <span>
+                                        Back
+                                    </span>
+                                </div>
+                                <div className="parent">
+                                    <Link onClick={resetNav} className='nav-link w-100' href={item.url} passHref>
+                                        <h2 className="w-100 d-flex">
+                                            <span>{item.label}</span>
+                                            <span className="arrow ms-4 me-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#5e6738" />
+                                                </svg>
+                                            </span>
+                                        </h2>
+                                    </Link>
+                                </div>
+                                {item.childItems.nodes.map((childItem, childIndex) => (
+                                    <li key={`child-${childItem.label}-${childItem.url}-${childIndex}`} className={`${childItem.cssClasses} nav-item`}>
+                                        <Link onClick={resetNav} className='nav-link' href={childItem.url} passHref>
+                                            <span className="b4">{childItem.label}</span>
+                                        </Link>
+                                        {childItem.label === 'Open a School' && (
+                                            <Link onClick={resetNav} className='nav-link child-sub' href="/path-to-opening" passHref>
+                                                <span className="b4">- Path to Opening</span>
+                                            </Link>   
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                    </div>
+                </div>
                 )}
             </li>
         );
@@ -162,12 +184,25 @@ export default function Header({ menuItems }) {
 
 
     useEffect(() => {
+        // Set the position of the submenu to the left edge of viewport
+        const positionSubmenu = () => { 
+            let currentSubmenuPos = document.querySelector('.nav-wrapper').getBoundingClientRect();
+            Array.from(document.getElementsByClassName('submenu') as HTMLCollectionOf<HTMLElement>).forEach((el) => {
+                el.style.left = `-${currentSubmenuPos.x}px`;
+            });
+        };
+        positionSubmenu();
+        document.querySelector('.navbar-nav').addEventListener('mouseover', function (e) {
+            positionSubmenu();
+        });
+
+
         const handleClickOutside = (event) => {
             if (desktopSearchBarRef.current && !desktopSearchBarRef.current.contains(event.target)) {
                 setIsDesktopSearchActive(false);
             }
         };
-    
+
         // Attach the listener
         document.addEventListener('mousedown', handleClickOutside);
     
@@ -175,6 +210,7 @@ export default function Header({ menuItems }) {
             // Clean up the listener when the component unmounts
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
     }, []);
 
     return (
