@@ -1339,12 +1339,13 @@
 }
 
 .classroom-type {
-    padding-top: 3rem;
+    padding-top: 0;
     padding-bottom: 1.5rem;
     .general-horizontal-tabs-module {
         padding-bottom: 30px;
 
         @include media-breakpoint-up(lg) {
+            padding-top: 3rem;
             padding-bottom: 100px;
         }
 
