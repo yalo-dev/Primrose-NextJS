@@ -221,7 +221,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 >
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-none d-lg-block'>
+                            <div className='heading-wrapper d-none d-lg-block pt-5'>
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
@@ -332,7 +332,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             )}
 
                             {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
-                                <div className='image-wrapper'>
+                                <div className='image-wrapper mb-4 mb-lg-0'>
                                     <img
                                         src={rightColumn.image?.sourceUrl}
                                         alt={rightColumn.image?.altText}
