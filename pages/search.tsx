@@ -57,13 +57,11 @@ interface ApiResponse {
     name?: string;
 }
 interface Place{
-    
-        address_components: any[];
-        formatted_address: string;
-        geometry: any;
-        place_id: string;
-        types: string[];
-    
+    address_components: any[];
+    formatted_address: string;
+    geometry: any;
+    place_id: string;
+    types: string[]; 
 }
 const SearchPage: React.FC = () => {
     const router = useRouter();
@@ -538,7 +536,7 @@ const SearchPage: React.FC = () => {
                             <div className='container col-lg-10 offset-lg-1'>
                                 {paginatedTopResults.map(post => (
                                     <div className='result' key={post.id}>
-                                        <h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                         <a href={post.link}><h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} /></a>
                                         <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
                                         <a className='b2 link' href={post.link}>{post.link}</a>
                                     </div>
