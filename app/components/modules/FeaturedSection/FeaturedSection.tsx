@@ -56,7 +56,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                 bottomMarginDesktop={customizations?.bottomMarginDesktop}
                 colorLabelOuter={customizations?.backgroundColor}
             >
-                 <div className={`accent ${customizations?.accentLeftOrRight || ''}`}>
+                 <div className={`accent`}>
                 <div className='container'>
                 <div className='featured-section row'>
                         <div className='header-section col-lg-4 col-xxl-4'>
