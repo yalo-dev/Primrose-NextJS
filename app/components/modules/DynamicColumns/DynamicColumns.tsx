@@ -39,6 +39,12 @@ type Component = ImageComponent | BodyCopyComponent | ButtonComponent | HeadingC
 
 interface Column {
   columnWidth: string;
+  imageOrVideo?: 'Image' | 'Video';
+  video?: {
+    target: string;
+    title: string;
+    url: string;
+  }
   image?: {
     imageType: string;
     columnImage: {
@@ -101,12 +107,21 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
           <div className='row d-flex flex-row flex-wrap justify-content-center'>
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column`}>
-                {column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
+                {column.imageOrVideo === 'Image' && column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
                   <img
                     src={column.image.columnImage.sourceUrl}
                     alt={column.image.columnImage.altText}
-                    className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image'}
+                    className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image-video'}
                   />
+                )}
+                {column.imageOrVideo === 'Video' && column.video && (
+                  <video className="normal-image-video"
+                    autoPlay
+                    muted
+                    loop>
+                    <source src={column.video.url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 )}
                 <div className="title-container column-gap">
                   {column.title && column.title.headingLevel && (

@@ -556,7 +556,7 @@ const SearchPage: React.FC = () => {
         
         <div className='search-container'>
             <div className='search-bar-container'>
-                <div className='container border-bottom'>
+                <div className='container'>
                     <div className='search col-lg-10 offset-lg-1'>
                         <form onSubmit={handleSearchSubmit}>
                             <label htmlFor='search' className='hidden'>Search</label>

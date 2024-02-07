@@ -132,6 +132,12 @@ query GetModules($id: ID = "") {
           ... on Page_Modules_Modules_DynamicColumns {
               fieldGroupName
               columns {
+				imageOrVideo
+            	video {
+              		target
+              		title
+              		url
+            	}
                 blurb
                 fieldGroupName
                 button {
