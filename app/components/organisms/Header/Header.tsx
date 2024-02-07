@@ -125,7 +125,7 @@ export default function Header({ menuItems }) {
                 {hasChildren && (
                     <div className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
                         <div className={`container`}>
-                            <div className={`submenu-parent-link`}>
+                            <div className={`submenu-parent-link d-none d-lg-block`}>
                                 <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
                                     <h3>
                                         {item.label}
