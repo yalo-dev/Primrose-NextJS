@@ -23,7 +23,6 @@ interface CustomizationsProps {
     bottomMarginMobile?: string;
     bottomMarginDesktop?: string;
     backgroundColor?: string;
-    accentLeftOrRight?: string;
 }
 
 interface FeaturedSectionProps {

@@ -269,7 +269,6 @@ query GetModules($id: ID = "") {
 			  bottomMarginMobile
 			  bottomMarginDesktop
 			  backgroundColor
-			  accentLeftOrRight
 			}
 			slider {
 			  blurb
