@@ -242,14 +242,18 @@
                         list-style-type: none;
                         padding: 3.5rem 2.5rem;
                         &.double-column {
-                            columns: 2;
-                            -webkit-columns: 2;
-                            -moz-columns: 2;
+                            @include media-breakpoint-up(lg) {
+                                columns: 2;
+                                -webkit-columns: 2;
+                                -moz-columns: 2;
+                            }
                         }
                         &.triple-column {
-                            columns: 3;
-                            -webkit-columns: 3;
-                            -moz-columns: 3;
+                            @include media-breakpoint-up(lg) {
+                                columns: 3;
+                                -webkit-columns: 3;
+                                -moz-columns: 3;
+                            }
                         }
                     }
                     .submenu-parent-link {
