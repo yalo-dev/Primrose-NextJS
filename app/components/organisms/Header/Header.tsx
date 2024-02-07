@@ -289,7 +289,7 @@ export default function Header({ menuItems }) {
                                             </svg>
                                         </div>
                                         <div className='find-a-school-button'>
-                                            <span className="find-button"><Button label='Find A School' variant='secondary' href='/find-a-school' /></span>
+                                            <span className="find-button"><Button onClick={resetNav} label='Find A School' variant='secondary' href='/find-a-school' /></span>
                                             <div className='location-icon'>
                                                 <a href='/find-a-school'>
                                                     <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
