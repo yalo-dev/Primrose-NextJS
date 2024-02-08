@@ -1,0 +1,29 @@
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: none; 
+    @media (max-width: 767px) {
+        left: 20px;
+    }
+  }
+  
+  .scroll-to-top.visible {
+    display: block; 
+  }
+  
+  .scroll-to-top-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid var(--border-primary, #DFE2D3);
+    background-color: var(--black-neutral, #F1F1EF);
+  }
+  
