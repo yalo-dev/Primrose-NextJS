@@ -12,8 +12,7 @@ const SUBMIT_FORM = gql`
       saveAsDraft: false
     }) {
       confirmation {
-      type    
-      message 
+      url 
       }
       entry {
       id
