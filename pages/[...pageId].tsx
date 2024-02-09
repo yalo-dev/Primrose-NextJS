@@ -178,6 +178,10 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
+		    hubspotFormSnippets {
+              productionHubspotFormCode
+              stagingHubspotFormCode
+            }
 			moduleId
 			formid
 			portalid
@@ -1150,7 +1154,7 @@ const DynamicPage = () => {
   
 	if (loading || !id) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
-  
+
 	const modules = data?.page?.modules?.modules || [];
 
 	return <CommonPageComponent modules={modules} />;
