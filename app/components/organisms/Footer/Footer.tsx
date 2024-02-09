@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import NewsletterForm from '../../molecules/NewsletterForm/NewsletterForm';
+import Script from 'next/script';
 
 export default function Footer({ menuItems, siteSettings }) {
     const footerLogo = siteSettings?.logoFooter || '';
@@ -9,6 +10,7 @@ export default function Footer({ menuItems, siteSettings }) {
     const disclaimer = siteSettings?.disclaimer || '';
 
     return (
+        <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
         <footer className='footer'>
             <div className='container'>
             <div className='row'>
