@@ -6,9 +6,6 @@
     background-color: transparent;
     cursor: pointer;
     display: none; 
-    @media (max-width: 767px) {
-        left: 20px;
-    }
   }
   
   .scroll-to-top.visible {

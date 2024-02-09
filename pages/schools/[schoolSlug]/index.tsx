@@ -224,11 +224,50 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                 </div>
                             </div>
                             <div className='col right-col col-12 col-lg-6'>
+                            {adminSettings.hiringNow && (
+    <div className='alert hiring-alert'>
+        <div className="row align-items-center">
+            <div className="col">
+                <h5 className="alert-title text-white mb-0">Now Hiring</h5>
+            </div>
+            <div className="col text-end">
+                <a href={`/schools/${schoolSlug}/careers`} className="text-white text-decoration-underline">View Job Openings</a>
+            </div>
+        </div>
+    </div>
+)}
+
+{adminSettings.enrollingNow && (
+    <div className='alert enrolling-alert'>
+        <div className="row align-items-center">
+            <div className="col">
+                <h5 className="alert-title text-white mb-0">Now Enrolling</h5>
+            </div>
+            <div className="col text-end">
+                <a href={`/schools/${schoolSlug}/schedule-a-tour`} className="text-white text-decoration-underline">Schedule a Tour</a>
+            </div>
+        </div>
+    </div>
+)}
+
+
+
+
                                 <div className='d-lg-flex'>
                                     <div className='info-wrapper'>
-                                        <h5 className='green'>The Leader in Early Education and Care®️</h5>
+                                        {/* <h5 className='green'>The Leader in Early Education and Care®️</h5> */}
+                                        <div className='hours mt-4'><h5 className='green'>Hours & Location</h5><span className='b3'>M-F {adminSettings.hoursOfOperation.openingTime}-{adminSettings.hoursOfOperation.closingTime}</span></div>
+                                        <div className='phone'><span className='b3'><a href={`tel:${corporateSettings.phoneNumber}`}>{corporateSettings.phoneNumber}</a></span></div>
+                                        <div className='address'>
+                                            <span className='icon me-2'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z" stroke="#555F68" strokeWidth="1.5" />
+                                                </svg>
+                                            </span>
+                                            <span className='b3'>{corporateSettings.address.streetAddress} {corporateSettings.address.streetAddress2}, {corporateSettings.address.city}, {corporateSettings.address.state} {corporateSettings.address.zipcode}</span>
+                                        </div>
                                         <div className='classrooms'>
-                                            <h5 className='mt-4 green'>Children Served</h5>
+                                            <h5 className='mt-4 green'>Age Groups Served</h5>
                                             <ul>
                                                 {classroomsData
                                                     .filter(classroom => classroom !== "Summer Adventure Club" && classroom !== "Before & After Care")
@@ -247,21 +286,11 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                                 }
                                             </ul>
                                         </div>
-                                        <div className='hours'><h5 className='green'>Hours & Location</h5><span className='b3'>M-F {adminSettings.hoursOfOperation.openingTime}-{adminSettings.hoursOfOperation.closingTime}</span></div>
-                                        <div className='phone'><span className='b3'><a href={`tel:${corporateSettings.phoneNumber}`}>{corporateSettings.phoneNumber}</a></span></div>
-                                        <div className='address'>
-                                            <span className='icon me-2'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
-                                                    <path fillRule="evenodd" clipRule="evenodd" d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z" stroke="#555F68" strokeWidth="1.5" />
-                                                </svg>
-                                            </span>
-                                            <span className='b3'>{corporateSettings.address.streetAddress} {corporateSettings.address.streetAddress2}, {corporateSettings.address.city}, {corporateSettings.address.state} {corporateSettings.address.zipcode}</span>
-                                        </div>
-                                        
+
                                     </div>
                                     {corporateSettings.accreditations && (
                                         <div className='accreditations'>
-                                            <h5 className='mt-3 green'>Accreditation</h5>
+                                            <h5 className='mt-4 green'>Accreditation</h5>
                                             <div className="accreditation-images  d-flex">
                                                 {corporateSettings.accreditations.map((accreditation, index) => (
                                                     <div key={`accreditation-${index}`} className="accreditation-image">
@@ -324,7 +353,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                     rightScroller.scrollTop = rightScroller.scrollHeight / 2;
                 }
             }
-        }; 
+        };
 
         useEffect(() => {
             const checkIfImagesLoaded = () => {
@@ -352,13 +381,13 @@ export default function SchoolMainPage({ school, schoolSlug }) {
             <div className='container'>
                 <div className='find-a-school'>
                     <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-                         <Heading level='h2'>Our family would love to meet yours.</Heading>
+                        <Heading level='h2'>Our family would love to meet yours.</Heading>
                         <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
-                      
-                            <Button variant="secondary" href={"/schools/" + school.slug + "/schedule-a-tour"}>
-                                Schedule A Tour
-                            </Button>
-                        
+
+                        <Button variant="secondary" href={"/schools/" + school.slug + "/schedule-a-tour"}>
+                            Schedule A Tour
+                        </Button>
+
                     </div>
                     <div className='right-column col-4 col-lg-5 col-xxl-6'>
                         {ScheduleATour && ScheduleATour.length > 0 && (
@@ -441,7 +470,7 @@ export default function SchoolMainPage({ school, schoolSlug }) {
                                     <div className='right-column col-12 col-lg-5 offset-lg-1'>
                                         <h2 className="">Meet Our Teachers & Staff</h2>
                                         <div className='blurb' >
-                                        When children feel safe, loved and confident, they can learn and grow to their fullest potential. That’s why Primrose school teachers and staff are dedicated to creating an environment that helps lay the foundation for a lifelong love of learning.
+                                            When children feel safe, loved and confident, they can learn and grow to their fullest potential. That’s why Primrose school teachers and staff are dedicated to creating an environment that helps lay the foundation for a lifelong love of learning.
 
                                         </div>
                                         <Button href={schoolSlug + "/staff"} >
@@ -543,12 +572,12 @@ export default function SchoolMainPage({ school, schoolSlug }) {
     }
     return (
         <div className='school school-home'>
-            <EmergencyAlert/>
+            <EmergencyAlert />
             {renderHeroWithSlider()}
             {firstFive()}
             {renderNewsSlider()}
             {testimonialSection()}
-            {gallerySlider()} 
+            {gallerySlider()}
             {findASchool()}
         </div>
     );
