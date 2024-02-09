@@ -6,7 +6,7 @@ import DynamicForm from '../../modules/DynamicForm/DynamicForm';
 import FeaturedBlogs from '../../modules/FeaturedBlogs/FeaturedBlogs';
 import FeaturedSection from '../../modules/FeaturedSection/FeaturedSection';
 import FindASchool from '../../modules/FindASchool/FindASchool';
-import FindASchoolMap from '../../modules/FindASchoolMap/FindASchoolMap';
+import FindASchoolMap from '../../modules/FindASchoolModule/FindASchoolModule';
 import FourAcrossSlider from '../../modules/FourAcrossSlider/FourAcrossSlider';
 import EyebrowHeadingSubheading from '../../modules/EyebrowHeadingSubheading/EyebrowHeadingSubheading'
 import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';

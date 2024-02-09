@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-// import Button from '../../../../app/components/atoms/Button/Button';
-// import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Button from '../../atoms/Button/Button';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Customizations from '../../filters/Customizations';
 
 const containerStyle = {
@@ -110,14 +110,17 @@ interface FindASchoolMapProps {
 
 const transformSchoolData = (schoolData) => {
   let notes = [];
+  if (schoolData.schoolCorporateSettings.corporateChildcare) {
+    notes.push(`Corporate Childcare: ${schoolData.schoolCorporateSettings.corporateChildcare}`);
+  }
+  if (schoolData.schoolCorporateSettings.preopening) {
+    notes.push(`Preopening: ${schoolData.schoolCorporateSettings.preopening}`);
+  }
   if (schoolData.schoolCorporateSettings.openingIn?.season) {
-    notes.push(`Opening Month ${schoolData.schoolCorporateSettings.openingIn.season}`);
+    notes.push(`Opening In: ${schoolData.schoolCorporateSettings.openingIn.season}`);
   }
   if (schoolData.schoolAdminSettings.enrollingNow) {
-    notes.push('Now Enrolling');
-  }
-  if (schoolData.schoolCorporateSettings.corporateChildcare) {
-    notes.push(`Corporate Childcare`);
+    notes.push('Enrolling Now');
   }
 
   return {
@@ -147,7 +150,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     customizations,
   } = props;
 
-
+  console.log('here');
   const schools = cmsSchools ? cmsSchools.map(transformSchoolData) : [];
 
   const cmsMapCenter = {
@@ -355,41 +358,41 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
 
-        if (activeTab === 1) {
-          if (nearInputRef.current) {
-            nearInputRef.current.value = "Current Location";
-          }
-          setStart(pos);
-          setShowCurrentLocationPin(false);
-        } else {
-          // Geocoding logic for other tabs
-          geocoder.geocode({ 'location': pos }, (results, status) => {
-            if (status === 'OK' && results && results[0]) {
-              if (routeInputRef1.current) {
-                routeInputRef1.current.value = results[0].formatted_address;
+            if (activeTab === 1) {
+              if (nearInputRef.current) {
+                nearInputRef.current.value = "Current Location";
               }
               setStart(pos);
+              setShowCurrentLocationPin(false);
             } else {
-              alert('Geocoder failed due to: ' + status);
+              // Geocoding logic for other tabs
+              geocoder.geocode({ 'location': pos }, (results, status) => {
+                if (status === 'OK' && results && results[0]) {
+                  if (routeInputRef1.current) {
+                    routeInputRef1.current.value = results[0].formatted_address;
+                  }
+                  setStart(pos);
+                } else {
+                  alert('Geocoder failed due to: ' + status);
+                }
+              });
             }
-          });
-        }
 
-        setUserLocation(pos);
-        setMapCenter(pos);
-        setZoomLevel(11);
-        setShowMap(true);
-        setSearched(true);
-        setHasSearched(true);
-      },
-        () => {
-          alert("Error getting location. Please ensure location services are enabled.");
-        });
+            setUserLocation(pos);
+            setMapCenter(pos);
+            setZoomLevel(11);
+            setShowMap(true);
+            setSearched(true);
+            setHasSearched(true);
+          },
+          () => {
+            alert("Error getting location. Please ensure location services are enabled.");
+          });
     } else {
       alert("Your browser doesn't support geolocation.");
     }
@@ -406,12 +409,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     // Update the address of the corresponding field
     setInputFields(prevFields =>
-      prevFields.map(field => {
-        if (field.id === fieldId) {
-          return { ...field, address: newValue };
-        }
-        return field;
-      })
+        prevFields.map(field => {
+          if (field.id === fieldId) {
+            return { ...field, address: newValue };
+          }
+          return field;
+        })
     );
   };
   //BRANDON RELEVENT CODE HERE ENDS
@@ -421,8 +424,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c;
     return d * 0.621371;
@@ -476,17 +479,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const directionsService = new window.google.maps.DirectionsService();
 
     const mappedWaypoints: google.maps.DirectionsWaypoint[] = waypoints
-      .filter(waypoint => waypoint.location)
-      .map(waypoint => {
-        if (waypoint.location) {
-          return {
-            location: new google.maps.LatLng(waypoint.location.lat, waypoint.location.lng),
-            stopover: true
-          } as google.maps.DirectionsWaypoint;
-        }
-        return undefined;
-      })
-      .filter((waypoint): waypoint is google.maps.DirectionsWaypoint => waypoint !== undefined);
+        .filter(waypoint => waypoint.location)
+        .map(waypoint => {
+          if (waypoint.location) {
+            return {
+              location: new google.maps.LatLng(waypoint.location.lat, waypoint.location.lng),
+              stopover: true
+            } as google.maps.DirectionsWaypoint;
+          }
+          return undefined;
+        })
+        .filter((waypoint): waypoint is google.maps.DirectionsWaypoint => waypoint !== undefined);
 
     const route: google.maps.DirectionsRequest = {
       origin: new google.maps.LatLng(start.lat, start.lng),
@@ -517,12 +520,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
 
       setInputFields(prevFields =>
-        prevFields.map(field => {
-          if (field.id === `waypoint-${waypointId}`) {
-            return { ...field, location: newMapCenter, address: formattedPlaceName };
-          }
-          return field;
-        })
+          prevFields.map(field => {
+            if (field.id === `waypoint-${waypointId}`) {
+              return { ...field, location: newMapCenter, address: formattedPlaceName };
+            }
+            return field;
+          })
       );
 
       setWaypoints(prevWaypoints => prevWaypoints.map(waypoint => {
@@ -553,10 +556,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   }, []);
   const filteredSchools = schools.filter(school => {
     const distance = calculateDistance(
-      mapCenter.lat,
-      mapCenter.lng,
-      school.coordinates?.lat,
-      school.coordinates?.lng
+        mapCenter.lat,
+        mapCenter.lng,
+        school.coordinates?.lat,
+        school.coordinates?.lng
     );
     return distance <= MAX_DISTANCE;
   });
@@ -565,7 +568,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
     return { ...school, distance: dist };
   }).sort((a, b) => a.distance - b.distance)
-    .map((school, index) => ({ ...school, index: index + 1 }));
+      .map((school, index) => ({ ...school, index: index + 1 }));
 
   function onPlaceSelected(place, type = 'defaultType') {
     if (place && place.geometry && place.geometry.location) {
@@ -582,14 +585,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
 
 
-      //BRANDON RELEVENT CODE HERE 
+      //BRANDON RELEVENT CODE HERE
       setInputFields(prevFields =>
-        prevFields.map(field => {
-          if (field.type === type) {
-            return { ...field, location: newMapCenter, address: formattedPlaceName };
-          }
-          return field;
-        })
+          prevFields.map(field => {
+            if (field.type === type) {
+              return { ...field, location: newMapCenter, address: formattedPlaceName };
+            }
+            return field;
+          })
       );
       //BRANDON RELEVENT CODE HERE ENDS
 
@@ -647,35 +650,35 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
       const autocompleteService = new google.maps.places.AutocompleteService();
       autocompleteService.getPlacePredictions({
-        input: inputValue,
-        componentRestrictions: { country: 'us' },
-      },
-        (predictions, status) => {
-          if (status !== google.maps.places.PlacesServiceStatus.OK) {
-            console.log('Error: ' + status);
-            return;
-          }
-
-          if (!predictions || predictions.length === 0) {
-            console.log('No predictions found');
-            return;
-          }
-
-          const placesService = new google.maps.places.PlacesService(map);
-          placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-              console.log('Calling onPlaceSelected with location type:', type);
-              onPlaceSelected(place, type);
-              if (inputRef.current) {
-                inputRef.current.value = predictions[0].description;
-              }
-            } else {
-              console.log('Error getting place details: ' + status);
+            input: inputValue,
+            componentRestrictions: { country: 'us' },
+          },
+          (predictions, status) => {
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+              console.log('Error: ' + status);
+              return;
             }
-            return place;
-          }
-          );
-        });
+
+            if (!predictions || predictions.length === 0) {
+              console.log('No predictions found');
+              return;
+            }
+
+            const placesService = new google.maps.places.PlacesService(map);
+            placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
+                  if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    console.log('Calling onPlaceSelected with location type:', type);
+                    onPlaceSelected(place, type);
+                    if (inputRef.current) {
+                      inputRef.current.value = predictions[0].description;
+                    }
+                  } else {
+                    console.log('Error getting place details: ' + status);
+                  }
+                  return place;
+                }
+            );
+          });
     } else {
       console.log('Map reference is not available');
     }
@@ -741,7 +744,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   }, []);
 
-  //BRANDON RELEVENT CODE HERE 
+  //BRANDON RELEVENT CODE HERE
   const handleDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -793,209 +796,268 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
   return (
 
-    <Customizations
-      topPaddingMobile={customizations?.topPaddingMobile}
-      topPaddingDesktop={customizations?.topPaddingDesktop}
-      bottomPaddingMobile={customizations?.bottomPaddingMobile}
-      bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
-      colorLabel={customizations?.backgroundColor}
-    >
-      <div id="map" className={'find-a-school-cms-container ' + (title ? 'title' : '')}>
-        {heading && (
-          <div className="map-title" style={{ color: headingColor, backgroundColor: backgroundColor }}>
-            <h3>{heading}</h3>
-          </div>
-        )}
-        <LoadScript
-          googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
-          libraries={GOOGLE_MAP_LIBRARIES}
-        >
-          <div className='search-box-container'>
-            {/* <div className='tabs'>
-              <div className='tab-labels'>
-                <div
-                  className={`tab-label tab-label-1 ${activeTab === 1 ? 'active' : ''}`}
-                  onClick={() => handleTabClick(1)}
-                >
-                  <div className='b3'>Find a School Near You</div>
-                </div>
-                <div
-                  className={`tab-label tab-label-2 ${activeTab === 2 ? 'active' : ''}`}
-                  onClick={() => handleTabClick(2)}
-                >
-                  <div className='b3'>Search Along Route</div>
-                </div>
+      <Customizations
+          topPaddingMobile={customizations?.topPaddingMobile}
+          topPaddingDesktop={customizations?.topPaddingDesktop}
+          bottomPaddingMobile={customizations?.bottomPaddingMobile}
+          bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+          colorLabel={customizations?.backgroundColor}
+      >
+        <div id="map" className={'find-a-school-cms-container ' + (title ? 'title' : '')}>
+          {heading && (
+              <div className="map-title" style={{ color: headingColor, backgroundColor: backgroundColor }}>
+                <h3>{heading}</h3>
               </div>
-              <div className={`tab-content tab-content-1 ${activeTab === 1 ? 'active' : ''}`}>
-                <div className='input-wrapper'>
-
-                  <Autocomplete
-                    onLoad={autocomplete => {
-                      autocomplete.setComponentRestrictions({ country: 'us' });
-                      autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
-                      setAutocomplete1(autocomplete);
-                    }}
-
-                    onPlaceChanged={() => {
-                      if (autocomplete1) {
-                        const selectedPlace = autocomplete1.getPlace();
-                        onPlaceSelected(selectedPlace);
-                      }
-                    }}
-                  >
-                    <input
-                      id="near"
-                      type="text"
-                      placeholder="Enter address, city and state, or zip"
-                      ref={nearInputRef}
-                      onChange={(e) => handleInputChange(e, '')}
-
-                      //onChange={() => handleInputChange(nearInputRef, '')}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          onEnterKeyPressed();
-                        }
-                      }}
-                    />
-
-                  </Autocomplete>
-                  <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
-                    <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
-                    </svg>
-
-                  </div>
-                  <div className='search-icon' style={{ opacity: searched ? '0' : '1' }}>
-                    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="21" cy="21" r="21" fill="#5E6738" />
-                      <circle cx="20.1596" cy="19.3198" r="7.06" stroke="white" />
-                      <path d="M24.5332 24.7798L29.7559 30.0025" stroke="white" />
-                    </svg>
-                  </div>
-                  <div className='clear-icon' style={{ opacity: searched ? '1' : '0' }}
-                    onClick={() => {
-                      setSearched(false);
-                      if (nearInputRef.current) nearInputRef.current.value = '';
-                    }}
-                  >
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
-                      <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
-                      <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
-
-                <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
+          )}
+          <LoadScript
+              googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
+              libraries={GOOGLE_MAP_LIBRARIES}
+          >
+            <div className='search-box-container'>
+              <div className='tabs'>
+                <div className='tab-labels'>
                   <div
-                    className={`add-more ${isAdded ? 'added' : ''}`}
-                    onClick={handleAddMoreClick}>
-                    <div className='add'>
-                      <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="13.4141" cy="13.6251" r="13.3359" fill="white" />
-                        <path fillRule="evenodd" clipRule="evenodd" d="M12.5 24.0001C18.299 24.0001 23 19.2991 23 13.5001C23 7.70113 18.299 3.00012 12.5 3.00012C6.70101 3.00012 2 7.70113 2 13.5001C2 19.2991 6.70101 24.0001 12.5 24.0001ZM11.8594 9.00012H13.1451V12.857H17V14.1427H13.1451V18.0001H11.8594V14.1427H8V12.857H11.8594V9.00012Z" fill="#FF9E1B" />
+                      className={`tab-label tab-label-1 ${activeTab === 1 ? 'active' : ''}`}
+                      onClick={() => handleTabClick(1)}
+                  >
+                    <div className='b3'>Find a School Near You</div>
+                  </div>
+                  <div
+                      className={`tab-label tab-label-2 ${activeTab === 2 ? 'active' : ''}`}
+                      onClick={() => handleTabClick(2)}
+                  >
+                    <div className='b3'>Search Along Route</div>
+                  </div>
+                </div>
+                <div className={`tab-content tab-content-1 ${activeTab === 1 ? 'active' : ''}`}>
+                  <div className='input-wrapper'>
+
+                    <Autocomplete
+                        onLoad={autocomplete => {
+                          autocomplete.setComponentRestrictions({ country: 'us' });
+                          autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+                          setAutocomplete1(autocomplete);
+                        }}
+
+                        onPlaceChanged={() => {
+                          if (autocomplete1) {
+                            const selectedPlace = autocomplete1.getPlace();
+                            onPlaceSelected(selectedPlace);
+                          }
+                        }}
+                    >
+                      <input
+                          id="near"
+                          type="text"
+                          placeholder="Enter address, city and state, or zip"
+                          ref={nearInputRef}
+                          onChange={(e) => handleInputChange(e, '')}
+
+                          //onChange={() => handleInputChange(nearInputRef, '')}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              onEnterKeyPressed();
+                            }
+                          }}
+                      />
+
+                    </Autocomplete>
+                    <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
+                      <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                      </svg>
+
+                    </div>
+                    <div className='search-icon' style={{ opacity: searched ? '0' : '1' }}>
+                      <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="21" cy="21" r="21" fill="#5E6738" />
+                        <circle cx="20.1596" cy="19.3198" r="7.06" stroke="white" />
+                        <path d="M24.5332 24.7798L29.7559 30.0025" stroke="white" />
+                      </svg>
+                    </div>
+                    <div className='clear-icon' style={{ opacity: searched ? '1' : '0' }}
+                         onClick={() => {
+                           setSearched(false);
+                           if (nearInputRef.current) nearInputRef.current.value = '';
+                         }}
+                    >
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
+                        <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
+                        <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
                       </svg>
                     </div>
                   </div>
-                  <DragDropContext onDragEnd={handleDragEnd}>
-                    <Droppable droppableId="routeInputs">
-                      {(provided) => (
-                        <div {...provided.droppableProps} ref={provided.innerRef} className={`input-wrapper ${isAdded ? 'added' : ''}`}>
+                </div>
+                <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
 
-                          <div className='first-input'>
-                            <div className='start'>
-                            </div>
-                            <Draggable key='start' draggableId='start' index={0}>
-                              {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                  <Autocomplete
-                                    onLoad={autocomplete => {
-                                      autocomplete.setComponentRestrictions({
-                                        country: 'us'
-                                      });
-                                      setAutocomplete2(autocomplete);
-                                    }}
-                                    onPlaceChanged={() => {
-                                      if (autocomplete2) {
-                                        const selectedPlace = autocomplete2.getPlace();
-                                        onPlaceSelected(selectedPlace, 'start');
-                                      }
-                                    }}
-                                  >
+                  <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
+                    <div
+                        className={`add-more ${isAdded ? 'added' : ''}`}
+                        onClick={handleAddMoreClick}>
+                      <div className='add'>
+                        <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="13.4141" cy="13.6251" r="13.3359" fill="white" />
+                          <path fillRule="evenodd" clipRule="evenodd" d="M12.5 24.0001C18.299 24.0001 23 19.2991 23 13.5001C23 7.70113 18.299 3.00012 12.5 3.00012C6.70101 3.00012 2 7.70113 2 13.5001C2 19.2991 6.70101 24.0001 12.5 24.0001ZM11.8594 9.00012H13.1451V12.857H17V14.1427H13.1451V18.0001H11.8594V14.1427H8V12.857H11.8594V9.00012Z" fill="#FF9E1B" />
+                        </svg>
+                      </div>
+                    </div>
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                      <Droppable droppableId="routeInputs">
+                        {(provided) => (
+                            <div {...provided.droppableProps} ref={provided.innerRef} className={`input-wrapper ${isAdded ? 'added' : ''}`}>
 
-                                    <input
-                                      ref={routeInputRef1}
-                                      onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                          onEnterKeyPressed('start');
-                                        }
-                                      }}
-                                      id="along"
-                                      type="text"
-                                      placeholder="Search by address, city, state, ZIP"
-                                      value={inputFields.find(field => field.type === 'start')?.address || ''}
-                                      onChange={(e) => handleInputChange(e, 'start')}
-                                    />
-
-
-                                  </Autocomplete>
-                                </div>
-                              )}
-                            </Draggable>
-                            <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
-                              <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
-                              </svg>
-                            </div>
-                            <div className='drag-icon'>
-                              <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                              </svg>
-                            </div>
-                          </div>
-
-                          {waypoints.map((waypoint, index) => {
-                            const waypointInputField = inputFields.find(field => field.id === `waypoint-${waypoint.id}`);
-                            const inputFieldId = `waypoint-${waypoint.id}`;
-
-                            return (
-                              <div key={waypoint.id} className='waypoint-input'>
+                              <div className='first-input'>
                                 <div className='start'>
                                 </div>
-                                <Draggable key={waypoint.id} draggableId={`waypoint-${waypoint.id}`} index={index + 1}>
+                                <Draggable key='start' draggableId='start' index={0}>
                                   {(provided) => (
-                                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                      <Autocomplete
-                                        onLoad={autocomplete => {
-                                          autocomplete.setComponentRestrictions({ country: 'us' });
-                                          handleAutocompleteLoad(`waypoint_${waypoint.id}`, autocomplete);
-                                        }}
-                                        onPlaceChanged={() => {
-                                          const selectedPlace = autocompleteInstances[`waypoint_${waypoint.id}`].getPlace();
-                                          onWaypointSelected(waypoint.id, selectedPlace);
-                                        }}
-                                      >
+                                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <Autocomplete
+                                            onLoad={autocomplete => {
+                                              autocomplete.setComponentRestrictions({
+                                                country: 'us'
+                                              });
+                                              setAutocomplete2(autocomplete);
+                                            }}
+                                            onPlaceChanged={() => {
+                                              if (autocomplete2) {
+                                                const selectedPlace = autocomplete2.getPlace();
+                                                onPlaceSelected(selectedPlace, 'start');
+                                              }
+                                            }}
+                                        >
 
-                                        <input
-                                          onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
-                                              onEnterKeyPressedForWaypoint(waypoint.id);
-                                            }
-                                          }}
-                                          ref={waypointRefs[waypoint.id]}
-                                          //onChange={(e) => handleInputChange(e, inputFieldId)}
-                                          id={`input_${inputFieldId}`}
-                                          type="text"
-                                          value={waypointInputField?.address || ''}
-                                          onChange={(e) => handleInputChange(e, `waypoint-${waypoint.id}`)}
-                                          placeholder="Search by address, city, state, ZIP"
-                                        />
+                                          <input
+                                              ref={routeInputRef1}
+                                              onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                  onEnterKeyPressed('start');
+                                                }
+                                              }}
+                                              id="along"
+                                              type="text"
+                                              placeholder="Search by address, city, state, ZIP"
+                                              value={inputFields.find(field => field.type === 'start')?.address || ''}
+                                              onChange={(e) => handleInputChange(e, 'start')}
+                                          />
 
-                                      </Autocomplete>
+
+                                        </Autocomplete>
+                                      </div>
+                                  )}
+                                </Draggable>
+                                <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
+                                  <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                                  </svg>
+                                </div>
+                                <div className='drag-icon'>
+                                  <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                    <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                  </svg>
+                                </div>
+                              </div>
+
+                              {waypoints.map((waypoint, index) => {
+                                const waypointInputField = inputFields.find(field => field.id === `waypoint-${waypoint.id}`);
+                                const inputFieldId = `waypoint-${waypoint.id}`;
+
+                                return (
+                                    <div key={waypoint.id} className='waypoint-input'>
+                                      <div className='start'>
+                                      </div>
+                                      <Draggable key={waypoint.id} draggableId={`waypoint-${waypoint.id}`} index={index + 1}>
+                                        {(provided) => (
+                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                              <Autocomplete
+                                                  onLoad={autocomplete => {
+                                                    autocomplete.setComponentRestrictions({ country: 'us' });
+                                                    handleAutocompleteLoad(`waypoint_${waypoint.id}`, autocomplete);
+                                                  }}
+                                                  onPlaceChanged={() => {
+                                                    const selectedPlace = autocompleteInstances[`waypoint_${waypoint.id}`].getPlace();
+                                                    onWaypointSelected(waypoint.id, selectedPlace);
+                                                  }}
+                                              >
+
+                                                <input
+                                                    onKeyDown={(e) => {
+                                                      if (e.key === "Enter") {
+                                                        onEnterKeyPressedForWaypoint(waypoint.id);
+                                                      }
+                                                    }}
+                                                    ref={waypointRefs[waypoint.id]}
+                                                    //onChange={(e) => handleInputChange(e, inputFieldId)}
+                                                    id={`input_${inputFieldId}`}
+                                                    type="text"
+                                                    value={waypointInputField?.address || ''}
+                                                    onChange={(e) => handleInputChange(e, `waypoint-${waypoint.id}`)}
+                                                    placeholder="Search by address, city, state, ZIP"
+                                                />
+
+                                              </Autocomplete>
+                                            </div>
+                                        )}
+                                      </Draggable>
+
+                                      <div className='drag-icon'>
+                                        <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                          <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                        </svg>
+                                      </div>
+                                      <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
+                                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
+                                          <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
+                                          <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
+                                        </svg>
+                                      </div>
                                     </div>
+                                )
+                              })}
+
+                              <div className='second-input'>
+                                <div className='end'>
+                                  <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
+                                  </svg>
+                                </div>
+                                <Draggable key='destination' draggableId='destination' index={waypoints.length + 1}>
+                                  {(provided) => (
+                                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <Autocomplete
+                                            onLoad={autocomplete => {
+                                              autocomplete.setComponentRestrictions({
+                                                country: 'us'
+                                              });
+                                              setAutocomplete3(autocomplete);
+                                            }}
+                                            onPlaceChanged={() => {
+                                              if (autocomplete3) {
+                                                const selectedPlace = autocomplete3.getPlace();
+                                                onPlaceSelected(selectedPlace, 'destination');
+                                              }
+                                            }}
+                                        >
+                                          <input
+                                              id="alongEnd"
+                                              type="text"
+                                              placeholder="Search by address, city, state, ZIP"
+                                              value={inputFields.find(field => field.type === 'destination')?.address || ''}
+                                              ref={routeInputRef2}
+                                              onChange={(e) => handleInputChange(e, 'destination')}
+                                              onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                  onEnterKeyPressed('destination');
+                                                }
+                                              }}
+                                          />
+
+                                        </Autocomplete>
+                                      </div>
                                   )}
                                 </Draggable>
 
@@ -1005,305 +1067,246 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                     <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
                                   </svg>
                                 </div>
-                                <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
-                                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
-                                    <rect x="17.5781" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.5781 11.2129)" fill="#5E6738" />
-                                    <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
+                              </div>
+
+                              {provided.placeholder}
+                            </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  </div>
+
+                </div>
+              </div>
+
+              {schools && schools.length > 0 && (
+                  <div
+                      style={{ opacity: hasSearched ? '1' : '0' }}
+                      className="list-scroller desktop"
+                  >
+                    <div className="nearby-schools-list">
+                      {sortedSchools.map((school, index) => (
+                          <div key={index} className="school-list">
+                            <a href={`/school/${school.id}`}>
+
+                              <div
+                                  key={index}
+                                  className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
+                                  onMouseOver={() => setHoveredSchoolId(school.id)}
+                                  onMouseOut={() => setHoveredSchoolId(null)}
+                              >
+                                <div className='name h5 w-100 d-flex justify-content-between'>
+                                  <div className='wrap d-flex justify-content-center align-items-center'>
+                                    <div className='marker'
+                                         dangerouslySetInnerHTML={{
+                                           __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
+                                         }}
+                                         style={{ width: '33px', height: '40px', marginRight: '10px' }}
+                                    >
+                                    </div>
+
+                                    {school.name}
+                                  </div>
+                                  <div className='d-flex justify-content-center align-items-center'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                                      <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                                <div className='wrap'>
+                            <span className='distance'>{calculateDistance(
+                                mapCenter.lat,
+                                mapCenter.lng,
+                                school.coordinates.lat,
+                                school.coordinates.lng
+                            ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
+                                  <span className='address'>{school.address}</span>
+                                </div>
+                                <div className='hours'>{school.hours}</div>
+                                {school.notes && (
+                                    <ul className='notes'>
+                                      {school.notes.split(', ').map((note, noteIndex) => (
+                                          <li key={noteIndex}>{note}</li>
+                                      ))}
+                                    </ul>
+                                )}
+                                <div className='button-wrap d-flex'>
+                                  <button
+                                      className="button primary"
+                                      onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
+                                  >
+                                    Schedule a Tour
+                                  </button>
+                                  <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                                      <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
+                                    </svg>
+                                  </a>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+              )}
+            </div>
+            <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : (hasSearched ? 'shift' : '')}`}>
+              <GoogleMap
+                  center={cmsMapCenter}
+                  zoom={zoomLevel}
+                  mapContainerStyle={containerStyle}
+                  onLoad={(map) => {
+                    mapRef.current = map;
+                    directionsRendererRef.current = new google.maps.DirectionsRenderer({
+                      suppressMarkers: true,
+                      preserveViewport: true
+                    });
+                    directionsRendererRef.current.setMap(map);
+                  }}
+                  options={{
+                    styles: [
+                      {
+                        featureType: 'poi',
+                        elementType: 'all',
+                        stylers: [{ visibility: 'off' }]
+                      }
+                    ]
+                  }}
+              >
+                {sortedSchools.map((school, index) => (
+                    <Marker
+                        key={index}
+                        position={school.coordinates}
+
+                        icon={{
+                          url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
+                        }}
+                        onMouseOver={() => setHoveredSchoolId(school.id)}
+                        onMouseOut={() => setHoveredSchoolId(null)}
+                    />
+                ))}
+
+                {start && showCurrentLocationPin && (
+                    <Marker
+                        position={start}
+                        icon={{
+                          url: svgMarkerIconStart,
+                          scaledSize: new google.maps.Size(25, 25),
+                        }}
+                    />
+                )}
+
+                {waypoints && waypoints
+                    .filter((waypoint): waypoint is { id: number; location: Location } => waypoint.location !== null)
+                    .map((waypoint, index) => (
+                        <Marker
+                            key={index}
+                            position={waypoint.location}
+                            icon={{
+                              url: svgMarkerIconStart,
+                              scaledSize: new google.maps.Size(25, 25),
+                            }}
+                        />
+                    ))}
+
+                {destination && (
+                    <Marker
+                        position={destination}
+                        icon={{
+                          url: svgMarkerIconEnd,
+                          scaledSize: new google.maps.Size(25, 25),
+                        }}
+                    />
+                )}
+
+                {directions && (
+                    <DirectionsRenderer
+                        directions={directions}
+                        options={{ suppressMarkers: true }}
+                    />
+                )}
+              </GoogleMap>
+            </div>
+            {schools && schools.length > 0 && (
+                <div
+                    style={{ opacity: hasSearched ? '1' : '0' }}
+                    className="list-scroller mobile"
+                >
+                  <div className="nearby-schools-list">
+                    {sortedSchools.map((school, index) => (
+                        <div key={index} className="school-list">
+                          <a href={`/school/${school.id}`}>
+
+                            <div
+                                key={index}
+                                className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
+                                onMouseOver={() => setHoveredSchoolId(school.id)}
+                                onMouseOut={() => setHoveredSchoolId(null)}
+                            >
+                              <div className='name h5 w-100 d-flex justify-content-between'>
+                                <div className='wrap d-flex justify-content-center align-items-center'>
+                                  <div className='marker'
+                                       dangerouslySetInnerHTML={{
+                                         __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
+                                       }}
+                                       style={{ width: '33px', height: '40px', marginRight: '10px' }}
+                                  >
+                                  </div>
+
+                                  {school.name}
+                                </div>
+                                <div className='d-flex justify-content-center align-items-center'>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
+                                    />
                                   </svg>
                                 </div>
                               </div>
-                            )
-                          })}
-
-                          <div className='second-input'>
-                            <div className='end'>
-                              <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
-                              </svg>
-                            </div>
-                            <Draggable key='destination' draggableId='destination' index={waypoints.length + 1}>
-                              {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                  <Autocomplete
-                                    onLoad={autocomplete => {
-                                      autocomplete.setComponentRestrictions({
-                                        country: 'us'
-                                      });
-                                      setAutocomplete3(autocomplete);
-                                    }}
-                                    onPlaceChanged={() => {
-                                      if (autocomplete3) {
-                                        const selectedPlace = autocomplete3.getPlace();
-                                        onPlaceSelected(selectedPlace, 'destination');
-                                      }
-                                    }}
-                                  >
-                                    <input
-                                      id="alongEnd"
-                                      type="text"
-                                      placeholder="Search by address, city, state, ZIP"
-                                      value={inputFields.find(field => field.type === 'destination')?.address || ''}
-                                      ref={routeInputRef2}
-                                      onChange={(e) => handleInputChange(e, 'destination')}
-                                      onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                          onEnterKeyPressed('destination');
-                                        }
-                                      }}
-                                    />
-
-                                  </Autocomplete>
-                                </div>
-                              )}
-                            </Draggable>
-
-                            <div className='drag-icon'>
-                              <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                              </svg>
-                            </div>
-                          </div>
-
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </div>
-
-              </div>
-            </div> */}
-
-            {schools && schools.length > 0 && (
-              <div
-                style={{ opacity: hasSearched ? '1' : '0' }}
-                className="list-scroller desktop"
-              >
-                <div className="nearby-schools-list">
-                  {sortedSchools.map((school, index) => (
-                    <div key={index} className="school-list">
-                      <a href={`/school/${school.slug}`}>
-
-                        <div
-                          key={index}
-                          className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                          onMouseOver={() => setHoveredSchoolId(school.id)}
-                          onMouseOut={() => setHoveredSchoolId(null)}
-                        >
-                          <div className='name h5 w-100 d-flex justify-content-between'>
-                            <div className='wrap d-flex justify-content-center align-items-center'>
-                              <div className='marker'
-                                dangerouslySetInnerHTML={{
-                                  __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
-                                }}
-                                style={{ width: '33px', height: '40px', marginRight: '10px' }}
-                              >
-                              </div>
-
-                              {school.name}
-                            </div>
-                            <div className='d-flex justify-content-center align-items-center'>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div className='wrap'>
-                            <span className='distance'>{calculateDistance(
+                              <div className='wrap'>
+                          <span className='distance'>{calculateDistance(
                               mapCenter.lat,
                               mapCenter.lng,
                               school.coordinates.lat,
                               school.coordinates.lng
-                            ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
-                            <span className='address'>{school.address}</span>
-                          </div>
-                          <div className='hours'>{school.hours}</div>
-                          {school.notes && (
-                            <ul className='notes'>
-                              {school.notes.split(', ').map((note, noteIndex) => (
-                                <li key={noteIndex}>{note}</li>
-                              ))}
-                            </ul>
-                          )}
-                          <div className='button-wrap d-flex'>
-                            <button
-                              className="button primary"
-                              onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
-                            >
-                              Schedule a Tour
-                            </button>
-                            <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
-                              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                                <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
-                              </svg>
-                            </a>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className={`google-map-container ${isMobile ? (!showMap || !hasSearched ? 'hidden' : '') : (hasSearched ? 'shift' : '')}`}>
-            <GoogleMap
-              center={cmsMapCenter}
-              zoom={zoomLevel}
-              mapContainerStyle={containerStyle}
-              onLoad={(map) => {
-                mapRef.current = map;
-                directionsRendererRef.current = new google.maps.DirectionsRenderer({
-                  suppressMarkers: true,
-                  preserveViewport: true
-                });
-                directionsRendererRef.current.setMap(map);
-              }}
-              options={{
-                styles: [
-                  {
-                    featureType: 'poi',
-                    elementType: 'all',
-                    stylers: [{ visibility: 'off' }]
-                  }
-                ]
-              }}
-            >
-              {sortedSchools.map((school, index) => (
-                <Marker
-                  key={index}
-                  position={school.coordinates}
-
-                  icon={{
-                    url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
-                  }}
-                  onMouseOver={() => setHoveredSchoolId(school.id)}
-                  onMouseOut={() => setHoveredSchoolId(null)}
-                />
-              ))}
-
-              {start && showCurrentLocationPin && (
-                <Marker
-                  position={start}
-                  icon={{
-                    url: svgMarkerIconStart,
-                    scaledSize: new google.maps.Size(25, 25),
-                  }}
-                />
-              )}
-
-              {waypoints && waypoints
-                .filter((waypoint): waypoint is { id: number; location: Location } => waypoint.location !== null)
-                .map((waypoint, index) => (
-                  <Marker
-                    key={index}
-                    position={waypoint.location}
-                    icon={{
-                      url: svgMarkerIconStart,
-                      scaledSize: new google.maps.Size(25, 25),
-                    }}
-                  />
-                ))}
-
-              {destination && (
-                <Marker
-                  position={destination}
-                  icon={{
-                    url: svgMarkerIconEnd,
-                    scaledSize: new google.maps.Size(25, 25),
-                  }}
-                />
-              )}
-
-              {directions && (
-                <DirectionsRenderer
-                  directions={directions}
-                  options={{ suppressMarkers: true }}
-                />
-              )}
-            </GoogleMap>
-          </div>
-          {schools && schools.length > 0 && (
-            <div
-              style={{ opacity: hasSearched ? '1' : '0' }}
-              className="list-scroller mobile"
-            >
-              <div className="nearby-schools-list">
-                {sortedSchools.map((school, index) => (
-                  <div key={index} className="school-list">
-                    <a href={`/school/${school.slug}`}>
-
-                      <div
-                        key={index}
-                        className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                        onMouseOver={() => setHoveredSchoolId(school.id)}
-                        onMouseOut={() => setHoveredSchoolId(null)}
-                      >
-                        <div className='name h5 w-100 d-flex justify-content-between'>
-                          <div className='wrap d-flex justify-content-center align-items-center'>
-                            <div className='marker'
-                              dangerouslySetInnerHTML={{
-                                __html: svgIcon(school.index, '#5E6738', hoveredSchoolId === school.id)
-                              }}
-                              style={{ width: '33px', height: '40px', marginRight: '10px' }}
-                            >
-                            </div>
-
-                            {school.name}
-                          </div>
-                          <div className='d-flex justify-content-center align-items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
-                              <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730891 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722867 1.56412 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.2597 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#373A36"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className='wrap'>
-                          <span className='distance'>{calculateDistance(
-                            mapCenter.lat,
-                            mapCenter.lng,
-                            school.coordinates.lat,
-                            school.coordinates.lng
                           ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
-                          <span className='address'>{school.address}</span>
-                        </div>
-                        <div className='hours'>{school.hours}</div>
-                        {school.notes && (
-                          <ul className='notes'>
-                            {school.notes.split(', ').map((note, noteIndex) => (
-                              <li key={noteIndex}>{note}</li>
-                            ))}
-                          </ul>
-                        )}
-                        <div className='button-wrap d-flex'>
-                          <button
-                            className="button primary"
-                            onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
-                          >
-                            Schedule a Tour
-                          </button>
-                          <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
-                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                              <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
-                            </svg>
+                                <span className='address'>{school.address}</span>
+                              </div>
+                              <div className='hours'>{school.hours}</div>
+                              {school.notes && (
+                                  <ul className='notes'>
+                                    {school.notes.split(', ').map((note, noteIndex) => (
+                                        <li key={noteIndex}>{note}</li>
+                                    ))}
+                                  </ul>
+                              )}
+                              <div className='button-wrap d-flex'>
+                                <button
+                                    className="button primary"
+                                    onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
+                                >
+                                  Schedule a Tour
+                                </button>
+                                <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                                  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
+                                  </svg>
+                                </a>
+                              </div>
+                            </div>
                           </a>
                         </div>
-                      </div>
-                    </a>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-            </div>
-          )}
-        </LoadScript>
-      </div>
-    </Customizations>
+                </div>
+            )}
+          </LoadScript>
+        </div>
+      </Customizations>
   );
 };
 

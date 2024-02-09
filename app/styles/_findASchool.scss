@@ -448,10 +448,29 @@
             }
         }
     }
-
+    /* width */
+    .list-scroller::-webkit-scrollbar {
+        width: 3px;
+    }
+    
+    /* Track */
+    .list-scroller::-webkit-scrollbar-track {
+        background: rgba(255,255,255,.25); 
+    }
+    
+    /* Handle */
+    .list-scroller::-webkit-scrollbar-thumb {
+        background: #888; 
+    }
+    
+    /* Handle on hover */
+    .list-scroller::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+    }
     .list-scroller {
         &.desktop {
             display: none;
+            
         }
         @include media-breakpoint-up(lg) {
             &.mobile {
@@ -465,26 +484,28 @@
                 position: relative;
                 top: 30px;
                 left: 0;
-                background: $white;
                 border-radius: 10px;
                 overflow-y: scroll;
                 @include transitionAll;
             }
         }
+        
     }
 
     .nearby-schools-list {
         display: flex;
         flex-direction: column;
-        background: $white;
         .school-list {
+            margin-bottom:.5rem;
             &:first-child {
                 .school-list-item {
                     margin-top: 1rem;
                 }
             }
+            
         }
         .school-list-item {
+            background-color: #FBFBFB;
             margin-left: 1rem;
             margin-right: 1rem;
             margin-bottom: 0;
@@ -496,7 +517,7 @@
             align-self: stretch;
             border-radius: 12px;
             color: $primary-darkgray;
-            border: 1px solid $transparent;
+            border: 1px solid #E6E6E6;
             @include transition;
             
             .name {
@@ -555,4 +576,8 @@
             }
         }
     }
+}
+
+body.search-locations div.search{
+    display:none;
 }

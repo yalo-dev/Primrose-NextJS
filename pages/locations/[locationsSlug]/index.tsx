@@ -6,7 +6,7 @@ import TwoColumnsImageAndText from '../../../app/components/modules/TwoColumnsIm
 import QuoteTestimonials from '../../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
 import GeneralButtonCTA from '../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
-import FindASchoolMap from '../../../app/components/modules/FindASchoolMap/FindASchoolMap';
+import FindASchoolMap from '../../../app/components/modules/FindASchoolModule/FindASchoolModule';
 
 const GET_LOCATIONS = gql`
 query GetLocations {
@@ -171,7 +171,7 @@ export default function Location({ locationData }){
         query GetLocationData {
             market(id: "${'locations/' + slug}", idType: URI) {
                 name
-                schools (first:100000, where: {orderby: {field: TITLE, order: ASC}) {
+                schools (first:100000, where: {orderby: {field: TITLE, order: ASC}}) {
                   nodes {
                     title
                     uri

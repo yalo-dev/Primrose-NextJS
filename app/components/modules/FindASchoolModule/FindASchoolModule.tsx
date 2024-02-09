@@ -63,34 +63,28 @@ const svgIconStart = `
 `;
 
 interface SchoolsArray{
-  id: number;
+  id: string;
+  schoolAdminSettings: any,
+  schoolCorporateSettings: any,
   slug: string,
-  uri: string,
-  name: string;
-  address: string;
-  phoneNumber: any;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
+  title: string,
+  uri: string
 }
 
 interface FindASchoolMapProps{
-  schools?: SchoolsArray[];
-  title?: string;
-  center?: Location;
-  place?: any;
+  schools?: any;
+  heading?: string;
+  center?: any;
 }
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     schools,
-    title,
-    center = map_center,
-    place
+    heading,
+    center,
   } = props;
+  console.log(props);
+  center = {lat: center.latitude, lng: center.longitude};
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -132,7 +126,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
-  
   const handleNewWaypoint = (newWaypoint) => {
     setWaypoints([...waypoints, newWaypoint]);
   
@@ -159,17 +152,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     waypoints: [],
     destination: null
   });
-
   useEffect(() => {
     console.log("Updated refs", waypointRefs);
     console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
-    
-  useEffect(() => {
-    console.log('place');
-    console.log(place);
-    onPlaceSelected(place);
-  }, [place]);
+
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -341,7 +328,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   
   const renderRoute = () => {
-    console.log("inputFields in renderRoute():", inputFields);
+    //console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
     const waypointFields = inputFields.filter(f => f.type === 'waypoint');
     const destinationField = inputFields.find(f => f.type === 'destination');
@@ -464,14 +451,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const distance = calculateDistance(
       mapCenter.lat,
       mapCenter.lng,
-      school.coordinates?.lat,
-      school.coordinates?.lng
+      school.schoolCorporateSettings?.address?.latitude,
+      school.schoolCorporateSettings?.address?.longitude
     );
     return distance <= MAX_DISTANCE;
   });
 
   const sortedSchools = [...filteredSchools].map((school) => {
-    const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
+    const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.schoolCorporateSettings?.address?.latitude, school.schoolCorporateSettings?.address?.longitude);
     return { ...school, distance: dist };
   }).sort((a, b) => a.distance - b.distance)
     .map((school, index) => ({ ...school, index: index + 1 }));
@@ -700,10 +687,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
   return (
-    <div id="map" className={'find-a-school-container ' + (title? 'title': '')}>
-      {title && (
+    <div id="map" className={'find-a-school-container ' + (heading? 'title': '')}>
+      <LoadScript
+        googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
+        libraries={GOOGLE_MAP_LIBRARIES}
+      >
+      {heading && (
         <div className="map-title">
-          <h3>{title}</h3>
+          <h3>{heading}</h3>
         </div>
       )}
       
@@ -998,7 +989,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           >
                           </div>
 
-                          {school.name}
+                          {'Primrose School ' + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}
                         </div>
                         <div className='d-flex justify-content-center align-items-center'>
                           <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
@@ -1011,26 +1002,26 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                         <span className='distance'>{calculateDistance(
                           mapCenter.lat,
                           mapCenter.lng,
-                          school.coordinates.lat,
-                          school.coordinates.lng
+                          school.schoolCorporateSettings.address.latitude,
+                          school.schoolCorporateSettings.address.longitude
                         ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
-                        <span className='address'>{school.address}</span>
+                        <a href={school.schoolCorporateSettings.address.googlePlaceUrl} className='address'>{school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + " " + school.schoolCorporateSettings.address.zipcode }</a>
                       </div>
-                      <div className='hours'>{school.hours}</div>
+                      <div className='hours'>{"M-F " + school.schoolAdminSettings?.hoursOfOperation?.openingTime + " - " + school.schoolAdminSettings?.hoursOfOperation?.closingTime}</div>
                       {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                       <div className='button-wrap d-flex'>
                           <Button
                             className="button primary"
-                            href={"/schools/" + school.slug + "/schedule-a-tour"}
+                            href={school.slug + "/schedule-a-tour"}
                           >
                             Schedule a Tour
                           </Button>
-                          <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                          <a href={`tel:${school.schoolCorporateSettings.phoneNumber}`} className='phone ms-2'>
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
                               <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
                             </svg>
-                            {school.phoneNumber}
+                            {school.schoolCorporateSettings.phoneNumber}
                           </a>
                         </div>
                     </div>
@@ -1066,7 +1057,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             {sortedSchools.map((school, index) => (
               <Marker
                 key={index}
-                position={school.coordinates}
+                position={{lat: school.schoolCorporateSettings.address.latitude, lng: school.schoolCorporateSettings.address.longitude}}
 
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
@@ -1155,12 +1146,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       <span className='distance'>{calculateDistance(
                         mapCenter.lat,
                         mapCenter.lng,
-                        school.coordinates.lat,
-                        school.coordinates.lng
+                        school.schoolCorporateSettings.address.latitude,
+                        school.schoolCorporateSettings.address.longitude
                       ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
-                      <span className='address'>{school.address}</span>
+                      <span className='address'>{school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + " " + school.schoolCorporateSettings.address.zipcode}</span>
                     </div>
-                    <div className='hours'>{school.hours}</div>
+                    <div className='hours'>{"M-F " + school.schoolAdminSettings.hoursOfOperation?.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation?.closingTime }</div>
                     {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                     <div className='button-wrap d-flex'>
                           <button
@@ -1169,7 +1160,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           >
                             Schedule a Tour
                           </button>
-                          <a href={`tel:${school.phoneNumber}`} className='phone ms-2'>
+                          <a href={`tel:${school.schoolCorporateSettings.phoneNumber}`} className='phone ms-2'>
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
                               <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
@@ -1182,6 +1173,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             ))}
           </div>
         </div>
+        </LoadScript>
     </div>
   );
 };

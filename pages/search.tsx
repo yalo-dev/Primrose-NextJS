@@ -91,6 +91,14 @@ const SearchPage: React.FC = () => {
         googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
         libraries: ['places'],
       });   
+      useEffect(() =>
+        {
+            if(activeFilter == 'Locations'){
+                document.body.classList.add('search-locations');
+            }else{
+                document.body.classList.remove('search-locations');
+            }
+        },[activeFilter]);
     useEffect(() => {
         
        
@@ -420,6 +428,8 @@ const SearchPage: React.FC = () => {
     };
     
     const renderResults = () => {
+
+        
         const renderTitleAndFourPanels = () => (
             <div className='container col-lg-10 offset-lg-1'>
                 {!titleLoading && !titleError && (
@@ -519,6 +529,7 @@ const SearchPage: React.FC = () => {
                         </>
                     );
                 case 'Locations':
+                    
                     let fas_props = {
                         place: place,
                         schools: schools
