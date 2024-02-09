@@ -31,7 +31,9 @@ export default function Footer({ menuItems, siteSettings }) {
                                 <Link href={item.url} passHref>{item.label}</Link>
                             </li>
                         ))}
-                        <button id="ot-sdk-btn" className="ot-sdk-show-settings">Cookie Settings</button>
+                        <li id="ot-sdk-btn" className="ot-sdk-show-settings pb-4">
+                            Cookie Settings
+                        </li>
                     </ul>
                 </div>
                 <div className='wrap col-lg-4 col-xl-3'>
@@ -79,7 +81,6 @@ export default function Footer({ menuItems, siteSettings }) {
                 </div>
             </div>
             </div>
-            <button id="ot-sdk-btn" className="ot-sdk-show-settings">Cookie Settings</button>
         </footer>
     );
 }
