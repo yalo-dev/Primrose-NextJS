@@ -1009,12 +1009,12 @@ useEffect(() => {
                       <ul className='notes'><li>{school.notes}</li></ul>
                       <div className='button-wrap d-flex'>
                         <Button variant="primary">Schedule a Tour</Button>
-                        <div className='phone ms-2'>
+                        <a href={`tel:${school.phone}`} className='phone ms-2'>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
                           <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
                         </svg>
-                        </div>
+                        </a>
                       </div>
                     </div>
                   </a>
@@ -1148,12 +1148,12 @@ useEffect(() => {
                     <ul className='notes'><li>{school.notes}</li></ul>
                     <div className='button-wrap d-flex'>
                       <Button variant="primary">Schedule a Tour</Button>
-                      <div className='phone ms-2'>
+                      <a href={`tel:${school.phone}`} className='phone ms-2'>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3"/>
                           <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738"/>
                         </svg>
-                      </div>
+                      </a>
                     </div>
                   </div>
                 </a>
