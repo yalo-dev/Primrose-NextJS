@@ -10,7 +10,6 @@ export default function Footer({ menuItems, siteSettings }) {
     const disclaimer = siteSettings?.disclaimer || '';
 
     return (
-        <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
         <footer className='footer'>
             <div className='container'>
             <div className='row'>
@@ -79,6 +78,7 @@ export default function Footer({ menuItems, siteSettings }) {
                 </div>
             </div>
             </div>
+            <button id="ot-sdk-btn" className="ot-sdk-show-settings">Cookie Settings</button>
         </footer>
     );
 }
