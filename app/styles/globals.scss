@@ -496,7 +496,7 @@ a.link {
         }
     }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 389px) {
     .locations a.link::after {
         top: 17px; /* Adjust the top position for mobile */
     }
