@@ -496,6 +496,11 @@ a.link {
         }
     }
 }
+@media screen and (max-width: 389px) {
+    .locations a.link::after {
+        top: 17px; /* Adjust the top position for mobile */
+    }
+}
 div.market>div{
     margin: 1.5rem auto;
 }
