@@ -32,7 +32,7 @@ interface SearchResult {
     excerpt: {
         rendered: string;
     };
-    link: string;
+    url: string;
     date?: any;
     featuredImage?: {
         sourceUrl: string;
@@ -72,8 +72,8 @@ const SearchPage: React.FC = () => {
     const [error, setError] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
     const [activeFilter, setActiveFilter] = useState('Top Results');
-    const isResource = (post) => post.link.includes('/resources/');
-    const isLocation = (post) => post.link.includes('/schools/');
+    const isResource = (post) => post.url?.includes('/stories-resources/');
+    const isLocation = (post) => post.url?.includes('/schools/');
     const { data: titleData, loading: titleLoading, error: titleError } = useQuery(GET_TITLE_FOR_PANELS);
     const [resourceTagsOptions, setResourceTagsOptions] = useState<Option[]>([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
@@ -82,7 +82,7 @@ const SearchPage: React.FC = () => {
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const schools = schoolData;
     
-    console.log(router);
+    //console.log(router);
     const tagClassName = (tagName) => {
         return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
     };
@@ -147,9 +147,8 @@ const SearchPage: React.FC = () => {
             geocoder.geocode({ 'address': searchTerm }, (results, status) => {
                 if (status === 'OK' && results && results[0]) {
                     place = results[0];
-                    console.log(results[0]);
-                    console.log(place);
-                        setActiveFilter('Locations');
+                    console.log('is a place');
+                    setActiveFilter('Locations');
                     
                     return results[0];
                 } else {
@@ -161,7 +160,6 @@ const SearchPage: React.FC = () => {
     }
     useEffect(() => {
         const fetchResourceTags = async () => {
-
             
             
             try {
@@ -306,16 +304,20 @@ const SearchPage: React.FC = () => {
     const fetchSearchResults = async (searchTerm: string) => {
         setLoading(true);
         setError('');
+        let i=0;
+        let timer = setInterval(function(){
+            console.log('timer');
+            console.log(i);
+            i++;
+        }, 1000);
         try {
             const baseUrls = [
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/pages?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`,
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/schools?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`,
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resources?search=${encodeURIComponent(searchTerm)}&per_page=10&page=1`
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&search=${encodeURIComponent(searchTerm)}&orderby=relevance&per_page=100&page=1`,
             ];
             
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
             const flatResults = batchResults.flat();
-    
+            console.log(flatResults);
             const resultsWithAdditionalData = await Promise.all(flatResults.map(async (resource) => {
                 const enhancedResource: SearchResult = { ...resource };
     
@@ -344,6 +346,7 @@ const SearchPage: React.FC = () => {
             console.error(error);
             setError('Failed to load search results: ' + error.message);
         } finally {
+            clearInterval(timer);
             setLoading(false);
         }
             
@@ -358,6 +361,7 @@ const SearchPage: React.FC = () => {
             fetchSearchResults(searchTerm);
             router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
             setSearchPerformed(true);
+            setSearchTerm(searchTerm);
         }
     };
 
@@ -371,11 +375,11 @@ const SearchPage: React.FC = () => {
         switch (activeFilter) {
             case 'Stories & Resources':
                 results = searchResults.filter(isResource);
-                console.log('stories and resources');
-                console.log(results);
+                //console.log('stories and resources');
+                //console.log(results);
                 break;
             case 'Locations':
-                results = searchResults.filter(isLocation);
+                results = searchResults;
                 break;
             default:
                 results = searchResults;
@@ -456,78 +460,6 @@ const SearchPage: React.FC = () => {
             }
 
             switch (activeFilter) {
-                case 'Stories & Resources':
-                    const paginatedResources = getFilteredResults(); // Corrected here
-
-                    return (
-                        <>
-                        <div className='container col-lg-10 offset-lg-1'>
-                            <CustomMultiSelectDropdown
-                                options={resourceTagsOptions}
-                                onSelect={handleTagSelection}
-                                placeholder="All Topics"
-                            />
-                            <div className="resource-cards">
-                                {paginatedResources.map((resource) => {
-
-                                    const date = new Date(resource.date);
-                                    const formattedDate = date.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-                                    const tagClasses = resource.resourceTagNames?.map(tagName => tagClassName(tagName)).join(' ') || '';
-
-                                    return (
-                                        <div key={resource.id} className={`card medium ${tagClasses}`}>
-                                            <a href={resource.link}>
-                                                <div className="inner">
-                                                    {resource.featuredImage && (
-                                                        <div className="image-wrapper">
-                                                            <div
-                                                                className="image"
-                                                                style={{ backgroundImage: `url(${resource.featuredImage.sourceUrl})` }}
-                                                                aria-label={resource.title.rendered}
-                                                            ></div>
-                                                        </div>
-                                                    )}
-                                                    <div className="content-wrapper">
-                                                        <div className="details-wrapper">
-                                                            <div className="details d-flex justify-start align-items-center">
-                                                                <div className="caption position-relative me-3">
-                                                                    {resource.resourceTypeNames?.join(", ")}
-                                                                </div>
-                                                                <div className="date mb-0">{formattedDate}</div>
-                                                            </div>
-                                                            <h3 className="title pt-2 pb-4">{resource.title.rendered}</h3>
-                                                            <div className="excerpt" dangerouslySetInnerHTML={{ __html: resource.excerpt.rendered }} />
-                                                        </div>
-                                                        <div className="tags-wrapper">
-                                                            <div className="tags d-flex flex-wrap">
-                                                                {resource.resourceTagNames?.map((tag, index) => (
-                                                                    <div key={index} className="tag category mt-0">
-                                                                        {decodeHtml(tag)}
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    );
-                                })}
-                                
-                            </div>
-                        </div>
-                        {/* Display the message if no resources are visible */}
-                        {!hasVisibleResources && (
-                            <div className="no-resources-message">
-                                <div className='container col-lg-10 offset-lg-1'>
-                                    <h3 className='pt-5'>Sorry, no matches were found.</h3>
-                                </div>
-                                {renderTitleAndFourPanels()}
-                            </div>
-                        )}
-                        {renderPaginationControls()}
-                        </>
-                    );
                 case 'Locations':
                     
                     let fas_props = {
@@ -541,15 +473,14 @@ const SearchPage: React.FC = () => {
                       );
                 default:
                     const paginatedTopResults = getPaginatedResults();
-                
+                        console.log(paginatedTopResults);
                     return (
                         <>
                             <div className='container col-lg-10 offset-lg-1'>
                                 {paginatedTopResults.map(post => (
                                     <div className='result' key={post.id}>
-                                         <a href={post.link}><h5 className='title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} /></a>
-                                        <div className='excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
-                                        <a className='b2 link' href={post.link}>{post.link}</a>
+                                         <a href={post?.url}><h5 className='title' dangerouslySetInnerHTML={{ __html: post.title }} /></a>
+                                        <a className='b2 link' href={post?.url}>{post?.url}</a>
                                     </div>
                                 ))}
                             </div>
@@ -607,11 +538,11 @@ const SearchPage: React.FC = () => {
                                 onClick={() => handleFilterChange('Locations')}>
                                 Locations
                             </div>
-                            <div
+                            {/* <div
                                 className={`filter b2 pt-4 pb-4 ms-2 me-2 ms-lg-4 me-lg-4 ${activeFilter === 'Stories & Resources' ? 'active' : ''}`}
                                 onClick={() => handleFilterChange('Stories & Resources')}>
                                 Stories & Resources
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
