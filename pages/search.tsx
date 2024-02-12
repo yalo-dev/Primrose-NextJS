@@ -583,7 +583,7 @@ const SearchPage: React.FC = () => {
                                 value={searchTerm}
                                 onChange={handleInputChange}
                             />
-                            <button name="search" type="submit" hidden>Search</button>
+                            <button value="Search" name="search" type="submit" hidden>Search</button>
                             <div className={`clear-icon ${searchTerm ? 'active' : ''}`} onClick={clearInput}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
                                     <circle cx="10.5" cy="11.35" r="9.75" stroke="#5E6738" strokeWidth="1.5" />
