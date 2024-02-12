@@ -116,12 +116,14 @@ const Timeline: React.FC<TimelineProps> = ({
                 breakpoint: 1023,
                 settings: {
                     slidesToShow: 4,
+                    centerMode: false,
                 }
             },
             {
                 breakpoint: 767,
                 settings: {
                     slidesToShow: 2.25,
+                    centerMode: true,
                 }
             }
         ]
