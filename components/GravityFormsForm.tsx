@@ -3,6 +3,7 @@ import { useMutation, gql } from "@apollo/client";
 import { GfForm as GravityFormsFormType, FormField, FieldError } from "../generated/graphql";
 import useGravityForm from "../hooks/useGravityForm";
 import GravityFormsField from "./GravityFormsField";
+import Router from 'next/router';
 
 const SUBMIT_FORM = gql`
   mutation submitForm($formId: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -65,7 +66,7 @@ export default function GravityFormsForm({ form }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
-    return <p>{'Form successfully submitted - thank you.'}</p>
+    Router.push('/schedule-a-tour-thank-you');
   }
 
   console.log('error ', data?.submitGfForm?.errors);
