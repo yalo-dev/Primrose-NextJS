@@ -90,7 +90,7 @@ export default function Header({ menuItems }) {
         e.preventDefault(); // Prevent default form submission behavior
         if (inputText.trim()) {
             console.log(`Searching for: ${inputText.trim()}`); // Debugging log
-            router.push(`/search?query=${encodeURIComponent(inputText.trim())}`);
+            window.location.href=(`/search?query=${encodeURIComponent(inputText.trim())}`);
             resetNav();
         } else {
             console.log("Empty search query"); // Debugging log
