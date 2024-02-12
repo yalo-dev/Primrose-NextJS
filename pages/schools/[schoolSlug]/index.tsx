@@ -157,6 +157,7 @@ export async function getServerSideProps(context) {
         const response = await client.query({
             query: GET_SCHOOLS,
             variables: {id: `/schools/${schoolSlug}/`},
+            errorPolicy: "all"
         });
 
         console.log("School Data:", response.data.school);
