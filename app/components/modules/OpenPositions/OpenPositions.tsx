@@ -93,7 +93,7 @@ const OpenPositions = ({ careerPlugId }) => {
                     }
 
     return (
-        <div className='school school-careers'>
+        <div className='school school-careers' id="jobs">
             {jobPosts()}
         </div>
     );
