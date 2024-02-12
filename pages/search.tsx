@@ -569,7 +569,7 @@ const SearchPage: React.FC = () => {
             <div className='search-bar-container'>
                 <div className='container'>
                     <div className='search col-lg-10 offset-lg-1'>
-                        <form onSubmit={handleSearchSubmit}>
+                        <form action={'.'} onSubmit={handleSearchSubmit}>
                             <label htmlFor='search' className='hidden'>Search</label>
                             <input
                                 ref={inputRef}
