@@ -1,16 +1,17 @@
 import QuoteTestimonials from "../../app/components/modules/QuoteTestimonials/QuoteTestimonials";
 import React from "react";
+import NewsSlider from "../../app/components/modules/NewsSlider/NewsSlider";
 
 interface NewsSliderProps {
     adminSettings: null | any;
     isClient: boolean
 }
 
-export default function NewsSlider({adminSettings, isClient}: NewsSliderProps) {
+export default function SchoolNewsSlider({adminSettings, isClient}: NewsSliderProps) {
     if (!isClient) return null;
 
     const newsHeading = "See What's Happening in Our School";
-    const newsItems = adminSettings.newsItems;
+    const newsItems = adminSettings?.newsItems;
 
     if (!newsItems || newsItems.length === 0) {
         return null;

@@ -6,6 +6,7 @@ import Button from '../../atoms/Button/Button';
 const NewsSlider = ({ newsItems }) => {
     // Settings for the slick slider
     const settings = {
+        adaptiveHeight: true,
         dots: true,
         infinite: true,
         speed: 500,
@@ -29,7 +30,7 @@ const NewsSlider = ({ newsItems }) => {
                 <div key={index} className="slide">
                   <div key={index} className="card-wrapper">
                   <div className="card">
-                      <div className='featured-image' style={{ backgroundImage: `url(${item.newsImage.image.mediaItemUrl})` }}></div>
+                      <div className='featured-image' style={{ backgroundImage: `url(${item.newsImage?.image?.mediaItemUrl})` }}></div>
                       <div className="info">
                         <h4>{item.title}</h4>
                         <div className='excerpt' dangerouslySetInnerHTML={{ __html: item.shortDescription }} />
