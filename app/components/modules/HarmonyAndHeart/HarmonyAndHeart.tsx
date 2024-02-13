@@ -150,7 +150,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
                     </div>
                   </div>
                 </div>
-                <div className="col-12 d-block d-md-none"> 
+                <div className="col-12 d-block d-md-none p-0"> 
                 {collection?.spotifyLink?.url && (
                         <div className='music-container mt-4'>
                           <div className='music-buttons-row'>

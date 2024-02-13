@@ -496,9 +496,10 @@ a.link {
         }
     }
 }
-@media screen and (max-width: 389px) {
-    .locations a.link::after {
-        top: 17px; /* Adjust the top position for mobile */
+@media screen and (max-width: 768px) {
+    a.link::after {
+        top: calc(100% - 24px);
+
     }
 }
 div.market>div{

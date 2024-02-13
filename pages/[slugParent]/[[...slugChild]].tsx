@@ -1,13 +1,24 @@
+<<<<<<< HEAD:pages/[slugParent]/[[...slugChild]].tsx
 import { useRouter } from 'next/router';
 import { CommonPageComponent } from '../../app/components/templates/Layout/CommonPageComponent';
 import { useQuery } from '@apollo/client';
 import { client } from '../../app/lib/apollo';
 import gql from 'graphql-tag';
 import { getPageByUri, getAllPages } from '../../app/lib/pages';
+=======
+import {useRouter} from 'next/router';
+import {CommonPageComponent} from '../app/components/templates/Layout/CommonPageComponent';
+import {useQuery} from '@apollo/client';
+import {client} from '../app/lib/apollo';
+import gql from 'graphql-tag';
+import {notFound} from 'next/navigation'
+import Custom404 from "./404";
+>>>>>>> ec033b165d72977a7e6ec736314c4b9460cd3b91:pages/[...pageId].tsx
 
 const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {
+	  uri
 	  modules {
 		modules {
 			... on Page_Modules_Modules_BlockAndSlider {
@@ -1132,6 +1143,7 @@ query GetModules($id: ID = "") {
   }
 `;
 
+<<<<<<< HEAD:pages/[slugParent]/[[...slugChild]].tsx
 const DynamicPage = ({page}) => {
 	const router = useRouter();
 	const { pageId } = router.query;
@@ -1173,6 +1185,36 @@ const DynamicPage = ({page}) => {
 	  revalidate: 10,
 	};
   }
+=======
+const DynamicPage = ({testProp}) => {
+    const router = useRouter();
+    const {pageId} = router.query;
+
+    let id: string | null = null;
+    if (Array.isArray(pageId)) {
+        id = pageId.join('/');
+    } else if (pageId) {
+        id = pageId;
+    }
+
+    const {loading, error, data} = useQuery(MODULES_QUERY, {
+        variables: {id},
+        client,
+        skip: !id,
+    });
+
+    if (loading || !id) return <p></p>;
+    if (error) return <p>Error: {error.message}</p>;
+
+    const modules = data?.page?.modules?.modules || [];
+
+    // Wordpress will best match the uri with whatever slug is provided (i.e. open-a-school will pull a query for franchising/open-a-school)
+    // This validates an exact match and throws 404 if not exact
+    if (!(`/${id}/` === data?.page?.uri)) return <Custom404/>
+
+    return <CommonPageComponent modules={modules}/>;
+};
+>>>>>>> ec033b165d72977a7e6ec736314c4b9460cd3b91:pages/[...pageId].tsx
 
 
   export async function getStaticPaths() {
