@@ -71,9 +71,9 @@ export default function Footer({ menuItems, siteSettings }) {
                             )}
                         </li>
                     ))}
+                    <li id="ot-sdk-btn" className="ot-sdk-show-settings">Do Not Sell or Share My Personal Information</li>
                 </ul>
                 <div className='bottom col-12 col-lg-6 text-left mt-4 order-5'>
-                    <button id="ot-sdk-btn" className="ot-sdk-show-settings mb-4">Cookie Settings</button>
                     <div className='text col-12' dangerouslySetInnerHTML={{ __html: copyrightInfo }}></div>
                     <div className='disclaimer col-12' dangerouslySetInnerHTML={{ __html: disclaimer }}></div>
                 </div>

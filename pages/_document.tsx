@@ -52,7 +52,6 @@ class MyDocument extends Document {
                         }}
                     />
                     <script src="https://cdn.optimizely.com/js/20299544930.js"></script>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
                     <link
                         href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
                         rel="stylesheet"
