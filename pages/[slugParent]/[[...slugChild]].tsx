@@ -1139,13 +1139,11 @@ const DynamicPage = ({page}) => {
 };
   
   export async function getStaticProps({params}) {
-	const { slugParent, slugChild, uri } = params;
+	const { slugParent, slugChild } = params;
 	let pageUri = `/${slugParent}/`;
 	if (Array.isArray(slugChild) && slugChild.length > 0) {
 		pageUri = `${pageUri}${slugChild.join('/')}/`;
 	}
-	console.log("pageUri");
-	console.log(uri);
 	const page = await getPageByUri(pageUri); 
 	return {
 	  props: {
@@ -1165,7 +1163,6 @@ const DynamicPage = ({page}) => {
         const segments = page.node.uri.split('/').filter((seg) => seg !== '');
 		let slugParent = segments.shift();
 		let slugChild = segments;
-		console.log(page.node.uri);
 			return {
 			params: {
 				slugParent: slugParent,

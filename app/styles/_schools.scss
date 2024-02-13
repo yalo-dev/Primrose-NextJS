@@ -1,6 +1,7 @@
 .classrooms {
     padding-top: 1rem;
     padding-bottom: 1.5rem;
+    
     .hero-with-image-module {
         padding: 0 0 30px 0;
 
@@ -1651,4 +1652,10 @@
 .enrolling-alert {
     border-radius: 12px;
     background: var(--blue-normal, #006BA6);
+}
+
+.container.two-column{
+    background-color:white;
+    border: 1px solid #e6e6e6;
+    border-radius: 20px;
 }
