@@ -557,3 +557,21 @@ div.market .testimonials-with-video-or-image .slick-dots {
     position: absolute;
     height: 25px;
 }
+.schedular-link {
+    color: #fff;
+    background-color: #5E6738;
+    width: auto;
+    padding: 14px 20px;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    border: 0;
+    border-radius: 100px;
+    transition: all 300ms ease-in-out;
+    &:hover {
+        background-color: #373A36;
+        color: #fff;
+    }
+}
