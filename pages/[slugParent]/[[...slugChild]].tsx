@@ -1133,29 +1133,10 @@ query GetModules($id: ID = "") {
 `;
 
 const DynamicPage = ({page}) => {
-	const router = useRouter();
-	const { pageId } = router.query;
-  
-	let id: string | null = null;
-	if (Array.isArray(pageId)) {
-	  id = pageId.join('/');
-	} else if (pageId) {
-	  id = pageId;
-	}
-  
-	const { loading, error, data } = useQuery(MODULES_QUERY, {
-	  variables: { id },
-	  client,
-	  skip: !id, 
-	});
-  
-	if (loading || !id) return <p></p>;
-	if (error) return <p>Error: {error.message}</p>;
-  
 	const modules = page?.data?.page?.modules?.modules || [];
 
 	return <CommonPageComponent modules={modules} />;
-  };
+};
   
   export async function getStaticProps({params}) {
 	const { slugParent, slugChild, uri } = params;
