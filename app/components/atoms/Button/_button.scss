@@ -28,4 +28,11 @@ button {
             color: $grayscale-1;
         }
     }
+    &.schools-menu {
+        background-color: $grayscale-1;
+        color: $primary-darkgray;
+        &:hover {
+            background-color: $grayscale-3;
+        }
+    }
 }

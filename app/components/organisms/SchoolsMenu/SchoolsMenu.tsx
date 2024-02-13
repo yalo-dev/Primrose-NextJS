@@ -154,7 +154,7 @@ export default function SchoolsMenu() {
               <h1 className='h3'>{loading ? '' : schoolName || 'School Name'}</h1>
               </div>
               <div className='col w-100 col d-flex align-items-center justify-content-start'>
-                <Button label='Schedule a Tour' variant='secondary' href={`/schools/${schoolSlug}/schedule-a-tour`} />
+                <Button label='Schedule a Tour' className={'schools-menu'} href={`/schools/${schoolSlug}/schedule-a-tour`} />
                 <div className='phone ps-2 pe-2'>
                   <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
