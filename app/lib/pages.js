@@ -2,7 +2,13 @@ import { useQuery } from '@apollo/client';
 import { client } from '../lib/apollo';
 import gql from 'graphql-tag';
 
-
+export async function getAllPages(){
+	const data = await client.query({
+		query:GET_ALL_PAGES
+	});
+	const pages = data?.data.pages.edges;
+	return(pages);
+}
 export async function getPageByUri(uri){
     const data = await client.query({
         query:MODULES_QUERY,
@@ -13,7 +19,18 @@ export async function getPageByUri(uri){
 
     return(data);
 }
-
+ const GET_ALL_PAGES = gql`
+ query GET_ALL_PAGES {
+	pages(first:1000, where: {status: PUBLISH}) {
+	  edges {
+		node {
+		  id
+		  slug
+		  uri
+		}
+	  }
+	}
+  }`;
 const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {

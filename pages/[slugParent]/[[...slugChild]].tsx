@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import { CommonPageComponent } from '../app/components/templates/Layout/CommonPageComponent';
+import { CommonPageComponent } from '../../app/components/templates/Layout/CommonPageComponent';
 import { useQuery } from '@apollo/client';
-import { client } from '../app/lib/apollo';
+import { client } from '../../app/lib/apollo';
 import gql from 'graphql-tag';
+import { getPageByUri, getAllPages } from '../../app/lib/pages';
 
 const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
@@ -1131,7 +1132,7 @@ query GetModules($id: ID = "") {
   }
 `;
 
-const DynamicPage = () => {
+const DynamicPage = ({page}) => {
 	const router = useRouter();
 	const { pageId } = router.query;
   
@@ -1151,11 +1152,52 @@ const DynamicPage = () => {
 	if (loading || !id) return <p></p>;
 	if (error) return <p>Error: {error.message}</p>;
   
-	const modules = data?.page?.modules?.modules || [];
+	const modules = page?.data?.page?.modules?.modules || [];
 
 	return <CommonPageComponent modules={modules} />;
   };
   
+  export async function getStaticProps({params}) {
+	const { slugParent, slugChild, uri } = params;
+	let pageUri = `/${slugParent}/`;
+	if (Array.isArray(slugChild) && slugChild.length > 0) {
+		pageUri = `${pageUri}${slugChild.join('/')}/`;
+	}
+	console.log("pageUri");
+	console.log(uri);
+	const page = await getPageByUri(pageUri); 
+	return {
+	  props: {
+		page,
+	  },
+	  revalidate: 10,
+	};
+  }
 
+
+  export async function getStaticPaths() {
+	const pages = await getAllPages();
+	const dynamicPages = pages.filter(
+		(el) => el?.node.uri.length > 1
+	  );
+	  const paths = dynamicPages.map((page) => {
+        const segments = page.node.uri.split('/').filter((seg) => seg !== '');
+		let slugParent = segments.shift();
+		let slugChild = segments;
+		console.log(page.node.uri);
+			return {
+			params: {
+				slugParent: slugParent,
+				slugChild: slugChild,
+				uri: page.uri
+			},
+			};
+	  });
+  
+	return {
+	  paths,
+	  fallback: 'blocking'
+	};
+  }
 
 export default DynamicPage;
