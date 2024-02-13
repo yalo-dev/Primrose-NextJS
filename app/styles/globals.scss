@@ -109,6 +109,9 @@ body {
 .bg-gray{
     background-color: $grayscale-3;
 }
+.ot-sdk-show-settings {
+    cursor: pointer;
+}
 @media screen and (max-width: 991px){
     body{
         margin-top:100px;
