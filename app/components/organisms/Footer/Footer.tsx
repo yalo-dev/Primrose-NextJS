@@ -71,7 +71,7 @@ export default function Footer({ menuItems, siteSettings }) {
                             )}
                         </li>
                     ))}
-                    <li id="ot-sdk-btn" className="ot-sdk-show-settings">Do Not Sell or Share My Personal Information</li>
+                    <li className="ot-sdk-show-settings p-2 ps-0"><a href="#">Do Not Sell or Share My Personal Information</a></li>
                 </ul>
                 <div className='bottom col-12 col-lg-6 text-left mt-4 order-5'>
                     <div className='text col-12' dangerouslySetInnerHTML={{ __html: copyrightInfo }}></div>
