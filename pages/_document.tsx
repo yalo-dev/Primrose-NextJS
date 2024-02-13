@@ -43,13 +43,16 @@ class MyDocument extends Document {
                             `,
                         }}
                     />
-                    <Script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce"></Script>
-                    <Script>
-                        {`
-                           function OptanonWrapper() { }
-                        `}
-                    </Script>
-                    <Script src="https://cdn.optimizely.com/js/20299544930.js"></Script>
+                    <Script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce" />
+                     <script
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                            function OptanonWrapper() { }
+                            `,
+                        }}
+                    />
+                    <Script src="https://cdn.optimizely.com/js/20299544930.js" />
+                   
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
                     <link
                         href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
