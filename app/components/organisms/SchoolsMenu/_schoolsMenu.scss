@@ -25,13 +25,9 @@
 
             &:hover {
                 circle {
-                    fill: $primary-darkgray;
-                    stroke: $primary-darkgray;
+                    fill: $grayscale-3;
+                    stroke: $grayscale-3;
 
-                }
-
-                path {
-                    stroke: $white;
                 }
             }
         }
