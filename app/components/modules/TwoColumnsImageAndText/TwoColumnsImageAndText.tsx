@@ -120,7 +120,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
 
     let dropdownOptions: OptionType[] = [];
 
-    if (rightColumn?.options && Array.isArray(rightColumn.options)) {
+    if (rightColumn?.showDropdown && rightColumn?.options && Array.isArray(rightColumn.options)) {
         dropdownOptions = rightColumn.options.flatMap(dropItem => {
             if (dropItem.option) {
                 return {
@@ -134,7 +134,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
     }
 
     return (
-        <div className='container'>
+        <div className='container two-column'>
             <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}

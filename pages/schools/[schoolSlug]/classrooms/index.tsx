@@ -528,7 +528,7 @@ export default function ClassroomPage() {
                             <div className='right-column col-12 c col-lg-5 offset-lg-1'>
                                 <div className="b4 bold">{beforeAndAfterSchoolCare}</div>
                                 <div className='blurb' ><p>Whether your child is a budding actor, tech wizard, athlete, author or rock star, there’s something for everyone in our Explorer program.</p></div>
-                                <Button href={"/schools/" + currentSlug + "/classrooms/before-after-school"} label="Learn More">
+                                <Button href={"/schools/" + currentSlug + "/classrooms/" + slugify(beforeAndAfterSchoolCare, {lower:true, strict:true, remove: /[and]/g})} label="Learn More">
                                     "Learn More"
                                 </Button>
                             </div>

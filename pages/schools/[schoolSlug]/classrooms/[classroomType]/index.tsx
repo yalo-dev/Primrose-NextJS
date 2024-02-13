@@ -11,6 +11,7 @@ import GeneralButtonCTA from '../../../../../app/components/modules/GeneralButto
 import GeneralHorizontalTabs from '../../../../../app/components/modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import { useRouter } from 'next/router';
 import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/HeroWithImage';
+import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 
 var camelize = require('camelize');
 
@@ -305,6 +306,102 @@ const GET_CLASSROOM_TYPE = gql`
               }
               healthSafety
             }
+            beforeSchool {
+              classroomGallery {
+                image {
+                  sourceUrl
+                  mediaItemUrl
+                }
+                title
+                caption
+              }
+              testimonials {
+                ... on Testimonial {
+                  id
+                  title
+                  testimonials {
+                    name
+                    heading
+                    title
+                    testimonial
+                    featuredImage {
+                      altText
+                      mediaItemUrl
+                      sourceUrl
+                    }
+                  }
+                  uri
+                }
+              }
+              healthSafety
+              bussingInformation{
+                schoolName
+              }
+            }
+            afterSchool {
+              classroomGallery {
+                image {
+                  sourceUrl
+                  mediaItemUrl
+                }
+                title
+                caption
+              }
+              testimonials {
+                ... on Testimonial {
+                  id
+                  title
+                  testimonials {
+                    name
+                    heading
+                    title
+                    testimonial
+                    featuredImage {
+                      altText
+                      mediaItemUrl
+                      sourceUrl
+                    }
+                  }
+                  uri
+                }
+              }
+              healthSafety
+              bussingInformation{
+                schoolName
+              }
+            }
+            beforeAfterSchool {
+              classroomGallery {
+                image {
+                  sourceUrl
+                  mediaItemUrl
+                }
+                title
+                caption
+              }
+              testimonials {
+                ... on Testimonial {
+                  id
+                  title
+                  testimonials {
+                    name
+                    heading
+                    title
+                    testimonial
+                    featuredImage {
+                      altText
+                      mediaItemUrl
+                      sourceUrl
+                    }
+                  }
+                  uri
+                }
+              }
+              healthSafety
+              bussingInformation{
+                schoolName
+              }
+            }
           }
         }
       }
@@ -356,7 +453,6 @@ interface StaffMember {
 export default function ClassroomTypePage({ school, schoolSlug, data }) {
   
   const router = useRouter();
-  console.log(router.query);
   const { classroomType } = router.query;
   const classroom = data?.classroom;
   const hasData = (data) => {
@@ -370,15 +466,14 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     button: featuredBanner.button,
   };
   const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
-
+  console.log(classroom)
   let verticalTabs = classroom?.classroomModules?.verticalTabs;
   useEffect(() => {
     verticalTabs.tabs.map((tab, i) => {
       if(tab.label == "Healthy Bodies"){
         tab.content.list.map(listitem => {
           if(listitem.text == "Health & Safety"){
-            console.log("health and safety");
-            listitem.detailsPopUp += school.schoolAdminSettings[camelize(classroomType) as string].healthSafety;
+            listitem.detailsPopUp += school?.schoolAdminSettings[camelize(classroomType) as string].healthSafety;
           }
         });
       }
@@ -386,8 +481,11 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   },[classroom])
 
   const testimonialSection = () => {
-    const adminSettings = school.schoolAdminSettings;
-    console.log(adminSettings[camelize(classroomType) as string]);
+    const adminSettings = school?.schoolAdminSettings;
+    //console.log(adminSettings[camelize(classroomType) as string]);
+    if(!school?.schoolAdminSettings[camelize(classroomType) as string].testimonials){
+      return;
+    }
     const transformedTestimonials = adminSettings[camelize(classroomType) as string]?.testimonials?.map(testimonial => ({
         avatar: {
             sourceUrl: testimonial.featuredImage?.node?.sourceUrl,
@@ -529,7 +627,51 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
       </div>
     )
   }
+  const BussingInformation = () => {
+    let bussingInformation = school?.schoolAdminSettings[camelize(classroomType) as string].bussingInformation;
+    if(!bussingInformation){
+      return;
+    }
+    let bussing = bussingInformation.map((elementarySchool) =>{
+      return elementarySchool.schoolName;  
+    });
+    if(classroomType.indexOf('school') != -1 && bussingInformation){
+      const bussingProps =  {
+        switchColumnOrderOnDesktop: false,
+        centerModule: true,
+        rightColumn: {
+            heading: "We bus to the following Elementary Schools:",
+            subheading: "",
+            blurb: bussing.join(" <br /> "),
+            button: {},
+            buttonStyle: "",
+            buttonTwo: {},
+            buttonTwoStyle: "",
+            showDropdown: false,
+            options: {},
+        },
+        leftColumn: {
+            imageDesktop: {
+                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/FlowerCraft-Header.jpg',
+                altText: 'bussing image'
+            },
+            imageMobile: {
+                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/FlowerCraft-Header.jpg',
+                altText: 'bussing image mobile'
+            },
+            video: {},
+            imageOrVideo: "Image",
+            announcement: {},
+            showAnnouncementTile: false
+        },
+        customizations: {}
+    }
 
+      return <TwoColumnsImageAndText {...bussingProps} />
+    }else{
+      return;
+    }
+  }
   const StaffMembers = () => {
     const [visibleStaffCount, setVisibleStaffCount] = useState(20);
     const [activeBio, setActiveBio] = useState(null);
@@ -653,7 +795,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
       </div>
       
       <GeneralHorizontalTabs {...verticalTabs} />
-      
+      {BussingInformation()}
       <div className='background-color'>
         {StaffMembers()}
        {shouldRenderCTA && (
