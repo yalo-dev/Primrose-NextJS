@@ -52,6 +52,10 @@ export async function getServerSideProps(context) {
               streetAddress2
             }
             phoneNumber
+            scheduleATourThankYouImage {
+              altText
+              mediaItemUrl
+            }
           }
         }
       }
@@ -64,6 +68,7 @@ export async function getServerSideProps(context) {
     // Extract the data
     const staff = response?.data?.school?.schoolAdminSettings.meetStaffImage;
     const school = response?.data?.school;
+    const imageSAT = response?.data?.school?.schoolCorporateSettings?.scheduleATourThankYouImage
     return {
         props: {
             school,
@@ -72,14 +77,15 @@ export async function getServerSideProps(context) {
             socialLinks: {
                 facebook: school.schoolAdminSettings.facebookLink,
                 instagram: school.schoolAdminSettings.instagramLink
-            }
+            },
+            imageSAT
         },
     };
 
 }
 
-export default function ThankYouPage({ school, staff, schoolSlug, socialLinks }) {
-
+export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, imageSAT }) {
+    console.log('image: ', imageSAT)
     const [showModal, setShowModal] = useState(false);
     const meetOurStaff = staff;
     const franchiseOwner = school.schoolAdminSettings.franchiseOwner;
@@ -134,13 +140,24 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks })
                         {franchiseOwner && (
                             <div className='thank two-columns-image-and-text-alternative reverse-column'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                        <img
+                                    {
+                                        imageSAT
+                                            ? <img
+                                            src={imageSAT.mediaItemUrl}
+                                            alt={imageSAT.altText}
+                                            className='img-fluid'
+                                            width="500"
+                                            height="500"
+                                            />
+                                            : <img
                                             src='/assets/baby.png'
                                             alt='feature image'
                                             className='img-fluid'
                                             width="500"
                                             height="500"
-                                        />
+                                            />
+                                    }
+
                                 </div>
                                 <div className='right-column col-12 col-lg-5'>
                                     <h2 className='green'>Thank You</h2>
