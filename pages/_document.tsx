@@ -32,22 +32,24 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <Script id="google-tag-manager" strategy="afterInteractive">
-                        {`
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `
                             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
                             })(window,document,'script','dataLayer','GTM-MJKZ3SLB');
-                        `}
-                    </Script>
-                    <Script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce" strategy="afterInteractive"></Script>
+                            `,
+                        }}
+                    />
+                    <Script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce"></Script>
                     <Script>
                         {`
                            function OptanonWrapper() { }
                         `}
                     </Script>
-                    <Script src="https://cdn.optimizely.com/js/20299544930.js" strategy="afterInteractive"></Script>
+                    <Script src="https://cdn.optimizely.com/js/20299544930.js"></Script>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
                     <link
                         href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
