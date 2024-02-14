@@ -1,6 +1,7 @@
 import Button from "../../app/components/atoms/Button/Button";
 import SelectDropdown from "../../app/components/molecules/SelectDropdown/SelectDropdown";
 import React from "react";
+import FranchiseOwnerBio from "../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
 
 // TODO: replace 'any' with types
 interface FirstFiveProps {
@@ -14,6 +15,8 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
         label: classroom,
         value: classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-')
     }));
+    console.log('franchiseOwner: ', adminSettings.franchiseOwner)
+
     return (
         <div className='first-five-module'>
             <div className='first-five'>
@@ -53,31 +56,33 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                                 </div>
                             </div>
                         </div>
-                        <div className='staff'>
-                            <div className='two-columns-image-and-text-alternative reverse-column'>
-                                <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                        { adminSettings?.franchiseOwner
+                            ? <FranchiseOwnerBio franchiseOwner={adminSettings.franchiseOwner} />
+                            : <div className='staff'>
+                                <div className='two-columns-image-and-text-alternative reverse-column'>
+                                  <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     {adminSettings?.meetStaffImage?.mediaItemUrl && <img
-                                        src={adminSettings?.meetStaffImage?.mediaItemUrl}
-                                        alt="staff image"
-                                        width={500}
-                                        height={500}
+                                      src={adminSettings?.meetStaffImage?.mediaItemUrl}
+                                      alt="staff image"
+                                      width={500}
+                                      height={500}
                                     />}
-                                </div>
-                                <div className='right-column col-12 col-lg-5 offset-lg-1'>
+                                  </div>
+                                  <div className='right-column col-12 col-lg-5 offset-lg-1'>
                                     <h2 className="">Meet Our Teachers & Staff</h2>
                                     <div className='blurb'>
                                         When children feel safe, loved and confident, they can learn and grow to their
                                         fullest potential. That’s why Primrose school teachers and staff are dedicated
                                         to creating an environment that helps lay the foundation for a lifelong love of
                                         learning.
-
                                     </div>
                                     <Button href={schoolSlug + "/staff"}>
                                         Learn More
                                     </Button>
+                                  </div>
                                 </div>
-                            </div>
-                        </div>
+                              </div>
+                        }
                     </div>
                 </div>
             </div>

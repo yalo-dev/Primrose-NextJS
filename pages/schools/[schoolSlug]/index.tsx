@@ -81,6 +81,16 @@ export async function getServerSideProps(context) {
                   mediaItemUrl
                 }
               }
+              franchiseOwner {
+                bio
+                multipleOwners
+                name
+                image {
+                  altText
+                  sourceUrl
+                  mediaItemUrl
+                }
+              }
               classroomsOffered
               displayEmergencyAlert
               emergencyMessage {

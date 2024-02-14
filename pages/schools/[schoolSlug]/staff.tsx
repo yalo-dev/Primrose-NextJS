@@ -8,6 +8,7 @@ import Button from '../../../app/components/atoms/Button/Button';
 import { MultiSelectDropdown } from '../../../app/components/molecules/MultiSelectDropdown/MultiSelectDropdown';
 import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
 import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
+import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
 
 interface StaffMember {
   altText?: string;
@@ -96,7 +97,6 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseO
   const rightScrollerRef = useRef<HTMLDivElement>(null);
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const [activeBio, setActiveBio] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [bioHeights, setBioHeights] = useState({});
   const initialStaffCount = 20;
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
@@ -157,46 +157,16 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseO
     }
   }, []);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-    document.body.style.overflow = 'hidden';
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    document.body.style.overflow = 'auto';
-  };
+
+
 
   const truncateText = (text, length) => {
     if (text.length <= length) return text;
     return text.slice(0, length) + '...';
   };
 
-  const Modal = ({ show, onClose, imageSrc, bio }) => {
-    return (
-      <div className={`modal-overlay ${show ? 'show' : ''}`} onClick={onClose}>
-        <div className='modal-content' onClick={e => e.stopPropagation()}>
-          <div className='close' onClick={onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="29" viewBox="0 0 32 29" fill="none">
-              <circle cx="10.5" cy="10.5" r="9.75" transform="matrix(0.733776 0.679391 -0.733776 0.679391 15.8516 0.036377)" stroke="#858783" strokeWidth="1.5" />
-              <rect width="1.28571" height="9" transform="matrix(0.733776 0.679391 -0.733776 0.679391 18.6797 10.8098)" fill="#5E6738" />
-              <rect width="1.28571" height="9" transform="matrix(0.733776 -0.679391 0.733776 0.679391 12.082 11.6824)" fill="#5E6738" />
-            </svg>
-          </div>
-          <div className='two-columns-image-and-text-alternative'>
-            <div className='left-column'>
-              <img src={franchiseOwner.image.sourceUrl} alt={'Franchise Owner ' + franchiseOwner.name} />
-            </div>
-            <div className='right-column'>
-              <h5 className='b4'>{franchiseOwner.name}</h5>
-              <div className='b3 pb-3'>{franchiseOwner.multipleOwners ? 'Franchise Owners' : 'Franchise Owner'}</div>
-              <div className="modal-bio" dangerouslySetInnerHTML={{__html:franchiseOwner.bio}} />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+
 
   const measureBioHeight = (index) => {
     requestAnimationFrame(() => {
@@ -289,37 +259,7 @@ useEffect(() => {
       </div>
       <div className='container'>
         {/* Franchise Owners Section */}
-        <div className='row'>
-          <div className='franchise-owners'>
-            {franchiseOwner && (
-              <div className='two-columns-image-and-text-alternative reverse-column'>
-                <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                  {franchiseOwner?.image && (
-                    <img
-                      src={franchiseOwner.image.sourceUrl}
-                      alt={'Franchise Owner ' + franchiseOwner.name}
-                      className='img-fluid'
-                      width="500"
-                      height="500"
-                    />
-                  )}
-                </div>
-                <div className='right-column col-12 col-lg-5'>
-                  <h2>{!franchiseOwner.multipleOwners ? 'Franchise Owner' : 'Franchise Owners'}</h2>
-                  <h5>{franchiseOwner.name}</h5>
-                  <div className="bio" dangerouslySetInnerHTML={{__html:franchiseOwner.bio}} />
-                  <Button onClick={handleOpenModal}>Read More</Button>
-                  <Modal
-                    show={showModal}
-                    onClose={handleCloseModal}
-                    imageSrc={franchiseOwner.image.sourceUrl}
-                    bio={franchiseOwner.bio}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        {franchiseOwner && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
       {hasScheduleATour && (
          <div className='container'>
