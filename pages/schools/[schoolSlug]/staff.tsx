@@ -1,12 +1,10 @@
 import { client } from '../../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import Heading from '../../../app/components/atoms/Heading/Heading';
 import Subheading from '../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../app/components/atoms/Button/Button';
-import { MultiSelectDropdown } from '../../../app/components/molecules/MultiSelectDropdown/MultiSelectDropdown';
-import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
+import SelectDropdown, {OptionType} from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
 import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
 import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
 
@@ -92,23 +90,20 @@ export async function getServerSideProps(context) {
 export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseOwner }) {
 
   const hasScheduleATour = ScheduleATour?.length > 0;
-
   const leftScrollerRef = useRef<HTMLDivElement>(null);
   const rightScrollerRef = useRef<HTMLDivElement>(null);
-  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const [activeBio, setActiveBio] = useState(null);
   const [bioHeights, setBioHeights] = useState({});
   const initialStaffCount = 20;
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
-  const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
-  const [selectedGroup, setSelectedGroup] = useState('All'); // Initialize selectedGroup with 'All'
+  const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
 
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };
 
-  const canLoadMore = staff?.length > visibleStaffCount;
+  const canLoadMore = filteredStaffMembers?.length > visibleStaffCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
@@ -142,31 +137,18 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseO
       return Array.from(images).every((img) => (img as HTMLImageElement).complete);
     };
     if (checkIfImagesLoaded()) {
-      setAllImagesLoaded(true);
       setInterval(scrollContent, 20);
     } else {
       const images = document.querySelectorAll('.find-a-school .image-scroller img');
       images.forEach((img) => {
         img.addEventListener('load', () => {
           if (checkIfImagesLoaded()) {
-            setAllImagesLoaded(true);
             setInterval(scrollContent, 20);
           }
         });
       });
     }
   }, []);
-
-
-
-
-
-  const truncateText = (text, length) => {
-    if (text.length <= length) return text;
-    return text.slice(0, length) + '...';
-  };
-
-
 
   const measureBioHeight = (index) => {
     requestAnimationFrame(() => {
@@ -183,23 +165,13 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseO
     { label: 'Leadership', value: 'Leadership' },
     { label: 'Teachers', value: 'Teacher' },
     { label: 'Staff', value: 'Staff' }
-].map(group => ({ label: group.label, url: `#${group.value}` }));
-
-// ... (rest of your code)
-
-const handleSelectedGroup = (selectedOption) => {
-  const selectedGroup = selectedOption.url.substring(1); // Assuming the URL is something like '#Leadership'
-  console.log('Selected Group:', selectedGroup); // Debugging
-  setSelectedGroup(selectedGroup);
-};
+]
 
 useEffect(() => {
-  console.log('Selected Group in useEffect:', selectedGroup); // Debugging
-  const filtered = selectedGroup === 'All' 
-      ? staff 
-      : staff.filter(member => member.group === selectedGroup);
+  const filtered = !selectedGroup || selectedGroup.value === 'All'
+      ? staff
+      : staff.filter(member => member.group === selectedGroup.value);
 
-  console.log('Filtered Staff Members:', filtered); // Debugging
   setFilteredStaffMembers(filtered);
 }, [selectedGroup, staff]);
 
@@ -211,9 +183,10 @@ useEffect(() => {
             <h1>Teachers & Staff</h1>
             <div className='filter'>
             <SelectDropdown
+                selectedOption={selectedGroup}
                 options={groupOptions}
                 placeholder="Select A Category"
-                onSelect={handleSelectedGroup}
+                onSelect={setSelectedGroup}
             />
             </div>
           </div>
@@ -227,9 +200,8 @@ useEffect(() => {
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
-                      <h5 className='mb-0'>{member.name}</h5>
+                      <h5 className='mb-0'>{member.name} here</h5>
                       <div className='b3'>{member.title}</div>
-                      {/* <span className='staff-group'>{member.group}</span> */}
                     </div>
                     <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>
                       <span></span>
@@ -245,16 +217,14 @@ useEffect(() => {
                       <div className='b3 p-3' dangerouslySetInnerHTML={{ __html: member.bio }} />
                     </div>
                   </div>
-                 
+
                 </div>
               </div>
             ))}
           </div>
-          {canLoadMore && (
             <div className="load-more d-flex align-items-center justify-content-center">
-              <Button onClick={loadMoreStaff}>Load More</Button>
+              {canLoadMore &&<Button onClick={loadMoreStaff}>Load More</Button>}
             </div>
-          )}
         </div>
       </div>
       <div className='container'>
