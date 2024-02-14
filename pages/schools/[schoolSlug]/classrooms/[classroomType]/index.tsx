@@ -483,7 +483,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const testimonialSection = () => {
     const adminSettings = school?.schoolAdminSettings;
     //console.log(adminSettings[camelize(classroomType) as string]);
-    if(!school?.schoolAdminSettings[camelize(classroomType) as string].testimonials){
+    if(!school?.schoolAdminSettings[camelize(classroomType) as string]?.testimonials){
       return;
     }
     const transformedTestimonials = adminSettings[camelize(classroomType) as string]?.testimonials?.map(testimonial => ({
@@ -542,7 +542,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
 }
   const findASchool = () => {
 
-    const ScheduleATour = school?.schoolAdminSettings[camelize(classroomType) as string].classroomGallery? school?.schoolAdminSettings[camelize(classroomType) as string].classroomGallery : school?.schoolAdminSettings?.satImages ;
+    const ScheduleATour = school?.schoolAdminSettings[camelize(classroomType) as string]?.classroomGallery? school?.schoolAdminSettings[camelize(classroomType) as string].classroomGallery : school?.schoolAdminSettings?.satImages ;
     const hasScheduleATour = ScheduleATour;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
@@ -628,7 +628,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     )
   }
   const BussingInformation = () => {
-    let bussingInformation = school?.schoolAdminSettings[camelize(classroomType) as string].bussingInformation;
+    let bussingInformation = school?.schoolAdminSettings[camelize(classroomType) as string]?.bussingInformation;
     if(!bussingInformation){
       return;
     }
