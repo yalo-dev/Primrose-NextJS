@@ -108,7 +108,7 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour, franchiseO
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };
 
-  const canLoadMore = staff.length > visibleStaffCount;
+  const canLoadMore = staff?.length > visibleStaffCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
@@ -249,7 +249,7 @@ useEffect(() => {
           </div>
           <div className='staff-members'>
 
-            {filteredStaffMembers.slice(0, visibleStaffCount).map((member, index) => (
+            {filteredStaffMembers?.slice(0, visibleStaffCount).map((member, index) => (
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
