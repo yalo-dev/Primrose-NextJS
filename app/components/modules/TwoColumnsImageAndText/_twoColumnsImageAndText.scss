@@ -1,6 +1,7 @@
 .two-columns-image-and-text {
     display: flex;
     flex-direction: column;
+
     @include media-breakpoint-up(lg) {
         flex-direction: row;
         align-items: center;
