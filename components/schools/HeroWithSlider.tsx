@@ -92,7 +92,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                         <h5 className='mt-4 green'>Age Groups Served</h5>
                                         <ul>
                                             {classroomsData && classroomsData
-                                                .filter(classroom => classroom !== "Summer Adventure Club" && classroom !== "Before & After Care")
+                                                .filter(classroom => classroom !== "Before & After Care")
                                                 .map((classroom, index) => {
                                                     const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');
                                                     const classroomUrl = `${[schoolSlug]}/classrooms/${classroomSlug}`;
