@@ -69,27 +69,9 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
 
                             <div className='d-lg-flex'>
                                 <div className='info-wrapper'>
-                                    {/* <h5 className='green'>The Leader in Early Education and Care®️</h5> */}
-                                    <div className='hours mt-4'><h5 className='green'>Hours & Location</h5><span
-                                        className='b3'>M-F {adminSettings?.hoursOfOperation.openingTime}-{adminSettings?.hoursOfOperation.closingTime}</span>
-                                    </div>
-                                    <div className='phone'><span className='b3'><a
-                                        href={`tel:${corporateSettings?.phoneNumber}`}>{corporateSettings?.phoneNumber}</a></span>
-                                    </div>
-                                    <div className='address'>
-                                            <span className='icon me-2'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18"
-                                                     viewBox="0 0 15 18" fill="none">
-                                                    <path fillRule="evenodd" clipRule="evenodd"
-                                                          d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z"
-                                                          stroke="#555F68" strokeWidth="1.5"/>
-                                                </svg>
-                                            </span>
-                                        <span
-                                            className='b3'>{corporateSettings?.address?.streetAddress} {corporateSettings?.address?.streetAddress2}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
-                                    </div>
+                                    <h5 className='green'>The Leader in Early Education and Care®️</h5>
                                     <div className='classrooms'>
-                                        <h5 className='mt-4 green'>Age Groups Served</h5>
+                                        <h5 className='mt-4 green'>Children Served</h5>
                                         <ul>
                                             {classroomsData && classroomsData
                                                 .filter(classroom => classroom !== "Summer Adventure Club" && classroom !== "Before & After Care")
@@ -108,7 +90,24 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                             }
                                         </ul>
                                     </div>
-
+                                    <div className='hours mt-1'><h5 className='green'>Hours & Location</h5><span
+                                        className='b3'>M-F {adminSettings?.hoursOfOperation.openingTime}-{adminSettings?.hoursOfOperation.closingTime}</span>
+                                    </div>
+                                    <div className='phone'><span className='b3'><a
+                                        href={`tel:${corporateSettings?.phoneNumber}`}>{corporateSettings?.phoneNumber}</a></span>
+                                    </div>
+                                    <div className='address'>
+                                            <span className='icon me-2'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18"
+                                                     viewBox="0 0 15 18" fill="none">
+                                                    <path fillRule="evenodd" clipRule="evenodd"
+                                                          d="M2.91631 2.78948C0.36123 5.37616 0.36123 9.57634 2.91631 12.1628L7.54545 16.8496L12.1746 12.1628C14.7297 9.57634 14.7297 5.37616 12.1746 2.78948C9.61986 0.202986 5.47105 0.202986 2.91631 2.78948ZM7.63273 10.2719C9.17498 10.2719 10.4254 8.99835 10.4254 7.4274C10.4254 5.85646 9.17498 4.58295 7.63273 4.58295C6.09047 4.58295 4.84004 5.85646 4.84004 7.4274C4.84004 8.99835 6.09047 10.2719 7.63273 10.2719Z"
+                                                          stroke="#555F68" strokeWidth="1.5"/>
+                                                </svg>
+                                            </span>
+                                        <span
+                                            className='b3'>{corporateSettings?.address?.streetAddress} {corporateSettings?.address?.streetAddress2}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
+                                    </div>
                                 </div>
                                 {corporateSettings?.accreditations && (
                                     <div className='accreditations'>
