@@ -10,6 +10,8 @@ interface HeroWithSliderProps {
 }
 export default function HeroWithSlider({corporateSettings, adminSettings, schoolSlug}: HeroWithSliderProps) {
     const classroomsData = adminSettings?.classroomsOffered;
+    const extraCareData = adminSettings?.extraCareOffered;
+    const selectedOfferings = classroomsData.concat(extraCareData);
 
     const settings = {
         dots: true,
@@ -73,7 +75,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                     <div className='classrooms'>
                                         <h5 className='mt-4 green'>Children Served</h5>
                                         <ul>
-                                            {classroomsData && classroomsData
+                                            {selectedOfferings && selectedOfferings
                                                 .filter(classroom => classroom !== "Before & After Care")
                                                 .map((classroom, index) => {
                                                     const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');

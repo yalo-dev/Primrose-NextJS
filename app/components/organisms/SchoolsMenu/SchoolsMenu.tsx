@@ -15,10 +15,11 @@ const GET_SCHOOL_DETAILS = gql`
       title
       schoolCorporateSettings {
           schoolOfAtOn
-        }
-        schoolAdminSettings {
-            classroomsOffered
-        }
+      }
+      schoolAdminSettings {
+          classroomsOffered
+          extraCareOffered
+      }
     }
   }
 `;
@@ -35,10 +36,11 @@ export default function SchoolsMenu() {
     skip: !schoolSlug, 
   });
 
-  const schoolName = "Primrose Schools " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
+  const schoolName = "Primrose School " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
   console.log(schoolName);
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
+  const selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered || [];
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
@@ -94,7 +96,8 @@ export default function SchoolsMenu() {
   };
 
   const generateClassroomSubmenu = () => {
-    return selectedClassrooms.map(classroom => {
+    const selectedOfferings =  selectedClassrooms.concat(selectedExtraCare)
+    return selectedOfferings.map(classroom => {
       const classroomSlug = classroom.replace(/\s+/g, '-').replace(/[&]/g, 'and').toLowerCase();
       return (
         <div className='item' key={classroom}>
