@@ -7,6 +7,7 @@ import Subheading from '../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../app/components/atoms/Button/Button';
 import { MultiSelectDropdown } from '../../../app/components/molecules/MultiSelectDropdown/MultiSelectDropdown';
 import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
+import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
 
 interface StaffMember {
   altText?: string;
@@ -252,7 +253,7 @@ useEffect(() => {
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
-                    {member.image && <img src={member.image.sourceUrl} alt={member.name} className='img-fluid' />}
+                    {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
