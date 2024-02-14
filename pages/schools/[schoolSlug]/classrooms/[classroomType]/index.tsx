@@ -1,18 +1,15 @@
 import { client } from '../../../../../app/lib/apollo';
 import { gql } from '@apollo/client';
 import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import Heading from '../../../../../app/components/atoms/Heading/Heading';
 import Subheading from '../../../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../../../app/components/atoms/Button/Button';
 import QuoteTestimonials from '../../../../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
-import GallerySlider from '../../../../../app/components/modules/GallerySlider/GallerySlider';
 import GeneralButtonCTA from '../../../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../../../../app/components/modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import { useRouter } from 'next/router';
 import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/HeroWithImage';
 import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
-import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
 
 var camelize = require('camelize');
 
@@ -721,7 +718,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
                 <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                   <div className='row align-items-center'>
                     <div className='col-4'>
-                      {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
+                      {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={'/assets/staff-default-thumbnail.jpg'} alt="Primrose Staff Member Photo" className="img-fluid" />}
                     </div>
                     <div className='col-7 '>
                       <div className='text-wrap pe-5'>
