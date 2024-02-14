@@ -139,7 +139,7 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
                   )}
                 </div>
                 {column.blurb && <div className='b2 mb-4' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
-                {column.button.buttonLink.url && (
+                {column.button && column.button.buttonLink && column.button.buttonLink.url && (
                   <div className='link-container'>
                     {column.button.buttonStyle === 'Style 1' ? (
                       <Button
