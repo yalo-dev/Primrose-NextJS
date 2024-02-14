@@ -43,7 +43,6 @@ export async function getServerSideProps(context) {
               caption
             }
             testimonialsCareers {
-                headline
                 name
                 title
                 testimonial
