@@ -30,7 +30,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                     <Slider {...settings}>
                                         {corporateSettings.homepageHeroImage.map((image, index) => (
                                             <div className='image-wrapper d-block' key={index}>
-                                                <img src={image.mediaItemUrl} alt={image.altText || `Hero Image ${index}`}/>
+                                                <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.mediaItemUrl} alt={image.altText || `Hero Image ${index}`}/>
                                             </div>
                                         ))}
                                     </Slider>
