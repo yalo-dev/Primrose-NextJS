@@ -162,7 +162,8 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
                         <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
                     </div>
 
-                    {/*TODO Elijah Show CareerPlug iFrame*/}
+                    {careerPlugSection()}
+
                     {/*<div className='job-tile-wrapper pt-5 pb-5'>*/}
                     {/*    {careerPlugSchoolId ? (*/}
                     {/*        // Map over schoolJobs and render with JobTile if careerPlugSchoolId is present*/}
@@ -197,6 +198,25 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
             </div>
         );
 
+    };
+
+    const { usesCareerplug, careerplugIframeUrl } = school.schoolCorporateSettings;
+
+    const careerPlugSection = () => {
+        if (usesCareerplug && careerplugIframeUrl) {
+            return (
+                <section className="careerplug-section">
+                <iframe
+                src={`https://${careerplugIframeUrl}`}
+                title="CareerPlug"
+                width="100%"
+                height="600px"
+                style={{ border: '2px solid #5E6738', borderRadius: '10px'}}
+                />
+                </section>
+            );
+        }
+        return null;
     };
 
     const testimonialSection = () => {
