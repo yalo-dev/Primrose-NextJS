@@ -64,7 +64,8 @@ export async function getServerSideProps(context) {
           }
           schoolCorporateSettings {
             schoolName
-            careerplugSchoolId
+            usesCareerplug
+            careerplugIframeUrl
             address {
               city
               state
@@ -145,13 +146,13 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
     }, [schoolJobs]);
 
     const jobPosts = () => {
-        const jobsToRender = careerPlugSchoolId ? schoolJobs : cmsJobs;
-        if (isLoading) {
-            return <p></p>;
-        }
-        if (!jobsToRender || jobsToRender.length === 0) {
-            return <p>No job postings available.</p>;
-        }
+        // const jobsToRender = careerPlugSchoolId ? schoolJobs : cmsJobs;
+        // if (isLoading) {
+        //     return <p></p>;
+        // }
+        // if (!jobsToRender || jobsToRender.length === 0) {
+        //     return <p>No job postings available.</p>;
+        // }
 
         return (
             <div className='jobs-container'>
@@ -161,36 +162,37 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
                         <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
                     </div>
 
-                    <div className='job-tile-wrapper pt-5 pb-5'>
-                        {careerPlugSchoolId ? (
-                            // Map over schoolJobs and render with JobTile if careerPlugSchoolId is present
-                            schoolJobs.length > 0 ? (
-                                schoolJobs.map((job, index) => (
-                                    <JobTile key={index} job={job} baseUrl={`/schools/${school.slug}/careers`} />
-                                ))
-                            ) : (
-                                <p>No job postings available.</p>
-                            )
-                        ) : (
-                            // Map over cmsJobs and render with a different layout if careerPlugSchoolId is not present
-                            cmsJobs.length > 0 ? (
-                                cmsJobs.map((job, index) => (
-                                    <div key={index} className="job-tile">
-                                        <h5>{job.jobTitle || 'No Title'}</h5>
-                                        <p className='b3 green mb-2'>{school.title || 'No School Name'}</p>
-                                        <p className='b2'>{`${city || 'No City'}, ${state || 'No State'}`}</p>
-                                        <p className="employment-type mb-3">{job.jobType || 'No Type'}</p>
-                                        <p className='b2 post-date'>Posted: {job.postDate || 'No Date'}</p>
-                                        <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
-                                            Learn More
-                                        </Button>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No job postings available.</p>
-                            )
-                        )}
-                    </div>
+                    {/*TODO Elijah Show CareerPlug iFrame*/}
+                    {/*<div className='job-tile-wrapper pt-5 pb-5'>*/}
+                    {/*    {careerPlugSchoolId ? (*/}
+                    {/*        // Map over schoolJobs and render with JobTile if careerPlugSchoolId is present*/}
+                    {/*        schoolJobs.length > 0 ? (*/}
+                    {/*            schoolJobs.map((job, index) => (*/}
+                    {/*                <JobTile key={index} job={job} baseUrl={`/schools/${school.slug}/careers`} />*/}
+                    {/*            ))*/}
+                    {/*        ) : (*/}
+                    {/*            <p>No job postings available.</p>*/}
+                    {/*        )*/}
+                    {/*    ) : (*/}
+                    {/*        // Map over cmsJobs and render with a different layout if careerPlugSchoolId is not present*/}
+                    {/*        cmsJobs.length > 0 ? (*/}
+                    {/*            cmsJobs.map((job, index) => (*/}
+                    {/*                <div key={index} className="job-tile">*/}
+                    {/*                    <h5>{job.jobTitle || 'No Title'}</h5>*/}
+                    {/*                    <p className='b3 green mb-2'>{school.title || 'No School Name'}</p>*/}
+                    {/*                    <p className='b2'>{`${city || 'No City'}, ${state || 'No State'}`}</p>*/}
+                    {/*                    <p className="employment-type mb-3">{job.jobType || 'No Type'}</p>*/}
+                    {/*                    <p className='b2 post-date'>Posted: {job.postDate || 'No Date'}</p>*/}
+                    {/*                    <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>*/}
+                    {/*                        Learn More*/}
+                    {/*                    </Button>*/}
+                    {/*                </div>*/}
+                    {/*            ))*/}
+                    {/*        ) : (*/}
+                    {/*            <p>No job postings available.</p>*/}
+                    {/*        )*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
                 </div>
             </div>
         );
