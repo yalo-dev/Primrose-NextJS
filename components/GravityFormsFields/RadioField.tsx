@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 import { RadioField as RadioFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
+import { useEffect, useState } from 'react';
 
 export const RADIO_FIELD_FIELDS = gql`
   fragment RadioFieldFields on RadioField {
@@ -30,8 +31,25 @@ export default function RadioField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
+  const submitBtn = document.querySelector<HTMLElement>('.form-wrapper button[type="submit"]');
+  const form = document.querySelector<HTMLElement>('.form-wrapper form');
+
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+      let schedulerLink = document.createElement('a');
+      schedulerLink.setAttribute('href', '/find-a-school');
+      schedulerLink.innerHTML = 'Continue to Scheduler';
+      schedulerLink.classList.add('schedular-link');
+      let schedulerLinkElement = document.querySelector('.schedular-link');
+
+    if(event.target.value == 'Yes') {
+      submitBtn.style.display = 'none';
+      form.appendChild(schedulerLink);
+    } else {
+      schedulerLinkElement.remove();
+      submitBtn.style.display = 'block';
+    }
+
     dispatch({
       type: ACTION_TYPES.updateRadioFieldValue,
       fieldValue: {

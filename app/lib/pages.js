@@ -170,6 +170,16 @@ query GetModules($id: ID = "") {
                   buttonStyle
                   fieldGroupName
                 }
+				imageOrVideo
+				video {
+					embedded
+					selfHosted {
+					  target
+					  title
+					  url
+					}
+					videoType
+				}
                 image {
                   columnImage {
                     altText

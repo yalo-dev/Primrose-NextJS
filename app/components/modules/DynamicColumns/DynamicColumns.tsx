@@ -41,10 +41,14 @@ interface Column {
   columnWidth: string;
   imageOrVideo?: 'Image' | 'Video';
   video?: {
-    target: string;
-    title: string;
-    url: string;
-  }
+    embedded?: string;
+    selfHosted?: {
+      target: string;
+      title: string;
+      url: string;
+    }
+    videoType: string;
+  };
   image?: {
     imageType: string;
     columnImage: {
@@ -115,13 +119,19 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
                   />
                 )}
                 {column.imageOrVideo === 'Video' && column.video && (
-                  <video className="normal-image-video"
-                    autoPlay
-                    muted
-                    loop>
-                    <source src={column.video.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  <>
+                    {column.video.videoType === 'Self-hosted' && column.video.selfHosted && ( 
+                      <video className="normal-image-video" autoPlay muted loop>
+                        {column.video.selfHosted.url && ( 
+                          <source src={column.video.selfHosted.url} type="video/mp4" />
+                        )}
+                        Your browser does not support the video tag.
+                      </video>
+                    )}
+                    {column.video.videoType === 'Embedded' && column.video.embedded && (
+                      <iframe src={column.video.embedded.replace("watch?v=", "embed/")} className="normal-image-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                    )}
+                  </>
                 )}
                 <div className="title-container column-gap">
                   {column.title && column.title.headingLevel && (

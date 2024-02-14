@@ -5,6 +5,8 @@ import { ApolloProvider } from "@apollo/client/react";
 import { client } from "../app/lib/apollo";
 import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
+import Head from "next/head";
+
 
 function MyApp({ Component, pageProps }) {
 
@@ -125,6 +127,9 @@ function MyApp({ Component, pageProps }) {
 
 	return (
 		<ApolloProvider client={client}>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+			</Head>
 			<Layout
 				menuItems={headerMenuItems}
 				footerMenuItems={footerMenuItems}
