@@ -172,10 +172,14 @@ query GetModules($id: ID = "") {
                 }
 				imageOrVideo
 				video {
-        			target
-                    title
-                    url
-                  }
+					embedded
+					selfHosted {
+					  target
+					  title
+					  url
+					}
+					videoType
+				}
                 image {
                   columnImage {
                     altText
