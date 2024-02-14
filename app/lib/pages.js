@@ -530,6 +530,7 @@ query GetModules($id: ID = "") {
 			leftColumn {
 			  displayMusicPlayer
 			  heading
+			  subHeading
 			  musicPlayer {
 				artistAuthor
 				audio {
