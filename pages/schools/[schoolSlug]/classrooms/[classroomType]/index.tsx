@@ -542,7 +542,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
 }
   const findASchool = () => {
 
-    const ScheduleATour = school?.schoolAdminSettings[camelize(classroomType) as string]?.classroomGallery? school?.schoolAdminSettings[camelize(classroomType) as string].classroomGallery : school?.schoolAdminSettings?.satImages ;
+    const ScheduleATour = school?.schoolAdminSettings[camelize(classroomType) as string]?.classroomGallery ? school?.schoolAdminSettings[camelize(classroomType) as string].classroomGallery : school?.schoolAdminSettings?.satImages ;
     const hasScheduleATour = ScheduleATour;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
