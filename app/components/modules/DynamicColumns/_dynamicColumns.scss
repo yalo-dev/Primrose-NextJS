@@ -1,6 +1,9 @@
 // Existing styles for DynamicColumns
 .dynamic-columns {
-    padding-bottom: 136px;
+    padding-bottom: 3rem;
+    @media (max-width: 767px) {
+      padding-bottom: 0px;
+    }
     display: flex;
   
     .container {
@@ -54,11 +57,8 @@
   }
 
   @media (max-width: 767px) {
-    .dynamic-columns {
-      padding-bottom: 40px;
-    }
     .dynamic-length{
-      margin-bottom: 20px;
+      margin-bottom: 3rem;
       margin-top: 20px;
       padding-left: 0px;
       padding-right: 0px;

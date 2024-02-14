@@ -56,6 +56,14 @@ button {
         flex-direction: column;
         /* Stack containers vertically */
         padding: 1.875rem 1.125rem !important;
+
+        .button-container {
+            order: 4;
+            /* Move button under the message */
+            align-self: flex-start;
+            /* Align button to the left */
+            margin-top: 1.25rem;
+        }
     }
 
     .row {
@@ -97,13 +105,5 @@ button {
         /* Move message under the divider line */
         flex-grow: 1;
         /* Allow the message container to grow and fill the available space */
-    }
-
-    .button-container {
-        order: 4;
-        /* Move button under the message */
-        align-self: flex-start;
-        /* Align button to the left */
-        margin-top: 1.25rem;
     }
 }

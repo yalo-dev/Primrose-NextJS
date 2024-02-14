@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../../atoms/Heading/Heading';
+import Subheading from '../../atoms/Subheading/Subheading';
 
 interface HarmonyAndHeartProps {
   leftColumn?: {
     displayMusicPlayer?: boolean;
     heading?: string;
+    subHeading?: string;
     musicPlayer?: {
       artistAuthor?: string;
       audio?: {
@@ -77,6 +79,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
         <div className='left-harmony-column col-lg-4 '>
           <div className='wrap mt-4'>
           <Heading level='h2'>{leftColumn.heading}</Heading>
+          <Subheading level={'h4'} children={leftColumn.subHeading}></Subheading>
             {leftColumn?.displayMusicPlayer && (
               <>
                 <div className='music-player-container'>
@@ -118,7 +121,7 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
                         dangerouslySetInnerHTML={{ __html: collection?.description || '' }}
                       />
                       {collection?.spotifyLink?.url && (
-                        <div className='music-container mt-4 d-md-block d-none'>
+                        <div className='music-container mt-4 d-md-block'>
                           <div className='music-buttons-row'>
                             <h5>Listen Now:</h5>
                             {collection.spotifyLink?.url && (
@@ -149,39 +152,6 @@ const HarmonyAndHeart: React.FC<HarmonyAndHeartProps> = ({ leftColumn, moduleId,
                       )}
                     </div>
                   </div>
-                </div>
-                <div className="col-12 d-block d-md-none p-0"> 
-                {collection?.spotifyLink?.url && (
-                        <div className='music-container mt-4'>
-                          <div className='music-buttons-row'>
-                            <h5>Listen Now:</h5>
-                            {collection.spotifyLink?.url && (
-                              <div className={`music-button ${hoverEffectClass}`}>
-                                <button onClick={() => window.location.href = collection.spotifyLink.url} style={{ padding: 0 }}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-                                    <circle cx="25" cy="25" r="24.5" stroke="#373A36" fill="#FFF" strokeOpacity="0.2" />
-                                    <image xlinkHref="https://settings.primroseschools.com/wp-content/uploads/2024/01/Object.png" x="15" y="15" width="20" height="20" />
-                                  </svg>
-                                  {collection.spotifyLink.title}
-                                </button>
-                              </div>
-                            )}
-
-                            {collection.appleMusicLink?.url && (
-                              <div className={`music-button ${hoverEffectClass}`}>
-                                <button onClick={() => window.location.href = collection.appleMusicLink.url} style={{ padding: 0 }}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-                                    <circle cx="25" cy="25" r="24.5" stroke="#373A36" fill="#FFF" strokeOpacity="0.2" />
-                                    <image xlinkHref="https://settings.primroseschools.com/wp-content/uploads/2024/01/Object2.png" x="15" y="15" width="20" height="20" />
-                                  </svg>
-                                  {collection.appleMusicLink.title}
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
                 </div>
               </div>
             </div>

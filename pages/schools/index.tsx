@@ -41,7 +41,7 @@ export default function Schools({ schools }) {
                         {
                             
                             schools.map((school, index) => {
-                                const schoolName = "Primrose Schools " +  school.schoolCorporateSettings?.schoolOfAtOn + " " + school.title;
+                                const schoolName = "Primrose School " +  school.schoolCorporateSettings?.schoolOfAtOn + " " + school.title;
                                 return (
                                     <div className='card p-2' key={school.uri}>
                                          <a href={`${school.uri}`}>

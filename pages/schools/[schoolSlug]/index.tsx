@@ -92,6 +92,7 @@ export async function getServerSideProps(context) {
                 }
               }
               classroomsOffered
+              extraCareOffered
               displayEmergencyAlert
               emergencyMessage {
                 message
