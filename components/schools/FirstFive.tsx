@@ -10,10 +10,12 @@ interface FirstFiveProps {
     schoolSlug: null | any;
 }
 export default function FirstFive({ adminSettings, corporateSettings, schoolSlug}: FirstFiveProps) {
-    const classroomsData = adminSettings?.classroomsOffered;
-    const dropdownOptions = classroomsData && classroomsData.map(classroom => ({
+    const selectedClassrooms = adminSettings?.classroomsOffered;
+    const selectedExtraCare = adminSettings?.extraCareOffered
+    const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
+    const dropdownOptions = selectedOfferings && selectedOfferings.map(classroom => ({
         label: classroom,
-        url: `${schoolSlug}/classrooms/${classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-')}`
+        url: `${schoolSlug}/classrooms/${classroom.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`
     }));
 
     return (
