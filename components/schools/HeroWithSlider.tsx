@@ -26,6 +26,15 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
             <div className='hero-with-slider'>
                 <div className='container'>
                     <div className='row'>
+                        {corporateSettings?.preopening && (
+                            <div className='alert preopening-alert'>
+                                <div className="row align-items-center">
+                                    <div className="col-12 d-flex justify-content-start align-items-center">
+                                        <span className="alert-icon"></span><h5 className="alert-title mb-0">We are Opening in {corporateSettings?.openingIn?.season} {corporateSettings?.openingIn?.year}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className='col left-col col-12 col-lg-6'>
                             <div>
                                 {corporateSettings?.homepageHeroImage && (
