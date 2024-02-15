@@ -38,7 +38,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                 <div className='container'>
                     <div className='row'>
                         <div className='col left-col col-12 col-lg-6'>
-                            <div>
+                            <div> 
                                 {corporateSettings?.homepageHeroImage && (
                                     <Slider {...settings}>
                                         {corporateSettings.homepageHeroImage.map((image, index) => (
