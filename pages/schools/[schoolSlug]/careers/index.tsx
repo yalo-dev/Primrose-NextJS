@@ -206,13 +206,15 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
         if (usesCareerplug && careerplugIframeUrl) {
             return (
                 <section className="careerplug-section">
-                <iframe
-                src={`https://${careerplugIframeUrl}`}
-                title="CareerPlug"
-                width="100%"
-                height="600px"
-                style={{ border: '2px solid #5E6738', borderRadius: '10px'}}
-                />
+                    <iframe
+                        id={'cpatsframe'}
+                        src={`https://${careerplugIframeUrl}/?embed=1`}
+                        title="Current Openings"
+                        width="100%"
+                        height="250"
+                        style={{ border: 'none', position: 'relative'}}
+                    />
+                    <script type="text/javascript" src="https://cpats.s3.amazonaws.com/assets/embed.js"></script>
                 </section>
             );
         }
