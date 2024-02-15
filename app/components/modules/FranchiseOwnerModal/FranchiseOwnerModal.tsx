@@ -1,4 +1,5 @@
 export default function FranchiseOwnerModal({ franchiseOwner, show, onClose }) {
+    // const franchiseOwnerPhotoURL = franchiseOwner.image.sourceUrl ? franchiseOwner.image.sourceUrl : '';
     return (
       <div className={`modal-overlay ${show ? 'show' : ''}`} onClick={onClose}>
         <div className='modal-content' onClick={e => e.stopPropagation()}>
@@ -11,7 +12,9 @@ export default function FranchiseOwnerModal({ franchiseOwner, show, onClose }) {
           </div>
           <div className='two-columns-image-and-text-alternative' style={{padding: 0}}>
             <div className='left-column'>
+              {franchiseOwner?.image && (
               <img src={franchiseOwner.image.sourceUrl} alt={'Franchise Owner ' + franchiseOwner.name} />
+              )}
             </div>
             <div className='right-column'>
               <h5 className='b4'>{franchiseOwner.name}</h5>
