@@ -14,9 +14,10 @@ interface SelectDropdownProps {
     onSelect?: (selectedOption: OptionType | string) => void;
     selectedOption?: OptionType
     returnFullOption?: boolean
+    type?: "filter" | "redirect"
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption, returnFullOption = false }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption, returnFullOption = false, type = "redirect" }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const optionsRef = useRef<HTMLDivElement | null>(null);
@@ -38,8 +39,8 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
     }, []);
 
     const handleOptionClick = (option: OptionType, event: React.MouseEvent) => {
-        event.preventDefault();
-        onSelect(option);
+        type === 'filter' && event.preventDefault()
+        onSelect && onSelect(option);
         setIsOpen(false);
     };
 

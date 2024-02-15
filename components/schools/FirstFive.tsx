@@ -13,9 +13,8 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
     const classroomsData = adminSettings?.classroomsOffered;
     const dropdownOptions = classroomsData && classroomsData.map(classroom => ({
         label: classroom,
-        value: classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-')
+        url: `${schoolSlug}/classrooms/${classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-')}`
     }));
-    console.log('franchiseOwner: ', adminSettings.franchiseOwner)
 
     return (
         <div className='first-five-module'>

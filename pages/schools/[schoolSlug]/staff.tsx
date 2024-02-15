@@ -191,6 +191,7 @@ const handleSelectedGroup = (selectedOption) => {
                 options={groupOptions}
                 placeholder="Select A Category"
                 onSelect={handleSelectedGroup}
+                type={"filter"}
             />
             </div>
           </div>
