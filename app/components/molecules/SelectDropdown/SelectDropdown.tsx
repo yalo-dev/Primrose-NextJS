@@ -13,9 +13,10 @@ interface SelectDropdownProps {
     placeholder?: string;
     onSelect?: (selectedOption: OptionType | string) => void;
     selectedOption?: OptionType
+    returnFullOption?: boolean
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption, returnFullOption = false }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const optionsRef = useRef<HTMLDivElement | null>(null);
