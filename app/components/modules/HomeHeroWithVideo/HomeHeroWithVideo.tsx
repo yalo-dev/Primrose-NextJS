@@ -4,6 +4,7 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import SchoolData from '../../../../app/data/schoolsData';
+import Script from "next/script";
 
 interface School {
     id: any;
@@ -47,20 +48,6 @@ interface HomeHeroWithVideoProps {
         backgroundColor?: string;
     };
 }
-
-const loadGoogleMapsScript = (callback) => {
-    if (window.google) {
-        callback();
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => callback();
-    document.head.appendChild(script);
-};
 
 const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrderOnDesktop, centerModule, leftColumn, rightColumn, customizations }) => {
 
@@ -143,27 +130,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         return nearestSchool;
     };
 
-    useEffect(() => {
-        console.log("Nearest School State in useEffect:", nearestSchool);
-    }, [nearestSchool]);
-
-    useEffect(() => {
-        enableLocationServices();
-        loadGoogleMapsScript(() => {
-            if (searchInputRef.current) {
-                autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
-                autocompleteRef.current.addListener("place_changed", () => {
-                    const place = autocompleteRef.current?.getPlace();
-                    if (place && place.geometry) {
-                        const fullAddress = `${place.name}, ${place.formatted_address}`;
-                        handleAddressSearch(fullAddress);
-                    }
-                });
-
-            }
-        });
-    }, []);
-
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -202,6 +168,9 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
 
+    console.log('searchinput: ', searchInputRef.current)
+    console.log('autocomplete: ', autocompleteRef.current)
+
     return (
         <>
             {isModalOpen && (
@@ -238,10 +207,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         type="search"
                                         placeholder='Search by address, city, state, ZIP'
                                         value={inputValue}
-                                        onChange={(e) => {
-                                            console.log("OnChange Value:", e.target.value);
-                                            setInputValue(e.target.value);
-                                        }}
+                                        onChange={(e) => setInputValue(e.target.value)}
                                         onKeyDown={handleKeyDown}
                                         ref={searchInputRef}
                                     />
@@ -345,6 +311,21 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     </div>
                 </Customizations>
             </div>
+            <Script async defer
+                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
+                onLoad={() => {
+                    if (searchInputRef.current) {
+                        autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
+                        autocompleteRef.current.addListener("place_changed", () => {
+                            const place = autocompleteRef.current?.getPlace();
+                            if (place && place.geometry) {
+                                const fullAddress = `${place.name}, ${place.formatted_address}`;
+                                handleAddressSearch(fullAddress);
+                            }
+                        });
+                    }
+                }}
+            />
         </>
     );
 }
