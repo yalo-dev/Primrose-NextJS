@@ -174,6 +174,10 @@ useEffect(() => {
 
   setFilteredStaffMembers(filtered);
 }, [selectedGroup, staff]);
+const handleSelectedGroup = (selectedOption) => {
+  setSelectedGroup(selectedOption);
+};
+
 
   return (
     <div className='school staff'>
@@ -186,7 +190,7 @@ useEffect(() => {
                 selectedOption={selectedGroup}
                 options={groupOptions}
                 placeholder="Select A Category"
-                onSelect={setSelectedGroup}
+                onSelect={handleSelectedGroup}
             />
             </div>
           </div>

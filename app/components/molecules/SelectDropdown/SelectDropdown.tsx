@@ -3,17 +3,20 @@ import { useSpring, animated } from 'react-spring';
 
 export interface OptionType {
     label: string;
-    value: string;
+    value?: string;
+    url?: string;
+    target?: string;
 }
 
 interface SelectDropdownProps {
     options: OptionType[];
     placeholder?: string;
-    onSelect: Dispatch<SetStateAction<OptionType>>;
-    selectedOption: OptionType
+    onSelect?: (selectedOption: OptionType | string) => void;
+    selectedOption?: OptionType
+    returnFullOption?: boolean
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption, returnFullOption = false }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const optionsRef = useRef<HTMLDivElement | null>(null);
@@ -51,7 +54,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
             <animated.div className="options" ref={optionsRef} style={{ height }}>
                 {options.map((option, idx) => (
                     <div key={idx} className="option" data-value={option.value}>
-                        <a target={"_self"} onClick={(event) => handleOptionClick(option, event)}>
+                        <a href={option.url} target={"_self"} onClick={(event) => handleOptionClick(option, event)}>
                             {option.label}
                         </a>
                     </div>
