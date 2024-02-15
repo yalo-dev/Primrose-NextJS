@@ -9,9 +9,9 @@ interface HeroWithSliderProps {
     schoolSlug: string;
 }
 export default function HeroWithSlider({corporateSettings, adminSettings, schoolSlug}: HeroWithSliderProps) {
-    const classroomsData = adminSettings?.classroomsOffered || [];
-    const extraCareData = adminSettings?.extraCareOffered || [];
-    const selectedOfferings = classroomsData.concat(extraCareData);
+    const selectedClassrooms = adminSettings?.classroomsOffered || [];
+    const selectedExtraCare = adminSettings?.extraCareOffered || [];
+    const selectedOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
 
     const settings = {
         dots: true,

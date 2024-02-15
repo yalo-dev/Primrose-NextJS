@@ -387,27 +387,10 @@ export default function ClassroomPage() {
             </div>
         );
     };
-
     const  heroWithImage  = data.classroom.classroomModules.classroomHero;
-    
     let selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
-    /* if(data?.school?.schoolAdminSettings?.extraCareOffered != "none"){
-        selectedClassrooms.push(data?.school?.schoolAdminSettings?.extraCareOffered);
-    } */
-    const isClassroomSelected = (classroomType) => {
-        return selectedClassrooms.includes(classroomType);
-    };
-
-    const hasOfferings = data?.school?.schoolAdminSettings?.extraCareOffered != 'None' || selectedClassrooms.includes('Summer Adventure Club');
-    const hasMultipleOfferings = data?.school?.schoolAdminSettings?.extraCareOffered != 'None'  && selectedClassrooms.includes('Summer Adventure Club');
-    console.log(data.school.schoolAdminSettings.extraCareOffered);
-    const summerAdventureClub = selectedClassrooms.includes("Summer Adventure Club");
-
-    const beforeAndAfterSchoolCare = data?.school?.schoolAdminSettings?.extraCareOffered;
-
-    const primroseCommitment = data?.school?.schoolAdminSettings?.primroseCommitment;
-    
-
+    let selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
+    const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
     const ScheduleATour = data?.school?.schoolAdminSettings?.satImages || {};
     const classroom = data?.classroom || {};
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
@@ -466,9 +449,9 @@ export default function ClassroomPage() {
                     <h2 className="heading">Classrooms Offered</h2>
                     <div className="general-horizontal-tabs">
                         <div className="inner">
-                            {tabs.map((tab, index) => (
+                            {tabs.filter(tab => schoolOfferings.includes(tab.label)).map((tab) => (
                                 <div>
-                                    <button data-target={slugify(tab.label)} className={`clickable ${activeTab === slugify(tab.label) ? 'expanded' : ''}`} onClick={() => handleTabClick(slugify(tab.tabLabel))}>
+                                    <button data-target={slugify(tab.label)} className={`clickable ${activeTab === slugify(tab.label) ? 'expanded' : ''}`} onClick={() => handleTabClick(slugify(tab.label))}>
                                         <Heading level='h5'>{tab.label}
                                             <div id="button">
                                                 <span></span>
@@ -476,11 +459,9 @@ export default function ClassroomPage() {
                                             </div>
                                         </Heading>
                                     </button>
-
                                     {/* Mobile: Content rendered right below the label */}
                                     <div className="d-lg-none">
                                         <div className={`tab-content ${activeTab === slugify(tab.label) ? 'active' : ''}`} style={{ opacity: activeTab === slugify(tab.label) ? '1' : '0' }}>
-
                                             <img src={tab.content.image} />
                                             <div className='content-wrapper'>
                                                 <Heading level='h3'>{tab.content.heading}</Heading>
@@ -493,7 +474,7 @@ export default function ClassroomPage() {
                             ))}
                        </div>     
                             <div className='desktop-content d-none d-lg-block'>
-                                {tabs.map((tab, index) => (
+                                {tabs.filter(tab => schoolOfferings.includes(tab.label)).map((tab) => (
                                 
                                     <div id={slugify(tab.label)} className="tab-content d-flex">
 
@@ -510,58 +491,53 @@ export default function ClassroomPage() {
                     
                 </div>
             </div>
-            <div className="additional-offerings">
-                    {hasOfferings && (
-                        <h2 className="heading offset-lg-1">{hasMultipleOfferings ? 'Additional Offerings' : 'Additional Offering'}</h2>
-                    )}
-                    {/* Render Before and After School Care */}
-                    {beforeAndAfterSchoolCare && (
-                        <div className='two-columns-image-and-text-alternative'>
-                            <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                <img
-                                    src='https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg.png'
-                                    alt="Kids in After School Program"
-                                    width={500}
-                                    height={500}
-                                />
-                            </div>
-                            <div className='right-column col-12 c col-lg-5 offset-lg-1'>
-                                <div className="b4 bold">{beforeAndAfterSchoolCare}</div>
-                                <div className='blurb' ><p>Whether your child is a budding actor, tech wizard, athlete, author or rock star, there’s something for everyone in our Explorer program.</p></div>
-                                <Button href={"/schools/" + currentSlug + "/classrooms/" + slugify(beforeAndAfterSchoolCare, {lower:true, strict:true, remove: /[and]/g})} label="Learn More">
-                                    "Learn More"
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                    {/* Render Summer Adventure Club */}
-                    {summerAdventureClub && (
-                        <div className='two-columns-image-and-text-alternative reverse-column'>
-                            <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                <img
-                                    src="https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg-1.png"
-                                    alt="Student in Summer Adventure Club"
-                                    width={500}
-                                    height={500}
-                                />
-                            </div>
-                            <div className='right-column col-12 col-lg-5 offset-lg-1'>
-                                <div className="b4">Summer Adventure Club</div>
-                                <div className='blurb'><p>Each week at Summer Adventure Club, your child tries a variety of hands-on activities — like sports, robotics and arts — that help build skills around literacy, creative problem solving, STEM and more.</p></div>
-                                <Button href={"/schools/" + currentSlug + "/classrooms/summer-adventure-club"}  label="Learn More">
-                                    Learn More
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>             
+            {/*<div className="additional-offerings">*/}
+            {/*        {hasOfferings && (*/}
+            {/*            <h2 className="heading offset-lg-1">{hasMultipleOfferings ? 'Additional Offerings' : 'Additional Offering'}</h2>*/}
+            {/*        )}*/}
+            {/*        /!* Render Before and After School Care *!/*/}
+            {/*        {beforeAndAfterSchoolCare && (*/}
+            {/*            <div className='two-columns-image-and-text-alternative'>*/}
+            {/*                <div className='left-column col-12 col-lg-5 offset-lg-1'>*/}
+            {/*                    <img*/}
+            {/*                        src='https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg.png'*/}
+            {/*                        alt="Kids in After School Program"*/}
+            {/*                        width={500}*/}
+            {/*                        height={500}*/}
+            {/*                    />*/}
+            {/*                </div>*/}
+            {/*                <div className='right-column col-12 c col-lg-5 offset-lg-1'>*/}
+            {/*                    <div className="b4 bold">{beforeAndAfterSchoolCare}</div>*/}
+            {/*                    <div className='blurb' ><p>Whether your child is a budding actor, tech wizard, athlete, author or rock star, there’s something for everyone in our Explorer program.</p></div>*/}
+            {/*                    <Button href={"/schools/" + currentSlug + "/classrooms/" + slugify(beforeAndAfterSchoolCare, {lower:true, strict:true, remove: /[and]/g})} label="Learn More">*/}
+            {/*                        "Learn More"*/}
+            {/*                    </Button>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*        /!* Render Summer Adventure Club *!/*/}
+            {/*        {summerAdventureClub && (*/}
+            {/*            <div className='two-columns-image-and-text-alternative reverse-column'>*/}
+            {/*                <div className='left-column col-12 col-lg-5 offset-lg-1'>*/}
+            {/*                    <img*/}
+            {/*                        src="https://settings.primroseschools.com/wp-content/uploads/2023/08/Bg-1.png"*/}
+            {/*                        alt="Student in Summer Adventure Club"*/}
+            {/*                        width={500}*/}
+            {/*                        height={500}*/}
+            {/*                    />*/}
+            {/*                </div>*/}
+            {/*                <div className='right-column col-12 col-lg-5 offset-lg-1'>*/}
+            {/*                    <div className="b4">Summer Adventure Club</div>*/}
+            {/*                    <div className='blurb'><p>Each week at Summer Adventure Club, your child tries a variety of hands-on activities — like sports, robotics and arts — that help build skills around literacy, creative problem solving, STEM and more.</p></div>*/}
+            {/*                    <Button href={"/schools/" + currentSlug + "/classrooms/summer-adventure-club"}  label="Learn More">*/}
+            {/*                        Learn More*/}
+            {/*                    </Button>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*    </div>*/}
+            </div>
                 )}
-                            
-
-             
-                
-                
                 {ScheduleATour && (
                     <div className='container'>
                     <div className='find-a-school'>
