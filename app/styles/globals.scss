@@ -575,3 +575,27 @@ div.market .testimonials-with-video-or-image .slick-dots {
         color: #fff;
     }
 }
+
+.preopening-alert {
+    background-color: #f5f9fc;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    border: 2px solid #66a6ca;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #006ba6;
+    text-align: left;
+    @include media-breakpoint-up(lg) {
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .alert-icon {
+        width: 2px;
+        height: 30px;
+        background-color: #ff9e1b;
+        display: inline-block;
+        margin-right: 1rem;
+    }
+}
