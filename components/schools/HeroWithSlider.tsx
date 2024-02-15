@@ -12,6 +12,17 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
     const selectedClassrooms = adminSettings?.classroomsOffered || [];
     const selectedExtraCare = adminSettings?.extraCareOffered || [];
     const selectedOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
+    const defaultImages = [
+        {url: '/schoolsHomeDefault/header-default-1.jpg', altText: 'A girl taking notes in class'},
+        {url: '/schoolsHomeDefault/header-default-2.jpg', altText: 'A boy playing with giant lego blocks'},
+        {url: '/schoolsHomeDefault/header-default-3.jpg', altText: 'A boy looking into the camera'}
+    ]
+    const sliderImages = corporateSettings.homepageHeroImage
+        ? [
+            ...corporateSettings.homepageHeroImage.map((image) => ({url: image.mediaItemUrl, altText: image.altText})),
+            ...defaultImages
+        ] // format homepageHeroImage object and combine the urls into one array with default image urls
+        : defaultImages // or just keep default images
 
     const settings = {
         dots: true,
@@ -26,15 +37,6 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
             <div className='hero-with-slider'>
                 <div className='container'>
                     <div className='row'>
-                        {corporateSettings?.preopening && (
-                            <div className='alert preopening-alert'>
-                                <div className="row align-items-center">
-                                    <div className="col-12 d-flex justify-content-start align-items-center">
-                                        <span className="alert-icon"></span><h5 className="alert-title mb-0">We are Opening in {corporateSettings?.openingIn?.season} {corporateSettings?.openingIn?.year}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                         <div className='col left-col col-12 col-lg-6'>
                             <div>
                                 {corporateSettings?.homepageHeroImage && (
@@ -87,7 +89,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                             {selectedOfferings && selectedOfferings
                                                 .filter(classroom => classroom !== "Before & After Care")
                                                 .map((classroom, index) => {
-                                                    const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+                                                    const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');
                                                     const classroomUrl = `${[schoolSlug]}/classrooms/${classroomSlug}`;
 
                                                     return (
@@ -120,27 +122,27 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                             className='b3'>{corporateSettings?.address?.streetAddress} {corporateSettings?.address?.streetAddress2}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
                                     </div>
                                 </div>
-                                {adminSettings?.accreditation?.image || (corporateSettings?.accreditations && corporateSettings.accreditations.length > 0) ? (
+                                {corporateSettings?.accreditations && (
                                     <div className='accreditations'>
                                         <h5 className='mt-4 green'>Accreditation</h5>
-                                        <div className="accreditation-images d-flex">
-                                            {corporateSettings?.accreditations?.map((accreditation, index) => accreditation && (
-                                                <div key={`corporate-accreditation-${index}`} className="accreditation-image">
+                                        <div className="accreditation-images  d-flex">
+                                            {corporateSettings.accreditations.map((accreditation, index) => accreditation && (
+                                                <div key={`accreditation-${index}`} className="accreditation-image">
                                                     <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60'
-                                                        src={accreditation.accreditations.image.mediaItemUrl}
-                                                        alt={accreditation.title || 'Accreditation Image'} />
+                                                         src={accreditation.accreditations.image.mediaItemUrl}
+                                                         alt={accreditation.title || 'Accreditation Image'}/>
                                                 </div>
                                             ))}
-                                            {adminSettings?.accreditation && adminSettings.accreditation.image && (
+                                            {adminSettings.accreditation.image && (
                                                 <div className="accreditation-image">
                                                     <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60'
-                                                        src={adminSettings.accreditation.image.mediaItemUrl}
-                                                        alt={adminSettings.accreditation.imageAlt || 'Accreditation Image'} />
+                                                         src={adminSettings.accreditation.image.mediaItemUrl}
+                                                         alt={adminSettings.accreditation.imageAlt}/>
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                ) : null}
+                                )}
                             </div>
                             <div
                                 className='social-links d-flex justify-content-center align-center border-top border-bottom mt-3 mb-3 mb-lg-0 pt-2 pb-2'>
