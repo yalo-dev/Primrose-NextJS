@@ -682,12 +682,12 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
         },
         leftColumn: {
             imageDesktop: {
-                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/FlowerCraft-Header.jpg',
-                altText: 'bussing image'
+                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/Bussing_LR.jpg',
+                altText: 'Primrose Schools - Bussing Info Image'
             },
             imageMobile: {
-                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/FlowerCraft-Header.jpg',
-                altText: 'bussing image mobile'
+                sourceUrl: 'https://settings.primroseschools.com/wp-content/uploads/2024/02/Bussing_LR.jpg',
+                altText: 'Primrose Schools - Bussing Info Image Mobile'
             },
             video: {},
             imageOrVideo: "Image",
