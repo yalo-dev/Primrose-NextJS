@@ -97,8 +97,9 @@ export default function SchoolsMenu() {
 
   const generateClassroomSubmenu = () => {
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
+    console.dir(selectedExtraCare)
     return selectedOfferings.map(classroom => {
-      const classroomSlug = classroom.replace(/\s+/g, '-').replace(/[&]/g, 'and').toLowerCase();
+      const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
       return (
         <div className='item' key={classroom}>
           <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/${classroomSlug}`}>

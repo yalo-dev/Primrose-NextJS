@@ -390,6 +390,7 @@ export default function ClassroomPage() {
     const  heroWithImage  = data.classroom.classroomModules.classroomHero;
     let selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
     let selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
+    if (selectedExtraCare == 'Before & After School') { selectedExtraCare = 'Before & After School Care' }
     const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
     const ScheduleATour = data?.school?.schoolAdminSettings?.satImages || {};
     const classroom = data?.classroom || {};

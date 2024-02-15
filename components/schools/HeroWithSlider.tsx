@@ -78,7 +78,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                             {selectedOfferings && selectedOfferings
                                                 .filter(classroom => classroom !== "Before & After Care")
                                                 .map((classroom, index) => {
-                                                    const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');
+                                                    const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
                                                     const classroomUrl = `${[schoolSlug]}/classrooms/${classroomSlug}`;
 
                                                     return (
