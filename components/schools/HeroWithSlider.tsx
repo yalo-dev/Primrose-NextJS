@@ -12,6 +12,17 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
     const classroomsData = adminSettings?.classroomsOffered || [];
     const extraCareData = adminSettings?.extraCareOffered || [];
     const selectedOfferings = classroomsData.concat(extraCareData);
+    const defaultImages = [
+        {url: '/schoolsHomeDefault/header-default-1.jpg', altText: 'A girl taking notes in class'},
+        {url: '/schoolsHomeDefault/header-default-2.jpg', altText: 'A boy playing with giant lego blocks'},
+        {url: '/schoolsHomeDefault/header-default-3.jpg', altText: 'A boy looking into the camera'}
+    ]
+    const sliderImages = corporateSettings.homepageHeroImage
+        ? [
+            ...corporateSettings.homepageHeroImage.map((image) => ({url: image.mediaItemUrl, altText: image.altText})),
+            ...defaultImages
+        ] // format homepageHeroImage object and combine the urls into one array with default image urls
+        : defaultImages // or just keep default images
 
     const settings = {
         dots: true,
@@ -28,15 +39,13 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                     <div className='row'>
                         <div className='col left-col col-12 col-lg-6'>
                             <div>
-                                {corporateSettings?.homepageHeroImage && (
-                                    <Slider {...settings}>
-                                        {corporateSettings.homepageHeroImage.map((image, index) => (
-                                            <div className='image-wrapper d-block' key={index}>
-                                                <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.mediaItemUrl} alt={image.altText || `Hero Image ${index}`}/>
-                                            </div>
-                                        ))}
-                                    </Slider>
-                                )}
+                                <Slider {...settings}>
+                                    {sliderImages.map((image, index) => (
+                                        <div className='image-wrapper d-block' key={index}>
+                                            <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.url} alt={image.altText || `Hero Image ${index}`}/>
+                                        </div>
+                                    ))}
+                                </Slider>
                             </div>
                         </div>
                         <div className='col right-col col-12 col-lg-6'>
