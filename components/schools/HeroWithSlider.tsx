@@ -37,17 +37,24 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
             <div className='hero-with-slider'>
                 <div className='container'>
                     <div className='row'>
+                        {corporateSettings?.preopening && (
+                            <div className='alert preopening-alert'>
+                                <div className="row align-items-center">
+                                    <div className="col-12 d-flex justify-content-start align-items-center">
+                                        <span className="alert-icon"></span><h5 className="alert-title mb-0">We are Opening in {corporateSettings?.openingIn?.season} {corporateSettings?.openingIn?.year}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className='col left-col col-12 col-lg-6'>
-                            <div> 
-                                {corporateSettings?.homepageHeroImage && (
-                                    <Slider {...settings}>
-                                        {corporateSettings.homepageHeroImage.map((image, index) => (
-                                            <div className='image-wrapper d-block' key={index}>
-                                                <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.mediaItemUrl} alt={image.altText || `Hero Image ${index}`}/>
-                                            </div>
-                                        ))}
-                                    </Slider>
-                                )}
+                            <div>
+                                <Slider {...settings}>
+                                    {sliderImages.map((image, index) => (
+                                        <div className='image-wrapper d-block' key={index}>
+                                            <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.url} alt={image.altText || `Hero Image ${index}`}/>
+                                        </div>
+                                    ))}
+                                </Slider>
                             </div>
                         </div>
                         <div className='col right-col col-12 col-lg-6'>
