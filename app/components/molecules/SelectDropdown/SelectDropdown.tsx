@@ -4,13 +4,14 @@ import { useSpring, animated } from 'react-spring';
 export interface OptionType {
     label: string;
     value?: string;
-    url?: string
+    url?: string;
+    target?: string;
 }
 
 interface SelectDropdownProps {
     options: OptionType[];
     placeholder?: string;
-    onSelect?: Dispatch<SetStateAction<OptionType>>;
+    onSelect?: (selectedOption: OptionType | string) => void;
     selectedOption?: OptionType
 }
 
