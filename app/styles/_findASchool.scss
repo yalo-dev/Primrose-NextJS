@@ -77,7 +77,12 @@
                             border-bottom-left-radius: 10px;
                         }
                     }
-
+                    .b3 {
+                        font-size: 12px;
+                        @include media-breakpoint-up(lg) {
+                            font-size: 16px;
+                        }
+                    }
                     &.active {
                         font-family: Poppins;
                         font-size: 14px;

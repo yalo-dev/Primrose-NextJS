@@ -9,8 +9,8 @@ interface HeroWithSliderProps {
     schoolSlug: string;
 }
 export default function HeroWithSlider({corporateSettings, adminSettings, schoolSlug}: HeroWithSliderProps) {
-    const classroomsData = adminSettings?.classroomsOffered;
-    const extraCareData = adminSettings?.extraCareOffered;
+    const classroomsData = adminSettings?.classroomsOffered || [];
+    const extraCareData = adminSettings?.extraCareOffered || [];
     const selectedOfferings = classroomsData.concat(extraCareData);
 
     const settings = {
