@@ -40,7 +40,7 @@ export default function SchoolsMenu() {
   console.log(schoolName);
   const slug = data?.school?.slug;
   const selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
-  const selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered || [];
+  const selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
@@ -96,9 +96,9 @@ export default function SchoolsMenu() {
   };
 
   const generateClassroomSubmenu = () => {
-    const selectedOfferings =  selectedClassrooms.concat(selectedExtraCare)
+    const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
     return selectedOfferings.map(classroom => {
-      const classroomSlug = classroom.replace(/\s+/g, '-').replace(/[&]/g, 'and').toLowerCase();
+      const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
       return (
         <div className='item' key={classroom}>
           <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/${classroomSlug}`}>

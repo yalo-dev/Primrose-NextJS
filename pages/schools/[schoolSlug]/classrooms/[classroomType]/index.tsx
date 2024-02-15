@@ -304,6 +304,35 @@ const GET_CLASSROOM_TYPE = gql`
               }
               healthSafety
             }
+            summerAdventureClub {
+              classroomGallery {
+                image {
+                  sourceUrl
+                  mediaItemUrl
+                }
+                title
+                caption
+              }
+              testimonials {
+                ... on Testimonial {
+                  id
+                  title
+                  testimonials {
+                    name
+                    heading
+                    title
+                    testimonial
+                    featuredImage {
+                      altText
+                      mediaItemUrl
+                      sourceUrl
+                    }
+                  }
+                  uri
+                }
+              }
+              healthSafety
+            }
             beforeSchool {
               classroomGallery {
                 image {
@@ -464,14 +493,17 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     button: featuredBanner.button,
   };
   const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
-  console.log(classroom)
   let verticalTabs = classroom?.classroomModules?.verticalTabs;
   useEffect(() => {
     verticalTabs.tabs.map((tab, i) => {
       if(tab.label == "Healthy Bodies"){
         tab.content.list.map(listitem => {
           if(listitem.text == "Health & Safety"){
-            listitem.detailsPopUp += school?.schoolAdminSettings[camelize(classroomType) as string].healthSafety;
+              listitem.detailsPopUp = ''
+              console.dir(school?.schoolAdminSettings)
+              console.dir(classroomType)
+              listitem.detailsPopUp += school?.schoolAdminSettings[camelize(classroomType) as string]?.healthSafety;
+              console.dir(listitem.detailsPopUp)
           }
         });
       }
