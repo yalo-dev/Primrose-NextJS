@@ -33,7 +33,7 @@ export default function SelectField({ field, fieldErrors }: Props) {
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || String(defaultValue);
   const options = choices?.map(choice => ({ value: choice?.value, label: choice?.text })) || [];
-  const selectedValue = fieldValue?.value || '';
+  const selectedValue = fieldValue?.value || '1';
   let setDisabled = false;
   
   if(field?.databaseId === 8 || field?.databaseId === 9 || field?.databaseId === 10 || 
@@ -50,7 +50,7 @@ export default function SelectField({ field, fieldErrors }: Props) {
       <label htmlFor={htmlId}>{label}</label>
       <div className="custom-select">
         <select
-          disabled={setDisabled}
+          //disabled={setDisabled}
           name={String(id)}
           id={htmlId}
           required={Boolean(isRequired)}
@@ -66,7 +66,7 @@ export default function SelectField({ field, fieldErrors }: Props) {
           }}
         >
           {/* Always render the placeholder */}
-          <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option>
+          {/* <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option> */}
           {choices?.map((choice, index) => (
             <option key={`prm_${choice?.value}-${index}`} value={choice?.value || ''}>{choice?.text || ''}</option>
           ))}
