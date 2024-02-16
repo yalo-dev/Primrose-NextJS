@@ -53,7 +53,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
             </div>
 
             <animated.div className="options" ref={optionsRef} style={{ height }}>
-                {options.map((option, idx) => (
+                {options.map((option, idx) => option && (
                     <div key={idx} className="option" data-value={option.value}>
                         <a href={option.url} target={"_self"} onClick={(event) => handleOptionClick(option, event)}>
                             {option.label}
