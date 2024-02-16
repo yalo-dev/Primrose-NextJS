@@ -7,6 +7,7 @@ import Subheading from "../../../../app/components/atoms/Subheading/Subheading";
 import Paragraph from "../../../../app/components/atoms/Paragraph/Paragraph";
 import Button from "../../../../app/components/atoms/Button/Button";
 import { useEffect, useRef, useState } from "react";
+import ScheduleATourSlider from "../../../../components/schools/ScheduleATourSlider";
 
 const slugify = require('slugify');
 
@@ -166,7 +167,6 @@ export default function ClassroomPage() {
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
     const [allImagesLoaded, setAllImagesLoaded] = useState(false);
-    
     const scrollContent = () => {
         const leftScroller = leftScrollerRef.current;
         const rightScroller = rightScrollerRef.current;
@@ -539,43 +539,7 @@ export default function ClassroomPage() {
             {/*    </div>*/}
             </div>
                 )}
-                {ScheduleATour && (
-                    <div className='container'>
-                    <div className='find-a-school'>
-                        <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-                             <Heading level='h2'>Our family would love to meet yours.</Heading>
-                            <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
-                          
-                                <Button variant="secondary" href={"/schools/" + currentSlug + "/schedule-a-tour"}>
-                                    Schedule A Tour
-                                </Button>
-                            
-                        </div>
-                        <div className='right-column col-4 col-lg-5 col-xxl-6'>
-                            {ScheduleATour && ScheduleATour.length > 0 && (
-                                <>
-                                    <div className="image-scroller first" ref={leftScrollerRef}>
-                                        {ScheduleATour.map((imgObj, idx) => (
-                                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                        ))}
-                                        {ScheduleATour.map((imgObj, idx) => (
-                                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                        ))}
-                                    </div>
-                                    <div className="image-scroller second" ref={rightScrollerRef}>
-                                        {ScheduleATour.map((imgObj, idx) => (
-                                            imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                        ))}
-                                        {ScheduleATour.map((imgObj, idx) => (
-                                            imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                                        ))}
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                )}
+                <ScheduleATourSlider adminSettings={data?.school?.schoolAdminSettings} schoolSlug={router.query.schoolSlug as string} />
             </div>
         </>
     );
