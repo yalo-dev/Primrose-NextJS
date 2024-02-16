@@ -119,38 +119,25 @@
                 width: 70%;
             }
             li {
-                width: 100%;
                 height: auto;
                 border-bottom: 1px solid rgb(223 226 212 / 20%);
                 padding: 24px 0;
                 @include media-breakpoint-up(lg) {
                     border-bottom: 0;
                     height: 100px;
-                    padding: 0 0 0 16px;
+                    padding: 0 0 0 25px;
                     &.has-children {
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        flex-basis: 10%;
-                        &:last-child {
-                            flex-basis: 27%;
-                        }
-                        &:nth-child(2) {
-                            flex-basis: 25%;
-                        }
+
                     }
                 }
-                @include media-breakpoint-up(xl) {
-                    //padding: 32px 0;
+                li {
+                    width: 100%;
                 }
-                @include media-breakpoint-up(xxl) {
-               
-                    &.has-children {
-                        flex-basis: 12%;
-                        &:last-child, &:nth-child(2) {
-                            flex-basis: 20%;
-                        }
-                    }
+                > a {
+                    white-space: nowrap;
                 }
                 a, >div {
                     color: $white;
