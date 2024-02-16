@@ -139,8 +139,8 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                 {gallery.map((item, index) => (
                     <div className="slide" key={index} style={{ width: `${imageWidths[index]}px` }}>
                         <img
-                            src={item.image.sourceUrl}
-                            alt={item.image.altText}
+                            src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
+                            alt={item.image?.altText ?? `gallery slider image ${index}`}
                             onLoad={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 handleImageLoad(index, target.offsetWidth);
