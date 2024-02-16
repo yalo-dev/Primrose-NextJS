@@ -128,7 +128,7 @@ export default function StaffPage({ staff, schoolSlug, schoolAdminSettings, fran
 useEffect(() => {
   const filtered = !selectedGroup || selectedGroup.value === 'All'
       ? staff
-      : staff.filter(member => member.group === selectedGroup.value);
+      : staff?.filter(member => member.group === selectedGroup.value);
 
   setFilteredStaffMembers(filtered);
 }, [selectedGroup, staff]);
