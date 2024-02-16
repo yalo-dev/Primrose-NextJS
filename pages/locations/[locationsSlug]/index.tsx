@@ -35,7 +35,7 @@ export default function Location({ locationData }){
     const router = useRouter();
 
     const hero_props = {
-      leftColumn: {image: {sourceUrl: market.marketSettings.heroImage.sourceUrl, altText: market.marketSettings.heroImage.altText}},
+      leftColumn: {image: {sourceUrl: market?.marketSettings?.heroImage?.sourceUrl, altText: market?.marketSettings?.heroImage?.altText,}},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
@@ -142,8 +142,8 @@ export default function Location({ locationData }){
       title: "Primrose Schools in the " + market.name + " Area",
       schools: schools,
       center: {
-        lat: market.marketSettings.marketCenter.latitude,
-        lng: market.marketSettings.marketCenter.longitude
+        latitude: market?.marketSettings?.marketCenter?.latitude,
+        longitude: market?.marketSettings?.marketCenter?.longitude
       }
     }
     return(
