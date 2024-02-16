@@ -81,26 +81,51 @@ useEffect(() => {
         const sixthChildYear                = document.getElementById('field_39')   as HTMLSelectElement;
 
 
+        if (selectField.options.selectedIndex == 0) {
+            console.log("selectField.options.selectedIndex: ", selectField.options.selectedIndex);
+        }
+
+        let enableFirstChildName = true , enableSecondChildName = true, enableFirstChildNameGroup = true, enableFirstChildMonthGroup = true, enableFirstChildDayGroup = true, enableFirstChildYearGroup = true
+        let enableThirdChildName = true , enableForthChildName  = true, enableSecondChildNameGroup = true, enableSecondChildMonthGroup = true, enableSecondChildDayGroup = true, enableSecondChildYearGroup = true
+        let enableFifthChildName = true , enableSixthChildName  = true, enableThirdChildNameGroup = true, enableThirdChildMonthGroup = true, enableThirdChildDayGroup = true, enableThirdChildYearGroup = true
+        let enableForthChildNameGroup = true, enableForthChildMonthGroup = true, enableForthChildDayGroup = true, enableForthChildYearGroup = true
+        let enableFifthChildNameGroup = true, enableFifthChildMonthGroup = true, enableFifthChildDayGroup = true, enableFifthChildYearGroup = true
+        let enableSixthChildNameGroup = true, enableSixthChildMonthGroup = true, enableSixthChildDayGroup = true, enableSixthChildYearGroup = true;
+
+        let enableFirstMonth    = true, enableFirstDay  = true, enableFirstYear     = true;
+        let enableSecondMonth   = true, enableSecondDay = true, enableSecondYear    = true;
+        let enableThirdMonth    = true, enableThirdDay  = true, enableThirdYear     = true;
+        let enableForthMonth    = true, enableForthDay  = true, enableForthYear     = true;
+        let enableFifthMonth    = true, enableFifthDay  = true, enableFifthYear     = true;
+        let enableSixthMonth    = true, enableSixthDay  = true, enableSixthYear     = true;
+
+
+        enableFirstChildNameGroup   = false;
+        enableFirstChildName        = false;
+        enableFirstChildMonthGroup  = false;
+        enableFirstMonth            = false;
+        enableFirstChildDayGroup    = false;
+        enableFirstDay              = false;
+        enableFirstChildYearGroup   = false;
+        enableFirstYear             = false;
+
+        firstChildNameGroup.hidden              = enableFirstChildNameGroup;
+        firstChildName.disabled                 = enableFirstChildName;
+        firstChildMonthGroup.hidden             = enableFirstChildMonthGroup;
+        firstChildMonth.disabled                = enableFirstMonth;
+        firstChildDayGroup.hidden               = enableFirstChildDayGroup;
+        firstChildDay.disabled                  = enableFirstDay;
+        firstChildYearGroup.hidden              = enableFirstChildYearGroup;
+        firstChildYear.disabled                 = enableFirstYear;
+
+
+
         if(selectField) {
+            
             selectField.onchange = function() {
-                
-                let enableFirstChildName = true , enableSecondChildName = true, enableFirstChildNameGroup = true, enableFirstChildMonthGroup = true, enableFirstChildDayGroup = true, enableFirstChildYearGroup = true
-                let enableThirdChildName = true , enableForthChildName  = true, enableSecondChildNameGroup = true, enableSecondChildMonthGroup = true, enableSecondChildDayGroup = true, enableSecondChildYearGroup = true
-                let enableFifthChildName = true , enableSixthChildName  = true, enableThirdChildNameGroup = true, enableThirdChildMonthGroup = true, enableThirdChildDayGroup = true, enableThirdChildYearGroup = true
-                let enableForthChildNameGroup = true, enableForthChildMonthGroup = true, enableForthChildDayGroup = true, enableForthChildYearGroup = true
-                let enableFifthChildNameGroup = true, enableFifthChildMonthGroup = true, enableFifthChildDayGroup = true, enableFifthChildYearGroup = true
-                let enableSixthChildNameGroup = true, enableSixthChildMonthGroup = true, enableSixthChildDayGroup = true, enableSixthChildYearGroup = true;
-
-                let enableFirstMonth    = true, enableFirstDay  = true, enableFirstYear     = true;
-                let enableSecondMonth   = true, enableSecondDay = true, enableSecondYear    = true;
-                let enableThirdMonth    = true, enableThirdDay  = true, enableThirdYear     = true;
-                let enableForthMonth    = true, enableForthDay  = true, enableForthYear     = true;
-                let enableFifthMonth    = true, enableFifthDay  = true, enableFifthYear     = true;
-                let enableSixthMonth    = true, enableSixthDay  = true, enableSixthYear     = true;
-
-                console.log("selectField.options.selectedIndex: ", selectField.options.selectedIndex);
+                // console.log("selectField.options.selectedIndex: ", selectField.options.selectedIndex);
                 switch(selectField.options.selectedIndex){
-                    case 2:
+                    case 1:
                         enableFirstChildNameGroup   = false;
                         enableFirstChildName        = false;
                         enableFirstChildMonthGroup  = false;
@@ -118,6 +143,61 @@ useEffect(() => {
                         enableSecondDay             = true;
                         enableSecondChildYearGroup  = true;
                         enableSecondYear            = true;
+
+                        enableThirdChildNameGroup   = true;
+                        enableThirdChildName        = true;
+                        enableThirdChildMonthGroup  = true;
+                        enableThirdMonth            = true;
+                        enableThirdChildDayGroup    = true;
+                        enableThirdDay              = true;
+                        enableThirdChildYearGroup   = true;
+                        enableThirdYear             = true;
+
+                        enableForthChildNameGroup   = true;
+                        enableForthChildName        = true;
+                        enableForthChildMonthGroup  = true;
+                        enableForthMonth            = true;
+                        enableForthChildDayGroup    = true;
+                        enableForthDay              = true;
+                        enableForthChildYearGroup   = true;
+                        enableForthYear             = true;
+
+                        enableFifthChildNameGroup   = true;
+                        enableFifthChildName        = true;
+                        enableFifthChildMonthGroup  = true;
+                        enableFifthMonth            = true;
+                        enableFifthChildDayGroup    = true;
+                        enableFifthDay              = true;
+                        enableFifthChildYearGroup   = true;
+                        enableFifthYear             = true;
+
+                        enableSixthChildNameGroup   = true;
+                        enableSixthChildName        = true;
+                        enableSixthChildMonthGroup  = true;
+                        enableSixthMonth            = true;
+                        enableSixthChildDayGroup    = true;
+                        enableSixthDay              = true;
+                        enableSixthChildYearGroup   = true;
+                        enableSixthYear             = true;
+                        break;
+                    case 2:
+                        enableFirstChildNameGroup   = false;
+                        enableFirstChildName        = false;
+                        enableFirstChildMonthGroup  = false;
+                        enableFirstMonth            = false;
+                        enableFirstChildDayGroup    = false;
+                        enableFirstDay              = false;
+                        enableFirstChildYearGroup   = false;
+                        enableFirstYear             = false;
+
+                        enableSecondChildNameGroup  = false;
+                        enableSecondChildName       = false;
+                        enableSecondChildMonthGroup = false;
+                        enableSecondMonth           = false;
+                        enableSecondChildDayGroup   = false;
+                        enableSecondDay             = false;
+                        enableSecondChildYearGroup  = false;
+                        enableSecondYear            = false;
 
                         enableThirdChildNameGroup   = true;
                         enableThirdChildName        = true;
@@ -173,15 +253,15 @@ useEffect(() => {
                         enableSecondDay             = false;
                         enableSecondChildYearGroup  = false;
                         enableSecondYear            = false;
-
-                        enableThirdChildNameGroup   = true;
-                        enableThirdChildName        = true;
-                        enableThirdChildMonthGroup  = true;
-                        enableThirdMonth            = true;
-                        enableThirdChildDayGroup    = true;
-                        enableThirdDay              = true;
-                        enableThirdChildYearGroup   = true;
-                        enableThirdYear             = true;
+                        
+                        enableThirdChildNameGroup   = false;
+                        enableThirdChildName        = false;
+                        enableThirdChildMonthGroup  = false;
+                        enableThirdMonth            = false;
+                        enableThirdChildDayGroup    = false;
+                        enableThirdDay              = false;
+                        enableThirdChildYearGroup   = false;
+                        enableThirdYear             = false;
 
                         enableForthChildNameGroup   = true;
                         enableForthChildName        = true;
@@ -238,61 +318,6 @@ useEffect(() => {
                         enableThirdChildYearGroup   = false;
                         enableThirdYear             = false;
 
-                        enableForthChildNameGroup   = true;
-                        enableForthChildName        = true;
-                        enableForthChildMonthGroup  = true;
-                        enableForthMonth            = true;
-                        enableForthChildDayGroup    = true;
-                        enableForthDay              = true;
-                        enableForthChildYearGroup   = true;
-                        enableForthYear             = true;
-
-                        enableFifthChildNameGroup   = true;
-                        enableFifthChildName        = true;
-                        enableFifthChildMonthGroup  = true;
-                        enableFifthMonth            = true;
-                        enableFifthChildDayGroup    = true;
-                        enableFifthDay              = true;
-                        enableFifthChildYearGroup   = true;
-                        enableFifthYear             = true;
-
-                        enableSixthChildNameGroup   = true;
-                        enableSixthChildName        = true;
-                        enableSixthChildMonthGroup  = true;
-                        enableSixthMonth            = true;
-                        enableSixthChildDayGroup    = true;
-                        enableSixthDay              = true;
-                        enableSixthChildYearGroup   = true;
-                        enableSixthYear             = true;
-                        break;
-                    case 5:
-                        enableFirstChildNameGroup   = false;
-                        enableFirstChildName        = false;
-                        enableFirstChildMonthGroup  = false;
-                        enableFirstMonth            = false;
-                        enableFirstChildDayGroup    = false;
-                        enableFirstDay              = false;
-                        enableFirstChildYearGroup   = false;
-                        enableFirstYear             = false;
-
-                        enableSecondChildNameGroup  = false;
-                        enableSecondChildName       = false;
-                        enableSecondChildMonthGroup = false;
-                        enableSecondMonth           = false;
-                        enableSecondChildDayGroup   = false;
-                        enableSecondDay             = false;
-                        enableSecondChildYearGroup  = false;
-                        enableSecondYear            = false;
-                        
-                        enableThirdChildNameGroup   = false;
-                        enableThirdChildName        = false;
-                        enableThirdChildMonthGroup  = false;
-                        enableThirdMonth            = false;
-                        enableThirdChildDayGroup    = false;
-                        enableThirdDay              = false;
-                        enableThirdChildYearGroup   = false;
-                        enableThirdYear             = false;
-
                         enableForthChildNameGroup   = false;
                         enableForthChildName        = false;
                         enableForthChildMonthGroup  = false;
@@ -320,7 +345,7 @@ useEffect(() => {
                         enableSixthChildYearGroup   = true;
                         enableSixthYear             = true;
                         break;
-                    case 6:
+                    case 5:
                         enableFirstChildNameGroup   = false;
                         enableFirstChildName        = false;
                         enableFirstChildMonthGroup  = false;
@@ -375,7 +400,7 @@ useEffect(() => {
                         enableSixthChildYearGroup   = true;
                         enableSixthYear             = true;
                         break;
-                    case 7:
+                    case 6:
                         enableFirstChildNameGroup   = false;
                         enableFirstChildName        = false;
                         enableFirstChildMonthGroup  = false;
