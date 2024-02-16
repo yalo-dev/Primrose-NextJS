@@ -61,7 +61,9 @@ const OpenPositions = ({ careerPlugId }) => {
             return <p></p>;
         }
         if (!jobsToRender || jobsToRender.length === 0) {
-            return <p>No job postings available.</p>;
+            return <p>
+                {/* No job postings available. */}
+            </p>;
         }
 
         return (
