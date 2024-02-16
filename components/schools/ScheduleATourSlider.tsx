@@ -25,13 +25,13 @@ export default function ScheduleATourSlider({adminSettings, schoolSlug}: Schedul
         const rightScroller = rightScrollerRef.current;
 
         if (leftScroller) {
-            leftScroller.scrollTop += .9;
+            leftScroller.scrollTop += 1;
             if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
                 leftScroller.scrollTop = 0;
             }
         }
         if (rightScroller) {
-            rightScroller.scrollTop -= .9;
+            rightScroller.scrollTop -= 1;
             if (rightScroller.scrollTop <= 0) {
                 rightScroller.scrollTop = rightScroller.scrollHeight / 2;
             }
@@ -44,7 +44,7 @@ export default function ScheduleATourSlider({adminSettings, schoolSlug}: Schedul
             return Array.from(images).every((img) => (img as HTMLImageElement).complete);
         };
         if (checkIfImagesLoaded()) {
-            setInterval(scrollContent, 1);
+            setInterval(scrollContent, 20);
         } else {
             const images = document.querySelectorAll('.find-a-school .image-scroller img');
             images.forEach((img) => {

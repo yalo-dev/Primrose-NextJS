@@ -138,12 +138,13 @@ export default function Location({ locationData }){
       title: "Primrose Schools in the " + market.name + " Area",
       schools: schools,
       center: {
-        lat: market.marketSettings.marketCenter.latitude,
-        lng: market.marketSettings.marketCenter.longitude
+        latitude: market?.marketSettings?.marketCenter?.latitude,
+        longitude: market?.marketSettings?.marketCenter?.longitude
       }
     }
     const positions_props = {
         careerPlugId: 123456
+        // market?.marketSettings?.careerplugSchoolId
     }
     return(
         <>

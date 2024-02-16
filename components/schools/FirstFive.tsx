@@ -13,7 +13,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
     const selectedClassrooms = adminSettings?.classroomsOffered;
     const selectedExtraCare = adminSettings?.extraCareOffered
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    const dropdownOptions = selectedOfferings && selectedOfferings.map(classroom => ({
+    const dropdownOptions = selectedOfferings && selectedOfferings.map(classroom => classroom && ({
         label: classroom,
         url: `${schoolSlug}/classrooms/${classroom.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`
     }));

@@ -10,6 +10,7 @@ import GeneralHorizontalTabs from '../../../../../app/components/modules/General
 import { useRouter } from 'next/router';
 import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/HeroWithImage';
 import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
+import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
 
 var camelize = require('camelize');
 
@@ -845,7 +846,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
         )}
       </div>
       {testimonialSection()}
-      {findASchool()}
+      <ScheduleATourSlider adminSettings={school?.schoolAdminSettings} schoolSlug={schoolSlug} />
     </div>
   );
 

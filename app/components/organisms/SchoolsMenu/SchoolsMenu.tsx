@@ -98,6 +98,7 @@ export default function SchoolsMenu() {
   const generateClassroomSubmenu = () => {
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
     return selectedOfferings.map(classroom => {
+      if (!classroom) return
       const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
       return (
         <div className='item' key={classroom}>

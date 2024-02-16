@@ -111,6 +111,9 @@ const Timeline: React.FC<TimelineProps> = ({
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         infinite: false,
+        beforeChange: (current, next) => {
+            setCurrentIndex(next); 
+        },
         responsive: [
             {
                 breakpoint: 1023,
