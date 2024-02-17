@@ -28,7 +28,11 @@
             border-top-right-radius: 0.75rem;
             border-bottom-right-radius: 0.75rem;
             -ms-overflow-style: none; 
-            scrollbar-width: none;  
+            scrollbar-width: none;
+            margin-right: 0;
+            @include media-breakpoint-up(lg) {
+                margin-right: 2rem;
+            }
             &::-webkit-scrollbar {
                 width: 0; 
                 height: 0;
@@ -39,15 +43,13 @@
                 border-radius: 1rem;
                 margin-bottom: 7px;
                 object-fit: cover;
-                @include media-breakpoint-up(lg) {
-                    width: 170px;
-                    height: 200px;
-                }
                 @include media-breakpoint-up(xxl) {
-                    width: 280px;
-                    height: 360px;
                     margin-bottom: 20px;
                     margin-right: 12px;
+                }
+                @include media-breakpoint-up(lg) {
+                    width: 100%;
+                    height: auto;
                 }
             }
         }
@@ -62,11 +64,7 @@
             display: flex;
             justify-content: space-between;
             .image-scroller {
-                flex: 1; 
-                margin-right: 10px;
-                &:last-child {
-                    margin-right: 0; 
-                }
+                flex: 1;
             }
         }
     }
