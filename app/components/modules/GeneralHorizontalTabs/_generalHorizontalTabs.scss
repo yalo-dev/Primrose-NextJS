@@ -302,17 +302,14 @@
     }
 }
 
-.module.Page_Modules_Modules_GeneralHorizontalTabs {
-    // overflow-x: hidden;
-
-    .container.sticky .inner {
-        position: sticky;
-        height: 100%;
-        top: 120px;  
-        z-index: 10; 
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
+.container.sticky .inner {
+    position: sticky;
+    height: 100%;
+    top: 120px;  
+    z-index: 10; 
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
+
 

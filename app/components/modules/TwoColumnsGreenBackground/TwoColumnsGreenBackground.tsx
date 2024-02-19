@@ -14,6 +14,7 @@ interface TwoColumnsGreenBackground {
             title?: string;
             url?: string;
         };
+        displayBackgroundShape?: boolean;
     };
     leftColumn?: {
         imageDesktop?: {
@@ -39,6 +40,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
 
+    const displayBackgroundShape = rightColumn?.displayBackgroundShape || false;
 
     return (
 
@@ -50,7 +52,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsGreenBackground> = ({ leftColum
         >
             <div className='bg-color'>
             <div className='container'>
-                <div className='two-columns-green-background'>
+                <div className={`two-columns-green-background ${displayBackgroundShape ? 'with-background' : ''}`}>
                     {(mobileImageUrl || desktopImageUrl) && (
                         <div className='left-column col-12 col-lg-5 offset-lg-1'>
                             <div className='d-block d-lg-none mb-4'>{rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}</div>

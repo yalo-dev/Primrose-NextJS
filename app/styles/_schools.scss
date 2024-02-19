@@ -1035,7 +1035,8 @@
                     height: auto;
                     display: block;
                     border-radius: 30px;
-
+                    object-fit: cover;
+                    aspect-ratio: 3/2;
                     @include media-breakpoint-up(xl) {
                         width: 687.568px;
                         height: 408px;
