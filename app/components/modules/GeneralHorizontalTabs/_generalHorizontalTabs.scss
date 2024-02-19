@@ -283,6 +283,7 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        order: 0;
                         &.has-popup.active {
                             background-color: $brand-blue;
                             color: $grayscale-1;
