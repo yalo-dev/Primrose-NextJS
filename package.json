@@ -19,6 +19,8 @@
     "jquery": "^3.7.1",
     "next": "^14.0.2",
     "node-fetch": "^3.3.2",
+    "passport": "^0.7.0",
+    "passport-azure-ad": "^4.3.5",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.1.1",
     "react": "^18.2.0",
