@@ -79,16 +79,6 @@ export default function ScheduleATourSlider({adminSettings, schoolSlug}: Schedul
                                                            alt={imgObj.altText || `slider image ${idx} (copy)`}/>
                         ))}
                     </div>
-                    <div className="image-scroller second" ref={rightScrollerRef}>
-                        {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <img key={idx} src={imgObj.url}
-                                                           alt={imgObj.altText || `slider image ${idx}`}/>
-                        ))}
-                        {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <img key={`dup-${idx}`} src={imgObj.url}
-                                                           alt={imgObj.altText || `slider image ${idx} (copy)`}/>
-                        ))}
-                    </div>
                 </div>
             </div>
         </div>
