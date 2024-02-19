@@ -37,7 +37,7 @@ export default function Location({ locationData }){
     const hero_props = {
       leftColumn: {image: {sourceUrl: market?.marketSettings?.heroImage?.sourceUrl, altText: market?.marketSettings?.heroImage?.altText,}},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
-      customizations: {backgroundColor: '#5E6738'},
+      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'Small', bottomPaddingDesktop: 'Small'},
       switchColumnOrderOnDesktop: true
     };
 
@@ -114,6 +114,7 @@ export default function Location({ locationData }){
       heading: "See What Families Are Saying"
     }
     const cta_props = {
+      customizations: {topPaddingDesktop: 'Small', bottomPaddingDesktop: 'Small'},
       subheading: market.marketSettings.schoolLocatorCta.paragraph,
       heading: market.name + " Area Schools",
       image: {
