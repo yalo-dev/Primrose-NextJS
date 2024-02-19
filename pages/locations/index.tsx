@@ -148,8 +148,8 @@ export default function Locations({ markets, schools }) {
                     {states.map((state, i) => (
                         <>
                         <div id={slugify(state, {lower:true}) + "_section"} className="state_section">
-                        <span className="subheading" key={i}>{state}</span>
-                        <div className="accordion accordion-flush" id={slugify(state, {lower:true})}>
+                        <span className="subheading" id={slugify(state, {lower:true})} key={i}>{state}</span>
+                        <div className="accordion accordion-flush" >
                         {markets.map((market, index) => market.markets.marketState == state && (
                             <>
                             
