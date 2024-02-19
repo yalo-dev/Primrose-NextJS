@@ -496,7 +496,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
   let verticalTabs = classroom?.classroomModules?.verticalTabs;
   useEffect(() => {
-    verticalTabs.tabs.map((tab, i) => {
+    verticalTabs?.tabs.map((tab, i) => {
       if(tab.label == "Healthy Bodies"){
         tab.content.list.map(listitem => {
           if(listitem.text == "Health & Safety"){

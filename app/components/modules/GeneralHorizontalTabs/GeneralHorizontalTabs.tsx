@@ -39,7 +39,7 @@ interface HorizontalTabProps {
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
 	const [expandedTabGH, setExpandedTabGH] = useState<number | null>(null);
 	const [activePopupGH, setActivePopupGH] = useState<string | null>(null);
-	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
+	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs?.map(() => []));
 	const buttonRefsGH = useRef<(HTMLButtonElement | null)[]>([]);
 	const contentRefsGH = useRef<(HTMLDivElement | null)[]>([]);
 	const currentTabGH = expandedTabGH !== null ? tabs[expandedTabGH] : null;
@@ -180,7 +180,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	}, []);
 
 	useEffect(() => {
-		tabs.forEach((_, index) => {
+		tabs?.forEach((_, index) => {
 			if (!buttonsRefGH.current[index]) {
 				buttonsRefGH.current[index] = [];
 			}
@@ -199,7 +199,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					<div className="inner">
 
 
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 
 							<div key={index}>
 								<button
@@ -284,7 +284,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					<div className='desktop-content d-none d-lg-block'>
 
 
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 							<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefsGH.current[index] = el}>
 
 								{tab.content?.image?.sourceUrl && (
