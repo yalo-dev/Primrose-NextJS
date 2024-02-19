@@ -244,9 +244,6 @@
 }
 
 .category {
-    @include media-breakpoint-up(lg) {
-        margin-top: 7.5rem;
-    }
     @include media-breakpoint-up(xl) {
         .card.featured {
             &:first-child {
