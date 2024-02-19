@@ -40,72 +40,76 @@ export default function Location({ locationData }){
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
     };
-    const fiftyFifty1_props = {
+
+    const ff1 = market?.marketSettings?.fiftyFifty1
+    const ff1Checks = ff1 && (ff1.title || ff1.paragraph || ff1.url || ff1.target || ff1.image)
+    const fiftyFifty1_props = !ff1Checks ? null : {
       switchColumnOrderOnDesktop: false,
       centerModule: true,
       rightColumn: {
-        heading: market.marketSettings.fiftyFifty1.title,
-        blurb: market.marketSettings.fiftyFifty1.paragraph,
+        heading: ff1.title,
+        blurb: ff1.paragraph,
         button: {
-          title: market.marketSettings.fiftyFifty1.cta?.title,
-          url: market.marketSettings.fiftyFifty1.cta?.url,
-          target: market.marketSettings.fiftyFifty1.cta?.target
+          title: ff1.title,
+          url: ff1.url,
+          target: ff1.target
         }
       },
-        leftColumn: {
-          imageOrVideo: "Image",
-          imageDesktop: {
-           sourceUrl: market.marketSettings.fiftyFifty1.image.sourceUrl,
-           altText: market.marketSettings.fiftyFifty1.image.altText
-          },
-          imageMobile: {
-            sourceUrl: market.marketSettings.fiftyFifty1.image.sourceUrl,
-            altText: market.marketSettings.fiftyFifty1.image.altText
-           }
-
+      leftColumn: {
+        imageOrVideo: "Image",
+        imageDesktop: {
+         sourceUrl: ff1.image?.sourceUrl,
+         altText: ff1.image?.altText
+        },
+        imageMobile: {
+          sourceUrl: ff1.image?.sourceUrl,
+          altText: ff1.image?.altText
         }
       }
-      const fiftyFifty2_props = {
-        switchColumnOrderOnDesktop: true,
-        centerModule: true,
-        rightColumn: {
-          heading: market.marketSettings.fiftyFifty2.title,
-          blurb: market.marketSettings.fiftyFifty2.paragraph,
-          button: {
-            title: market.marketSettings.fiftyFifty2.cta?.title,
-            url: market.marketSettings.fiftyFifty2.cta?.url,
-            target: market.marketSettings.fiftyFifty2.cta?.target
-          }
-        },
-          leftColumn: {
-            imageOrVideo: "Image",
-            imageDesktop: {
-             sourceUrl: market.marketSettings.fiftyFifty2.image.sourceUrl,
-             altText: market.marketSettings.fiftyFifty2.image.altText
-            },
-            imageMobile: {
-              sourceUrl: market.marketSettings.fiftyFifty2.image.sourceUrl,
-              altText: market.marketSettings.fiftyFifty2.image.altText
-             }
-  
-          }
+    }
+
+    const ff2 = market?.marketSettings?.fiftyFifty2
+    const ff2Checks = ff2 && (ff2.title || ff2.paragraph || ff2.url || ff2.target || ff2.image)
+    const fiftyFifty2_props =  !ff2Checks ? null : {
+      switchColumnOrderOnDesktop: true,
+      centerModule: true,
+      rightColumn: {
+        heading: ff2.title,
+        blurb: ff2.paragraph,
+        button: {
+          title: ff2.title,
+          url: ff2.url,
+          target: ff2.target
         }
-      const testimonials = [];
-      market.marketSettings.testimonials.map((testimonial, index) => {
-          testimonials.push({
-            avatar: {
-              sourceUrl: testimonial.testimonialImage.sourceUrl,
-              altText: testimonial.testimonialImage.altText
-            },
-            name: testimonial.name,
-            position: testimonial.title,
-            content: {
-              heading: testimonial.headline,
-              blurb: testimonial.testimonial
-            }
-          })
-        });
-    const testimonials_props = {
+      },
+      leftColumn: {
+        imageOrVideo: "Image",
+        imageDesktop: {
+         sourceUrl: ff2.image?.sourceUrl,
+         altText: ff2.image?.altText
+        },
+        imageMobile: {
+          sourceUrl: ff2.image?.sourceUrl,
+          altText: ff2.image?.altText
+         }
+      }
+    }
+    const testimonials = [];
+    market.marketSettings.testimonials?.map((testimonial, index) => {
+        testimonials.push({
+          avatar: {
+            sourceUrl: testimonial.testimonialImage.sourceUrl,
+            altText: testimonial.testimonialImage.altText
+          },
+          name: testimonial.name,
+          position: testimonial.title,
+          content: {
+            heading: testimonial.headline,
+            blurb: testimonial.testimonial
+          }
+        })
+      });
+    const testimonials_props = testimonials.length > 0 && {
       tabs: testimonials,
       heading: "See What Families Are Saying"
     }
@@ -113,15 +117,15 @@ export default function Location({ locationData }){
       subheading: market.marketSettings.schoolLocatorCta.paragraph,
       heading: market.name + " Area Schools",
       image: {
-        sourceUrl: market.marketSettings.schoolLocatorCta.image.sourceUrl,
-        altText: market.marketSettings.schoolLocatorCta.image.altText
+        sourceUrl: market.marketSettings.schoolLocatorCta.image?.sourceUrl,
+        altText: market.marketSettings.schoolLocatorCta.image?.altText
       },
       button: {
         title: "See Nearest Schools",
         url: "#map"
       }
     }
-    const gallery_props = { gallery: market.marketSettings.gallery, uniqueId: 1};
+    const gallery_props = market.marketSettings.gallery && { gallery: market.marketSettings.gallery, uniqueId: 1};
     const schools = [];
 
     market.schools.nodes.map((school, index) => {
@@ -146,16 +150,16 @@ export default function Location({ locationData }){
         longitude: market?.marketSettings?.marketCenter?.longitude
       }
     }
+
     return(
         <>
         <div className="modules--container market mt-5 pt-5">
-          
             <HeroWithImage {...hero_props} />
-            <TwoColumnsImageAndText  {...fiftyFifty1_props} />
-            <QuoteTestimonials {...testimonials_props} />
-            <TwoColumnsImageAndText  {...fiftyFifty2_props} />
+          {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
+          {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
+          {fiftyFifty2_props && <TwoColumnsImageAndText  {...fiftyFifty2_props} />}
             <GeneralButtonCTA {...cta_props} />
-            <GallerySlider {...gallery_props} />
+          {gallery_props && <GallerySlider {...gallery_props} />}
             <FindASchoolMap {...map_props} />
         </div>
         

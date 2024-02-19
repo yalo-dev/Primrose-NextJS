@@ -106,7 +106,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
     
         const isLastSlideFullyVisible = currentTranslateWidth >= maxTranslateWidth;
         setIsNextArrowDisabled(isLastSlideFullyVisible || currentIndex === gallery.length - 1);
-    }, [currentIndex, slideWidths, gallery.length]);
+    }, [currentIndex, slideWidths, gallery?.length]);
     
 
     return (
@@ -136,7 +136,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
             </div>
             <div className='container'>
             <div className="slider-container" ref={sliderRef}>
-                {gallery.map((item, index) => (
+                {gallery?.map((item, index) => (
                     <div className="slide" key={index} style={{ width: `${imageWidths[index]}px` }}>
                         <img
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
