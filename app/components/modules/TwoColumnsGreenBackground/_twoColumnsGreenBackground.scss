@@ -20,7 +20,7 @@
     color: $white;
     display: flex;
     flex-direction: column;
-    &::after {
+    &.with-background::after {
         content: "";
         background: var(--black-dark, #202220);
         width: 425px;

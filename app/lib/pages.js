@@ -1021,6 +1021,7 @@ query GetModules($id: ID = "") {
 			  }
 			}
 			rightColumn {
+			  displayBackgroundShape
 			  blurb
 			  blurbColor
 			  buttonStyle
