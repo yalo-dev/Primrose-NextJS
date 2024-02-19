@@ -72,13 +72,21 @@ export async function getStaticProps() {
 }
 
 export default function Locations({ markets, schools }) {
-    const handleStateFilter = (state:string) => {
+    const handleStateFilter = (state: string) => {
+        if (typeof state !== 'string' || state.trim() === '') {
+            console.error('Invalid state value:', state);
+            return;
+        }
+    
         let state_section = document.getElementById(slugify(state, {lower:true}) + "_section");
         let sections = document.getElementsByClassName('state_section');
         $(sections).hide();
         $(state_section).show();
-      };
-        
+    
+        let dropdownToggle = document.querySelector('.select-dropdown .dropdown-toggle');
+        dropdownToggle.dispatchEvent(new Event('click'));
+    };
+    
     let schools_arr = [];
     schools.map((school, index) => {
        

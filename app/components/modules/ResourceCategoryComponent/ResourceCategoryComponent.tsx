@@ -71,6 +71,7 @@ const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
           content
           displayAuthor
           fieldGroupName
+          backgroundColor
           }
           resourceTags {
           nodes {

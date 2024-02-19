@@ -1,7 +1,7 @@
 .resource {
     .hero {
         max-width: 1400px;
-        background-color: #814C9E;
+        // background-color: #814C9E;
         color: $grayscale-1;
         overflow:hidden;
         
@@ -76,12 +76,12 @@
             }
             .date {
                 p {
-                    color:  #E6DBEC;
+                    color:  $grayscale-1;
                 }
             }
         }
         .title {
-            border-bottom: 1px solid $resource-hero-border;
+            border-bottom: 1px solid $grayscale-1;
         }
         .author {
             color: #E6DBEC;
