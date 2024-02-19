@@ -11,7 +11,7 @@ export default function TestimonialSection({adminSettings}: TestimonialSectionPr
 
     if (!testimonials) return
 
-    const transformedTestimonials = adminSettings?.testimonials?.map(testimonial => ({
+    const transformedTestimonials = adminSettings?.testimonials?.filter(testimonial => testimonial).map(testimonial => ({
         avatar: {
             sourceUrl: testimonial.featuredImage?.node?.sourceUrl,
             altText: 'Testimonial'
