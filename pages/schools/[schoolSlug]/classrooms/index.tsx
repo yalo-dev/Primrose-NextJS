@@ -114,18 +114,16 @@ query SchoolData($id: ID!) {
         }
         yelpLink
         newsItems {
-          content
-          expires
-          newsImage {
-            imageAlt
+            content
+            expires
             image {
-              mediaItemUrl
+              sourceUrl
             }
+            imageAlt
+            publishDate
+            shortDescription
+            title
           }
-          publishDate
-          shortDescription
-          title
-        }
         googleLink
         meetStaffImage{
           mediaItemUrl
