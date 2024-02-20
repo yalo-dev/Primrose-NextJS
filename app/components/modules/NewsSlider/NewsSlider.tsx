@@ -33,7 +33,6 @@ const NewsSlider = ({ newsItems }) => {
                       <div className='featured-image' style={{ backgroundImage: `url(${item.newsImage?.image?.mediaItemUrl})` }}></div>
                       <div className="info">
                         <h4>{item.title}</h4>
-                        <div className='excerpt' dangerouslySetInnerHTML={{ __html: item.shortDescription }} />
                         <Button className='primary' href="#">Learn More</Button>
                       </div>
                   </div>
