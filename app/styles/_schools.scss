@@ -1,5 +1,5 @@
 .classrooms {
-    padding-bottom: 1.5rem;
+    // padding-bottom: 1.5rem;
     
     .hero-with-image-module {
         padding: 0 0 30px 0;
@@ -1018,8 +1018,8 @@
     padding-bottom: 1.5rem;
     .hero-with-slider {
         @include media-breakpoint-up(lg) {
-            padding-bottom: 100px
-        }
+            padding-bottom: 3.75rem
+        }    
 
         .left-col {
             @include media-breakpoint-up(lg) {
@@ -1165,10 +1165,10 @@
     }
 
     .first-five {
-        padding: 30px 0 0;
+        padding: 1rem 0 0;
 
         @include media-breakpoint-up(lg) {
-            padding: 60px 0 0;
+            padding-top: 3.75rem;
         }
 
         .two-columns-image-and-text-alternative {
@@ -1176,7 +1176,9 @@
             padding-bottom: 40px;
 
             @include media-breakpoint-up(lg) {
-                padding: 80px 0;
+                padding-top: 3.75rem;
+                padding-bottom: 3.75rem;
+
             }
 
             .left-column {
@@ -1194,7 +1196,7 @@
             max-width: 648px;
             text-align: center;
             margin: auto;
-            padding-bottom: 30px;
+            padding-bottom: 3.75rem;
         }
 
         .custom-select {

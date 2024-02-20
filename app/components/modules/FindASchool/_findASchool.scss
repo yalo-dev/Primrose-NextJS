@@ -12,8 +12,11 @@
         margin-bottom: 1rem;
     }
     button {
+        margin-top: 0.5rem;
+        @include media-breakpoint-up(lg) {
         width: auto;
         margin-top: 30px;
+        }
     }
     .left-column {
         padding: 2rem 1.25rem 2rem 1rem;
