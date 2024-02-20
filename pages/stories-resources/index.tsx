@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Heading from '../../app/components/atoms/Heading/Heading';
 import Button from '../../app/components/atoms/Button/Button';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
+import {useRouter} from "next/router";
 
 export async function getServerSideProps() {
     try {
@@ -122,6 +123,7 @@ export async function getServerSideProps() {
 }
 
 export default function ResourcesList({ resources, featuredResources, filterTerms }) {
+    const router = useRouter()
     const featuredResourceIds = featuredResources.map(fr => fr.id);
     const displayedFeaturedResources = featuredResources.slice(0, 5);
 
@@ -134,13 +136,13 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
     
     const sortByDateDescending = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
-    const familiesResources = filterResourcesByTypeAndExcludeFeatured("families")
+    const familiesResources = filterResourcesByTypeAndExcludeFeatured("for-families")
         .sort(sortByDateDescending)
         .slice(0, 3);
-    const educatorsResources = filterResourcesByTypeAndExcludeFeatured("educators")
+    const educatorsResources = filterResourcesByTypeAndExcludeFeatured("for-educators")
         .sort(sortByDateDescending)
         .slice(0, 3);
-    const newsroomResources = filterResourcesByTypeAndExcludeFeatured("newsroom")
+    const newsroomResources = filterResourcesByTypeAndExcludeFeatured("news")
         .sort(sortByDateDescending)
         .slice(0, 3);
         
@@ -199,7 +201,10 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                     const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
                     const shouldAddNewsroomClass = isNewsroom && !isFeatured;
                     const className = classNames[index] || classNames[classNames.length - 1];
-    
+
+                    const categoryFirstNode = resource?.resourceTypes?.nodes[0]
+                    const category = categoryFirstNode?.slug
+
                     return (
                         <ResourceCard
                             key={resource.id}
@@ -208,7 +213,7 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                             className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
                             showExcerptIfNoImage={showExcerptIfNoImage}
                             featuredResourceIds={featuredResourceIds}
-                            
+                            customLink={`${router.asPath}/${category}/${resource.slug}`}
                         />
                     );
                 })}
@@ -319,15 +324,15 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                     {renderResourceItems(displayedFeaturedResources, true, ['featured large', 'featured medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("For Families", "/stories-resources/families")}
+                    {renderTitle("For Families", "/stories-resources/for-families")}
                     {renderResourceItems(familiesResources, true, ['families medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("For Educators", "/stories-resources/educators")}
+                    {renderTitle("For Educators", "/stories-resources/for-educators")}
                     {renderResourceItems(educatorsResources, true, ['educators medium'])}
                 </div>
                 <div className='resources-container'>
-                    {renderTitle("Newsroom", "/stories-resources/newsroom")}
+                    {renderTitle("Newsroom", "/stories-resources/news")}
                     {renderResourceItems(newsroomResources, false, ['newsroom'])}
                 </div>
 

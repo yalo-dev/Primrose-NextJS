@@ -8,7 +8,8 @@ interface ResourceCardProps {
     showExcerptIfNoImage?: boolean;
     className?: string;
     featuredResourceIds?: string[];
-    isFeatured?: boolean; 
+    isFeatured?: boolean;
+    customLink?: string;
 }
 
 const sortTags = (tags) => {
@@ -26,7 +27,7 @@ const formatDate = (dateString) => {
     return date.toLocaleDateString('en-US', options);
 };
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium', featuredResourceIds = [] }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium', featuredResourceIds = [], customLink }) => {
     const isResourceFeatured = featuredResourceIds.includes(resource.id);
 
     let tags = [...resource.resourceTags.nodes];
@@ -37,7 +38,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 
     return (
         <div className={`card ${className ? className : ''}`}>
-            <Link href={`${resource.uri}`}>
+            <Link href={customLink ?? `${resource.uri}`}>
                 <div className='inner' onClick={(e) => {
                     if (e.defaultPrevented) {
                         e.stopPropagation();
