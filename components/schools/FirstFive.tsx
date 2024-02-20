@@ -23,7 +23,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
             <div className='first-five'>
                 <div className='container'>
                     <div className='row'>
-                        <div className='col-12 heading-wrapper pb-lg-5'>
+                        <div className='col-12 heading-wrapper'>
                             <h2 className='h1'>{corporateSettings?.homepageSubheadline?.title}</h2>
                             <div
                                 className='b3'>{corporateSettings?.homepageSubheadline?.description?.replace('[CITY]', corporateSettings.address.city)}</div>

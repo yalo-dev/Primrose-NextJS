@@ -20,8 +20,10 @@
             color: $text-gray;
         }
         button {
+            @include media-breakpoint-up(lg) {
             margin-top: 30px;
             width: auto;
+            }
         }
     }
     .right-column {
@@ -79,7 +81,6 @@
         
         .vid {
             grid-area: vid;
-            width: 225px;
             height: 129px;
             video {
                 border-radius: 10px;

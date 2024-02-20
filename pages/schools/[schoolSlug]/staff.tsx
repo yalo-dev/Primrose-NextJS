@@ -163,7 +163,7 @@ const handleSelectedGroup = (selectedOption) => {
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
-                      <h5 className='mb-0'>{member.name} here</h5>
+                      <h5 className='mb-0'>{member.name}</h5>
                       <div className='b3'>{member.title}</div>
                     </div>
                     <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>

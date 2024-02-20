@@ -76,8 +76,11 @@
             }
         }
         button {
+            margin-top: 1.25rem;
+            @include media-breakpoint-up(lg) {
             width: auto;
             margin-top: 44px;
+            }
             @include media-breakpoint-up(xxl) {
                 margin-top: 53px;
             }
