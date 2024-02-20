@@ -126,12 +126,10 @@ export async function getServerSideProps(context) {
               newsItems {
                 content
                 expires
-                newsImage {
-                  imageAlt
-                  image {
-                    mediaItemUrl
-                  }
+                image {
+                  sourceUrl
                 }
+                imageAlt
                 publishDate
                 shortDescription
                 title
