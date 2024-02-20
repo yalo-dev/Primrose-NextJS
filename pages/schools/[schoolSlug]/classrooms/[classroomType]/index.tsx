@@ -710,7 +710,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     const staffMembersData = school?.schoolAdminSettings?.staffMembers || [];
     const currentClassroomType = classroomType?.toString().toLowerCase();
     const assignedStaffMembers = staffMembersData.filter(member =>
-      member.classroomAssignment?.toLowerCase() === currentClassroomType
+      member.classroomAssignment?.replace(' ', '-').toLowerCase() === currentClassroomType
     );
     const canLoadMore = assignedStaffMembers.length > visibleStaffCount;
     const classroomTypeString = Array.isArray(classroomType) ? classroomType[0] : classroomType;
