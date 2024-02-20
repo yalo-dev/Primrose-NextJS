@@ -46,7 +46,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                 </div>
                             </div>
                         )}
-                        <div className='col left-col col-12 col-lg-6'>
+                        <div className='col left-col col-12 col-lg-6 mb-5'>
                             <div>
                                 <Slider {...settings}>
                                     {sliderImages.map((image, index) => (
