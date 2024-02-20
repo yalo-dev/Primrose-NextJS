@@ -7,8 +7,11 @@
             margin-bottom: 18px;
         }
         .b3{
+            margin-bottom: 1.125rem;
+            @include media-breakpoint-up(lg) {
             margin-bottom: 35px;
             color: $text-gray;
+            }
         }
         button {
             margin-bottom: 60px;
