@@ -11,7 +11,7 @@ export default function SchoolNewsSlider({adminSettings, isClient}: NewsSliderPr
     if (!isClient) return null;
 
     const newsHeading = "See What's Happening in Our School";
-    const newsItems = adminSettings?.newsItems.filter(newsItem => newsItem).slice(0,20);
+    const newsItems = adminSettings?.newsItems;
 
     if (!newsItems || newsItems.length === 0) {
         return null;
@@ -20,7 +20,7 @@ export default function SchoolNewsSlider({adminSettings, isClient}: NewsSliderPr
         <div className='news-slider-module'>
             <div className='container'>
                 <h2 className='heading'>{newsHeading || 'Default News Heading'}</h2>
-                <NewsSlider newsItems={newsItems}/>
+                <NewsSlider newsItems={newsItems.filter(newsItem => newsItem).slice(0,20)}/>
             </div>
         </div>
     );
