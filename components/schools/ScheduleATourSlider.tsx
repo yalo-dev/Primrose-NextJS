@@ -8,7 +8,8 @@ interface ScheduleATourSliderProps {
     schoolSlug: string
 }
 export default function ScheduleATourSlider({adminSettings, schoolSlug}: ScheduleATourSliderProps) {
-    const satImages = adminSettings?.satImages?.map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
+    const satImages = adminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const defaultImages = [
         {url: '/schoolsHomeDefault/scrollies-1.jpg', altText: "A child and teacher's hand on a book",},
         {url: '/schoolsHomeDefault/scrollies-2.jpg', altText: 'A young boy playing with toys',},
@@ -16,7 +17,7 @@ export default function ScheduleATourSlider({adminSettings, schoolSlug}: Schedul
         {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
         {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
     ]
-    const scheduleATourImages = satImages ?? defaultImages;
+    const scheduleATourImages = satImages.length ? satImages : defaultImages;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
 
     const scrollContent = () => {
