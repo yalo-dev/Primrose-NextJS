@@ -11,7 +11,7 @@ export default function SchoolNewsSlider({adminSettings, isClient}: NewsSliderPr
     if (!isClient) return null;
 
     const newsHeading = "See What's Happening in Our School";
-    const newsItems = adminSettings?.newsItems;
+    const newsItems = adminSettings?.newsItems.filter(newsItem => newsItem).slice(0,20);
 
     if (!newsItems || newsItems.length === 0) {
         return null;
