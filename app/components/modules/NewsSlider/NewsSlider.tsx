@@ -30,7 +30,7 @@ const NewsSlider = ({ newsItems }) => {
                 <div key={index} className="slide">
                   <div key={index} className="card-wrapper">
                   <div className="card">
-                      <div className='featured-image' style={{ backgroundImage: `url(${item.newsImage?.image?.mediaItemUrl})` }}></div>
+                      <div className='featured-image' style={{ backgroundImage: `url(${item.image?.sourceUrl})` }}></div>
                       <div className="info">
                         <h4>{item.title}</h4>
                         <Button className='primary' href="#">Learn More</Button>
