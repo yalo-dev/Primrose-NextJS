@@ -18,22 +18,14 @@ export default function ScheduleATourSlider({adminSettings, schoolSlug}: Schedul
     ]
     const scheduleATourImages = satImages ?? defaultImages;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
-    const rightScrollerRef = useRef<HTMLDivElement>(null);
 
     const scrollContent = () => {
         const leftScroller = leftScrollerRef.current;
-        const rightScroller = rightScrollerRef.current;
 
         if (leftScroller) {
             leftScroller.scrollTop += 1;
             if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
                 leftScroller.scrollTop = 0;
-            }
-        }
-        if (rightScroller) {
-            rightScroller.scrollTop -= 1;
-            if (rightScroller.scrollTop <= 0) {
-                rightScroller.scrollTop = rightScroller.scrollHeight / 2;
             }
         }
     };
