@@ -19,6 +19,9 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
         console.error('Missing required PaginationProps')
         return
     }
+    // return nothing if there's only 1 page
+    const totalPages = Math.ceil(itemCount / perPage);
+    if (totalPages <= 1) return
     /*TODO: move pagination state to URL
     * Due to time crunch, state management was kept as previously coded
     * Current pagination is controlled from react state
@@ -27,7 +30,6 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
     * */
 
     const {page, setPage} = controller;
-    const totalPages = Math.ceil(itemCount / perPage);
     const scrollToAllResources = () => {
         scrollToRef && scrollToRef.current?.scrollIntoView({behavior: "smooth"});
     };
