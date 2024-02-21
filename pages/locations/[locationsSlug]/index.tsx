@@ -44,6 +44,7 @@ export default function Location({ locationData }){
     const ff1 = market?.marketSettings?.fiftyFifty1
     const ff1Checks = ff1 && (ff1.title || ff1.paragraph || ff1.url || ff1.target || ff1.image)
     const fiftyFifty1_props = !ff1Checks ? null : {
+      customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchColumnOrderOnDesktop: false,
       centerModule: true,
       rightColumn: {
@@ -71,6 +72,7 @@ export default function Location({ locationData }){
     const ff2 = market?.marketSettings?.fiftyFifty2
     const ff2Checks = ff2 && (ff2.title || ff2.paragraph || ff2.url || ff2.target || ff2.image)
     const fiftyFifty2_props =  !ff2Checks ? null : {
+      customizations: {topMarginDesktop: 'None', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchColumnOrderOnDesktop: true,
       centerModule: true,
       rightColumn: {
