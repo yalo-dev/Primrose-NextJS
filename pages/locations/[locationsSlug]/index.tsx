@@ -37,7 +37,7 @@ export default function Location({ locationData }){
     const hero_props = {
       leftColumn: {image: {sourceUrl: market?.marketSettings?.heroImage?.sourceUrl, altText: market?.marketSettings?.heroImage?.altText,}},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
-      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'Small', bottomPaddingDesktop: 'Small'},
+      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchColumnOrderOnDesktop: true
     };
 
@@ -114,7 +114,7 @@ export default function Location({ locationData }){
       heading: "See What Families Are Saying"
     }
     const cta_props = {
-      customizations: {topPaddingDesktop: 'Small', bottomPaddingDesktop: 'Small'},
+      customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       subheading: market.marketSettings.schoolLocatorCta.paragraph,
       heading: market.name + " Area Schools",
       image: {
@@ -154,7 +154,7 @@ export default function Location({ locationData }){
 
     return(
         <>
-        <div className="modules--container market mt-5 pt-5">
+        <div className="modules--container market mt-4 pt-4">
             <HeroWithImage {...hero_props} />
           {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
           {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
