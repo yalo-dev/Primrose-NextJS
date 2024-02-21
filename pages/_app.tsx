@@ -6,6 +6,9 @@ import { client } from "../app/lib/apollo";
 import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
 import Head from "next/head";
+import { LoadScript } from '@react-google-maps/api';
+
+const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 
 function MyApp({ Component, pageProps }) {
@@ -135,8 +138,12 @@ function MyApp({ Component, pageProps }) {
 				footerMenuItems={footerMenuItems}
 				siteSettings={siteSettings}
 			>
-				
-				<Component {...pageProps} />
+				<LoadScript
+					googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
+					libraries={GOOGLE_MAP_LIBRARIES}
+				>
+					<Component {...pageProps} />
+				</LoadScript>
 			</Layout>
 		</ApolloProvider>
 	);

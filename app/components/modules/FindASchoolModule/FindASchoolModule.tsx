@@ -688,10 +688,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   return (
     <div id="map" className={'find-a-school-container ' + (heading? 'title': '')}>
-      <LoadScript
-        googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
-        libraries={GOOGLE_MAP_LIBRARIES}
-      >
       {heading && (
         <div className="map-title">
           <h3>{heading}</h3>
@@ -1173,7 +1169,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             ))}
           </div>
         </div>
-        </LoadScript>
     </div>
   );
 };
