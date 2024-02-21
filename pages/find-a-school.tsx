@@ -15,8 +15,6 @@ const center = {
   lng: -98.5795
 };
 
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
-
 type Location = {
   lat: number;
   lng: number;
@@ -689,13 +687,8 @@ useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
 
-
   return (
     <div className='find-a-school-container'>
-      <LoadScript
-        googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
-        libraries={GOOGLE_MAP_LIBRARIES}
-      >
         <div className='search-box-container'>
           <div className='tabs'>
             <div className='tab-labels'>
@@ -1161,7 +1154,6 @@ useEffect(() => {
             ))}
           </div>
         </div>
-      </LoadScript>
     </div>
   );
 };
