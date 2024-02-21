@@ -20,7 +20,7 @@ export default function FranchiseOwnerBio({franchiseOwner}) {
         <div className='franchise-owners'>
             {franchiseOwner && (
                 <div className='two-columns-image-and-text-alternative reverse-column'>
-                    <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                    <div className='left-column col-12 col-lg-5 offset-lg-1 mb-0'>
                         {franchiseOwner?.image && (
                             <img
                                 src={franchiseOwner.image.sourceUrl}
