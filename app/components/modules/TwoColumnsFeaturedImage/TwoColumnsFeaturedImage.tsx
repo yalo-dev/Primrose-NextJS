@@ -61,8 +61,7 @@ const TwoColumnsFeaturedImage: React.FC<TwoColumnsFeaturedImageProps> = ({ leftC
                 <div className='left-column col-12 col-lg-6 col-xl-5'>
                     {leftColumn?.heading && <Heading level='h2'>{leftColumn.heading}</Heading>}
                     {leftColumn?.subheading && <Subheading level='h5'>{leftColumn.subheading}</Subheading>}
-                    {leftColumn?.blurb && <Paragraph className='b3'>{leftColumn.blurb}</Paragraph>}
-                    {leftColumn?.button?.url && leftColumn?.button?.title && (
+                    {leftColumn?.blurb && (<div className='b3' dangerouslySetInnerHTML={{ __html: leftColumn.blurb }} />)}                    {leftColumn?.button?.url && leftColumn?.button?.title && (
                         <Button href={leftColumn.button.url} target={leftColumn.button.target} label={leftColumn.button.title}>
                             {leftColumn.button.title}
                         </Button>

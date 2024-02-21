@@ -6,7 +6,7 @@ interface ImageComponent {
   image: {
     altText: string;
     sourceUrl: string;
-    imageType: 'Icon' | 'Normal Image'; // Add the imageType property
+    imageType: 'Icon' | 'Normal Image';
   };
 }
 
@@ -145,7 +145,7 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
                       <Button
                         href={column.button.buttonLink.url}
                         target={column.button.buttonLink.target}
-                        variant="primary" // Use 'primary' variant for Style 1
+                        variant="primary"
                       >
                         {column.button.buttonLink.title}
                       </Button>

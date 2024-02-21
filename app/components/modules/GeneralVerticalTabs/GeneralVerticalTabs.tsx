@@ -151,9 +151,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
                                         <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
                                     </Subheading>}
 
-                                    {tab.content.blurb && <div className="blurb b3">
-                                        <ColorComponent color={tab.content.blurbColor}>{tab.content.blurb}</ColorComponent>
-                                    </div>}
+                                    {tab.content.blurb && (<div className="blurb b3" dangerouslySetInnerHTML={{ __html: tab.content.blurb }} />)}
 
                                     {tab.content.list && <ul>
                                         {tab.content.list.map((item, idx) => (
@@ -216,9 +214,8 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
                                         <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
                                     </Subheading>}
 
-                                    {tab.content.blurb && <div className="blurb b3">
-                                        <ColorComponent color={tab.content.blurbColor}>{tab.content.blurb}</ColorComponent>
-                                    </div>}
+									{tab.content.blurb && (<div className="blurb b3" dangerouslySetInnerHTML={{ __html: tab.content.blurb }} />)}
+
 
                                     {tab.content.list && <ul>
                                         {tab.content.list.map((item, idx) => (
