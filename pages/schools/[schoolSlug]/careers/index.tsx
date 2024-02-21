@@ -250,7 +250,7 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
                 <TestimonialsWithVideoOrImage
                     slider={sliderItems}
                     heading="A Teacher’s Perspective" // Replace with dynamic heading if available
-                    subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
+                    // subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
                 // Add other props as required
                 />
 

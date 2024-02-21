@@ -74,35 +74,30 @@ const EmergencyAlert = () => {
 
   const isAlertExpired = (expirationDate) => {
     if (!expirationDate) {
-      return false; // No expiration date, not expired
+      return false;
     }
 
     const currentDate = new Date();
     const expirationDateTime = new Date(expirationDate);
 
-    // Set the time part of both dates to midnight
     currentDate.setHours(0, 0, 0, 0);
     expirationDateTime.setHours(0, 0, 0, 0);
 
-    // Check if the current time is after 11:59 pm on the expiration date
     const isAfterMidnight = currentDate.getTime() > expirationDateTime.getTime() && currentDate.getTime() > expirationDateTime.setHours(23, 59, 59, 999);
 
     return isAfterMidnight;
   };
 
-  // Extract the display_emergency_alert field from ACF data
   const displayEmergencyAlert = data?.school?.schoolAdminSettings?.displayEmergencyAlert;
 
   const emergencyMessages = data?.school?.schoolAdminSettings?.emergencyMessage;
 
-  // Conditionally render the component based on display_emergency_alert
   if (!displayEmergencyAlert) {
-    return null; // Do not render the component
+    return null;
   }
 
   return (
     <div className="alert-module container">
-      {loading && <p>Loading...</p>}
       {!loading && error && <p>Error loading emergency message</p>}
       {!loading && !error && data && data.school && emergencyMessages && (
         <div className={`emergency-alert${dismissedAlerts.every(Boolean) ? '' : ' margin-top'}`}>
@@ -136,7 +131,7 @@ const EmergencyAlert = () => {
                         </svg>
                       </div>
                     )}
-                    {emergencyMessage.icon && <div className="divider-line" />} {/* Render the divider line conditionally */}
+                    {emergencyMessage.icon && <div className="divider-line" />}
                     <div className="message-container flex-grow-1">
                       {emergencyMessage.message && (
                         <div className="message mb-3" dangerouslySetInnerHTML={{ __html: emergencyMessage.message }} />

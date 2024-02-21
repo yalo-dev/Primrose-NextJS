@@ -5,7 +5,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    span > p {
+    div > p {
         color: inherit;
     }
     &.reverse-column .left-column {

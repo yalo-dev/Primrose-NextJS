@@ -30,7 +30,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                         </div>
                         <div className='classrooms'>
                             <div className='two-columns-image-and-text-alternative'>
-                                <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                                <div className='left-column col-12 col-lg-5 offset-lg-1 mb-0'>
                                     <img
                                         src='/schoolsHomeDefault/classrooms%20and%20programs.jpg'
                                         alt='child in daycare classroom'
