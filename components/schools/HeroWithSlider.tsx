@@ -102,7 +102,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                                     return (
                                                         <li key={`classroom-${index}`}>
                                                             <Link href={classroomUrl}>
-                                                                <span className='b3'>{classroom}</span>
+                                                            <span className='b3'dangerouslySetInnerHTML={{ __html: classroom }}/>
                                                             </Link>
                                                         </li>
                                                     );
