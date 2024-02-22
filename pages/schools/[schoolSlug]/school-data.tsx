@@ -24,7 +24,6 @@ export async function getServerSideProps(context) {
               corporate {
                 emailAddress
                 phoneNumber
-                schoolName
                 address {
                   streetAddress
                   streetAddress2

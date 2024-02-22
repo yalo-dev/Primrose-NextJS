@@ -184,7 +184,6 @@ export default function Location({ locationData }){
                       }
                     }
                     schoolCorporateSettings {
-                      schoolName
                       schoolOfAtOn
                       address {
                         streetAddress

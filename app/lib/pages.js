@@ -356,7 +356,6 @@ query GetModules($id: ID = "") {
                 uri
                 slug
                 schoolCorporateSettings {
-                  schoolName
                   phoneNumber
                   address {
                     streetAddress

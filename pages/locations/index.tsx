@@ -31,7 +31,6 @@ export async function getStaticProps() {
                   title
                   schoolCorporateSettings {
                     schoolOfAtOn
-                    schoolName
                   }
                 }
               }

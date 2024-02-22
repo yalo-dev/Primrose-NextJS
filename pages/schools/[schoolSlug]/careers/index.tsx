@@ -63,7 +63,6 @@ export async function getServerSideProps(context) {
             }
           }
           schoolCorporateSettings {
-            schoolName
             usesCareerplug
             careerplugIframeUrl
             address {

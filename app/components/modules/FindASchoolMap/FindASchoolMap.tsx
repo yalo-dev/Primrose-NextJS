@@ -126,7 +126,7 @@ const transformSchoolData = (schoolData) => {
   return {
     id: schoolData.id,
     slug: schoolData.slug,
-    name: schoolData.schoolCorporateSettings.schoolName || schoolData.title,
+    name: schoolData.title,
     address: `${schoolData.schoolCorporateSettings.address.streetAddress}, ${schoolData.schoolCorporateSettings.address.city}, ${schoolData.schoolCorporateSettings.address.state}, ${schoolData.schoolCorporateSettings.address.zipcode}`,
     hours: `M-F ${schoolData.schoolAdminSettings.hoursOfOperation.openingTime}-${schoolData.schoolAdminSettings.hoursOfOperation.closingTime}`,
     notes: notes.join(', '),

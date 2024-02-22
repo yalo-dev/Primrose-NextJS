@@ -42,7 +42,6 @@ export async function getServerSideProps(context) {
             }
           }
           schoolCorporateSettings {
-            schoolName
             careerplugSchoolId
             address {
               city

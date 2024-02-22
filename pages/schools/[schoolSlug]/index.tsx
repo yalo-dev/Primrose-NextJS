@@ -57,7 +57,6 @@ export async function getServerSideProps(context) {
               emailAddress
               phoneNumber
               preopening
-              schoolName
               virtualTourUrl
               homepageHeroImage {
                 altText

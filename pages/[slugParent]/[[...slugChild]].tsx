@@ -327,7 +327,6 @@ query GetModules($id: ID = "") {
                 slug
                 schoolCorporateSettings {
 				  schoolOfAtOn
-                  schoolName
                   phoneNumber
                   address {
                     streetAddress
