@@ -999,7 +999,7 @@ useEffect(() => {
                         <span className='address'>{school.address}</span>
                       </div>
                       <div className='hours'>{school.hours}</div>
-                      <ul className='notes'><li>{school.notes}</li></ul>
+                      {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                       <div className='button-wrap d-flex'>
                         <Button variant="primary">Schedule a Tour</Button>
                         <a href={`tel:${school.phone}`} className='phone ms-2'>
@@ -1138,7 +1138,7 @@ useEffect(() => {
                       <span className='address'>{school.address}</span>
                     </div>
                     <div className='hours'>{school.hours}</div>
-                    <ul className='notes'><li>{school.notes}</li></ul>
+                    {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                     <div className='button-wrap d-flex'>
                       <Button variant="primary">Schedule a Tour</Button>
                       <a href={`tel:${school.phone}`} className='phone ms-2'>
