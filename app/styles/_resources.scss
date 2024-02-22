@@ -345,20 +345,19 @@
 }
 
 .resources-container {
-    .card.featured:first-child .inner .image-wrapper .image{
-        background-size: 140% auto !important;
-    }
-    .card.featured:first-child:hover .inner .image-wrapper .image {
-        background-size: 150% auto !important;
-        transition: all .5s;
-    }
+    // .card.featured:first-child .inner .image-wrapper .image{
+    //     background-size: 140% auto !important;
+    // }
+    // .card.featured:first-child:hover .inner .image-wrapper .image {
+    //     background-size: 150% auto !important;
+    //     transition: all .5s;
+    // }
     .card.medium:hover .image-wrapper .image{
-        background-size: 105% auto !important;
-        transition: all .5s;
+        transform: scale(1.1);
+        
     }
     .card:hover .image-wrapper .image{
-        background-size: 105% auto !important;
-        transition: all .5s;
+        transform: scale(1.1);
     }
 }
 

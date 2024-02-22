@@ -6,7 +6,7 @@ import { client } from "../app/lib/apollo";
 import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
 import Head from "next/head";
-import { LoadScript } from '@react-google-maps/api';
+import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
@@ -16,6 +16,12 @@ function MyApp({ Component, pageProps }) {
 	const [headerMenuItems, setHeaderMenuItems] = useState([]);
 	const [footerMenuItems, setFooterMenuItems] = useState([]);
 	const [siteSettings, setSiteSettings] = useState(null);
+
+	const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
+        libraries: ['places'],
+      }); 
 
 	useEffect(() => {
 
@@ -138,12 +144,11 @@ function MyApp({ Component, pageProps }) {
 				footerMenuItems={footerMenuItems}
 				siteSettings={siteSettings}
 			>
-				<LoadScript
-					googleMapsApiKey="AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw"
-					libraries={GOOGLE_MAP_LIBRARIES}
-				>
+				{isLoaded && (
 					<Component {...pageProps} />
-				</LoadScript>
+				)}
+					
+				
 			</Layout>
 		</ApolloProvider>
 	);

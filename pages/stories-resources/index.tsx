@@ -236,33 +236,33 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
     }));
 
 
-    useEffect(() => {
-        const adjustCardHeights = () => {
-            if (window.innerWidth < 1200) {
-                document.querySelectorAll('#all .card').forEach((card: any) => {
-                    card.style.height = 'auto';
-                });
-                return;
-            }
-            const cards = document.querySelectorAll('#all .card');
-            let maxHeight = 0;
+    // useEffect(() => {
+    //     const adjustCardHeights = () => {
+    //         if (window.innerWidth < 1200) {
+    //             document.querySelectorAll('#all .card').forEach((card: any) => {
+    //                 card.style.height = 'auto';
+    //             });
+    //             return;
+    //         }
+    //         const cards = document.querySelectorAll('#all .card');
+    //         let maxHeight = 0;
 
-            cards.forEach((card: any) => {
-                if (card.offsetHeight > maxHeight) {
-                    maxHeight = card.offsetHeight;
-                }
-            });
-            cards.forEach((card: any) => {
-                card.style.height = `${maxHeight}px`;
-            });
-        };
+    //         cards.forEach((card: any) => {
+    //             if (card.offsetHeight > maxHeight) {
+    //                 maxHeight = card.offsetHeight;
+    //             }
+    //         });
+    //         cards.forEach((card: any) => {
+    //             card.style.height = `${maxHeight}px`;
+    //         });
+    //     };
 
-        adjustCardHeights();
-        window.addEventListener('resize', adjustCardHeights);
-        return () => {
-            window.removeEventListener('resize', adjustCardHeights);
-        };
-    }, []);
+    //     adjustCardHeights();
+    //     window.addEventListener('resize', adjustCardHeights);
+    //     return () => {
+    //         window.removeEventListener('resize', adjustCardHeights);
+    //     };
+    // }, []);
 
 
     return (
