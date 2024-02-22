@@ -19,6 +19,7 @@ const GET_CLASSROOM_TYPE = gql`
         classroom(id: $classroomId, idType: URI) {
           title
           classroomModules {
+            pageHeader
             classroomHero {
               heroImage {
                 altText
@@ -103,7 +104,6 @@ const GET_CLASSROOM_TYPE = gql`
               altText
             }
             infant {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -133,7 +133,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             toddler {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -163,7 +162,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             earlyPreschool {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -193,7 +191,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             preschool {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -223,7 +220,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             preKindergarten {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -253,7 +249,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             kindergarten {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -283,7 +278,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             preschoolPathways {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -313,7 +307,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             summerAdventureClub {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -343,7 +336,6 @@ const GET_CLASSROOM_TYPE = gql`
               healthSafety
             }
             beforeSchool {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -376,7 +368,6 @@ const GET_CLASSROOM_TYPE = gql`
               }
             }
             afterSchool {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -409,7 +400,6 @@ const GET_CLASSROOM_TYPE = gql`
               }
             }
             beforeAfterSchool {
-              pageHeader
               classroomGallery {
                 image {
                   sourceUrl
@@ -494,8 +484,6 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const router = useRouter();
   const { classroomType } = router.query;
   const classroom = data?.classroom;
-  const classroomInfo = school?.schoolAdminSettings[camelize(classroomType) as string];
-  console.log(classroomInfo)
   const hasData = (data) => {
     return data && Object.keys(data).length > 0 && data.constructor === Object;
   };
@@ -835,7 +823,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     <div className='school classroom-type'>
       <HeroWithImage {...heroProps} />
       <div className="container">
-        <h2 className="heading">{classroomInfo.pageHeader ?? "Overview of Learning Domains"}</h2>
+        <h2 className="heading">{classroom?.classroomModules?.pageHeader ?? "Overview of Learning Domains"}</h2>
       </div>
       
       <GeneralHorizontalTabs {...verticalTabs} />
