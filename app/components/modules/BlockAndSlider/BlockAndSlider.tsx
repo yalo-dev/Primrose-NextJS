@@ -29,7 +29,7 @@ const BlockAndSlider = ({ blurb, heading, image, customizations, slider }) => {
             <div className='row' style={{ marginTop: customizations?.topMarginDesktop, marginBottom: customizations?.bottomMarginDesktop }}>
                 <div className='col'>
                     <h2 className='white'>{heading}</h2>
-                    <p className='white b3'>{blurb}</p>
+                    <p className='white b3' dangerouslySetInnerHTML={{ __html: blurb }} />
                 </div>
                 <div className='col'>
                     {image && <img className='featured-img' src={image.sourceUrl} alt={image.altText} />}

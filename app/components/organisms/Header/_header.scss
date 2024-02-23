@@ -122,10 +122,12 @@
                 height: auto;
                 border-bottom: 1px solid rgb(223 226 212 / 20%);
                 padding: 24px 0;
+                width: 100%;
                 @include media-breakpoint-up(lg) {
                     border-bottom: 0;
                     height: 100px;
                     padding: 0 0 0 25px;
+                    width: auto;
                     &.has-children {
                         display: flex;
                         justify-content: center;
