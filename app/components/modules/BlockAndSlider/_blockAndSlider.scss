@@ -13,6 +13,9 @@
             align-items: center;
         }
         .col {
+            p {
+                color: #fff;
+            }
             &:first-child {
                 order: 2;
             }
