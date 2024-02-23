@@ -19,7 +19,7 @@ const GET_CLASSROOM_TYPE = gql`
         classroom(id: $classroomId, idType: URI) {
           title
           classroomModules {
-            pageHeader
+            verticalTabsHeadline
             classroomHero {
               heroImage {
                 altText
@@ -735,7 +735,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     <div className='school classroom-type'>
       <HeroWithImage {...heroProps} />
       <div className="container">
-        <h2 className="heading">{classroom?.classroomModules?.pageHeader ?? "Overview of Learning Domains"}</h2>
+        <h2 className="heading">{classroom?.classroomModules?.verticalTabsHeadline ?? "Overview of Learning Domains"}</h2>
       </div>
       
       <GeneralHorizontalTabs {...verticalTabs} />
