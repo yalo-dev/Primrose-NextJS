@@ -7,9 +7,6 @@ import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
 import Head from "next/head";
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
-import { useRouter } from 'next/router';
-
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 
 function MyApp({ Component, pageProps }) {
@@ -17,9 +14,6 @@ function MyApp({ Component, pageProps }) {
 	const [headerMenuItems, setHeaderMenuItems] = useState([]);
 	const [footerMenuItems, setFooterMenuItems] = useState([]);
 	const [siteSettings, setSiteSettings] = useState(null);
-
-	const router = useRouter();
-  	const isOnLocationsPage = router.pathname === '/locations';
 
 	const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -148,11 +142,8 @@ function MyApp({ Component, pageProps }) {
 				footerMenuItems={footerMenuItems}
 				siteSettings={siteSettings}
 			>
-				{isOnLocationsPage && (
-        			<Component {...pageProps} />
-      			)}
 				
-				{!isOnLocationsPage && isLoaded && (
+				{isLoaded && (
 					<Component {...pageProps} />
 				)}
 					
