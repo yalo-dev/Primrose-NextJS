@@ -96,19 +96,20 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                     onClick={() => handleLabelClick(index)}
                                     className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                                 >
-                                   
-								   <img
-										src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-										alt="Avatar" 
-										width={65} 
-										height={65} 
-										className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}
-									/>
+									{
+										tab.avatar?.sourceUrl && <img
+											src={tab.avatar?.sourceUrl}
+											alt="Avatar"
+											width={65}
+											height={65}
+											className={`avatar`}
+										/>
+									}
 
-                                 
-                                    <div className='text-wrap'>
-                                    {tab.name && 
-                                        <div className="name" style={{color: tab.nameColor}}>
+
+									<div className='text-wrap'>
+										{tab.name &&
+											<div className="name" style={{color: tab.nameColor}}>
                                             {tab.name}
                                         </div>
                                     }
@@ -161,16 +162,15 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                 onClick={() => handleLabelClick(index)}
                                 className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                             >
-                              
-							  <img
-									src={tab.avatar?.sourceUrl || '/assets/default-avatar.svg'}
-									alt={tab.avatar?.altText || ''}
-									width={50} 
-									height={50} 
-									className={`avatar ${!tab.avatar?.sourceUrl ? 'default' : ''}`}
-								/>
-
-                              
+								{
+									tab.avatar?.sourceUrl && <img
+										src={tab.avatar?.sourceUrl}
+										alt={tab.avatar?.altText || "Avatar"}
+										width={50}
+										height={50}
+										className={`avatar`}
+									/>
+								}
                                 <div className='text-wrap'>
                                 {tab.name && 
                                     <div className="name" style={{color: tab.nameColor}}>
