@@ -32,11 +32,11 @@
         }
     }
     .left-column {
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
         position: relative;
-        @include media-breakpoint-up(lg) {
-            margin-bottom: 30px;
-        }
+        // @include media-breakpoint-up(lg) {
+        //     margin-bottom: 30px;
+        // }
         img {
             width: 100%;
             height: auto;

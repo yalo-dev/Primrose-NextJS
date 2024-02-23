@@ -114,7 +114,7 @@ export default function Header({ menuItems }) {
                 <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
                     {item.label}
                 </Link>
-                <div className='parent-item nav-link d-flex d-lg-none justify-content-between' onClick={() => toggleSubmenu(key)}>
+                <div className='parent-item nav-link d-flex d-lg-none justify-content-between align-items-center' onClick={() => toggleSubmenu(key)}>
                     {item.label}
                     <span className="arrow px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
