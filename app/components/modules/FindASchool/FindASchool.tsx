@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -98,21 +99,25 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                                 <div className="image-scroller" ref={leftScrollerRef}>
                                     {images.map((imgObj, idx) => (
                                         imgObj.image.sourceUrl && (
-                                            <img 
+                                            <Image 
                                                 key={idx} 
                                                 src={imgObj.image.sourceUrl} 
                                                 alt={imgObj.image.altText} 
                                                 onLoad={handleImageLoad}
+                                                width={1920}
+                                                height={1920}
                                             />
                                         )
                                     ))}
                                     {images.map((imgObj, idx) => ( // Duplicating for infinite scroll illusion
                                         imgObj.image.sourceUrl && (
-                                            <img 
+                                            <Image 
                                                 key={`dup-${idx}`} 
                                                 src={imgObj.image.sourceUrl} 
                                                 alt={imgObj.image.altText} 
                                                 onLoad={handleImageLoad}
+                                                width={1920}
+                                                height={1920}
                                             />
                                         )
                                     ))}
