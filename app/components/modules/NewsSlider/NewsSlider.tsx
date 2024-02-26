@@ -5,12 +5,13 @@ import Button from '../../atoms/Button/Button';
 
 const NewsSlider = ({ newsItems }) => {
     // Settings for the slick slider
+    const slidesToShow = 3
     const settings = {
         adaptiveHeight: true,
         dots: true,
-        infinite: true,
+        infinite: newsItems?.length > slidesToShow,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: slidesToShow,
         slidesToScroll: 1,
         responsive: [
             {
