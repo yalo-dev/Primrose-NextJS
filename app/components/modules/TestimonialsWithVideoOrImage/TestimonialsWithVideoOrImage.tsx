@@ -124,7 +124,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                     {slide.imageOrVideo === 'video' && slide.video?.url &&
                                         <div className="video-wrap">
                                             <div className="responsive-video">
-                                                <iframe className="rounded-lg" width="560" height="315" src={slide.video.url} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                                <iframe className="rounded-lg" width="560" height="315" src={slide.video.url} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                                             </div>
                                         </div>
                                     }
