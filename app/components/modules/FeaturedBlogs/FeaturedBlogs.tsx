@@ -42,7 +42,13 @@ interface FeaturedBlogsProps {
     };
 }
 
-  const FeaturedBlogs: React.FC<FeaturedBlogsProps> = ({ blogs, heading, headingColor, featuredResourceIds, customizations }) => {
+const FeaturedBlogs: React.FC<FeaturedBlogsProps> = ({ blogs, heading, headingColor, featuredResourceIds, customizations }) => {
+
+    const rows = [];
+    for (let i = 0; i < blogs.length; i += 3) {
+        rows.push(blogs.slice(i, i + 3));
+    }
+
     return (
         <Customizations
             topPaddingMobile={customizations?.topPaddingMobile}
@@ -56,8 +62,9 @@ interface FeaturedBlogsProps {
                     <div className="heading-wrapper mb-4">
                         {heading && <Heading level="h2" color={headingColor}>{heading}</Heading>}
                     </div>
-                    <div className="cards">
-                    {blogs.map((blog) => (
+                    {rows.map((row, rowIndex) => (
+                    <div key={rowIndex} className="cards">
+                    {row.map((blog) => (
                         <ResourceCard
                             key={blog.id}
                             resource={blog}
@@ -68,6 +75,7 @@ interface FeaturedBlogsProps {
                         />
                     ))}
                 </div>
+                ))}
                 </div>
             </div>
         </Customizations>
