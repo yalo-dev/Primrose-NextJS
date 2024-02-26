@@ -1232,6 +1232,8 @@
     .news-slider-module {
         padding-top: 1.875rem;
         padding-bottom: 0.5rem;
+        margin-bottom: 30px;
+        clear: both;
 
         .heading {
             max-width: 512px;
@@ -1655,7 +1657,7 @@
     margin: 4.375rem 0 0 0;
 
     @include media-breakpoint-up(lg) {
-        margin: 120px 0 0 0;
+        margin: 90px 0 0 0;
     }
 }
 

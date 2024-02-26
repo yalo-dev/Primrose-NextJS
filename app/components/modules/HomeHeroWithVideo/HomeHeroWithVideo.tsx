@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
@@ -299,9 +300,12 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
 
                             {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
                                 <div className='image-wrapper mb-4 mb-lg-0'>
-                                    <img
+                                    <Image
                                         src={rightColumn.image?.sourceUrl}
                                         alt={rightColumn.image?.altText}
+                                        width={1920}
+                                        height={1080}
+                                        priority
                                     />
                                 </div>
                             )}

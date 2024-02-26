@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image'
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -86,17 +87,21 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
             return (
                 <>
                     {leftColumn.imageMobile?.sourceUrl &&
-                        <img
+                        <Image
                             className='d-block d-lg-none'
                             src={desktopImageUrl}
                             alt={leftColumn.imageMobile.altText || ''}
+                            width={1920}
+                            height={1920}
                         />
                     }
                     {leftColumn.imageDesktop?.sourceUrl &&
-                        <img
+                        <Image
                             className='d-none d-lg-block'
                             src={mobileImageUrl}
                             alt={leftColumn.imageDesktop.altText || ''}
+                            width={1920}
+                            height={1920}
                         />
                     }
                 </>

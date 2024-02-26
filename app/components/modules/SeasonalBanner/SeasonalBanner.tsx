@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
@@ -47,7 +48,7 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ image, heading, heading
             <div className='seasonal-banner'>
                 <div className='row'>
                     <div className='col-12 col-lg-6 top'>
-                        <img
+                        <Image
                             src={image?.sourceUrl}
                             alt={image?.altText || 'Seasonal Banner Image'}
                             width={250}

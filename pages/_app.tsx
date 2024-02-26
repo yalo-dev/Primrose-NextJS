@@ -8,8 +8,6 @@ import { gql } from '@apollo/client';
 import Head from "next/head";
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
-
 
 function MyApp({ Component, pageProps }) {
 
@@ -144,6 +142,7 @@ function MyApp({ Component, pageProps }) {
 				footerMenuItems={footerMenuItems}
 				siteSettings={siteSettings}
 			>
+				
 				{isLoaded && (
 					<Component {...pageProps} />
 				)}
