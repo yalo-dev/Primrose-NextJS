@@ -1,6 +1,6 @@
 .testimonials-with-video-or-image {
     .slick-active {
-        z-index: 99999999;
+        z-index: 99999999; 
     }
     @include media-breakpoint-up(lg) {
         display: flex;
