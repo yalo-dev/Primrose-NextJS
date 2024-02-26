@@ -190,6 +190,8 @@ export async function getServerSideProps(context) {
 export default function SchoolMainPage({school, schoolSlug}) {
     const corporateSettings = school?.schoolCorporateSettings;
     const adminSettings = school?.schoolAdminSettings;
+    const satImages = adminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         setIsClient(true);
@@ -205,7 +207,7 @@ export default function SchoolMainPage({school, schoolSlug}) {
             <SchoolNewsSlider adminSettings={adminSettings} isClient={isClient} />
             <TestimonialSection adminSettings={adminSettings} />
             {adminSettings?.gallery?.length && <GallerySlider gallery={adminSettings.gallery} uniqueId="gallerySlider"/>}
-            <ScheduleATourSlider adminSettings={adminSettings} schoolSlug={schoolSlug}/>
+            <ScheduleATourSlider schoolSlug={schoolSlug} images={satImages} defaultImageFallback={true}/>
         </div>
     );
 }

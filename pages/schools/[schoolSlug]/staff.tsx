@@ -94,6 +94,8 @@ export default function StaffPage({ staff, schoolSlug, schoolAdminSettings, fran
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
+  const satImages = schoolAdminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
 
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
@@ -194,7 +196,7 @@ const handleSelectedGroup = (selectedOption) => {
         {/* Franchise Owners Section */}
         {franchiseOwner && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
-      <ScheduleATourSlider adminSettings={schoolAdminSettings} schoolSlug={schoolSlug} />
+      <ScheduleATourSlider schoolSlug={schoolSlug} images={satImages} defaultImageFallback={true} />
     </div>
   );
 }

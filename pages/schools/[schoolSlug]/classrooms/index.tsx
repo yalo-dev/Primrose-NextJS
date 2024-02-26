@@ -390,7 +390,8 @@ export default function ClassroomPage() {
     let selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
     if (selectedExtraCare == 'Before & After School') { selectedExtraCare = 'Before & After School Care' }
     const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    const ScheduleATour = data?.school?.schoolAdminSettings?.satImages || {};
+    const satImages = data?.school?.schoolAdminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const classroom = data?.classroom || {};
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
     return (
@@ -537,7 +538,7 @@ export default function ClassroomPage() {
             {/*    </div>*/}
             </div>
                 )}
-                <ScheduleATourSlider adminSettings={data?.school?.schoolAdminSettings} schoolSlug={router.query.schoolSlug as string} />
+            <ScheduleATourSlider images={satImages} schoolSlug={router.query.schoolSlug as string} defaultImageFallback={true} />
             </div>
         </>
     );

@@ -19,6 +19,13 @@ const GET_CLASSROOM_TYPE = gql`
         classroom(id: $classroomId, idType: URI) {
           title
           classroomModules {
+            ctaContentBlockScrollies {
+              imageAltTag
+              image {
+                altText
+                sourceUrl
+              }
+            }
             verticalTabsHeadline
             classroomHero {
               heroImage {
@@ -486,6 +493,8 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const hasData = (data) => {
     return data && Object.keys(data).length > 0 && data.constructor === Object;
   };
+  const satImages = classroom?.classroomModules?.ctaContentBlockScrollies?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.imageAltTag ?? imgObj.image.altText}))
   const featuredBanner = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.featuredBanner || {};
   const generalButtonCTAProps = {
     icon: featuredBanner.icon,
@@ -759,7 +768,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
         )}
       </div>
       {testimonialSection()}
-      <ScheduleATourSlider adminSettings={school?.schoolAdminSettings} schoolSlug={schoolSlug} />
+      <ScheduleATourSlider images={satImages} schoolSlug={schoolSlug}/>
     </div>
   );
 
