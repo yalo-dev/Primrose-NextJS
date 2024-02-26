@@ -114,20 +114,18 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                         {slider?.map((slide, index) => (
                             <div key={index} className="slider-item">
                                 
-                                    {slide.image && slide.image.sourceUrl &&
-                                    <div className="image-wrap">
-                                        <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
+                                    {slide.imageOrVideo === 'image' && slide.image?.sourceUrl &&
+                                        <div className="image-wrap">
+                                            <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
                                         </div>
                                     }
                                 
                                
                                     {slide.imageOrVideo === 'video' && slide.video?.url &&
-                                     <div className="video-wrap">
-                                        <div className="responsive-video">
-                                            <video width="588" height="330"  controls>
-                                            <source src={slide.video.url} type="video/mp4" />
-                                            Your browser does not support the video tag.
-                                        </video></div>
+                                        <div className="video-wrap">
+                                            <div className="responsive-video">
+                                                <iframe className="rounded-lg" width="560" height="315" src={slide.video.url} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                            </div>
                                         </div>
                                     }
                                

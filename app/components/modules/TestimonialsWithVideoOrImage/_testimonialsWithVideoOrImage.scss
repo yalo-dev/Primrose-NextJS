@@ -1,4 +1,7 @@
 .testimonials-with-video-or-image {
+    .slick-active {
+        z-index: 99999999;
+    }
     @include media-breakpoint-up(lg) {
         display: flex;
     }
@@ -50,6 +53,10 @@
             }
             video {
                 aspect-ratio: 588 / 330;
+                display: block;
+            }
+            iframe {
+                aspect-ratio: 16 / 9;
                 display: block;
             }
         }
