@@ -19,7 +19,7 @@ export default function ScheduleATourSlider({images, schoolSlug, defaultImageFal
         {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
         {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
     ] : null
-    const scheduleATourImages = images.length ? images : defaultImages;
+    const scheduleATourImages = images?.length ? images : defaultImages;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
 
     const scrollContent = () => {
