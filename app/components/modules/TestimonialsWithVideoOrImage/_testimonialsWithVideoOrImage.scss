@@ -172,6 +172,55 @@
             }
         }
     }
+    .slick-arrow {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 1px solid var(--border-primary, #DFE2D3);
+        background-color: var(--black-neutral, #F1F1EF);
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        opacity: 1;
+        position: absolute;
+        top: auto;
+        bottom: -25px;
+        left: auto;
+        @include media-breakpoint-up(md) {
+            bottom: -65px;
+        }
+        &:hover {
+            border: 1px solid var(--border-primary, #DFE2D3);
+            background-color: var(--black-neutral, #F1F1EF);
+            opacity: 0.7;
+        }
+        svg {
+            width: 12px;
+            height: 12px;
+        }
+        &.slick-prev {
+            right: 45px;
+            svg {
+                transform: rotate(-90deg);
+            }
+            @include media-breakpoint-up(md) {
+                right: 45px;
+            }
+        }
+        &.slick-next {
+            right: 5px;
+            svg {
+                transform: rotate(90deg);
+            }
+            @include media-breakpoint-up(md) {
+                right: 5px;
+            }
+        }
+        &:before, &:after {
+            display: none;
+        }
+    }
 }
 
 .module.Page_Modules_Modules_TestimonialsWithVideoOrImage {
