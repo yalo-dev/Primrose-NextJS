@@ -137,19 +137,25 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
     { label: 'Leadership', value: 'Leadership' },
     { label: 'Teachers', value: 'Teacher' },
     { label: 'Staff', value: 'Staff' }
-]
+  ]
 
-useEffect(() => {
-  const filtered = !selectedGroup || selectedGroup.value === 'All'
-      ? staff
-      : staff?.filter(member => member.group === selectedGroup.value);
+  useEffect(() => {
+    const filtered = !selectedGroup || selectedGroup.value === 'All'
+        ? staff
+        : staff?.filter(member => member.group === selectedGroup.value);
 
-  setFilteredStaffMembers(filtered);
-}, [selectedGroup, staff]);
-const handleSelectedGroup = (selectedOption) => {
-  setSelectedGroup(selectedOption);
-};
-
+    setFilteredStaffMembers(filtered);
+  }, [selectedGroup, staff]);
+  const handleSelectedGroup = (selectedOption) => {
+    setSelectedGroup(selectedOption);
+  };
+  const defaultImages =[
+      {url: '/schoolsHomeDefault/scrollies-1.jpg', altText: "A child and teacher's hand on a book",},
+      {url: '/schoolsHomeDefault/scrollies-2.jpg', altText: 'A young boy playing with toys',},
+      {url: '/schoolsHomeDefault/scrollies-3.jpg', altText: 'A young boy playing to the floor looking up at camera',},
+      {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
+      {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
+  ]
 
   return (
     <div className='school staff'>
@@ -212,7 +218,7 @@ const handleSelectedGroup = (selectedOption) => {
         {/* Franchise Owners Section */}
         {franchiseOwner && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
-      <ScheduleATourSlider schoolSlug={schoolSlug} images={satImages} defaultImageFallback={true} />
+      <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} />
     </div>
   );
 }

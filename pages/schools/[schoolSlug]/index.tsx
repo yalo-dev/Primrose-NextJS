@@ -205,6 +205,13 @@ export default function SchoolMainPage({school, schoolSlug}) {
     useEffect(() => {
         setIsClient(true);
     }, []);
+    const defaultImages =[
+        {url: '/schoolsHomeDefault/scrollies-1.jpg', altText: "A child and teacher's hand on a book",},
+        {url: '/schoolsHomeDefault/scrollies-2.jpg', altText: 'A young boy playing with toys',},
+        {url: '/schoolsHomeDefault/scrollies-3.jpg', altText: 'A young boy playing to the floor looking up at camera',},
+        {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
+        {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
+    ]
 
     return (
         <div className='school school-home'>
@@ -220,7 +227,7 @@ export default function SchoolMainPage({school, schoolSlug}) {
             <SchoolNewsSlider adminSettings={adminSettings} isClient={isClient} />
             <TestimonialSection adminSettings={adminSettings} />
             {adminSettings?.gallery?.length && <GallerySlider gallery={adminSettings.gallery} uniqueId="gallerySlider"/>}
-            <ScheduleATourSlider schoolSlug={schoolSlug} images={satImages} defaultImageFallback={true}/>
+            <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages}/>
         </div>
     );
 }

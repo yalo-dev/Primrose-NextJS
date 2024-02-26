@@ -18,6 +18,13 @@ query SchoolData($id: ID!) {
     classroom(id: "our-classrooms", idType: URI) {
         title
         classroomModules {
+        ctaContentBlockScrollies {
+            imageAltTag
+            image {
+              altText
+              sourceUrl
+            }
+          }
           classroomHero {
             heroImage {
               altText
@@ -397,9 +404,9 @@ export default function ClassroomPage() {
     let selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
     if (selectedExtraCare == 'Before & After School') { selectedExtraCare = 'Before & After School Care' }
     const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    const satImages = data?.school?.schoolAdminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
-        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const classroom = data?.classroom || {};
+    const satImages = classroom?.classroomModules?.ctaContentBlockScrollies?.filter((imgObj) => imgObj && imgObj.image)
+        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.imageAltTag ?? imgObj.image.altText}))
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
     const school = data?.school
     const schoolCity = school?.schoolCorporateSettings?.address?.city
@@ -552,7 +559,7 @@ export default function ClassroomPage() {
             {/*    </div>*/}
             </div>
                 )}
-            <ScheduleATourSlider images={satImages} schoolSlug={router.query.schoolSlug as string} defaultImageFallback={true} />
+            <ScheduleATourSlider images={satImages} schoolSlug={router.query.schoolSlug as string} />
             </div>
         </>
     );

@@ -5,21 +5,13 @@ import Button from "../../app/components/atoms/Button/Button";
 
 interface ScheduleATourSliderProps {
     schoolSlug: string
-    defaultImageFallback?: boolean
     images: Array<{url: string, altText: string}> | null | undefined
 }
-export default function ScheduleATourSlider({images, schoolSlug, defaultImageFallback=false}: ScheduleATourSliderProps) {
+export default function ScheduleATourSlider({images, schoolSlug }: ScheduleATourSliderProps) {
     // if null value passed, and defaultImageFallback is set to false, don't return anything
-    if (!images && !defaultImageFallback) return
+    if (!images) return
 
-    const defaultImages = defaultImageFallback ? [
-        {url: '/schoolsHomeDefault/scrollies-1.jpg', altText: "A child and teacher's hand on a book",},
-        {url: '/schoolsHomeDefault/scrollies-2.jpg', altText: 'A young boy playing with toys',},
-        {url: '/schoolsHomeDefault/scrollies-3.jpg', altText: 'A young boy playing to the floor looking up at camera',},
-        {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
-        {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
-    ] : null
-    const scheduleATourImages = images?.length ? images : defaultImages;
+    const scheduleATourImages = images?.length ? images : null;
     const leftScrollerRef = useRef<HTMLDivElement>(null);
 
     const scrollContent = () => {
