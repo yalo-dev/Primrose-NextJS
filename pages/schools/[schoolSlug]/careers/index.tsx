@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import JobTile from '../../../../app/components/organisms/JobTile/JobTile';
 import Button from '../../../../app/components/atoms/Button/Button';
+import Head from "next/head";
 
 interface Job {
     id: number;
@@ -69,6 +70,11 @@ export async function getServerSideProps(context) {
               city
               state
             }
+            careersMeta {
+              description
+              fieldGroupName
+              title
+            }
           }
         }
       }
@@ -115,6 +121,8 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
     const [cmsJobs, setCmsJobs] = useState(school.schoolAdminSettings.jobPostings || []);
     const [isLoading, setIsLoading] = useState(true);
     const { city, state } = school.schoolCorporateSettings.address || {};
+    const metaTitle = school.schoolCorporateSettings?.careersMeta?.title ?? `Careers | Primrose School of ${school?.title}`
+    const metaDesc = school.schoolCorporateSettings?.careersMeta?.description
 
     useEffect(() => {
         async function fetchJobs() {
@@ -155,6 +163,10 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
 
         return (
             <div className='jobs-container'>
+                <Head>
+                  <title>{metaTitle}</title>
+                  {metaDesc && <meta name={"description"} content={metaDesc}/>}
+                </Head>
                 <div className='container'>
                     <div className='heading-wrapper pt-5 pb-5'>
                         <h1>Open Positions</h1>

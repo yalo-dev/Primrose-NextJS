@@ -11,6 +11,7 @@ import FirstFive from "../../../components/schools/FirstFive";
 import SchoolNewsSlider from "../../../components/schools/SchoolNewsSlider";
 import TestimonialSection from "../../../components/schools/TestimonialSection";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
+import Head from "next/head";
 
 
 export async function getServerSideProps(context) {
@@ -31,7 +32,13 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
+          title
           schoolCorporateSettings {
+              homepageMeta {
+                description
+                fieldGroupName
+                title
+              }
               accreditations {
                 ... on Accreditation {
                   id
@@ -189,6 +196,8 @@ export async function getServerSideProps(context) {
 
 export default function SchoolMainPage({school, schoolSlug}) {
     const corporateSettings = school?.schoolCorporateSettings;
+    const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title}`
+    const metaDesc = corporateSettings?.homepageMeta?.description
     const adminSettings = school?.schoolAdminSettings;
     const satImages = adminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
         .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
@@ -199,6 +208,10 @@ export default function SchoolMainPage({school, schoolSlug}) {
 
     return (
         <div className='school school-home'>
+            <Head>
+                <title>{metaTitle}</title>
+                {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             <EmergencyAlert/>
             <HeroWithSlider corporateSettings={corporateSettings}
                             adminSettings={adminSettings} schoolSlug={schoolSlug}/>

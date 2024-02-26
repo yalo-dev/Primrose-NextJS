@@ -2,6 +2,8 @@ import { gql } from '@apollo/client';
 import { client } from '../../../app/lib/apollo';
 import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from './schedule-a-tour-form';
+import Head from "next/head";
+import React from "react";
 
 interface Props {
     form: GfForm;
@@ -37,6 +39,11 @@ export async function getServerSideProps(context) {
                 streetAddress2
               }
               phoneNumber
+              scheduleATourMeta {
+                description
+                fieldGroupName
+                title
+              }
             }
         }
       }
@@ -51,6 +58,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            schoolTitle: schoolData?.title,
             schoolSlugInput: schoolData?.slug || '',
             corporate: schoolData?.schoolCorporateSettings || {}, 
             socialLinks: {
@@ -63,7 +71,7 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours }) { 
+export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolTitle }) {
 
     const addressDetails = corporate && corporate.address ? (
         <>
@@ -74,10 +82,16 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours 
             {corporate.address.zipcode && <span>{corporate.address.zipcode}</span>}
         </>
     ) : null;
+  const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
+  const metaDesc = corporate?.scheduleATourMeta?.description
 
 
     return (
         <div className='school schedule-a-tour'>
+            <Head>
+              <title>{metaTitle}</title>
+              {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             <div className="container">
                 <div className="row">
                     <div className="main-wrapper col-12 col-lg-8">

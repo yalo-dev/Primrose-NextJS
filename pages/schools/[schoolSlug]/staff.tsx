@@ -1,11 +1,12 @@
 import { client } from '../../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../app/components/atoms/Button/Button';
 import SelectDropdown, {OptionType} from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
 import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
 import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
+import Head from "next/head";
 
 interface StaffMember {
   altText?: string;
@@ -27,6 +28,14 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
+          title
+          schoolCorporateSettings {
+            staffMeta {
+              description
+              fieldGroupName
+              title
+            }
+          }
           schoolAdminSettings {
             staffMembers {
               bio
@@ -72,12 +81,14 @@ export async function getServerSideProps(context) {
     variables: { id: schoolSlug }
   });
 
+  const school = response?.data?.school
   const staff = response?.data?.school?.schoolAdminSettings?.staffMembers;
   const schoolAdminSettings = response?.data?.school?.schoolAdminSettings;
   const franchiseOwner = response?.data?.school?.schoolAdminSettings?.franchiseOwner;
   console.log(staff);
   return {
     props: {
+      school,
       staff,
       schoolSlug,
       schoolAdminSettings,
@@ -86,7 +97,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function StaffPage({ staff, schoolSlug, schoolAdminSettings, franchiseOwner }) {
+export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettings, franchiseOwner }) {
 
   const [activeBio, setActiveBio] = useState(null);
   const [bioHeights, setBioHeights] = useState({});
@@ -96,7 +107,8 @@ export default function StaffPage({ staff, schoolSlug, schoolAdminSettings, fran
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
   const satImages = schoolAdminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
         .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
-
+  const metaTitle = school.schoolCorporateSettings?.staffMeta?.title ?? `Franchise Owner(s) and Staff | Primrose School of ${school?.title}`
+  const metaDesc = school.schoolCorporateSettings?.staffMeta?.description
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };
@@ -141,6 +153,10 @@ const handleSelectedGroup = (selectedOption) => {
 
   return (
     <div className='school staff'>
+      <Head>
+        <title>{metaTitle}</title>
+        {metaDesc && <meta name={"description"} content={metaDesc}/>}
+      </Head>
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>
