@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/HeroWithImage';
 import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
+import Head from "next/head";
 
 var camelize = require('camelize');
 
@@ -84,6 +85,12 @@ const GET_CLASSROOM_TYPE = gql`
           id
           slug
           uri
+          title
+          schoolCorporateSettings {
+            address {
+              city
+            }
+          }
           schoolAdminSettings{
             facebookLink
             instagramLink
@@ -465,7 +472,6 @@ export async function getServerSideProps(context) {
         school,
         schoolSlug,
         data
-
       },
     };
   } catch (error) {
@@ -738,10 +744,53 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     switchColumnOrderOnDesktop: shouldReverseColumn,
     // Add other properties as needed, like accent, switchColumnOrderOnDesktop, customizations, etc.
   };
+  const metadataDefaults = {
+      "after-school": {
+          title: `After School Program Near Me | ${school?.title}`,
+          description: `Find the best after school program nearest you in ${school?.title}. At ${school?.title} 5 through 12 year olds receive homework help so they establish good habits.`
+      },
+      "summer-adventure-club": {
+          title: `Summer Program Near Me | ${school?.title}`,
+          description: `Find the best Summer camp nearest you in the ${school?.schoolCorporateSettings?.address?.city} area. At ${school?.title} 5 through 12 year olds discover the joys of design thinking and innovative ways to learn.`
+      },
+      "preschool-pathways": {
+          title: `Preschool Pathways Near Me | ${school?.title}`,
+          description: `${school?.title}'s Preschool Pathways program provides a bridge between Preschool classrooms for children whose birthdays will miss the cutoff date for Kindergarten.`
+      },
+      "kindergarten": {
+          title: `Kindergarten Near Me | ${school?.title}`,
+          description: `Find the best Kindergarten program nearest you in the ${school?.schoolCorporateSettings?.address?.city} area. At ${school?.title} your child will build critical skills including reading, writing and math.`
+      },
+      "pre-kindergarten": {
+          title: `Pre-Kindergarten Near Me | ${school?.title}`,
+          description: `Find the best Pre-Kindergarten class nearest you in ${school?.schoolCorporateSettings?.address?.city}. At ${school?.title} our teachers help your child develop early reading and writing skills.`
+      },
+      "preschool": {
+          title: `Preschool Near Me | ${school?.title}`,
+          description: `Find the best Preschool nearest you in the ${school?.schoolCorporateSettings?.address?.city} area. At ${school?.title} your 3 year old is learning new words through purposeful play and our preschool curriculum. `
+      },
+      "early-preschool": {
+          title: `Early Preschool Near Me | ${school?.title}`,
+          description: `Find the best Early Preschool classroom nearest you in ${school?.schoolCorporateSettings?.address?.city}. At ${school?.title} your 2 year old learns important independent life skills like potty training.`
+      },
+      "toddler": {
+          title: `Toddler Daycare Near Me | ${school?.title}`,
+          description: `Find the best toddler daycare nearest you in the ${school?.schoolCorporateSettings?.address?.city} area. ${school?.title} ensures children have an action-packed day all while hitting developmental milestones.`
+      },
+      "infant": {
+          title: `Infant Daycare Near Me | ${school?.title}`,
+          description: `Find the best infant daycare nearest you in ${school?.schoolCorporateSettings?.address?.city}. ${school?.title}'s infant program is a nurturing environment and lays the foundations for learning.`
+      },
+  }
+  const metadataDefaultsKey = classroomType && typeof classroomType === 'string' ? classroomType : classroomType[0]
 
   return (
 
     <div className='school classroom-type'>
+        {metadataDefaults[metadataDefaultsKey] && <Head>
+          <title>{metadataDefaults[metadataDefaultsKey].title}</title>
+          <meta name={"description"} content={`${metadataDefaults[metadataDefaultsKey].description}`} />
+        </Head>}
       <HeroWithImage {...heroProps} />
       <div className="container">
         <h2 className="heading">{classroom?.classroomModules?.verticalTabsHeadline ?? "Overview of Learning Domains"}</h2>

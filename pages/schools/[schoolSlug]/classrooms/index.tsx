@@ -8,6 +8,7 @@ import Paragraph from "../../../../app/components/atoms/Paragraph/Paragraph";
 import Button from "../../../../app/components/atoms/Button/Button";
 import { useEffect, useRef, useState } from "react";
 import ScheduleATourSlider from "../../../../components/schools/ScheduleATourSlider";
+import Head from "next/head";
 
 const slugify = require('slugify');
 
@@ -74,6 +75,12 @@ query SchoolData($id: ID!) {
       id
       slug
       uri
+      title
+      schoolCorporateSettings {
+        address {
+          city
+        }
+      }
       schoolAdminSettings {
         accreditation {
           imageAlt
@@ -394,8 +401,15 @@ export default function ClassroomPage() {
         .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const classroom = data?.classroom || {};
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
+    const school = data?.school
+    const schoolCity = school?.schoolCorporateSettings?.address?.city
+
     return (
         <>
+            <Head>
+                <title>Daycare and Preschool Programs | {school?.title}</title>
+                <meta name={"description"} content={`${school?.title} is nationally recognized daycare provider located in the ${schoolCity} area that offers infant, toddler, preschool and pre-kindergarten programs.`} />
+            </Head>
             <div className="school classrooms">
                 <div className="container jumbo">
                     <div className="hero-with-image-module">
