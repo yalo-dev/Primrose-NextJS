@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', label, href, targe
     }
     if (href) {
         return (
-            <Link href={href} passHref>
+            <Link href={href} target={target} passHref>
                 <button className={buttonClass} {...props}>{decode(label) || children}</button>
             </Link>
         );
