@@ -58,7 +58,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (
                     <div className='left-column col-12 col-lg-6'>
-                        <Image src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} />
+                        <Image fill={true} src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} />
                     </div>
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
