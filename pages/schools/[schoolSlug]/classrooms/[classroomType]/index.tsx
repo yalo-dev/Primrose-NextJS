@@ -12,6 +12,7 @@ import HeroWithImage from '../../../../../app/components/modules/HeroWithImage/H
 import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
+import GallerySlider from "../../../../../app/components/modules/GallerySlider/GallerySlider";
 
 var camelize = require('camelize');
 
@@ -508,6 +509,9 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     button: featuredBanner.button,
   };
   const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
+  const schoolAdminSettings = school?.schoolAdminSettings && school?.schoolAdminSettings[camelize(classroomType) as string];
+  const galleryData = schoolAdminSettings?.classroomGallery ?? [];
+  console.log('gallery data: ', camelize(classroomType) as string)
   let verticalTabs = classroom?.classroomModules?.verticalTabs;
   useEffect(() => {
     verticalTabs?.tabs.map((tab, i) => {
@@ -816,6 +820,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
         )}
       </div>
       {testimonialSection()}
+      {galleryData?.length > 0 && <GallerySlider gallery={galleryData} uniqueId={'gallerySlider'}/>}
       <ScheduleATourSlider images={satImages} schoolSlug={schoolSlug}/>
     </div>
   );
