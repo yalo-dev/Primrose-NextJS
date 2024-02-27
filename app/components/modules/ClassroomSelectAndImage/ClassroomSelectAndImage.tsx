@@ -108,8 +108,8 @@ const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ accen
                             {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
                             {rightColumn.subheading && <Subheading level='div' className='b3' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
                             {(dropdownOptions.length > 0) && (
-                                <SelectDropdown options={dropdownOptions} />
-                            )}
+                                <SelectDropdown options={dropdownOptions} placeholder="Choose A Classroom" />
+                            )}  
                             <div className='accent'>
                                 <div className='accent-one'
                                      style={{ backgroundImage: `url('${accents.accentOne?.sourceUrl}')` }}
