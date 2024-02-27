@@ -500,7 +500,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
     return data && Object.keys(data).length > 0 && data.constructor === Object;
   };
   const satImages = classroom?.classroomModules?.ctaContentBlockScrollies?.filter((imgObj) => imgObj && imgObj.image)
-        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.imageAltTag ?? imgObj.image.altText}))
+        .map((imgObj) => ({url: imgObj?.image?.sourceUrl, altText: imgObj?.image?.altText}))
   const featuredBanner = school?.schoolSettings?.classrooms?.classroomSelection?.classroomDetails?.infant?.featuredBanner || {};
   const generalButtonCTAProps = {
     icon: featuredBanner.icon,

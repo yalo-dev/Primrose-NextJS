@@ -406,7 +406,7 @@ export default function ClassroomPage() {
     const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
     const classroom = data?.classroom || {};
     const satImages = classroom?.classroomModules?.ctaContentBlockScrollies?.filter((imgObj) => imgObj && imgObj.image)
-        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.imageAltTag ?? imgObj.image.altText}))
+        .map((imgObj) => ({url: imgObj?.image?.sourceUrl, altText: imgObj?.image?.altText}))
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
     const school = data?.school
     const schoolCity = school?.schoolCorporateSettings?.address?.city
