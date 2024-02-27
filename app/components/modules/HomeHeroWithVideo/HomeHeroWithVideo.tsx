@@ -100,7 +100,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 }
             );
         } else {
-            console.log("Geolocation is not supported by this browser.");
+           // console.log("Geolocation is not supported by this browser.");
             setLocationServicesEnabled(false);
         }
     };
@@ -142,7 +142,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     };
 
     const geocodeAddress = async (address) => {
-        console.log("Geocoding Address:", address);
+        //console.log("Geocoding Address:", address);
         return new Promise((resolve, reject) => {
             let geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': address }, (results, status) => {
@@ -169,8 +169,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
 
-    console.log('searchinput: ', searchInputRef.current)
-    console.log('autocomplete: ', autocompleteRef.current)
+    //console.log('searchinput: ', searchInputRef.current)
+    //console.log('autocomplete: ', autocompleteRef.current)
 
     return (
         <>
@@ -316,7 +316,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 </Customizations>
             </div>
             <Script async defer
-                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
+                // src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
                 onLoad={() => {
                     if (searchInputRef.current) {
                         autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);

@@ -126,7 +126,7 @@ export default function Header({ menuItems }) {
                     <div className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
                         <div className={`container`}>
                             <div className={`submenu-parent-link d-none d-lg-block`}>
-                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={closeSubmenu}>
+                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
                                     <h3>
                                         {item.label}
                                         <span className='icon ps-3'>
@@ -151,7 +151,7 @@ export default function Header({ menuItems }) {
                                     </span>
                                 </div>
                                 <div className="parent">
-                                    <Link onClick={closeSubmenu} className='nav-link w-100' href={item.url} passHref>
+                                    <Link onClick={resetNav} className='nav-link w-100' href={item.url} passHref>
                                         <h2 className="w-100 d-flex">
                                             <span>{item.label}</span>
                                             <span className="arrow ms-4 me-3">
@@ -164,11 +164,11 @@ export default function Header({ menuItems }) {
                                 </div>
                                 {item.childItems.nodes.map((childItem, childIndex) => (
                                     <li key={`child-${childItem.label}-${childItem.url}-${childIndex}`} className={`${childItem.cssClasses} nav-item`}>
-                                        <Link onClick={closeSubmenu} className='nav-link' href={childItem.url} passHref>
+                                        <Link onClick={resetNav} className='nav-link' href={childItem.url} passHref>
                                             <span className="b4">{childItem.label}</span>
                                         </Link>
                                         {childItem.label === 'Open a School' && (
-                                            <Link onClick={closeSubmenu} className='nav-link child-sub' href="/path-to-opening" passHref>
+                                            <Link onClick={resetNav} className='nav-link child-sub' href="/path-to-opening" passHref>
                                                 <span className="b4">— Path to Opening</span>
                                             </Link>   
                                         )}

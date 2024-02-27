@@ -253,12 +253,12 @@
                     .submenu-parent-link {
                         width: 335px; 
                         display: flex;
-                        justify-content: start;
-                        align-items: start;
+                        justify-content: flex-start;
+                        align-items: flex-start;
                         padding: 3.5rem 2.5rem;
                         border-right: 1px solid $gray-300;
                         a {
-                            align-items: start;
+                            align-items: flex-start;
                         }
                         h3 {
                             color: $primary-green;
