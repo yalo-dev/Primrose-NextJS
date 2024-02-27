@@ -217,7 +217,7 @@ export default function Header({ menuItems }) {
         <header className='header'>
             <title>Primrose Schools</title>
 
-            <nav className='navbar navbar-expand-lg fixed-top'>
+            <nav className={`navbar navbar-expand-lg fixed-top ${isDesktopSearchActive ? 'show' : ''}`}>
                 <div className='container ps-0 pe-0'>
 
                     <div className='navbar-logo-wrapper'>
