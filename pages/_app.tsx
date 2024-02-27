@@ -8,6 +8,7 @@ import { gql } from '@apollo/client';
 import Head from "next/head";
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 
+const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 function MyApp({ Component, pageProps }) {
 
@@ -18,7 +19,7 @@ function MyApp({ Component, pageProps }) {
 	const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
-        libraries: ['places'],
+        libraries: GOOGLE_MAP_LIBRARIES,
       }); 
 
 	useEffect(() => {
