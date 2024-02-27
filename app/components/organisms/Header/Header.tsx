@@ -111,7 +111,7 @@ export default function Header({ menuItems }) {
 
         return (
             <li key={key} className={`nav-item ${hasChildren ? 'has-children' : ''} ${item.cssClasses}`}>
-                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
+                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={resetNav}>
                     {item.label}
                 </Link>
                 <div className='parent-item nav-link d-flex d-lg-none justify-content-between align-items-center' onClick={() => toggleSubmenu(key)}>
@@ -126,7 +126,7 @@ export default function Header({ menuItems }) {
                     <div className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
                         <div className={`container`}>
                             <div className={`submenu-parent-link d-none d-lg-block`}>
-                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
+                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={resetNav}>
                                     <h3>
                                         {item.label}
                                         <span className='icon ps-3'>
