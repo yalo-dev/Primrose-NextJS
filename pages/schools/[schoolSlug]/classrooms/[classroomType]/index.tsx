@@ -21,7 +21,6 @@ const GET_CLASSROOM_TYPE = gql`
           title
           classroomModules {
             ctaContentBlockScrollies {
-              imageAltTag
               image {
                 altText
                 sourceUrl

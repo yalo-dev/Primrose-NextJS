@@ -19,7 +19,6 @@ query SchoolData($id: ID!) {
         title
         classroomModules {
         ctaContentBlockScrollies {
-            imageAltTag
             image {
               altText
               sourceUrl
