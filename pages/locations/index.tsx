@@ -121,6 +121,23 @@ export default function Locations({ markets, schools }) {
         statesOptions.push(obj);
     
     });
+
+    const handleCollapse = (event) => {
+        // this is a quick fix for the collapse/expand not working, ideally this would be handled within component state
+        const collapsableGroup = document.querySelector(event.currentTarget.dataset.bsTarget)
+        const collapsableClass = event.currentTarget.dataset.bsToggle
+        if (Object.values(event.currentTarget.classList).includes('collapsed')) {
+            event.currentTarget.classList.remove('collapsed')
+            if (Object.values(collapsableGroup.classList).includes(collapsableClass)) {
+                collapsableGroup.classList.remove(collapsableClass)
+            }
+        } else {
+            event.currentTarget.classList.add('collapsed')
+            if (!Object.values(collapsableGroup.classList).includes(collapsableClass)) {
+                collapsableGroup.classList.add(collapsableClass)
+            }
+        }
+    }
     
     
     return (
@@ -155,7 +172,7 @@ export default function Locations({ markets, schools }) {
                                 <div className="accordion-item">
 
                                     <h2 className="accordion-header" id={'heading'+index}>
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index} onClick={handleCollapse}>
                                         <h5 style={{ whiteSpace: 'normal' }}>{market.name}</h5>
                                         </button>
                                     </h2>
