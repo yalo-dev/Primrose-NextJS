@@ -54,13 +54,6 @@ export async function getServerSideProps(context) {
               mediaItemUrl
               sourceUrl
             }
-            satImages {
-              imageAlt
-              image {
-                mediaItemUrl
-                sourceUrl
-              }
-            }
             franchiseOwner {
               bio
               multipleOwners
@@ -105,8 +98,6 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
-  const satImages = schoolAdminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
-        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
   const metaTitle = school.schoolCorporateSettings?.staffMeta?.title ?? `Franchise Owner(s) and Staff | Primrose School of ${school?.title}`
   const metaDesc = school.schoolCorporateSettings?.staffMeta?.description
   const loadMoreStaff = () => {

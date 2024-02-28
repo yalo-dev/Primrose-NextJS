@@ -118,13 +118,6 @@ query SchoolData($id: ID!) {
           closingTime
           openingTime
         }
-        satImages {
-          image {
-            mediaItemUrl
-            sourceUrl
-          }
-          imageAlt
-        }
         yelpLink
         newsItems {
             content

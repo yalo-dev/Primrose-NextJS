@@ -98,13 +98,6 @@ const GET_CLASSROOM_TYPE = gql`
             googleLink
             classroomsOffered
             extraCareOffered
-            satImages {
-              image {
-                mediaItemUrl
-                sourceUrl
-              }
-              imageAlt
-            }
             staffMembers {
               name
               title

@@ -121,13 +121,6 @@ export async function getServerSideProps(context) {
                 closingTime
                 openingTime
               }
-              satImages {
-                image {
-                  mediaItemUrl
-                  sourceUrl
-                }
-                imageAlt
-              }
               yelpLink
               newsItems {
                 content
@@ -199,8 +192,6 @@ export default function SchoolMainPage({school, schoolSlug}) {
     const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title}`
     const metaDesc = corporateSettings?.homepageMeta?.description
     const adminSettings = school?.schoolAdminSettings;
-    const satImages = adminSettings?.satImages?.filter((imgObj) => imgObj && imgObj.image)
-        .map((imgObj) => ({url: imgObj.image.sourceUrl, altText: imgObj.altText}))
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         setIsClient(true);
