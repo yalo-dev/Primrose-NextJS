@@ -6,11 +6,6 @@
         padding: 80px 0;
     }
     .slider-container {
-        background-color: $grayscale-3;
-        border-radius: 30px;
-        padding-top: 78px;
-        padding-bottom: 15px;
-        padding-left: 60px;
         display: flex;
         align-items: flex-start;
         will-change: transform; 
@@ -57,6 +52,5 @@
     }
     .caption-wrapper {
         width: 100%;
-        color: $text-gray;
     }
 }
