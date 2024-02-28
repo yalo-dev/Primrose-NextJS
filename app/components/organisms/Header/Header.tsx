@@ -36,6 +36,7 @@ export default function Header({ menuItems }) {
     const { data, loading, error } = useQuery(GET_TRENDING_SEARCH_ITEMS);
     const mobileSearchInputRef = useRef<HTMLInputElement>(null);
     const desktopSearchInputRef = useRef<HTMLInputElement>(null);
+    const [submenuStyles, setSubmenuStyles] = useState(null);
 
 
     const toggleNav = () => {
@@ -67,7 +68,15 @@ export default function Header({ menuItems }) {
     };
 
     const closeSubmenu = () => {
-        setActiveSubmenu(null);
+        setSubmenuStyles({
+            opacity: 0,
+            pointerEvents: 'none'
+        });
+      
+        setTimeout(() => {
+            setSubmenuStyles(null);
+            setActiveSubmenu(null);
+        }, 1000);
     };
 
     const handleInputChange = (e) => {
@@ -111,7 +120,7 @@ export default function Header({ menuItems }) {
 
         return (
             <li key={key} className={`nav-item ${hasChildren ? 'has-children' : ''} ${item.cssClasses}`}>
-                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
+                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={closeSubmenu}>
                     {item.label}
                 </Link>
                 <div className='parent-item nav-link d-flex d-lg-none justify-content-between align-items-center' onClick={() => toggleSubmenu(key)}>
@@ -123,10 +132,9 @@ export default function Header({ menuItems }) {
                     </span>
                 </div> 
                 {hasChildren && (
-                    <div className={`submenu ${isSubmenuActive ? 'show' : ''}`}>
-                        <div className={`container`}>
+                    <div className={`submenu ${isSubmenuActive ? 'show' : ''}`} style={submenuStyles || undefined}>                        <div className={`container`}>
                             <div className={`submenu-parent-link d-none d-lg-block`}>
-                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref>
+                                <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={closeSubmenu}>
                                     <h3>
                                         {item.label}
                                         <span className='icon ps-3'>
@@ -151,7 +159,7 @@ export default function Header({ menuItems }) {
                                     </span>
                                 </div>
                                 <div className="parent">
-                                    <Link onClick={resetNav} className='nav-link w-100' href={item.url} passHref>
+                                    <Link onClick={closeSubmenu} className='nav-link w-100' href={item.url} passHref>
                                         <h2 className="w-100 d-flex">
                                             <span>{item.label}</span>
                                             <span className="arrow ms-4 me-3">
@@ -164,14 +172,14 @@ export default function Header({ menuItems }) {
                                 </div>
                                 {item.childItems.nodes.map((childItem, childIndex) => (
                                     <li key={`child-${childItem.label}-${childItem.url}-${childIndex}`} className={`${childItem.cssClasses} nav-item`}>
-                                        <Link onClick={resetNav} className='nav-link' href={childItem.url} passHref>
+                                        <Link onClick={closeSubmenu} className='nav-link' href={childItem.url} passHref>
                                             <span className="b4">{childItem.label}</span>
                                         </Link>
-                                        {childItem.label === 'Open a School' && (
-                                            <Link onClick={resetNav} className='nav-link child-sub' href="/path-to-opening" passHref>
-                                                <span className="b4">— Path to Opening</span>
+                                        {/* {childItem.label === 'Open a School' && (
+                                            <Link onClick={closeSubmenu} className='nav-link child-sub' href="/path-to-opening" passHref>
+                                                <span className="b4">Path to Opening</span>
                                             </Link>   
-                                        )}
+                                        )} */}
                                     </li>
                                 ))}
                             </ul>
