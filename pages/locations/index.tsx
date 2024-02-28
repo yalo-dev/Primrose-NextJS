@@ -145,12 +145,12 @@ export default function Locations({ markets, schools }) {
                 <div className='row py-md-5 py-0'>
 
                     {states.map((state, i) => (
-                        <>
+                        <div key={i}>
                         <div id={slugify(state, {lower:true}) + "_section"} className="state_section">
                         <span className="subheading" id={slugify(state, {lower:true})} key={i}>{state}</span>
                         <div className="accordion accordion-flush" >
                         {markets.map((market, index) => market.markets.marketState == state && (
-                            <>
+                            <div key={index}>
                             
                                 <div className="accordion-item">
 
@@ -163,9 +163,9 @@ export default function Locations({ markets, schools }) {
                                         <div className="accordion-body">
                                             <div className="schools">
                                         {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (
-                                            <>
+                                            <div key={index}>
                                             <a className="school" href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
-                                            </>
+                                            </div>
                                         ))}
                                             </div>
                                         <a className="link" href={market.uri}>Learn more about schools in this area</a>
@@ -174,12 +174,12 @@ export default function Locations({ markets, schools }) {
 
                                 </div>
                             
-                            </>
+                            </div>
 
                         ))}
                         </div>
                         </div>
-                        </>
+                        </div>
                         
                        
                     )
