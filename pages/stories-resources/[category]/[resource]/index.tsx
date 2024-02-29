@@ -56,6 +56,7 @@ query GetSingleResource($id: ID!) {
 	  }
 	  resourceFields {
 		displayAuthor
+		authorName
 		backgroundColor
 		content
 		relatedArticles {
@@ -134,6 +135,7 @@ query GetSingleResource($id: ID!) {
 			  resourceFields {
 				content
 				displayAuthor
+				authorName
 				fieldGroupName
 				backgroundColor
 			  }
@@ -182,7 +184,7 @@ export default function ResourceComponent() {
 	if (!resource) return <div>No Resource Found</div>;
 
 	const { author, featuredImage, title, date, resourceTypes, resourceTags, resourceFields } = resource;
-	const { displayAuthor, content, relatedArticles, newsletterFormCta, seasonalBanner, backgroundColor } = resourceFields || {};
+	const { displayAuthor, authorName, content, relatedArticles, newsletterFormCta, seasonalBanner, backgroundColor } = resourceFields || {};
 
 	const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date));
 
@@ -235,7 +237,7 @@ export default function ResourceComponent() {
 
 							{displayAuthor || readingTime ? (
 								<div className='utils-wrapper pt-2 pb-4 d-flex align-items-center justify-content-between'>
-									{displayAuthor && author?.node?.name && <div className='author'>By: {author.node.name}</div>}
+									{displayAuthor && authorName && <div className='author'>By: {authorName}</div>}
 									{readingTime && <div className='read-time'><p className='b1 mb-0'>{readingTime}</p></div>}
 								</div>
 							) : null}
