@@ -37,7 +37,7 @@ export default function Location({ locationData }){
     const router = useRouter();
 
     const hero_props = {
-      leftColumn: {image: {sourceUrl: market.marketSettings.careersHero.heroImage.sourceUrl, altText: market.marketSettings.careersHero.heroImage.altText}},
+      leftColumn: {image: {sourceUrl: market?.marketSettings?.careersHero?.heroImage?.sourceUrl, altText: market?.marketSettings?.careersHero?.heroImage?.altText}},
       rightColumn: {heading: "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
@@ -57,19 +57,19 @@ export default function Location({ locationData }){
         leftColumn: {
           imageOrVideo: "Image",
           imageDesktop: {
-           sourceUrl: market.marketSettings.careersFiftyFifty1.image.sourceUrl,
-           altText: market.marketSettings.careersFiftyFifty1.image.altText
+           sourceUrl: market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl,
+           altText: market?.marketSettings?.careersFiftyFifty1?.image?.altText
           },
           imageMobile: {
-            sourceUrl: market.marketSettings.careersFiftyFifty1.image.sourceUrl,
-            altText: market.marketSettings.careersFiftyFifty1.image.altText
+            sourceUrl: market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl,
+            altText: market?.marketSettings?.careersFiftyFifty1?.image?.altText
            }
 
         }
       }
      
       const testimonials = [];
-      market.marketSettings.careersTestimonials.map((testimonial, index) => {
+      market?.marketSettings?.careersTestimonials?.map((testimonial, index) => {
           testimonials.push({
             imageOrVideo: 'image',
             image: {
@@ -90,7 +90,7 @@ export default function Location({ locationData }){
     let benefits = market.marketSettings.schoolBenefitsSection;
     
     let benefitsItems = [];
-    benefits.benefits.map((benefit, index) =>{
+    benefits?.benefits?.map((benefit, index) =>{
         benefitsItems.push({
             icon: {
                 sourceUrl: benefit.icon.sourceUrl,
@@ -104,15 +104,15 @@ export default function Location({ locationData }){
     const benefits_props={
         buttonStyle: 'secondary',
         button: {
-            title: benefits.cta.title,
-            target: benefits.cta.target,
-            url: benefits.cta.url
+            title: benefits?.cta?.title,
+            target: benefits?.cta?.target,
+            url: benefits?.cta?.url
         },
-        heading: benefits.headline,
-        paragraph: benefits.paragraph,
+        heading: benefits?.headline,
+        paragraph: benefits?.paragraph,
         image: {
-            altText: benefits.image.altText,
-            sourceUrl: benefits.image.sourceUrl
+            altText: benefits?.image?.altText,
+            sourceUrl: benefits?.image?.sourceUrl
         },
         slider: benefitsItems
     }
