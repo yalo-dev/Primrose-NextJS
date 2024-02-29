@@ -114,159 +114,25 @@ const slugify = str =>
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '');
     
-export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
+export default function SchoolCareerPage({ school }) {
     const testimonials = school.schoolAdminSettings.testimonialsCareers;
     const gallery = school.schoolAdminSettings.galleryCareers;
-    const [schoolJobs, setSchoolJobs] = useState<Job[]>([]);
-    const [cmsJobs, setCmsJobs] = useState(school.schoolAdminSettings.jobPostings || []);
-    const [isLoading, setIsLoading] = useState(true);
+    const cmsJobs = school?.schoolAdminSettings?.jobPostings ?? [];
     const { city, state } = school.schoolCorporateSettings.address || {};
     const metaTitle = school.schoolCorporateSettings?.careersMeta?.title ?? `Careers | Primrose School of ${school?.title}`
     const metaDesc = school.schoolCorporateSettings?.careersMeta?.description
-    console.log("job: ", school.schoolAdminSettings.jobPostings)
     const { usesCareerplug, careerplugIframeUrl } = school.schoolCorporateSettings;
-
-    useEffect(() => {
-        async function fetchJobs() {
-            try {
-                const response = await fetch(`/api/fetchJobs`);
-                const data = await response.json();
-                const schoolId = parseInt(careerPlugSchoolId);
-                const filteredJobs = data.filter(job => {
-                    const accountId = parseInt(job.location?.account?.id);
-                    return accountId === schoolId;
-                });
-                setSchoolJobs(filteredJobs);
-            } catch (error) {
-                console.error('Error fetching jobs:', error);
-            }
-        }
-
-        setIsLoading(true);
-        if (careerPlugSchoolId) {
-            fetchJobs().finally(() => setIsLoading(false));
-        } else {
-            setIsLoading(false);
-        }
-    }, [careerPlugSchoolId]);
-
-    useEffect(() => {
-        console.log("Updated Jobs State:", schoolJobs);
-    }, [schoolJobs]);
-
-    const jobPosts = () => {
-        // const jobsToRender = careerPlugSchoolId ? schoolJobs : cmsJobs;
-        // if (isLoading) {
-        //     return <p></p>;
-        // }
-        // if (!jobsToRender || jobsToRender.length === 0) {
-        //     return <p>No job postings available.</p>;
-        // }
-
-        return (
-            <div className='jobs-container'>
-                <div className='container'>
-                    <div className='heading-wrapper pt-5 pb-5'>
-                        <h1>Open Positions</h1>
-                        <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
-                    </div>
-
-                    {careerPlugSection()}
-
-                    {!usesCareerplug && (
-                        <div className='job-tile-wrapper pt-5 pb-5'>
-                            {cmsJobs.length > 0
-                                ? cmsJobs.map((job, index) => (
-                                    <div key={index} className="job-tile">
-                                        <h5>{job.jobTitle ?? 'No Title'}</h5>
-                                        <p className='b3 green mb-2'>{school.title ?? 'No School Name'}</p>
-                                        <p className='b2'>{`${city ?? 'No City'}, ${state ?? 'No State'}`}</p>
-                                        <p className="employment-type mb-3">{job.jobType ?? 'No Type'}</p>
-                                        <p className='b2 post-date'>Posted: {job.postDate ?? 'No Date'}</p>
-                                        <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
-                                            Learn More
-                                        </Button>
-                                    </div>
-                                ))
-                                : <p>No job postings available.</p>
-                            }
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-
-    };
-
-
-
-    const careerPlugSection = () => {
-        if (usesCareerplug && careerplugIframeUrl) {
-            return (
-                <section className="careerplug-section">
-                    <iframe
-                        id={'cpatsframe'}
-                        src={`https://${careerplugIframeUrl}/?embed=1`}
-                        title="Current Openings"
-                        width="100%"
-                        height="250"
-                        style={{ border: 'none', position: 'relative'}}
-                    />
-                    <script type="text/javascript" src="https://cpats.s3.amazonaws.com/assets/embed.js"></script>
-                </section>
-            );
-        }
-        return null;
-    };
-
-    const testimonialSection = () => {
-        const testimonialsData = testimonials;
-
-        if (!testimonialsData) {
-            return null;
-        }
-
-        const sliderItems = testimonialsData.map(item => {
-            const testimonial = item;
-
-            return {
-                image: {
-                    sourceUrl: testimonial.testimonialImage?.image?.sourceUrl,
-                    altText: testimonial.testimonialImage?.altText || 'Testimonial Image'
-                },
-                testimonial: testimonial.testimonial,
-                title: testimonial.name,
-                position: testimonial.title,
-                imageOrVideo: 'image', // Set this based on your data
-                // Add 'video' property if applicable
-            };
-        });
-
-        return (
-            <section className="module Page_Modules_Modules_TestimonialsWithVideoOrImage" id="Page_Modules_Modules_TestimonialsWithVideoOrImage4">
-
-                <TestimonialsWithVideoOrImage
-                    slider={sliderItems}
-                    heading="A Teacher’s Perspective" // Replace with dynamic heading if available
-                    // subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
-                // Add other props as required
-                />
-
-            </section>
-        );
-    };
-
-    const gallerySlider = () => {
-        const galleryData = gallery;
-
-        if (!galleryData || galleryData.length === 0) {
-            return null;
-        }
-
-        return (
-            <GallerySlider gallery={galleryData} uniqueId="gallerySlider" />
-        );
-    }
+    const sliderItems = testimonials?.map(testimonial => ({
+        image: {
+            sourceUrl: testimonial?.testimonialImage?.image?.sourceUrl,
+            altText: testimonial?.testimonialImage?.altText || 'Testimonial Image'
+        },
+        testimonial: testimonial?.testimonial,
+        title: testimonial?.name,
+        position: testimonial?.title,
+        imageOrVideo: 'image', // Set this based on your data
+        // Add 'video' property if applicable
+    }));
 
     return (
         <div className='school school-careers'>
@@ -274,11 +140,70 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
               <title>{metaTitle}</title>
               {metaDesc && <meta name={"description"} content={metaDesc}/>}
             </Head>
-            {jobPosts()}
-            {testimonialSection()}
-            {gallerySlider()}
+
+            {/* Start Open Positions Section  */}
+            <div className='jobs-container'>
+                <div className='container'>
+                    <div className='heading-wrapper pt-5 pb-5'>
+                        <h1>Open Positions</h1>
+                        <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
+                    </div>
+                    {/* Show Careerplug or school jobs */}
+                    {usesCareerplug
+                        ? careerplugIframeUrl && (
+                            <section className="careerplug-section">
+                                <iframe
+                                    id={'cpatsframe'}
+                                    src={`https://${careerplugIframeUrl}/?embed=1`}
+                                    title="Current Openings"
+                                    width="100%"
+                                    height="250"
+                                    style={{ border: 'none', position: 'relative'}}
+                                />
+                                <script type="text/javascript" src="https://cpats.s3.amazonaws.com/assets/embed.js"></script>
+                            </section>
+                        ) : (
+                            <div className='job-tile-wrapper pt-5 pb-5'>
+                                {cmsJobs.length > 0
+                                    ? cmsJobs.map((job, index) => (
+                                        <div key={index} className="job-tile">
+                                            <h5>{job.jobTitle ?? 'No Title'}</h5>
+                                            <p className='b3 green mb-2'>{school.title ?? 'No School Name'}</p>
+                                            <p className='b2'>{`${city ?? 'No City'}, ${state ?? 'No State'}`}</p>
+                                            <p className="employment-type mb-3">{job.jobType ?? 'No Type'}</p>
+                                            <p className='b2 post-date'>Posted: {job.postDate ?? 'No Date'}</p>
+                                            <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
+                                                Learn More
+                                            </Button>
+                                        </div>
+                                    ))
+                                    : <p>No job postings available.</p>
+                                }
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+            {/* End Open Positions Section */}
+
+            {/* Start Testimonials Section */}
+            {sliderItems && (
+                <section className="module Page_Modules_Modules_TestimonialsWithVideoOrImage"
+                         id="Page_Modules_Modules_TestimonialsWithVideoOrImage4"
+                >
+                    <TestimonialsWithVideoOrImage
+                        slider={sliderItems}
+                        heading="A Teacher’s Perspective" // Replace with dynamic heading if available
+                        // subheading="Lorem ipsum dolor sit amet consectetur. Erat aliquet justo donec tellus mi. Rhoncus congue facilisi ultrices scelerisque accumsan pharetra." // Replace with dynamic subheading if available
+                        // Add other props as required
+                    />
+                </section>
+            )}
+            {/* End Testimonials Section */}
+
+            {/* Start Gallery Section */}
+            {gallery?.length && <GallerySlider gallery={gallery} uniqueId="gallerySlider"/>}
+            {/* End Gallery Section */}
         </div>
     );
 }
-
-
