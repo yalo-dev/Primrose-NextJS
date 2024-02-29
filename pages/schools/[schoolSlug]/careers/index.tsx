@@ -123,6 +123,8 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
     const { city, state } = school.schoolCorporateSettings.address || {};
     const metaTitle = school.schoolCorporateSettings?.careersMeta?.title ?? `Careers | Primrose School of ${school?.title}`
     const metaDesc = school.schoolCorporateSettings?.careersMeta?.description
+    console.log("job: ", school.schoolAdminSettings.jobPostings)
+    const { usesCareerplug, careerplugIframeUrl } = school.schoolCorporateSettings;
 
     useEffect(() => {
         async function fetchJobs() {
@@ -163,10 +165,6 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
 
         return (
             <div className='jobs-container'>
-                <Head>
-                  <title>{metaTitle}</title>
-                  {metaDesc && <meta name={"description"} content={metaDesc}/>}
-                </Head>
                 <div className='container'>
                     <div className='heading-wrapper pt-5 pb-5'>
                         <h1>Open Positions</h1>
@@ -175,43 +173,32 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
 
                     {careerPlugSection()}
 
-                    {/*<div className='job-tile-wrapper pt-5 pb-5'>*/}
-                    {/*    {careerPlugSchoolId ? (*/}
-                    {/*        // Map over schoolJobs and render with JobTile if careerPlugSchoolId is present*/}
-                    {/*        schoolJobs.length > 0 ? (*/}
-                    {/*            schoolJobs.map((job, index) => (*/}
-                    {/*                <JobTile key={index} job={job} baseUrl={`/schools/${school.slug}/careers`} />*/}
-                    {/*            ))*/}
-                    {/*        ) : (*/}
-                    {/*            <p>No job postings available.</p>*/}
-                    {/*        )*/}
-                    {/*    ) : (*/}
-                    {/*        // Map over cmsJobs and render with a different layout if careerPlugSchoolId is not present*/}
-                    {/*        cmsJobs.length > 0 ? (*/}
-                    {/*            cmsJobs.map((job, index) => (*/}
-                    {/*                <div key={index} className="job-tile">*/}
-                    {/*                    <h5>{job.jobTitle || 'No Title'}</h5>*/}
-                    {/*                    <p className='b3 green mb-2'>{school.title || 'No School Name'}</p>*/}
-                    {/*                    <p className='b2'>{`${city || 'No City'}, ${state || 'No State'}`}</p>*/}
-                    {/*                    <p className="employment-type mb-3">{job.jobType || 'No Type'}</p>*/}
-                    {/*                    <p className='b2 post-date'>Posted: {job.postDate || 'No Date'}</p>*/}
-                    {/*                    <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>*/}
-                    {/*                        Learn More*/}
-                    {/*                    </Button>*/}
-                    {/*                </div>*/}
-                    {/*            ))*/}
-                    {/*        ) : (*/}
-                    {/*            <p>No job postings available.</p>*/}
-                    {/*        )*/}
-                    {/*    )}*/}
-                    {/*</div>*/}
+                    {!usesCareerplug && (
+                        <div className='job-tile-wrapper pt-5 pb-5'>
+                            {cmsJobs.length > 0
+                                ? cmsJobs.map((job, index) => (
+                                    <div key={index} className="job-tile">
+                                        <h5>{job.jobTitle ?? 'No Title'}</h5>
+                                        <p className='b3 green mb-2'>{school.title ?? 'No School Name'}</p>
+                                        <p className='b2'>{`${city ?? 'No City'}, ${state ?? 'No State'}`}</p>
+                                        <p className="employment-type mb-3">{job.jobType ?? 'No Type'}</p>
+                                        <p className='b2 post-date'>Posted: {job.postDate ?? 'No Date'}</p>
+                                        <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
+                                            Learn More
+                                        </Button>
+                                    </div>
+                                ))
+                                : <p>No job postings available.</p>
+                            }
+                        </div>
+                    )}
                 </div>
             </div>
         );
 
     };
 
-    const { usesCareerplug, careerplugIframeUrl } = school.schoolCorporateSettings;
+
 
     const careerPlugSection = () => {
         if (usesCareerplug && careerplugIframeUrl) {
@@ -283,6 +270,10 @@ export default function SchoolCareerPage({ school, careerPlugSchoolId }) {
 
     return (
         <div className='school school-careers'>
+            <Head>
+              <title>{metaTitle}</title>
+              {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             {jobPosts()}
             {testimonialSection()}
             {gallerySlider()}

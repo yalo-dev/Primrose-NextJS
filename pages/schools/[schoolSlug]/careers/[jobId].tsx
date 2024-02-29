@@ -114,7 +114,7 @@ const JobPostPage = () => {
     if (isLoading || cmsLoading) return <p>Loading...</p>;
 
     if (!cpJobDetails && !cmsJob) return <p>Job not found</p>;
-
+    const job = cmsData?.school?.schoolAdminSettings?.jobPostings
 
     const scheduleOptions = [
         { label: 'Yes', url: '#', target: '_self' },
@@ -362,7 +362,12 @@ const JobPostPage = () => {
                         <div className='aside'>
                             <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
                                 <p className='b4 bold'>To apply, please send resumes to:</p>
-                                <Button href='mailto:Allison.Bowdre@primrose.com'>Allison.Bowdre@primrose.com </Button>
+                                <Button className={!job?.hiringManagerEmail && 'disabled'}
+                                        href={`mailto:${job?.hiringManagerEmail}`}
+                                        disabled={!job?.hiringManagerEmail}
+                                >
+                                    Apply Now
+                                </Button>
                             </div>
                         </div>
                     )
