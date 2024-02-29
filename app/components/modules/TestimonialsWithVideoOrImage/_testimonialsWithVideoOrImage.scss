@@ -1,9 +1,11 @@
 .testimonials-with-video-or-image {
+    margin-bottom: 1rem;
     .slick-active {
         z-index: 1000; 
     }
     @include media-breakpoint-up(lg) {
         display: flex;
+        margin-bottom: 50px;
     }
     .header-wrap {
         h2 {
