@@ -21,14 +21,17 @@ export async function getServerSideProps() {
                 slug
                 uri
                 date
-                resourceTypes(first: 500) {
+                newsFields{
+                    link
+                }
+                resourceTypes(first: 1500) {
                   nodes {
                     uri
                     slug
                     name
                   }
                 }
-                resourceTags(first: 500) {
+                resourceTags(first: 1500) {
                   nodes {
                     uri
                     slug
@@ -205,7 +208,7 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
 
                     const categoryFirstNode = resource?.resourceTypes?.nodes[0]
                     const category = categoryFirstNode?.slug
-
+                    const link = resource?.newsFields?.link != "" ? resource?.newsFields?.link : (router.asPath + "/" + category + "/" + resource.slug); 
                     return (
                         <ResourceCard
                             key={resource.id}
@@ -214,7 +217,7 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                             className={`${className} ${shouldAddNewsroomClass ? 'small' : ''}`}
                             showExcerptIfNoImage={showExcerptIfNoImage}
                             featuredResourceIds={featuredResourceIds}
-                            customLink={`${router.asPath}/${category}/${resource.slug}`}
+                            customLink={link}
                         />
                     );
                 })}
