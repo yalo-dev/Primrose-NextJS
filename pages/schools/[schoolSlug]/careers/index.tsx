@@ -56,7 +56,8 @@ export async function getServerSideProps(context) {
                 }
               }
             jobPostings {
-              jobTitle
+              title
+              slug
               jobType
               jobDescription
               postDate
@@ -167,12 +168,12 @@ export default function SchoolCareerPage({ school }) {
                                 {cmsJobs.length > 0
                                     ? cmsJobs.map((job, index) => (
                                         <div key={index} className="job-tile">
-                                            <h5>{job.jobTitle ?? 'No Title'}</h5>
+                                            <h5>{job.title ?? 'No Title'}</h5>
                                             <p className='b3 green mb-2'>{school.title ?? 'No School Name'}</p>
                                             <p className='b2'>{`${city ?? 'No City'}, ${state ?? 'No State'}`}</p>
                                             <p className="employment-type mb-3">{job.jobType ?? 'No Type'}</p>
                                             <p className='b2 post-date'>Posted: {job.postDate ?? 'No Date'}</p>
-                                            <Button variant='primary' href={`/schools/${school.slug}/careers/${job.jobId}`}>
+                                            <Button variant='primary' href={`/schools/${school.slug}/careers/${job.slug}`}>
                                                 Learn More
                                             </Button>
                                         </div>

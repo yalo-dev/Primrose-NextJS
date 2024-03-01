@@ -26,10 +26,11 @@ const GET_SCHOOL_DETAILS = gql`
           applicationLink
           hiringManagerEmail
           jobDescription
-          jobTitle
+          title
+          slug
           jobType
           postDate
-          jobId
+          
         }
       }
     }
@@ -50,8 +51,8 @@ interface JobDetail {
 }
 
 interface CMSJobDetail {
-    jobId: string;
-    jobTitle: string;
+    slug: string;
+    title: string;
     jobDescription: string;
     jobType: string;
     applicationLink: string;
@@ -105,7 +106,7 @@ const JobPostPage = () => {
                 })
                 .catch(error => console.error('Error fetching CP job details:', error));
         } else if (!cmsData?.school?.schoolCorporateSettings?.careerplugSchoolId && jobId) {
-            const job = cmsData?.school?.schoolAdminSettings?.jobPostings.find(job => job.jobId === jobId);
+            const job = cmsData?.school?.schoolAdminSettings?.jobPostings.find(job => job.slug === jobId);
             setCmsJob(job);
         }
         setLoading(false);
@@ -194,7 +195,7 @@ const JobPostPage = () => {
                     ) : (
                         cmsJob && (
                             <>
-                                <h1>{cmsJob.jobTitle || 'No Title'}</h1>
+                                <h1>{cmsJob.title || 'No Title'}</h1>
                                 <div className='location d-lg-flex align-items-center'>
                                     <p className='b4 mb-0'>{cmsData.school.title || 'No School Name'}</p>
                                     <span className='d-none d-lg-flex'>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -362,9 +363,9 @@ const JobPostPage = () => {
                         <div className='aside'>
                             <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
                                 <p className='b4 bold'>To apply, please send resumes to:</p>
-                                <Button className={!job?.hiringManagerEmail && 'disabled'}
-                                        href={`mailto:${job?.hiringManagerEmail}`}
-                                        disabled={!job?.hiringManagerEmail}
+                                <Button className={!cmsJob?.hiringManagerEmail && 'disabled'}
+                                        href={`mailto:${cmsJob?.hiringManagerEmail}`}
+                                        disabled={!cmsJob?.hiringManagerEmail}
                                 >
                                     Apply Now
                                 </Button>
