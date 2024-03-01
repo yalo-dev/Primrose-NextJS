@@ -16,7 +16,7 @@ type PageTo = number | 'next' | 'prev';
 export default function Pagination({controller, itemCount, perPage, scrollToRef}: PaginationProps) {
     // return nothing if required props not present to prevent page break unexpectedly in production
     if (!(itemCount && controller && perPage)) {
-        console.error('Missing required PaginationProps')
+        //console.error('Missing required PaginationProps')
         return
     }
     // return nothing if there's only 1 page

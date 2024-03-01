@@ -145,7 +145,7 @@ const SearchPage: React.FC = () => {
     useEffect(() => {
         const fetchResourceTags = async () => {
             try {
-                const response = await fetch('${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resource_tag?per_page=100');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resource_tag?per_page=100`);
                 const tags = await response.json();
                 const options = tags.map(tag => {
                     const tagName = decodeHtml(tag.name).replace(/&/g, 'and');
