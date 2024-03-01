@@ -317,7 +317,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 </Customizations>
             </div>
             <Script async defer
-                // src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
+                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
                 onLoad={() => {
                     if (searchInputRef.current) {
                         autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
