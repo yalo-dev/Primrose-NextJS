@@ -293,6 +293,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         src={rightColumn.video.url}
                                         autoPlay
                                         muted
+                                        playsInline
                                         loop
                                     />
                                 </div>

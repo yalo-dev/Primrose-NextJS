@@ -1017,9 +1017,9 @@
 
 .school-home {
     padding-top: 3rem;
-    padding-bottom: 3rem;
+    // padding-bottom: 3rem;
     @include media-breakpoint-up(lg) {
-    padding-bottom: 5.625rem;
+    // padding-bottom: 5.625rem;
     }
     .hero-with-slider {
         @include media-breakpoint-up(lg) {
@@ -1360,7 +1360,7 @@
 
 .classroom-type {
     padding-top: 0;
-    padding-bottom: 1.5rem;
+    // padding-bottom: 1.5rem;
     .general-horizontal-tabs-module {
         padding-bottom: 30px;
 
@@ -1656,10 +1656,10 @@
 
 //THIS IS THE COMPONENT WITH THE BLUE BACKGROUND AND SCROLLING IMAGES IT IS A SHARED COMPONENT SO IT'S STYLED OUTSIDE OF PAGE CLASSES
 .school .find-a-school {
-    margin: 4.375rem 0 0 0;
+    margin: 4.375rem 0 4.375rem 0;
 
     @include media-breakpoint-up(lg) {
-        margin: 90px 0 0 0;
+        margin: 90px 0 90px 0;
     }
 }
 
