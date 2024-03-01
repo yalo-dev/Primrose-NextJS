@@ -179,6 +179,10 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
+		    hubspotFormSnippets {
+              productionHubspotFormCode
+              stagingHubspotFormCode
+            }
 			moduleId
 			formid
 			portalid
@@ -1143,7 +1147,7 @@ const DynamicPage = ({page}) => {
 	if (Array.isArray(slugChild) && slugChild.length > 0) {
 		pageUri = `${pageUri}${slugChild.join('/')}/`;
 	}
-	const page = await getPageByUri(pageUri); 
+	const page = await getPageByUri(pageUri);
 	return {
 	  props: {
 		page,
@@ -1170,7 +1174,7 @@ const DynamicPage = ({page}) => {
 			},
 			};
 	  });
-  
+
 	return {
 	  paths,
 	  fallback: 'blocking'
