@@ -118,28 +118,32 @@ export default function Location({ locationData }){
     }
     console.log(benefits_props);
 
-    const schools = [];
+    const schools = market?.schools?.nodes;
 
-    market.schools.nodes.map((school, index) => {
-      schools.push({
-        id: school.slug,
-        name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
-        address: school.schoolCorporateSettings.address.streetAddress +  "  " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode,
-        //hours: school.schoolAdminSettings.hoursOfOperation.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation.closingTime,
-        notes: " ",
-        coordinates: {
-          lat: school.schoolCorporateSettings.address.latitude as number,
-          lng: school.schoolCorporateSettings.address.longitude as number
-        }
+    // market.schools.nodes.map((school, index) => {
+    //   schools.push({
+    //     id: school.slug,
+    //     name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
+    //     address: school.schoolCorporateSettings.address.streetAddress +  "  " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode,
+    //     //hours: school.schoolAdminSettings.hoursOfOperation.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation.closingTime,
+    //     notes: " ",
+    //     coordinates: {
+    //       lat: school.schoolCorporateSettings.address.latitude as number,
+    //       lng: school.schoolCorporateSettings.address.longitude as number
+    //     }
 
-      })
-    });
+    //   })
+    // });
     const map_props = {
       title: "Primrose Schools in the " + market.name + " Area",
       schools: schools,
       center: {
         latitude: market?.marketSettings?.marketCenter?.latitude,
         longitude: market?.marketSettings?.marketCenter?.longitude
+      },
+      cta: {
+        title: "View Open Positions",
+        href: `careers`,
       }
     }
     const positions_props = {

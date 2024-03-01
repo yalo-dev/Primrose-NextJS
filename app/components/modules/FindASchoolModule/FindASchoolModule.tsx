@@ -75,6 +75,7 @@ interface FindASchoolMapProps{
   schools?: any;
   heading?: string;
   center?: any;
+  cta?: any;
 }
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
@@ -82,6 +83,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     schools,
     heading,
     center,
+    cta
   } = props;
   console.log(props);
   center = {lat: center.latitude, lng: center.longitude};
@@ -475,9 +477,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       setShowMap(true);
       setSearched(true);
   
-      const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
+      const formattedPlaceName = place.name;
       
-      nearInputRef.current.value = place.formatted_address;
+      nearInputRef.current.value = place.name;
+
+      console.log(place);
       
       setInputFields(prevFields =>
         prevFields.map(field => {
@@ -968,11 +972,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               {sortedSchools.map((school, index) => (
                 <div key={index} className="school-list">
                   <a href={`${school.uri}`}>
-
                     <div
                       key={index}
-                      className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                      onMouseOver={() => setHoveredSchoolId(school.id)}
+                      className={`school-list-item ${hoveredSchoolId === index ? 'hovered' : ''}`}
+                      onMouseOver={() => setHoveredSchoolId(index)}
                       onMouseOut={() => setHoveredSchoolId(null)}
                     >
                       <div className='name h5 w-100 d-flex justify-content-between'>
@@ -1006,12 +1009,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       <div className='hours'>{"M-F " + school.schoolAdminSettings?.hoursOfOperation?.openingTime + " - " + school.schoolAdminSettings?.hoursOfOperation?.closingTime}</div>
                       {/* <ul className='notes'><li>{school.notes}</li></ul> */}
                       <div className='button-wrap d-flex'>
-                          <Button
-                            className="button primary"
-                            href={school.slug + "/schedule-a-tour"}
-                          >
-                            Schedule a Tour
-                          </Button>
+                      <Button
+                        className="button primary"
+                        href={cta?.href ? `/schools/${school.slug}/careers` : `/schools/${school.slug}/schedule-a-tour`}
+                      >
+                        {cta?.title || "Schedule a Tour"}
+                      </Button>
                           <a href={`tel:${school.schoolCorporateSettings.phoneNumber}`} className='phone ms-2'>
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
