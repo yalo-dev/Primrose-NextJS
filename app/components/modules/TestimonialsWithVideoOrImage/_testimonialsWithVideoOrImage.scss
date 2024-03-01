@@ -127,23 +127,17 @@
         justify-content: center;
         align-items: center;
         padding: 7px 6px;
-        bottom: 2rem;
+        top: 0;
+        bottom: auto;
         position: relative;
         margin: auto;
         @include media-breakpoint-up(lg) {
             right: 0rem;
-            bottom: -3rem;
+            top: 365px;
             margin: unset;
             left: 0;
             position: absolute;
         }
-        // @include media-breakpoint-up(xl) {
-        //     bottom: 6rem;
-        // }
-        // @include media-breakpoint-up(xxl) {
-        //     right: 25%;
-        //     bottom: 0;
-        // }
        
         li {
             margin: 0;
@@ -193,11 +187,10 @@
         transition: all 0.3s ease;
         opacity: 1;
         position: absolute;
-        top: auto;
-        bottom: -25px;
+        top: 0;
         left: auto;
         @include media-breakpoint-up(md) {
-            bottom: -65px;
+            top: 365px;
         }
         &:hover {
             border: 1px solid var(--border-primary, #DFE2D3);

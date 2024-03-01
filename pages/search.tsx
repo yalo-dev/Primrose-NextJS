@@ -2,15 +2,10 @@ import {useRouter} from 'next/router';
 import {useEffect, useRef, useState} from 'react';
 import FourPanels from '../app/components/modules/FourPanels/FourPanels';
 import {gql, useQuery} from '@apollo/client';
-import {
-    CustomMultiSelectDropdown
-} from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 import React from 'react';
-import Button from '../app/components/atoms/Button/Button';
 import MapSearch from '../app/components/modules/MapSearch/MapSearch';
-import {GoogleMap, useJsApiLoader} from '@react-google-maps/api';
+import {useJsApiLoader} from '@react-google-maps/api';
 import schoolData from '../app/data/schoolsData';
-import $ from 'jquery';
 import Pagination from "../app/components/molecules/Pagination/Pagination";
 
 
@@ -25,7 +20,6 @@ const GET_TITLE_FOR_PANELS = gql`
     }
   }
 `;
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 interface SearchResult {
     id: number;
@@ -90,9 +84,9 @@ const SearchPage: React.FC = () => {
     const schools = schoolData;
 
     //console.log(router);
-    const tagClassName = (tagName) => {
-        return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
-    };
+    // const tagClassName = (tagName) => {
+    //     return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
+    // };
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
@@ -120,6 +114,7 @@ const SearchPage: React.FC = () => {
         }
         console.log("loading");
         console.log(loading);
+        
     }, [isLoaded]);
 
     if (isLoaded && !geocoder) {
