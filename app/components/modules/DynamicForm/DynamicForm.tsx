@@ -100,7 +100,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, for
             {headings.subheading && <Subheading level='div' className='b3'
                                                 color={headings.subheadingColor}>{headings.subheading}</Subheading>}
 
-            <div id={containerID} className='form'>
+            <div id={containerID} className='form hbspt-form'>
               {hubStyles}
               {hubScripts[0]}
               {window.hbspt && hubScripts[1]} {/* first script loads too slow for the hbspt variable, so load conditionally */}
