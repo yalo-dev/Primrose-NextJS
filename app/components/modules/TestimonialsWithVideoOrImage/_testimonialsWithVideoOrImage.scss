@@ -81,7 +81,7 @@
         padding-top: 4rem;
         position: relative;
         @include media-breakpoint-up(lg) {
-            padding-top: 7rem;
+            padding-top: 8rem;
         }
         .b4 {
             color: $text-gray;
@@ -109,7 +109,7 @@
             @include media-breakpoint-up(lg) {
                 width: 75px;
                 height: 56px;
-                top: 2rem;
+                top: 5.3rem;
             }
             // @include media-breakpoint-up(lg) {
             //    left: 2rem;
@@ -133,7 +133,7 @@
         margin: auto;
         @include media-breakpoint-up(lg) {
             right: 0rem;
-            top: 365px;
+            top: 355px;
             margin: unset;
             left: 0;
             position: absolute;

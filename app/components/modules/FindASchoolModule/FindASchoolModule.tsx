@@ -8,7 +8,7 @@ const containerStyle = {
   height: '350px'
 };
 
-// const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
+const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 type Location = {
   lat: number;
