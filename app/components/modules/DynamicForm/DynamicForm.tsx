@@ -38,10 +38,11 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, for
 
   const containerID = "hubspotForm"
   const hubspotFormSnippet = process.env.NODE_ENV === "production"
-    ? hubspotFormSnippets.productionHubspotFormCode
-    : hubspotFormSnippets.stagingHubspotFormCode
+    ? hubspotFormSnippets?.productionHubspotFormCode
+    : hubspotFormSnippets?.stagingHubspotFormCode
 
   const [hubScripts, setHubScripts] = useState([])
+  const [hubStyles, setHubStyles] = useState([])
 
   // react doesn't execute scripts placed within "dangerouslySetInnerHTML" on divs so the following is a way around that
   useEffect(() => {
@@ -71,6 +72,18 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, for
         }
       }
     }
+
+    // grab the styles as a list of objects
+    const styles = div.getElementsByTagName('style')
+    //check and make sure there's no styles loaded already
+    if (!hubStyles.length) {
+      for (let i = 0; i < styles.length; i++) {
+        setHubStyles((prev) => [
+            ...prev,
+            <style global jsx>{`${styles[i].innerHTML}`}</style>
+        ])
+      }
+    }
   }, []);
 
   return (
@@ -88,6 +101,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, for
                                                 color={headings.subheadingColor}>{headings.subheading}</Subheading>}
 
             <div id={containerID} className='form'>
+              {hubStyles}
               {hubScripts[0]}
               {window.hbspt && hubScripts[1]} {/* first script loads too slow for the hbspt variable, so load conditionally */}
             </div>

@@ -209,6 +209,10 @@ query GetModules($id: ID = "") {
 			  subheading
 			  subheadingColor
 			}
+			hubspotFormSnippets {
+        productionHubspotFormCode
+        stagingHubspotFormCode
+      }
 			moduleId
 			formid
 			portalid
