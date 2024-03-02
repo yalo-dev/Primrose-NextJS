@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-import schools from '../app/data/schoolsData';
+import {getSchools} from '../app/data/schoolsData';
 import Button from '../app/components/atoms/Button/Button';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-
+const schools = await getSchools();
 const containerStyle = {
   width: '100%',
   height: '350px'
@@ -65,6 +65,7 @@ const svgIconStart = `
 `;
 
 const FindASchool = () => {
+  console.log(schools);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -98,7 +99,6 @@ const FindASchool = () => {
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
   const [markers, setMarkers] = useState([]);
   const [searchText, setSearchText] = useState('');
-
 
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
@@ -684,8 +684,10 @@ useEffect(() => {
   };
   
   useEffect(() => {
-    renderRoute();
-  }, [start, waypoints, destination]);
+      renderRoute();
+    
+    
+  }, [schools, start, waypoints, destination]);
 
   return (
     <div className='find-a-school-container'>

@@ -834,10 +834,10 @@ query GetModules($id: ID = "") {
 			  bottomPaddingDesktop
 			}
 		  }
-		  ... on Page_Modules_Modules_StaffMemberList {
+		  ... on Page_Modules_Modules_LeadershipModule {
 			acfeFlexibleToggle
 			fieldGroupName
-			staffMembers {
+			leadershipMembers {
 			  bio
 			  fieldGroupName
 			  group

@@ -23,7 +23,7 @@ import ContentWithSchoolhouse from '../../modules/ContentWithSchoolhouse/Content
 import Q1Skills from '../../modules/Q1Skills/Q1Skills';
 import QuoteTestimonials from '../../modules/QuoteTestimonials/QuoteTestimonials';
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
-import StaffMemberList from '../../modules/StaffMemberList/StaffMemberList';
+import LeadershipModule from '../../modules/LeadershipModule/LeadershipModule';
 import StandardAccordionList from '../../modules/StandardAccordionList/StandardAccordionList';
 import TestimonialsWithVideoOrImage from '../../modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
 import Timeline from '../../modules/Timeline/Timeline';
@@ -119,8 +119,8 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_SeasonalBanner':
                     ModuleComponent = SeasonalBanner;
                     break;
-                case 'Page_Modules_Modules_StaffMemberList':
-                        ModuleComponent = StaffMemberList;
+                case 'Page_Modules_Modules_LeadershipModule':
+                        ModuleComponent = LeadershipModule;
                         break;
                 case 'Page_Modules_Modules_StandardAccordionList':
                     ModuleComponent = StandardAccordionList;

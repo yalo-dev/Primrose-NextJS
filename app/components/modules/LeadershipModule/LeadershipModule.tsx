@@ -4,7 +4,7 @@ import SelectDropdown, { OptionType } from '../../molecules/SelectDropdown/Selec
 import Head from 'next/head';
 import defaultThumb from '../../../../public/assets/staff-default-thumbnail.jpg';
 
-interface StaffMember {
+interface LeadershipMember {
     image?: {
       sourceUrl?: string;
     };
@@ -14,26 +14,26 @@ interface StaffMember {
     group?: string;
   }
   
-  interface StaffMemberListProps {
-    staffMembers: StaffMember[];
+  interface LeadershipMemberListProps {
+    staffMembers: LeadershipMember[];
   }
 
-  export default function StaffPage({ staffMembers }: StaffMemberListProps) {
-    console.log(staffMembers); 
+  export default function LeadershipPage({ leadershipMembers }: LeadershipMemberListProps) {
+    console.log(leadershipMembers); 
 
   const [activeBio, setActiveBio] = useState(null);
   const [bioHeights, setBioHeights] = useState({});
-  const initialStaffCount = 20;
-  const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
-  const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staffMembers);
+  const initialLeadershipCount = 20;
+  const [visibleLeadershipCount, setVisibleLeadershipCount] = useState(initialLeadershipCount);
+  const [filteredLeadershipMembers, setFilteredLeadershipMembers] = useState<LeadershipMember[]>(leadershipMembers);
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
 
 
-  const loadMoreStaff = () => {
-    setVisibleStaffCount((prevCount) => prevCount + 4);
+  const loadMoreLeadership = () => {
+    setVisibleLeadershipCount((prevCount) => prevCount + 4);
   };
 
-  const canLoadMore = filteredStaffMembers?.length > visibleStaffCount;
+  const canLoadMore = filteredLeadershipMembers?.length > visibleLeadershipCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
@@ -53,26 +53,26 @@ interface StaffMember {
   };
 
   const groupOptions = [
-    { label: 'All Teachers & Staff', value: 'All' },
+    { label: 'All Leadership', value: 'All' },
     { label: 'Leadership', value: 'Leadership' },
     { label: 'Teachers', value: 'Teacher' },
-    { label: 'Staff', value: 'Staff' },
+    { label: 'Leadership', value: 'Leadership' },
   ];
     
 
   useEffect(() => {
     const filtered =
       !selectedGroup || selectedGroup.value === 'All'
-        ? staffMembers
-        : staffMembers.filter((member) => member.group === selectedGroup.value);
+        ? leadershipMembers
+        : leadershipMembers.filter((member) => member.group === selectedGroup.value);
   
-    setFilteredStaffMembers(filtered);
-    setVisibleStaffCount(initialStaffCount);
-  }, [selectedGroup, staffMembers]);
+    setFilteredLeadershipMembers(filtered);
+    setVisibleLeadershipCount(initialLeadershipCount);
+  }, [selectedGroup, leadershipMembers]);
   
 
   console.log(selectedGroup);
-  console.log(staffMembers);
+  console.log(leadershipMembers);
 
   const handleSelectedGroup = (selectedOption) => {
     setSelectedGroup(selectedOption);
@@ -83,7 +83,6 @@ interface StaffMember {
     <div className="staff">
       <div className="staff-members-section">
         <div className="heading">
-          <h1>Teachers & Staff</h1>
           <div className="filter">
             <SelectDropdown
               selectedOption={selectedGroup}
@@ -95,11 +94,11 @@ interface StaffMember {
           </div>
         </div>
         <div className="staff-members">
-          {filteredStaffMembers?.slice(0, visibleStaffCount).map((member, index) => (
+          {filteredLeadershipMembers?.slice(0, visibleLeadershipCount).map((member, index) => (
             <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
               <div className="row align-items-center">
                 <div className="col-4">
-                {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
+                {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Leadership Member Photo" className="img-fluid" />}
                 </div>
                 <div className="col-7">
                   <div className="text-wrap pe-5">
@@ -125,7 +124,7 @@ interface StaffMember {
           ))}
         </div>
         <div className="load-more d-flex align-items-center justify-content-center">
-          {canLoadMore && <Button onClick={loadMoreStaff}>Load More</Button>}
+          {canLoadMore && <Button onClick={loadMoreLeadership}>Load More</Button>}
         </div>
       </div>
     </div>

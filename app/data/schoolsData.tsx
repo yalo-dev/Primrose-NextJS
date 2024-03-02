@@ -17,7 +17,7 @@ export interface School {
     };
   }
 
-  async function getSchools() {
+  export async function getSchools() {
 
     const GET_SCHOOLS = gql`
     query GetSchools {
@@ -75,9 +75,8 @@ export interface School {
     return _schools;
 
   }
-    const schools = await getSchools();
+//const schools = await getSchools();
   
   
-
-  export default schools;
+//export default schools;
   

@@ -4,7 +4,7 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import SchoolData from '../../../../app/data/schoolsData';
+import {getSchools} from '../../../../app/data/schoolsData';
 import Script from "next/script";
 
 interface School {
@@ -62,6 +62,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [searchFieldClass, setSearchFieldClass] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    let SchoolData = [];
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
@@ -105,13 +106,19 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
     useEffect(() => {
-        enableLocationServices();
+        getSchools()
+        .then((result) =>{
+            SchoolData = result;
+            console.log(SchoolData);
+            enableLocationServices();
+            
+        })
+        
     }, []);
 
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
-
         SchoolData.forEach((school) => {
             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
             if (distance < minDistance) {
