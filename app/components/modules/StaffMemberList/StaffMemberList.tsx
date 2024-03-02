@@ -81,9 +81,6 @@ interface StaffMember {
   return (
     <div className="staff-module">
     <div className="staff">
-      <Head>
-        <title>Staff Page</title>
-      </Head>
       <div className="staff-members-section">
         <div className="heading">
           <h1>Teachers & Staff</h1>
