@@ -834,6 +834,21 @@ query GetModules($id: ID = "") {
 			  bottomPaddingDesktop
 			}
 		  }
+		  ... on Page_Modules_Modules_StaffMemberList {
+			acfeFlexibleToggle
+			fieldGroupName
+			staffMembers {
+			  bio
+			  fieldGroupName
+			  group
+			  image {
+				altText
+				sourceUrl
+			  }
+			  name
+			  title
+			}
+		  }
 		  ... on Page_Modules_Modules_StandardAccordionList {
 			moduleId
 			heading
