@@ -15,7 +15,7 @@ interface LeadershipMember {
   }
   
   interface LeadershipMemberListProps {
-    staffMembers: LeadershipMember[];
+    leadershipMembers: LeadershipMember[];
   }
 
   export default function LeadershipPage({ leadershipMembers }: LeadershipMemberListProps) {
