@@ -54,9 +54,8 @@ interface LeadershipMember {
 
   const groupOptions = [
     { label: 'All Leadership', value: 'All' },
-    { label: 'Leadership', value: 'Leadership' },
-    { label: 'Teachers', value: 'Teacher' },
-    { label: 'Leadership', value: 'Leadership' },
+    { label: 'Primrose Leadership', value: 'Primrose Leadership' },
+    { label: 'Early Learning Council', value: 'Early Learning Council' },
   ];
     
 
