@@ -36,7 +36,6 @@ interface DynamicFormProps {
 
 const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, formid, portalid, region, version, hubspotFormSnippets }) => {
 
-  console.log('env: ', process.env.NODE_ENV)
   const containerID = "hubspotForm"
   const hubspotFormSnippet = process.env.NODE_ENV === "production"
     ? hubspotFormSnippets?.productionHubspotFormCode
