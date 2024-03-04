@@ -7,6 +7,7 @@ import QuoteTestimonials from '../../../app/components/modules/QuoteTestimonials
 import GeneralButtonCTA from '../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
 import FindASchoolMap from '../../../app/components/modules/FindASchoolModule/FindASchoolModule';
+import GeneralVerticalTabs from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
 
 const GET_LOCATIONS = gql`
 query GetLocations {
@@ -146,7 +147,7 @@ export default function Location({ locationData }){
       })
     });
     const map_props = {
-      title: "Primrose Schools in the " + market.name + " Area",
+      title: market?.marketSettings?.marketEnrollmentPageHeadline ?? "Primrose Schools in the " + market.name + " Area",
       schools: schools,
       center: {
         latitude: market?.marketSettings?.marketCenter?.latitude,
@@ -156,16 +157,15 @@ export default function Location({ locationData }){
 
     return(
         <>
-        <div className="modules--container market mt-4 pt-4">
+          <div className="modules--container market mt-4 pt-4">
             <HeroWithImage {...hero_props} />
-          {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
-          {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
-          {fiftyFifty2_props && <TwoColumnsImageAndText  {...fiftyFifty2_props} />}
+            {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
+            {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
+            {market?.marketSettings?.horizontalTabs.tabs && <GeneralVerticalTabs {...market?.marketSettings?.horizontalTabs} />}
             <GeneralButtonCTA {...cta_props} />
-          {gallery_props && <GallerySlider {...gallery_props} />}
+            {gallery_props && <GallerySlider {...gallery_props} />}
             <FindASchoolMap {...map_props} />
-        </div>
-        
+          </div>
         </>
     );
 }
@@ -206,6 +206,7 @@ export default function Location({ locationData }){
                   }
                 }
                 marketSettings {
+                  marketEnrollmentPageHeadline
                   heroImage {
                     mediaItemUrl
                     sourceUrl
@@ -271,6 +272,50 @@ export default function Location({ locationData }){
                   marketCenter {
                     latitude
                     longitude
+                  }
+                  horizontalTabs {
+                    heading
+                    headingColor
+                    subheading
+                    subheadingColor
+                    customizations {
+                      backgroundColor
+                      bottomMarginDesktop
+                      bottomMarginMobile
+                      topMarginDesktop
+                      topMarginMobile
+                    }
+                    tabs {
+                      tabLabel
+                      tabLabelColor
+                      content {
+                        blurb
+                        blurbColor
+                        button {
+                          target
+                          title
+                          url
+                        }
+                        buttonStyle
+                        eyebrow
+                        eyebrowColor
+                        fullWidthOrFeatured
+                        image {
+                          altText
+                          sourceUrl
+                        }
+                        heading
+                        headingColor
+                        list {
+                          text
+                          textColor
+                        }
+                        table {
+                          label
+                          description
+                        }
+                      }
+                    }
                   }
                 }
             }

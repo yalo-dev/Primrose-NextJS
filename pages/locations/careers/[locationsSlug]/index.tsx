@@ -34,11 +34,12 @@ export async function getAllLocations(){
 export default function Location({ locationData }){
   console.log(locationData);
     const market = locationData.data.market;
+    const siteSettings = locationData.data.siteSettings.siteSettings
     const router = useRouter();
 
     const hero_props = {
-      leftColumn: {image: {sourceUrl: market?.marketSettings?.careersHero?.heroImage?.sourceUrl, altText: market?.marketSettings?.careersHero?.heroImage?.altText}},
-      rightColumn: {heading: "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
+      leftColumn: {image: {sourceUrl: siteSettings?.headerImage?.sourceUrl, altText: siteSettings?.headerImage?.altText}},
+      rightColumn: {heading: market?.marketSettings?.marketCareersPageHeadline ?? "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
     };
@@ -111,8 +112,8 @@ export default function Location({ locationData }){
         heading: benefits?.headline,
         paragraph: benefits?.paragraph,
         image: {
-            altText: benefits?.image?.altText,
-            sourceUrl: benefits?.image?.sourceUrl
+            altText: siteSettings?.benefitsImage?.altText,
+            sourceUrl: siteSettings?.benefitsImage.sourceUrl
         },
         slider: benefitsItems
     }
@@ -199,6 +200,7 @@ export default function Location({ locationData }){
                   }
                 }
                 marketSettings {
+                  marketCareersPageHeadline
                   heroImage {
                     mediaItemUrl
                     sourceUrl
@@ -325,6 +327,18 @@ export default function Location({ locationData }){
                             sourceUrl
                         }
                     }
+                }
+            }
+            siteSettings {
+                siteSettings {
+                  headerImage {
+                    altText
+                    sourceUrl
+                  }
+                  benefitsImage {
+                    sourceUrl
+                    altText
+                  }
                 }
             }
         }

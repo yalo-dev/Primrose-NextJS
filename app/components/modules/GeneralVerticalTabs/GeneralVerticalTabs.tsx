@@ -114,7 +114,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 
 					{/* Mobile layout */}
 					<div className="mobile-layout d-block d-lg-none">
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 							<div key={index} className="mobile-tab">
 								<button
 									ref={(el) => buttonRefsVT.current[index] = el}
@@ -181,7 +181,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 					{/* Desktop layout */}
 					<div className="desktop-layout d-none d-lg-block">
 						<div className="buttons-container">
-							{tabs.map((tab, index) => (
+							{tabs?.map((tab, index) => (
 								<button
 									key={index}
 									ref={(el) => buttonRefsVT.current[index] = el}
@@ -193,7 +193,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 							))}
 						</div>
 						<div className="desktop-content">
-							{tabs.map((tab, index) => (
+							{tabs?.map((tab, index) => (
 								<div
 									key={index}
 									ref={(el) => (contentRefsVT.current[index] = el)}
