@@ -32,7 +32,7 @@ interface HomeHeroWithVideoProps {
     rightColumn: {
         videoOrImage?: string;
         video?: {
-            url?: string;
+            mediaItemUrl?: string;
         };
         image?: {
             sourceUrl?: string;
@@ -293,11 +293,11 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
-                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.url && (
+                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
                                 <div className='video-wrapper'>
                                     <video
                                         ref={videoRef}
-                                        src={rightColumn.video.url}
+                                        src={rightColumn.video.mediaItemUrl}
                                         autoPlay
                                         muted
                                         playsInline

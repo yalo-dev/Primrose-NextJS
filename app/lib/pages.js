@@ -652,9 +652,7 @@ query GetModules($id: ID = "") {
 			}
 			rightColumn {
 			  video {
-				target
-				title
-				url
+				mediaItemUrl
 			  }
 			  videoOrImage
 			  image {

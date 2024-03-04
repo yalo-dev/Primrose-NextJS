@@ -170,7 +170,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     console.log('place');
     console.log(place);
     onPlaceSelected(place);
-  }, [place, schools]);
+  }, [place]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);

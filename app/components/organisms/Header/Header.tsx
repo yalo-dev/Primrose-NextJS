@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import React from 'react';
 
-const GET_TRENDING_SEARCH_ITEMS = gql`
+/* const GET_TRENDING_SEARCH_ITEMS = gql`
   query GetTrendingSearchItems {
     siteSettings {
       siteSettings {
@@ -22,7 +22,7 @@ const GET_TRENDING_SEARCH_ITEMS = gql`
     }
   }
 `;
-
+ */
 export default function Header({ menuItems }) {
     const router = useRouter();
     const showResourcesMenu = router.pathname.includes('/resources');
@@ -33,7 +33,7 @@ export default function Header({ menuItems }) {
     const [inputText, setInputText] = useState('');
     const [isDesktopSearchActive, setIsDesktopSearchActive] = useState(false);
     const desktopSearchBarRef = useRef<HTMLDivElement>(null);
-    const { data, loading, error } = useQuery(GET_TRENDING_SEARCH_ITEMS);
+    //const { data, loading, error } = useQuery(GET_TRENDING_SEARCH_ITEMS);
     const mobileSearchInputRef = useRef<HTMLInputElement>(null);
     const desktopSearchInputRef = useRef<HTMLInputElement>(null);
     const [submenuStyles, setSubmenuStyles] = useState(null);
