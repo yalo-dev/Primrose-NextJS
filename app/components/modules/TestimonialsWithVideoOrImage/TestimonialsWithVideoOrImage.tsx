@@ -114,22 +114,20 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                         {slider?.map((slide, index) => (
                             <div key={index} className="slider-item">
                                 
-                                    {slide.imageOrVideo === 'image' && slide.image?.sourceUrl &&
-                                        <div className="image-wrap">
-                                            <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
-                                        </div>
-                                    }
-                                
+                                {slide.imageOrVideo === 'image' && slide.image?.sourceUrl &&
+                                    <div className="image-wrap">
+                                        <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
+                                    </div>
+                                }
                                
-                                    {slide.imageOrVideo === 'video' && slide.video?.url &&
-                                        <div className="video-wrap">
-                                            <div className="responsive-video">
-                                                <iframe className="rounded-lg" width="560" height="315" src={slide.video.url} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                                            </div>
+                                {slide.imageOrVideo === 'video' && slide.video?.url &&
+                                    <div className="video-wrap">
+                                        <div className="responsive-video">
+                                            <iframe className="rounded-lg" width="560" height="315" src={slide.video.url} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                                         </div>
-                                    }
+                                    </div>
+                                }
                                
-
                                 <div className="text-wrap">
                                     {slide.testimonial && <div style={{ color: slide.testimonialColor }} className='b4'>{slide.testimonial}</div>}
                                     <div className="sign">    

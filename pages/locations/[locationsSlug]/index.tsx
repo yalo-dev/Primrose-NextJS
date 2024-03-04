@@ -130,22 +130,22 @@ export default function Location({ locationData }){
       }
     }
     const gallery_props = market.marketSettings.gallery && { gallery: market.marketSettings.gallery, uniqueId: 1};
-    const schools = [];
+    const schools = market?.schools?.nodes;
 
-    market.schools.nodes.map((school, index) => {
-      schools.push({
-        id: school.slug,
-        name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
-        address: school.schoolCorporateSettings.address.streetAddress +  "  " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode,
-        //hours: school.schoolAdminSettings.hoursOfOperation.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation.closingTime,
-        notes: " ",
-        coordinates: {
-          lat: school.schoolCorporateSettings.address.latitude as number,
-          lng: school.schoolCorporateSettings.address.longitude as number
-        }
+    // market.schools.nodes.map((school, index) => {
+    //   schools.push({
+    //     id: school.slug,
+    //     name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
+    //     address: school.schoolCorporateSettings.address.streetAddress +  "  " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode,
+    //     //hours: school.schoolAdminSettings.hoursOfOperation.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation.closingTime,
+    //     notes: " ",
+    //     coordinates: {
+    //       lat: school.schoolCorporateSettings.address.latitude as number,
+    //       lng: school.schoolCorporateSettings.address.longitude as number
+    //     }
 
-      })
-    });
+    //   })
+    // });
     const map_props = {
       title: market?.marketSettings?.marketEnrollmentPageHeadline ?? "Primrose Schools in the " + market.name + " Area",
       schools: schools,

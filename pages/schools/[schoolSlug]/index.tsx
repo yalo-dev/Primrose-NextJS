@@ -123,6 +123,7 @@ export async function getServerSideProps(context) {
               }
               yelpLink
               newsItems {
+                slug
                 content
                 expires
                 image {

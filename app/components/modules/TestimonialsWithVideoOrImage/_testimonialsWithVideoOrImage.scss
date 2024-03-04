@@ -5,7 +5,7 @@
     }
     @include media-breakpoint-up(lg) {
         display: flex;
-        margin-bottom: 50px;
+        margin-bottom: 0;
     }
     .header-wrap {
         h2 {
@@ -67,6 +67,7 @@
                 border-radius: 1rem;
                 width: 100%;
                 height: 100%;
+                min-height: 275px;
                 aspect-ratio: 588 / 330;
                 object-fit: cover;
                 object-position: center;
@@ -78,10 +79,10 @@
         }
     }
     .text-wrap {
-        padding-top: 4rem;
+        padding-top: 7rem;
         position: relative;
         @include media-breakpoint-up(lg) {
-            padding-top: 7rem;
+            padding-top: 10rem;
         }
         .b4 {
             color: $text-gray;
@@ -96,7 +97,7 @@
         }
         &::before {
             position: absolute;
-            top: 1rem;
+            top: 4.3rem;
             left: 0;
             width: 48px;
             height: 35px;
@@ -109,14 +110,8 @@
             @include media-breakpoint-up(lg) {
                 width: 75px;
                 height: 56px;
-                top: 2rem;
+                top: 5.3rem;
             }
-            // @include media-breakpoint-up(lg) {
-            //    left: 2rem;
-            // }
-            // @include media-breakpoint-up(xxl) {
-            //    left: 0
-            // }
         }
     }
     .slick-dots {
@@ -127,23 +122,18 @@
         justify-content: center;
         align-items: center;
         padding: 7px 6px;
-        bottom: 2rem;
-        position: relative;
-        margin: auto;
-        @include media-breakpoint-up(lg) {
-            right: 0rem;
-            bottom: -3rem;
-            margin: unset;
-            left: 0;
-            position: absolute;
+        top: 294px;
+        bottom: auto;
+        right: 0rem;
+        left: 0;
+        margin: unset;
+        position: absolute;
+        @include media-breakpoint-up(md) {
+            top: 404px;
         }
-        // @include media-breakpoint-up(xl) {
-        //     bottom: 6rem;
-        // }
-        // @include media-breakpoint-up(xxl) {
-        //     right: 25%;
-        //     bottom: 0;
-        // }
+        @include media-breakpoint-up(lg) {
+            top: 355px;
+        }
        
         li {
             margin: 0;
@@ -193,11 +183,16 @@
         transition: all 0.3s ease;
         opacity: 1;
         position: absolute;
-        top: auto;
-        bottom: -25px;
+        top: 307px;
         left: auto;
+        right: 0;
         @include media-breakpoint-up(md) {
-            bottom: -65px;
+            top: 413px;
+            right: 5px;
+        }
+        @include media-breakpoint-up(lg) {
+            top: 364px;
+            right: 5px;
         }
         &:hover {
             border: 1px solid var(--border-primary, #DFE2D3);
@@ -210,6 +205,7 @@
         }
         &.slick-prev {
             right: 45px;
+            z-index: 10;
             svg {
                 transform: rotate(-90deg);
             }

@@ -2,6 +2,8 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Button from '../../atoms/Button/Button';
+import { usePathname } from 'next/navigation'
+
 
 const NewsSlider = ({ newsItems }) => {
     // Settings for the slick slider
@@ -34,7 +36,7 @@ const NewsSlider = ({ newsItems }) => {
                       <div className='featured-image' style={{ backgroundImage: `url(${item.image?.sourceUrl})` }}></div>
                       <div className="info">
                         <h4>{item.title}</h4>
-                        <Button className='primary' href="#">Learn More</Button>
+                        <Button className='primary' href={usePathname() + '/news-item/' + item.slug}>Learn More</Button>
                       </div>
                   </div>
                   </div>

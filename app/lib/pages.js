@@ -656,9 +656,7 @@ query GetModules($id: ID = "") {
 			}
 			rightColumn {
 			  video {
-				target
-				title
-				url
+				mediaItemUrl
 			  }
 			  videoOrImage
 			  image {
@@ -836,6 +834,21 @@ query GetModules($id: ID = "") {
 			  bottomPaddingMobile
 			  topPaddingDesktop
 			  bottomPaddingDesktop
+			}
+		  }
+		  ... on Page_Modules_Modules_LeadershipModule {
+			acfeFlexibleToggle
+			fieldGroupName
+			leadershipMembers {
+			  bio
+			  fieldGroupName
+			  group
+			  image {
+				altText
+				sourceUrl
+			  }
+			  name
+			  title
 			}
 		  }
 		  ... on Page_Modules_Modules_StandardAccordionList {

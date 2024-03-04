@@ -1,5 +1,7 @@
+
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
+import { cache } from 'react';
 
 export interface School {
     id: any;
@@ -15,7 +17,7 @@ export interface School {
     };
   }
 
-  async function getSchools() {
+  export async function getSchools() {
 
     const GET_SCHOOLS = gql`
     query GetSchools {
@@ -45,38 +47,36 @@ export interface School {
       }
   `;
 
-    const response = await client.query({ query: GET_SCHOOLS });
-    const schoolsArray = response?.data?.schools?.nodes;
+  const response = await client.query({ query: GET_SCHOOLS });
+  const schoolsArray = response?.data?.schools?.nodes;
     
   const _schools = [];
   schoolsArray.map((school, index) => {
-
     if(school.schoolCorporateSettings.address){
-    let schoolAddress = school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode;
-    
-    _schools.push({
-      id: school.id,
-      slug: school.slug,
-      uri: school.uri,
-      name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
-      address: schoolAddress,
-      hours: "M-F 7:00AM-6:00PM",
-      phone: school.schoolCorporateSettings?.phoneNumber,
-      notes: "",
-      coordinates: {
-        lat: school.schoolCorporateSettings.address.latitude,
-        lng:  school.schoolCorporateSettings.address.longitude
-      }
-    });
-  }
-    });
+      let schoolAddress = school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode;
+      
+      _schools.push({
+        id: school.id,
+        slug: school.slug,
+        uri: school.uri,
+        name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
+        address: schoolAddress,
+        hours: "M-F 7:00AM-6:00PM",
+        phone: school.schoolCorporateSettings?.phoneNumber,
+        notes: "",
+        coordinates: {
+          lat: school.schoolCorporateSettings.address.latitude,
+          lng:  school.schoolCorporateSettings.address.longitude
+        }
+      });
+    }
+  });
 
     return _schools;
 
   }
-    const schools = await getSchools();
+//const schools = await getSchools();
   
   
-
-  export default schools;
+//export default schools;
   

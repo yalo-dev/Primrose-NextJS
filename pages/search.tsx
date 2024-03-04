@@ -2,15 +2,10 @@ import {useRouter} from 'next/router';
 import {useEffect, useRef, useState} from 'react';
 import FourPanels from '../app/components/modules/FourPanels/FourPanels';
 import {gql, useQuery} from '@apollo/client';
-import {
-    CustomMultiSelectDropdown
-} from '../app/components/molecules/CustomMultiSelectDropdown/CustomMultiSelectDropdown';
 import React from 'react';
-import Button from '../app/components/atoms/Button/Button';
 import MapSearch from '../app/components/modules/MapSearch/MapSearch';
-import {GoogleMap, useJsApiLoader} from '@react-google-maps/api';
-import schoolData from '../app/data/schoolsData';
-import $ from 'jquery';
+import {useJsApiLoader} from '@react-google-maps/api';
+import {getSchools} from '../app/data/schoolsData';
 import Pagination from "../app/components/molecules/Pagination/Pagination";
 
 
@@ -25,7 +20,6 @@ const GET_TITLE_FOR_PANELS = gql`
     }
   }
 `;
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 interface SearchResult {
     id: number;
@@ -86,13 +80,13 @@ const SearchPage: React.FC = () => {
     const [searchPerformed, setSearchPerformed] = useState(false);
     const [hasVisibleResources, setHasVisibleResources] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const schools = schoolData;
+    const [itemsPerPage, setItemsPerPage] = useState(12);
+    const [schools, setSchools] = useState([]);
 
     //console.log(router);
-    const tagClassName = (tagName) => {
-        return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
-    };
+    // const tagClassName = (tagName) => {
+    //     return `tag-${tagName.replace(/&amp;/g, 'and').replace(/\s+/g, '-').toLowerCase()}`;
+    // };
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
@@ -120,6 +114,7 @@ const SearchPage: React.FC = () => {
         }
         console.log("loading");
         console.log(loading);
+        
     }, [isLoaded]);
 
     if (isLoaded && !geocoder) {
@@ -145,7 +140,7 @@ const SearchPage: React.FC = () => {
     useEffect(() => {
         const fetchResourceTags = async () => {
             try {
-                const response = await fetch('${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resource_tag?per_page=100');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/resource_tag?per_page=100`);
                 const tags = await response.json();
                 const options = tags.map(tag => {
                     const tagName = decodeHtml(tag.name).replace(/&/g, 'and');
@@ -232,6 +227,7 @@ const SearchPage: React.FC = () => {
     };
 
     const fetchSearchResults = async (searchTerm: string) => {
+        console.log('fetching search results');
         setLoading(true);
         setError('');
         let i = 0;
@@ -247,7 +243,7 @@ const SearchPage: React.FC = () => {
 
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
             const flatResults = batchResults.flat();
-            console.log(flatResults);
+            //console.log(flatResults);
             const resultsWithAdditionalData = await Promise.all(flatResults.map(async (resource) => {
                 const enhancedResource: SearchResult = {...resource};
 
@@ -277,7 +273,12 @@ const SearchPage: React.FC = () => {
             setError('Failed to load search results: ' + error.message);
         } finally {
             clearInterval(timer);
-            setLoading(false);
+            getSchools().then((results) => {
+                setSchools(results);
+                console.log(schools);
+                setLoading(false);
+            });
+            
         }
     };
 
@@ -389,11 +390,13 @@ const SearchPage: React.FC = () => {
 
             switch (activeFilter) {
                 case 'Locations':
+                    
                     let fas_props = {
                         place: place,
                         schools: schools
                     }
-
+                    console.log(schools)
+                    
                     return (
                         <>
                             <MapSearch {...fas_props} />
@@ -479,7 +482,9 @@ const SearchPage: React.FC = () => {
                 </div>
             </div>
             <div className='results'>
-                {renderResults()}
+                {
+                renderResults()
+                }
                 <Pagination controller={{page: currentPage, setPage: setCurrentPage}}
                             itemCount={getTotalFilteredResults()} perPage={itemsPerPage}/>
             </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Button from '../../atoms/Button/Button';
+import {getSchools} from '../../../../app/data/schoolsData';
 
 const containerStyle = {
   width: '100%',

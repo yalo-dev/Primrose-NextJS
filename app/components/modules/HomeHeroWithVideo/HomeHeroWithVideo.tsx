@@ -4,7 +4,7 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import SchoolData from '../../../../app/data/schoolsData';
+import {getSchools} from '../../../../app/data/schoolsData';
 import Script from "next/script";
 
 interface School {
@@ -32,7 +32,7 @@ interface HomeHeroWithVideoProps {
     rightColumn: {
         videoOrImage?: string;
         video?: {
-            url?: string;
+            mediaItemUrl?: string;
         };
         image?: {
             sourceUrl?: string;
@@ -62,6 +62,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [searchFieldClass, setSearchFieldClass] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    let SchoolData = [];
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
@@ -105,13 +106,19 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
     useEffect(() => {
-        enableLocationServices();
+        getSchools()
+        .then((result) =>{
+            SchoolData = result;
+            console.log(SchoolData);
+            enableLocationServices();
+            
+        })
+        
     }, []);
 
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
-
         SchoolData.forEach((school) => {
             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
             if (distance < minDistance) {
@@ -286,13 +293,14 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
-                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.url && (
+                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
                                 <div className='video-wrapper'>
                                     <video
                                         ref={videoRef}
-                                        src={rightColumn.video.url}
+                                        src={rightColumn.video.mediaItemUrl}
                                         autoPlay
                                         muted
+                                        playsInline
                                         loop
                                     />
                                 </div>
@@ -316,7 +324,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 </Customizations>
             </div>
             <Script async defer
-                // src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
+                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
                 onLoad={() => {
                     if (searchInputRef.current) {
                         autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);

@@ -180,7 +180,7 @@ const Timeline: React.FC<TimelineProps> = ({
                                                 <div className='content'>
                                                     <div className='col'>
                                                         <div className='image-wrapper'>
-                                                            {contentItem.image.sourceUrl && (
+                                                            {contentItem.image?.sourceUrl && (
                                                                 <img src={contentItem.image.sourceUrl} alt={contentItem.image.altText} />
                                                             )}
                                                         </div>

@@ -18,6 +18,9 @@ const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
         slug
         uri
         date
+        newsFields{
+          link
+        }
         resourceTypes {
           nodes {
             uri
@@ -169,9 +172,10 @@ export default function CategoryComponent() {
     ...resource,
     isFeatured: featuredResourceIds.includes(resource.id)
 }));
-
+  
   const renderResourceList = (resourceList, showFeaturedImage = true, additionalClassName = '', isFeatured = false) => (
-    <div className='gap d-flex flex-wrap'>
+  
+  <div className='gap d-flex flex-wrap'>
       {resourceList.map((resource, index) => (
         <ResourceCard
           key={`${resource.title}-${index}`}
@@ -180,7 +184,7 @@ export default function CategoryComponent() {
           className={`${additionalClassName}`}
           featuredResourceIds={featuredResourceIds}
           isFeatured={isFeatured}
-          customLink={`${router.asPath}/${resource.slug}`}
+          customLink={resource?.newsFields?.link ? resource?.newsFields?.link : `${router.asPath}/${resource.slug}`}
         />
       ))}
     </div>
