@@ -34,10 +34,9 @@ interface FeaturedSectionProps {
     subheadingColor?: string;
     customizations?: CustomizationsProps;
     slider: SliderItem[];
-    siteSettings: any;
 }
 
-const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider, siteSettings}) => {
+const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider}) => {
     
     const sliderSpeed = useContext(SliderSpeed);
     if (!sliderSpeed) return
