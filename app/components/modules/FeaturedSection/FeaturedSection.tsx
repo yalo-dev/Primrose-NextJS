@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -40,41 +40,19 @@ interface FeaturedSectionProps {
 const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider, siteSettings}) => {
     
     const sliderSpeed = useContext(SliderSpeed);
-    if (!sliderSpeed) {
-        return null;
-    }
+    if (!sliderSpeed) return
 
-    const [sliderSettings, setSliderSettings] = useState({
+    const sliderSettings = {
         dots: true,
         arrows: false,
         infinite: true,
         speed: 1000,
         autoplay: true,
-        autoplaySpeed: 6000,
+        autoplaySpeed: parseInt(sliderSpeed),
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true
-    });
-
-
-    console.log(sliderSpeed);
-
-    useEffect(() => {
-        if (sliderSettings) {
-            setSliderSettings((prev) => ({
-            ...prev,
-            autoplaySpeed: sliderSpeed
-            }));
-        }
-    }, [siteSettings]);
-
-    // if (sliderSettings) {
-    //     setSliderSettings((prev) => ({
-    //     ...prev,
-    //     autoplaySpeed: siteSettings.carouselRotationTiming
-    //     }));
-    // }
-
+    };
 
     return (
             <Customizations
