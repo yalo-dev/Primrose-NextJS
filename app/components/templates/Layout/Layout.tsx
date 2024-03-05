@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Header from '../../organisms/Header/Header';
 import Footer from '../../organisms/Footer/Footer';
 import ScrollToTopButton from '../../molecules/ScrollToTopButton/ScrollToTopButton';
@@ -12,6 +12,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, menuItems, footerMenuItems, siteSettings }) => {
+    
     return (
         <div id='appContainer' className='app app--container'>
             <Header menuItems={menuItems} />
