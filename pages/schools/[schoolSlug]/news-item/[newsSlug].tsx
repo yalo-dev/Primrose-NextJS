@@ -110,7 +110,7 @@ export default function SchoolNewsItem() {
   				<BackgroundColorComponent color="Green">
 					<div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
 						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
-							{newsItem.image.sourceUrl && <img src={newsItem.image.sourceUrl} alt={newsItem.imageAlt} />}
+							{newsItem?.image?.sourceUrl && <img src={newsItem.image.sourceUrl} alt={newsItem?.imageAlt} />}
 						</div>
 						<div className='content-wrapper ps-4 pe-4 position-relative'>
 							<div className='details d-flex justify-start align-items-center'>

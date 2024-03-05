@@ -180,9 +180,7 @@ export default function Locations({ markets, schools }) {
                                         <div className="accordion-body">
                                             <div className="schools">
                                         {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (
-                                            <div key={index}>
-                                            <a className="school" href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
-                                            </div>
+                                            <a className="school" key={index} href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
                                         ))}
                                             </div>
                                         <a className="link" href={market.uri}>Learn more about schools in this area</a>

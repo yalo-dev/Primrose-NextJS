@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
+import { SliderSpeed } from '../../../../pages/_app';
+
 
 interface SliderItem {
     blurb: string;
@@ -34,19 +36,23 @@ interface FeaturedSectionProps {
     slider: SliderItem[];
 }
 
-const sliderSettings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 1000,
-    autoplay: true,
-    autoplaySpeed: 6000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    fade: true
-};
+const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider}) => {
+    
+    const sliderSpeed = useContext(SliderSpeed);
+    if (!sliderSpeed) return
 
-const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider }) => {
+    const sliderSettings = {
+        dots: true,
+        arrows: false,
+        infinite: true,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: parseInt(sliderSpeed),
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true
+    };
+
     return (
             <Customizations
                 topMarginMobile={customizations?.topMarginMobile}

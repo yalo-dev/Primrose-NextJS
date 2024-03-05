@@ -98,7 +98,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                             <>
                                 <div className="image-scroller" ref={leftScrollerRef}>
                                     {images.map((imgObj, idx) => (
-                                        imgObj.image.sourceUrl && (
+                                        imgObj.image?.sourceUrl && (
                                             <Image 
                                                 key={idx} 
                                                 src={imgObj.image.sourceUrl} 
@@ -110,7 +110,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                                         )
                                     ))}
                                     {images.map((imgObj, idx) => ( // Duplicating for infinite scroll illusion
-                                        imgObj.image.sourceUrl && (
+                                        imgObj.image?.sourceUrl && (
                                             <Image 
                                                 key={`dup-${idx}`} 
                                                 src={imgObj.image.sourceUrl} 
