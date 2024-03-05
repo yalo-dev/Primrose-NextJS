@@ -86,7 +86,18 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     cta
   } = props;
   console.log(props);
-  center = {lat: center.latitude, lng: center.longitude};
+  if (center.latitude && center.longitude) {
+    center = {lat: center.latitude, lng: center.longitude};
+  } else if (schools && schools.length > 0) {
+    const totalSchools = schools.length;
+    const totalLat = schools.reduce((sum, school) => sum + school.schoolCorporateSettings.address.latitude, 0);
+    const totalLng = schools.reduce((sum, school) => sum + school.schoolCorporateSettings.address.longitude, 0);
+  
+    center = {lat: totalLat / totalSchools, lng: totalLng / totalSchools
+    };
+  } else {
+    center = map_center;
+  }
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);

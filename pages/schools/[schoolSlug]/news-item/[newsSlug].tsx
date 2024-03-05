@@ -10,7 +10,6 @@ import ResourceCard from "../../../../app/components/organisms/ResourceCard/Reso
 import Button from "../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
 import { usePathname } from 'next/navigation'
-import { Metadata } from 'next';
 
 
 interface ResourceType {
@@ -120,11 +119,7 @@ export default function SchoolNewsItem() {
 							</div>
 							{newsItem.title && <div className='title pt-2 pb-2'><Heading level='h1'>{newsItem.title}</Heading></div>}
 
-							{readingTime ? (
-								<div className='utils-wrapper pt-2 pb-4 d-flex align-items-center justify-content-between'>
-									{readingTime && <div className='read-time'><p className='b1 mb-0'>{readingTime}</p></div>}
-								</div>
-							) : null}
+							
 						</div>
 					</div>
 					</BackgroundColorComponent>
