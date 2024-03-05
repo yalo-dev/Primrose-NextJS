@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Heading from '../../atoms/Heading/Heading';
 import Customizations from '../../filters/Customizations';
 import ColorComponent from '../../filters/ColorComponent';
+import Image from 'next/image';
 
 interface QuoteTestimonialsProps {
 	customizations?: {
@@ -97,7 +98,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                     className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                                 >
 									{
-										tab.avatar?.sourceUrl && <img
+										tab.avatar?.sourceUrl && <Image
 											src={tab.avatar?.sourceUrl}
 											alt="Avatar"
 											width={65}
@@ -163,7 +164,7 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
                                 className={`tab-button ${expandedTabQT === index ? 'active' : ''}`}
                             >
 								{
-									tab.avatar?.sourceUrl && <img
+									tab.avatar?.sourceUrl && <Image
 										src={tab.avatar?.sourceUrl}
 										alt={tab.avatar?.altText || "Avatar"}
 										width={50}
