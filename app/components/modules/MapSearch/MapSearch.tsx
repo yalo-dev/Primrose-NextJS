@@ -79,7 +79,6 @@ interface SchoolsArray{
 }
 
 interface FindASchoolMapProps{
-  schools?: SchoolsArray[];
   title?: string;
   center?: Location;
   place?: any;
@@ -87,7 +86,6 @@ interface FindASchoolMapProps{
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
-    schools,
     title,
     center = map_center,
     place
@@ -133,7 +131,18 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
-  
+  const [schools, setSchools] = useState([]);
+  useEffect(() => { 
+  getSchools()
+    .then((result) =>{
+        setSchools(result);
+        console.log('schools');
+        console.log(schools);   
+        setLoading(false);
+        onPlaceSelected(place);
+    })
+  }, [place]);
+    
   const handleNewWaypoint = (newWaypoint) => {
     setWaypoints([...waypoints, newWaypoint]);
   
@@ -166,11 +175,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
     
-  useEffect(() => {
+   useEffect(() => {
     console.log('place');
     console.log(place);
     onPlaceSelected(place);
-  }, [place]);
+  }, [place, nearInputRef]); 
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -461,22 +470,33 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     };
   }, []);
 
-  const filteredSchools = schools.filter(school => {
-    const distance = calculateDistance(
-      mapCenter.lat,
-      mapCenter.lng,
-      school.coordinates?.lat,
-      school.coordinates?.lng
-    );
-    return distance <= MAX_DISTANCE;
-  });
+ 
 
-  const sortedSchools = [...filteredSchools].map((school) => {
-    const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
-    return { ...school, distance: dist };
-  }).sort((a, b) => a.distance - b.distance)
-    .map((school, index) => ({ ...school, index: index + 1 }));
+  function getSortedSchools(schools){
+    if(!schools){
+      return [];
+    }else{
+    console.log('schools');
+    console.log(schools);    
+    const filteredSchools = schools.filter(school => {
+      const distance = calculateDistance(
+        mapCenter.lat,
+        mapCenter.lng,
+        school.coordinates?.lat,
+        school.coordinates?.lng
+      );
+      return distance <= MAX_DISTANCE;
+    });
+    
+    const sortedSchools = [...filteredSchools].map((school) => {
+      const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
+      return { ...school, distance: dist };
+    }).sort((a, b) => a.distance - b.distance)
+      .map((school, index) => ({ ...school, index: index + 1 }));
 
+      return(sortedSchools);
+  }
+  };
   function onPlaceSelected(place, type = 'text') {
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
@@ -490,8 +510,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       setSearched(true);
   
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-      
-      nearInputRef.current.value = place.formatted_address;
+      console.log(nearInputRef);
+      //nearInputRef.current.value = place.formatted_address;
       
       setInputFields(prevFields =>
         prevFields.map(field => {
@@ -979,7 +999,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             className="list-scroller desktop"
           >
             <div className="nearby-schools-list">
-              {sortedSchools.map((school, index) => (
+              {getSortedSchools(schools).map((school, index) => (
                 <div key={index} className="school-list">
                   <a href={`${school.uri}`}>
 
@@ -1064,7 +1084,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               ]
             }}
           >
-            {sortedSchools.map((school, index) => (
+            {getSortedSchools(schools).map((school, index) => (
               <Marker
                 key={index}
                 position={school.coordinates}
@@ -1123,7 +1143,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           className="list-scroller mobile"
         >
           <div className="nearby-schools-list">
-            {sortedSchools.map((school, index) => (
+            {getSortedSchools(schools).map((school, index) => (
               <div key={index} className="school-list">
                 <a href={`${school.uri}`}>
 

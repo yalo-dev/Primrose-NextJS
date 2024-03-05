@@ -229,7 +229,6 @@ const SearchPage: React.FC = () => {
     const fetchSearchResults = async (searchTerm: string) => {
         console.log('fetching search results');
         setLoading(true);
-        setError('');
         let i = 0;
         let timer = setInterval(function () {
             console.log('timer');
@@ -273,11 +272,8 @@ const SearchPage: React.FC = () => {
             setError('Failed to load search results: ' + error.message);
         } finally {
             clearInterval(timer);
-            getSchools().then((results) => {
-                setSchools(results);
-                console.log(schools);
-                setLoading(false);
-            });
+            console.log('fully loaded');
+            setLoading(false);
             
         }
     };
@@ -393,9 +389,9 @@ const SearchPage: React.FC = () => {
                     
                     let fas_props = {
                         place: place,
-                        schools: schools
+                        //schools: schools
                     }
-                    console.log(schools)
+                    //console.log(schools)
                     
                     return (
                         <>
