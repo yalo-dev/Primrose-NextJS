@@ -103,10 +103,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const routeInputRef1 = useRef<HTMLInputElement>(null);
   const routeInputRef2 = useRef<HTMLInputElement>(null);
   const routeInputRef3 = useRef<HTMLInputElement>(null);
-  const [zoomLevel, setZoomLevel] = useState(9);
+  const [zoomLevel, setZoomLevel] = useState(5);
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(center);
   let geocoder;
-  const MAX_DISTANCE = 50;
+  const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
   const DEFAULT_ZOOM = 5;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
@@ -505,6 +505,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       };
       setMapCenter(newMapCenter);
       setZoomLevel(11);
+      set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);

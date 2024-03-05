@@ -177,7 +177,7 @@ const SearchPage: React.FC = () => {
         if (activeFilter === 'Stories & Resources') {
             setItemsPerPage(12);
         } else {
-            setItemsPerPage(6);
+            setItemsPerPage(10);
         }
         setCurrentPage(1);
     }, [activeFilter]);
