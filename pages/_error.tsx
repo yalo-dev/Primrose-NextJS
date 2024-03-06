@@ -1,10 +1,10 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
 import React, {useEffect} from "react";
 
-function Error({ error }) {
+function Error(props) {
     useEffect(() => {
         console.log('==================START====================')
-        console.log(error)
+        console.log(props)
         console.log('==================END====================')
     }, []);
 
