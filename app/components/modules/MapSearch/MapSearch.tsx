@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+//import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from '../../../../app/data/schoolsData';
 
@@ -80,7 +80,7 @@ interface SchoolsArray{
 
 interface FindASchoolMapProps{
   title?: string;
-  center?: Location;
+  center?: any;
   place?: any;
 }
 
@@ -94,6 +94,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
   const [mapCenter, setMapCenter] = useState(center);
+  const [route, setRoute] = useState(null);
   const [activeTab, setActiveTab] = useState(1);
   const [showMap, setShowMap] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -107,7 +108,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(center);
   let geocoder;
   const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
-  const DEFAULT_ZOOM = 5;
+  const DEFAULT_ZOOM = 11;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
   const [isAdded, setIsAdded] = useState(true);
@@ -131,6 +132,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
+
+  const defaultRouteProps = [
+    { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
+    { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
+  ];
+
+
   const [schools, setSchools] = useState([]);
   useEffect(() => { 
   getSchools()
@@ -420,6 +428,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
+        let routeBounds = directionsRendererRef.current.directions.routes[0].bounds;
+        let routeCenter = {lng: (routeBounds.Jh.hi + routeBounds.Jh.lo)/2, lat:(routeBounds.Zh.hi + routeBounds.Zh.lo)/2};
+        console.log(routeCenter);
+        setMapCenter(routeCenter);
+        setRoute(result);
+        //console.log(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
         console.log("No route could be found between the origin and destination.");
       } else {
@@ -476,15 +490,15 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     if(!schools){
       return [];
     }else{
-    console.log('schools');
-    console.log(schools);    
     const filteredSchools = schools.filter(school => {
+      
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
         school.coordinates?.lat,
         school.coordinates?.lng
       );
+      console.log('checking distance');
       return distance <= MAX_DISTANCE;
     });
     
@@ -493,7 +507,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       return { ...school, distance: dist };
     }).sort((a, b) => a.distance - b.distance)
       .map((school, index) => ({ ...school, index: index + 1 }));
-
+      console.log('sortedSchools');
       return(sortedSchools);
   }
   };
@@ -503,15 +517,23 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
-      setMapCenter(newMapCenter);
+      if(route!=null){
+        console.log(route);
+        let routeCenter = {lat:route.routes[0].bounds.getCenter().lat, lng: route.routes[0].bounds.getCenter().lng} ;
+        setMapCenter(routeCenter);
+      }else{
+        setMapCenter(newMapCenter);
+      }
+      
       setZoomLevel(11);
+      console.log(zoomLevel);
       set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
   
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-      console.log(nearInputRef);
+      //console.log(nearInputRef);
       //nearInputRef.current.value = place.formatted_address;
       
       setInputFields(prevFields =>
@@ -525,10 +547,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             
       
       if (type === 'start') {
-        console.log('New start position:', newMapCenter);
+        //console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
       } else if (type === 'destination') {
-        console.log('New destination position:', newMapCenter);
+        //console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
       } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
@@ -622,9 +644,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setShowMap(false);
     setIsAdded(false);
     setMapCenter(center);
-    setZoomLevel(DEFAULT_ZOOM);
+    setZoomLevel(5);
     setMarkers([]);
-
+    setRoute(null);
+    setInputFields(defaultRouteProps as InputField[]);
     if (tabIndex === 1) {
       window.location.hash = 'nearby';
     } else if (tabIndex === 2) {
@@ -638,8 +661,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setHoveredSchoolId(null);
 
     if (nearInputRef.current) nearInputRef.current.value = '';
-    if (routeInputRef1.current) routeInputRef1.current.value = '';
-    if (routeInputRef2.current) routeInputRef2.current.value = '';
+    routeInputRef1.current.value = '';
+    routeInputRef2.current.value = '';
 
     setWaypoints([]);
 
@@ -647,7 +670,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     if (mapRef.current) {
       mapRef.current.setCenter(center);
-      mapRef.current.setZoom(DEFAULT_ZOOM);
+      mapRef.current.setZoom(5);
     }
 
     Object.values(waypointRefs).forEach(ref => {
@@ -695,7 +718,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setWaypointRefs(newRefs); 
     updateLocationData(items);
   };
-
+  const handleMarkerClick = (schoolId) =>{
+    var scroller = document.getElementById('school-list-scroller');
+    scroller.scrollTop = document.getElementById(schoolId).offsetTop;
+    console.log(document.getElementById(schoolId).offsetTop);
+  }
+  const handleCardClick = (schoolId) =>{
+    //console.log(schoolId);
+  }
   const updateLocationData = (items) => {
     const newStart = items[0].location;
     const newDestination = items[items.length - 1].location;
@@ -808,27 +838,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
 
               <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
-                <div
-                  className={`add-more ${isAdded ? 'added' : ''}`}
-                  onClick={handleAddMoreClick}>
-                  <div className='add'>
-                    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="13.4141" cy="13.6251" r="13.3359" fill="white" />
-                      <path fillRule="evenodd" clipRule="evenodd" d="M12.5 24.0001C18.299 24.0001 23 19.2991 23 13.5001C23 7.70113 18.299 3.00012 12.5 3.00012C6.70101 3.00012 2 7.70113 2 13.5001C2 19.2991 6.70101 24.0001 12.5 24.0001ZM11.8594 9.00012H13.1451V12.857H17V14.1427H13.1451V18.0001H11.8594V14.1427H8V12.857H11.8594V9.00012Z" fill="#FF9E1B" />
-                    </svg>
-                  </div>
-                </div>
-                <DragDropContext onDragEnd={handleDragEnd}>
-                  <Droppable droppableId="routeInputs">
-                    {(provided) => (
-                      <div {...provided.droppableProps} ref={provided.innerRef} className={`input-wrapper ${isAdded ? 'added' : ''}`}>
+                
+                <div>
+                  <div >
+                      <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
 
                         <div className='first-input'>
                           <div className='start'>
                           </div>
-                          <Draggable key='start' draggableId='start' index={0}>
-                            {(provided) => (
-                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <div key='start'>
+                              <div >
                                 <Autocomplete
                                   onLoad={autocomplete => {
                                     autocomplete.setComponentRestrictions({
@@ -861,19 +880,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                 </Autocomplete>
                               </div>
-                            )}
-                          </Draggable>
+                          </div>
                           <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
                             <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                             </svg>
                           </div>
-                          <div className='drag-icon'>
-                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                            </svg>
-                          </div>
+                          
                         </div>
 
                         {waypoints.map((waypoint, index) => {
@@ -884,9 +897,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           <div key={waypoint.id} className='waypoint-input'>
                             <div className='start'>
                             </div>
-                            <Draggable key={waypoint.id} draggableId={`waypoint-${waypoint.id}`} index={index + 1}>
-                              {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                            <div key={waypoint.id}>
+                                <div>
                                   <Autocomplete
                                     onLoad={autocomplete => {
                                       autocomplete.setComponentRestrictions({ country: 'us' });
@@ -915,15 +927,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                   </Autocomplete>
                                 </div>
-                              )}
-                            </Draggable>
-
-                            <div className='drag-icon'>
-                              <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                              </svg>
                             </div>
+
+                            
                             <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
                               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
@@ -941,9 +947,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                               <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                             </svg>
                           </div>
-                          <Draggable key='destination' draggableId='destination' index={waypoints.length + 1}>
-                            {(provided) => (
-                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <div key='destination' >
+                              <div>
                                 <Autocomplete
                                   onLoad={autocomplete => {
                                     autocomplete.setComponentRestrictions({
@@ -974,34 +979,27 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                 </Autocomplete>
                               </div>
-                            )}
-                          </Draggable>
-
-                          <div className='drag-icon'>
-                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
-                            </svg>
                           </div>
+
+                          
                         </div>
 
-                        {provided.placeholder}
                       </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                  </div>
+                </div>
               </div>
 
             </div>
           </div>
 
           <div
+            id="school-list-scroller"
             style={{ opacity: (hasSearched) ? '1' : '0' }}
             className="list-scroller desktop"
           >
             <div className="nearby-schools-list">
               {getSortedSchools(schools).map((school, index) => (
-                <div key={index} className="school-list">
+                <div key={index} className="school-list" id={school.id}>
                   <a href={`${school.uri}`}>
 
                     <div
@@ -1009,6 +1007,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                       onMouseOver={() => setHoveredSchoolId(school.id)}
                       onMouseOut={() => setHoveredSchoolId(null)}
+                      onClick={handleCardClick(school.id)}
                     >
                       <div className='name h5 w-100 d-flex justify-content-between'>
                         <div className='wrap d-flex justify-content-center align-items-center'>
@@ -1095,6 +1094,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                 }}
                 onMouseOver={() => setHoveredSchoolId(school.id)}
                 onMouseOut={() => setHoveredSchoolId(null)}
+                onClick={() => handleMarkerClick(school.id)}
               />
             ))}
 
