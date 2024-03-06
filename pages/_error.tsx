@@ -1,11 +1,7 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
 import React from "react";
 
-function Error({ statusCode, res, err }) {
-    console.log("statusCode: ", statusCode)
-    console.log("res: ", res)
-    console.log("err: ", err)
-
+function Error() {
 
     return (
         <div className='container col-lg-10 offset-lg-1 pt-4'>
@@ -15,12 +11,6 @@ function Error({ statusCode, res, err }) {
             <FourPanels/>
         </div>
     )
-}
-
-
-Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-  return { statusCode, err, res }
 }
 
 export default Error
