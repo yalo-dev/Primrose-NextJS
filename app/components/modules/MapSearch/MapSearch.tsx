@@ -45,7 +45,6 @@ const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="33" height="40" viewBox="0 0 33 40" fill="none">
       <path fillRule="evenodd" clipRule="evenodd" d="M4.8307 4.84967C-1.61023 11.3164 -1.61023 21.8168 4.8307 28.2831L16.5 40L28.1693 28.2831C34.6102 21.8168 34.6102 11.3164 28.1693 4.84967C21.7292 -1.61656 11.2708 -1.61656 4.8307 4.84967Z" fill="${fillColor}"/>
-      <text x="16" y="23" font-family="Arial" font-size="14px" fill="white" text-anchor="middle">${index}</text>
     </svg>
   `;
 };
@@ -428,8 +427,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
-        let routeBounds = directionsRendererRef.current.directions.routes[0].bounds;
-        let routeCenter = {lng: (routeBounds.Jh.hi + routeBounds.Jh.lo)/2, lat:(routeBounds.Zh.hi + routeBounds.Zh.lo)/2};
+        let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
+        //console.log(routeBounds.getCenter().lat());
+        let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
         console.log(routeCenter);
         setMapCenter(routeCenter);
         setRoute(result);
@@ -1007,7 +1007,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                       onMouseOver={() => setHoveredSchoolId(school.id)}
                       onMouseOut={() => setHoveredSchoolId(null)}
-                      onClick={handleCardClick(school.id)}
                     >
                       <div className='name h5 w-100 d-flex justify-content-between'>
                         <div className='wrap d-flex justify-content-center align-items-center'>
