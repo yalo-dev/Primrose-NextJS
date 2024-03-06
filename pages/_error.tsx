@@ -1,10 +1,10 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
 import React, {useEffect} from "react";
 
-function Error(props) {
+function Error({context}) {
     useEffect(() => {
         console.log('==================START====================')
-        console.log(props)
+        console.log(context)
         console.log('==================END====================')
     }, []);
 
@@ -16,6 +16,10 @@ function Error(props) {
             <FourPanels/>
         </div>
     )
+}
+
+export async function getServerSideProps(context) {
+    return {props: {context: context}}
 }
 
 export default Error
