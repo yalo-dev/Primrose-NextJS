@@ -428,8 +428,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
-        let routeBounds = directionsRendererRef.current.directions.routes[0].bounds;
-        let routeCenter = {lng: (routeBounds.Jh.hi + routeBounds.Jh.lo)/2, lat:(routeBounds.Zh.hi + routeBounds.Zh.lo)/2};
+        let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
+        //console.log(routeBounds.getCenter().lat());
+        let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
         console.log(routeCenter);
         setMapCenter(routeCenter);
         setRoute(result);
@@ -1007,7 +1008,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                       onMouseOver={() => setHoveredSchoolId(school.id)}
                       onMouseOut={() => setHoveredSchoolId(null)}
-                      onClick={handleCardClick(school.id)}
                     >
                       <div className='name h5 w-100 d-flex justify-content-between'>
                         <div className='wrap d-flex justify-content-center align-items-center'>
