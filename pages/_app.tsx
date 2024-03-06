@@ -7,6 +7,7 @@ import Layout from '../app/components/templates/Layout/Layout';
 import { gql } from '@apollo/client';
 import Head from "next/head";
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
+import ErrorBoundary from "../app/components/molecules/ErrorBoundary";
 
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
@@ -137,23 +138,25 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	return (
-		<ApolloProvider client={client}>
-			<Head>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-			</Head>
-			<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
-				<Layout
-					menuItems={headerMenuItems}
-					footerMenuItems={footerMenuItems}
-					siteSettings={siteSettings}
-				>
-					
-					{isLoaded && (
-						<Component {...pageProps} />
-					)}
-			</Layout>
-			</SliderSpeed.Provider>
-		</ApolloProvider>
+		<ErrorBoundary>
+			<ApolloProvider client={client}>
+				<Head>
+					<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+				</Head>
+				<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
+					<Layout
+						menuItems={headerMenuItems}
+						footerMenuItems={footerMenuItems}
+						siteSettings={siteSettings}
+					>
+
+						{isLoaded && (
+							<Component {...pageProps} />
+						)}
+				</Layout>
+				</SliderSpeed.Provider>
+			</ApolloProvider>
+		</ErrorBoundary>
 	);
 }
 

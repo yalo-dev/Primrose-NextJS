@@ -1,5 +1,5 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
-import React, {useEffect} from "react";
+import React from "react";
 
 function Error() {
 
