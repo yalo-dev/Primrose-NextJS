@@ -1,7 +1,10 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
 import React from "react";
+import {useRouter} from "next/router";
 
 function Error() {
+    const router = useRouter()
+    console.log(router)
 
     return (
         <div className='container col-lg-10 offset-lg-1 pt-4'>
