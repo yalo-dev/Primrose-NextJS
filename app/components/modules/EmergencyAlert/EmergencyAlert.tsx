@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import Button from '../../atoms/Button/Button';
 import { useRouter } from 'next/router';
 
 const GET_SCHOOL_DETAILS = gql`
@@ -14,10 +13,6 @@ const GET_SCHOOL_DETAILS = gql`
         emergencyMessage {
           icon
           message
-          button {
-            url
-            title
-          }
           expirationDate
         }
       }
@@ -32,24 +27,15 @@ interface ImageComponent {
   };
 }
 
-interface ButtonComponent {
-  target: string;
-  title: string;
-  url: string;
-  buttonStyle?: 'primary' | 'secondary' | 'white';
-}
-
-
 interface wysiwygComponent {
   wysiwyg: string;
 }
 
-type Component = ImageComponent | ButtonComponent | wysiwygComponent;
+type Component = ImageComponent | wysiwygComponent;
 
 interface EmergencyMessage {
   icon?: ImageComponent;
   message?: string;
-  button?: ButtonComponent;
   expirationDate?: string;
   components: Component[];
 }
@@ -137,11 +123,6 @@ const EmergencyAlert = () => {
                         <div className="message mb-3" dangerouslySetInnerHTML={{ __html: emergencyMessage.message }} />
                       )}
                     </div>
-                    {emergencyMessage.button && (
-                      <div className="button-container">
-                        <Button variant={emergencyMessage.button.buttonStyle} label={emergencyMessage.button.title} href={emergencyMessage.button.url} target={emergencyMessage.button.target} />
-                      </div>
-                    )}
                     <button className="dismiss-button" onClick={() => handleDismiss(index)}>
                       {/* X icon SVG */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">

@@ -48,6 +48,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
         let intervalId: number;
             
         function scrollContent() {
+            console.log('scrollContent');
             if (leftScroller) {
                 leftScroller.scrollTop += 1;
                 if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
@@ -68,7 +69,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
         return () => {
             clearInterval(intervalId);
         };
-    }, [imagesLoaded, images]);
+    }, [ images]);
 
     const handleImageLoad = () => {
         setImagesLoaded(prev => prev + 1);

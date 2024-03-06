@@ -480,6 +480,7 @@ a.link {
     color: $primary-green;
     position: relative;
     font-size: 14px;
+    display:inline-block;
 
     &::after {
         position: absolute;

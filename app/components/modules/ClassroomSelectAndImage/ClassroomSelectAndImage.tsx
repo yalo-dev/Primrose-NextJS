@@ -3,6 +3,8 @@ import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
 import Customizations from '../../filters/Customizations';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
+import Image from 'next/image';
+
 
 interface OptionType {
     label: string;
@@ -99,7 +101,7 @@ const ClassroomSelectAndImage: React.FC<ClassroomSelectAndImageProps> = ({ accen
                 <div className="classroom-select-and-image">
                     {leftColumn.image?.sourceUrl && (
                         <div className="left-column col-12 col-lg-5 offset-lg-1">
-                            <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
+                            <Image src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} width={1920} height={1920} />
                         </div>
                     )}
     

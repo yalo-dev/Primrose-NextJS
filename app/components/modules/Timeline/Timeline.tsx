@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Customizations from '../../filters/Customizations';
+import ColorComponent from '../../filters/ColorComponent';
 import Heading from '../../atoms/Heading/Heading';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -58,6 +59,10 @@ const Timeline: React.FC<TimelineProps> = ({
     const containerRef = useRef(null);
     const [sliderMarginLeft, setSliderMarginLeft] = useState(0);
 
+    const handleBeforeChange = (oldIndex, newIndex) => {
+        setCurrentIndex(newIndex);
+    };
+
     useEffect(() => {
         const timer = setTimeout(() => {
             if (containerRef.current) {
@@ -111,9 +116,7 @@ const Timeline: React.FC<TimelineProps> = ({
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         infinite: false,
-        beforeChange: (current, next) => {
-            setCurrentIndex(next); 
-        },
+        beforeChange: handleBeforeChange,
         responsive: [
             {
                 breakpoint: 1023,
@@ -125,7 +128,7 @@ const Timeline: React.FC<TimelineProps> = ({
             {
                 breakpoint: 767,
                 settings: {
-                    slidesToShow: 2.25,
+                    slidesToShow: 2.1,
                     centerMode: true,
                 }
             }
@@ -136,6 +139,7 @@ const Timeline: React.FC<TimelineProps> = ({
         slidesToShow: 1,
         slidesToScroll: 1,
         asNavFor: tileSlider.current,
+        beforeChange: handleBeforeChange,
     };
 
     return (
@@ -154,7 +158,7 @@ const Timeline: React.FC<TimelineProps> = ({
                     </div>
                 </div>
                 <div className={`sticky-div pb-3`}>
-                    <div className='container'>{heading && <Heading level="h2" color={tilesTitleColor}>{tilesTitle}</Heading>}</div>
+                    <div className='container'>{tilesTitle && <Heading level="h2" color={tilesTitleColor}>{tilesTitle}</Heading>}</div>
 
                     <div className='timeline-tiles mt-3' style={{ paddingLeft: `${sliderMarginLeft}px` }}>
                         <Slider ref={tileSlider} {...tileSettings}>
@@ -162,7 +166,7 @@ const Timeline: React.FC<TimelineProps> = ({
                                 <div key={tileIndex} className="tile-container">
                                     <div key={tileIndex} className="tile">
                                         <h3>{tile.tileTitle}</h3>
-                                        <p className='b3'>{tile.tileBlurb}</p>
+                                        <p className='b3' dangerouslySetInnerHTML={{ __html: tile.tileBlurb }} />
                                     </div>
                                 </div>
                             ))}
@@ -188,7 +192,9 @@ const Timeline: React.FC<TimelineProps> = ({
                                                     <div className='col'>
                                                         <div className='text-wrapper'>
                                                             <h2 style={{ color: contentItem.titleColor }}>{contentItem.title}</h2>
-                                                            <p className='b3' style={{ color: contentItem.blurbColor }}>{contentItem.blurb}</p>
+                                                            <ColorComponent color={contentItem.blurbColor}>
+                                                                <div className='b3' dangerouslySetInnerHTML={{ __html: contentItem.blurb }} />
+                                                            </ColorComponent>                                                        
                                                         </div>
                                                     </div>
                                                 </div>

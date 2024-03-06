@@ -1,4 +1,7 @@
 .timeline {
+    div > p {
+        color: inherit;
+    }
     .heading-wrapper {
         max-width: 50rem;
         margin: 4rem auto;
@@ -13,8 +16,10 @@
     }
     .timeline-tiles {
         margin-left: 1rem;
+        margin-right: 1rem;
         @include media-breakpoint-up(xxl) {
             margin-left: 3rem;
+            margin-right: 3rem;
         }
         .tile {
             padding: 20px;
