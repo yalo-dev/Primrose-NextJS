@@ -1,7 +1,12 @@
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
-import React from "react";
+import React, {useEffect} from "react";
 
-function Error() {
+function Error({ error }) {
+    useEffect(() => {
+        console.log('==================START====================')
+        console.log(error)
+        console.log('==================END====================')
+    }, []);
 
     return (
         <div className='container col-lg-10 offset-lg-1 pt-4'>
