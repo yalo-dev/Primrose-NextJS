@@ -147,7 +147,7 @@ function MyApp({ Component, pageProps }) {
 					footerMenuItems={footerMenuItems}
 					siteSettings={siteSettings}
 				>
-					
+
 					{isLoaded && (
 						<Component {...pageProps} />
 					)}

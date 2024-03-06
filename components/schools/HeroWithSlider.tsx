@@ -98,11 +98,11 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                                 .map((classroom, index) => {
                                                     const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');
                                                     const classroomUrl = `${[schoolSlug]}/classrooms/${classroomSlug}`;
-
+                                                    const linkText = classroom === "Before After School" ? "Before & After School" : classroom
                                                     return (
                                                         <li key={`classroom-${index}`}>
                                                             <Link href={classroomUrl}>
-                                                            <span className='b3'dangerouslySetInnerHTML={{ __html: classroom }}/>
+                                                                <span className='b3'>{linkText}</span>
                                                             </Link>
                                                         </li>
                                                     );
