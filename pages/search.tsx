@@ -10,7 +10,7 @@ import Pagination from "../app/components/molecules/Pagination/Pagination";
 
 
 let geocoder: any;
-let place: any;
+let place: any = null;
 const GET_TITLE_FOR_PANELS = gql`
   query GetTitleForPanels {
     siteSettings {
@@ -104,6 +104,7 @@ const SearchPage: React.FC = () => {
         if (typeof query === 'string') {
             let place_geocode = geocodeSearchTerm(query);
             setSearchTerm(query);
+            console.log(place_geocode);
             fetchSearchResults(query);
             setSearchPerformed(true);
         } else if (router.query.query === 'string') {
@@ -126,6 +127,7 @@ const SearchPage: React.FC = () => {
                 if (status === 'OK' && results && results[0]) {
                     place = results[0];
                     console.log('is a place');
+                    console.log(place);
                     setActiveFilter('Locations');
 
                     return results[0];
@@ -373,20 +375,11 @@ const SearchPage: React.FC = () => {
         }
 
         if (searchPerformed) {
-            if (getFilteredResults().length === 0) {
-                return (
-                    <>
-                        <div className='container col-lg-10 offset-lg-1'>
-                            <h3 className='pt-5'>Sorry, no matches were found.</h3>
-                        </div>
-                        {renderTitleAndFourPanels()}
-                    </>
-                );
-            }
+            
 
             switch (activeFilter) {
                 case 'Locations':
-                    
+                    //console.log(place);
                     let fas_props = {
                         place: place,
                         //schools: schools
@@ -399,6 +392,16 @@ const SearchPage: React.FC = () => {
                         </>
                     );
                 default:
+                    if (getFilteredResults().length === 0) {
+                        return (
+                            <>
+                                <div className='container col-lg-10 offset-lg-1'>
+                                    <h3 className='pt-5'>Sorry, no matches were found.</h3>
+                                </div>
+                                {renderTitleAndFourPanels()}
+                            </>
+                        );
+                    }
                     const paginatedTopResults = getPaginatedResults();
                     console.log(paginatedTopResults);
 
