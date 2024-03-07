@@ -86,9 +86,10 @@ interface FindASchoolMapProps{
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     title,
-    center = map_center,
+    center,
     place
   } = props;
+  console.log(props);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -137,6 +138,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ];
 
+  useEffect(() =>{
+    if(center !== map_center){
+      setZoomLevel(DEFAULT_ZOOM);
+    }
+  }, [center]);
+  
 
   const [schools, setSchools] = useState([]);
   useEffect(() => { 

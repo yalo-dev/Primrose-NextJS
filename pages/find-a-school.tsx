@@ -9,6 +9,10 @@ const FindASchool = () =>{
   const {query} = router.query;
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [center, setCenter] = useState({
+    lat: 39.8283,
+    lng: -98.5795
+  });
   let geocoder = null;
   
   const {isLoaded} = useJsApiLoader({
@@ -21,6 +25,7 @@ const FindASchool = () =>{
     if (geocoder) {
       geocoder.geocode({'address': searchTerm}, (results, status) => {
           if (status === 'OK' && results && results[0]) {
+              console.log(results[0]);
               setPlace(results[0]);
               return results[0];
               setLoading(false);
@@ -30,9 +35,7 @@ const FindASchool = () =>{
               setLoading(false);
           }
       });
-  }
- 
-  
+    }
   }
   useEffect(() => {
     if (!geocoder) {
@@ -40,18 +43,32 @@ const FindASchool = () =>{
     }
     if(router.query){
       console.log('running search');
+      if(router.query.latitude && router.query.longitude){
+        setCenter({lat: Number(router.query.latitude), lng: Number(router.query.longitude)})
+      }
       geocodeSearchTerm(router.query.search_string as string).then(()=>{
+        console.log(place);
+        
         setLoading(false);
       });  
     }else{
       setLoading(false);
     }
   }, [isLoaded]);
-  let fas_props = {
-    place: place,
-    }
-    //console.log(fas_props);
+  
     if(!loading){
+      console.log(center);
+      let fas_props:any = {
+        place: place,
+        }
+        if(center){
+    
+          fas_props = {
+            center: center,
+            place:place,
+          }
+        }
+        console.log(fas_props);
       return (
         <MapSearch {...fas_props} />
       );
