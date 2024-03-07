@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 import { TextField as TextFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
+import React, { useEffect, useRef, useState } from 'react';
 
 export const TEXT_FIELD_FIELDS = gql`
   fragment TextFieldFields on TextField {
@@ -30,16 +31,30 @@ export default function TextField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
+  const fieldRef = useRef<HTMLInputElement>(null);
+
   let setDisabled = false;
 
   if(field?.databaseId === 7 || field?.databaseId === 18 || field?.databaseId === 24 || field?.databaseId === 28 || field?.databaseId === 32 || field?.databaseId === 36) {
     setDisabled = true;
   }
 
+  useEffect(()=>{
+    dispatch({
+      type: ACTION_TYPES.updateTextFieldValue,
+      fieldValue: {
+        id,
+        value: fieldRef.current.value,
+      },
+    })
+  }, [fieldRef]
+  );
+
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
       <label htmlFor={htmlId}>{label}</label>
       <input
+        ref={fieldRef}
         disabled={setDisabled} 
         type="text"
         name={String(id)}

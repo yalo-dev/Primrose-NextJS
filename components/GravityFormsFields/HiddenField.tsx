@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid'
 import {HiddenField} from "../../generated/graphql";
 import { usePathname } from "next/navigation";
 import useGravityForm, { ACTION_TYPES, FieldValue, HiddenFieldValues } from "../../hooks/useGravityForm";
+import React, { useEffect, useRef, useState } from 'react';
 
 export const HIDDEN_FIELD_FIELDS = gql`
   fragment HiddenFieldFields on HiddenField {
@@ -23,6 +24,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     const htmlId = `field_${databaseId}_${id}`;
     const { state, dispatch } = useGravityForm();
     const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as HiddenFieldValues | undefined;
+    const fieldRef = useRef<HTMLInputElement>(null);
 
     let dynamicFieldValue = ''
     if (label == "IP Address") {
@@ -40,20 +42,30 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     } else if (label == "School Name") {
         dynamicFieldValue = hiddenFields.schoolName;
     }
-
+    useEffect(()=>{
+        dispatch({
+            type: ACTION_TYPES.updateHiddenFieldValue,
+            fieldValue: {
+                id,
+                value: fieldRef.current.value,
+            },
+        });
+      }, [fieldRef]
+      );
     return (
         <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} hidden`.trim()}>
             <input
+                ref={fieldRef}
                 type="hidden"
                 name={String(label)}
                 id={`input_${id}`}
                 value={String(dynamicFieldValue)}
-                onLoad={event => {
+                onChange={event => {
                     dispatch({
                         type: ACTION_TYPES.updateHiddenFieldValue,
                         fieldValue: {
                             id,
-                            value: event,
+                            value: event.target.value,
                         },
                     });
                 }}
