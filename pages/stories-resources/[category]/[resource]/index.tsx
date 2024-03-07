@@ -271,7 +271,7 @@ export default function ResourceComponent() {
 					</Link>
 				</div>
 
-				{wrappedContent && <div className='resourece-content p-3 p-lg-0 mx-auto' dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
+				{wrappedContent && <div className='resource-content p-3 p-lg-0 mx-auto' dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
 
 				{resourceTags.nodes.length > 0 && (
 					<div className='container content-width p-3 p-lg-0'>

@@ -143,8 +143,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   getSchools()
     .then((result) =>{
         setSchools(result);
-        console.log('schools');
-        console.log(schools);   
+       //console.log('schools');
+        //console.log(schools);   
         setLoading(false);
         onPlaceSelected(place);
     })
@@ -498,7 +498,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         school.coordinates?.lat,
         school.coordinates?.lng
       );
-      console.log('checking distance');
+      //console.log('checking distance');
       return distance <= MAX_DISTANCE;
     });
     
@@ -507,7 +507,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       return { ...school, distance: dist };
     }).sort((a, b) => a.distance - b.distance)
       .map((school, index) => ({ ...school, index: index + 1 }));
-      console.log('sortedSchools');
+      //console.log('sortedSchools');
       return(sortedSchools);
   }
   };
@@ -534,7 +534,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   
       const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
       //console.log(nearInputRef);
-      //nearInputRef.current.value = place.formatted_address;
+      nearInputRef.current.value = place.formatted_address;
       
       setInputFields(prevFields =>
         prevFields.map(field => {
@@ -1087,7 +1087,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               <Marker
                 key={index}
                 position={school.coordinates}
-
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
                 }}

@@ -15,11 +15,9 @@
         z-index: 999;
     }
     .timeline-tiles {
-        margin-left: 1rem;
-        margin-right: 1rem;
         @include media-breakpoint-up(xxl) {
-            margin-left: 3rem;
-            margin-right: 3rem;
+            padding-right: 0;
+            padding-left: 1rem;
         }
         .tile {
             padding: 20px;
@@ -115,9 +113,9 @@
         left: unset;
         top: -2.5rem;
         transform: scale(-1, -1);
-        right: 5rem;
+        right: 4rem;
         @include media-breakpoint-up(xxl) {
-            right: 8rem;
+            right: 5rem;
         }
         &.disabled {
             opacity: 0.25;
@@ -129,9 +127,9 @@
     .slick-next {
         left: unset;
         top: -2.5rem;
-        right: 2rem;
+        right: 1rem;
         @include media-breakpoint-up(xxl) {
-            right: 5rem;
+            right: 2rem;
         }
         &.disabled {
             opacity: 0.25;
