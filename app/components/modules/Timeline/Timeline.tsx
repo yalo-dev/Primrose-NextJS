@@ -158,9 +158,9 @@ const Timeline: React.FC<TimelineProps> = ({
                     </div>
                 </div>
                 <div className={`sticky-div pb-3`}>
-                    <div className='container'>{tilesTitle && <Heading level="h2" color={tilesTitleColor}>{tilesTitle}</Heading>}</div>
+                <div className='container' style={{ paddingLeft: '1rem' }}>{tilesTitle && <Heading level="h2" color={tilesTitleColor}>{tilesTitle}</Heading>}</div>
 
-                    <div className='timeline-tiles mt-3' style={{ paddingLeft: `${sliderMarginLeft}px` }}>
+                    <div className='timeline-tiles mt-3 container' >
                         <Slider ref={tileSlider} {...tileSettings}>
                             {tiles.map((tile, tileIndex) => (
                                 <div key={tileIndex} className="tile-container">
