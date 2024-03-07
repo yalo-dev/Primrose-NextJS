@@ -37,12 +37,19 @@ export default function Location({ locationData }){
     const siteSettings = locationData.data.siteSettings.siteSettings
     const router = useRouter();
 
+    const heroImage = market?.marketSettings?.careersHero?.heroImage?.sourceUrl
+        ? {sourceUrl: market?.marketSettings?.careersHero?.heroImage?.sourceUrl, altText: market?.marketSettings?.careersHero?.heroImage?.altText}
+        : {sourceUrl: siteSettings?.headerImage?.sourceUrl, altText: siteSettings?.headerImage?.altText}
     const hero_props = {
-      leftColumn: {image: {sourceUrl: siteSettings?.headerImage?.sourceUrl, altText: siteSettings?.headerImage?.altText}},
+      leftColumn: {image: heroImage},
       rightColumn: {heading: market?.marketSettings?.marketCareersPageHeadline ?? "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738'},
       switchColumnOrderOnDesktop: true
     };
+
+    const fiftyFifty1Image = market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl
+      ? {sourceUrl: market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl, altText: market?.marketSettings?.careersFiftyFifty1?.image?.altText}
+      : {sourceUrl: siteSettings?.developYourCareerImage?.sourceUrl, altText: siteSettings?.developYourCareerImage?.altText}
     const fiftyFifty1_props = {
       switchColumnOrderOnDesktop: false,
       centerModule: true,
@@ -57,15 +64,8 @@ export default function Location({ locationData }){
       },
         leftColumn: {
           imageOrVideo: "Image",
-          imageDesktop: {
-           sourceUrl: market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl,
-           altText: market?.marketSettings?.careersFiftyFifty1?.image?.altText
-          },
-          imageMobile: {
-            sourceUrl: market?.marketSettings?.careersFiftyFifty1?.image?.sourceUrl,
-            altText: market?.marketSettings?.careersFiftyFifty1?.image?.altText
-           }
-
+          imageDesktop: fiftyFifty1Image,
+          imageMobile: fiftyFifty1Image
         }
       }
      
@@ -102,6 +102,10 @@ export default function Location({ locationData }){
         });
     }
     );
+
+    const benefitsImage = benefits?.image?.sourceUrl
+        ? {sourceUrl: benefits?.image?.sourceUrl, altText: benefits?.image?.altText}
+        : {sourceUrl: siteSettings?.benefitsImage?.sourceUrl, altText: siteSettings?.benefitsImage?.altText}
     const benefits_props={
         buttonStyle: 'secondary',
         button: {
@@ -111,13 +115,9 @@ export default function Location({ locationData }){
         },
         heading: benefits?.headline,
         paragraph: benefits?.paragraph,
-        image: {
-            altText: siteSettings?.benefitsImage?.altText,
-            sourceUrl: siteSettings?.benefitsImage.sourceUrl
-        },
+        image: benefitsImage,
         slider: benefitsItems
     }
-    console.log(benefits_props);
 
     const schools = market?.schools?.nodes;
 
@@ -340,6 +340,10 @@ export default function Location({ locationData }){
                     sourceUrl
                   }
                   benefitsImage {
+                    sourceUrl
+                    altText
+                  }
+                  developYourCareerImage {
                     sourceUrl
                     altText
                   }
