@@ -10,13 +10,14 @@ import ResourceCard from "../../../../app/components/organisms/ResourceCard/Reso
 import Button from "../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
 import { usePathname } from 'next/navigation'
+import Image from 'next/image';
 
 
 interface ResourceType {
 	slug: string;
 	name: string;
 }
-
+ 
 interface ResourceTagType {
 	slug: string;
 	name: string;
@@ -102,28 +103,14 @@ export default function SchoolNewsItem() {
 	let wrappedContent = newsItem.content ? wrapIframesInResponsiveDiv(newsItem.content) : '';
 
 	const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+	console.log(schoolSlug);
 	return (
 		<>
-			<div className='resource'>
-
-				<div className='hero container p-0'>
-  				<BackgroundColorComponent color="Green">
-					<div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
-						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
-							{newsItem?.image?.sourceUrl && <img src={newsItem.image.sourceUrl} alt={newsItem?.imageAlt} />}
-						</div>
-						<div className='content-wrapper ps-4 pe-4 position-relative'>
-							<div className='details d-flex justify-start align-items-center'>
-								
-								{newsItem.publishDate && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
-							</div>
-							{newsItem.title && <div className='title pt-2 pb-2'><Heading level='h1'>{newsItem.title}</Heading></div>}
-
-							
-						</div>
-					</div>
-					</BackgroundColorComponent>
+			<div className='resource school-news'>
+				<div className="container pt-5 pb-5 mb-5">
+				<a href={`/schools/${schoolSlug}`}>&larr; Back To Home</a>
 				</div>
+  				
 
 				<div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4 mt-xl-0'>
 					<Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`} target="_blank" rel="noopener noreferrer">
@@ -132,7 +119,7 @@ export default function SchoolNewsItem() {
 						</svg>
 
 					</Link>
-					<Link href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(usePathname())}&text=${encodeURIComponent(newsItem.title)}`} target="_blank" rel="noopener noreferrer">
+					<Link href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(newsItem.title)}`} target="_blank" rel="noopener noreferrer">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M10 0C4.47711 0 0 4.47711 0 10C0 15.5229 4.47711 20 10 20C15.5229 20 20 15.5229 20 10C20 4.47711 15.5229 0 10 0ZM12.4516 15.6676L9.12311 11.2171L5.00356 15.6676H3.94467L8.65 10.5844L3.97422 4.33244H7.578L10.6433 8.43111L14.4371 4.33244H15.496L11.1164 9.064L16.0553 15.6676H12.4516Z" fill="black" />
 						</svg>
@@ -148,9 +135,23 @@ export default function SchoolNewsItem() {
 					</Link>
 				</div>
 
-				{wrappedContent && <div className='resourece-content p-3 p-lg-0 mx-auto' dangerouslySetInnerHTML={{ __html: wrappedContent }} />}
+				 <div className='resource-content p-3 p-lg-0 mx-auto'>
+						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
+							{newsItem?.image?.sourceUrl && <Image width={1920} height={1920} src={newsItem.image.sourceUrl} alt={newsItem?.imageAlt} />}
+						</div>
+						
+						<div className="hero">
+							<div className="caption">{newsItem.publishDate && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
+							</div>
+							{newsItem.title && <div className='title pt-2 pb-2'><Heading level='h1'>{newsItem.title}</Heading></div>}
+					
+						</div>
+						
+						{newsItem.content && <div dangerouslySetInnerHTML={{ __html: wrappedContent }}></div>}
+					
+					
 
-				
+				</div>
 
 			</div>
 		</>
