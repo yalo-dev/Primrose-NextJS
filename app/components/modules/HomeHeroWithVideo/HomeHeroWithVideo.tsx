@@ -83,27 +83,29 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     };
 
     const enableLocationServices = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const userLoc = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    setUserLocation(userLoc);
-                    const nearest = findNearestSchool(userLoc);
-                    setNearestSchool(nearest);
-                    setLocationServicesEnabled(true);
-                },
-                (error) => {
-                    console.error("User blocked locaiton services", error);
-                    setLocationServicesEnabled(false);
-                    //setIsModalOpen(true);
-                }
-            );
-        } else {
-           // console.log("Geolocation is not supported by this browser.");
-            setLocationServicesEnabled(false);
+        if(SchoolData.length>0){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLoc = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        setUserLocation(userLoc);
+                        const nearest = findNearestSchool(userLoc);
+                        setNearestSchool(nearest);
+                        setLocationServicesEnabled(true);
+                    },
+                    (error) => {
+                        console.error("User blocked locaiton services", error);
+                        setLocationServicesEnabled(false);
+                        //setIsModalOpen(true);
+                    }
+                );
+            } else {
+            // console.log("Geolocation is not supported by this browser.");
+                setLocationServicesEnabled(false);
+            }
         }
     };
     useEffect(() => {
@@ -111,12 +113,13 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         .then((result) =>{
             setSchoolData(result);
             console.log(SchoolData);
-            enableLocationServices();
             
         })
         
     }, []);
-
+    useEffect(()=>{
+        enableLocationServices();
+    }, [SchoolData])
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
