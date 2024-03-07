@@ -124,7 +124,8 @@ export default function Header({ menuItems }) {
                     </span>
                 </div> 
                 {hasChildren && (
-                    <div className={`submenu ${isSubmenuActive ? 'show' : ''}`} style={submenuStyles || undefined}>                        <div className={`container`}>
+                    <div className={`submenu ${isSubmenuActive ? 'show' : ''}`} style={submenuStyles || undefined}>
+                        <div className={`container`}>
                             <div className={`submenu-parent-link d-none d-lg-block`}>
                                 <Link className='parent-item nav-link d-none d-lg-flex' href={item.url} passHref onClick={handleCloseAndReset}>
                                     <h3>
@@ -196,10 +197,12 @@ export default function Header({ menuItems }) {
             positionSubmenu();
         });
 
-
         const handleClickOutside = (event) => {
             if (desktopSearchBarRef.current && !desktopSearchBarRef.current.contains(event.target)) {
                 setIsDesktopSearchActive(false);
+            }
+            if (mobileSearchInputRef.current && !mobileSearchInputRef.current.contains(event.target)) {
+                setIsSearchActive(false);
             }
         };
 
@@ -219,7 +222,6 @@ export default function Header({ menuItems }) {
 
             <nav className={`navbar navbar-expand-lg fixed-top ${isDesktopSearchActive ? 'show' : ''}`}>
                 <div className='container ps-0 pe-0'>
-
                     <div className='navbar-logo-wrapper'>
                         <Link
                             href='/' passHref>
@@ -254,24 +256,19 @@ export default function Header({ menuItems }) {
                                     }
                                 </ul>
                                 <div className={`navbar-search mt-4 mt-lg-0 pb-4 pb-lg-0 order-1 order-lg-2 ${isSearchActive ? 'active' : ''}`}>
-                                    <form className='d-flex' role='search' onSubmit={handleSearchSubmit}>
+                                    <form className='d-flex flex-column flex-lg-row' role='search' onSubmit={handleSearchSubmit}>
                                         <label htmlFor='search' className='hidden'>Search</label>
-                                        <div className='search-icon d-lg-none d-flex' onClick={() => { console.log('Search icon clicked'); toggleSearch(); }}>
+                                        <div className={`search-icon d-none d-lg-flex ${isSearchActive ? 'active' : ''}`} onClick={() => { toggleSearch(); }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
                                             </svg>
-                                        </div>
-                                        <div className={`search-icon desktop  d-none d-lg-flex ${isDesktopSearchActive ? 'active' : ''}`} onClick={toggleDesktopSearch}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
-                                            </svg>
-                                        </div>
+                                        </div>                 
                                         <input
                                             className='form-control'
                                             type='search'
                                             name='search'
                                             id='search'
-                                            placeholder='Search...'
+                                            placeholder='Search'
                                             aria-label='Search'
                                             required
                                             value={inputText}
@@ -279,6 +276,11 @@ export default function Header({ menuItems }) {
                                             ref={mobileSearchInputRef} 
                                         />
                                         <button type="submit" hidden>Search</button>
+                                        <div
+                                            className={`search-inner-icon ${isSearchActive ? 'active' : ''} ${inputText ? 'hide' : ''}`}
+                                            onClick={clearInput}>
+                                            <img src="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z' fill='%235E6738'/%3E%3C/svg%3E" />
+                                        </div>
                                         <div
                                             className={`clear-icon ${inputText ? 'show' : ''}`}
                                             onClick={clearInput}>
@@ -290,58 +292,13 @@ export default function Header({ menuItems }) {
                                         </div>
                                         <div className='find-a-school-button'>
                                             <span className="find-button"><Button onClick={resetNav} label='Find A School' variant='secondary' href='/find-a-school' /></span>
-                                            <div className='location-icon'>
-                                                <a href='/find-a-school'>
-                                                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <rect width="50" height="50" rx="25" fill="white" />
-                                                        <path d="M26.977 32.7854C26.7624 33.482 25.7807 33.4941 25.5491 32.8029L23.5341 26.7889C23.2268 25.8719 22.3678 25.2538 21.4006 25.2538H15.7378C14.9656 25.2538 14.6974 24.2276 15.3708 23.8497L31.0947 15.0254C31.6853 14.694 32.3779 15.2531 32.1785 15.9002L26.977 32.7854Z" stroke="#5E6738" strokeWidth="1.5" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div ref={desktopSearchBarRef} className={`desktop-search-bar ${isDesktopSearchActive ? 'show' : ''}`}>
-                    <form role='search' onSubmit={handleSearchSubmit}>
-                        <div className="container position-relative">
-                     
-                        <div className='search-icon desktop d-none d-lg-flex' onClick={() => { 
-                            console.log('Desktop Search icon clicked'); 
-                            toggleDesktopSearch(); 
-                        }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="white" />
-                                </svg>
-                            </div>
-                            <input
-                                className='form-control'
-                                type='search'
-                                name='search'
-                                id='desktop-search'
-                                placeholder=''
-                                aria-label='Search'
-                                required
-                                value={inputText}
-                                onChange={handleInputChange}
-                                ref={desktopSearchInputRef}
-                            />
-                            <button type="submit" hidden>Search</button>
-                            <div className={`clear-icon ${inputText ? 'show' : ''}`} onClick={clearInput}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                                    <circle cx="15" cy="14.8492" r="9.75" transform="rotate(45 15 14.8492)" stroke="#E6E6E6" strokeWidth="1.5" />
-                                    <rect x="17.7266" y="11.2129" width="1.28571" height="9" transform="rotate(45 17.7266 11.2129)" fill="#E6E6E6" />
-                                    <rect x="11.3633" y="12.1218" width="1.28571" height="9" transform="rotate(-45 11.3633 12.1218)" fill="#E6E6E6" />
-                                </svg>
-                            </div>
-                        </div>
-                        
-                    </form>
-                </div>
+                </div>     
             </nav>
             {showResourcesMenu && <ResourcesMenu />}
             {showSchoolsMenu && <SchoolsMenu />}
