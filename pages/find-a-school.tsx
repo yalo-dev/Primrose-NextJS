@@ -9,10 +9,7 @@ const FindASchool = () =>{
   const {query} = router.query;
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [center, setCenter] = useState({
-    lat: 39.8283,
-    lng: -98.5795
-  });
+  const [center, setCenter] = useState(null);
   let geocoder = null;
   
   const {isLoaded} = useJsApiLoader({
@@ -61,7 +58,7 @@ const FindASchool = () =>{
       let fas_props:any = {
         place: place,
         }
-        if(center){
+        if(center !== null){
     
           fas_props = {
             center: center,

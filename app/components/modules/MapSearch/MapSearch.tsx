@@ -86,14 +86,14 @@ interface FindASchoolMapProps{
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     title,
-    center,
+    center = null,
     place
   } = props;
   console.log(props);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
-  const [mapCenter, setMapCenter] = useState(center);
+  const [mapCenter, setMapCenter] = useState(map_center);
   const [route, setRoute] = useState(null);
   const [activeTab, setActiveTab] = useState(1);
   const [showMap, setShowMap] = useState(true);
@@ -105,7 +105,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const routeInputRef2 = useRef<HTMLInputElement>(null);
   const routeInputRef3 = useRef<HTMLInputElement>(null);
   const [zoomLevel, setZoomLevel] = useState(5);
-  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(center);
+  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(map_center);
   let geocoder;
   const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
   const DEFAULT_ZOOM = 11;
@@ -139,7 +139,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   ];
 
   useEffect(() =>{
-    if(center !== map_center){
+    if(center !== null && center !== map_center){
+      console.log('setting default zoom');
       setZoomLevel(DEFAULT_ZOOM);
     }
   }, [center]);
@@ -538,10 +539,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-  
-      const formattedPlaceName = place.name ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
+      console.dir(place);
+      const formattedPlaceName = place.name && place.formatted_address ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
       //console.log(nearInputRef);
-      nearInputRef.current.value = place.formatted_address;
+      //nearInputRef.current.value = place.name;
       
       setInputFields(prevFields =>
         prevFields.map(field => {
