@@ -100,10 +100,11 @@ export default function SchoolsMenu() {
     return selectedOfferings.map(classroom => {
       if (!classroom) return
       const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
+      const linkText = classroom === "Before After School" ? "Before & After School" : classroom
       return (
         <div className='item' key={classroom}>
           <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/${classroomSlug}`}>
-            {classroom}
+            {linkText}
           </Link>
         </div>
       );
