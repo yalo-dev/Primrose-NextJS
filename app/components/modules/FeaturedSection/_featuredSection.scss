@@ -120,14 +120,10 @@
         bottom: -3.5rem;
         @include media-breakpoint-up(lg) {
             bottom: 0;
-            right: 10rem
-        }
-        @include media-breakpoint-up(xl) {
-            right: 13rem
         }
         @include media-breakpoint-up(xxl) {
-            right: 12.5rem;
-            bottom: 0rem;
+            left: 34rem;
+            bottom: 0;
         }
        
         li {
