@@ -53,7 +53,7 @@ interface HomeHeroWithVideoProps {
 const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrderOnDesktop, centerModule, leftColumn, rightColumn, customizations }) => {
 
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+    const [userLocation, setUserLocation] = useState<any | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
     const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
@@ -62,7 +62,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [searchFieldClass, setSearchFieldClass] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    let SchoolData = [];
+    const [SchoolData, setSchoolData] = useState([]);
+    const [searchAddress, setSearchAddress] = useState('');
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
@@ -95,9 +96,9 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     setLocationServicesEnabled(true);
                 },
                 (error) => {
-                    console.error("Error enabling location services:", error);
+                    console.error("User blocked locaiton services", error);
                     setLocationServicesEnabled(false);
-                    setIsModalOpen(true);
+                    //setIsModalOpen(true);
                 }
             );
         } else {
@@ -108,7 +109,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     useEffect(() => {
         getSchools()
         .then((result) =>{
-            SchoolData = result;
+            setSchoolData(result);
             console.log(SchoolData);
             enableLocationServices();
             
@@ -119,6 +120,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
+        console.log(SchoolData);
         SchoolData.forEach((school) => {
             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
             if (distance < minDistance) {
@@ -155,6 +157,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
             geocoder.geocode({ 'address': address }, (results, status) => {
                 if (status === 'OK' && results) {
                     const location = results[0].geometry.location;
+                    console.log(results[0]);
+                    setSearchAddress(results[0].formatted_address);
                     resolve({ lat: location.lat(), lng: location.lng() });
                 } else {
                     reject("Geocode was not successful for the following reason: " + status);
@@ -166,8 +170,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const handleAddressSearch = async (address) => {
         try {
             const location = await geocodeAddress(address);
+            //console.log(location);
             if (location) {
                 const nearest = findNearestSchool(location);
+                setUserLocation(location);
                 setNearestSchool(nearest);
                 setInputValue(address);
             }
@@ -181,12 +187,12 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
 
     return (
         <>
-            {isModalOpen && (
+            {/* {isModalOpen && (
                 <div className="hp-popup-modal open">
                     <button onClick={() => setIsModalOpen(false)}>X</button>
                     <div>User denied geolocation. Please allow access to your location in your browser settings to find the nearest school to your current location.</div>
                 </div>
-            )}
+            )} */}
 
             <div className="container">
                 <Customizations
@@ -282,7 +288,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                                 </a>
                                             </div>
                                         </div>
-                                        <a className='green underline pt-4 d-block' href='/find-a-school'>View all locations nearest you</a>
+                                        <a className='green underline pt-4 d-block' href={`/find-a-school?search_string=${encodeURIComponent(searchAddress)}&latitude=${userLocation.lat}&longitude=${userLocation.lng}`}>View all locations nearest you</a>
                                     </>
                                 )}
                             </div>
