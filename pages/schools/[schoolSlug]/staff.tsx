@@ -30,6 +30,7 @@ export async function getServerSideProps(context) {
           uri
           title
           schoolCorporateSettings {
+            usesCalendly
             staffMeta {
               description
               fieldGroupName
@@ -209,7 +210,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
         {/* Franchise Owners Section */}
         {franchiseOwner && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
-      <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} />
+      <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} usesCalendly={school?.schoolCorporateSettings?.usesCalendly}/>
     </div>
   );
 }

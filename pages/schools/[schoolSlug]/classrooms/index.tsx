@@ -83,6 +83,7 @@ query SchoolData($id: ID!) {
       uri
       title
       schoolCorporateSettings {
+        usesCalendly
         address {
           city
         }
@@ -551,7 +552,7 @@ export default function ClassroomPage() {
             {/*    </div>*/}
             </div>
                 )}
-            <ScheduleATourSlider images={satImages} schoolSlug={router.query.schoolSlug as string} />
+            <ScheduleATourSlider images={satImages} schoolSlug={router.query.schoolSlug as string} usesCalendly={school?.schoolCorporateSettings?.usesCalendly} />
             </div>
         </>
     );
