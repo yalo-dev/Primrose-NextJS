@@ -139,7 +139,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
             <div className="slider-container" ref={sliderRef}>
                 {gallery?.map((item, index) => (
                     <div className="slide" key={index} style={{ width: `${imageWidths[index]}px` }}>
-                        <Image 
+                        <Image
                             width={1920}
                             height={1920}
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
