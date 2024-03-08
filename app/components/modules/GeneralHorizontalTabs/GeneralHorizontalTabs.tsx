@@ -113,17 +113,31 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	
 		// Check if the clicked element is the close-icon or its child
 		const isCloseIconClicked = clickedElement.closest('.close-icon');
-	
+	  
+		const isDetailsPopupClicked = clickedElement.closest('.details-popup');
+	  
 		if (isCloseIconClicked) {
 			setActivePopupGH(null);
-		} else if (targetButton && targetButton.classList.contains('has-popup')) {
-			if (activePopupGH === uniqueId) {
-				setActivePopupGH(null);
-			} else {
+		} else if (targetButton && targetButton.classList.contains('has-popup') && activePopupGH !== uniqueId && !isDetailsPopupClicked) {
 				setActivePopupGH(uniqueId);
 			}
-		}
-	};
+	  		event.stopPropagation();
+	  };	  
+	  
+	  useEffect(() => {
+		const handleOutsideClick = (event: MouseEvent) => {
+		  const isInsidePopup = (event.target as Element).closest('.details-popup');
+		  if (!isInsidePopup) {
+			setActivePopupGH(null);
+		  }
+		};
+	  
+		document.body.addEventListener('click', handleOutsideClick);
+	  
+		return () => {
+		  document.body.removeEventListener('click', handleOutsideClick);
+		};
+	  }, [activePopupGH]);
 	
 	const handleLabelClickGH = (index: number) => {
 
