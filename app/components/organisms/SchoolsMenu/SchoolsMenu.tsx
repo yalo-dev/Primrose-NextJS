@@ -19,6 +19,9 @@ const GET_SCHOOL_DETAILS = gql`
       schoolAdminSettings {
           classroomsOffered
           extraCareOffered
+          staffMembers {
+            name
+          }
       }
     }
   }
@@ -33,7 +36,7 @@ export default function SchoolsMenu() {
 
   const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
-    skip: !schoolSlug, 
+    skip: !schoolSlug,
   });
 
   const schoolName = "Primrose School " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
@@ -110,8 +113,8 @@ export default function SchoolsMenu() {
       );
     });
   };
-  
-  const { asPath } = useRouter(); 
+
+  const { asPath } = useRouter();
 
   const isActive = (href) => {
     return asPath === href;
@@ -125,11 +128,11 @@ export default function SchoolsMenu() {
       setIsSubmenuVisible(!isSubmenuVisible);
     }
   };
-  
+
   const handleMenuItemClick = (menuItem) => {
     setActiveMenuItem(menuItem);
     setIsSubmenuVisible(menuItem === 'classrooms' ? !isSubmenuVisible : isSubmenuVisible);
-  };  
+  };
 
   const calculateSubmenuHeight = () => {
     return submenuRef.current ? submenuRef.current.scrollHeight : 0;
@@ -140,14 +143,14 @@ export default function SchoolsMenu() {
     setIsSubmenuVisible(!isSubmenuVisible);
     setSubmenuMaxHeight(isSubmenuVisible ? 0 : calculateSubmenuHeight());
   };
-  
+
   useEffect(() => {
     if (isSubmenuVisible) {
       setSubmenuMaxHeight(calculateSubmenuHeight());
     }
   }, [isSubmenuVisible]);
 
-  
+
   return (
     <>
       <div className='navbar-schools'>
@@ -223,11 +226,14 @@ export default function SchoolsMenu() {
                         </div>
                       )}
                     </ListItem>
-                    <ListItem className={`b2 ${isActive(`/schools/${slug}/staff`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('staff')}>
-                      <a className='b2' href={`/schools/${slug}/staff`}>
-                        Teachers & Staff
-                      </a>
-                    </ListItem>
+                    {data?.school?.schoolAdminSettings?.staffMembers?.length &&
+                      <ListItem className={`b2 ${isActive(`/schools/${slug}/staff`) ? 'active' : ''}`}
+                                onClick={() => handleMenuItemClick('staff')}>
+                        <a className='b2' href={`/schools/${slug}/staff`}>
+                          Teachers & Staff
+                        </a>
+                      </ListItem>
+                    }
                     <ListItem className={`b2 ${isActive(`/schools/${slug}/careers`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('careers')}>
                       <a className='b2' href={`/schools/${slug}/careers`}>
                         School Careers
