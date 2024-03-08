@@ -3,8 +3,9 @@ import { client } from '../../../app/lib/apollo';
 import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from '../../../components/ScheduleATour/ScheduleTourForm';
 import Head from "next/head";
-import React from "react";
 import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
+import React, { useEffect, useRef, useState } from 'react';
+import {useRouter} from 'next/navigation';
 
 interface Props {
     form: GfForm;
@@ -66,7 +67,7 @@ export async function getServerSideProps(context) {
     return {
         props: {
             schoolTitle: schoolData?.title,
-            schoolSlugInput: schoolData?.slug || '',
+            schoolSlug: schoolData?.slug || '',
             corporate: schoolData?.schoolCorporateSettings || {}, 
             socialLinks: {
                 facebook: schoolSettings?.facebookLink || '',
@@ -91,13 +92,28 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent }) {
+export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent }) {
 
     const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
     const metaDesc = corporate?.scheduleATourMeta?.description
     const nonCalendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and we’ll contact you about a tour."
     const calendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and select your tour date and time."
     const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
+    const router = useRouter();
+
+    console.log(router);
+
+    useEffect(()=>{
+        window.addEventListener('message', function(e){
+            if(e.data.event && e.data.event.indexOf('calendly') === 0){
+                if(e.data.event === "calendly.event_scheduled"){
+                    router.push(`/schools/${schoolSlug}/tour-thanks/`);
+                }
+            }
+        });
+    });
+
+    console.dir(hiddenFields)
     const calendlyEventURL = 'https://calendly.com/primrose-schools/' + schedulerEvent
 
     return (
