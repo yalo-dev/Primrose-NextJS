@@ -1,6 +1,8 @@
 import Slider from "react-slick";
 import Link from "next/link";
 import React from "react";
+import Image from 'next/image';
+
 
 // TODO: create types for any fields using 'any'
 interface HeroWithSliderProps {
@@ -51,7 +53,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                 <Slider {...settings}>
                                     {sliderImages.map((image, index) => (
                                         <div className='image-wrapper d-block' key={index}>
-                                            <img style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.url} alt={image.altText || `Hero Image ${index}`}/>
+                                            <Image priority width={1920} height={1920} style={{marginLeft: "50%", transform: "translateX(-50%)"}} src={image.url} alt={image.altText || `Hero Image ${index}`}/>
                                         </div>
                                     ))}
                                 </Slider>

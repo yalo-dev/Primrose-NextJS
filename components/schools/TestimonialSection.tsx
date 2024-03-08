@@ -1,5 +1,6 @@
 import QuoteTestimonials from "../../app/components/modules/QuoteTestimonials/QuoteTestimonials";
 import React from "react";
+import Image from 'next/image';
 
 interface TestimonialSectionProps {
     adminSettings: null | any;
