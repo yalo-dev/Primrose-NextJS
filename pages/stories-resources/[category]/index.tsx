@@ -118,7 +118,7 @@ export default function CategoryComponent() {
 
   const [featuredResources, setFeaturedResources] = useState<FeaturedResource[]>([]);
 
-  const featuredResourceIds = featuredResources.length > 0 ? featuredResources.map(fr => fr.id) : [];
+  const featuredResourceIds = featuredResources?.length > 0 ? featuredResources?.map(fr => fr.id) : [];
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -145,11 +145,9 @@ export default function CategoryComponent() {
         resource.resourceTypes.nodes.some(type => type.slug === slug)
       );
 
-      const featuredInCategory = data.resourcesSettings.resourceSettings.featuredResources
-        .filter(featured =>
+      const featuredInCategory = data.resourcesSettings.resourceSettings.featuredResources?.filter(featured =>
           featured.resourceTypes.nodes.some(type => type.slug === slug)
-        )
-        .slice(0, 2);
+        ).slice(0, 2);
 
       setCategoryResources(categorySpecificResources);
       setFeaturedResources(featuredInCategory);
@@ -196,7 +194,7 @@ export default function CategoryComponent() {
   return (
     <div className='container category'>
       <div className='resources-container'>
-          {featuredResources.length > 0
+          {featuredResources?.length > 0
               ? renderResourceList(featuredResources, true, 'featured', true)
               : <p>No Featured Resources</p>}
       </div>
