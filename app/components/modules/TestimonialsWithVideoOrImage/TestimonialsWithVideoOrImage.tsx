@@ -6,6 +6,7 @@ import Customizations from '../../filters/Customizations';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import ColorComponent from '../../filters/ColorComponent';
 
 interface SliderItem {
     image?: {
@@ -128,11 +129,23 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                     </div>
                                 }
                                
-                                <div className="text-wrap">
-                                    {slide.testimonial && <div style={{ color: slide.testimonialColor }} className='b4'>{slide.testimonial}</div>}
+                               <div className="text-wrap">
+                                    {slide.testimonial && (
+                                        <ColorComponent color={slide.testimonialColor}>
+                                        <div className='b4'>{slide.testimonial}</div>
+                                        </ColorComponent>
+                                    )}
                                     <div className="sign">    
-                                        {slide.title && <div style={{ color: slide.titleColor }} className='name b4'>{slide.title}</div>}
-                                        {slide.position && <div style={{ color: slide.positionColor }} className='b3'>{slide.position}</div>}
+                                        {slide.title && (
+                                        <ColorComponent color={slide.titleColor}>
+                                            <div className='name b4'>{slide.title}</div>
+                                        </ColorComponent>
+                                        )}
+                                        {slide.position && (
+                                        <ColorComponent color={slide.positionColor}>
+                                            <div className='b3'>{slide.position}</div>
+                                        </ColorComponent>
+                                        )}
                                     </div>
                                 </div>
                             </div>

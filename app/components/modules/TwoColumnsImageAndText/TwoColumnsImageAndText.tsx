@@ -21,6 +21,7 @@ interface TwoColumnsImageAndTextProps {
         heading?: string;
         subheading?: string;
         blurb?: string;
+        blurbColor?: string;
         button?: {
             target?: string;
             title?: string;
@@ -168,7 +169,12 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 <div className='right-column col-12 c col-lg-6'>
                     {rightColumn?.heading && <Heading level='h2' className="pe-0 pe-lg-5">{rightColumn.heading}</Heading>}
                     {rightColumn?.subheading && <Subheading level='h5' className="pe-0 pe-lg-5">{rightColumn.subheading}</Subheading>}
-                    {rightColumn?.blurb && <div className='blurb pe-0 pe-lg-5' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
+                    {rightColumn?.blurb && (<div className='blurb pe-0 pe-lg-5'>
+                        <ColorComponent color={rightColumn.blurbColor}>
+                        <div dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />
+                        </ColorComponent>
+                    </div>
+                    )}
                     <div className='button-container d-flex mt-3'>  
                         {rightColumn?.button?.url && rightColumn?.button?.title && (
                                 <Button

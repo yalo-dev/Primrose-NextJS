@@ -1,6 +1,9 @@
 .two-columns-image-and-text {
     display: flex;
     flex-direction: column;
+    div > p {
+        color: inherit;
+    }
 
     @include media-breakpoint-up(lg) {
         flex-direction: row;
