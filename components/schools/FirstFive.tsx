@@ -2,6 +2,7 @@ import Button from "../../app/components/atoms/Button/Button";
 import SelectDropdown from "../../app/components/molecules/SelectDropdown/SelectDropdown";
 import React from "react";
 import FranchiseOwnerBio from "../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
+import Image from 'next/image';
 
 // TODO: replace 'any' with types
 interface FirstFiveProps {
@@ -38,7 +39,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                         <div className='classrooms'>
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    <img
+                                    <Image
                                         src='/schoolsHomeDefault/classrooms%20and%20programs.jpg'
                                         alt='child in daycare classroom'
                                         width={500}
@@ -69,7 +70,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                             : <div className='staff'>
                                 <div className='two-columns-image-and-text-alternative reverse-column'>
                                   <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    {adminSettings?.meetStaffImage?.mediaItemUrl && <img
+                                    {adminSettings?.meetStaffImage?.mediaItemUrl && <Image
                                       src={adminSettings?.meetStaffImage?.mediaItemUrl}
                                       alt="staff image"
                                       width={500}

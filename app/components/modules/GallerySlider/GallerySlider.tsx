@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 let sliderIdCounter = 0;
 
@@ -138,7 +139,9 @@ const GallerySlider = ({ gallery, uniqueId }) => {
             <div className="slider-container" ref={sliderRef}>
                 {gallery?.map((item, index) => (
                     <div className="slide" key={index} style={{ width: `${imageWidths[index]}px` }}>
-                        <img
+                        <Image
+                            width={1920}
+                            height={1920}
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
                             alt={item.image?.altText ?? `gallery slider image ${index}`}
                             onLoad={(e) => {

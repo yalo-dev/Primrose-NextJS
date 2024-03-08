@@ -141,9 +141,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   useEffect(() =>{
     if(center !== null && center !== map_center){
       console.log('setting default zoom');
+      setMapCenter(center);
       setZoomLevel(DEFAULT_ZOOM);
     }
-  }, [center]);
+      
+    });
   
 
   const [schools, setSchools] = useState([]);
@@ -499,7 +501,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       return [];
     }else{
     const filteredSchools = schools.filter(school => {
-      
+      console.log("mapCenter");
+      console.log(mapCenter);
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
@@ -651,7 +654,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setSearched(false);
     setShowMap(false);
     setIsAdded(false);
-    setMapCenter(center);
+    //setMapCenter(center);
     setZoomLevel(5);
     setMarkers([]);
     setRoute(null);

@@ -1,6 +1,7 @@
 import React from 'react';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
+import Image from 'next/image';
 
 interface ImageComponent {
   image: {
@@ -112,7 +113,9 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column`}>
                 {column.imageOrVideo === 'Image' && column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
-                  <img
+                  <Image
+                    width={1080}
+                    height={1080}
                     src={column.image.columnImage.sourceUrl}
                     alt={column.image.columnImage.altText}
                     className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image-video'}

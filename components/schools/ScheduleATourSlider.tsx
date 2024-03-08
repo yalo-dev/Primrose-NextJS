@@ -2,6 +2,8 @@ import React, {useEffect, useRef} from "react";
 import Heading from "../../app/components/atoms/Heading/Heading";
 import Subheading from "../../app/components/atoms/Subheading/Subheading";
 import Button from "../../app/components/atoms/Button/Button";
+import Image from 'next/image';
+
 
 interface ScheduleATourSliderProps {
     schoolSlug: string
@@ -44,11 +46,11 @@ export default function ScheduleATourSlider({images, schoolSlug, usesCalendly }:
                 <div className='right-column col-4 col-lg-5 col-xxl-6'>
                     <div className="image-scroller first" ref={scrollRef}>
                         {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <img key={idx} src={imgObj.url}
+                            imgObj.url && <Image width={720} height={720} key={idx} src={imgObj.url}
                                                            alt={imgObj.altText || `slider image ${idx}`}/>
                         ))}
                         {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <img key={`dup-${idx}`} src={imgObj.url}
+                            imgObj.url && <Image width={720} height={720} key={`dup-${idx}`} src={imgObj.url}
                                                            alt={imgObj.altText || `slider image ${idx} (copy)`}/>
                         ))}
                     </div>
