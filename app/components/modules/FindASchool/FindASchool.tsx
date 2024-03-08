@@ -36,40 +36,22 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
     const leftScrollerRef = useRef<HTMLDivElement | null>(null);
     const rightScrollerRef = useRef<HTMLDivElement | null>(null);
     const [imagesLoaded, setImagesLoaded] = useState(0);
-
-    useEffect(() => {
-        if (imagesLoaded < (images?.length || 0) * 2) { // Considering duplicated images
-            return;
-        }
-
-        const leftScroller = leftScrollerRef.current;
-        const rightScroller = rightScrollerRef.current;
-        
-        let intervalId: number;
             
-        function scrollContent() {
-            console.log('scrollContent');
-            if (leftScroller) {
-                leftScroller.scrollTop += 1;
-                if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
-                    leftScroller.scrollTop = 0;
-                }
-            }
-
-            if (rightScroller) {
-                rightScroller.scrollTop -= 1;
-                if (rightScroller.scrollTop <= 0) {
-                    rightScroller.scrollTop = rightScroller.scrollHeight / 2;
-                }
+    const scrollContent = () => {
+        const scroller = leftScrollerRef.current;
+    
+        if (scroller) {
+            scroller.scrollTop += 1;
+            if (scroller.scrollTop >= scroller.scrollHeight / 2) {
+                scroller.scrollTop = 0;
             }
         }
+    };
     
-        intervalId = window.setInterval(scrollContent, 20);
-    
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [ images]);
+    useEffect(() => {
+        const scrollInterval = setInterval(scrollContent, 10);
+        return () => clearInterval(scrollInterval)
+    }, []);
 
     const handleImageLoad = () => {
         setImagesLoaded(prev => prev + 1);
