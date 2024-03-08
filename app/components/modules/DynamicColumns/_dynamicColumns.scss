@@ -18,7 +18,10 @@
         object-fit: cover;
         // object-position: center;
         border-radius: 12px;
+        max-width:100%;
+        height:auto;
         aspect-ratio: 16 / 9;
+        
       }
   
       .custom-style-2 {

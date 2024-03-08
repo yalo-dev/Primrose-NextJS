@@ -4,6 +4,7 @@ import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
 import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
+import Image from 'next/image';
 
 interface TwoColumnsFeaturedBlockProps {
     switchColumnOrderOnDesktop?: boolean;
@@ -54,7 +55,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsFeaturedBlockProps> = ({ leftCo
                 {(mobileImageUrl || desktopImageUrl) && (
                     <div className='left-column'>
                         {mobileImageUrl && 
-                            <img 
+                            <Image 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
                                 alt={leftColumn?.imageMobile?.altText || '' } 
@@ -63,7 +64,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsFeaturedBlockProps> = ({ leftCo
                             />
                         }
                         {desktopImageUrl && 
-                            <img 
+                            <Image 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
                                 alt={leftColumn?.imageDesktop?.altText || '' } 
@@ -76,7 +77,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsFeaturedBlockProps> = ({ leftCo
                 <div className='right-column'>
                     {iconImageUrl && 
                         <div className='icon'>
-                            <img 
+                            <Image 
                             className='mb-3' 
                             src={iconImageUrl} 
                             alt={leftColumn?.imageDesktop?.altText || '' } 
