@@ -83,7 +83,8 @@ export async function getServerSideProps(context) {
                 schoolName: schoolData?.title,
                 uri: schoolData?.uri,
                 slug: schoolData?.slug,
-                usesCalendly: schoolData?.schoolCorporateSettings.usesCalendly
+                usesCalendly: schoolData?.schoolCorporateSettings.usesCalendly,
+                hasCalendlyEvent: schoolSettings?.schedulerEventsOffered || '',
             }
         },
     };

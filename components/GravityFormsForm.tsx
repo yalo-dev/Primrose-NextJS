@@ -61,7 +61,7 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
 
     if (hiddenFields.usesCalendly) {
       let schedulerOption = state.find(({ id }) => id === 13);
-      if (schedulerOption['value'] == 'Yes') {
+      if (schedulerOption['value'] == 'Yes' && hiddenFields.hasCalendlyEvent != '') {
         document.getElementById('scheduletourform').hidden = true;
         document.getElementById('SAT-Calendly-Div').classList.remove('hidden');
       }
