@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import React, { useEffect, useRef, useState } from 'react';
 
 import { EmailField as EmailFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, EmailFieldValue } from "../../hooks/useGravityForm";
@@ -28,11 +29,25 @@ export default function EmailField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as EmailFieldValue | undefined;
   const value = fieldValue?.emailValues?.value || DEFAULT_VALUE;
+  const fieldRef = useRef<HTMLInputElement>(null);
 
+  useEffect(()=>{
+    dispatch({
+      type: ACTION_TYPES.updateEmailFieldValue,
+      fieldValue: {
+        id,
+        emailValues: {
+          value: fieldRef.current.value,
+        }
+      },
+    })
+  }, [fieldRef]
+  );
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <input
+        ref={fieldRef}
         type="email"
         name={String(id)}
         id={htmlId}

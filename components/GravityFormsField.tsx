@@ -10,10 +10,11 @@ import HiddenField from "./GravityFormsFields/HiddenField";
 
 interface Props {
   field: FormField;
-  fieldErrors: FieldError[];
+  fieldErrors?: FieldError[];
+  hiddenFields?: any
 }
 
-export default function GravityFormsField({ field, fieldErrors }: Props) {
+export default function GravityFormsField({ field, fieldErrors, hiddenFields }: Props) {
   switch (field.type) {
     case "CHECKBOX":
       return <CheckboxField field={field} fieldErrors={fieldErrors} />;
@@ -28,7 +29,7 @@ export default function GravityFormsField({ field, fieldErrors }: Props) {
     case "TEXT":
       return <TextField field={field} fieldErrors={fieldErrors} />;
     case "HIDDEN":
-      return <HiddenField field={field} />
+      return <HiddenField field={field} hiddenFields={hiddenFields} />
     default:
       return <p>{`Field type not supported: ${field.type}.`}</p>;
   }
