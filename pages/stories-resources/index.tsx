@@ -128,13 +128,13 @@ export async function getServerSideProps() {
 
 export default function ResourcesList({ resources, featuredResources, filterTerms }) {
     const router = useRouter()
-    const featuredResourceIds = featuredResources.map(fr => fr.id);
-    const displayedFeaturedResources = featuredResources.slice(0, 5);
+    const featuredResourceIds = featuredResources?.map(fr => fr.id);
+    const displayedFeaturedResources = featuredResources?.slice(0, 5);
 
     const filterResourcesByTypeAndExcludeFeatured = (typeSlug) => {
         return resources.filter(resource =>
             resource.resourceTypes.nodes.some(type => type.slug === typeSlug) &&
-            !featuredResourceIds.includes(resource.id)
+            !featuredResourceIds?.includes(resource.id)
         );
     };
     
@@ -235,7 +235,7 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
     const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource)
     .map(resource => ({
         ...resource,
-        isFeatured: featuredResourceIds.includes(resource.id)
+        isFeatured: featuredResourceIds?.includes(resource.id)
     }));
 
 

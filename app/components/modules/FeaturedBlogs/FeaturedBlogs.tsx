@@ -45,7 +45,7 @@ interface FeaturedBlogsProps {
 const FeaturedBlogs: React.FC<FeaturedBlogsProps> = ({ blogs, heading, headingColor, featuredResourceIds, customizations }) => {
 
     const rows = [];
-    for (let i = 0; i < blogs.length; i += 3) {
+    for (let i = 0; i < blogs?.length; i += 3) {
         rows.push(blogs.slice(i, i + 3));
     }
 
