@@ -3,6 +3,7 @@ import { GfForm as GravityFormsFormType, FormField, FieldError } from "../genera
 import useGravityForm from "../hooks/useGravityForm";
 import GravityFormsField from "./GravityFormsField";
 import Router from 'next/router';
+import Cookies from 'universal-cookie';
 
 const SUBMIT_FORM = gql`
   mutation submitForm($formId: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -37,6 +38,7 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   const wasSuccessfullySubmitted = haveEntryId && !haveFieldErrors;
   const formFields = form?.formFields?.nodes || [];
   const { state } = useGravityForm();
+  const cookies = new Cookies(null, {path: '/'})
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,7 +60,8 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
-
+    cookies.set('sat-state', state)
+    console.log(cookies.get('sat-state'))
     if (hiddenFields.usesCalendly) {
       let schedulerOption = state.find(({ id }) => id === 13);
       if (schedulerOption['value'] == 'Yes' && hiddenFields.hasCalendlyEvent != '') {

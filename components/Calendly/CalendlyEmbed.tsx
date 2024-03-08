@@ -21,7 +21,7 @@ const CalendlyEmbed = ({ url }) => {
         'message',
         function(e) {
             if (isCalendlyEvent(e)) {
-                console.log(e.data);
+                // console.log(e.data);
             }
         }
     );

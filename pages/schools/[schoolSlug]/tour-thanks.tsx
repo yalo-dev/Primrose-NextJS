@@ -7,6 +7,8 @@ import Subheading from '../../../app/components/atoms/Subheading/Subheading';
 import Button from '../../../app/components/atoms/Button/Button';
 import ResourceBanner from '../../../app/components/organisms/ResourceBanner/ResourceBanner';
 import NewsletterForm from '../../../app/components/molecules/NewsletterForm/NewsletterForm';
+import Cookies from 'universal-cookie';
+import {func} from "prop-types";
 
 export async function getServerSideProps(context) {
     const { schoolSlug } = context.params;
@@ -89,6 +91,38 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
     const [showModal, setShowModal] = useState(false);
     const meetOurStaff = staff;
     const franchiseOwner = school.schoolAdminSettings.franchiseOwner;
+
+    const cookies = new Cookies(null, {path: '/'});
+    const formState = cookies.get('sat-state')
+    cookies.remove('sat-state')
+    console.log(formState)
+    const satEmail = getFormStateEmail(formState, 5)
+    const satFirstName = getFormStateValues(formState, 1)
+    const satNumChildren = getFormStateValues(formState, 6)
+
+    function getFormStateValues(formState, stateId) {
+        if (formState === undefined) {
+            return ''
+        } else {
+            console.log(formState)
+            let temp = formState.find(({ id }) => id === stateId);
+            return temp['value']
+        }
+    }
+    function getFormStateEmail(formState, stateId) {
+        if (formState === undefined) {
+            return ''
+        } else {
+            console.log(formState)
+            let temp = formState.find(({ id }) => id === stateId);
+            console.log('email temp', temp)
+            console.log(temp.emailValues.value)
+            return temp.emailValues.value
+        }
+    }
+
+
+
     const handleOpenModal = () => {
         setShowModal(true);
         document.body.style.overflow = 'hidden';
@@ -118,7 +152,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                     </div>
                     <div className='two-columns-image-and-text-alternative'>
                         <div className='left-column'>
-                            <img src={imageSrc} alt='Franchise Owner' />
+                            { imageSrc && (<img src={imageSrc} alt='Franchise Owner' />)}
                         </div>
                         <div className='right-column'>
                             <h5 className='b4'>{franchiseOwner.name}</h5>
@@ -134,10 +168,10 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
     return (
         <div className='school thank-you'>
 
-            <script id="schoolpointerid">${school.schoolCorporateSettings.procarePointerId}</script>
-            <script id="firstName"></script>
-            <script id="email"></script>
-            <script id="numChildren"></script>
+            <script id="schoolpointerid">{school.schoolCorporateSettings.procarePointerId}</script>
+            <script id="firstName">{satFirstName}</script>
+            <script id="email">{satEmail}</script>
+            <script id="numChildren">{satNumChildren}</script>
             <div className='container staff'>
                  {/* Thank You Section */}
                 
@@ -240,7 +274,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                                     <Modal
                                         show={showModal}
                                         onClose={handleCloseModal}
-                                        imageSrc={franchiseOwner.image.sourceUrl}
+                                        imageSrc={franchiseOwner.image?.sourceUrl}
                                         bio={franchiseOwner.bio}
                                     />
                                 </div>
