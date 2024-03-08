@@ -4,7 +4,6 @@ import { GfForm as GravityFormsFormType, FormField, FieldError } from "../genera
 import useGravityForm from "../hooks/useGravityForm";
 import GravityFormsField from "./GravityFormsField";
 import Router from 'next/router';
-import {useForceUpdate} from "@react-spring/shared";
 
 const SUBMIT_FORM = gql`
   mutation submitForm($formId: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -64,7 +63,8 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
     if (hiddenFields.usesCalendly) {
       let schedulerOption = state.find(({ id }) => id === 13);
       if (schedulerOption['value'] == 'Yes') {
-
+        document.getElementById('scheduletourform').hidden = true;
+        document.getElementById('SAT-Calendly-Div').classList.remove('hidden');
       }
       else {
         Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
@@ -79,7 +79,7 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   console.log('form', data)
 
   return (
-    <form method="post" onSubmit={handleSubmit}>
+    <form id="scheduletourform" method="post" onSubmit={handleSubmit}>
       {formFields.map((field: FormField) => (
         <GravityFormsField
           key={field.id}
