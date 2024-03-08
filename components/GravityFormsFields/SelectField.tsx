@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 import { SelectField as SelectFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
+import React, { useEffect, useRef, useState } from 'react';
 
 export const SELECT_FIELD_FIELDS = gql`
   fragment SelectFieldFields on SelectField {
@@ -34,6 +35,8 @@ export default function SelectField({ field, fieldErrors }: Props) {
   const value = fieldValue?.value || String(defaultValue);
   const options = choices?.map(choice => ({ value: choice?.value, label: choice?.text })) || [];
   const selectedValue = fieldValue?.value || '1';
+  const fieldRef = useRef<HTMLSelectElement>(null);
+
   let setDisabled = false;
   
   if(field?.databaseId === 8 || field?.databaseId === 9 || field?.databaseId === 10 || 
@@ -45,12 +48,23 @@ export default function SelectField({ field, fieldErrors }: Props) {
     setDisabled = true;
   }
 
+  useEffect(()=>{
+    dispatch({
+      type: ACTION_TYPES.updateSelectFieldValue,
+      fieldValue: {
+        id,
+        value: fieldRef.current.value,
+      },
+    });
+  }, [fieldRef]
+  );
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
       <label htmlFor={htmlId}>{label}</label>
       <div className="custom-select">
         <select
           //disabled={setDisabled}
+          ref={fieldRef}
           name={String(id)}
           id={htmlId}
           required={Boolean(isRequired)}

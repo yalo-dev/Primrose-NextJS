@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 import { RadioField as RadioFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export const RADIO_FIELD_FIELDS = gql`
   fragment RadioFieldFields on RadioField {
@@ -33,21 +33,25 @@ export default function RadioField({ field, fieldErrors }: Props) {
   const value = fieldValue?.value || DEFAULT_VALUE;
   const submitBtn = document.querySelector<HTMLElement>('.form-wrapper button[type="submit"]');
   const form = document.querySelector<HTMLElement>('.form-wrapper form');
+  const fieldRef = useRef<HTMLInputElement>(null);
 
+  useEffect(()=>{
+    dispatch({
+      type: ACTION_TYPES.updateRadioFieldValue,
+      fieldValue: {
+        id,
+        value: fieldRef.current.value,
+      },
+    });
+  }, [fieldRef]
+  );
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      let schedulerLink = document.createElement('a');
-      schedulerLink.setAttribute('href', '/find-a-school');
-      schedulerLink.innerHTML = 'Continue to Scheduler';
-      schedulerLink.classList.add('schedular-link');
-      let schedulerLinkElement = document.querySelector('.schedular-link');
 
     if(event.target.value == 'Yes') {
-      submitBtn.style.display = 'none';
-      form.appendChild(schedulerLink);
+      submitBtn.innerText = 'Continue to Scheduler';
     } else {
-      schedulerLinkElement.remove();
-      submitBtn.style.display = 'block';
+      submitBtn.innerText = 'Submit';
     }
 
     dispatch({
@@ -69,6 +73,7 @@ export default function RadioField({ field, fieldErrors }: Props) {
           return (
             <div className="input-wrapper" key={inputValue}>
               <input
+                ref={fieldRef}
                 type="radio"
                 name={String(id)}
                 id={`choice_${databaseId}_${id}_${inputValue}`}
