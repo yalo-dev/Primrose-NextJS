@@ -73,6 +73,7 @@ export async function getServerSideProps(context) {
                 instagram: schoolSettings?.instagramLink || ''
             },
             schoolHours: 'M-F ' + schoolSettings?.hoursOfOperation.openingTime + " - " + schoolSettings?.hoursOfOperation.closingTime || '',
+            schedulerEvent: schoolSettings?.schedulerEventsOffered || '',
             hiddenFields: {
                 userAgent: context.req.headers['user-agent'],
                 ipAddress: context.req.headers['x-forwarded-for'],
@@ -89,15 +90,14 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolTitle, hiddenFields }) {
+export default function ScheduleATourPage({ corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent }) {
 
     const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
     const metaDesc = corporate?.scheduleATourMeta?.description
     const nonCalendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and we’ll contact you about a tour."
     const calendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and select your tour date and time."
     const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
-
-    console.dir(hiddenFields)
+    const calendlyEventURL = 'https://calendly.com/primrose-schools/' + schedulerEvent
 
     return (
         <div className='school schedule-a-tour'>
@@ -114,9 +114,9 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
                                 <p className="desc b3">{formDescription}</p>
                             </div>
                             <ScheduleATourForm {...hiddenFields} />
-                            {corporate.usesCalendly && (
+                            {corporate.usesCalendly && (schedulerEvent != '') && (
                                 <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
-                                    <CalendlyEmbed url={"https://calendly.com/primrose-schools/introduction-call"} />
+                                    <CalendlyEmbed url={calendlyEventURL} />
                                 </div>
                             )}
                         </div>

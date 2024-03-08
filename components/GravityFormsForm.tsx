@@ -1,5 +1,4 @@
 import { useMutation, gql } from "@apollo/client";
-import useSessionStorage from "../hooks/useSessionStorage";
 import { GfForm as GravityFormsFormType, FormField, FieldError } from "../generated/graphql";
 import useGravityForm from "../hooks/useGravityForm";
 import GravityFormsField from "./GravityFormsField";
@@ -39,7 +38,6 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   const formFields = form?.formFields?.nodes || [];
   const { state } = useGravityForm();
 
-  // this.forceUpdate()
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (loading) return;
@@ -60,6 +58,7 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
+
     if (hiddenFields.usesCalendly) {
       let schedulerOption = state.find(({ id }) => id === 13);
       if (schedulerOption['value'] == 'Yes') {
