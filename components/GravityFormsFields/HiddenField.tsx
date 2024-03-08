@@ -41,6 +41,8 @@ export default function HiddenField({ field, hiddenFields }: Props) {
         dynamicFieldValue = hiddenFields.schoolID;
     } else if (label == "School Name") {
         dynamicFieldValue = hiddenFields.schoolName;
+    } else if (label == "Uses Calendly") {
+        dynamicFieldValue = hiddenFields.usesCalendly;
     }
     useEffect(()=>{
         dispatch({
@@ -51,7 +53,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
             },
         });
       }, [fieldRef]
-      );
+    );
     return (
         <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} hidden`.trim()}>
             <input

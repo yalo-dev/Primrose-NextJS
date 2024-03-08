@@ -42,6 +42,7 @@ export async function getServerSideProps(context) {
             }
           }
           schoolCorporateSettings {
+            procarePointerId
             careerplugSchoolId
             address {
               city
@@ -77,7 +78,7 @@ export async function getServerSideProps(context) {
                 facebook: school.schoolAdminSettings.facebookLink,
                 instagram: school.schoolAdminSettings.instagramLink
             },
-            imageSAT
+            imageSAT,
         },
     };
 
@@ -132,6 +133,11 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
 
     return (
         <div className='school thank-you'>
+
+            <script id="schoolpointerid">${school.schoolCorporateSettings.procarePointerId}</script>
+            <script id="firstName"></script>
+            <script id="email"></script>
+            <script id="numChildren"></script>
             <div className='container staff'>
                  {/* Thank You Section */}
                 

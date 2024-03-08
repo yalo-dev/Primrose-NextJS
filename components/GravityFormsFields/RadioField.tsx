@@ -47,18 +47,11 @@ export default function RadioField({ field, fieldErrors }: Props) {
   );
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      let schedulerLink = document.createElement('a');
-      schedulerLink.setAttribute('href', '/find-a-school');
-      schedulerLink.innerHTML = 'Continue to Scheduler';
-      schedulerLink.classList.add('schedular-link');
-      let schedulerLinkElement = document.querySelector('.schedular-link');
 
     if(event.target.value == 'Yes') {
-      submitBtn.style.display = 'none';
-      form.appendChild(schedulerLink);
+      submitBtn.innerText = 'Continue to Scheduler';
     } else {
-      schedulerLinkElement.remove();
-      submitBtn.style.display = 'block';
+      submitBtn.innerText = 'Submit';
     }
 
     dispatch({

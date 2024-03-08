@@ -61,7 +61,17 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
-    Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
+    if (hiddenFields.usesCalendly) {
+      let schedulerOption = state.find(({ id }) => id === 13);
+      if (schedulerOption['value'] == 'Yes') {
+
+      }
+      else {
+        Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
+      }
+    } else {
+      Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
+    }
   }
 
   console.log('error ', data?.submitGfForm?.errors);

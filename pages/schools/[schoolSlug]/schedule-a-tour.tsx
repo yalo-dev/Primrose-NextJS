@@ -4,6 +4,7 @@ import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from '../../../components/ScheduleATour/ScheduleTourForm';
 import Head from "next/head";
 import React from "react";
+import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
 
 interface Props {
     form: GfForm;
@@ -80,7 +81,8 @@ export async function getServerSideProps(context) {
                 schoolID: schoolData?.databaseId,
                 schoolName: schoolData?.title,
                 uri: schoolData?.uri,
-                slug: schoolData?.slug
+                slug: schoolData?.slug,
+                usesCalendly: schoolData?.schoolCorporateSettings.usesCalendly
             }
         },
     };
@@ -112,6 +114,11 @@ export default function ScheduleATourPage({ corporate, socialLinks, schoolHours,
                                 <p className="desc b3">{formDescription}</p>
                             </div>
                             <ScheduleATourForm {...hiddenFields} />
+                            {corporate.usesCalendly && (
+                                <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
+                                    <CalendlyEmbed url={"https://calendly.com/primrose-schools/introduction-call"} />
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">
