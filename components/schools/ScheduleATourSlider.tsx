@@ -8,13 +8,15 @@ import Image from 'next/image';
 interface ScheduleATourSliderProps {
     schoolSlug: string
     images: Array<{url: string, altText: string}> | null | undefined
+    usesCalendly: boolean
 }
-export default function ScheduleATourSlider({images, schoolSlug }: ScheduleATourSliderProps) {
+export default function ScheduleATourSlider({images, schoolSlug, usesCalendly }: ScheduleATourSliderProps) {
     // if null value passed, and defaultImageFallback is set to false, don't return anything
     if (!images) return
 
     const scheduleATourImages = images?.length ? images : null;
     const scrollRef = useRef<HTMLDivElement>(null);
+    const buttonText = usesCalendly ? "Schedule A Tour" : "Contact Us"
 
     const scrollContent = () => {
         const scroller = scrollRef.current;
@@ -38,7 +40,7 @@ export default function ScheduleATourSlider({images, schoolSlug }: ScheduleATour
                     <Heading level='h2'>Our family would love to meet yours.</Heading>
                     <Subheading level='div' className='b3'>Contact us to schedule a tour.</Subheading>
                     <Button variant="secondary" href={"/schools/" + schoolSlug + "/schedule-a-tour"}>
-                        Schedule A Tour
+                        {buttonText}
                     </Button>
                 </div>
                 <div className='right-column col-4 col-lg-5 col-xxl-6'>

@@ -34,6 +34,7 @@ export async function getServerSideProps(context) {
           uri
           title
           schoolCorporateSettings {
+              usesCalendly
               homepageMeta {
                 description
                 fieldGroupName
@@ -219,7 +220,7 @@ export default function SchoolMainPage({school, schoolSlug}) {
             <SchoolNewsSlider adminSettings={adminSettings} isClient={isClient} />
             <TestimonialSection adminSettings={adminSettings} />
             {adminSettings?.gallery?.length && <GallerySlider gallery={adminSettings.gallery} uniqueId="gallerySlider"/>}
-            <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages}/>
+            <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} usesCalendly={corporateSettings?.usesCalendly}/>
         </div>
     );
 }

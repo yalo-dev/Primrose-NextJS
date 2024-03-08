@@ -1,4 +1,7 @@
 .general-horizontal-tabs {
+    div > p {
+        color: inherit;
+    }
    button.clickable {
         color:$text-gray;
     }

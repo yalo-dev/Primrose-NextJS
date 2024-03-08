@@ -87,6 +87,7 @@ const GET_CLASSROOM_TYPE = gql`
           uri
           title
           schoolCorporateSettings {
+            usesCalendly
             address {
               city
             }
@@ -814,7 +815,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
       </div>
       {testimonialSection()}
       {galleryData?.length > 0 && <GallerySlider gallery={galleryData} uniqueId={'gallerySlider'}/>}
-      <ScheduleATourSlider images={satImages} schoolSlug={schoolSlug}/>
+      <ScheduleATourSlider images={satImages} schoolSlug={schoolSlug} usesCalendly={school?.schoolCorporateSettings?.usesCalendly}/>
     </div>
   );
 

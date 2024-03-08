@@ -138,25 +138,23 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	return (
-		<ErrorBoundary>
-			<ApolloProvider client={client}>
-				<Head>
-					<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-				</Head>
-				<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
-					<Layout
-						menuItems={headerMenuItems}
-						footerMenuItems={footerMenuItems}
-						siteSettings={siteSettings}
-					>
+		<ApolloProvider client={client}>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+			</Head>
+			<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
+				<Layout
+					menuItems={headerMenuItems}
+					footerMenuItems={footerMenuItems}
+					siteSettings={siteSettings}
+				>
 
-						{isLoaded && (
-							<Component {...pageProps} />
-						)}
-					</Layout>
-				</SliderSpeed.Provider>
-			</ApolloProvider>
-		</ErrorBoundary>
+					{isLoaded && (
+						<Component {...pageProps} />
+					)}
+				</Layout>
+			</SliderSpeed.Provider>
+		</ApolloProvider>
 	);
 }
 
