@@ -220,7 +220,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
                             <div className='heading-wrapper d-none d-lg-block pt-5'>
-                                {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
+                                {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}><div dangerouslySetInnerHTML={{ __html: leftColumn.heading }} /></Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
                             <div className={`find-a-location-hero ${searchFieldClass} ${locationServicesEnabled ? '' : 'location-disabled'}`}>
