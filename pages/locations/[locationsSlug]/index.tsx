@@ -70,33 +70,6 @@ export default function Location({ locationData }){
       }
     }
 
-    const ff2 = market?.marketSettings?.fiftyFifty2
-    const ff2Checks = ff2 && (ff2.title || ff2.paragraph || ff2.url || ff2.target || ff2.image)
-    const fiftyFifty2_props =  !ff2Checks ? null : {
-      customizations: {topMarginDesktop: 'None', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
-      switchColumnOrderOnDesktop: true,
-      centerModule: true,
-      rightColumn: {
-        heading: ff2.title,
-        blurb: ff2.paragraph,
-        button: {
-          title: ff2.title,
-          url: ff2.url,
-          target: ff2.target
-        }
-      },
-      leftColumn: {
-        imageOrVideo: "Image",
-        imageDesktop: {
-         sourceUrl: ff2.image?.sourceUrl,
-         altText: ff2.image?.altText
-        },
-        imageMobile: {
-          sourceUrl: ff2.image?.sourceUrl,
-          altText: ff2.image?.altText
-         }
-      }
-    }
     const testimonials = [];
     market.marketSettings.testimonials?.map((testimonial, index) => {
         testimonials.push({
@@ -214,20 +187,6 @@ export default function Location({ locationData }){
                   }
                   heroParagraph
                   fiftyFifty1 {
-                    title
-                    paragraph
-                    image {
-                      altText
-                      mediaItemUrl
-                      sourceUrl
-                    }
-                    cta {
-                      target
-                      title
-                      url
-                    }
-                  }
-                  fiftyFifty2 {
                     title
                     paragraph
                     image {
