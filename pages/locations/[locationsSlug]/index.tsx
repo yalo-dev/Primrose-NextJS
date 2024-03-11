@@ -8,7 +8,8 @@ import GeneralButtonCTA from '../../../app/components/modules/GeneralButtonCTA/G
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
 import FindASchoolMap from '../../../app/components/modules/MapSearch/MapSearch';
 import GeneralVerticalTabs from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
-import Image from 'next/image';
+import camelize from "camelize"
+
 
 const GET_LOCATIONS = gql`
 query GetLocations {
@@ -128,6 +129,21 @@ export default function Location({ locationData }){
         longitude: market?.marketSettings?.marketCenter?.longitude
       }
     }
+    const ageGroupTabs = Object.values(market?.marketSettings?.ageGroups?.classrooms).filter((item) => typeof item === 'object')
+    const tabs = ageGroupTabs.map((item: any) => {
+      const defaultImg = siteSettings.marketClassroomsImageDefaults[camelize(item.title.toLowerCase())]
+      const tabImg = item.backgroundImage?.sourceUrl
+        ? {sourceUrl: item.backgroundImage?.sourceUrl, altText: item.backgroundImage?.altText}
+        : {sourceUrl: defaultImg?.sourceUrl, altText: defaultImg?.altText}
+      return {
+        label: item.title,
+        content: {
+          heading: item.title,
+          blurb: item.description,
+          image: tabImg
+        }
+      }
+    })
 
     return(
         <>
@@ -135,7 +151,8 @@ export default function Location({ locationData }){
             <HeroWithImage {...hero_props} />
             {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
             {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
-            {market?.marketSettings?.horizontalTabs.tabs && <GeneralVerticalTabs {...market?.marketSettings?.horizontalTabs} />}
+            {/* @ts-ignore */}
+            {market?.marketSettings?.ageGroups && <GeneralVerticalTabs tabs={tabs} />}
             <GeneralButtonCTA {...cta_props} />
             {gallery_props && <GallerySlider {...gallery_props} />}
             <FindASchoolMap {...map_props} />
@@ -159,6 +176,28 @@ export default function Location({ locationData }){
                 educationalChildcareImage {
                   altText
                   sourceUrl
+                }
+                marketClassroomsImageDefaults {
+                  infant {
+                    altText
+                    sourceUrl
+                  }
+                  kindergarten {
+                    altText
+                    sourceUrl
+                  }
+                  preKindergarten {
+                    altText
+                    sourceUrl
+                  }
+                  preschool {
+                    altText
+                    sourceUrl
+                  }
+                  toddler {
+                    altText
+                    sourceUrl
+                  }
                 }
               }
             }
@@ -245,42 +284,52 @@ export default function Location({ locationData }){
                     latitude
                     longitude
                   }
-                  horizontalTabs {
-                    heading
-                    headingColor
-                    subheading
-                    subheadingColor
-                    tabs {
-                      tabLabel
-                      tabLabelColor
-                      content {
-                        blurb
-                        blurbColor
-                        button {
-                          target
-                          title
-                          url
-                        }
-                        buttonStyle
-                        eyebrow
-                        eyebrowColor
-                        fullWidthOrFeatured
-                        image {
-                          altText
-                          sourceUrl
-                        }
-                        heading
-                        headingColor
-                        list {
-                          text
-                          textColor
-                        }
-                        table {
-                          label
+                  ageGroups {
+                      heading
+                      subheading
+                      classrooms {
+                        infant {
                           description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
+                        }
+                        kindergarten {
+                          description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
+                        }
+                        preKindergarten {
+                          description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
+                        }
+                        preschool {
+                          description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
+                        }
+                        toddler {
+                          description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
                         }
                       }
-                    }
+                    
                   }
                 }
             }
