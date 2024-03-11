@@ -133,7 +133,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                                 </svg>
                                             </span>
                                         <span
-                                            className='b3'>{corporateSettings?.address?.streetAddress} {corporateSettings?.address?.streetAddress2}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
+                                            className='b3'>{corporateSettings?.address?.streetAddress}{corporateSettings?.address?.streetAddress2 && `, ${corporateSettings.address.streetAddress2}`}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
                                     </div>
                                 </div>
                                 {corporateSettings?.accreditations && (

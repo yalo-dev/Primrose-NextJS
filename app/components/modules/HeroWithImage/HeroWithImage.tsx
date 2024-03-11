@@ -66,7 +66,8 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                         {rightColumn.eyebrow && <Subheading level='div' className='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Subheading>}
                         {rightColumn.heading && <Heading level='h1' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
-                        {rightColumn?.blurb && (<div className='b2' style={{ color: rightColumn.blurbColor }} dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />)}                        {rightColumn.button?.url && rightColumn.button.title && (
+                        {rightColumn?.blurb && (<Paragraph className='b2' color={rightColumn.blurbColor}>{parse(rightColumn.blurb)}</Paragraph>)}
+                        {rightColumn.button?.url && rightColumn.button.title && (
 							<Button variant={rightColumn.buttonStyle || 'primary'} href={rightColumn.button.url} target={rightColumn.button.target || '_self'}
                                 dangerouslySetInnerHTML={{ __html: rightColumn.button.title }}
                             />   

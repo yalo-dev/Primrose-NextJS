@@ -182,10 +182,12 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
                       <h5 className='mb-0'>{member.name}</h5>
                       <div className='b3'>{member.title}</div>
                     </div>
+                    {member.bio && (
                     <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>
                       <span></span>
                       <span></span>
                     </div>
+                    )}
                   </div>
                   <div className='col-12'>
                     <div

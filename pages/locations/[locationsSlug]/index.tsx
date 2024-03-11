@@ -130,7 +130,7 @@ export default function Location({ locationData }){
       }
     }
     const ageGroupTabs = Object.values(market?.marketSettings?.ageGroups?.classrooms).filter((item) => typeof item === 'object')
-    const test = ageGroupTabs.map((item: any) => {
+    const tabs = ageGroupTabs.map((item: any) => {
       const defaultImg = siteSettings.marketClassroomsImageDefaults[camelize(item.title.toLowerCase())]
       const tabImg = item.backgroundImage?.sourceUrl
         ? {sourceUrl: item.backgroundImage?.sourceUrl, altText: item.backgroundImage?.altText}
@@ -152,7 +152,7 @@ export default function Location({ locationData }){
             {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
             {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
             {/* @ts-ignore */}
-            {market?.marketSettings?.ageGroups && <GeneralVerticalTabs tabs={test} />}
+            {market?.marketSettings?.ageGroups && <GeneralVerticalTabs tabs={tabs} />}
             <GeneralButtonCTA {...cta_props} />
             {gallery_props && <GallerySlider {...gallery_props} />}
             <FindASchoolMap {...map_props} />
@@ -164,6 +164,7 @@ export default function Location({ locationData }){
 //export async function getStaticProps({params={slug:""}, preview=false} = {}) {
   export async function getServerSideProps({params={locationsSlug:""}, preview=false} = {}) {
     const slug  = params.locationsSlug;
+    console.log(params); 
     const GET_LOCATION = gql`
         query GetLocationData {
             siteSettings {
