@@ -1,9 +1,10 @@
-import React from 'react';
+ import React from 'react';
 import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
+import Image from 'next/image';
 
 interface OptionType {
     label: string;
@@ -119,7 +120,7 @@ const ClassroomSelectAndContent: React.FC<ClassroomSelectAndContentProps> = ({ a
                         )}
                     </div>
                     {leftColumn.image?.sourceUrl && (
-                        <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
+                        <Image width={1920} height={1920} src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
                     )}
                 </div>
                 <div className="right-column col-12 col-lg-5" style={{ backgroundColor: colorMap[customizations?.backgroundColorRight || ""] }}>

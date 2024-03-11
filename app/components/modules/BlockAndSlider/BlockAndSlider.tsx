@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import Image from 'next/image';
 
 
 const BlockAndSlider = ({ blurb, heading, image, customizations, slider }) => {
@@ -32,7 +33,7 @@ const BlockAndSlider = ({ blurb, heading, image, customizations, slider }) => {
                     <p className='white b3' dangerouslySetInnerHTML={{ __html: blurb }} />
                 </div>
                 <div className='col'>
-                    {image && <img className='featured-img' src={image.sourceUrl} alt={image.altText} />}
+                    {image && <Image width={1080} height={1080} className='featured-img' src={image.sourceUrl} alt={image.altText} />}
                 </div>
             </div>
 
@@ -41,7 +42,7 @@ const BlockAndSlider = ({ blurb, heading, image, customizations, slider }) => {
                 <Slider {...sliderSettings}>
                     {slider.map((slide, index) => (
                         <div className='slide' key={index}>
-                            <img className='icon' src={slide.icon.sourceUrl} alt={slide.icon.altText} />
+                            <Image width={500} height={500} className='icon' src={slide.icon.sourceUrl} alt={slide.icon.altText} />
                             <h5 className='white'>{slide.title}</h5>
                             <p className='white b2'>{slide.blurb}</p>
                         </div>

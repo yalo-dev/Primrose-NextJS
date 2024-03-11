@@ -1,5 +1,4 @@
 import { useQuery, gql } from "@apollo/client";
-import Image from "next/legacy/image";
 import { useRouter } from 'next/router';
 import GeneralHorizontalTabs from "../../../../app/components/modules/GeneralHorizontalTabs/GeneralHorizontalTabs";
 import Heading from "../../../../app/components/atoms/Heading/Heading";
@@ -9,6 +8,7 @@ import Button from "../../../../app/components/atoms/Button/Button";
 import { useEffect, useRef, useState } from "react";
 import ScheduleATourSlider from "../../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
+import Image from 'next/image';
 
 const slugify = require('slugify');
 
@@ -476,7 +476,7 @@ export default function ClassroomPage() {
                                     {/* Mobile: Content rendered right below the label */}
                                     <div className="d-lg-none">
                                         <div className={`tab-content ${activeTab === slugify(tab.label) ? 'active' : ''}`} style={{ opacity: activeTab === slugify(tab.label) ? '1' : '0' }}>
-                                            <img src={tab.content.image} />
+                                            <Image width={1080} height={1080} alt="tab image" src={tab.content.image} />
                                             <div className='content-wrapper'>
                                                 <Heading level='h3'>{tab.content.heading}</Heading>
                                                 <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>
@@ -492,7 +492,7 @@ export default function ClassroomPage() {
                                 
                                     <div id={slugify(tab.label)} className="tab-content d-flex">
 
-                                        <img src={tab.content.image?.sourceUrl} />
+                                        <Image width={1080} height={1080} alt={tab.content.image?.altText} src={tab.content.image?.sourceUrl} />
                                         <div className='content-wrapper'>
                                             <Heading level='h3'>{tab.content.heading}</Heading>
                                             <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>

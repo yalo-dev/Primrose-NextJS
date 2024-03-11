@@ -13,6 +13,7 @@ import TwoColumnsImageAndText from '../../../../../app/components/modules/TwoCol
 import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
 import GallerySlider from "../../../../../app/components/modules/GallerySlider/GallerySlider";
+import Image from 'next/image';
 
 var camelize = require('camelize');
 
@@ -676,7 +677,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
                 <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                   <div className='row align-items-center'>
                     <div className='col-4'>
-                      {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={'/assets/staff-default-thumbnail.jpg'} alt="Primrose Staff Member Photo" className="img-fluid" />}
+                      {member.image ? <Image width={1920} height={1920} src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <Image width={1920} height={1920} src={'/assets/staff-default-thumbnail.jpg'} alt="Primrose Staff Member Photo" className="img-fluid" />}
                     </div>
                     <div className='col-7 '>
                       <div className='text-wrap pe-5'>

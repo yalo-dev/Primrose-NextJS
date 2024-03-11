@@ -7,6 +7,7 @@ import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
 import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
+import Image from 'next/image';
 
 interface StaffMember {
   altText?: string;
@@ -175,7 +176,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
-                    {member.image ? <img src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
+                    {member.image ? <Image fill src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>

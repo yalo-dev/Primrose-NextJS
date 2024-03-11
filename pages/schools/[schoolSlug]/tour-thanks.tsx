@@ -9,6 +9,7 @@ import ResourceBanner from '../../../app/components/organisms/ResourceBanner/Res
 import NewsletterForm from '../../../app/components/molecules/NewsletterForm/NewsletterForm';
 import Cookies from 'universal-cookie';
 import {func} from "prop-types";
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
     const { schoolSlug } = context.params;
@@ -152,7 +153,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                     </div>
                     <div className='two-columns-image-and-text-alternative'>
                         <div className='left-column'>
-                            { imageSrc && (<img src={imageSrc} alt='Franchise Owner' />)}
+                            { imageSrc && (<Image width={1920} height={1920} src={imageSrc} alt='Franchise Owner' />)}
                         </div>
                         <div className='right-column'>
                             <h5 className='b4'>{franchiseOwner.name}</h5>
@@ -181,14 +182,14 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     {
                                         imageSAT
-                                            ? <img
+                                            ? <Image
                                             src={imageSAT.mediaItemUrl}
                                             alt={imageSAT.altText}
                                             className='img-fluid'
                                             width="500"
                                             height="500"
                                             />
-                                            : <img
+                                            : <Image
                                             src='/assets/baby.png'
                                             alt='feature image'
                                             className='img-fluid'
@@ -257,7 +258,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                             <div className='two-columns-image-and-text-alternative reverse-column'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     {franchiseOwner.image && (
-                                        <img
+                                        <Image
                                             src={franchiseOwner.image.sourceUrl}
                                             alt={'Franchise Owner ' + franchiseOwner.name || 'feature image'}
                                             className='img-fluid'
@@ -289,7 +290,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     {meetOurStaff && (
-                                        <img
+                                        <Image
                                             src={meetOurStaff.sourceUrl}
                                             alt={meetOurStaff.altText || 'Staff Image'}
                                             className='img-fluid'

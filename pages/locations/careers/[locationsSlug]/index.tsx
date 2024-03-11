@@ -225,20 +225,7 @@ export default function Location({ locationData }){
                       url
                     }
                   }
-                  fiftyFifty2 {
-                    title
-                    paragraph
-                    image {
-                      altText
-                      mediaItemUrl
-                      sourceUrl
-                    }
-                    cta {
-                      target
-                      title
-                      url
-                    }
-                  }
+                
                   gallery {
                     caption
                     image {
