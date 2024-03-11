@@ -229,7 +229,7 @@ p {
     font-style: normal;
     font-weight: 400;
     line-height: normal; 
-    color: $text-gray;
+    // color: $text-gray;
     @include media-breakpoint-up(lg) {
         font-size: 1rem;
         line-height: normal;
