@@ -112,8 +112,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         getSchools()
         .then((result) =>{
             setSchoolData(result);
-            console.log(SchoolData);
-            
         })
         
     }, []);
@@ -184,6 +182,20 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
             console.error('Error in handleAddressSearch:', error);
         }
     };
+
+    useEffect(()=>{
+        console.log('use effect for autocomplete');
+        if (searchInputRef.current) {
+            autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
+            autocompleteRef.current.addListener("place_changed", () => {
+                const place = autocompleteRef.current?.getPlace();
+                if (place && place.geometry) {
+                    const fullAddress = `${place.formatted_address}`;
+                    handleAddressSearch(fullAddress);
+                }
+            });
+        }
+    }, [window.google, searchInputRef.current]);
 
     //console.log('searchinput: ', searchInputRef.current)
     //console.log('autocomplete: ', autocompleteRef.current)
@@ -332,7 +344,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     </div>
                 </Customizations>
             </div>
-            <Script async defer
+            {/* <Script async defer
                 src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
                 onLoad={() => {
                     if (searchInputRef.current) {
@@ -346,7 +358,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                         });
                     }
                 }}
-            />
+            /> */}
         </>
     );
 }

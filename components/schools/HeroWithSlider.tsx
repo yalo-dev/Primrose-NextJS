@@ -1,8 +1,8 @@
 import Slider from "react-slick";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import Image from 'next/image';
-
+import { SliderSpeed } from '../../pages/_app';
 
 // TODO: create types for any fields using 'any'
 interface HeroWithSliderProps {
@@ -26,12 +26,17 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
         ] // format homepageHeroImage object and combine the urls into one array with default image urls
         : defaultImages // or just keep default images
 
+    const sliderSpeed = useContext(SliderSpeed);
+    if (!sliderSpeed) return
+
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: parseInt(sliderSpeed),
     };
 
     return (
