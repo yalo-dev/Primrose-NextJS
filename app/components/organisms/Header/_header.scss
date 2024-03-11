@@ -396,7 +396,7 @@
             background-color: $white;
             border-radius: 50%;
             width: 87px;
-            height: 50px;
+            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -405,6 +405,9 @@
             opacity: 1;
             transition: all 0.3s ease;
             display: flex;
+            @include media-breakpoint-up(sm) {
+                height: 50px;
+            }
             &:hover {
                 background-color: $primary-darkgray;
                 svg {
@@ -469,8 +472,11 @@
             z-index: 1;
             position: absolute;
             top: 13px;
-            left: 45%;
+            left: 39%;
             transition: all 0.3s ease;
+            @include media-breakpoint-up(sm) {
+                width: 45%;
+            }
             @include media-breakpoint-up(md) {
                 left: 50%;
             }
@@ -497,9 +503,12 @@
         }
         .clear-icon {
             top: 13px;
-            left: 45%;
+            left: 39%;
             z-index: 1;
             transition: all 0.3s ease;
+            @include media-breakpoint-up(sm) {
+                width: 45%;
+            }
             @include media-breakpoint-up(md) {
                 left: 50%;
             }
@@ -527,12 +536,15 @@
             }
         }
         .find-a-school-button {
-            width: 58%;
+            width: 73%;
             position: relative;
             transition: all 0.3s ease;
             right: 0;
             z-index: 1;
             display: flex;
+            @include media-breakpoint-up(sm) {
+                width: 58%;
+            }
             @include media-breakpoint-up(lg) {
                 width: auto;
             }
