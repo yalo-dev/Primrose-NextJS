@@ -8,6 +8,7 @@ import GeneralButtonCTA from '../../../app/components/modules/GeneralButtonCTA/G
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
 import FindASchoolMap from '../../../app/components/modules/FindASchoolModule/FindASchoolModule';
 import GeneralVerticalTabs from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
+import Image from 'next/image';
 
 const GET_LOCATIONS = gql`
 query GetLocations {

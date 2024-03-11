@@ -90,7 +90,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     center = null,
     place
   } = props;
-  console.log(props);
+  //console.log(props);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -141,7 +141,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   useEffect(() =>{
     if(center !== null && center !== map_center){
-      console.log('setting default zoom');
+      //console.log('setting default zoom');
       setMapCenter(center);
       setZoomLevel(DEFAULT_ZOOM);
     }
@@ -179,7 +179,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   
     setInputFields(prevFields => [...prevFields, newWaypointField]);
   
-    console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
+    //console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
   };
   
   const [locationData, setLocationData] = useState<LocationData>({
@@ -189,13 +189,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   });
 
   useEffect(() => {
-    console.log("Updated refs", waypointRefs);
-    console.log("Update count", updateCount);
+    //console.log("Updated refs", waypointRefs);
+    //console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
     
    useEffect(() => {
-    console.log('place');
-    console.log(place);
+    //console.log('place');
+    //console.log(place);
     onPlaceSelected(place);
   }, [place, nearInputRef]); 
 
@@ -369,13 +369,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   
   const renderRoute = () => {
-    console.log("inputFields in renderRoute():", inputFields);
+    //console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
     const waypointFields = inputFields.filter(f => f.type === 'waypoint');
     const destinationField = inputFields.find(f => f.type === 'destination');
   
     if (!window.google || !window.google.maps) {
-      console.log("Google Maps API not loaded yet.");
+      //console.log("Google Maps API not loaded yet.");
       return;
     }
 
@@ -441,14 +441,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
         //console.log(routeBounds.getCenter().lat());
         let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
-        console.log(routeCenter);
+        //console.log(routeCenter);
         setMapCenter(routeCenter);
         setRoute(result);
         //console.log(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
         console.log("No route could be found between the origin and destination.");
       } else {
-        console.log("Directions request failed due to " + status);
+        //console.log("Directions request failed due to " + status);
       }
     });
   };
@@ -459,7 +459,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lat: selectedPlace.geometry.location.lat(),
         lng: selectedPlace.geometry.location.lng(),
       };
-  
       const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
   
       setInputFields(prevFields =>
@@ -514,8 +513,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       return [];
     }else{
     const filteredSchools = schools.filter(school => {
-      console.log("mapCenter");
-      console.log(mapCenter);
+      //console.log("mapCenter");
+      //console.log(mapCenter);
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
@@ -745,7 +744,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const handleMarkerClick = (schoolId) =>{
     var scroller = document.getElementById('school-list-scroller');
     scroller.scrollTop = document.getElementById(schoolId).offsetTop;
-    console.log(document.getElementById(schoolId).offsetTop);
+    //console.log(document.getElementById(schoolId).offsetTop);
+    if(window.innerWidth < 991){
+      window.scroll(0, document.getElementById("mobile_"+schoolId).offsetTop);
+      console.log(document.getElementById(schoolId))
+    }
   }
   const handleCardClick = (schoolId) =>{
     //console.log(schoolId);
@@ -1167,11 +1170,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         >
           <div className="nearby-schools-list">
             {getSortedSchools(schools).map((school, index) => (
-              <div key={index} className="school-list">
+              <div key={index} className="school-list" id={`mobile_${school.id}`}>
                 <a href={`${school.uri}`}>
 
                   <div
                     key={index}
+                    
                     className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
                     onMouseOver={() => setHoveredSchoolId(school.id)}
                     onMouseOut={() => setHoveredSchoolId(null)}
