@@ -278,13 +278,6 @@ export default function Location({ locationData }){
                     headingColor
                     subheading
                     subheadingColor
-                    customizations {
-                      backgroundColor
-                      bottomMarginDesktop
-                      bottomMarginMobile
-                      topMarginDesktop
-                      topMarginMobile
-                    }
                     tabs {
                       tabLabel
                       tabLabelColor
