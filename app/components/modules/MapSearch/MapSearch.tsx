@@ -82,15 +82,17 @@ interface FindASchoolMapProps{
   title?: string;
   center?: any;
   place?: any;
+  cta?:any;
 }
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
     title,
-    center = null,
-    place
+    center,
+    place,
+    cta
   } = props;
-  //console.log(props);
+  console.log(props);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -141,12 +143,15 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   useEffect(() =>{
     if(center !== null && center !== map_center){
-      //console.log('setting default zoom');
+      if(center.latitude){
+        center.lat = center.latitude;
+        center.lng = center.longitude;
+      }
       setMapCenter(center);
       setZoomLevel(DEFAULT_ZOOM);
     }
       
-    });
+    },[mapCenter]);
   
 
   const [schools, setSchools] = useState([]);
@@ -160,7 +165,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         onPlaceSelected(place);
     })
   }, [place]);
-    
+  useEffect(()=>{
+    if(cta == null){
+      cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
+    }
+  }, [cta]);
+
+
   const handleNewWaypoint = (newWaypoint) => {
     setWaypoints([...waypoints, newWaypoint]);
   
@@ -673,8 +684,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setInputFields(defaultRouteProps as InputField[]);
     if (tabIndex === 1) {
       window.location.hash = 'nearby';
+      document.body.classList.remove('alongroute');
     } else if (tabIndex === 2) {
       window.location.hash = 'alongroute';
+      document.body.classList.add('alongroute');
     }
 
     if (directionsRendererRef.current) {
@@ -710,9 +723,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const hash = window.location.hash;
     if (hash === '#nearby') {
       setActiveTab(1);
+      document.body.classList.remove('alongroute');
       // Additional setup for Tab 1
     } else if (hash === '#alongroute') {
       setActiveTab(2);
+      document.body.classList.add('alongroute');
       // Additional setup for Tab 2
     }
   }, []);
@@ -1060,7 +1075,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           mapCenter.lng,
                           school.coordinates.lat,
                           school.coordinates.lng
-                        ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
+                        ).toFixed(2)}&nbsp;mi &nbsp;·&nbsp;</span>
                         <span className='address'>{school.address}</span>
                       </div>
                       <div className='hours'>{school.hours}</div>
@@ -1068,9 +1083,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       <div className='button-wrap d-flex'>
                           <Button
                             className="button primary"
-                            href={"/schools/" + school.slug + "/schedule-a-tour"}
+                            href={"/schools/" + school.slug + "/" + cta.href}
                           >
-                            Schedule a Tour
+                            {cta.title}
                           </Button>
                           <a href={`tel:${school.phone}`} className='phone ms-2'>
                             <svg className="me-2" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">

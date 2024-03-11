@@ -6,7 +6,7 @@ import TwoColumnsImageAndText from '../../../app/components/modules/TwoColumnsIm
 import QuoteTestimonials from '../../../app/components/modules/QuoteTestimonials/QuoteTestimonials';
 import GeneralButtonCTA from '../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA';
 import GallerySlider from '../../../app/components/modules/GallerySlider/GallerySlider';
-import FindASchoolMap from '../../../app/components/modules/FindASchoolModule/FindASchoolModule';
+import FindASchoolMap from '../../../app/components/modules/MapSearch/MapSearch';
 import GeneralVerticalTabs from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
 import Image from 'next/image';
 
