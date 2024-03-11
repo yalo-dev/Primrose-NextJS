@@ -31,12 +31,15 @@ export async function getAllLocations(){
 }
 
 export default function Location({ locationData }){
-  console.log(locationData);
+    const siteSettings = locationData?.data?.siteSettings?.siteSettings
     const market = locationData.data.market;
     const router = useRouter();
 
+    const headerImage = market?.marketSettings?.heroImage?.sourceUrl
+      ? {sourceUrl: market?.marketSettings?.heroImage?.sourceUrl, altText: market?.marketSettings?.heroImage?.altText,}
+      : {sourceUrl: siteSettings?.enrollmentHeaderImage?.sourceUrl, altText: siteSettings?.enrollmentHeaderImage?.altText,}
     const hero_props = {
-      leftColumn: {image: {sourceUrl: market?.marketSettings?.heroImage?.sourceUrl, altText: market?.marketSettings?.heroImage?.altText,}},
+      leftColumn: {image: headerImage},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
       customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchColumnOrderOnDesktop: true
@@ -44,6 +47,9 @@ export default function Location({ locationData }){
 
     const ff1 = market?.marketSettings?.fiftyFifty1
     const ff1Checks = ff1 && (ff1.title || ff1.paragraph || ff1.url || ff1.target || ff1.image)
+    const ff1Image = ff1.image?.sourceUrl
+      ? { sourceUrl: ff1.image?.sourceUrl, altText: ff1.image?.altText }
+      : { sourceUrl: siteSettings?.educationalChildcareImage?.sourceUrl, altText: siteSettings?.educationalChildcareImage.altText }
     const fiftyFifty1_props = !ff1Checks ? null : {
       customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchColumnOrderOnDesktop: false,
@@ -59,14 +65,8 @@ export default function Location({ locationData }){
       },
       leftColumn: {
         imageOrVideo: "Image",
-        imageDesktop: {
-         sourceUrl: ff1.image?.sourceUrl,
-         altText: ff1.image?.altText
-        },
-        imageMobile: {
-          sourceUrl: ff1.image?.sourceUrl,
-          altText: ff1.image?.altText
-        }
+        imageDesktop: ff1Image,
+        imageMobile: ff1Image
       }
     }
 
@@ -149,6 +149,18 @@ export default function Location({ locationData }){
     console.log(params); 
     const GET_LOCATION = gql`
         query GetLocationData {
+            siteSettings {
+              siteSettings {
+                enrollmentHeaderImage {
+                  altText
+                  sourceUrl
+                }
+                educationalChildcareImage {
+                  altText
+                  sourceUrl
+                }
+              }
+            }
             market(id: "${'locations/' + slug}", idType: URI) {
                 name
                 schools (first:100000, where: {orderby: {field: TITLE, order: ASC}}) {
