@@ -33,7 +33,7 @@ export default function FranchiseOwnerBio({franchiseOwner}) {
                     </div>
                     <div className='right-column col-12 col-lg-5'>
                         <h2>{!franchiseOwner.multipleOwners ? 'Franchise Owner' : 'Franchise Owners'}</h2>
-                        <h5>{franchiseOwner.name}</h5>
+                        <h5 dangerouslySetInnerHTML={{__html: franchiseOwner.name}} />
                         <div className="bio" dangerouslySetInnerHTML={{__html: franchiseOwner.bio}}/>
                         <Button onClick={handleOpenModal}>Read More</Button>
                         <FranchiseOwnerModal
