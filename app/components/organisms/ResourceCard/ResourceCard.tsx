@@ -35,10 +35,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
         tags = [{ name: 'Featured', slug: 'featured' }, ...tags];
     }
 
-
     return (
         <div className={`card ${className ? className : ''}`}>
-            <Link href={customLink ?? `${resource.uri}`}>
+            <Link href={customLink ?? `${resource.slug}`}>
                 <div className='inner' onClick={(e) => {
                     if (e.defaultPrevented) {
                         e.stopPropagation();
@@ -70,6 +69,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
                         <div className='tags-wrapper mt-3 mb-3'>
                             <div className='tags d-flex flex-wrap'>
                                 {sortTags(tags).slice(0, 5).map((tag, index) => (
+                                    // exclude tags with value of 'startribune' from the tags list
+                                    tag.slug !== 'startribune' && 
                                     <div key={index}>
                                         <Tag
                                             label={tag.name}

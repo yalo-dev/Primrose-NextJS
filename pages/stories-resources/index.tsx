@@ -208,7 +208,8 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
 
                     const categoryFirstNode = resource?.resourceTypes?.nodes[0]
                     const category = categoryFirstNode?.slug
-                    const link = resource?.newsFields?.link != "" ? resource?.newsFields?.link : (router.asPath + "/" + category + "/" + resource.slug); 
+                    const link = resource?.newsFields?.link != null ? resource?.newsFields?.link : router.asPath + "/" + category + "/" + resource.slug;
+                    
                     return (
                         <ResourceCard
                             key={resource.id}
