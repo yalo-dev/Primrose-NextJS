@@ -279,7 +279,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         <div className='b2 pb-2'>{nearestSchool.distance} mi · {nearestSchool.address}</div>
                                         <p className='hours'>{nearestSchool.hours}</p>
                                         <div className='phone-wrapper'>
-                                            <div className='b2'><Button className='primary me-2' href={`/school/${nearestSchool.slug}/schedule-a-tour`}>Schedule a Tour</Button>
+                                            <div className='b2'><Button className='primary me-2' href={`/schools/${nearestSchool.slug}/schedule-a-tour`}>Schedule a Tour</Button>
                                                 <a href={`tel:${nearestSchool.phone}`} className='phone'>
                                                     <span className='me-2'>
                                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">

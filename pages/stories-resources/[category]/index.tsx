@@ -172,7 +172,7 @@ export default function CategoryComponent() {
 }));
   
   const renderResourceList = (resourceList, showFeaturedImage = true, additionalClassName = '', isFeatured = false) => (
-  
+    
   <div className='gap d-flex flex-wrap'>
       {resourceList.map((resource, index) => (
         <ResourceCard

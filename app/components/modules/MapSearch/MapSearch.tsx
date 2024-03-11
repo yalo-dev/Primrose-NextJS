@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from 
 //import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from '../../../../app/data/schoolsData';
+import { DocumentNode } from 'graphql';
 
 const containerStyle = {
   width: '100%',
@@ -494,7 +495,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     };
   }, []);
 
- 
+ useEffect(()=>{
+  window.onresize = setMapScrollerHeight;
+  setMapScrollerHeight();
+  function setMapScrollerHeight(){
+    var scroller = document.getElementById('school-list-scroller');
+    scroller.style.transition = 'none';
+    var map = document.getElementById('map');
+    var scrollerParent = scroller.offsetParent as HTMLElement;
+    scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
+  } ;
+ }, [window])
 
   function getSortedSchools(schools){
     if(!schools){
