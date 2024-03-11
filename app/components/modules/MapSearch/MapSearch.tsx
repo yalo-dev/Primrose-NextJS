@@ -500,10 +500,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   setMapScrollerHeight();
   function setMapScrollerHeight(){
     var scroller = document.getElementById('school-list-scroller');
-    scroller.style.transition = 'none';
-    var map = document.getElementById('map');
-    var scrollerParent = scroller.offsetParent as HTMLElement;
-    scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
+    if(scroller && scroller.offsetHeight){
+      scroller.style.transition = 'none';
+      var map = document.getElementById('map');
+      var scrollerParent = scroller.offsetParent as HTMLElement;
+      scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
+    }
   } ;
  }, [window])
 
