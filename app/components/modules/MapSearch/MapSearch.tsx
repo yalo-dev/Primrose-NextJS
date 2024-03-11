@@ -165,11 +165,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         onPlaceSelected(place);
     })
   }, [place]);
-  useEffect(()=>{
     if(cta == null){
       cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
     }
-  }, [cta]);
+ 
 
 
   const handleNewWaypoint = (newWaypoint) => {

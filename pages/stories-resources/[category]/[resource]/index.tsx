@@ -8,6 +8,7 @@ import NewsletterForm from "../../../../app/components/molecules/NewsletterForm/
 import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
 import Button from "../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
+import Image from 'next/image';
 
 
 interface ResourceType {
@@ -222,7 +223,7 @@ export default function ResourceComponent() {
   				<BackgroundColorComponent color={backgroundColor}>
 					<div className='inner d-lg-flex align-items-lg-center justify-content-lg-center'>
 						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
-							{featuredImage?.node?.sourceUrl && <img src={featuredImage.node.sourceUrl} alt={featuredImage.node.altText} />}
+							{featuredImage?.node?.sourceUrl && <Image width={1080} height={1080} src={featuredImage.node.sourceUrl} alt={featuredImage.node.altText} />}
 						</div>
 						<div className='content-wrapper ps-4 pe-4 position-relative'>
 							<div className='details d-flex justify-start align-items-center'>
@@ -331,7 +332,7 @@ export default function ResourceComponent() {
 							<div className='row'>
 								<div className='col-12 col-lg-6 top'>
 									<div className='accents'></div>
-									<img
+									<Image
 										src="/assets/stock-seasonal-baby.png"
 										alt="seasonal baby picture"
 										width={250}
