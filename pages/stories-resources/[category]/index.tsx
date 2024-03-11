@@ -156,6 +156,7 @@ export default function CategoryComponent() {
           resource.resourceTags.nodes.some(type => type.slug === slug)
         );
         setCategoryResources(categorySpecificResources);
+        isTagPage = true;
       } else {
         const categorySpecificResources = data.resources.nodes.filter(resource =>
           resource.resourceTypes.nodes.some(type => type.slug === slug)
