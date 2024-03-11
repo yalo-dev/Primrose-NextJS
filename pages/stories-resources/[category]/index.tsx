@@ -7,6 +7,7 @@ import {ResourceFilter} from "../../../app/components/filters/ResourceFilter";
 import Heading from "../../../app/components/atoms/Heading/Heading";
 import Button from '../../../app/components/atoms/Button/Button';
 import Pagination from "../../../app/components/molecules/Pagination/Pagination";
+import { bool } from 'sharp';
 
 const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
   query GetResourcesAndFilterTerms {
@@ -116,6 +117,8 @@ export default function CategoryComponent() {
 
   const [categoryResources, setCategoryResources] = useState([]);
 
+  const [tagResources, setTagResources] = useState([]);
+
   const [featuredResources, setFeaturedResources] = useState<FeaturedResource[]>([]);
 
   const featuredResourceIds = featuredResources?.length > 0 ? featuredResources?.map(fr => fr.id) : [];
@@ -139,22 +142,37 @@ export default function CategoryComponent() {
     return slugToTitleMap[slug] || toProperCase(slug);
   };
 
+  let isTagPage = false;
+
   useEffect(() => {
     if (data && slug) {
-      const categorySpecificResources = data.resources.nodes.filter(resource =>
-        resource.resourceTypes.nodes.some(type => type.slug === slug)
-      );
+      //if the resource tag is the same as the page slug, then it is a tag page
+      const resourceTag = data.resourceTags.nodes.find(tag => tag.slug === slug);
+      let tagCheck = resourceTag?.slug === slug;
+      if (tagCheck) isTagPage = tagCheck;
+
+      if(isTagPage) {
+        const categorySpecificResources = data.resources.nodes.filter(resource =>
+          resource.resourceTags.nodes.some(type => type.slug === slug)
+        );
+        setCategoryResources(categorySpecificResources);
+      } else {
+        const categorySpecificResources = data.resources.nodes.filter(resource =>
+          resource.resourceTypes.nodes.some(type => type.slug === slug)
+        );
+        setCategoryResources(categorySpecificResources);
+      }
 
       const featuredInCategory = data.resourcesSettings.resourceSettings.featuredResources?.filter(featured =>
           featured.resourceTypes.nodes.some(type => type.slug === slug)
         ).slice(0, 2);
 
-      setCategoryResources(categorySpecificResources);
       setFeaturedResources(featuredInCategory);
     }
   }, [data, slug]);
-
+  
   const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, data);
+  
 
   useEffect(() => {
     setCurrentPage(1);
@@ -196,7 +214,7 @@ export default function CategoryComponent() {
       <div className='resources-container'>
           {featuredResources?.length > 0
               ? renderResourceList(featuredResources, true, 'featured', true)
-              : <p>No Featured Resources</p>}
+              : ''}
       </div>
       <ResourceBanner slug={slug} />
       <div id='all' className='resources-container'>
