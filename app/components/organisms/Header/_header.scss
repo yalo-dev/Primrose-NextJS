@@ -472,10 +472,10 @@
             z-index: 1;
             position: absolute;
             top: 13px;
-            left: 39%;
+            left: 37%;
             transition: all 0.3s ease;
             @include media-breakpoint-up(sm) {
-                width: 45%;
+                left: 45%;
             }
             @include media-breakpoint-up(md) {
                 left: 50%;
@@ -503,11 +503,11 @@
         }
         .clear-icon {
             top: 13px;
-            left: 39%;
+            left: 37%;
             z-index: 1;
             transition: all 0.3s ease;
             @include media-breakpoint-up(sm) {
-                width: 45%;
+                left: 45%;
             }
             @include media-breakpoint-up(md) {
                 left: 50%;
@@ -551,6 +551,7 @@
             .find-button {
                 margin-right: 0;
                 transition: all 0.3s ease;
+                white-space: nowrap;
                 @include media-breakpoint-up(lg) {
                     .secondary {
                         background-color: $primary-green;
