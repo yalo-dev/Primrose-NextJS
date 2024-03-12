@@ -9,6 +9,7 @@ import GallerySlider from '../../../../app/components/modules/GallerySlider/Gall
 import FindASchoolMap from '../../../../app/components/modules/MapSearch/MapSearch';
 import OpenPositions from '../../../../app/components/modules/OpenPositions/OpenPositions';
 import LargeCardSlider from '../../../../app/components/modules/LargeCardSlider/LargeCardSlider';
+import Image from 'next/image';
 
 const GET_LOCATIONS = gql`
 query GetLocations {

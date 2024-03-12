@@ -57,7 +57,7 @@ const svgIconEnd = `
 `;
 
 const svgIconStart = `
-<svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="12" height="12" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="8.5" cy="9.34973" r="7.75" fill="none" stroke="#5E6738" stroke-width="1.5"/>
 </svg>
 
@@ -92,7 +92,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     place,
     cta
   } = props;
-  console.log(props);
+  //console.log(props);
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -536,7 +536,26 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     });
     
     const sortedSchools = [...filteredSchools].map((school) => {
-      const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
+      let dist = null;
+      if(activeTab === 2 && route!= null){
+        console.log(school);
+        let start = route.routes[0].legs[0].start_location;
+        let end = route.routes[0].legs[0].end_location;
+        let mid = route.routes[0].overview_path[Math.floor(route.routes[0].overview_path.length/2)];
+        console.log(route);
+        let startDist = calculateDistance(start.lat(), start.lng(), school.coordinates.lat, school.coordinates.lng);
+        //console.log(startDist);
+        let endDist = calculateDistance(end.lat(), end.lng(), school.coordinates.lat, school.coordinates.lng);
+        //console.log(endDist)
+        let midDist = calculateDistance(mid.lat(), mid.lng(), school.coordinates.lat, school.coordinates.lng);
+        //console.log(midDist);
+        dist = Math.min(startDist, endDist, midDist);
+        //console.log(dist);
+        //dist = midDist;
+      }else{
+        dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
+      }
+      
       return { ...school, distance: dist };
     }).sort((a, b) => a.distance - b.distance)
       .map((school, index) => ({ ...school, index: index + 1 }));
@@ -551,7 +570,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lng: place.geometry.location.lng(),
       };
       if(route!=null){
-        console.log(route);
+        //console.log(route);
         let routeCenter = {lat:route.routes[0].bounds.getCenter().lat, lng: route.routes[0].bounds.getCenter().lng} ;
         setMapCenter(routeCenter);
       }else{
@@ -559,12 +578,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
       
       setZoomLevel(11);
-      console.log(zoomLevel);
+      //console.log(zoomLevel);
       set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-      console.dir(place);
+      //console.dir(place);
       const formattedPlaceName = place.name && place.formatted_address ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
       //console.log(nearInputRef);
       //nearInputRef.current.value = place.name;
@@ -1142,7 +1161,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     position={start}
                     icon={{
                         url: svgMarkerIconStart,
-                        scaledSize: new google.maps.Size(20, 20),
+                        scaledSize: new google.maps.Size(16, 16),
                     }}
                 />
             )}
@@ -1155,7 +1174,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                   position={waypoint.location} 
                   icon={{
                     url: svgMarkerIconStart,
-                    scaledSize: new google.maps.Size(20, 20),
+                    scaledSize: new google.maps.Size(16, 16),
                   }}
                 />
             ))}
