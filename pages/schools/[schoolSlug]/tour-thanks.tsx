@@ -88,7 +88,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, imageSAT }) {
-    console.log('image: ', imageSAT)
+    // console.log('image: ', imageSAT)
     const [showModal, setShowModal] = useState(false);
     const meetOurStaff = staff;
     const franchiseOwner = school.schoolAdminSettings.franchiseOwner;
@@ -96,7 +96,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
     const cookies = new Cookies(null, {path: '/'});
     const formState = cookies.get('sat-state')
     cookies.remove('sat-state')
-    console.log(formState)
+    // console.log(formState)
     const satEmail = getFormStateEmail(formState, 5)
     const satFirstName = getFormStateValues(formState, 1)
     const satNumChildren = getFormStateValues(formState, 6)
@@ -105,7 +105,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
         if (formState === undefined) {
             return ''
         } else {
-            console.log(formState)
+            // console.log(formState)
             let temp = formState.find(({ id }) => id === stateId);
             return temp['value']
         }
@@ -116,8 +116,8 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
         } else {
             console.log(formState)
             let temp = formState.find(({ id }) => id === stateId);
-            console.log('email temp', temp)
-            console.log(temp.emailValues.value)
+            // console.log('email temp', temp)
+            // console.log(temp.emailValues.value)
             return temp.emailValues.value
         }
     }

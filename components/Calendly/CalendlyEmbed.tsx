@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
-import Script from "next/script";
+import React, { useState, useEffect } from "react";
 
 const CalendlyEmbed = ({ url }) => {
+
+    const [dynamicURL, setDynamicURL] = useState(url)
+
     useEffect(() => {
         const head = document.querySelector("head");
         const script = document.createElement("script");
@@ -10,26 +12,19 @@ const CalendlyEmbed = ({ url }) => {
             "https://assets.calendly.com/assets/external/widget.js"
         );
         head.appendChild(script);
-    }, []);
-
-    function isCalendlyEvent(e) {
-        return e.data.event &&
-            e.data.event.indexOf('calendly') === 0;
-    };
-
-    window.addEventListener(
-        'message',
-        function(e) {
-            if (isCalendlyEvent(e)) {
-                // console.log(e.data);
-            }
+        const calendlyIframe = document.querySelector('.calendly-inline-widget iframe');
+        if (calendlyIframe != null) {
+            calendlyIframe.setAttribute('src', url)
         }
-    );
+        setDynamicURL(url)
+    }, [url, dynamicURL]);
+
+    console.log(dynamicURL)
 
     return (
         <div
             className="calendly-inline-widget"
-            data-url={url}
+            data-url={dynamicURL}
             style={{ minWidth: "350px", height: "700px" }}
         ></div>
     );

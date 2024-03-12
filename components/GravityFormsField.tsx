@@ -23,7 +23,7 @@ export default function GravityFormsField({ field, fieldErrors, hiddenFields }: 
     case "PHONE":
       return <PhoneField field={field} fieldErrors={fieldErrors} />;
     case "RADIO":
-      return <RadioField field={field} fieldErrors={fieldErrors} />;
+      return <RadioField field={field} fieldErrors={fieldErrors} hiddenFields={hiddenFields} />;
     case "SELECT":
       return <SelectField field={field} fieldErrors={fieldErrors} />;
     case "TEXT":
