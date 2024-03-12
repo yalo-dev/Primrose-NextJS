@@ -12,6 +12,10 @@ interface VerticalTabProps {
 		bottomMarginMobile: string;
 		bottomMarginDesktop: string;
 		backgroundColor: string;
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
 	};
 	tabs: {
 		label: string;
@@ -100,6 +104,10 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 			topMarginDesktop={customizations?.topMarginDesktop}
 			bottomMarginMobile={customizations?.bottomMarginMobile}
 			bottomMarginDesktop={customizations?.bottomMarginDesktop}
+			topPaddingDesktop={customizations?.bottomPaddingDesktop}
+			topPaddingMobile={customizations?.bottomPaddingMobile}
+			bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+			bottomPaddingMobile={customizations?.bottomPaddingMobile}
 			colorLabelOuter={customizations?.backgroundColor}
 		>
 			<div className='container' ref={containerRefVT}>

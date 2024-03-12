@@ -12,6 +12,11 @@
             flex-direction: row-reverse;
         }
     }
+    @include media-breakpoint-down(lg) {
+        &.reverse-row-mobile {
+            flex-direction: column-reverse;
+        }
+    }
     .right-column {
         @media only screen and (max-width: 767px) {
             order: 1;
