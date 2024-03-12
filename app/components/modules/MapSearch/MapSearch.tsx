@@ -142,8 +142,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   ];
 
   useEffect(() =>{
-    if(center !== null && center !== map_center){
-      if(center.latitude){
+    if(center !== undefined && center !== map_center){
+      if(center?.latitude){
         center.lat = center.latitude;
         center.lng = center.longitude;
       }
@@ -524,7 +524,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }else{
     const filteredSchools = schools.filter(school => {
       //console.log("mapCenter");
-      //console.log(mapCenter);
+      console.log(mapCenter);
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
@@ -538,20 +538,21 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const sortedSchools = [...filteredSchools].map((school) => {
       let dist = null;
       if(activeTab === 2 && route!= null){
-        console.log(school);
-        let start = route.routes[0].legs[0].start_location;
+        /* let start = route.routes[0].legs[0].start_location;
         let end = route.routes[0].legs[0].end_location;
         let mid = route.routes[0].overview_path[Math.floor(route.routes[0].overview_path.length/2)];
-        console.log(route);
         let startDist = calculateDistance(start.lat(), start.lng(), school.coordinates.lat, school.coordinates.lng);
-        //console.log(startDist);
         let endDist = calculateDistance(end.lat(), end.lng(), school.coordinates.lat, school.coordinates.lng);
-        //console.log(endDist)
         let midDist = calculateDistance(mid.lat(), mid.lng(), school.coordinates.lat, school.coordinates.lng);
-        //console.log(midDist);
-        dist = Math.min(startDist, endDist, midDist);
-        //console.log(dist);
-        //dist = midDist;
+        dist = Math.min(startDist, endDist, midDist); */
+
+        
+        let path_points = route.routes[0].overview_path;
+        let distances = path_points.map((point)=>{
+          return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
+        });
+        console.log(distances);
+        dist = Math.min.apply(Math, distances);
       }else{
         dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
       }
