@@ -176,7 +176,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
-                    {member.image ? <Image fill src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
+                    {member.image ? <Image width={980} height={980} src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
