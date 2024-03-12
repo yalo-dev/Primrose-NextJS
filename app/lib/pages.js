@@ -203,28 +203,24 @@ query GetModules($id: ID = "") {
               moduleId
             }
 		  ... on Page_Modules_Modules_DynamicForm {
-			headings {
-			  heading
-			  headingColor
-			  subheading
-			  subheadingColor
-			}
-			hubspotFormSnippets {
-        productionHubspotFormCode
-        stagingHubspotFormCode
-      }
-			moduleId
-			formid
-			portalid
-			region
-			version
-			customizations {
-			  outerBackgroundColor
-			  topMarginMobile
-			  topMarginDesktop
-			  bottomMarginMobile
-			  bottomMarginDesktop
-			}
+		    headings {
+		      heading
+		      headingColor
+		      subheading
+		      subheadingColor
+		    }
+        hubspotFormSnippets {
+          productionHubspotFormCode
+          stagingHubspotFormCode
+        }
+        moduleId
+        customizations {
+          outerBackgroundColor
+          topMarginMobile
+          topMarginDesktop
+          bottomMarginMobile
+          bottomMarginDesktop
+        }
 		  }
 		  ... on Page_Modules_Modules_EyebrowHeadingSubheading {
 			moduleId

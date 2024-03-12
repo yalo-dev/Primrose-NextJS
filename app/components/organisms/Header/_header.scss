@@ -234,7 +234,7 @@
                     }
                     ul {
                         list-style-type: none;
-                        padding: 3.5rem 1rem;
+                        padding: 0 1rem;
                         &.double-column {
                             @include media-breakpoint-up(lg) {
                                 columns: 2;
@@ -332,8 +332,7 @@
                         }
                     }
                     .back {
-                        padding: 20px 16px;
-                        border-bottom: 1px solid $neutral-2;
+                        padding: 20px 16px 0;
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
@@ -347,18 +346,19 @@
                             min-width: unset;
                             background: $white;
                             border: 1px solid $neutral-2;
-                            margin-right: 18px;
+                            margin-right: 12px;
                         }
                         span {
+                            color: $primary-green;
                             font-family: Poppins;
-                            font-size: 11px;
+                            font-size: 12px;
                             font-style: normal;
-                            font-weight: 500;
+                            font-weight: 300;
                             line-height: 18px; 
                         }
                     }
                     .parent {
-                        padding: 40px 0 25px;
+                        padding: 20px 0 0;
                     }
                 }
                 @include media-breakpoint-up(lg) {

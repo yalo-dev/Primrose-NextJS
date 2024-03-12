@@ -524,7 +524,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }else{
     const filteredSchools = schools.filter(school => {
       //console.log("mapCenter");
-      console.log(mapCenter);
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,

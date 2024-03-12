@@ -173,21 +173,11 @@ query GetModules($id: ID = "") {
               moduleId
             }
 		  ... on Page_Modules_Modules_DynamicForm {
-			headings {
-			  heading
-			  headingColor
-			  subheading
-			  subheadingColor
-			}
 		    hubspotFormSnippets {
               productionHubspotFormCode
               stagingHubspotFormCode
             }
 			moduleId
-			formid
-			portalid
-			region
-			version
 			customizations {
 			  outerBackgroundColor
 			  topMarginMobile

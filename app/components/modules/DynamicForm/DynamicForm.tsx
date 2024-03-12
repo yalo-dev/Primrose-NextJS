@@ -34,7 +34,7 @@ interface DynamicFormProps {
   };
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, formid, portalid, region, version, hubspotFormSnippets }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, hubspotFormSnippets }) => {
 
   const containerID = "hubspotForm"
   const hubspotFormSnippet = process.env.NODE_ENV === "production"
@@ -96,9 +96,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, for
       >
         <div className='dynamic-form'>
           <div className='container'>
-            {headings.heading && <Heading level='h2' color={headings.headingColor}>{headings.heading}</Heading>}
-            {headings.subheading && <Subheading level='div' className='b3'
-                                                color={headings.subheadingColor}>{headings.subheading}</Subheading>}
+            {headings?.heading && <Heading level='h2' color={headings?.headingColor}>{headings?.heading}</Heading>}
+            {headings?.subheading && <Subheading level='div' className='b3'
+                                                color={headings?.subheadingColor}>{headings?.subheading}</Subheading>}
 
             <div id={containerID} className='form hbspt-form'>
               {hubStyles}

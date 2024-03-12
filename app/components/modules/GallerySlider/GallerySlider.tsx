@@ -151,7 +151,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                         />
                         <div className='caption-wrapper pe-1'>
                             <div className='h5 mt-2 mb-2'>{item.title}</div>
-                            <span className='b2'>{item.caption}</span>
+                            <span className='b2' dangerouslySetInnerHTML={{__html: item.caption}} />
                         </div>
                     </div>
                 ))}
