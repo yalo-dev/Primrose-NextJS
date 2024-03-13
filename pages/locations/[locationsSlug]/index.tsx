@@ -51,7 +51,7 @@ export default function Location({ locationData }){
     const ff1Image = ff1.image?.sourceUrl
       ? { sourceUrl: ff1.image?.sourceUrl, altText: ff1.image?.altText }
       : { sourceUrl: siteSettings?.educationalChildcareImage?.sourceUrl, altText: siteSettings?.educationalChildcareImage.altText }
-    const fiftyFifty1_props = {
+    const fiftyFifty1_props = !ff1Checks ? null : {
       customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
       switchRowOrderOnMobile: true,
       switchColumnOrderOnDesktop: true,
