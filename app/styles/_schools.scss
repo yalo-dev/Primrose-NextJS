@@ -1707,7 +1707,7 @@
 }
 }
 .school-news {
-    margin-bottom: 3rem;
+    margin-bottom: 0.5rem;
     @include media-breakpoint-up(lg) {
         margin-bottom: 6rem;
     }
@@ -1721,14 +1721,14 @@
         }
     }
     .content {
-        padding-bottom: 2rem;
+        padding-bottom: 0.5rem;
         @include media-breakpoint-up(lg) {
         padding-bottom: 1rem;
         }
     }
     
     .divider-line{
-        border-top: 1px solid var(--border-secondary, #E6E6E6);
+        border-top: 1px solid #D2D3D1;
         margin: 1.5rem 0; 
         @include media-breakpoint-up(lg) {
         margin: 2.5rem 0; 
