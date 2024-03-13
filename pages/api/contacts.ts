@@ -56,14 +56,7 @@ export default function handler(
                 if (info) {
                     // access token payload will be available in req.authInfo downstream
                     // req.authInfo = info;
-                    const contact_data = {
-                        node: {
-                            UUID: "uuid-example",
-                            user_agent: "user-agent-example",
-                            ip_address: "ip_address-example",
-                            event_source_url: "event-source-example",
-                        }
-                    }
+                    const contact_data = {}
                     return res.status(200).json(contact_data)
                 }
             })(req, res)

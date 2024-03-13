@@ -273,7 +273,8 @@ export default function Header({ menuItems }) {
                                             required
                                             value={inputText}
                                             onChange={handleInputChange}
-                                            ref={mobileSearchInputRef} 
+                                            ref={mobileSearchInputRef}
+                                            enterKeyHint={"search"}
                                         />
                                         <button type="submit" hidden>Search</button>
                                         <div

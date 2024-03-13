@@ -40,6 +40,13 @@ export interface School {
                 latitude
                 longitude
               }
+              preopening
+              openingIn {
+                fieldGroupName
+                season
+                year
+              }
+              corporateChildcare
             }
             
           }
@@ -63,7 +70,10 @@ export interface School {
         address: schoolAddress,
         hours: "M-F 7:00AM-6:00PM",
         phone: school.schoolCorporateSettings?.phoneNumber,
-        notes: "",
+        preopening: school.schoolCorporateSettings?.preopening,
+        openingInSeason: school.schoolCorporateSettings?.openingIn?.season,
+        openingInYear: school.schoolCorporateSettings?.openingIn?.year,
+        corporateChildcare: school.schoolCorporateSettings?.corporateChildcare,
         coordinates: {
           lat: school.schoolCorporateSettings.address.latitude,
           lng:  school.schoolCorporateSettings.address.longitude

@@ -1100,6 +1100,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       </div>
                       <div className='hours'>{school.hours}</div>
                       {/* <ul className='notes'><li>{school.notes}</li></ul> */}
+                      <ul className='options'>
+                        {school.preopening && (
+                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
+                        )}
+                        {school.corporateChildcare && (
+                          <li>Corporate Child Care</li>
+                        )}
+                      </ul>
                       <div className='button-wrap d-flex'>
                           <Button
                             className="button primary"
@@ -1245,6 +1253,21 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     </div>
                     <div className='hours'>{school.hours}</div>
                     {/* <ul className='notes'><li>{school.notes}</li></ul> */}
+                    {school.notes && (
+                            <ul className='notes'>
+                              {school.notes.split(', ').map((note, noteIndex) => (
+                                  <li key={noteIndex}>{note}</li>
+                              ))}
+                            </ul>
+                        )}
+                      <ul className='options'>
+                        {school.preopening && (
+                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
+                        )}
+                        {school.corporateChildcare && (
+                          <li>Corporate Child Care</li>
+                        )}
+                      </ul>
                     <div className='button-wrap d-flex'>
                           <button
                             className="button primary"

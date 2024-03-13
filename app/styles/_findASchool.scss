@@ -582,6 +582,18 @@
                 //     margin-left: -1em;
                 // }
             }
+            .options {
+                padding-left: 1rem;
+                margin-bottom: 0;
+                li::before {
+                    content: "\2022";
+                    color: rgb(210, 211, 209);
+                    font-weight: bold;
+                    display: inline-block;
+                    width: 1em; 
+                    margin-left: -1em;
+                }
+            }
         }
     }
 }
