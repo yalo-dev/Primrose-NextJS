@@ -99,20 +99,25 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
             <div className='search'>
                 <input type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
-            <div className='filters'>
-                <MultiSelectDropdown
-                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
-                    onSelect={handleAgesSelect}
-                    placeholder="All Ages"
-                    selected={selectedAge}
-                />
 
-                <MultiSelectDropdown
-                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
-                    onSelect={handleTopicsSelect}
-                    placeholder="All Topics"
-                    selected={selectedTopic}
-                />
+            <div className='filters'>
+                {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.length > 0 && (
+                    <MultiSelectDropdown
+                        options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                        onSelect={handleAgesSelect}
+                        placeholder="All Ages"
+                        selected={selectedAge}
+                    />
+                )}
+                
+                {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.length > 0 && (
+                    <MultiSelectDropdown
+                        options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                        onSelect={handleTopicsSelect}
+                        placeholder="All Topics"
+                        selected={selectedTopic}
+                    />
+                )}
             </div>
         </div>
     );
