@@ -498,7 +498,6 @@
             color: $primary-darkgray;
             border: 1px solid $transparent;
             @include transition;
-            
             .name {
                 .marker svg path {
                     @include transition;
@@ -510,7 +509,7 @@
             &:focus,
             &.hovered {
                 @include transition;
-                border: 1px solid $neutral-2;
+                border: 1.5px solid #FF9E1B;
                 background: $white;
                 box-shadow: 0px 4px 10px 0px rgba(212, 214, 214, 0.20);
 
@@ -544,14 +543,7 @@
                 list-style: none;
                 padding-left: 0;
                 font-size: 14px;
-                // li::before {
-                //     content: "\2022";
-                //     color: $grayscale-5;
-                //     font-weight: bold;
-                //     display: inline-block;
-                //     width: 1em;
-                //     margin-left: -1em;
-                // }
+                margin-bottom: 0;
             }
         }
     }

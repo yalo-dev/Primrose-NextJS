@@ -136,11 +136,11 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                             className='b3'>{corporateSettings?.address?.streetAddress}{corporateSettings?.address?.streetAddress2 && `, ${corporateSettings.address.streetAddress2}`}, {corporateSettings?.address?.city}, {corporateSettings?.address?.state} {corporateSettings?.address?.zipcode}</span>
                                     </div>
                                 </div>
-                                {corporateSettings?.accreditations && (
+                                {(corporateSettings?.accreditations || adminSettings?.accreditation?.image) && (
                                     <div className='accreditations'>
                                         <h5 className='mt-4 green'>Accreditation</h5>
                                         <div className="accreditation-images  d-flex">
-                                            {corporateSettings.accreditations.map((accreditation, index) => accreditation && (
+                                            {corporateSettings.accreditations?.map((accreditation, index) => accreditation && (
                                                 <div key={`accreditation-${index}`} className="accreditation-image">
                                                     <img className='me-2 me-lg-0 mb-lg-2' width='60' height='60'
                                                          src={accreditation.accreditations.image.mediaItemUrl}

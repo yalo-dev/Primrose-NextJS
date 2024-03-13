@@ -44,7 +44,7 @@ export default function Location({ locationData }){
     const hero_props = {
       leftColumn: {image: heroImage},
       rightColumn: {heading: market?.marketSettings?.marketCareersPageHeadline ?? "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'white'},
-      customizations: {backgroundColor: '#5E6738'},
+      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', topPaddingMobile: 'None'},
       switchColumnOrderOnDesktop: true
     };
 
@@ -154,7 +154,7 @@ export default function Location({ locationData }){
     }
     return(
         <>
-        <div className="modules--container market mt-5 pt-5">
+        <div className="modules--container market mt-4 pt-4">
           
             <HeroWithImage {...hero_props} />
             <TwoColumnsImageAndText  {...fiftyFifty1_props} />

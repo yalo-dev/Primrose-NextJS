@@ -43,7 +43,7 @@ export default function Location({ locationData }){
     const hero_props = {
       leftColumn: {image: headerImage},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
-      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
+      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', topPaddingMobile: 'None'},
       switchColumnOrderOnDesktop: true
     };
 

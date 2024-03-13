@@ -44,8 +44,9 @@ type LocationData = {
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
   return `
-    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="40" viewBox="0 0 33 40" fill="none">
-      <path stroke="white" stroke-width="2" fillRule="evenodd" clipRule="evenodd" d="M4.8307 4.84967C-1.61023 11.3164 -1.61023 21.8168 4.8307 28.2831L16.5 40L28.1693 28.2831C34.6102 21.8168 34.6102 11.3164 28.1693 4.84967C21.7292 -1.61656 11.2708 -1.61656 4.8307 4.84967Z" fill="${fillColor}"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="48" viewBox="0 0 39 48" fill="none">
+      <path d="M20.5628 44.0585L32.232 32.3417C32.2321 32.3416 32.2321 32.3416 32.2321 32.3416C39.256 25.29 39.2559 13.8431 32.2321 6.79113C25.2057 -0.263722 13.7943 -0.263744 6.76792 6.79113C-0.255928 13.8431 -0.256007 25.29 6.76788 32.3416C6.76791 32.3416 6.76793 32.3416 6.76796 32.3417L18.4372 44.0585L19.5 45.1257L20.5628 44.0585Z" fill="${fillColor}" stroke="white" stroke-width="3"/>
+      <circle cx="19.5" cy="19.5" r="7.5" fill="white"/>
     </svg>
   `;
 };
@@ -551,7 +552,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
         });
         console.log(distances);
-        dist = Math.min.apply(Math, distances);
+        dist = Math.min.apply(Math,distances);
       }else{
         dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
       }
@@ -1098,6 +1099,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       </div>
                       <div className='hours'>{school.hours}</div>
                       {/* <ul className='notes'><li>{school.notes}</li></ul> */}
+                      <ul className='options'>
+                        {school.preopening && (
+                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
+                        )}
+                        {school.corporateChildcare && (
+                          <li>Corporate Child Care</li>
+                        )}
+                      </ul>
                       <div className='button-wrap d-flex'>
                           <Button
                             className="button primary"
@@ -1243,6 +1252,21 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     </div>
                     <div className='hours'>{school.hours}</div>
                     {/* <ul className='notes'><li>{school.notes}</li></ul> */}
+                    {school.notes && (
+                            <ul className='notes'>
+                              {school.notes.split(', ').map((note, noteIndex) => (
+                                  <li key={noteIndex}>{note}</li>
+                              ))}
+                            </ul>
+                        )}
+                      <ul className='options'>
+                        {school.preopening && (
+                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
+                        )}
+                        {school.corporateChildcare && (
+                          <li>Corporate Child Care</li>
+                        )}
+                      </ul>
                     <div className='button-wrap d-flex'>
                           <button
                             className="button primary"
