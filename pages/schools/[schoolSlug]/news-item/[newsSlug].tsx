@@ -107,12 +107,28 @@ export default function SchoolNewsItem() {
 	return (
 		<>
 			<div className='resource school-news'>
-				<div className="container pt-5 pb-5 mb-5">
+				 <div className='resource-content p-3 p-lg-0 mx-auto'>
+				<div className="container" >
 				<a href={`/schools/${schoolSlug}`}>&larr; Back To Home</a>
 				</div>
-  				
+						<div className='image-wrapper position-relative overflow-hidden pb-lg-0'>
+							{newsItem?.image?.sourceUrl && <Image width={1920} height={1920} src={newsItem.image.sourceUrl} alt={newsItem?.imageAlt} />}
+						</div>
+						
+						<div className="hero">
+							<div className="caption">{newsItem.publishDate && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
+							</div>
+							{newsItem.title && <div className='title pt-2 pb-2'><Heading level='h1'>{newsItem.title}</Heading></div>}
+					
+					
+						</div>
 
-				<div className='social d-flex justify-content-center flex-xl-column mt-4 mb-4 mt-xl-0'>
+						
+						{newsItem.content && <div className='content' dangerouslySetInnerHTML={{ __html: wrappedContent }}></div>}
+					
+						<div className='divider-line'></div>
+						<div className='social d-flex justify-content-start align-items-center'>
+							<h5 className='m-0'>Share: </h5>
 					<Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`} target="_blank" rel="noopener noreferrer">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20 10.0612C20 4.50444 15.5231 0 10.0013 0C4.47694 0.00124984 0 4.50444 0 10.0625C0 15.0831 3.65704 19.2451 8.43645 20V12.9696H5.89926V10.0625H8.43895V7.84402C8.43895 5.32309 9.93251 3.93076 12.216 3.93076C13.3108 3.93076 14.4544 4.12698 14.4544 4.12698V6.60168H13.1934C11.9523 6.60168 11.5648 7.37783 11.5648 8.17398V10.0612H14.337L13.8945 12.9684H11.5636V19.9988C16.343 19.2438 20 15.0819 20 10.0612Z" fill="black" />
@@ -134,23 +150,7 @@ export default function SchoolNewsItem() {
 
 					</Link>
 				</div>
-
-				 <div className='resource-content p-3 p-lg-0 mx-auto'>
-						<div className='image-wrapper position-relative overflow-hidden pb-4 pb-lg-0'>
-							{newsItem?.image?.sourceUrl && <Image width={1920} height={1920} src={newsItem.image.sourceUrl} alt={newsItem?.imageAlt} />}
-						</div>
-						
-						<div className="hero">
-							<div className="caption">{newsItem.publishDate && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
-							</div>
-							{newsItem.title && <div className='title pt-2 pb-2'><Heading level='h1'>{newsItem.title}</Heading></div>}
-					
-						</div>
-						
-						{newsItem.content && <div dangerouslySetInnerHTML={{ __html: wrappedContent }}></div>}
-					
-					
-
+				<div className='divider-line divider-line-bottom'></div>
 				</div>
 
 			</div>
