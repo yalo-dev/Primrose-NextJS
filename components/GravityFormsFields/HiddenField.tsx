@@ -1,7 +1,6 @@
 import { gql } from "@apollo/client";
 import {v4 as uuidv4} from 'uuid'
 import {HiddenField} from "../../generated/graphql";
-import { usePathname } from "next/navigation";
 import useGravityForm, { ACTION_TYPES, FieldValue, HiddenFieldValues } from "../../hooks/useGravityForm";
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -32,7 +31,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     } else if (label == "User Agent") {
         dynamicFieldValue = hiddenFields.userAgent
     } else if (label == "Event Source URL") {
-        dynamicFieldValue = hiddenFields.referer
+        dynamicFieldValue = window.location.href
     } else if (label == "UUID") {
         dynamicFieldValue = uuidv4();
     } else if (label == "Procare") {
