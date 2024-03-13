@@ -159,7 +159,7 @@ export default function Location({ locationData }){
         <>
           <div className="modules--container market mt-4 pt-4">
             <HeroWithImage {...hero_props} />
-            <TwoColumnsImageAndText  {...fiftyFifty1_props} />
+            {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
             {/* @ts-ignore */}
             {market?.marketSettings?.ageGroups && <GeneralVerticalTabs {...gva_props} />}
             {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
