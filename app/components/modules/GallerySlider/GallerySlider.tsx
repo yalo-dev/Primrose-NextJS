@@ -109,7 +109,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
         setIsNextArrowDisabled(isLastSlideFullyVisible || currentIndex === gallery.length - 1);
     }, [currentIndex, slideWidths, gallery?.length]);
     
-
+        console.log(gallery)
     return (
         <div className={`gallery-slider ${combinedUniqueId}`}>
             <div className='container d-flex justify-content-between align-items-center'>
@@ -143,7 +143,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                             width={1920}
                             height={1920}
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
-                            alt={item.image?.altText ?? `gallery slider image ${index}`}
+                            alt={( item.imageAlt ?? item.image?.altText) ?? `gallery slider image ${index}`}
                             onLoad={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 handleImageLoad(index, target.offsetWidth);
