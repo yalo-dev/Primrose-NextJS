@@ -158,7 +158,10 @@
                     padding-left: 16px;
 
                     &:hover {
+                        color: $primary-darkgray;
+                        @include media-breakpoint-up(lg) {
                         color: $brand-blue;
+                    }
                     }
                     @include media-breakpoint-up(lg) {
                         color: $primary-green;
@@ -295,7 +298,10 @@
                         }
                         .nav-link {
                             &:hover {
+                                color: $primary-darkgray;
+                                @include media-breakpoint-up(lg) {
                                 color: $brand-blue;
+                            }
                             }
                             @include media-breakpoint-up(lg){
                                 .b4 {

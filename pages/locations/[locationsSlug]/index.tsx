@@ -43,7 +43,7 @@ export default function Location({ locationData }){
     const hero_props = {
       leftColumn: {image: headerImage},
       rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
-      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
+      customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', topPaddingMobile: 'None'},
       switchColumnOrderOnDesktop: true
     };
 
@@ -54,7 +54,8 @@ export default function Location({ locationData }){
       : { sourceUrl: siteSettings?.educationalChildcareImage?.sourceUrl, altText: siteSettings?.educationalChildcareImage.altText }
     const fiftyFifty1_props = !ff1Checks ? null : {
       customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
-      switchColumnOrderOnDesktop: false,
+      switchRowOrderOnMobile: true,
+      switchColumnOrderOnDesktop: true,
       centerModule: true,
       rightColumn: {
         heading: ff1.title,
@@ -91,8 +92,8 @@ export default function Location({ locationData }){
       tabs: testimonials,
       heading: "See What Families Are Saying"
     }
-    const cta_props = {
-      customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'None'},
+    const cta_props = !market?.marketSettings?.schoolLocatorCta?.image?.sourceUrl ? null : {
+      customizations: {topPaddingDesktop: 'None', bottomPaddingDesktop: 'Small'},
       subheading: market.marketSettings.schoolLocatorCta.paragraph,
       heading: market.name + " Area Schools",
       image: {
@@ -104,7 +105,7 @@ export default function Location({ locationData }){
         url: "#map"
       }
     }
-    const gallery_props = market.marketSettings.gallery && { gallery: market.marketSettings.gallery, uniqueId: 1};
+    const gallery_props = market?.marketSettings?.gallery && { gallery: market.marketSettings.gallery, uniqueId: 1};
     const schools = market?.schools?.nodes;
 
     // market.schools.nodes.map((school, index) => {
@@ -144,6 +145,16 @@ export default function Location({ locationData }){
         }
       }
     })
+    const gva_customizations = {
+        topPaddingMobile: "None",
+		topPaddingDesktop: "None",
+		bottomPaddingMobile: "None",
+		bottomPaddingDesktop: "None",
+    }
+    const gva_props = {
+        customizations: gva_customizations,
+        tabs: tabs
+    }
 
     return(
         <>
@@ -152,8 +163,8 @@ export default function Location({ locationData }){
             {fiftyFifty1_props && <TwoColumnsImageAndText  {...fiftyFifty1_props} />}
             {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
             {/* @ts-ignore */}
-            {market?.marketSettings?.ageGroups && <GeneralVerticalTabs tabs={tabs} />}
-            <GeneralButtonCTA {...cta_props} />
+            {market?.marketSettings?.ageGroups && <GeneralVerticalTabs {...gva_props} />}
+            {cta_props && <GeneralButtonCTA {...cta_props} />}
             {gallery_props && <GallerySlider {...gallery_props} />}
             <FindASchoolMap {...map_props} />
           </div>
@@ -296,15 +307,7 @@ export default function Location({ locationData }){
                             sourceUrl
                           }
                         }
-                        kindergarten {
-                          description
-                          title
-                          backgroundImage {
-                            altText
-                            sourceUrl
-                          }
-                        }
-                        preKindergarten {
+                        toddler {
                           description
                           title
                           backgroundImage {
@@ -320,7 +323,15 @@ export default function Location({ locationData }){
                             sourceUrl
                           }
                         }
-                        toddler {
+                        preKindergarten {
+                          description
+                          title
+                          backgroundImage {
+                            altText
+                            sourceUrl
+                          }
+                        }
+                        kindergarten {
                           description
                           title
                           backgroundImage {
@@ -329,7 +340,6 @@ export default function Location({ locationData }){
                           }
                         }
                       }
-                    
                   }
                 }
             }

@@ -45,7 +45,7 @@ export enum ACTION_TYPES {
 function reducer(state: FieldValueUnion[], action: Action) {
   const getOtherFieldValues = (id: number) => state.filter(fieldValue => fieldValue.id !== id);
 
-  console.log('action: ', action)
+  // console.log('action: ', action)
   switch (action.type) {
     case ACTION_TYPES.updateCheckboxFieldValue: {
       const { id, checkboxValues } = action.fieldValue as CheckboxFieldValue;
@@ -56,7 +56,7 @@ function reducer(state: FieldValueUnion[], action: Action) {
       return [...getOtherFieldValues(id), { id, emailValues }];
     }
     case ACTION_TYPES.updateHiddenFieldValue: {
-      console.log('is in hidden fields');
+      // console.log('is in hidden fields');
       const { id, value } = action.fieldValue as StringFieldValue;
       return [...getOtherFieldValues(id), { id, value }];
     }
@@ -65,7 +65,7 @@ function reducer(state: FieldValueUnion[], action: Action) {
     case ACTION_TYPES.updateSelectFieldValue:
     case ACTION_TYPES.updateTextFieldValue: {
       const { id, value } = action.fieldValue as StringFieldValue;
-      console.log('updateSelectFieldValue', id, value);
+      // console.log('updateSelectFieldValue', id, value);
       return [...getOtherFieldValues(id), { id, value }];
     }
     default:
@@ -85,7 +85,7 @@ const GravityFormContext = createContext<{
 
 export function GravityFormProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
-  console.dir(state)
+  // console.dir(state)
 
   return (
     <GravityFormContext.Provider value={{ state, dispatch }}>

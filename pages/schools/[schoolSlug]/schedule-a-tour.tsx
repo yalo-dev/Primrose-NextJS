@@ -4,6 +4,7 @@ import { GfForm } from "../../../generated/graphql";
 import ScheduleATourForm from '../../../components/ScheduleATour/ScheduleTourForm';
 import Head from "next/head";
 import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
+import DynamicRadioButtons from "../../../components/Calendly/DynamicRadioButtons";
 import React, { useEffect, useRef, useState } from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -50,6 +51,11 @@ export async function getServerSideProps(context) {
               }
               usesCalendly
               procarePointerId
+              calendlyEmbedUrls {
+                calendlyVirtualTour
+                calendlyInPersonTour
+                calendlyIntroductionPhoneCall
+              }
             }
         }
       }
@@ -62,7 +68,6 @@ export async function getServerSideProps(context) {
     const schoolData = response?.data?.school;
     const schoolSettings = schoolData.schoolAdminSettings || {};
 
-    console.dir(schoolData)
 
     return {
         props: {
@@ -75,6 +80,11 @@ export async function getServerSideProps(context) {
             },
             schoolHours: 'M-F ' + schoolSettings?.hoursOfOperation.openingTime + " - " + schoolSettings?.hoursOfOperation.closingTime || '',
             schedulerEvent: schoolSettings?.schedulerEventsOffered || '',
+            calendlyURLs: {
+                inPersonTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyInPersonTour || '',
+                virtualTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyVirtualTour || '',
+                introductionPhoneCall: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyIntroductionPhoneCall || '',
+            },
             hiddenFields: {
                 userAgent: context.req.headers['user-agent'],
                 ipAddress: context.req.headers['x-forwarded-for'],
@@ -85,6 +95,11 @@ export async function getServerSideProps(context) {
                 uri: schoolData?.uri,
                 slug: schoolData?.slug,
                 usesCalendly: schoolData?.schoolCorporateSettings.usesCalendly,
+                calendlyURLs: {
+                    inPersonTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyInPersonTour || '',
+                    virtualTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyVirtualTour || '',
+                    introductionPhoneCall: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyIntroductionPhoneCall || '',
+                },
                 hasCalendlyEvent: schoolSettings?.schedulerEventsOffered || '',
             }
         },
@@ -92,7 +107,8 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent }) {
+
+export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent, calendlyURLs }) {
 
     const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
     const metaDesc = corporate?.scheduleATourMeta?.description
@@ -100,8 +116,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     const calendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and select your tour date and time."
     const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
     const router = useRouter();
-
-    console.log(router);
+    const [calendlyEvent, setCalendlyEvent] = useState<string>('');
 
     useEffect(()=>{
         window.addEventListener('message', function(e){
@@ -113,8 +128,19 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
         });
     });
 
-    console.dir(hiddenFields)
-    const calendlyEventURL = 'https://calendly.com/primrose-schools/' + schedulerEvent
+    const handleCalendlySelect = (value) => {
+        if (value == 'In-Person Tour') {
+            setCalendlyEvent(calendlyURLs.inPersonTour);
+        } else if (value == 'Virtual Tour') {
+            setCalendlyEvent(calendlyURLs.virtualTour);
+        } else if (value == 'Introduction Phone Call') {
+            setCalendlyEvent(calendlyURLs.introductionPhoneCall);
+        }
+    };
+
+    if (calendlyEvent == '' && schedulerEvent != '') {
+        handleCalendlySelect(schedulerEvent[0])
+    }
 
     return (
         <div className='school schedule-a-tour'>
@@ -131,9 +157,12 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                                 <p className="desc b3">{formDescription}</p>
                             </div>
                             <ScheduleATourForm {...hiddenFields} />
-                            {corporate.usesCalendly && (schedulerEvent != '') && (
+                            {corporate.usesCalendly &&
+                                (calendlyURLs.inPersonTour != '' || calendlyURLs.virtualTour != '' || calendlyURLs.introductionPhoneCall != '') &&
+                                (schedulerEvent != '') && (
                                 <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
-                                    <CalendlyEmbed url={calendlyEventURL} />
+                                    <DynamicRadioButtons options={schedulerEvent} onSelect={handleCalendlySelect}/>
+                                    <CalendlyEmbed url={calendlyEvent} />
                                 </div>
                             )}
                         </div>

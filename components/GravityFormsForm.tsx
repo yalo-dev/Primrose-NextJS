@@ -76,9 +76,9 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
     }
   }
 
-  console.log('error ', data?.submitGfForm?.errors);
-  console.log('state: ', state);
-  console.log('form', data)
+  // console.log('error ', data?.submitGfForm?.errors);
+  // console.log('state: ', state);
+  // console.log('form', data)
 
   return (
     <form id="scheduletourform" method="post" onSubmit={handleSubmit}>

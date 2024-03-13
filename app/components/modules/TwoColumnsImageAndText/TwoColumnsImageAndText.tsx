@@ -16,6 +16,7 @@ interface OptionType {
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
+    switchRowOrderOnMobile?: boolean;
     centerModule?: boolean;
     rightColumn?: {
         heading?: string;
@@ -77,8 +78,8 @@ interface TwoColumnsImageAndTextProps {
     };
 }
 
-const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations}) => {
-    const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column offset-lg-1' : ''} ${centerModule ? 'center' : ''}`;
+const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, switchRowOrderOnMobile, centerModule, customizations}) => {
+    const className = `two-columns-image-and-text ${switchRowOrderOnMobile ? 'reverse-row-mobile offset-lg-1' : ''} ${switchColumnOrderOnDesktop ? 'reverse-column offset-lg-1' : ''} ${centerModule ? 'center' : ''}`;
 
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
