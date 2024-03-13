@@ -172,7 +172,7 @@ export default function CategoryComponent() {
     }
   }, [data, slug]);
   
-  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, data);
+  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, data, slug);
   
 
   useEffect(() => {
