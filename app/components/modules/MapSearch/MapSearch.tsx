@@ -1104,7 +1104,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
                         )}
                         {school.corporateChildcare && (
-                          <li>Corprate Child Care</li>
+                          <li>Corporate Child Care</li>
                         )}
                       </ul>
                       <div className='button-wrap d-flex'>
@@ -1264,7 +1264,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
                         )}
                         {school.corporateChildcare && (
-                          <li>Corprate Child Care</li>
+                          <li>Corporate Child Care</li>
                         )}
                       </ul>
                     <div className='button-wrap d-flex'>
