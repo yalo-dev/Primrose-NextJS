@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import passport from 'passport'
 import passportAzureAd from 'passport-azure-ad'
+import fetch from "node-fetch";
 
 const authConfig = {
     credentials: {
@@ -19,8 +20,13 @@ const authConfig = {
         loggingNoPII: true,
     }
 }
+async function getData(res) {
+    const contact_data = await fetch('https://settings.primroseschools.com/wp-json/yalotheme/v1/getEntries').then((res) => res.json())
+    return res.status(200).json(contact_data)
+}
 
-export default function handler(
+
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -56,8 +62,7 @@ export default function handler(
                 if (info) {
                     // access token payload will be available in req.authInfo downstream
                     // req.authInfo = info;
-                    const contact_data = {}
-                    return res.status(200).json(contact_data)
+                    return getData(res)
                 }
             })(req, res)
     } else {
