@@ -1687,7 +1687,51 @@
 }
 .resource.school-news .hero h1{
     color: #5E6738 !important;
+    margin-bottom: 0;
 }
 .school-news .hero{
-    margin-top:2rem;
+    margin: 3rem 0 1rem 0;
+    @include media-breakpoint-up(lg) {
+    margin: 4rem 0 2rem 0;
+    }
+}
+.resource.school-news .social {
+    position: relative;
+    left: auto;
+    h5 {
+        color: var(--copy, #555F68);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px;
+}
+}
+.school-news {
+    margin-bottom: 3rem;
+    @include media-breakpoint-up(lg) {
+        margin-bottom: 6rem;
+    }
+    .container{
+        padding: 0rem 0 1.5rem 0;
+        @include media-breakpoint-up(lg) {
+        padding: 3rem 0;
+        }
+        a {
+            color: #5E6738;
+        }
+    }
+    .content {
+        padding-bottom: 2rem;
+        @include media-breakpoint-up(lg) {
+        padding-bottom: 1rem;
+        }
+    }
+    
+    .divider-line{
+        border-top: 1px solid var(--border-secondary, #E6E6E6);
+        margin: 1.5rem 0; 
+        @include media-breakpoint-up(lg) {
+        margin: 2.5rem 0; 
+        }
+    }
 }
