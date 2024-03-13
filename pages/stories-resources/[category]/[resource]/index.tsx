@@ -234,7 +234,7 @@ export default function ResourceComponent() {
 										))}
 									</div>
 								)}
-								{date && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
+								{date && <div className='resource-date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
 							</div>
 							{title && <div className='title pt-2 pb-2'><Heading level='h1'>{title}</Heading></div>}
 
