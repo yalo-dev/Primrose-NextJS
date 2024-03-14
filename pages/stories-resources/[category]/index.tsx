@@ -221,7 +221,7 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
     }
   }, [resources, slug]);
   
-  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, resources);
+  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, resources, slug);
   
 
   useEffect(() => {

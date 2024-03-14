@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MultiSelectDropdown } from '../molecules/MultiSelectDropdown/MultiSelectDropdown';
+import { nodeServerAppPaths } from 'next/dist/build/webpack/plugins/pages-manifest-plugin';
 
 
 
@@ -52,7 +53,7 @@ interface FilterTerms {
     };
 }
 
-export function ResourceFilter(initialResources: Resource[], filterTerms?: FilterTerms) {
+export function ResourceFilter(initialResources: Resource[], filterTerms?: FilterTerms, category?: string) {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedAge, setSelectedAge] = useState<string[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<string[]>([]);
@@ -93,7 +94,7 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const handleTopicsSelect = (selectedTopics: string[]) => {
         setSelectedTopic(selectedTopics);
     };
-
+    
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
@@ -101,14 +102,14 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
             </div>
 
             <div className='filters'>
-                {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.length > 0 && (
-                    <MultiSelectDropdown
-                        options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
-                        onSelect={handleAgesSelect}
-                        placeholder="All Ages"
-                        selected={selectedAge}
-                    />
-                )}
+            {category !== 'for-educators' && filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.length > 0 && (
+                <MultiSelectDropdown
+                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                    onSelect={handleAgesSelect}
+                    placeholder="All Ages"
+                    selected={selectedAge}
+                />
+            )}
                 
                 {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.length > 0 && (
                     <MultiSelectDropdown
