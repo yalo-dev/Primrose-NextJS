@@ -9,7 +9,7 @@ import React from 'react';
 
 export default function Header({ menuItems }) {
     const router = useRouter();
-    const showResourcesMenu = router.pathname.includes('/resources');
+    const showResourcesMenu = router.pathname.includes('/stories-resources');
     const showSchoolsMenu = router.pathname.includes('/schools');
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);
