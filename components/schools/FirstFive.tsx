@@ -65,7 +65,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                                 </div>
                             </div>
                         </div>
-                        { adminSettings?.franchiseOwner
+                        { adminSettings?.franchiseOwner?.bio
                             ? <FranchiseOwnerBio franchiseOwner={adminSettings.franchiseOwner} />
                             : <div className='staff'>
                                 <div className='two-columns-image-and-text-alternative reverse-column'>
