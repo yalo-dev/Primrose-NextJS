@@ -151,7 +151,7 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
       {resourceList.map((resource, index) => {
       const categoryFirstNode = resource?.resourceTypes?.nodes[0]
       const category = categoryFirstNode?.slug
-      const link = resource?.newsFields?.link != null ? resource?.newsFields?.link :  "/stories-resources/" + category + "/" + resource.slug;
+      const link = resource?.newsFields?.link != null ? resource?.newsFields?.link :  `/stories-resources/${category}/${resource.slug}`;
       return(
         
         <ResourceCard
