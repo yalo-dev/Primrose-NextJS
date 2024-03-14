@@ -40,6 +40,8 @@ export default function HiddenField({ field, hiddenFields }: Props) {
         dynamicFieldValue = hiddenFields.schoolID;
     } else if (label == "School Name") {
         dynamicFieldValue = hiddenFields.schoolName;
+    } else if (label == "School URL") {
+        dynamicFieldValue = hiddenFields.uri;
     } else if (label == "Uses Calendly") {
         dynamicFieldValue = hiddenFields.usesCalendly;
     }
