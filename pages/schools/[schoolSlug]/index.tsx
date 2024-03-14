@@ -23,7 +23,6 @@ export async function getServerSideProps(context) {
           siteSettings {
             defaultStaffPhoto {
               altText
-              mediaItemUrl
               sourceUrl
             }
           }
@@ -173,6 +172,7 @@ export async function getServerSideProps(context) {
         console.log("School Data:", response.data.school);
 
         const school = response?.data?.school;
+        const staffImage = response?.data?.siteSettings?.siteSettings?.defaultStaffPhoto
         if (!school) {
             return {notFound: true};
         }
@@ -181,6 +181,7 @@ export async function getServerSideProps(context) {
             props: {
                 school,
                 schoolSlug,
+                staffImage
             },
         };
     } catch (error) {
@@ -189,7 +190,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default function SchoolMainPage({school, schoolSlug}) {
+export default function SchoolMainPage({school, schoolSlug, staffImage}) {
     const corporateSettings = school?.schoolCorporateSettings;
     const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title}`
     const metaDesc = corporateSettings?.homepageMeta?.description
@@ -216,7 +217,7 @@ export default function SchoolMainPage({school, schoolSlug}) {
             <HeroWithSlider corporateSettings={corporateSettings}
                             adminSettings={adminSettings} schoolSlug={schoolSlug}/>
             <FirstFive adminSettings={adminSettings}
-                       corporateSettings={corporateSettings} schoolSlug={schoolSlug}/>
+                       corporateSettings={corporateSettings} schoolSlug={schoolSlug} staffImage={staffImage}/>
             <SchoolNewsSlider adminSettings={adminSettings} isClient={isClient} />
             <TestimonialSection adminSettings={adminSettings} />
             {adminSettings?.gallery?.length && <GallerySlider gallery={adminSettings.gallery} uniqueId="gallerySlider"/>}
