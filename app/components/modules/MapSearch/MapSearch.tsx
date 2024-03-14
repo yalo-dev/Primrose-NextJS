@@ -1269,12 +1269,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                         )}
                       </ul>
                     <div className='button-wrap d-flex'>
-                          <button
+                            <Button
                             className="button primary"
-                            onClick={() => window.location.href = `${school.slug}/schedule-a-tour`}
+                            href={"/schools/" + school.slug + "/" + cta.href}
                           >
-                            Schedule a Tour
-                          </button>
+                            {cta.title}
+                          </Button>
                           <a href={`tel:${school.phone}`} className='phone ms-2'>
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
