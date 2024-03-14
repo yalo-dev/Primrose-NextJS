@@ -65,7 +65,7 @@ const FindASchool = () =>{
             place:place,
           }
         }
-        console.log(fas_props);
+
       return (
         <MapSearch {...fas_props} />
       );

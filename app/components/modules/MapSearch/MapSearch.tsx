@@ -148,12 +148,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       if(center?.latitude){
         center.lat = center.latitude;
         center.lng = center.longitude;
+        setMapCenter(center);
       }
-      setMapCenter(center);
       setZoomLevel(DEFAULT_ZOOM);
     }
       
-    },[mapCenter]);
+    },[]);
   
 
   const [schools, setSchools] = useState([]);
@@ -170,7 +170,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     if(cta == null){
       cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
     }
- 
 
 
   const handleNewWaypoint = (newWaypoint) => {
