@@ -18,16 +18,18 @@ const Tag: React.FC<TagProps> = ({ label, isFeatured, tagSlug }) => {
   const handleTagClick = (e: React.MouseEvent) => {
     e.preventDefault();   
     e.stopPropagation();
-    router.push(`/stories-resources/${tagSlug}`);
+    router.push(`/stories-resources/tag/${tagSlug}`);
   };
   
   return (
-    <div 
-      className={`d-flex align-items-center clickable ${tagClass}`}
-      onClick={handleTagClick}
-    >
-      {label}
-    </div>
+    <a href={`/stories-resources/tag/${tagSlug}`}>
+      <div 
+        className={`d-flex align-items-center clickable ${tagClass}`}
+        onClick={handleTagClick}
+      >
+        {label}
+      </div>
+    </a>
   );
 };
 

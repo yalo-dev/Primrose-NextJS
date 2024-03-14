@@ -1,125 +1,33 @@
-import { client } from '../../../app/lib/apollo';
+import { client } from '../../../../app/lib/apollo';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import ResourceCard from "../../../app/components/organisms/ResourceCard/ResourceCard";
-import ResourceBanner from "../../../app/components/organisms/ResourceBanner/ResourceBanner";
-import {ResourceFilter} from "../../../app/components/filters/ResourceFilter";
-import Heading from "../../../app/components/atoms/Heading/Heading";
-import Button from '../../../app/components/atoms/Button/Button';
-import Pagination from "../../../app/components/molecules/Pagination/Pagination";
+import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
+import ResourceBanner from "../../../../app/components/organisms/ResourceBanner/ResourceBanner";
+import {ResourceFilter} from "../../../../app/components/filters/ResourceFilter";
+import Heading from "../../../../app/components/atoms/Heading/Heading";
+import Button from '../../../../app/components/atoms/Button/Button';
+import Pagination from "../../../../app/components/molecules/Pagination/Pagination";
 import { bool } from 'sharp';
-import { getAllResources, getAllFilters, getAllResourceURIs, getResourcesByType } from '../../../app/lib/resources';
+import { getAllResources, getAllTagURIs, getAllFilters, getAllResourceURIs, getResourcesByTag } from '../../../../app/lib/resources';
 
 
-const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
-  query GetResourcesAndFilterTerms {
-    resources(first: 500) {
-      nodes {
-        id
-        title
-        excerpt
-        slug
-        uri
-        date
-        newsFields{
-          link
-        }
-        resourceTypes {
-          nodes {
-            uri
-            slug
-            name
-          }
-        }
-        resourceTags {
-          nodes {
-            uri
-            slug
-            name
-          }
-        }
-        featuredImage {
-          node {
-            sourceUrl
-            altText
-          }
-        }
-      }
-    }
-    resourceTags(first: 500) {
-      nodes {
-        name
-        slug
-        children {
-          nodes {
-            name
-            slug
-          }
-        }
-      }
-    }
-    resourcesSettings {
-      resourceSettings {
-        featuredResources {
-        ... on Resource {
-          id
-          title
-          uri
-          slug
-          featuredImage {
-          node {
-            altText
-            sourceUrl
-          }
-          }
-          excerpt
-          date
-          resourceFields {
-          content
-          displayAuthor
-          fieldGroupName
-          backgroundColor
-          }
-          resourceTags {
-          nodes {
-            slug
-            link
-            uri
-            name
-          }
-          }
-          resourceTypes {
-          nodes {
-            slug
-            uri
-            name
-            link
-          }
-          }
-        }
-        }
-      }
-      }
-  }
-`;
 interface FeaturedResource {
   id: string;
   title: string;
 }
 
 export async function getStaticPaths(){
-  const resources = await getAllResourceURIs();
+  const resources = await getAllTagURIs();
   const dynamicResources = resources.filter(
     (el) => el?.node.uri.length>1
   );
   const paths = dynamicResources.map((resource)=>{
-    //console.log(resource.node);
     let slug = resource.node.slug;
     let uri = resource.node.uri;
     return{
       params: {
-        category:slug,
+        resourceTag:slug,
         slug:slug,
         uri:uri
       }
@@ -131,16 +39,15 @@ export async function getStaticPaths(){
 	};
 }
 export async function getStaticProps({params}) {
-  const {category} = params;
+  const {resourceTag} = params;
   try {
       const [resourceData, filterTermsData] = await Promise.all([
-        getResourcesByType(category),
+        getResourcesByTag(resourceTag),
         getAllFilters()
       ]);
-      console.log(resourceData);
       return {
           props: {
-              slug: category,
+              slug: resourceTag,
               resources: resourceData.data,
               featured: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
               filterTerms: filterTermsData.data
@@ -150,14 +57,13 @@ export async function getStaticProps({params}) {
   } catch (error) {
       console.error("Error fetching data", error);
       return {
-          props: { slug: category, resources: [], featured: [], filterTerms: [] },
+          props: { slug: resourceTag, resources: [], featured: [], filterTerms: [] },
       };
   }
 }
 
 export default function CategoryComponent({slug, resources, featured, filterTerms }) {
 
-  console.log(resources);
   // TODO: move filtering and pagination to server - SHOULD USE URL SEARCH PARAMS AS STATE
   // TODO: The filtering and pagination is done client-side. This is affecting performance, but filtering resource by resourceType is not currently available and will need to be added on the backend manually
   const router = useRouter();
@@ -192,7 +98,7 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
   };
 
   let isTagPage = false;
-
+  console.log(resources);
   useEffect(() => {
     if (resources && slug) {
       //if the resource tag is the same as the page slug, then it is a tag page
@@ -201,7 +107,7 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
       if (tagCheck) isTagPage = tagCheck;
 
       if(isTagPage) {
-        const categorySpecificResources = resources.nodes.filter(resource =>
+        const categorySpecificResources = resources.resourceTag.resources.nodes.filter(resource =>
           resource.resourceTags.nodes.some(type => type.slug === slug)
         );
         setCategoryResources(categorySpecificResources);
