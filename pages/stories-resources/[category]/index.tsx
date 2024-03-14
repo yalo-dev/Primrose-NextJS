@@ -1,3 +1,4 @@
+import { client } from '../../../app/lib/apollo';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -8,6 +9,8 @@ import Heading from "../../../app/components/atoms/Heading/Heading";
 import Button from '../../../app/components/atoms/Button/Button';
 import Pagination from "../../../app/components/molecules/Pagination/Pagination";
 import { bool } from 'sharp';
+import { getAllResources, getAllFilters, getAllResourceURIs, getResourcesByType } from '../../../app/lib/resources';
+
 
 const RESOURCES_AND_FILTER_TERMS_QUERY = gql`
   query GetResourcesAndFilterTerms {
@@ -105,21 +108,67 @@ interface FeaturedResource {
   title: string;
 }
 
-export default function CategoryComponent() {
+export async function getStaticPaths(){
+  const resources = await getAllResourceURIs();
+  const dynamicResources = resources.filter(
+    (el) => el?.node.uri.length>1
+  );
+  const paths = dynamicResources.map((resource)=>{
+    //console.log(resource.node);
+    let slug = resource.node.slug;
+    let uri = resource.node.uri;
+    return{
+      params: {
+        category:slug,
+        slug:slug,
+        uri:uri
+      }
+    }
+  });
+  return {
+	  paths,
+	  fallback: 'blocking'
+	};
+}
+export async function getStaticProps({params}) {
+  const {category} = params;
+  try {
+      const [resourceData, filterTermsData] = await Promise.all([
+        getResourcesByType(category),
+        getAllFilters()
+      ]);
+      console.log(resourceData);
+      return {
+          props: {
+              slug: category,
+              resources: resourceData.data,
+              featured: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
+              filterTerms: filterTermsData.data
+          },
+      };
+
+  } catch (error) {
+      console.error("Error fetching data", error);
+      return {
+          props: { slug: category, resources: [], featured: [], filterTerms: [] },
+      };
+  }
+}
+
+export default function CategoryComponent({slug, resources, featured, filterTerms }) {
+
+  console.log(resources);
   // TODO: move filtering and pagination to server - SHOULD USE URL SEARCH PARAMS AS STATE
   // TODO: The filtering and pagination is done client-side. This is affecting performance, but filtering resource by resourceType is not currently available and will need to be added on the backend manually
   const router = useRouter();
   const { category } = router.query
 
-  const slug: string | undefined = typeof category === 'string' ? category : category?.length[0] // make sure slug is (string | undefined)
-
-  const { loading, error, data } = useQuery(RESOURCES_AND_FILTER_TERMS_QUERY);
 
   const [categoryResources, setCategoryResources] = useState([]);
 
   const [tagResources, setTagResources] = useState([]);
 
-  const [featuredResources, setFeaturedResources] = useState<FeaturedResource[]>([]);
+  const [featuredResources, setFeaturedResources] = useState<FeaturedResource[]>(featured);
 
   const featuredResourceIds = featuredResources?.length > 0 ? featuredResources?.map(fr => fr.id) : [];
 
@@ -145,34 +194,34 @@ export default function CategoryComponent() {
   let isTagPage = false;
 
   useEffect(() => {
-    if (data && slug) {
+    if (resources && slug) {
       //if the resource tag is the same as the page slug, then it is a tag page
-      const resourceTag = data.resourceTags.nodes.find(tag => tag.slug === slug);
+      const resourceTag = resources.resourceTags.nodes.find(tag => tag.slug === slug);
       let tagCheck = resourceTag?.slug === slug;
       if (tagCheck) isTagPage = tagCheck;
 
       if(isTagPage) {
-        const categorySpecificResources = data.resources.nodes.filter(resource =>
+        const categorySpecificResources = resources.nodes.filter(resource =>
           resource.resourceTags.nodes.some(type => type.slug === slug)
         );
         setCategoryResources(categorySpecificResources);
         isTagPage = true;
       } else {
-        const categorySpecificResources = data.resources.nodes.filter(resource =>
+        const categorySpecificResources = resources.resourceType.resources.nodes.filter(resource =>
           resource.resourceTypes.nodes.some(type => type.slug === slug)
         );
         setCategoryResources(categorySpecificResources);
       }
 
-      const featuredInCategory = data.resourcesSettings.resourceSettings.featuredResources?.filter(featured =>
+      const featuredInCategory = resources.resourcesSettings.resourceSettings.featuredResources?.filter(featured =>
           featured.resourceTypes.nodes.some(type => type.slug === slug)
         ).slice(0, 2);
 
       setFeaturedResources(featuredInCategory);
     }
-  }, [data, slug]);
+  }, [resources, slug]);
   
-  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, data);
+  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, resources);
   
 
   useEffect(() => {
@@ -207,8 +256,7 @@ export default function CategoryComponent() {
     </div>
 );
 
-  if (loading) return <p></p>;
-  if (error) return <p>Error: {error.message}</p>;
+  
 
   return (
     <div className='container category'>
