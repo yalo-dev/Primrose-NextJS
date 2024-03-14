@@ -237,7 +237,7 @@
                     }
                     ul {
                         list-style-type: none;
-                        padding: 0 1rem;
+                        padding: 2rem 1rem;
                         &.double-column {
                             @include media-breakpoint-up(lg) {
                                 columns: 2;

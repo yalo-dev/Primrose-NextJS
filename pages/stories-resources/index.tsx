@@ -1,5 +1,6 @@
 import { client } from '../../app/lib/apollo';
 import { gql } from '@apollo/client';
+
 import React, { useEffect, useState, useRef } from 'react';
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
@@ -8,106 +9,15 @@ import Button from '../../app/components/atoms/Button/Button';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 import {useRouter} from "next/router";
 import Pagination from "../../app/components/molecules/Pagination/Pagination";
+import { getAllResources, getAllFilters } from '../../app/lib/resources';
 
 export async function getServerSideProps() {
     try {
-        const RESOURCES_QUERY = gql`
-        query GetResources {
-            resources(first: 500) {
-              nodes {
-                id
-                title
-                excerpt
-                slug
-                uri
-                date
-                newsFields{
-                    link
-                }
-                resourceTypes(first: 1500) {
-                  nodes {
-                    uri
-                    slug
-                    name
-                  }
-                }
-                resourceTags(first: 1500) {
-                  nodes {
-                    uri
-                    slug
-                    name
-                  }
-                }
-                featuredImage {
-                  node {
-                    sourceUrl
-                    altText
-                  }
-                }
-              }
-            }
-            resourcesSettings {
-              resourceSettings {
-                featuredResources {
-                  ... on Resource {
-                    id
-                    title
-                    uri
-                    slug
-                    featuredImage {
-                      node {
-                        altText
-                        sourceUrl
-                      }
-                    }
-                    excerpt
-                    date
-                    resourceFields {
-                      content
-                      displayAuthor
-                      fieldGroupName
-                    }
-                    resourceTags {
-                      nodes {
-                        slug
-                        link
-                        uri
-                        name
-                      }
-                    }
-                    resourceTypes {
-                      nodes {
-                        slug
-                        uri
-                        name
-                        link
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }`;
-
-        const FILTER_TERMS_QUERY = gql`
-        query GetFilterTerms {
-            resourceTags(first: 500) {
-                nodes {
-                    name
-                    slug
-                    children {
-                        nodes {
-                            name
-                            slug
-                        }
-                    }
-                }
-            }
-        }`;
+        
 
         const [resourceData, filterTermsData] = await Promise.all([
-            client.query({ query: RESOURCES_QUERY }),
-            client.query({ query: FILTER_TERMS_QUERY })
+            getAllResources(),
+            getAllFilters()
         ]);
 
         return {

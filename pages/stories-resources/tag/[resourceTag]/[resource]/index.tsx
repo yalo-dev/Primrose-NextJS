@@ -1,12 +1,12 @@
 import { useQuery, gql } from '@apollo/client';
-import BackgroundColorComponent from "../../../../app/components/filters/BackgroundColorComponent";
-import Heading from "../../../../app/components/atoms/Heading/Heading";
+import BackgroundColorComponent from "../../../../../app/components/filters/BackgroundColorComponent";
+import Heading from "../../../../../app/components/atoms/Heading/Heading";
 import Link from "next/link";
-import Tag from "../../../../app/components/atoms/Tag/Tag";
-import Paragraph from "../../../../app/components/atoms/Paragraph/Paragraph";
-import NewsletterForm from "../../../../app/components/molecules/NewsletterForm/NewsletterForm";
-import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
-import Button from "../../../../app/components/atoms/Button/Button";
+import Tag from "../../../../../app/components/atoms/Tag/Tag";
+import Paragraph from "../../../../../app/components/atoms/Paragraph/Paragraph";
+import NewsletterForm from "../../../../../app/components/molecules/NewsletterForm/NewsletterForm";
+import ResourceCard from "../../../../../app/components/organisms/ResourceCard/ResourceCard";
+import Button from "../../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
 import Image from 'next/image';
 
@@ -234,7 +234,7 @@ export default function ResourceComponent() {
 										))}
 									</div>
 								)}
-								{date && <div className='date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
+								{date && <div className='resource-date mb-0'><p className='b1 mb-0'>{formattedDate}</p></div>}
 							</div>
 							{title && <div className='title pt-2 pb-2'><Heading level='h1'>{title}</Heading></div>}
 
