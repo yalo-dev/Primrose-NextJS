@@ -51,8 +51,8 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ image, heading, heading
                         <Image
                             src={image?.sourceUrl}
                             alt={image?.altText || 'Seasonal Banner Image'}
-                            width={250}
-                            height={250}
+                            width={1920}
+                            height={1920}
                         />
                     </div>
                     <div className='col-12 col-lg-6 bottom'>
