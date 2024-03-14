@@ -148,7 +148,12 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
   const renderResourceList = (resourceList, showFeaturedImage = true, additionalClassName = '', isFeatured = false) => (
     
   <div className='gap d-flex flex-wrap'>
-      {resourceList.map((resource, index) => (
+      {resourceList.map((resource, index) => {
+      const categoryFirstNode = resource?.resourceTypes?.nodes[0]
+      const category = categoryFirstNode?.slug
+      const link = resource?.newsFields?.link != null ? resource?.newsFields?.link :  "/stories-resources/" + category + "/" + resource.slug;
+      return(
+        
         <ResourceCard
           key={`${resource.title}-${index}`}
           resource={resource}
@@ -156,9 +161,11 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
           className={`${additionalClassName}`}
           featuredResourceIds={featuredResourceIds}
           isFeatured={isFeatured}
-          customLink={resource?.newsFields?.link ? resource?.newsFields?.link : `${router.asPath}/${resource.slug}`}
+          customLink={link}
         />
-      ))}
+      )
+      }
+      )}
     </div>
 );
 
