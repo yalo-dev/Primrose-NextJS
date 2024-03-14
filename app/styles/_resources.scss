@@ -184,8 +184,10 @@
                     background: $grayscale-1;
                     z-index: 1;
                     position: absolute;
+                    //width: 21.25rem;
                     width: 100%;
                     overflow: hidden;
+                    overflow-y: scroll;
                     height: 0;
                     transition: height 0.3s ease-out;
                     @include dropShadow;

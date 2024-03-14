@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MultiSelectDropdown } from '../molecules/MultiSelectDropdown/MultiSelectDropdown';
+import { nodeServerAppPaths } from 'next/dist/build/webpack/plugins/pages-manifest-plugin';
 
 
 
@@ -93,7 +94,7 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const handleTopicsSelect = (selectedTopics: string[]) => {
         setSelectedTopic(selectedTopics);
     };
-
+    
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
