@@ -75,12 +75,12 @@ export default function Location({ locationData }){
           testimonials.push({
             imageOrVideo: 'image',
             image: {
-              sourceUrl: testimonial.testimonialImage.sourceUrl,
-              altText: testimonial.testimonialImage.altText
+              sourceUrl: testimonial.testimonialImage?.sourceUrl,
+              altText: testimonial.testimonialImage?.altText
             },
-            title: testimonial.name,
-            position: testimonial.title,
-            testimonial: testimonial.testimonial
+            title: testimonial?.name,
+            position: testimonial?.title,
+            testimonial: testimonial?.testimonial
             
           })
         });
