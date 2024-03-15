@@ -43,7 +43,7 @@ export default function Location({ locationData }){
         : {sourceUrl: siteSettings?.headerImage?.sourceUrl, altText: siteSettings?.headerImage?.altText}
     const hero_props = {
       leftColumn: {image: heroImage},
-      rightColumn: {heading: market?.marketSettings?.marketCareersPageHeadline ?? "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'secondary'},
+      rightColumn: {heading: market?.marketSettings?.marketCareersPageHeadline ?? "Primrose Schools Careers in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.careersHero?.heroParagraph, button: {title:"See Open Positions", url: "#jobs"}, buttonStyle: 'secondary'},
       customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', topPaddingMobile: 'None'},
       switchColumnOrderOnDesktop: true
     };
