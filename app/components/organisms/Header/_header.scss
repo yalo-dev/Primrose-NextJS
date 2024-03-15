@@ -398,11 +398,33 @@
                 width:100%;
             }
         }
+        .mobile-location-icon {
+            background-color: $white;
+            border-radius: 50%;
+            width: 60px;
+            height: 48px;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            margin-right: 0;
+            z-index: 5;
+            opacity: 1;
+            transition: all 0.3s ease;
+            display: none;
+            @media screen and (max-width: 991px) {
+                &.active {
+                    display: flex;
+                }
+            }
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
+        }
         .search-icon {
             background-color: $white;
             border-radius: 50%;
-            width: 87px;
-            height: 44px;
+            width: 60px;
+            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -411,25 +433,22 @@
             opacity: 1;
             transition: all 0.3s ease;
             display: flex;
-            @include media-breakpoint-up(sm) {
-                height: 50px;
-            }
-            &:hover {
-                background-color: $primary-darkgray;
-                svg {
-                    path {
-                        fill: $white;
+            @include media-breakpoint-up(lg) {
+                &:hover {
+                    background-color: $primary-darkgray;
+                    svg {
+                        path {
+                            fill: $white;
+                        }
                     }
+                }
+                &.active {
+                    opacity: 0;
+                    z-index: 1;
                 }
             }
             &.desktop {
                 cursor: pointer;
-            }
-
-            &.active {
-                opacity: 0;
-                z-index: 0;
-                //display: none !important;
             }
             @include media-breakpoint-up(lg) {
                 border: 1px solid $neutral-2;
@@ -443,8 +462,8 @@
         }
         .form-control {
             border-radius: 2rem;
-            width: 80%;
-            margin-right: 0;
+            width: 79%;
+            margin-right: 0.5rem;
             transition: all 0.3s ease;
             height: 50px;
             border: 1px solid $grayscale-3;
@@ -455,6 +474,10 @@
             position: relative;
             opacity: 0;
             margin-bottom: 1.5rem;
+            display: none;
+            &.active {
+                display: flex;
+            }
             @include media-breakpoint-up(lg) {
                 margin-bottom: 0;
                 width: 0;
@@ -474,21 +497,14 @@
             }
         }
         .search-inner-icon {
-            display: flex;
             z-index: 1;
             position: absolute;
             top: 13px;
             left: 37%;
             transition: all 0.3s ease;
-            @include media-breakpoint-up(sm) {
-                left: 45%;
-            }
-            @include media-breakpoint-up(md) {
-                left: 50%;
-            }
             @include media-breakpoint-up(lg) {
                 display: none;
-                top: 13px;
+                top: 16px;
                 left: 22%;
             }
             @include media-breakpoint-up(xl) {
@@ -497,8 +513,15 @@
             @include media-breakpoint-up(xxl) {
                 left: 16%;
             }
-            &.active {
-                display: block;
+            @media screen and (max-width: 991px) {
+                &.active {
+                    display: none;
+                }
+            }
+            @include media-breakpoint-up(lg) {
+                &.active {
+                    display: flex;
+                }
             }
             &.active.hide {
                 z-index: 0;
@@ -509,7 +532,7 @@
         }
         .clear-icon {
             top: 13px;
-            left: 37%;
+            left: 60%;
             z-index: 1;
             transition: all 0.3s ease;
             @include media-breakpoint-up(sm) {
@@ -542,15 +565,23 @@
             }
         }
         .find-a-school-button {
-            width: 73%;
+            width: 100%;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.35s ease;
             right: 0;
             z-index: 1;
             display: flex;
-            @include media-breakpoint-up(sm) {
-                width: 58%;
+            opacity: 1;
+            transition: all 0.3s ease;
+            transform-origin: center right;
+            @media screen and (max-width: 991px) {
+                &.active {
+                    opacity: 0;
+                    width: 0;
+                    right: -50px
+                }
             }
+            
             @include media-breakpoint-up(lg) {
                 width: auto;
             }
@@ -558,6 +589,7 @@
                 margin-right: 0;
                 transition: all 0.3s ease;
                 white-space: nowrap;
+                width: 100%;
                 @include media-breakpoint-up(lg) {
                     .secondary {
                         background-color: $primary-green;
@@ -586,11 +618,11 @@
                 }
             }
             .form-control {
-                width: 80%;
+                width: 78%;
                 opacity: 1;
                 z-index: 1;
-                margin-left: 0;
-                left: -60px;
+                margin-left: 0.5rem;
+                left: 0;
                 @include media-breakpoint-up(lg) {
                     margin-left: -25px;
                     width: 43%;
