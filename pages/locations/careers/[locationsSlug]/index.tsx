@@ -75,12 +75,12 @@ export default function Location({ locationData }){
           testimonials.push({
             imageOrVideo: 'image',
             image: {
-              sourceUrl: testimonial.testimonialImage.sourceUrl,
-              altText: testimonial.testimonialImage.altText
+              sourceUrl: testimonial.testimonialImage?.sourceUrl,
+              altText: testimonial.testimonialImage?.altText
             },
-            title: testimonial.name,
-            position: testimonial.title,
-            testimonial: testimonial.testimonial
+            title: testimonial?.name,
+            position: testimonial?.title,
+            testimonial: testimonial?.testimonial
             
           })
         });
@@ -95,11 +95,11 @@ export default function Location({ locationData }){
     benefits?.benefits?.map((benefit, index) =>{
         benefitsItems.push({
             icon: {
-                sourceUrl: benefit.icon.sourceUrl,
-                altText: benefit.icon.altText
+                sourceUrl: benefit.icon?.sourceUrl,
+                altText: benefit.icon?.altText
             },
-            title: benefit.title,
-            paragraph: benefit.paragraph
+            title: benefit?.title,
+            paragraph: benefit?.paragraph
         });
     }
     );

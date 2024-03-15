@@ -27,10 +27,10 @@
             &:not(.navitem--main):not(:last-of-type)  {
                 &::after {
                     color: $neutral-1;
-                    content: '/';
+                    content: '|';
                     position: absolute;
-                    bottom: -3px;
-                    right: 7px;
+                    bottom: -1px;
+                    right: 10px;
                 }
             }
          

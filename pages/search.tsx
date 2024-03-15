@@ -290,6 +290,7 @@ const SearchPage: React.FC = () => {
             setSearchPerformed(true);
             setSearchTerm(searchTerm);
         }
+        setCurrentPage(1)
     };
 
     const handleInputChange = (e) => {

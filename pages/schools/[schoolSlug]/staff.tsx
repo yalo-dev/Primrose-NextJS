@@ -102,6 +102,11 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
   const metaTitle = school.schoolCorporateSettings?.staffMeta?.title ?? `Franchise Owner(s) and Staff | Primrose School of ${school?.title}`
   const metaDesc = school.schoolCorporateSettings?.staffMeta?.description
+
+  useEffect(() => {
+    setActiveBio(null)
+  }, [filteredStaffMembers  ]);
+
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };

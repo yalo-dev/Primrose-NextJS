@@ -60,7 +60,7 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const [filteredResources, setFilteredResources] = useState<Resource[]>(initialResources);
 
     useEffect(() => {
-        let newResources = [...initialResources];
+        let newResources = initialResources && [...initialResources];
 
         if (selectedTopic.length > 0) {
             newResources = newResources.filter(resource =>
