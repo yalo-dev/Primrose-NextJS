@@ -7,6 +7,8 @@ interface GravityFormProps {
     formId?: string;
 }
 let fields = [];
+let conditionals = [];
+
 const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
     const [form, setForm] = useState<GfForm | null>(null);
 
@@ -77,14 +79,14 @@ export default GravityFormForm;
 const GFInput = (field)=>{
     
     let classes = `gfield gfield-${field.field.type} ${field.field.size != undefined? field.field.size.toLowerCase() :""}`;
-    let conditionals = [];
-    const handleFieldChange = (e)=>{
-        console.log(e.target);
-        //check conditionals and see if field is in conditionals array
-    }
+    
     if(field.field.conditionalLogic){
         classes += ' hide'
         conditionals.push({trigger:field.field.conditionalLogic.rules[0].fieldId, field: field.field.id, operator: field.field.conditionalLogic.rules[0].operator, value: field.field.conditionalLogic.rules[0].value});
+    }
+    const handleFieldChange = (e)=>{
+        console.log(conditionals);
+        //check conditionals and see if field is in conditionals array
     }
     switch(field.field.type){
         case 'SELECT':
