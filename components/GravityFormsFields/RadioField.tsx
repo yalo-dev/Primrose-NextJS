@@ -12,8 +12,20 @@ export const RADIO_FIELD_FIELDS = gql`
     description
     cssClass
     choices {
-      text
-      value
+      ... on RadioFieldChoice{
+        text
+        value
+        isSelected
+      }
+    }
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
     }
   }
 `;

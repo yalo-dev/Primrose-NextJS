@@ -12,6 +12,7 @@ import EyebrowHeadingSubheading from '../../modules/EyebrowHeadingSubheading/Eye
 import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import GeneralVerticalTabs from '../../modules/GeneralVerticalTabs/GeneralVerticalTabs';
+import GravityForm from '../../modules/GravityForm/GravityForm';
 import HarmonyAndHeart from '../../modules/HarmonyAndHeart/HarmonyAndHeart';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
@@ -89,6 +90,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_GeneralVerticalTabs':
                     ModuleComponent = GeneralVerticalTabs;
                 break;
+                case 'Page_Modules_Modules_GravityForm':
+                    ModuleComponent = GravityForm;
+                break;
                 case 'Page_Modules_Modules_HarmonyAndHeart':
                     ModuleComponent = HarmonyAndHeart;
                     break;
@@ -157,7 +161,6 @@ export const CommonPageComponent = ({ modules }) => {
 
             // Add moduleId to moduleProps if it's not empty
             const moduleProps = module.moduleId ? { ...module, moduleId: module.moduleId } : module;
-
             return (
                 <section id={moduleIdToUse} className={`module ${module.__typename}`} key={index} >
                     {ModuleComponent && <ModuleComponent {...moduleProps} />}

@@ -7,6 +7,7 @@ import { EMAIL_FIELD_FIELDS } from "../components/GravityFormsFields/EmailField"
 import { PHONE_FIELD_FIELDS } from "../components/GravityFormsFields/PhoneField";
 import { RADIO_FIELD_FIELDS } from "../components/GravityFormsFields/RadioField";
 import { TEXT_FIELD_FIELDS } from "../components/GravityFormsFields/TextField";
+import { TEXTAREA_FIELD_FIELDS } from "../components/GravityFormsFields/TextAreaField"
 import { SELECT_FIELD_FIELDS } from "../components/GravityFormsFields/SelectField";
 import { HIDDEN_FIELD_FIELDS } from "../components/GravityFormsFields/HiddenField";
 
@@ -42,6 +43,9 @@ const GET_FORM = gql`
           ... on TextField {
             ...TextFieldFields
           }
+          ... on TextAreaField {
+            ...TextAreaFieldFields
+          }
           ... on SelectField {
             ...SelectFieldFields
           }
@@ -59,6 +63,7 @@ const GET_FORM = gql`
   ${TEXT_FIELD_FIELDS}
   ${SELECT_FIELD_FIELDS}
   ${HIDDEN_FIELD_FIELDS}
+  ${TEXTAREA_FIELD_FIELDS}
 `;
 
 export default async function getGravityForm(formId: number): Promise<GfForm | undefined> {

@@ -523,6 +523,11 @@ query GetModules($id: ID = "") {
 			subheading
 			subheadingColor
 		  }
+		  ... on Page_Modules_Modules_GravityForm {
+			acfeFlexibleToggle
+			fieldGroupName
+			formId
+		  }
 		  ... on Page_Modules_Modules_HarmonyAndHeart {
 			acfeFlexibleToggle
 			fieldGroupName

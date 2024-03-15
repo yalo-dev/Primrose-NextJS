@@ -10,6 +10,7 @@ export const SELECT_FIELD_FIELDS = gql`
     databaseId
     type
     label
+    size
     description
     cssClass
     isRequired
@@ -18,6 +19,15 @@ export const SELECT_FIELD_FIELDS = gql`
     choices {
       text
       value
+    }
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
     }
   }
 `;

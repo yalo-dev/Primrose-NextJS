@@ -14,6 +14,15 @@ export const CHECKBOX_FIELD_FIELDS = gql`
     inputs {
       id
     }
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
+    }
     choices {
       text
       value

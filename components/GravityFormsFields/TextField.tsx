@@ -10,11 +10,21 @@ export const TEXT_FIELD_FIELDS = gql`
     databaseId
     type
     label
+    size
     description
     cssClass
     isRequired
     placeholder
     visibility
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
+    }
   }
 `;
 

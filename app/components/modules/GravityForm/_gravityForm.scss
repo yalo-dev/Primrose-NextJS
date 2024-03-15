@@ -1,0 +1,20 @@
+.gravity-form{
+    .form-wrapper{
+        form{
+            justify-content: space-between;
+            .gfield.gfield-TEXTAREA{
+                width:100%;
+                
+            }
+            .gfield{
+                width:calc(50% - 2rem)
+            }
+            .gfield.large{
+                width:100%;
+            }
+            
+        }
+    }
+    
+
+}
