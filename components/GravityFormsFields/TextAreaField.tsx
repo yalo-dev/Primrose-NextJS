@@ -1,20 +1,21 @@
 import { gql } from "@apollo/client";
+
+import { TextAreaField as TextAreaFieldType, FieldError } from "../../generated/graphql";
+import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
 import React, { useEffect, useRef, useState } from 'react';
 
-import { PhoneField as PhoneFieldType, FieldError } from "../../generated/graphql";
-import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
-
-export const PHONE_FIELD_FIELDS = gql`
-  fragment PhoneFieldFields on PhoneField {
+export const TEXTAREA_FIELD_FIELDS = gql`
+  fragment TextAreaFieldFields on TextAreaField {
     id
     databaseId
+    type
     label
     description
     size
     cssClass
     isRequired
     placeholder
-    value
+    visibility
     conditionalLogic {
       actionType
       logicType
@@ -28,23 +29,29 @@ export const PHONE_FIELD_FIELDS = gql`
 `;
 
 interface Props {
-  field: PhoneFieldType;
+  field: TextAreaFieldType;
   fieldErrors: FieldError[];
 }
 
 const DEFAULT_VALUE = '';
 
-export default function PhoneField({ field, fieldErrors }: Props) {
+export default function TextAreaField({ field, fieldErrors }: Props) {
   const { id, databaseId, type, label, description, cssClass, isRequired, placeholder } = field;
   const htmlId = `field_${databaseId}`;
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
   const fieldRef = useRef<HTMLInputElement>(null);
-  
+
+  let setDisabled = false;
+
+  if(field?.databaseId === 7 || field?.databaseId === 18 || field?.databaseId === 24 || field?.databaseId === 28 || field?.databaseId === 32 || field?.databaseId === 36) {
+    setDisabled = true;
+  }
+
   useEffect(()=>{
     dispatch({
-      type: ACTION_TYPES.updatePhoneFieldValue,
+      type: ACTION_TYPES.updateTextFieldValue,
       fieldValue: {
         id,
         value: fieldRef.current.value,
@@ -52,12 +59,14 @@ export default function PhoneField({ field, fieldErrors }: Props) {
     })
   }, [fieldRef]
   );
+
   return (
-    <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
       <label htmlFor={htmlId}>{label}</label>
       <input
         ref={fieldRef}
-        type="tel"
+        disabled={setDisabled} 
+        type="text"
         name={String(id)}
         id={htmlId}
         required={Boolean(isRequired)}
@@ -65,7 +74,7 @@ export default function PhoneField({ field, fieldErrors }: Props) {
         value={value}
         onChange={event => {
           dispatch({
-            type: ACTION_TYPES.updatePhoneFieldValue,
+            type: ACTION_TYPES.updateTextFieldValue,
             fieldValue: {
               id,
               value: event.target.value,

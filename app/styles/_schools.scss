@@ -683,150 +683,315 @@
         padding: 100px 70px;
     }
 
-    .form-wrapper {
-        margin-top: 40px;
-        margin-bottom: 60px;
+    
+}
+.form-wrapper {
+    margin-top: 40px;
+    margin-bottom: 60px;
 
-        @include media-breakpoint-up(lg) {
-            margin-top: 0;
+    @include media-breakpoint-up(lg) {
+        margin-top: 0;
+    }
+
+    .desc {
+        margin-bottom: 40px;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+
+        div[hidden]#gfield_1,
+        div[hidden]#gfield_3,
+        div[hidden]#gfield_6,
+        div[hidden]#gfield_11
+        {
+            display: flex !important;
         }
-
-        .desc {
-            margin-bottom: 40px;
+        div[hidden]#gfield_7
+        {
+            display: none !important;
         }
-
-        form {
+        div.hide{
+            display:none;
+        }
+        .gfield {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 26px;
 
-            div[hidden]#gfield_1,
-            div[hidden]#gfield_3,
-            div[hidden]#gfield_6,
-            div[hidden]#gfield_11
-            {
-                display: flex !important;
+            label {
+                @extend .h5;
+                text-wrap: nowrap;
             }
-            div[hidden]#gfield_7
+
+            legend {
+                @extend .b3;
+            }
+        
+            input,
+            select, textarea {
+                display: flex;
+                width: 100%;
+                padding: 13px 24px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 6px;
+                border: 1px solid $neutral-2;
+                background-color: $form-bg;
+                font-size: 18px;
+                color: $primary-darkgray;
+
+                &::placeholder {
+                    color: $primary-darkgray;
+                    font-weight: 300;
+                }
+            }
+
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-image: url('/assets/dropdown-icon.svg');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 30px;
+                border: 1px solid #dcdcdc;
+                padding-right: 45px;
+            }
+
+            .custom-select {
+                display: inline-block;
+                position: relative;
+                width: 100%;
+                margin-top: 0;
+            }
+
+            input[disabled]#field_7,
+            input[disabled]#field_18,
+            input[disabled]#field_24,
+            input[disabled]#field_28,
+            input[disabled]#field_32,
+            input[disabled]#field_36,
+            select[disabled]#field_8,
+            select[disabled]#field_9,
+            select[disabled]#field_10,
+            select[disabled]#field_15,
+            select[disabled]#field_16,
+            select[disabled]#field_17,
+            select[disabled]#field_25,
+            select[disabled]#field_26,
+            select[disabled]#field_27,
+            select[disabled]#field_29,
+            select[disabled]#field_30,
+            select[disabled]#field_31,
+            select[disabled]#field_33,
+            select[disabled]#field_34,
+            select[disabled]#field_35,
+            select[disabled]#field_37,
+            select[disabled]#field_38,
+            select[disabled]#field_39
             {
                 display: none !important;
             }
+            &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
+            &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
+                display: none;
+            }
+            &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
+                margin-top: 5px;
+            }
 
-            .gfield {
+            &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 
+            &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39
+            {
+                label {
+                    display: none;
+                }
+            }
+
+            &#gfield_6 {
+                margin-bottom: 40px;
+            }
+
+            &#gfield_8,
+            &#gfield_15,
+            &#gfield_25,
+            &#gfield_29,
+            &#gfield_33,
+            &#gfield_37 {
+                margin-bottom: 10px;
+            }
+
+            &#gfield_9,
+            &#gfield_16,
+            &#gfield_26,
+            &#gfield_30,
+            &#gfield_34,
+            &#gfield_38 {
+                margin-right: 10px;
+            }
+
+            &#gfield_9,
+            &#gfield_10,
+            &#gfield_16,
+            &#gfield_17,
+            &#gfield_26,
+            &#gfield_27,
+            &#gfield_30,
+            &#gfield_31,
+            &#gfield_34,
+            &#gfield_35,
+            &#gfield_38,
+            &#gfield_39 {
+                width: calc(50% - 5px);
+            }
+
+            &#gfield_23_23 {
                 display: flex;
-                flex-direction: column;
-                width: 100%;
-                margin-bottom: 26px;
+                flex-direction: row-reverse;
+                position: relative;
 
                 label {
-                    @extend .h5;
-                    text-wrap: nowrap;
+                    display: none;
                 }
 
                 legend {
-                    @extend .b3;
+                    padding-left: 20px;
                 }
 
-                input,
-                select {
-                    display: flex;
-                    width: 100%;
-                    padding: 13px 24px;
-                    align-items: center;
-                    gap: 10px;
-                    border-radius: 6px;
+                input[type="checkbox"] {
+                    opacity: 0;
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                }
+
+                .checkbox-style {
+                    height: 20px;
+                    width: 20px;
                     border: 1px solid $neutral-2;
-                    background-color: $form-bg;
-                    font-size: 18px;
-                    color: $primary-darkgray;
-
-                    &::placeholder {
-                        color: $primary-darkgray;
-                        font-weight: 300;
-                    }
-                }
-
-                select {
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                    background-image: url('/assets/dropdown-icon.svg');
-                    background-repeat: no-repeat;
-                    background-position: right 10px center;
-                    background-size: 30px;
-                    border: 1px solid #dcdcdc;
-                    padding-right: 45px;
-                }
-
-                .custom-select {
-                    display: inline-block;
                     position: relative;
-                    width: 100%;
-                    margin-top: 0;
+                    display: inline-block;
+                    cursor: pointer;
                 }
 
-                input[disabled]#field_7,
-                input[disabled]#field_18,
-                input[disabled]#field_24,
-                input[disabled]#field_28,
-                input[disabled]#field_32,
-                input[disabled]#field_36,
-                select[disabled]#field_8,
-                select[disabled]#field_9,
-                select[disabled]#field_10,
-                select[disabled]#field_15,
-                select[disabled]#field_16,
-                select[disabled]#field_17,
-                select[disabled]#field_25,
-                select[disabled]#field_26,
-                select[disabled]#field_27,
-                select[disabled]#field_29,
-                select[disabled]#field_30,
-                select[disabled]#field_31,
-                select[disabled]#field_33,
-                select[disabled]#field_34,
-                select[disabled]#field_35,
-                select[disabled]#field_37,
-                select[disabled]#field_38,
-                select[disabled]#field_39
-                {
-                    display: none !important;
+                input[type="checkbox"]:checked+.checkbox-style {
+                    background-image: url('/assets/checkmark.svg');
+                    background-size: cover;
+                    background-size: 90%;
+                    background-position: center;
+                    background-repeat: no-repeat;
                 }
-                &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
-                &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
-                    display: none;
-                }
-                &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
-                    margin-top: 5px;
+            }
+
+            &#gfield_13_13 {
+                label {
+                    font-weight: 300;
+                    margin-left: 20px;
                 }
 
-                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 
-                &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39
-                {
-                    label {
-                        display: none;
+                legend {
+                    @extend .h5;
+                    font-weight: 700;
+                }
+
+                input[type="radio"] {
+                    opacity: 0;
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                }
+
+                .radio-style {
+                    height: 20px;
+                    width: 20px;
+                    border: 1px solid $neutral-2;
+                    border-radius: 50%;
+                    position: relative;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+
+                input[type="radio"]:checked+.radio-style {
+                    background-color: $primary-green;
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                }
+
+                .input-wrappers {
+                    display: flex;
+
+                    .input-wrapper:nth-child(2) {
+                        margin-left: 20px;
                     }
+                }
+            }
+
+            @include media-breakpoint-up(xl) {
+                width: calc(50% - 18px);
+                //margin-bottom: 30px;
+
+                &#gfield_1,
+                &#gfield_5_5 {
+                    margin-right: 36px;
+                }
+
+                &#gfield_7,
+                &#gfield_18,
+                &#gfield_11,
+                &#gfield_23_23,
+                &#gfield_13_13,
+                &#gfield_24,
+                &#gfield_28,
+                &#gfield_32,
+                &#gfield_36 {
+                    width: 100%;
+                    //margin-top: 20px;
                 }
 
                 &#gfield_6 {
-                    margin-bottom: 40px;
+                    width: 47%;
                 }
 
                 &#gfield_8,
+                &#gfield_9,
+                &#gfield_10,
                 &#gfield_15,
+                &#gfield_16,
+                &#gfield_17,
                 &#gfield_25,
+                &#gfield_26,
+                &#gfield_27,
                 &#gfield_29,
+                &#gfield_30,
+                &#gfield_31,
                 &#gfield_33,
-                &#gfield_37 {
-                    margin-bottom: 10px;
+                &#gfield_34,
+                &#gfield_35,
+                &#gfield_37,
+                &#gfield_38,
+                &#gfield_39 {
+                    width: calc(33% - 16px);
                 }
 
+                &#gfield_8,
                 &#gfield_9,
+                &#gfield_15,
                 &#gfield_16,
+                &#gfield_25,
                 &#gfield_26,
+                &#gfield_29,
                 &#gfield_30,
+                &#gfield_33,
                 &#gfield_34,
+                &#gfield_37,
                 &#gfield_38 {
-                    margin-right: 10px;
+                    margin-right: 26px;
                 }
 
                 &#gfield_9,
@@ -841,180 +1006,17 @@
                 &#gfield_35,
                 &#gfield_38,
                 &#gfield_39 {
-                    width: calc(50% - 5px);
-                }
-
-                &#gfield_23_23 {
-                    display: flex;
-                    flex-direction: row-reverse;
-                    position: relative;
-
-                    label {
-                        display: none;
-                    }
-
-                    legend {
-                        padding-left: 20px;
-                    }
-
-                    input[type="checkbox"] {
-                        opacity: 0;
-                        position: absolute;
-                        width: 20px;
-                        height: 20px;
-                        z-index: 1;
-                    }
-
-                    .checkbox-style {
-                        height: 20px;
-                        width: 20px;
-                        border: 1px solid $neutral-2;
-                        position: relative;
-                        display: inline-block;
-                        cursor: pointer;
-                    }
-
-                    input[type="checkbox"]:checked+.checkbox-style {
-                        background-image: url('/assets/checkmark.svg');
-                        background-size: cover;
-                        background-size: 90%;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                    }
-                }
-
-                &#gfield_13_13 {
-                    label {
-                        font-weight: 300;
-                        margin-left: 20px;
-                    }
-
-                    legend {
-                        @extend .h5;
-                        font-weight: 700;
-                    }
-
-                    input[type="radio"] {
-                        opacity: 0;
-                        position: absolute;
-                        width: 20px;
-                        height: 20px;
-                        z-index: 1;
-                    }
-
-                    .radio-style {
-                        height: 20px;
-                        width: 20px;
-                        border: 1px solid $neutral-2;
-                        border-radius: 50%;
-                        position: relative;
-                        display: inline-block;
-                        cursor: pointer;
-                    }
-
-                    input[type="radio"]:checked+.radio-style {
-                        background-color: $primary-green;
-                        height: 20px;
-                        width: 20px;
-                        border-radius: 50%;
-                    }
-
-                    .input-wrappers {
-                        display: flex;
-
-                        .input-wrapper:nth-child(2) {
-                            margin-left: 20px;
-                        }
-                    }
-                }
-
-                @include media-breakpoint-up(xl) {
-                    width: calc(50% - 18px);
-                    //margin-bottom: 30px;
-
-                    &#gfield_1,
-                    &#gfield_5_5 {
-                        margin-right: 36px;
-                    }
-
-                    &#gfield_7,
-                    &#gfield_18,
-                    &#gfield_11,
-                    &#gfield_23_23,
-                    &#gfield_13_13,
-                    &#gfield_24,
-                    &#gfield_28,
-                    &#gfield_32,
-                    &#gfield_36 {
-                        width: 100%;
-                        //margin-top: 20px;
-                    }
-
-                    &#gfield_6 {
-                        width: 47%;
-                    }
-
-                    &#gfield_8,
-                    &#gfield_9,
-                    &#gfield_10,
-                    &#gfield_15,
-                    &#gfield_16,
-                    &#gfield_17,
-                    &#gfield_25,
-                    &#gfield_26,
-                    &#gfield_27,
-                    &#gfield_29,
-                    &#gfield_30,
-                    &#gfield_31,
-                    &#gfield_33,
-                    &#gfield_34,
-                    &#gfield_35,
-                    &#gfield_37,
-                    &#gfield_38,
-                    &#gfield_39 {
-                        width: calc(33% - 16px);
-                    }
-
-                    &#gfield_8,
-                    &#gfield_9,
-                    &#gfield_15,
-                    &#gfield_16,
-                    &#gfield_25,
-                    &#gfield_26,
-                    &#gfield_29,
-                    &#gfield_30,
-                    &#gfield_33,
-                    &#gfield_34,
-                    &#gfield_37,
-                    &#gfield_38 {
-                        margin-right: 26px;
-                    }
-
-                    &#gfield_9,
-                    &#gfield_10,
-                    &#gfield_16,
-                    &#gfield_17,
-                    &#gfield_26,
-                    &#gfield_27,
-                    &#gfield_30,
-                    &#gfield_31,
-                    &#gfield_34,
-                    &#gfield_35,
-                    &#gfield_38,
-                    &#gfield_39 {
-                        margin-top: 5px;
-                    }
+                    margin-top: 5px;
                 }
             }
+        }
 
-            button {
-                width: auto;
-                @extend .primary;
-            }
+        button {
+            width: auto;
+            @extend .primary;
         }
     }
 }
-
 .school-home {
     padding-top: 3rem;
     // padding-bottom: 3rem;

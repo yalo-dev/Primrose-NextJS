@@ -19,7 +19,6 @@ interface LeadershipMember {
   }
 
   export default function LeadershipPage({ leadershipMembers }: LeadershipMemberListProps) {
-    console.log(leadershipMembers); 
 
   const [activeBio, setActiveBio] = useState(null);
   const [bioHeights, setBioHeights] = useState({});

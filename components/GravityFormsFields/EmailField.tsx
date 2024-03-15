@@ -9,10 +9,20 @@ export const EMAIL_FIELD_FIELDS = gql`
     id
     databaseId
     label
+    size
     description
     cssClass
     isRequired
     placeholder
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
+    }
   }
 `;
 

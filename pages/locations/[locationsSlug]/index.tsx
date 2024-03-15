@@ -76,8 +76,8 @@ export default function Location({ locationData }){
     market.marketSettings.testimonials?.map((testimonial, index) => {
         testimonials.push({
           avatar: {
-            sourceUrl: testimonial.testimonialImage.sourceUrl,
-            altText: testimonial.testimonialImage.altText
+            sourceUrl: testimonial.testimonialImage?.sourceUrl,
+            altText: testimonial.testimonialImage?.altText
           },
           name: testimonial.name,
           position: testimonial.title,
