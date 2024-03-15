@@ -24,6 +24,7 @@ export async function getServerSideProps() {
             props: {
                 resources: resourceData.data.resources.nodes,
                 featuredResources: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
+                excludedResources: resourceData.data.resourcesSettings.resourceSettings.hideTagFromSearch,
                 filterTerms: filterTermsData.data
             },
         };
@@ -31,20 +32,22 @@ export async function getServerSideProps() {
     } catch (error) {
         console.error("Error fetching data", error);
         return {
-            props: { resources: [], featuredResources: [], filterTerms: [] },
+            props: { resources: [], featuredResources: [], excludedResources: [], filterTerms: [] },
         };
     }
 }
 
-export default function ResourcesList({ resources, featuredResources, filterTerms }) {
+export default function ResourcesList({ resources, featuredResources, excludedResources, filterTerms }) {
     const router = useRouter()
     const featuredResourceIds = featuredResources?.map(fr => fr.id);
     const displayedFeaturedResources = featuredResources?.slice(0, 5);
+    const excludedResourceIds = excludedResources?.map(tag => tag.id);
 
     const filterResourcesByTypeAndExcludeFeatured = (typeSlug) => {
         return resources.filter(resource =>
             resource.resourceTypes.nodes.some(type => type.slug === typeSlug) &&
-            !featuredResourceIds?.includes(resource.id)
+            !featuredResourceIds?.includes(resource.id) &&
+            !excludedResourceIds?.includes(resource.id)
         );
     };
     
@@ -110,6 +113,10 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                     if (!resource) {
                         return null;
                     }
+
+                    if (excludedResourceIds?.includes(resource.id)) {
+                        return null;
+                    }
     
                     const isNewsroom = resource?.resourceTypes?.nodes?.some(type => type.slug === 'newsroom');
                     const isFeatured = resource?.resourceTags?.nodes?.some(tag => tag.slug === 'featured');
@@ -119,7 +126,7 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
                     const categoryFirstNode = resource?.resourceTypes?.nodes[0]
                     const category = categoryFirstNode?.slug
                     const link = resource?.newsFields?.link != null ? resource?.newsFields?.link : router.asPath + "/" + category + "/" + resource.slug;
-                    
+                   
                     return (
                         <ResourceCard
                             key={resource.id}
@@ -141,15 +148,14 @@ export default function ResourcesList({ resources, featuredResources, filterTerm
     const indexOfLastResource = currentPage * resourcesPerPage;
     const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
     const allResourcesRef = useRef<HTMLDivElement>(null);
-    
+    const filteredResourcesExcludes = filteredResources.filter(resource => !excludedResourceIds?.includes(resource.id));
 
-    const currentResources = filteredResources.slice(indexOfFirstResource, indexOfLastResource)
+    const currentResources = filteredResourcesExcludes.slice(indexOfFirstResource, indexOfLastResource)
     .map(resource => ({
         ...resource,
         isFeatured: featuredResourceIds?.includes(resource.id)
     }));
-
-
+    
     // useEffect(() => {
     //     const adjustCardHeights = () => {
     //         if (window.innerWidth < 1200) {

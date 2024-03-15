@@ -1,10 +1,12 @@
 .general-vertical-tabs {
-    padding: 53px 0;
+    // padding: 53px 0;
     @include media-breakpoint-up(lg) {
-        padding: 130px 0 140px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
     @include media-breakpoint-up(xxl) {
-        padding: 130px 60px 140px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
     .heading-wrapper {
         max-width: 760px;

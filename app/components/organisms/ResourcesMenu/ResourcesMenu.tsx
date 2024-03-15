@@ -47,9 +47,9 @@ export default function ResourcesMenu() {
         <div className='container'>
           <div className='d-flex flex-column flex-sm-row align-items-start align-items-sm-center'>
           <Heading level="h5" className="green m-sm-0">
-            <Link className="green m-sm-0" href="/resources">Stories & Resources</Link>
+            <Link className="green m-sm-0" href="/stories-resources">Stories & Resources</Link>
           </Heading>
-          <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-4'>
+          <UnorderedList listClass='d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-5'>
             {menuItems.map((item, index) => (
               <ListItem 
                 key={index} 

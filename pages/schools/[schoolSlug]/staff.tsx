@@ -211,7 +211,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
       </div>
       <div className='container'>
         {/* Franchise Owners Section */}
-        {franchiseOwner && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
+        {franchiseOwner?.bio && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
       <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} usesCalendly={school?.schoolCorporateSettings?.usesCalendly}/>
     </div>

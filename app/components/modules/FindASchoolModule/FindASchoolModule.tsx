@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-//import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Button from '../../atoms/Button/Button';
-import {getSchools} from '../../../../app/data/schoolsData';
-import { DocumentNode } from 'graphql';
 
 const containerStyle = {
   width: '100%',
@@ -44,10 +42,9 @@ type LocationData = {
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
   return `
-    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="48" viewBox="0 0 39 48" fill="none">
-      <path d="M20.5628 44.0585L32.232 32.3417C32.2321 32.3416 32.2321 32.3416 32.2321 32.3416C39.256 25.29 39.2559 13.8431 32.2321 6.79113C25.2057 -0.263722 13.7943 -0.263744 6.76792 6.79113C-0.255928 13.8431 -0.256007 25.29 6.76788 32.3416C6.76791 32.3416 6.76793 32.3416 6.76796 32.3417L18.4372 44.0585L19.5 45.1257L20.5628 44.0585Z" fill="${fillColor}" stroke="white" stroke-width="3"/>
-      <circle cx="19.5" cy="19.5" r="12" fill="#5E6738"/>
-      <text x="19.5" y="25" font-family="Arial" font-size="14px" fill="#ffffff" text-anchor="middle">${index}</text>
+    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="40" viewBox="0 0 33 40" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M4.8307 4.84967C-1.61023 11.3164 -1.61023 21.8168 4.8307 28.2831L16.5 40L28.1693 28.2831C34.6102 21.8168 34.6102 11.3164 28.1693 4.84967C21.7292 -1.61656 11.2708 -1.61656 4.8307 4.84967Z" fill="${fillColor}"/>
+      <text x="16" y="23" font-family="Arial" font-size="14px" fill="white" text-anchor="middle">${index}</text>
     </svg>
   `;
 };
@@ -59,47 +56,52 @@ const svgIconEnd = `
 `;
 
 const svgIconStart = `
-<svg width="12" height="12" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="8.5" cy="9.34973" r="7.75" fill="none" stroke="#5E6738" stroke-width="1.5"/>
+<svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="8.5" cy="9.34973" r="7.75" fill="#5E6738" stroke="#5E6738" stroke-width="1.5"/>
 </svg>
 
 `;
 
 interface SchoolsArray{
-  id: number;
+  id: string;
+  schoolAdminSettings: any,
+  schoolCorporateSettings: any,
   slug: string,
-  uri: string,
-  name: string;
-  address: string;
-  phone: any;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
+  title: string,
+  uri: string
 }
 
 interface FindASchoolMapProps{
-  title?: string;
+  schools?: any;
+  heading?: string;
   center?: any;
-  place?: any;
-  cta?:any;
+  cta?: any;
 }
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let{
-    title,
+    schools,
+    heading,
     center,
-    place,
     cta
   } = props;
-  //console.log(props);
+  console.log(props);
+  if (center.latitude && center.longitude) {
+    center = {lat: center.latitude, lng: center.longitude};
+  } else if (schools && schools.length > 0) {
+    const totalSchools = schools.length;
+    const totalLat = schools.reduce((sum, school) => sum + school.schoolCorporateSettings.address.latitude, 0);
+    const totalLng = schools.reduce((sum, school) => sum + school.schoolCorporateSettings.address.longitude, 0);
+  
+    center = {lat: totalLat / totalSchools, lng: totalLng / totalSchools
+    };
+  } else {
+    center = map_center;
+  }
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
-  const [mapCenter, setMapCenter] = useState(map_center);
-  const [route, setRoute] = useState(null);
+  const [mapCenter, setMapCenter] = useState(center);
   const [activeTab, setActiveTab] = useState(1);
   const [showMap, setShowMap] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -109,11 +111,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const routeInputRef1 = useRef<HTMLInputElement>(null);
   const routeInputRef2 = useRef<HTMLInputElement>(null);
   const routeInputRef3 = useRef<HTMLInputElement>(null);
-  const [zoomLevel, setZoomLevel] = useState(5);
-  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(map_center);
+  const [zoomLevel, setZoomLevel] = useState(9);
+  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(center);
   let geocoder;
-  const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
-  const DEFAULT_ZOOM = 11;
+  const MAX_DISTANCE = 50;
+  const DEFAULT_ZOOM = 5;
   const [hoveredSchoolId, setHoveredSchoolId] = useState<number | null>(null);
   const mapRef = React.useRef<google.maps.Map | null>(null);
   const [isAdded, setIsAdded] = useState(true);
@@ -137,41 +139,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
-
-  const defaultRouteProps = [
-    { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
-    { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
-  ];
-
-  useEffect(() =>{
-    if(center !== undefined && center !== map_center){
-      if(center?.latitude){
-        center.lat = center.latitude;
-        center.lng = center.longitude;
-        setMapCenter(center);
-      }
-      setZoomLevel(DEFAULT_ZOOM);
-    }
-      
-    },[]);
-  
-
-  const [schools, setSchools] = useState([]);
-  useEffect(() => { 
-  getSchools()
-    .then((result) =>{
-        setSchools(result);
-       //console.log('schools');
-        //console.log(schools);   
-        setLoading(false);
-        onPlaceSelected(place);
-    })
-  }, [place]);
-    if(cta == null){
-      cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
-    }
-
-
   const handleNewWaypoint = (newWaypoint) => {
     setWaypoints([...waypoints, newWaypoint]);
   
@@ -190,7 +157,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   
     setInputFields(prevFields => [...prevFields, newWaypointField]);
   
-    //console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
+    console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
   };
   
   const [locationData, setLocationData] = useState<LocationData>({
@@ -198,17 +165,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     waypoints: [],
     destination: null
   });
-
   useEffect(() => {
-    //console.log("Updated refs", waypointRefs);
-    //console.log("Update count", updateCount);
+    console.log("Updated refs", waypointRefs);
+    console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
-    
-   useEffect(() => {
-    //console.log('place');
-    //console.log(place);
-    onPlaceSelected(place);
-  }, [place, nearInputRef]); 
+
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -386,7 +347,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const destinationField = inputFields.find(f => f.type === 'destination');
   
     if (!window.google || !window.google.maps) {
-      //console.log("Google Maps API not loaded yet.");
+      console.log("Google Maps API not loaded yet.");
       return;
     }
 
@@ -449,17 +410,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
-        let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
-        //console.log(routeBounds.getCenter().lat());
-        let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
-        //console.log(routeCenter);
-        setMapCenter(routeCenter);
-        setRoute(result);
-        //console.log(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
         console.log("No route could be found between the origin and destination.");
       } else {
-        //console.log("Directions request failed due to " + status);
+        console.log("Directions request failed due to " + status);
       }
     });
   };
@@ -470,6 +424,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lat: selectedPlace.geometry.location.lat(),
         lng: selectedPlace.geometry.location.lng(),
       };
+  
       const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
   
       setInputFields(prevFields =>
@@ -505,89 +460,39 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     };
   }, []);
 
- useEffect(()=>{
-  window.onresize = setMapScrollerHeight;
-  setMapScrollerHeight();
-  function setMapScrollerHeight(){
-    var scroller = document.getElementById('school-list-scroller');
-    if(scroller && scroller.offsetHeight){
-      scroller.style.transition = 'none';
-      var map = document.getElementById('map');
-      var scrollerParent = scroller.offsetParent as HTMLElement;
-      scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
-    }
-  } ;
- }, [window])
+  const filteredSchools = schools.filter(school => {
+    const distance = calculateDistance(
+      mapCenter.lat,
+      mapCenter.lng,
+      school.schoolCorporateSettings?.address?.latitude,
+      school.schoolCorporateSettings?.address?.longitude
+    );
+    return distance <= MAX_DISTANCE;
+  });
 
-  function getSortedSchools(schools){
-    if(!schools){
-      return [];
-    }else{
-    const filteredSchools = schools.filter(school => {
-      //console.log("mapCenter");
-      const distance = calculateDistance(
-        mapCenter.lat,
-        mapCenter.lng,
-        school.coordinates?.lat,
-        school.coordinates?.lng
-      );
-      //console.log('checking distance');
-      return distance <= MAX_DISTANCE;
-    });
-    
-    const sortedSchools = [...filteredSchools].map((school) => {
-      let dist = null;
-      if(activeTab === 2 && route!= null){
-        /* let start = route.routes[0].legs[0].start_location;
-        let end = route.routes[0].legs[0].end_location;
-        let mid = route.routes[0].overview_path[Math.floor(route.routes[0].overview_path.length/2)];
-        let startDist = calculateDistance(start.lat(), start.lng(), school.coordinates.lat, school.coordinates.lng);
-        let endDist = calculateDistance(end.lat(), end.lng(), school.coordinates.lat, school.coordinates.lng);
-        let midDist = calculateDistance(mid.lat(), mid.lng(), school.coordinates.lat, school.coordinates.lng);
-        dist = Math.min(startDist, endDist, midDist); */
+  const sortedSchools = [...filteredSchools].map((school) => {
+    const dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.schoolCorporateSettings?.address?.latitude, school.schoolCorporateSettings?.address?.longitude);
+    return { ...school, distance: dist };
+  }).sort((a, b) => a.distance - b.distance)
+    .map((school, index) => ({ ...school, index: index + 1 }));
 
-        
-        let path_points = route.routes[0].overview_path;
-        let distances = path_points.map((point)=>{
-          return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
-        });
-        console.log(distances);
-        dist = Math.min.apply(Math,distances);
-      }else{
-        dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
-      }
-      
-      return { ...school, distance: dist };
-    }).sort((a, b) => a.distance - b.distance)
-      .map((school, index) => ({ ...school, index: index + 1 }));
-      //console.log('sortedSchools');
-      return(sortedSchools);
-  }
-  };
   function onPlaceSelected(place, type = 'text') {
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
-      if(route!=null){
-        //console.log(route);
-        let routeCenter = {lat:route.routes[0].bounds.getCenter().lat, lng: route.routes[0].bounds.getCenter().lng} ;
-        setMapCenter(routeCenter);
-      }else{
-        setMapCenter(newMapCenter);
-      }
-      
+      setMapCenter(newMapCenter);
       setZoomLevel(11);
-      //console.log(zoomLevel);
-      set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-      //console.dir(place);
-      const formattedPlaceName = place.name && place.formatted_address ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-      //console.log(nearInputRef);
-      //nearInputRef.current.value = place.name;
+  
+      const formattedPlaceName = place.name;
+      
+      nearInputRef.current.value = place.name;
+
+      console.log(place);
       
       setInputFields(prevFields =>
         prevFields.map(field => {
@@ -600,10 +505,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             
       
       if (type === 'start') {
-        //console.log('New start position:', newMapCenter);
+        console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
       } else if (type === 'destination') {
-        //console.log('New destination position:', newMapCenter);
+        console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
       } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
@@ -696,17 +601,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setSearched(false);
     setShowMap(false);
     setIsAdded(false);
-    //setMapCenter(center);
-    setZoomLevel(5);
+    setMapCenter(center);
+    setZoomLevel(DEFAULT_ZOOM);
     setMarkers([]);
-    setRoute(null);
-    setInputFields(defaultRouteProps as InputField[]);
+
     if (tabIndex === 1) {
       window.location.hash = 'nearby';
-      document.body.classList.remove('alongroute');
     } else if (tabIndex === 2) {
       window.location.hash = 'alongroute';
-      document.body.classList.add('alongroute');
     }
 
     if (directionsRendererRef.current) {
@@ -716,8 +618,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setHoveredSchoolId(null);
 
     if (nearInputRef.current) nearInputRef.current.value = '';
-    routeInputRef1.current.value = '';
-    routeInputRef2.current.value = '';
+    if (routeInputRef1.current) routeInputRef1.current.value = '';
+    if (routeInputRef2.current) routeInputRef2.current.value = '';
 
     setWaypoints([]);
 
@@ -725,7 +627,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     if (mapRef.current) {
       mapRef.current.setCenter(center);
-      mapRef.current.setZoom(5);
+      mapRef.current.setZoom(DEFAULT_ZOOM);
     }
 
     Object.values(waypointRefs).forEach(ref => {
@@ -742,11 +644,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     const hash = window.location.hash;
     if (hash === '#nearby') {
       setActiveTab(1);
-      document.body.classList.remove('alongroute');
       // Additional setup for Tab 1
     } else if (hash === '#alongroute') {
       setActiveTab(2);
-      document.body.classList.add('alongroute');
       // Additional setup for Tab 2
     }
   }, []);
@@ -775,18 +675,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setWaypointRefs(newRefs); 
     updateLocationData(items);
   };
-  const handleMarkerClick = (schoolId) =>{
-    var scroller = document.getElementById('school-list-scroller');
-    scroller.scrollTop = document.getElementById(schoolId).offsetTop;
-    //console.log(document.getElementById(schoolId).offsetTop);
-    if(window.innerWidth < 991){
-      window.scroll(0, document.getElementById("mobile_"+schoolId).offsetTop);
-      console.log(document.getElementById(schoolId))
-    }
-  }
-  const handleCardClick = (schoolId) =>{
-    //console.log(schoolId);
-  }
+
   const updateLocationData = (items) => {
     const newStart = items[0].location;
     const newDestination = items[items.length - 1].location;
@@ -813,10 +702,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
   return (
-    <div id="map" className={'find-a-school-container ' + (title? 'title': '')}>
-      {title && (
+    <div id="map" className={'find-a-school-container ' + (heading? 'title': '')}>
+      {heading && (
         <div className="map-title">
-          <h3>{title}</h3>
+          <h3>{heading}</h3>
         </div>
       )}
       
@@ -899,16 +788,27 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
 
               <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
-                
-                <div>
-                  <div >
-                      <div className={`input-wrapper ${isAdded ? 'added' : ''}`}>
+                <div
+                  className={`add-more ${isAdded ? 'added' : ''}`}
+                  onClick={handleAddMoreClick}>
+                  <div className='add'>
+                    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="13.4141" cy="13.6251" r="13.3359" fill="white" />
+                      <path fillRule="evenodd" clipRule="evenodd" d="M12.5 24.0001C18.299 24.0001 23 19.2991 23 13.5001C23 7.70113 18.299 3.00012 12.5 3.00012C6.70101 3.00012 2 7.70113 2 13.5001C2 19.2991 6.70101 24.0001 12.5 24.0001ZM11.8594 9.00012H13.1451V12.857H17V14.1427H13.1451V18.0001H11.8594V14.1427H8V12.857H11.8594V9.00012Z" fill="#FF9E1B" />
+                    </svg>
+                  </div>
+                </div>
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="routeInputs">
+                    {(provided) => (
+                      <div {...provided.droppableProps} ref={provided.innerRef} className={`input-wrapper ${isAdded ? 'added' : ''}`}>
 
                         <div className='first-input'>
                           <div className='start'>
                           </div>
-                          <div key='start'>
-                              <div >
+                          <Draggable key='start' draggableId='start' index={0}>
+                            {(provided) => (
+                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                 <Autocomplete
                                   onLoad={autocomplete => {
                                     autocomplete.setComponentRestrictions({
@@ -941,13 +841,19 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                 </Autocomplete>
                               </div>
-                          </div>
+                            )}
+                          </Draggable>
                           <div className='location-icon' style={{ opacity: searched ? '0' : '1' }} onClick={handleLocationIconClick}>
                             <svg width="24" height="29" viewBox="0 0 24 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                             </svg>
                           </div>
-                          
+                          <div className='drag-icon'>
+                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                          </div>
                         </div>
 
                         {waypoints.map((waypoint, index) => {
@@ -958,8 +864,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           <div key={waypoint.id} className='waypoint-input'>
                             <div className='start'>
                             </div>
-                            <div key={waypoint.id}>
-                                <div>
+                            <Draggable key={waypoint.id} draggableId={`waypoint-${waypoint.id}`} index={index + 1}>
+                              {(provided) => (
+                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                   <Autocomplete
                                     onLoad={autocomplete => {
                                       autocomplete.setComponentRestrictions({ country: 'us' });
@@ -988,9 +895,15 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                   </Autocomplete>
                                 </div>
-                            </div>
+                              )}
+                            </Draggable>
 
-                            
+                            <div className='drag-icon'>
+                              <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                                <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              </svg>
+                            </div>
                             <div className='clear-icon' onClick={() => handleClearIconClick(waypoint.id)}>
                               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="14.8516" cy="14.8492" r="9.75" transform="rotate(45 14.8516 14.8492)" stroke="#5E6738" strokeWidth="1.5" />
@@ -1008,8 +921,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                               <path fillRule="evenodd" clipRule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                             </svg>
                           </div>
-                          <div key='destination' >
-                              <div>
+                          <Draggable key='destination' draggableId='destination' index={waypoints.length + 1}>
+                            {(provided) => (
+                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                 <Autocomplete
                                   onLoad={autocomplete => {
                                     autocomplete.setComponentRestrictions({
@@ -1040,33 +954,39 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
                                 </Autocomplete>
                               </div>
-                          </div>
+                            )}
+                          </Draggable>
 
-                          
+                          <div className='drag-icon'>
+                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <line x1="1" y1="1" x2="19" y2="1" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                              <line x1="1" y1="9" x2="19" y2="9" stroke="#5E6738" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                          </div>
                         </div>
 
+                        {provided.placeholder}
                       </div>
-                  </div>
-                </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
               </div>
 
             </div>
           </div>
 
           <div
-            id="school-list-scroller"
             style={{ opacity: (hasSearched) ? '1' : '0' }}
             className="list-scroller desktop"
           >
             <div className="nearby-schools-list">
-              {getSortedSchools(schools).map((school, index) => (
-                <div key={index} className="school-list" id={school.id}>
+              {sortedSchools.map((school, index) => (
+                <div key={index} className="school-list">
                   <a href={`${school.uri}`}>
-
                     <div
                       key={index}
-                      className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                      onMouseOver={() => setHoveredSchoolId(school.id)}
+                      className={`school-list-item ${hoveredSchoolId === index ? 'hovered' : ''}`}
+                      onMouseOver={() => setHoveredSchoolId(index)}
                       onMouseOut={() => setHoveredSchoolId(null)}
                     >
                       <div className='name h5 w-100 d-flex justify-content-between'>
@@ -1079,7 +999,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                           >
                           </div>
 
-                          {school.name}
+                          {'Primrose School ' + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}
                         </div>
                         <div className='d-flex justify-content-center align-items-center'>
                           <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
@@ -1092,34 +1012,26 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                         <span className='distance'>{calculateDistance(
                           mapCenter.lat,
                           mapCenter.lng,
-                          school.coordinates.lat,
-                          school.coordinates.lng
-                        ).toFixed(2)}&nbsp;mi &nbsp;·&nbsp;</span>
-                        <span className='address'>{school.address}</span>
+                          school.schoolCorporateSettings.address.latitude,
+                          school.schoolCorporateSettings.address.longitude
+                        ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
+                        <a href={school.schoolCorporateSettings.address.googlePlaceUrl} className='address'>{school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + " " + school.schoolCorporateSettings.address.zipcode }</a>
                       </div>
-                      <div className='hours'>{school.hours}</div>
+                      <div className='hours'>{"M-F " + school.schoolAdminSettings?.hoursOfOperation?.openingTime + " - " + school.schoolAdminSettings?.hoursOfOperation?.closingTime}</div>
                       {/* <ul className='notes'><li>{school.notes}</li></ul> */}
-                      <ul className='options'>
-                        {school.preopening && (
-                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
-                        )}
-                        {school.corporateChildcare && (
-                          <li>Corporate Child Care</li>
-                        )}
-                      </ul>
                       <div className='button-wrap d-flex'>
-                          <Button
-                            className="button primary"
-                            href={"/schools/" + school.slug + "/" + cta.href}
-                          >
-                            {cta.title}
-                          </Button>
-                          <a href={`tel:${school.phone}`} className='phone ms-2'>
-                            <svg className="me-2" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <Button
+                        className="button primary"
+                        href={cta?.href ? `/schools/${school.slug}/careers` : `/schools/${school.slug}/schedule-a-tour`}
+                      >
+                        {cta?.title || "Schedule a Tour"}
+                      </Button>
+                          <a href={`tel:${school.schoolCorporateSettings.phoneNumber}`} className='phone ms-2'>
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
                               <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
                             </svg>
-                            {school.phone}
+                            {school.schoolCorporateSettings.phoneNumber}
                           </a>
                         </div>
                     </div>
@@ -1152,16 +1064,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               ]
             }}
           >
-            {getSortedSchools(schools).map((school, index) => (
+            {sortedSchools.map((school, index) => (
               <Marker
                 key={index}
-                position={school.coordinates}
+                position={{lat: school.schoolCorporateSettings.address.latitude, lng: school.schoolCorporateSettings.address.longitude}}
+
                 icon={{
-                  url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
+                  url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', index === hoveredSchoolId))}`,
                 }}
-                onMouseOver={() => setHoveredSchoolId(school.id)}
+                onMouseOver={() => setHoveredSchoolId(index)}
                 onMouseOut={() => setHoveredSchoolId(null)}
-                onClick={() => handleMarkerClick(school.id)}
               />
             ))}
 
@@ -1170,7 +1082,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     position={start}
                     icon={{
                         url: svgMarkerIconStart,
-                        scaledSize: new google.maps.Size(16, 16),
+                        scaledSize: new google.maps.Size(25, 25),
                     }}
                 />
             )}
@@ -1183,7 +1095,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                   position={waypoint.location} 
                   icon={{
                     url: svgMarkerIconStart,
-                    scaledSize: new google.maps.Size(16, 16),
+                    scaledSize: new google.maps.Size(25, 25),
                   }}
                 />
             ))}
@@ -1193,7 +1105,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                 position={destination}
                 icon={{
                   url: svgMarkerIconEnd,
-                  scaledSize: new google.maps.Size(20, 25),
+                  scaledSize: new google.maps.Size(25, 25),
                 }}
               />
             )}
@@ -1211,15 +1123,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           className="list-scroller mobile"
         >
           <div className="nearby-schools-list">
-            {getSortedSchools(schools).map((school, index) => (
-              <div key={index} className="school-list" id={`mobile_${school.id}`}>
+            {sortedSchools.map((school, index) => (
+              <div key={index} className="school-list">
                 <a href={`${school.uri}`}>
 
                   <div
                     key={index}
-                    
-                    className={`school-list-item ${hoveredSchoolId === school.id ? 'hovered' : ''}`}
-                    onMouseOver={() => setHoveredSchoolId(school.id)}
+                    className={`school-list-item ${hoveredSchoolId === index ? 'hovered' : ''}`}
+                    onMouseOver={() => setHoveredSchoolId(index)}
                     onMouseOut={() => setHoveredSchoolId(null)}
                   >
                     <div className='name h5 w-100 d-flex justify-content-between'>
@@ -1232,7 +1143,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                         >
                         </div>
 
-                        {school.name}
+                        {'Primrose School ' + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}
                       </div>
                       <div className='d-flex justify-content-center align-items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
@@ -1245,36 +1156,21 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                       <span className='distance'>{calculateDistance(
                         mapCenter.lat,
                         mapCenter.lng,
-                        school.coordinates.lat,
-                        school.coordinates.lng
+                        school.schoolCorporateSettings.address.latitude,
+                        school.schoolCorporateSettings.address.longitude
                       ).toFixed(2)}&nbsp;mi</span>&nbsp;·&nbsp;
-                      <span className='address'>{school.address}</span>
+                      <span className='address'>{school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + " " + school.schoolCorporateSettings.address.zipcode}</span>
                     </div>
-                    <div className='hours'>{school.hours}</div>
+                    <div className='hours'>{"M-F " + school.schoolAdminSettings.hoursOfOperation?.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation?.closingTime }</div>
                     {/* <ul className='notes'><li>{school.notes}</li></ul> */}
-                    {school.notes && (
-                            <ul className='notes'>
-                              {school.notes.split(', ').map((note, noteIndex) => (
-                                  <li key={noteIndex}>{note}</li>
-                              ))}
-                            </ul>
-                        )}
-                      <ul className='options'>
-                        {school.preopening && (
-                          <li className="text-capitalize">Opening {school.openingInSeason} {school.openingInYear}</li>
-                        )}
-                        {school.corporateChildcare && (
-                          <li>Corporate Child Care</li>
-                        )}
-                      </ul>
                     <div className='button-wrap d-flex'>
-                            <Button
-                            className="button primary"
-                            href={"/schools/" + school.slug + "/" + cta.href}
-                          >
-                            {cta.title}
-                          </Button>
-                          <a href={`tel:${school.phone}`} className='phone ms-2'>
+                    <Button
+                        className="button primary"
+                        href={cta?.href ? `/schools/${school.slug}/careers` : `/schools/${school.slug}/schedule-a-tour`}
+                      >
+                        {cta?.title || "Schedule a Tour"}
+                      </Button>
+                          <a href={`tel:${school.schoolCorporateSettings.phoneNumber}`} className='phone ms-2'>
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
                               <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />

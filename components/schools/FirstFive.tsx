@@ -9,8 +9,12 @@ interface FirstFiveProps {
     adminSettings: null | any
     corporateSettings: null | any;
     schoolSlug: null | any;
+    staffImage?: {sourceUrl: string, altText: string}
 }
-export default function FirstFive({ adminSettings, corporateSettings, schoolSlug}: FirstFiveProps) {
+export default function FirstFive({ adminSettings, corporateSettings, schoolSlug, staffImage}: FirstFiveProps) {
+    const whichStaffImage = adminSettings?.meetStaffImage?.mediaItemUrl
+        ? {sourceUrl: adminSettings?.meetStaffImage?.mediaItemUrl, altText: 'staff image'}
+        : {sourceUrl: staffImage?.sourceUrl, altText: staffImage?.altText}
     const selectedClassrooms = adminSettings?.classroomsOffered;
     const selectedExtraCare = adminSettings?.extraCareOffered
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
@@ -65,14 +69,14 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                                 </div>
                             </div>
                         </div>
-                        { adminSettings?.franchiseOwner
+                        { adminSettings?.franchiseOwner?.bio
                             ? <FranchiseOwnerBio franchiseOwner={adminSettings.franchiseOwner} />
                             : <div className='staff'>
                                 <div className='two-columns-image-and-text-alternative reverse-column'>
                                   <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                                    {adminSettings?.meetStaffImage?.mediaItemUrl && <Image
-                                      src={adminSettings?.meetStaffImage?.mediaItemUrl}
-                                      alt="staff image"
+                                    {whichStaffImage?.sourceUrl && <Image
+                                      src={whichStaffImage?.sourceUrl}
+                                      alt={whichStaffImage?.altText}
                                       width={500}
                                       height={500}
                                     />}
