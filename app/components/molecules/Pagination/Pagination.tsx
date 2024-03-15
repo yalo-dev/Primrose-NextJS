@@ -43,6 +43,7 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
         } else {
             console.error('Improper pageTo argument')
         }
+        window.scrollTo({top: 0})
     };
 
     // the following conditionally renders 3 clickable buttons based on the current page position
