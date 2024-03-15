@@ -103,6 +103,14 @@ query GetResources {
                     }
                 }
             }
+            hideTagFromSearch {
+                ... on Resource {
+                    id
+                    title
+                    uri
+                    slug
+                }
+            }
         }
     }
 }`;
@@ -189,6 +197,14 @@ query GetResources($resourceType: ID = "") {
                     link
                     }
                 }
+                }
+            }
+            hideTagFromSearch {
+                ... on Resource {
+                    id
+                    title
+                    uri
+                    slug
                 }
             }
         }
@@ -304,6 +320,7 @@ export async function getAllResources(){
 		query:RESOURCES_QUERY
 	});
 	const resources = data;
+ 
 	return(resources);
 }
 export async function getAllFilters(){
