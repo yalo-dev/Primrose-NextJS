@@ -12,7 +12,7 @@ const FourPanels = () => {
                         <h5 className='b5 white bold'>Careers</h5>
                         <img src='/assets/careers.png' alt='careers' />
                     </a>
-                    <a href='/resources' className='panel red'>
+                    <a href='/stories-resources' className='panel red'>
                         <h5 className='b5 white bold'>Stories &amp; Resources</h5>
                         <img src='/assets/storiesnresources.png' alt='stories and resources' />
                     </a>
