@@ -21,7 +21,6 @@ export default function Header({ menuItems }) {
     const desktopSearchInputRef = useRef<HTMLInputElement>(null);
     const [submenuStyles, setSubmenuStyles] = useState(null);
 
-
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
     };
@@ -205,6 +204,11 @@ export default function Header({ menuItems }) {
                 setIsSearchActive(false);
             }
         };
+
+        document.querySelector('.mobile-location-icon').addEventListener('mousedown', function (e) {
+            resetNav();
+            window.location.href = "/find-a-school";
+        });
 
         // Attach the listener
         document.addEventListener('mousedown', handleClickOutside);
