@@ -747,6 +747,14 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
           title: `After School Program Near Me | ${school?.title}`,
           description: `Find the best after school program nearest you in ${school?.title}. At ${school?.title} 5 through 12 year olds receive homework help so they establish good habits.`
       },
+      "before-after-school": {
+          title: `Before & After School Programs Near Me | ${school?.title}`,
+          description: `Find the best before and after school care nearest you in ${school?.schoolCorporateSettings?.address?.city}. At ${school?.title} 5 through 12 year olds receive homework help so they establish good habits.`
+      },
+      "before-school": {
+          title: `Before School Program Near Me | ${school?.title}`,
+          description: `Find the best before school program nearest you in ${school?.schoolCorporateSettings?.address?.city}. At ${school?.title} 5 through 12 year olds receive homework help so they establish good habits.`
+      },
       "summer-adventure-club": {
           title: `Summer Program Near Me | ${school?.title}`,
           description: `Find the best Summer camp nearest you in the ${school?.schoolCorporateSettings?.address?.city} area. At ${school?.title} 5 through 12 year olds discover the joys of design thinking and innovative ways to learn.`

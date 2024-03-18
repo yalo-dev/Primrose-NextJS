@@ -116,7 +116,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
                 const absoluteTargetTopPF = targetElementPF.getBoundingClientRect().top + offsetPF;
 
                 window.scrollTo({
-                    top: absoluteTargetTopPF - 120, // accounting for the navigation space
+                    top: absoluteTargetTopPF - 119, // accounting for the navigation space
                     behavior: 'smooth'
                 });
 
