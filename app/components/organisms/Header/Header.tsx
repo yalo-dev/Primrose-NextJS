@@ -218,6 +218,16 @@ export default function Header({ menuItems }) {
                 clearInput();
             }
         });
+        const searchIcon = document.querySelector('.search-icon');
+        const searchForm = document.querySelector('.search-form') as HTMLFormElement;
+        searchIcon.addEventListener('mousedown', function (e) {
+            if (window.innerWidth <= 991) {
+                if (searchIcon.classList.contains('active')) { 
+                    // submit the form on click of the search icon
+                    searchForm.submit();
+                }
+            }
+        });
 
         // Attach the listener
         document.addEventListener('mousedown', handleClickOutside);
