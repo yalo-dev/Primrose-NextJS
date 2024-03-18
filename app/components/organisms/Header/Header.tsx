@@ -213,10 +213,8 @@ export default function Header({ menuItems }) {
         });
 
         document.querySelector('.clear-icon').addEventListener('mousedown', function (e) {
-            if (window.innerWidth <= 991) {
-                e.stopPropagation();
-                clearInput();
-            }
+            e.stopPropagation();
+            clearInput();
         });
         const searchIcon = document.querySelector('.search-icon');
         const searchForm = document.querySelector('.search-form') as HTMLFormElement;
