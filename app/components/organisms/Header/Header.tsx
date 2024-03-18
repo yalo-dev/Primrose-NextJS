@@ -206,8 +206,25 @@ export default function Header({ menuItems }) {
         };
 
         document.querySelector('.mobile-location-icon').addEventListener('mousedown', function (e) {
-            resetNav();
-            window.location.href = "/find-a-school";
+            if (window.innerWidth <= 991) {
+                resetNav();
+                window.location.href = "/find-a-school";
+            }
+        });
+
+        document.querySelector('.clear-icon').addEventListener('mousedown', function (e) {
+            e.stopPropagation();
+            clearInput();
+        });
+        const searchIcon = document.querySelector('.search-icon');
+        const searchForm = document.querySelector('.search-form') as HTMLFormElement;
+        searchIcon.addEventListener('mousedown', function (e) {
+            if (window.innerWidth <= 991) {
+                if (searchIcon.classList.contains('active')) { 
+                    // submit the form on click of the search icon
+                    searchForm.submit();
+                }
+            }
         });
 
         // Attach the listener
@@ -260,7 +277,7 @@ export default function Header({ menuItems }) {
                                     }
                                 </ul>
                                 <div className={`navbar-search mt-4 mt-lg-0 pb-4 pb-lg-0 order-1 order-lg-2 ${isSearchActive ? 'active' : ''}`}>
-                                    <form className='d-flex flex-row' role='search' onSubmit={handleSearchSubmit}>
+                                    <form className='search-form d-flex flex-row' role='search' onSubmit={handleSearchSubmit}>
                                         <label htmlFor='search' className='hidden'>Search</label>               
                                         <input
                                             className={`form-control ${isSearchActive ? 'active' : ''}`}
