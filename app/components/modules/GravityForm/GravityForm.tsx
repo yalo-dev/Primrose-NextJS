@@ -181,6 +181,22 @@ const GFInput = (field)=>{
             </div>
             );
         break;
+        case 'PHONE':
+            return(
+            <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
+                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <input onChange={handleFieldChange} type='tel' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
+            </div>
+            );
+        break;
+        case 'PHONE':
+            return(
+            <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
+                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <input onChange={handleFieldChange} type='tel' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
+            </div>
+            );
+        break;
         case 'TEXT':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
