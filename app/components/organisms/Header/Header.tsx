@@ -307,7 +307,7 @@ export default function Header({ menuItems }) {
                                                 <path d="M7.87891 7.87866L12.1215 12.1213" stroke="#5E6738" />
                                             </svg>
                                         </div>
-                                        <div className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { clearInput(); toggleSearch(); }}>
+                                        <div className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { if (isSearchActive) {} else { clearInput(); toggleSearch(); } }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
                                             </svg>
@@ -320,7 +320,7 @@ export default function Header({ menuItems }) {
                                                 <svg width="24" height="29" viewBox="0 0 24 29" fill="#5E6738" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" ></path></svg>
                                             </div>
                                         </a>
-                                    </form>
+                                    </form> 
                                 </div>
                             </div>
                         </div>
