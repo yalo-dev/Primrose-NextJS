@@ -1,16 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-//import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from '../../../../app/data/schoolsData';
-import { DocumentNode } from 'graphql';
 
 const containerStyle = {
   width: '100%',
   height: '350px'
 };
-
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 type Location = {
   lat: number;
@@ -35,12 +31,6 @@ type InputField = {
   address: string;
 };
 
-type LocationData = {
-  start: { lat: number; lng: number; } | null;
-  waypoints: Waypoint[];
-  destination: { lat: number; lng: number; } | null;
-};
-
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
   return `
@@ -62,23 +52,8 @@ const svgIconStart = `
 <svg width="12" height="12" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="8.5" cy="9.34973" r="7.75" fill="none" stroke="#5E6738" stroke-width="1.5"/>
 </svg>
-
 `;
 
-interface SchoolsArray{
-  id: number;
-  slug: string,
-  uri: string,
-  name: string;
-  address: string;
-  phone: any;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-}
 
 interface FindASchoolMapProps{
   title?: string;
@@ -108,9 +83,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const nearInputRef = useRef<HTMLInputElement>(null);
   const routeInputRef1 = useRef<HTMLInputElement>(null);
   const routeInputRef2 = useRef<HTMLInputElement>(null);
-  const routeInputRef3 = useRef<HTMLInputElement>(null);
   const [zoomLevel, setZoomLevel] = useState(5);
-  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(map_center);
   let geocoder;
   const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
   const DEFAULT_ZOOM = 11;
@@ -123,12 +96,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [start, setStart] = useState<Location | null>(null);
   const [destination, setDestination] = useState<Location | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  const [waypoint, setWaypoint] = useState<{ lat: number; lng: number } | null>(null);
   const svgMarkerIconStart = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconStart)}`;
   const svgMarkerIconEnd = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconEnd)}`;
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
-  const [markers, setMarkers] = useState([]);
-  const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [updateCount, setUpdateCount] = useState(0);
@@ -152,9 +122,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
       setZoomLevel(DEFAULT_ZOOM);
     }
-      
-    },[]);
-  
+  },[]);
 
   const [schools, setSchools] = useState([]);
   useEffect(() => { 
@@ -167,37 +135,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         onPlaceSelected(place);
     })
   }, [place]);
-    if(cta == null){
-      cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
-    }
-
-
-  const handleNewWaypoint = (newWaypoint) => {
-    setWaypoints([...waypoints, newWaypoint]);
-  
-    const newRef = React.createRef<HTMLInputElement>();
-    waypointRefs[newWaypoint.id] = newRef;
-  
-    const newWaypointField: InputField = {
-      id: `waypoint-${newWaypoint.id}`,
-      originalType: 'waypoint',
-      type: 'waypoint',
-      ref: newRef,
-      autocomplete: null,
-      location: null,
-      address: '' 
-    };
-  
-    setInputFields(prevFields => [...prevFields, newWaypointField]);
-  
-    //console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
-  };
-  
-  const [locationData, setLocationData] = useState<LocationData>({
-    start: null,
-    waypoints: [],
-    destination: null
-  });
+  if(cta == null){
+    cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
+  }
 
   useEffect(() => {
     //console.log("Updated refs", waypointRefs);
@@ -228,48 +168,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }));
   };
 
-  const handleAddMoreClick = () => {
-    setIsAdded(true);
-    const defaultLocation: Location = {
-      lat: 0,
-      lng: 0
-    };
-  
-    const newWaypointId = waypoints.length;
-    const newWaypoint = { id: newWaypointId, location: defaultLocation };
-  
-    setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
-  
-    setWaypointRefs(prevRefs => {
-      return { ...prevRefs, [newWaypoint.id]: React.createRef() };
-    });
-  
-    handleNewWaypoint(newWaypoint);
-
-    if (!isMobile) {
-      const container = document.querySelector('.find-a-school-container') as HTMLElement;
-      if (container) {
-        if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
-          // Switch from percentage to pixel value on first waypoint added
-          let currentPixelHeight = container.offsetHeight;
-          container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
-        } else {
-          // If already using pixel values
-          let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
-          container.style.setProperty('--view-height', `${currentHeight + 100}px`);
-        }
-
-        // Trigger the Google Maps resize event after changing the height
-        setTimeout(() => {
-          if (mapRef.current) {
-            google.maps.event.trigger(mapRef.current, 'resize');
-          }
-        }, 100);
-      }
-    }
-    setUpdateCount(count => count + 1);
-
-  };
 
   const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
@@ -333,8 +231,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     }
                 });
             }
-
-            setUserLocation(pos);
             setMapCenter(pos);
             setZoomLevel(11);
             setShowMap(true);
@@ -516,7 +412,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       var scrollerParent = scroller.offsetParent as HTMLElement;
       scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
     }
-  } ;
+  }
  }, [window])
 
   function getSortedSchools(schools){
@@ -563,7 +459,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       //console.log('sortedSchools');
       return(sortedSchools);
   }
-  };
+  }
   function onPlaceSelected(place, type = 'text') {
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
@@ -571,7 +467,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lng: place.geometry.location.lng(),
       };
       if(route!=null){
-        //console.log(route);
         let routeCenter = {lat:route.routes[0].bounds.getCenter().lat, lng: route.routes[0].bounds.getCenter().lng} ;
         setMapCenter(routeCenter);
       }else{
@@ -579,16 +474,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
       
       setZoomLevel(11);
-      //console.log(zoomLevel);
       set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-      //console.dir(place);
       const formattedPlaceName = place.name && place.formatted_address ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-      //console.log(nearInputRef);
-      //nearInputRef.current.value = place.name;
-      
+
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.type === type) {
@@ -600,10 +491,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             
       
       if (type === 'start') {
-        //console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
       } else if (type === 'destination') {
-        //console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
       } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
@@ -686,19 +575,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   };
 
-  const onEnterKeyPressedForWaypoint = async (waypointId: number) => {
-    const place = await onEnterKeyPressed('waypoint', waypointId);
-  };
-
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
     setHasSearched(false);
     setSearched(false);
     setShowMap(false);
     setIsAdded(false);
-    //setMapCenter(center);
     setZoomLevel(5);
-    setMarkers([]);
     setRoute(null);
     setInputFields(defaultRouteProps as InputField[]);
     if (tabIndex === 1) {
@@ -718,10 +601,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     if (nearInputRef.current) nearInputRef.current.value = '';
     routeInputRef1.current.value = '';
     routeInputRef2.current.value = '';
-
     setWaypoints([]);
-
-    setSearchText('');
 
     if (mapRef.current) {
       mapRef.current.setCenter(center);
@@ -734,7 +614,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     setDirections(null);
     setStart(null);
-    setWaypoint(null);
     setDestination(null);
   };
 
@@ -751,30 +630,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   }, []);
 
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-  
 
-    const items = Array.from(inputFields);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-  
-
-    setInputFields(items.map(item => {
-      const currentRefValue = waypointRefs[item.id]?.current?.value;
-      return {
-        ...item,
-        address: currentRefValue || item.address
-      };
-    }));
-  
-    const newRefs = {};
-    items.forEach(item => {
-      newRefs[item.id] = waypointRefs[item.id];
-    });
-    setWaypointRefs(newRefs); 
-    updateLocationData(items);
-  };
   const handleMarkerClick = (schoolId) =>{
     var scroller = document.getElementById('school-list-scroller');
     scroller.scrollTop = document.getElementById(schoolId).offsetTop;
@@ -784,27 +640,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       console.log(document.getElementById(schoolId))
     }
   }
-  const handleCardClick = (schoolId) =>{
-    //console.log(schoolId);
-  }
-  const updateLocationData = (items) => {
-    const newStart = items[0].location;
-    const newDestination = items[items.length - 1].location;
-    const newWaypoints = items.slice(1, -1).map(item => ({ id: item.id, location: item.location }));
-  
-    setStart(newStart);
-    setDestination(newDestination);
-    setWaypoints(newWaypoints);
-  
-    // Update inputFields to preserve addresses and other properties
-    setInputFields(items.map(item => {
-      const originalField = inputFields.find(field => field.id === item.id);
-      return { ...item, address: originalField ? originalField.address : '' };
-    }));
-  
-    console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
-  };
-  
+
   useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
@@ -972,11 +808,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                   >
 
                                     <input
-                                      onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                          onEnterKeyPressedForWaypoint(waypoint.id);
-                                        }
-                                      }}
                                       ref={waypointRefs[waypoint.id]}
                                       //onChange={(e) => handleInputChange(e, inputFieldId)}
                                       id={`input_${inputFieldId}`}
