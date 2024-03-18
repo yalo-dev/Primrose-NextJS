@@ -69,7 +69,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     place,
     cta
   } = props;
-  //console.log(props);
+  cta = cta ?? {href:'schedule-a-tour', title:'Schedule a Tour'}
+
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -101,13 +102,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [updateCount, setUpdateCount] = useState(0);
   const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
+  const [schools, setSchools] = useState([]);
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
-
   const defaultRouteProps = [
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
@@ -122,44 +122,68 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
       setZoomLevel(DEFAULT_ZOOM);
     }
-  },[]);
 
-  const [schools, setSchools] = useState([]);
-  useEffect(() => { 
-  getSchools()
-    .then((result) =>{
-        setSchools(result);
-       //console.log('schools');
-        //console.log(schools);   
-        setLoading(false);
-        onPlaceSelected(place);
-    })
-  }, [place]);
-  if(cta == null){
-    cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
-  }
+    if (nearInputRef.current) {
+      nearInputRef.current.addEventListener("input", () => {
+        if (nearInputRef.current && nearInputRef.current.value === "") {
+          setSearched(false);
+        }
+      });
+    }
 
-  useEffect(() => {
-    //console.log("Updated refs", waypointRefs);
-    //console.log("Update count", updateCount);
-  }, [waypointRefs, updateCount]);
-    
-   useEffect(() => {
-    //console.log('place');
-    //console.log(place);
-    onPlaceSelected(place);
-  }, [place, nearInputRef]); 
+    const hash = window.location.hash;
+    if (hash === '#nearby') {
+      setActiveTab(1);
+      document.body.classList.remove('alongroute');
+      // Additional setup for Tab 1
+    } else if (hash === '#alongroute') {
+      setActiveTab(2);
+      document.body.classList.add('alongroute');
+      // Additional setup for Tab 2
+    }
 
-  useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     window.addEventListener('resize', handleResize);
+
     return () => {
+      if (nearInputRef.current) {
+        nearInputRef.current.removeEventListener("input", () => { });
+      }
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  },[]);
+  useEffect(() => {
+  getSchools()
+    .then((result) =>{
+        setSchools(result);
+        setLoading(false);
+        onPlaceSelected(place);
+    })
+  }, [place]);
+
+  useEffect(() => {
+    onPlaceSelected(place);
+  }, [place, nearInputRef]);
+
+  useEffect(()=>{
+    window.onresize = setMapScrollerHeight;
+    setMapScrollerHeight();
+    function setMapScrollerHeight(){
+      var scroller = document.getElementById('school-list-scroller');
+      if(scroller && scroller.offsetHeight){
+        scroller.style.transition = 'none';
+        var map = document.getElementById('map');
+        var scrollerParent = scroller.offsetParent as HTMLElement;
+        scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
+      }
+    }
+  }, [window])
+  useEffect(() => {
+    renderRoute();
+  }, [start, waypoints, destination]);
 
   const handleAutocompleteLoad = (key, autocomplete) => {
     setAutocompleteInstances(prev => ({
@@ -167,8 +191,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       [key]: autocomplete
     }));
   };
-
-
   const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
       const updatedWaypoints = prevWaypoints.filter(waypoint => waypoint.id !== idToRemove);
@@ -200,7 +222,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
     }
   };
-
   const getCurrentLocation = () => {
     if (!geocoder) {
         geocoder = new google.maps.Geocoder();
@@ -244,14 +265,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         alert("Your browser doesn't support geolocation.");
     }
   };
-
   const handleLocationIconClick = () => {
     getCurrentLocation();
   };
-
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
-  
+
     // Update the address of the corresponding field
     setInputFields(prevFields =>
       prevFields.map(field => {
@@ -276,25 +295,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   
   const renderRoute = () => {
-    //console.log("inputFields in renderRoute():", inputFields);
-    const startField = inputFields.find(f => f.type === 'start');
-    const waypointFields = inputFields.filter(f => f.type === 'waypoint');
-    const destinationField = inputFields.find(f => f.type === 'destination');
-  
-    if (!window.google || !window.google.maps) {
-      //console.log("Google Maps API not loaded yet.");
-      return;
-    }
-
-    if (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng))) {
-      //console.log("Start location is not defined or not in the correct format.");
-      return;
-    }
-
-    if (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng))) {
-      //console.log("Destination location is not defined or not in the correct format.");
-      return;
-    }
+    const googleMapsNotLoaded = (!window.google || !window.google.maps)
+    const startLocationNotFormatted = (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng)))
+    const destinationNotDefined = (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng)))
+    if (googleMapsNotLoaded || startLocationNotFormatted || destinationNotDefined) return
 
     if (!directionsRendererRef.current) {
       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
@@ -334,28 +338,23 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     })
     .filter((waypoint): waypoint is google.maps.DirectionsWaypoint => waypoint !== undefined);
 
-  const route: google.maps.DirectionsRequest = {
-    origin: new google.maps.LatLng(start.lat, start.lng),
-    destination: new google.maps.LatLng(destination.lat, destination.lng),
-    waypoints: mappedWaypoints,
-    travelMode: window.google.maps.TravelMode.DRIVING,
-    optimizeWaypoints: true,
-  };
+    const route: google.maps.DirectionsRequest = {
+      origin: new google.maps.LatLng(start.lat, start.lng),
+      destination: new google.maps.LatLng(destination.lat, destination.lng),
+      waypoints: mappedWaypoints,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
+    };
 
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
         let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
-        //console.log(routeBounds.getCenter().lat());
         let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
-        //console.log(routeCenter);
         setMapCenter(routeCenter);
         setRoute(result);
-        //console.log(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
         console.log("No route could be found between the origin and destination.");
-      } else {
-        //console.log("Directions request failed due to " + status);
       }
     });
   };
@@ -367,7 +366,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lng: selectedPlace.geometry.location.lng(),
       };
       const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
-  
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.id === `waypoint-${waypointId}`) {
@@ -376,7 +374,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           return field;
         })
       );
-  
       setWaypoints(prevWaypoints => prevWaypoints.map(waypoint => {
         if (waypoint.id === waypointId) {
           return { ...waypoint, location: newMapCenter };
@@ -386,63 +383,23 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (nearInputRef.current) {
-      nearInputRef.current.addEventListener("input", () => {
-        if (nearInputRef.current && nearInputRef.current.value === "") {
-          setSearched(false);
-        }
-      });
-    }
-    return () => {
-      if (nearInputRef.current) {
-        nearInputRef.current.removeEventListener("input", () => { });
-      }
-    };
-  }, []);
-
- useEffect(()=>{
-  window.onresize = setMapScrollerHeight;
-  setMapScrollerHeight();
-  function setMapScrollerHeight(){
-    var scroller = document.getElementById('school-list-scroller');
-    if(scroller && scroller.offsetHeight){
-      scroller.style.transition = 'none';
-      var map = document.getElementById('map');
-      var scrollerParent = scroller.offsetParent as HTMLElement;
-      scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
-    }
-  }
- }, [window])
-
   function getSortedSchools(schools){
     if(!schools){
       return [];
     }else{
     const filteredSchools = schools.filter(school => {
-      //console.log("mapCenter");
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
         school.coordinates?.lat,
         school.coordinates?.lng
       );
-      //console.log('checking distance');
       return distance <= MAX_DISTANCE;
     });
     
     const sortedSchools = [...filteredSchools].map((school) => {
-      let dist = null;
+      let dist
       if(activeTab === 2 && route!= null){
-        /* let start = route.routes[0].legs[0].start_location;
-        let end = route.routes[0].legs[0].end_location;
-        let mid = route.routes[0].overview_path[Math.floor(route.routes[0].overview_path.length/2)];
-        let startDist = calculateDistance(start.lat(), start.lng(), school.coordinates.lat, school.coordinates.lng);
-        let endDist = calculateDistance(end.lat(), end.lng(), school.coordinates.lat, school.coordinates.lng);
-        let midDist = calculateDistance(mid.lat(), mid.lng(), school.coordinates.lat, school.coordinates.lng);
-        dist = Math.min(startDist, endDist, midDist); */
-
-        
         let path_points = route.routes[0].overview_path;
         let distances = path_points.map((point)=>{
           return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
@@ -458,7 +415,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       .map((school, index) => ({ ...school, index: index + 1 }));
       //console.log('sortedSchools');
       return(sortedSchools);
-  }
+    }
   }
   function onPlaceSelected(place, type = 'text') {
     if (place && place.geometry && place.geometry.location) {
@@ -504,7 +461,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         }));
       }
     }
-  };
+  }
 
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
@@ -617,20 +574,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     setDestination(null);
   };
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === '#nearby') {
-      setActiveTab(1);
-      document.body.classList.remove('alongroute');
-      // Additional setup for Tab 1
-    } else if (hash === '#alongroute') {
-      setActiveTab(2);
-      document.body.classList.add('alongroute');
-      // Additional setup for Tab 2
-    }
-  }, []);
-
-
   const handleMarkerClick = (schoolId) =>{
     var scroller = document.getElementById('school-list-scroller');
     scroller.scrollTop = document.getElementById(schoolId).offsetTop;
@@ -641,10 +584,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   }
 
-  useEffect(() => {
-    renderRoute();
-  }, [start, waypoints, destination]);
-  
   if (loading) return <p></p>;
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
