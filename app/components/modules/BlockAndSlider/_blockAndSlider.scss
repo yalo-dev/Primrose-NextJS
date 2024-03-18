@@ -13,6 +13,9 @@
             align-items: center;
         }
         .col {
+            p {
+                color: #fff;
+            }
             &:first-child {
                 order: 2;
             }
@@ -38,6 +41,7 @@
     }
     .featured-img {
         min-width: 343px;
+        height:auto;
         width: 100%;
         margin-bottom: 3rem;
         border-radius: 12px;

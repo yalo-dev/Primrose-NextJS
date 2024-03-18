@@ -32,15 +32,19 @@
         }
     }
     .left-column {
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
         position: relative;
-        @include media-breakpoint-up(lg) {
-            margin-bottom: 30px;
-        }
+        // @include media-breakpoint-up(lg) {
+        //     margin-bottom: 30px;
+        // }
         img {
             width: 100%;
             height: auto;
             border-radius: 10px;
+            margin-bottom: 20px;
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 30px;
+            }
             @include media-breakpoint-up(xxl) {
                 width: 536px;
                 height: 460px;

@@ -12,25 +12,21 @@ const GET_SCHOOL_DETAILS = gql`
       id
       slug
       uri
-      schoolSettings {
-        details {
-          corporate {
-            schoolName
-          }
-        }
-        classrooms {
-          classroomSelection {
-            selectClassrooms
-          }
-        }
-        
-      }
+      title
       schoolCorporateSettings {
-          schoolName
-        }
-        schoolAdminSettings {
-            classroomsOffered
-        }
+          schoolOfAtOn
+          phoneNumber
+          address {
+            googlePlaceUrl
+          }
+      }
+      schoolAdminSettings {
+          classroomsOffered
+          extraCareOffered
+          staffMembers {
+            name
+          }
+      }
     }
   }
 `;
@@ -44,13 +40,16 @@ export default function SchoolsMenu() {
 
   const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
-    skip: !schoolSlug, 
+    skip: !schoolSlug,
   });
 
-  const schoolName = data?.school?.schoolCorporateSettings?.schoolName;
+  const schoolName = "Primrose School " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
   console.log(schoolName);
   const slug = data?.school?.slug;
+  const schoolPhone = data?.school?.schoolCorporateSettings.phoneNumber;
+  const schoolLocationLink = data?.school?.schoolCorporateSettings.address.googlePlaceUrl;
   const selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
+  const selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
@@ -106,19 +105,22 @@ export default function SchoolsMenu() {
   };
 
   const generateClassroomSubmenu = () => {
-    return selectedClassrooms.map(classroom => {
-      const classroomSlug = classroom.replace(/\s+/g, '-').replace(/[&]/g, 'and').toLowerCase();
+    const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
+    return selectedOfferings.map(classroom => {
+      if (!classroom) return
+      const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
+      const linkText = classroom === "Before After School" ? "Before & After School" : classroom
       return (
         <div className='item' key={classroom}>
           <Link className='dropdown-item green' href={`/schools/${slug}/classrooms/${classroomSlug}`}>
-            {classroom}
+            {linkText}
           </Link>
         </div>
       );
     });
   };
-  
-  const { asPath } = useRouter(); 
+
+  const { asPath } = useRouter();
 
   const isActive = (href) => {
     return asPath === href;
@@ -132,11 +134,11 @@ export default function SchoolsMenu() {
       setIsSubmenuVisible(!isSubmenuVisible);
     }
   };
-  
+
   const handleMenuItemClick = (menuItem) => {
     setActiveMenuItem(menuItem);
     setIsSubmenuVisible(menuItem === 'classrooms' ? !isSubmenuVisible : isSubmenuVisible);
-  };  
+  };
 
   const calculateSubmenuHeight = () => {
     return submenuRef.current ? submenuRef.current.scrollHeight : 0;
@@ -147,14 +149,14 @@ export default function SchoolsMenu() {
     setIsSubmenuVisible(!isSubmenuVisible);
     setSubmenuMaxHeight(isSubmenuVisible ? 0 : calculateSubmenuHeight());
   };
-  
+
   useEffect(() => {
     if (isSubmenuVisible) {
       setSubmenuMaxHeight(calculateSubmenuHeight());
     }
   }, [isSubmenuVisible]);
 
-  
+
   return (
     <>
       <div className='navbar-schools'>
@@ -166,19 +168,27 @@ export default function SchoolsMenu() {
               <h1 className='h3'>{loading ? '' : schoolName || 'School Name'}</h1>
               </div>
               <div className='col w-100 col d-flex align-items-center justify-content-start'>
-                <Button label='Schedule a Tour' variant='secondary' href={`/schools/${schoolSlug}/schedule-a-tour`} />
-                <div className='phone ps-2 pe-2'>
-                  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
-                  </svg>
+                <Button label='Schedule a Tour' className={'schools-menu'} href={`/schools/${schoolSlug}/schedule-a-tour`} />
+                {schoolPhone && (
+                  <div className='phone ps-2'>
+                  <Link href={`tel:${schoolPhone}`}>
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="25" cy="25" r="24.5" fill="white" stroke="#DFE2D3" />
+                      <path fillRule="evenodd" clipRule="evenodd" d="M30.9098 27.155C32.0744 27.8022 33.2397 28.4494 34.4043 29.0966C34.9056 29.3749 35.1254 29.9656 34.9281 30.5042C33.9261 33.2415 30.9915 34.6863 28.2303 33.6786C22.5764 31.6148 18.3852 27.4236 16.3214 21.7697C15.3137 19.0085 16.7585 16.0739 19.4958 15.0719C20.0344 14.8746 20.6251 15.0944 20.904 15.5957C21.5506 16.7603 22.1978 17.9256 22.845 19.0902C23.1484 19.6365 23.077 20.285 22.6618 20.7516C22.1181 21.3635 21.5744 21.9753 21.0306 22.5865C22.1914 25.4132 24.5868 27.8086 27.4134 28.9694C28.0247 28.4256 28.6365 27.8819 29.2484 27.3382C29.7157 26.923 30.3635 26.8516 30.9098 27.155Z" stroke="#5E6738" />
+                    </svg>
+                  </Link>
                 </div>
-                <div className='location'>
-                  <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="25.5" cy="25.5" r="25" fill="white" />
-                    <path d="M34.5 17.9043L28.4686 34.6066C28.4279 34.6954 28.3626 34.7707 28.2803 34.8235C28.1981 34.8762 28.1024 34.9043 28.0047 34.9043C27.907 34.9043 27.8113 34.8762 27.729 34.8235C27.6468 34.7707 27.5814 34.6954 27.5407 34.6066L24.2931 28.1112L17.7977 24.8636C17.7089 24.8229 17.6336 24.7575 17.5808 24.6753C17.5281 24.593 17.5 24.4973 17.5 24.3996C17.5 24.3019 17.5281 24.2062 17.5808 24.124C17.6336 24.0417 17.7089 23.9764 17.7977 23.9357L34.5 17.9043Z" stroke="#5E6738" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
+                )}
+                {schoolLocationLink && (
+                  <div className='location ps-2'>
+                    <Link href={`${schoolLocationLink}`} target="_blank">
+                      <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25.5" cy="25.5" r="25" fill="white" />
+                        <path d="M34.5 17.9043L28.4686 34.6066C28.4279 34.6954 28.3626 34.7707 28.2803 34.8235C28.1981 34.8762 28.1024 34.9043 28.0047 34.9043C27.907 34.9043 27.8113 34.8762 27.729 34.8235C27.6468 34.7707 27.5814 34.6954 27.5407 34.6066L24.2931 28.1112L17.7977 24.8636C17.7089 24.8229 17.6336 24.7575 17.5808 24.6753C17.5281 24.593 17.5 24.4973 17.5 24.3996C17.5 24.3019 17.5281 24.2062 17.5808 24.124C17.6336 24.0417 17.7089 23.9764 17.7977 23.9357L34.5 17.9043Z" stroke="#5E6738" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -230,11 +240,14 @@ export default function SchoolsMenu() {
                         </div>
                       )}
                     </ListItem>
-                    <ListItem className={`b2 ${isActive(`/schools/${slug}/staff`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('staff')}>
-                      <a className='b2' href={`/schools/${slug}/staff`}>
-                        Teachers & Staff
-                      </a>
-                    </ListItem>
+                    {data?.school?.schoolAdminSettings?.staffMembers?.length &&
+                      <ListItem className={`b2 ${isActive(`/schools/${slug}/staff`) ? 'active' : ''}`}
+                                onClick={() => handleMenuItemClick('staff')}>
+                        <a className='b2' href={`/schools/${slug}/staff`}>
+                          Teachers & Staff
+                        </a>
+                      </ListItem>
+                    }
                     <ListItem className={`b2 ${isActive(`/schools/${slug}/careers`) ? 'active' : ''}`} onClick={() => handleMenuItemClick('careers')}>
                       <a className='b2' href={`/schools/${slug}/careers`}>
                         School Careers
@@ -253,10 +266,11 @@ export default function SchoolsMenu() {
           </div>
         </div>
       </div>
-      <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div>
+      {/* <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div> */}
+      <div className="classroom-margin d-block d-lg-none"></div>
       {selectedClassrooms.length > 0 && (
         <div className={`${(
-            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
+            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-school`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
             ) ? 'submenu-wrapper d-block d-lg-none' : 'submenu-wrapper hidden'}`} onClick={toggleSubmenu}>
           <div className='placeholder-text green'>Explore Classrooms & Programs
           <span className={`icon ${isSubmenuVisible ? 'active' : ''}`}>
@@ -267,7 +281,7 @@ export default function SchoolsMenu() {
           </span>
           </div>
           <div className={`submenu ${isSubmenuVisible ? 'visible' : ''} ${(
-            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-care`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
+            isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-school`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
             ) ? '' : 'hidden'}`}>
             <div className='list-wrap'>
               {generateClassroomSubmenu()}

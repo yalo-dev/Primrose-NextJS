@@ -1,7 +1,12 @@
 import { gql } from '@apollo/client';
 import { client } from '../../../app/lib/apollo';
 import { GfForm } from "../../../generated/graphql";
-import ScheduleATourForm from './schedule-a-tour-form';
+import ScheduleATourForm from '../../../components/ScheduleATour/ScheduleTourForm';
+import Head from "next/head";
+import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
+import DynamicRadioButtons from "../../../components/Calendly/DynamicRadioButtons";
+import React, { useEffect, useRef, useState } from 'react';
+import {useRouter} from 'next/navigation';
 
 interface Props {
     form: GfForm;
@@ -13,60 +18,45 @@ export async function getServerSideProps(context) {
     const GET_THANKS_FIELDS = gql`
     query SchoolData($id: ID!) {
         school(id: $id, idType: URI) {
-          id
-          slug
-          uri
-          schoolSettings {
-            details {
-              corporate {
-                schoolOpening
-                schoolName
-                phoneNumber
-                longitude
-                latitude
-                formNotificationEmail
-                emailAddress
-                address {
-                  city
-                  state
-                  streetAddress
-                  streetAddress2
-                  zipcode
-                }
+            id
+            databaseId
+            slug
+            uri
+            title
+            schoolAdminSettings {
+              instagramLink
+              yelpLink
+              googleLink
+              facebookLink
+              hoursOfOperation {
+                openingTime
+                closingTime
               }
-              general {
-                facebook {
-                  target
-                  title
-                  url
-                }
-                contactEmail {
-                  email
-                }
-                instagram {
-                  target
-                  title
-                  url
-                }
-                scheduleATour {
-                  heading
-                  button {
-                    target
-                    title
-                    url
-                  }
-                  images {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                  subheading
-                }
-                schoolHours
+              schedulerEventsOffered
+            }
+            schoolCorporateSettings {
+              careerplugSchoolId
+              address {
+                city
+                state
+                zipcode
+                streetAddress
+                streetAddress2
+              }
+              phoneNumber
+              scheduleATourMeta {
+                description
+                fieldGroupName
+                title
+              }
+              usesCalendly
+              procarePointerId
+              calendlyEmbedUrls {
+                calendlyVirtualTour
+                calendlyInPersonTour
+                calendlyIntroductionPhoneCall
               }
             }
-          }
         }
       }
     `;
@@ -76,42 +66,105 @@ export async function getServerSideProps(context) {
     });
 
     const schoolData = response?.data?.school;
-    const schoolSettings = schoolData?.schoolSettings || {};
+    const schoolSettings = schoolData.schoolAdminSettings || {};
+
 
     return {
         props: {
-            schoolSlugInput: schoolData?.slug || '',
-            corporate: schoolSettings?.corporate || {}, 
+            schoolTitle: schoolData?.title,
+            schoolSlug: schoolData?.slug || '',
+            corporate: schoolData?.schoolCorporateSettings || {}, 
             socialLinks: {
-                facebook: schoolSettings?.general?.facebook?.url || '',
-                instagram: schoolSettings?.general?.instagram?.url || ''
+                facebook: schoolSettings?.facebookLink || '',
+                instagram: schoolSettings?.instagramLink || ''
             },
-            schoolHours: schoolSettings?.general?.schoolHours || ''
+            schoolHours: 'M-F ' + schoolSettings?.hoursOfOperation.openingTime + " - " + schoolSettings?.hoursOfOperation.closingTime || '',
+            schedulerEvent: schoolSettings?.schedulerEventsOffered || '',
+            calendlyURLs: {
+                inPersonTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyInPersonTour || '',
+                virtualTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyVirtualTour || '',
+                introductionPhoneCall: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyIntroductionPhoneCall || '',
+            },
+            hiddenFields: {
+                userAgent: context.req.headers['user-agent'],
+                ipAddress: context.req.headers['x-forwarded-for'],
+                referer: context.req.headers.referer || '',
+                procare: schoolData?.schoolCorporateSettings.procarePointerId || '',
+                schoolID: schoolData?.databaseId,
+                schoolName: schoolData?.title,
+                uri: schoolData?.uri,
+                slug: schoolData?.slug,
+                usesCalendly: schoolData?.schoolCorporateSettings.usesCalendly,
+                calendlyURLs: {
+                    inPersonTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyInPersonTour || '',
+                    virtualTour: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyVirtualTour || '',
+                    introductionPhoneCall: schoolData?.schoolCorporateSettings.calendlyEmbedUrls.calendlyIntroductionPhoneCall || '',
+                },
+                hasCalendlyEvent: schoolSettings?.schedulerEventsOffered || '',
+            }
         },
     };
 }
 
 
-export default function ScheduleATourPage({ corporate, socialLinks, schoolHours }) { 
 
-    const addressDetails = corporate && corporate.address ? (
-        <>
-            {corporate.address.streetAddress && <p>{corporate.address.streetAddress}</p>}
-            {corporate.address.streetAddress2 && <p>{corporate.address.streetAddress2}</p>}
-            {corporate.address.city && <span>{corporate.address.city}, </span>}
-            {corporate.address.state && <span>{corporate.address.state} </span>}
-            {corporate.address.zipcode && <span>{corporate.address.zipcode}</span>}
-        </>
-    ) : null;
+export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent, calendlyURLs }) {
 
+    const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
+    const metaDesc = corporate?.scheduleATourMeta?.description
+    const nonCalendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and we’ll contact you about a tour."
+    const calendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and select your tour date and time."
+    const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
+    const router = useRouter();
+    const [calendlyEvent, setCalendlyEvent] = useState<string>('');
+
+    useEffect(()=>{
+        window.addEventListener('message', function(e){
+            if(e.data.event && e.data.event.indexOf('calendly') === 0){
+                if(e.data.event === "calendly.event_scheduled"){
+                    router.push(`/schools/${schoolSlug}/tour-thanks/`);
+                }
+            }
+        });
+    });
+
+    const handleCalendlySelect = (value) => {
+        if (value == 'In-Person Tour') {
+            setCalendlyEvent(calendlyURLs.inPersonTour);
+        } else if (value == 'Virtual Tour') {
+            setCalendlyEvent(calendlyURLs.virtualTour);
+        } else if (value == 'Introduction Phone Call') {
+            setCalendlyEvent(calendlyURLs.introductionPhoneCall);
+        }
+    };
+
+    if (calendlyEvent == '' && schedulerEvent != '') {
+        handleCalendlySelect(schedulerEvent[0])
+    }
 
     return (
         <div className='school schedule-a-tour'>
+            <Head>
+              <title>{metaTitle}</title>
+              {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             <div className="container">
                 <div className="row">
                     <div className="main-wrapper col-12 col-lg-8">
                         <div className="form-wrapper">
-                            <ScheduleATourForm  />
+                            <div className="heading-wrapper">
+                                <h1 className='heading green'>Schedule A Tour</h1>
+                                <p className="desc b3">{formDescription}</p>
+                            </div>
+                            <ScheduleATourForm {...hiddenFields} />
+                            {corporate.usesCalendly &&
+                                (calendlyURLs.inPersonTour != '' || calendlyURLs.virtualTour != '' || calendlyURLs.introductionPhoneCall != '') &&
+                                (schedulerEvent != '') && (
+                                <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
+                                    <DynamicRadioButtons options={schedulerEvent} onSelect={handleCalendlySelect}/>
+                                    <CalendlyEmbed url={calendlyEvent} />
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="aside col-lg-3 offset-lg-1 d-none d-lg-flex flex-column">

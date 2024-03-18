@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
+import { SliderSpeed } from '../../../../pages/_app';
+
 
 interface SliderItem {
     blurb: string;
@@ -23,7 +25,6 @@ interface CustomizationsProps {
     bottomMarginMobile?: string;
     bottomMarginDesktop?: string;
     backgroundColor?: string;
-    accentLeftOrRight?: string;
 }
 
 interface FeaturedSectionProps {
@@ -35,19 +36,23 @@ interface FeaturedSectionProps {
     slider: SliderItem[];
 }
 
-const sliderSettings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 1000,
-    autoplay: true,
-    autoplaySpeed: 6000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    fade: true
-};
+const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider}) => {
+    
+    const sliderSpeed = useContext(SliderSpeed);
+    if (!sliderSpeed) return
 
-const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor, subheading, subheadingColor, customizations, slider }) => {
+    const sliderSettings = {
+        dots: true,
+        arrows: false,
+        infinite: true,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: parseInt(sliderSpeed),
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true
+    };
+
     return (
             <Customizations
                 topMarginMobile={customizations?.topMarginMobile}
@@ -56,14 +61,14 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                 bottomMarginDesktop={customizations?.bottomMarginDesktop}
                 colorLabelOuter={customizations?.backgroundColor}
             >
-                 <div className={`accent ${customizations?.accentLeftOrRight || ''}`}>
+                 <div className={`accent`}>
                 <div className='container'>
                 <div className='featured-section row'>
-                        <div className='header-section col-lg-3 col-xxl-4'>
+                        <div className='header-section col-lg-4 col-xxl-4'>
                             {heading && <Heading level="h2" color={headingColor}>{heading}</Heading>}
                             {subheading && <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>}
                         </div>
-                        <div className='slider-section col-lg-8 offset-lg-1 col-xxl-8 offset-xxl-0'>
+                        <div className='slider-section col-lg-7 offset-lg-1 col-xxl-8 offset-xxl-0'>
                         <Slider {...sliderSettings}>
                             {slider.map((slide, index) => (
                                 <div className='featured-slider' key={index}>

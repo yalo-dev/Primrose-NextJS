@@ -1,5 +1,5 @@
 .four-across-slider {
-    padding: 20px 36px 60px;
+    //padding: 20px 36px 60px;
     .slick-dots {
         background: #FBFBFB;
         border-radius: 1rem;
@@ -12,7 +12,7 @@
         margin: auto;
         position: relative;
         width: fit-content;
-       
+        margin-bottom: 30px;
         li {
             margin: 0;
             button:before {
@@ -50,7 +50,26 @@
         }
     }
     .slick-prev {
-        left: -35px;
+        left: -5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    .slick-next {
+        right: 5px;
+
+        &::before {
+            content: '';
+        }
+    }
+    @include media-breakpoint-up(sm) {
+        .slick-prev {
+            left: -30px;
+        }
+        .slick-next {
+            right: -20px;
+        }
     }
     @include media-breakpoint-up(xl) {
         .slick-prev, .slick-next {
@@ -91,11 +110,11 @@
             height: 133px;
             object-fit: contain;
             object-position: center;
-            margin-bottom: 35px;
+            margin-top: 40px;
+            margin-bottom: 40px;
             @include media-breakpoint-up(xl) {
                 width: 100px;
                 height: 100px;
-                margin-bottom: 55px;
             }
         }
         h5 {
@@ -104,6 +123,7 @@
         }
         .b2 {
             color: $text-gray;
+            margin-bottom: 48px;
         }
     }
 }

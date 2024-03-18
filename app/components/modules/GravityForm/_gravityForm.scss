@@ -1,0 +1,41 @@
+.gravity-form{
+    .form-wrapper{
+        form{
+            justify-content: space-between;
+            .gfield.gfield-TEXTAREA{
+                width:100%;
+                
+            }
+            .gfield{
+                width:calc(50% - 2rem)
+            }
+            .gfield.large{
+                width:100%;
+            }
+            .gfield-RADIO>div{
+                display:flex;
+                flex-direction:row;
+            }
+            .gfield-RADIO>div>div{
+                flex-basis: 100px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: baseline;
+            }
+            .gfield-RADIO input{
+                margin-right: .8rem;
+            }
+            input[type='radio'] {
+                accent-color: #5E6738;
+            }
+            div.submit{
+                margin-top:2rem;
+                flex-basis:100%;
+            }
+            
+        }
+    }
+    
+
+}

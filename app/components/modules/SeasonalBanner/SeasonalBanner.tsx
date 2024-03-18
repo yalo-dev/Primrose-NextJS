@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
@@ -11,6 +12,10 @@ interface SeasonalButtonProps {
 }
 
 interface SeasonalBannerProps {
+    image?: {
+        sourceUrl?: string;
+        altText?: string;
+      };
     heading?: string;
     headingColor?: string;
     subheading?: string;
@@ -29,7 +34,8 @@ interface SeasonalBannerProps {
 	};
 }
 
-const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
+const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ image, heading, headingColor, subheading, subheadingColor, buttonStyle, button, accentOne, accentTwo, accentThree, customizations }) => {
+
     return (
         <div className="container">
 		<Customizations
@@ -42,11 +48,11 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({ heading, headingColor, 
             <div className='seasonal-banner'>
                 <div className='row'>
                     <div className='col-12 col-lg-6 top'>
-                        <img
-                            src="/assets/stock-seasonal-baby.png"
-                            alt="seasonal baby picture"
-                            width={250}
-                            height={250}
+                        <Image
+                            src={image?.sourceUrl}
+                            alt={image?.altText || 'Seasonal Banner Image'}
+                            width={1920}
+                            height={1920}
                         />
                     </div>
                     <div className='col-12 col-lg-6 bottom'>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image'
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Button from '../../atoms/Button/Button';
@@ -15,16 +16,26 @@ interface OptionType {
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
+    switchRowOrderOnMobile?: boolean;
     centerModule?: boolean;
     rightColumn?: {
         heading?: string;
         subheading?: string;
         blurb?: string;
+        blurbColor?: string;
         button?: {
             target?: string;
             title?: string;
             url?: string;
         };
+        buttonStyle?: string;
+        buttonTwo?: {
+            target?: string;
+            title?: string;
+            url?: string;
+        }
+        buttonTwoStyle?: string;
+        showDropdown?: boolean;
         options?: {
             option?: {
                 target?: string;
@@ -47,7 +58,7 @@ interface TwoColumnsImageAndTextProps {
             title?: string;
             url?: string;
         };
-        imageOrVideo?: 'Image' | 'Video';
+        imageOrVideo?: string;
         announcement?: {
             backgroundColor?: string;
             bottomLine?: string;
@@ -60,35 +71,39 @@ interface TwoColumnsImageAndTextProps {
         showAnnouncementTile?: boolean;
     };
     customizations?: {
-		topPaddingMobile?: string;
-		topPaddingDesktop?: string;
-		bottomPaddingMobile?: string;
-		bottomPaddingDesktop?: string;
-	};
+        topPaddingMobile?: string;
+        topPaddingDesktop?: string;
+        bottomPaddingMobile?: string;
+        bottomPaddingDesktop?: string;
+    };
 }
 
-const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, centerModule, customizations }) => {
-    const className = `two-columns-image-and-text ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center' : ''}`;
+const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftColumn, rightColumn, switchColumnOrderOnDesktop, switchRowOrderOnMobile, centerModule, customizations}) => {
+    const className = `two-columns-image-and-text ${switchRowOrderOnMobile ? 'reverse-row-mobile offset-lg-1' : ''} ${switchColumnOrderOnDesktop ? 'reverse-column offset-lg-1' : ''} ${centerModule ? 'center' : ''}`;
 
     const mobileImageUrl = leftColumn?.imageMobile?.sourceUrl || leftColumn?.imageDesktop?.sourceUrl;
     const desktopImageUrl = leftColumn?.imageDesktop?.sourceUrl;
-  
+
     const renderMedia = () => {
         if (leftColumn?.imageOrVideo === 'Image') {
             return (
                 <>
-                    {leftColumn.imageMobile?.sourceUrl && 
-                        <img 
-                            className='d-block d-lg-none' 
-                            src={desktopImageUrl} 
-                            alt={leftColumn.imageMobile.altText || ''} 
+                    {leftColumn.imageMobile?.sourceUrl &&
+                        <Image
+                            className='d-block d-lg-none'
+                            src={desktopImageUrl}
+                            alt={leftColumn.imageMobile.altText || ''}
+                            width={1920}
+                            height={1920}
                         />
                     }
-                    {leftColumn.imageDesktop?.sourceUrl && 
-                        <img 
-                            className='d-none d-lg-block' 
-                            src={mobileImageUrl} 
-                            alt={leftColumn.imageDesktop.altText || ''} 
+                    {leftColumn.imageDesktop?.sourceUrl &&
+                        <Image
+                            className='d-none d-lg-block'
+                            src={mobileImageUrl}
+                            alt={leftColumn.imageDesktop.altText || ''}
+                            width={1920}
+                            height={1920}
                         />
                     }
                 </>
@@ -96,13 +111,13 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
         } else if (leftColumn?.imageOrVideo === 'Video') {
             return leftColumn?.video?.url && (
                 <div className='video-wrapper'>
-                    <video 
-                    className='d-block w-100'
-                    src={leftColumn.video.url} 
-                    autoPlay 
-                    muted 
-                    loop 
-                    />
+                    <video
+                        className='d-block w-100'
+                        src={leftColumn.video.url}
+                        autoPlay
+                        muted
+                        loop
+                        />
                 </div>
             );
         }
@@ -112,12 +127,12 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
 
     let dropdownOptions: OptionType[] = [];
 
-    if (rightColumn?.options && Array.isArray(rightColumn.options)) {
+    if (rightColumn?.showDropdown && rightColumn?.options && Array.isArray(rightColumn.options)) {
         dropdownOptions = rightColumn.options.flatMap(dropItem => {
             if (dropItem.option) {
                 return {
-                    label: dropItem.option.title || "", 
-                    url: dropItem.option.url || "", 
+                    label: dropItem.option.title || "",
+                    url: dropItem.option.url || "",
                     target: dropItem.option.target || "_self"
                 };
             }
@@ -125,9 +140,9 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
         });
     }
 
-   return (
-        <div className='container'>
-             <Customizations
+    return (
+        <div className='container two-column'>
+            <Customizations
                 topPaddingMobile={customizations?.topPaddingMobile}
                 topPaddingDesktop={customizations?.topPaddingDesktop}
                 bottomPaddingMobile={customizations?.bottomPaddingMobile}
@@ -135,7 +150,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 >
             <div className={className}>
                
-                <div className='left-column col-12 col-lg-5 offset-lg-1'>
+                <div className='left-column col-12 col-lg-6 offset-lg-1'>
                     {renderMedia()}
                     {leftColumn?.showAnnouncementTile && leftColumn?.announcement && (
                         <BackgroundColorComponent color={leftColumn.announcement.backgroundColor} className='announcement'>
@@ -152,19 +167,39 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                     )}
                 </div>
        
-                <div className='right-column col-12 c col-lg-5 offset-lg-1'>
-                    {rightColumn?.heading && <Heading level='h2'>{rightColumn.heading}</Heading>}
-                    {rightColumn?.subheading && <Subheading level='h5'>{rightColumn.subheading}</Subheading>}
-                    {rightColumn?.blurb && <div className='blurb' dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />}
-                    <div className='d-lg-flex'>  
+                <div className='right-column col-12 c col-lg-6'>
+                    {rightColumn?.heading && <Heading level='h2' className="pe-0 pe-lg-5">{rightColumn.heading}</Heading>}
+                    {rightColumn?.subheading && <Subheading level='h5' className="pe-0 pe-lg-5">{rightColumn.subheading}</Subheading>}
+                    {rightColumn?.blurb && (<div className='blurb pe-0 pe-lg-5'>
+                        <ColorComponent color={rightColumn.blurbColor}>
+                        <div dangerouslySetInnerHTML={{ __html: rightColumn.blurb }} />
+                        </ColorComponent>
+                    </div>
+                    )}
+                    <div className='button-container d-flex mt-3'>  
                         {rightColumn?.button?.url && rightColumn?.button?.title && (
-                            <Button href={rightColumn.button.url} target={rightColumn.button.target} label={rightColumn.button.title}>
-                                {rightColumn.button.title}
-                            </Button>
-                        )}
-                        {(dropdownOptions.length > 0) && (
-                            <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
-                        )}
+                                <Button
+                                    href={rightColumn.button.url}
+                                    target={rightColumn.button.target}
+                                    label={rightColumn.button.title}
+                                    variant={rightColumn.buttonStyle || 'primary'}
+                                >
+                                    {rightColumn.button.title}
+                                </Button>
+                            )}
+                            {rightColumn?.buttonTwo?.url && rightColumn?.buttonTwo?.title && (
+                                <Button
+                                    href={rightColumn.buttonTwo.url}
+                                    target={rightColumn.buttonTwo.target}
+                                    label={rightColumn.buttonTwo.title}
+                                    variant={rightColumn.buttonTwoStyle || 'primary'}
+                                >
+                                    {rightColumn.buttonTwo.title}
+                                </Button>
+                            )}
+                        {rightColumn?.showDropdown && dropdownOptions && dropdownOptions.length > 0 && (
+                                <SelectDropdown options={dropdownOptions} placeholder='Explore Classrooms' />
+                            )}
                     </div>
                 </div>
             </div>

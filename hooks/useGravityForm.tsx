@@ -21,7 +21,11 @@ export interface StringFieldValues extends FieldValue {
   values: string[];
 }
 
-export type FieldValueUnion =  CheckboxFieldValue | EmailFieldValue | StringFieldValue | StringFieldValues;
+export interface  HiddenFieldValues extends FieldValue {
+  value: string;
+}
+
+export type FieldValueUnion =  CheckboxFieldValue | EmailFieldValue | StringFieldValue | StringFieldValues | HiddenFieldValues;
 
 interface Action {
   type: ACTION_TYPES;
@@ -35,11 +39,13 @@ export enum ACTION_TYPES {
   updateRadioFieldValue     = 'updateRadioFieldValue',
   updateSelectFieldValue    = 'updateSelectFieldValue',
   updateTextFieldValue      = 'updateTextFieldValue',
+  updateHiddenFieldValue    = 'updateHiddenFieldValue',
 }
 
 function reducer(state: FieldValueUnion[], action: Action) {
   const getOtherFieldValues = (id: number) => state.filter(fieldValue => fieldValue.id !== id);
 
+  // console.log('action: ', action)
   switch (action.type) {
     case ACTION_TYPES.updateCheckboxFieldValue: {
       const { id, checkboxValues } = action.fieldValue as CheckboxFieldValue;
@@ -49,12 +55,17 @@ function reducer(state: FieldValueUnion[], action: Action) {
       const { id, emailValues } = action.fieldValue as EmailFieldValue;
       return [...getOtherFieldValues(id), { id, emailValues }];
     }
+    case ACTION_TYPES.updateHiddenFieldValue: {
+      // console.log('is in hidden fields');
+      const { id, value } = action.fieldValue as StringFieldValue;
+      return [...getOtherFieldValues(id), { id, value }];
+    }
     case ACTION_TYPES.updatePhoneFieldValue:
     case ACTION_TYPES.updateRadioFieldValue: 
     case ACTION_TYPES.updateSelectFieldValue:
     case ACTION_TYPES.updateTextFieldValue: {
       const { id, value } = action.fieldValue as StringFieldValue;
-      console.log('updateSelectFieldValue', id, value);
+      // console.log('updateSelectFieldValue', id, value);
       return [...getOtherFieldValues(id), { id, value }];
     }
     default:
@@ -74,6 +85,7 @@ const GravityFormContext = createContext<{
 
 export function GravityFormProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
+  // console.dir(state)
 
   return (
     <GravityFormContext.Provider value={{ state, dispatch }}>

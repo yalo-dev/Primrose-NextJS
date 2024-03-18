@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useState} from 'react';
 import Customizations from '../../filters/Customizations';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
+import Script from 'next/script'
 
 declare global {
   interface Window {
@@ -27,64 +28,86 @@ interface DynamicFormProps {
     bottomMarginMobile?: string;
     bottomMarginDesktop?: string;
   };
+  hubspotFormSnippets: {
+    productionHubspotFormCode: null | string;
+    stagingHubspotFormCode: null | string;
+  };
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations , formid, portalid, region, version }) => {
-  const formRef = useRef<HTMLDivElement>(null);
+const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, hubspotFormSnippets }) => {
 
+  const containerID = "hubspotForm"
+  const hubspotFormSnippet = process.env.NODE_ENV === "production"
+    ? hubspotFormSnippets?.productionHubspotFormCode
+    : hubspotFormSnippets?.stagingHubspotFormCode
+
+  const [hubScripts, setHubScripts] = useState([])
+  const [hubStyles, setHubStyles] = useState([])
+
+  // react doesn't execute scripts placed within "dangerouslySetInnerHTML" on divs so the following is a way around that
   useEffect(() => {
-    const loadScript = (src, id) => {
-      return new Promise<void>((resolve, reject) => {
-        if (document.getElementById(id)) {
-          resolve();
-          return;
+
+    // add the scripts string to a div innerHTML to make it easier to parse
+    const div = document.createElement('div')
+    div.innerHTML = hubspotFormSnippet
+
+    // grab the scripts as a list of objects
+    const scripts = div.getElementsByTagName('script')
+    // react will run this useEffect a couple times on load, so check and make sure there's no scripts loaded already, or they'll stack
+    if (!hubScripts.length) {
+      for (let i = 0; i < scripts.length; i++) {
+        // set the scripts to next/script tag so they'll execute properly
+        if (scripts[i].src) {
+          setHubScripts((prev) => [...prev, <Script src={scripts[i].src}/>])
+        } else if (scripts[i].innerHTML) {
+          // next scripts get moved to the end of the <body>, so add a target attribute to load this within the proper container (if not already present)
+          const scriptWithTarget = scripts[i].innerHTML.includes("target:")
+              ? scripts[i].innerHTML
+              : scripts[i].innerHTML.split("hbspt.forms.create({")
+                  .join(`hbspt.forms.create({target: "#${containerID}", `)
+          setHubScripts((prev) => [
+            ...prev,
+            <Script defer strategy="afterInteractive" dangerouslySetInnerHTML={{__html: scriptWithTarget}}/>
+          ])
         }
-        const script = document.createElement('script');
-        script.id = id;
-        script.src = src;
-        script.charset = 'utf-8';
-        script.type = 'text/javascript';
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
-        document.body.appendChild(script);
-      });
-    };
-
-    const createForm = () => {
-      if (window.hbspt && formRef.current) {
-        window.hbspt.forms.create({
-          region: region,
-          portalId: portalid,
-          formId: formid,
-          target: `#${formRef.current.id}`,
-          version: version
-        });
-      } else {
-        setTimeout(createForm, 500);
       }
-    };
+    }
 
-    loadScript('//js.hsforms.net/forms/v2.js', 'hubspot-forms-script')
-      .then(() => createForm())
-      .catch(error => console.error("Error loading HubSpot script:", error));
+    // grab the styles as a list of objects
+    const styles = div.getElementsByTagName('style')
+    //check and make sure there's no styles loaded already
+    if (!hubStyles.length) {
+      for (let i = 0; i < styles.length; i++) {
+        setHubStyles((prev) => [
+            ...prev,
+            <style global jsx>{`${styles[i].innerHTML}`}</style>
+        ])
+      }
+    }
   }, []);
 
   return (
-    <Customizations
-      topMarginMobile={customizations.topMarginMobile}
-      topMarginDesktop={customizations.topMarginDesktop}
-      bottomMarginMobile={customizations.bottomMarginMobile}
-      bottomMarginDesktop={customizations.bottomMarginDesktop}
-      colorLabelOuter={customizations.outerBackgroundColor}
-    >
-      <div className='dynamic-form'>
-        <div className='container'>
-          {headings.heading && <Heading level='h2' color={headings.headingColor}>{headings.heading}</Heading>}
-          {headings.subheading && <Subheading level='div' className='b3' color={headings.subheadingColor}>{headings.subheading}</Subheading>}
-          <div ref={formRef} id="hubspotForm" className='form'></div>
+      <Customizations
+          topMarginMobile={customizations.topMarginMobile}
+          topMarginDesktop={customizations.topMarginDesktop}
+          bottomMarginMobile={customizations.bottomMarginMobile}
+          bottomMarginDesktop={customizations.bottomMarginDesktop}
+          colorLabelOuter={customizations.outerBackgroundColor}
+      >
+        <div className='dynamic-form'>
+          <div className='container'>
+            {headings?.heading && <Heading level='h2' color={headings?.headingColor}>{headings?.heading}</Heading>}
+            {headings?.subheading && <Subheading level='div' className='b3'
+                                                color={headings?.subheadingColor}>{headings?.subheading}</Subheading>}
+
+            <div id={containerID} className='form hbspt-form'>
+              {hubStyles}
+              {hubScripts[0]}
+              {window.hbspt && hubScripts[1]} {/* first script loads too slow for the hbspt variable, so load conditionally */}
+            </div>
+          </div>
         </div>
-      </div>
-    </Customizations>
+      </Customizations>
   );
 };
 

@@ -20,6 +20,8 @@
             object-fit: cover;
             z-index: 1;
             position: relative;
+            width: 100%;
+            height: auto;
             @include media-breakpoint-up(lg) {
                 width: 400px;
                 height: 400px;
@@ -36,7 +38,7 @@
                 width: 600px;
                 height: 600px;
                 position: absolute;
-                top: -69px;
+                top: -75px;
                 left: 4rem;
                 object-fit: contain;
             }

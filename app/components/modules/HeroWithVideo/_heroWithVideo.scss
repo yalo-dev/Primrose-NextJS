@@ -5,6 +5,9 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    div > p {
+        color: inherit;
+    }
     @include media-breakpoint-up(lg) {
         margin: auto;
         flex-direction: row;
@@ -37,8 +40,10 @@
             @extend .b3;
         }
         button {
+            @include media-breakpoint-up(lg) {
             margin-top: 30px;
             width: auto;
+            }
         }
     }
     .right-column {

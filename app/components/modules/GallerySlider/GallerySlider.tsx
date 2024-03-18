@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 let sliderIdCounter = 0;
 
@@ -106,9 +107,9 @@ const GallerySlider = ({ gallery, uniqueId }) => {
     
         const isLastSlideFullyVisible = currentTranslateWidth >= maxTranslateWidth;
         setIsNextArrowDisabled(isLastSlideFullyVisible || currentIndex === gallery.length - 1);
-    }, [currentIndex, slideWidths, gallery.length]);
+    }, [currentIndex, slideWidths, gallery?.length]);
     
-
+        console.log(gallery)
     return (
         <div className={`gallery-slider ${combinedUniqueId}`}>
             <div className='container d-flex justify-content-between align-items-center'>
@@ -136,11 +137,13 @@ const GallerySlider = ({ gallery, uniqueId }) => {
             </div>
             <div className='container'>
             <div className="slider-container" ref={sliderRef}>
-                {gallery.map((item, index) => (
+                {gallery?.map((item, index) => (
                     <div className="slide" key={index} style={{ width: `${imageWidths[index]}px` }}>
-                        <img
-                            src={item.image.sourceUrl}
-                            alt={item.image.altText}
+                        <Image
+                            width={1920}
+                            height={1920}
+                            src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
+                            alt={( item.imageAlt ?? item.image?.altText) ?? `gallery slider image ${index}`}
                             onLoad={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 handleImageLoad(index, target.offsetWidth);
@@ -148,7 +151,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                         />
                         <div className='caption-wrapper pe-1'>
                             <div className='h5 mt-2 mb-2'>{item.title}</div>
-                            <span className='b2'>{item.caption}</span>
+                            <span className='b2' dangerouslySetInnerHTML={{__html: item.caption}} />
                         </div>
                     </div>
                 ))}

@@ -5,7 +5,7 @@ button {
     font-family: 'Poppins';
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 20px; 
     border: 0;
     @include borderRadius; 
@@ -26,6 +26,13 @@ button {
         &:hover {
             background-color: $primary-darkgray;
             color: $grayscale-1;
+        }
+    }
+    &.schools-menu {
+        background-color: $grayscale-1;
+        color: $primary-darkgray;
+        &:hover {
+            background-color: $grayscale-3;
         }
     }
 }

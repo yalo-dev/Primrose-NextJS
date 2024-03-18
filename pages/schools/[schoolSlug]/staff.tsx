@@ -1,12 +1,13 @@
 import { client } from '../../../app/lib/apollo';
 import { gql } from '@apollo/client';
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import Heading from '../../../app/components/atoms/Heading/Heading';
-import Subheading from '../../../app/components/atoms/Subheading/Subheading';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../app/components/atoms/Button/Button';
-import { MultiSelectDropdown } from '../../../app/components/molecules/MultiSelectDropdown/MultiSelectDropdown';
-import SelectDropdown from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
+import SelectDropdown, {OptionType} from '../../../app/components/molecules/SelectDropdown/SelectDropdown';
+import defaultThumb from '../../../public/assets/staff-default-thumbnail.jpg';
+import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerModal/FranchiseOwnerBio";
+import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
+import Head from "next/head";
+import Image from 'next/image';
 
 interface StaffMember {
   altText?: string;
@@ -28,49 +29,41 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
-          schoolSettings {
-            details {
-              general {
-                scheduleATour {
-                  heading
-                  subheading
-                  button {
-                    target
-                    title
-                    url
-                  }
-                  images {
-                    altText
-                    image {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
+          title
+          schoolCorporateSettings {
+            usesCalendly
+            staffMeta {
+              description
+              fieldGroupName
+              title
             }
-            staff {
-              staffMembers {
-                altText
-                image {
-                  sourceUrl
-                }
-                name
-                title
-                bio
-                group
+          }
+          schoolAdminSettings {
+            staffMembers {
+              bio
+              classroomAssignment
+              group
+              image {
+                mediaItemUrl
+                sourceUrl
               }
-              franchiseOwners {
-                leftColumn {
-                  name
-                  bio
-                  oneOrMultiple
-                }
-                rightColumn {
-                  altText
-                  image {
-                    sourceUrl
-                  }
-                }
+              altText
+              name
+              title
+            }
+            meetStaffImage {
+              altText
+              mediaItemUrl
+              sourceUrl
+            }
+            franchiseOwner {
+              bio
+              multipleOwners
+              name
+              image {
+                altText
+                sourceUrl
+                mediaItemUrl
               }
             }
           }
@@ -83,126 +76,48 @@ export async function getServerSideProps(context) {
     variables: { id: schoolSlug }
   });
 
-  const staff = response?.data?.school?.schoolSettings?.staff;
-  const ScheduleATour = response?.data?.school?.schoolSettings?.details?.general?.scheduleATour;
-
+  const school = response?.data?.school
+  const staff = response?.data?.school?.schoolAdminSettings?.staffMembers;
+  const schoolAdminSettings = response?.data?.school?.schoolAdminSettings;
+  const franchiseOwner = response?.data?.school?.schoolAdminSettings?.franchiseOwner;
+  console.log(staff);
   return {
     props: {
+      school,
       staff,
       schoolSlug,
-      ScheduleATour
+      schoolAdminSettings,
+      franchiseOwner
     },
   };
 }
 
-export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
+export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettings, franchiseOwner }) {
 
-  const hasScheduleATour = !!ScheduleATour?.heading || !!ScheduleATour?.subheading || !!ScheduleATour?.button || (ScheduleATour?.images && ScheduleATour?.images.length > 0);
-
-  const leftScrollerRef = useRef<HTMLDivElement>(null);
-  const rightScrollerRef = useRef<HTMLDivElement>(null);
-  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const [activeBio, setActiveBio] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [bioHeights, setBioHeights] = useState({});
   const initialStaffCount = 20;
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
-  const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
-  const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff.staffMembers);
-  const [selectedGroup, setSelectedGroup] = useState('All'); // Initialize selectedGroup with 'All'
+  const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
+  const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
+  const metaTitle = school.schoolCorporateSettings?.staffMeta?.title ?? `Franchise Owner(s) and Staff | Primrose School of ${school?.title}`
+  const metaDesc = school.schoolCorporateSettings?.staffMeta?.description
+
+  useEffect(() => {
+    setActiveBio(null)
+  }, [filteredStaffMembers  ]);
 
   const loadMoreStaff = () => {
     setVisibleStaffCount((prevCount) => prevCount + 4); 
   };
 
-  const canLoadMore = staff.staffMembers.length > visibleStaffCount;
+  const canLoadMore = filteredStaffMembers?.length > visibleStaffCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
       measureBioHeight(index);
     }
     setActiveBio(activeBio === index ? null : index);
-  };
-
-  const scrollContent = () => {
-    const leftScroller = leftScrollerRef.current;
-    const rightScroller = rightScrollerRef.current;
-
-    if (leftScroller) {
-      leftScroller.scrollTop += 1;
-      if (leftScroller.scrollTop >= leftScroller.scrollHeight / 2) {
-        leftScroller.scrollTop = 0;
-      }
-    }
-
-    if (rightScroller) {
-      rightScroller.scrollTop -= 1;
-      if (rightScroller.scrollTop <= 0) {
-        rightScroller.scrollTop = rightScroller.scrollHeight / 2;
-      }
-    }
-  };
-
-  useEffect(() => {
-    const checkIfImagesLoaded = () => {
-      const images = document.querySelectorAll('.find-a-school .image-scroller img');
-      return Array.from(images).every((img) => (img as HTMLImageElement).complete);
-    };
-    if (checkIfImagesLoaded()) {
-      setAllImagesLoaded(true);
-      setInterval(scrollContent, 20);
-    } else {
-      const images = document.querySelectorAll('.find-a-school .image-scroller img');
-      images.forEach((img) => {
-        img.addEventListener('load', () => {
-          if (checkIfImagesLoaded()) {
-            setAllImagesLoaded(true);
-            setInterval(scrollContent, 20);
-          }
-        });
-      });
-    }
-  }, []);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    document.body.style.overflow = 'auto';
-  };
-
-  const truncateText = (text, length) => {
-    if (text.length <= length) return text;
-    return text.slice(0, length) + '...';
-  };
-
-  const Modal = ({ show, onClose, imageSrc, bio }) => {
-    return (
-      <div className={`modal-overlay ${show ? 'show' : ''}`} onClick={onClose}>
-        <div className='modal-content' onClick={e => e.stopPropagation()}>
-          <div className='close' onClick={onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="29" viewBox="0 0 32 29" fill="none">
-              <circle cx="10.5" cy="10.5" r="9.75" transform="matrix(0.733776 0.679391 -0.733776 0.679391 15.8516 0.036377)" stroke="#858783" strokeWidth="1.5" />
-              <rect width="1.28571" height="9" transform="matrix(0.733776 0.679391 -0.733776 0.679391 18.6797 10.8098)" fill="#5E6738" />
-              <rect width="1.28571" height="9" transform="matrix(0.733776 -0.679391 0.733776 0.679391 12.082 11.6824)" fill="#5E6738" />
-            </svg>
-          </div>
-          <div className='two-columns-image-and-text-alternative'>
-            <div className='left-column'>
-              <img src={imageSrc} alt='Franchise Owner' />
-            </div>
-            <div className='right-column'>
-              <h5 className='b4'>{staff.franchiseOwners.leftColumn?.name}</h5>
-              <div className='b3 pb-3'>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</div>
-              <p className='b2' dangerouslySetInnerHTML={{ __html: bio }} />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   const measureBioHeight = (index) => {
@@ -220,58 +135,65 @@ export default function StaffPage({ staff, schoolSlug, ScheduleATour }) {
     { label: 'Leadership', value: 'Leadership' },
     { label: 'Teachers', value: 'Teacher' },
     { label: 'Staff', value: 'Staff' }
-].map(group => ({ label: group.label, url: `#${group.value}` }));
+  ]
 
-// ... (rest of your code)
+  useEffect(() => {
+    const filtered = !selectedGroup || selectedGroup.value === 'All'
+        ? staff
+        : staff?.filter(member => member.group === selectedGroup.value);
 
-const handleSelectedGroup = (selectedOption) => {
-  const selectedGroup = selectedOption.url.substring(1); // Assuming the URL is something like '#Leadership'
-  console.log('Selected Group:', selectedGroup); // Debugging
-  setSelectedGroup(selectedGroup);
-};
-
-useEffect(() => {
-  console.log('Selected Group in useEffect:', selectedGroup); // Debugging
-  const filtered = selectedGroup === 'All' 
-      ? staff.staffMembers 
-      : staff.staffMembers.filter(member => member.group === selectedGroup);
-
-  console.log('Filtered Staff Members:', filtered); // Debugging
-  setFilteredStaffMembers(filtered);
-}, [selectedGroup, staff.staffMembers]);
+    setFilteredStaffMembers(filtered);
+  }, [selectedGroup, staff]);
+  const handleSelectedGroup = (selectedOption) => {
+    setSelectedGroup(selectedOption);
+  };
+  const defaultImages =[
+      {url: '/schoolsHomeDefault/scrollies-1.jpg', altText: "A child and teacher's hand on a book",},
+      {url: '/schoolsHomeDefault/scrollies-2.jpg', altText: 'A young boy playing with toys',},
+      {url: '/schoolsHomeDefault/scrollies-3.jpg', altText: 'A young boy playing to the floor looking up at camera',},
+      {url: '/schoolsHomeDefault/scrollies-4.jpg', altText: 'A young boy smiling at camera',},
+      {url: '/schoolsHomeDefault/scrollies-5.jpg', altText: 'A young boy looking at camera',}
+  ]
 
   return (
     <div className='school staff'>
+      <Head>
+        <title>{metaTitle}</title>
+        {metaDesc && <meta name={"description"} content={metaDesc}/>}
+      </Head>
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>
             <h1>Teachers & Staff</h1>
             <div className='filter'>
             <SelectDropdown
+                selectedOption={selectedGroup}
                 options={groupOptions}
                 placeholder="Select A Category"
                 onSelect={handleSelectedGroup}
+                type={"filter"}
             />
             </div>
           </div>
           <div className='staff-members'>
 
-            {filteredStaffMembers.slice(0, visibleStaffCount).map((member, index) => (
+            {filteredStaffMembers?.slice(0, visibleStaffCount).map((member, index) => (
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
-                    {member.image && <img src={member.image.sourceUrl} alt={member.name} className='img-fluid' />}
+                    {member.image ? <Image width={980} height={980} src={member.image.sourceUrl} alt={member.name} className="img-fluid" /> : <img src={defaultThumb.src} alt="Primrose Staff Member Photo" className="img-fluid" />}
                   </div>
                   <div className='col-7 '>
                     <div className='text-wrap pe-5'>
                       <h5 className='mb-0'>{member.name}</h5>
                       <div className='b3'>{member.title}</div>
-                      {/* <span className='staff-group'>{member.group}</span> */}
                     </div>
+                    {member.bio && (
                     <div id="button" onClick={() => handleToggleBio(index)} className={activeBio === index ? 'expanded' : ''}>
                       <span></span>
                       <span></span>
                     </div>
+                    )}
                   </div>
                   <div className='col-12'>
                     <div
@@ -282,89 +204,21 @@ useEffect(() => {
                       <div className='b3 p-3' dangerouslySetInnerHTML={{ __html: member.bio }} />
                     </div>
                   </div>
-                 
+
                 </div>
               </div>
             ))}
           </div>
-          {canLoadMore && (
             <div className="load-more d-flex align-items-center justify-content-center">
-              <Button onClick={loadMoreStaff}>Load More</Button>
+              {canLoadMore &&<Button onClick={loadMoreStaff}>Load More</Button>}
             </div>
-          )}
         </div>
       </div>
       <div className='container'>
         {/* Franchise Owners Section */}
-        <div className='row'>
-          <div className='franchise-owners'>
-            {staff.franchiseOwners && (
-              <div className='two-columns-image-and-text-alternative reverse-column'>
-                <div className='left-column col-12 col-lg-5 offset-lg-1'>
-                  {staff.franchiseOwners.rightColumn?.image && (
-                    <img
-                      src={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                      alt={staff.franchiseOwners.rightColumn.altText || 'feature image'}
-                      className='img-fluid'
-                      width="500"
-                      height="500"
-                    />
-                  )}
-                </div>
-                <div className='right-column col-12 col-lg-5'>
-                  <h2>{staff.franchiseOwners.leftColumn?.oneOrMultiple === 'One' ? 'Franchise Owner' : 'Franchise Owners'}</h2>
-                  <h5>{staff.franchiseOwners.leftColumn?.name}</h5>
-                  <p className='b3'>{truncateText(staff.franchiseOwners.leftColumn?.bio, 280)}</p>
-                  <Button onClick={handleOpenModal}>Read More</Button>
-                  <Modal
-                    show={showModal}
-                    onClose={handleCloseModal}
-                    imageSrc={staff.franchiseOwners.rightColumn.image.sourceUrl}
-                    bio={staff.franchiseOwners.leftColumn.bio}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        {franchiseOwner?.bio && <FranchiseOwnerBio franchiseOwner={franchiseOwner}/>}
       </div>
-      {hasScheduleATour && (
-        <div className='container'>
-          <div className='find-a-school'>
-            <div className='left-column col-8 col-lg-7 col-xxl-6 d-lg-flex flex-lg-column justify-content-lg-center'>
-              {ScheduleATour?.heading && <Heading level='h2'>{ScheduleATour.heading}</Heading>}
-              {ScheduleATour?.subheading && <Subheading level='div' className='b3'>{ScheduleATour.subheading}</Subheading>}
-              {ScheduleATour?.button?.url && ScheduleATour?.button.title && (
-                <Button variant='secondary' href={ScheduleATour.button.url} target={ScheduleATour.button.target || '_self'}>
-                  {ScheduleATour.button.title}
-                </Button>
-              )}
-            </div>
-            <div className='right-column col-4 col-lg-5 col-xxl-6'>
-              {ScheduleATour.images && ScheduleATour.images.length > 0 && (
-                <>
-                  <div className="image-scroller first" ref={leftScrollerRef}>
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                  </div>
-                  <div className="image-scroller second" ref={rightScrollerRef}>
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={idx} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                    {ScheduleATour.images.map((imgObj, idx) => (
-                      imgObj.image.sourceUrl && <img key={`dup-${idx}`} src={imgObj.image.sourceUrl} alt={imgObj.altText || 'slider image'} />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} usesCalendly={school?.schoolCorporateSettings?.usesCalendly}/>
     </div>
   );
 }

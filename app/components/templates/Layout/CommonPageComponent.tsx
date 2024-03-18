@@ -6,22 +6,28 @@ import DynamicForm from '../../modules/DynamicForm/DynamicForm';
 import FeaturedBlogs from '../../modules/FeaturedBlogs/FeaturedBlogs';
 import FeaturedSection from '../../modules/FeaturedSection/FeaturedSection';
 import FindASchool from '../../modules/FindASchool/FindASchool';
+import FindASchoolMap from '../../modules/MapSearch/MapSearch';
 import FourAcrossSlider from '../../modules/FourAcrossSlider/FourAcrossSlider';
 import EyebrowHeadingSubheading from '../../modules/EyebrowHeadingSubheading/EyebrowHeadingSubheading'
 import GeneralButtonCTA from '../../modules/GeneralButtonCTA/GeneralButtonCTA';
 import GeneralHorizontalTabs from '../../modules/GeneralHorizontalTabs/GeneralHorizontalTabs';
 import GeneralVerticalTabs from '../../modules/GeneralVerticalTabs/GeneralVerticalTabs';
+import GravityForm from '../../modules/GravityForm/GravityForm';
+import HarmonyAndHeart from '../../modules/HarmonyAndHeart/HarmonyAndHeart';
 import HeroWithImage from '../../modules/HeroWithImage/HeroWithImage';
 import HeroWithVideo from '../../modules/HeroWithVideo/HeroWithVideo';
 import HomeHeroWithVideo from '../../modules/HomeHeroWithVideo/HomeHeroWithVideo';
 import NewsletterFormCTA from '../../modules/NewsletterFormCTA/NewsletterFormCTA';
 import PathwayToOwnership from '../../modules/PathwayToOwnership/PathwayToOwnership';
 import PrimroseFriends from '../../modules/PrimroseFriends/PrimroseFriends';
+import ContentWithSchoolhouse from '../../modules/ContentWithSchoolhouse/ContentWithSchoolhouse';
 import Q1Skills from '../../modules/Q1Skills/Q1Skills';
 import QuoteTestimonials from '../../modules/QuoteTestimonials/QuoteTestimonials';
 import SeasonalBanner from '../../modules/SeasonalBanner/SeasonalBanner';
+import LeadershipModule from '../../modules/LeadershipModule/LeadershipModule';
 import StandardAccordionList from '../../modules/StandardAccordionList/StandardAccordionList';
 import TestimonialsWithVideoOrImage from '../../modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage';
+import Timeline from '../../modules/Timeline/Timeline';
 import TwoColumnsFeaturedBlock from '../../modules/TwoColumnsFeaturedBlock/TwoColumnsFeaturedBlock';
 import TwoColumnsFeaturedImage from '../../modules/TwoColumnsFeaturedImage/TwoColumnsFeaturedImage';
 import TwoColumnsGreenBackground from '../../modules/TwoColumnsGreenBackground/TwoColumnsGreenBackground';
@@ -48,6 +54,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_ClassroomSelectAndContent':
                     ModuleComponent = ClassroomSelectAndContent;
                     break;
+                case 'Page_Modules_Modules_ContentWithSchoolhouse':
+                    ModuleComponent = ContentWithSchoolhouse;
+                    break;
                 case 'Page_Modules_Modules_DynamicColumns':
                     ModuleComponent = DynamicColumns;
                     break;
@@ -66,6 +75,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_FindASchool':
                     ModuleComponent = FindASchool;
                     break;
+                case 'Page_Modules_Modules_FindASchoolMap':
+                    ModuleComponent = FindASchoolMap;
+                    break;
                 case 'Page_Modules_Modules_FourAcrossSlider':
                     ModuleComponent = FourAcrossSlider;
                     break;
@@ -78,6 +90,12 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_GeneralVerticalTabs':
                     ModuleComponent = GeneralVerticalTabs;
                 break;
+                case 'Page_Modules_Modules_GravityForm':
+                    ModuleComponent = GravityForm;
+                break;
+                case 'Page_Modules_Modules_HarmonyAndHeart':
+                    ModuleComponent = HarmonyAndHeart;
+                    break;
                 case 'Page_Modules_Modules_HeroWithImage':
                     ModuleComponent = HeroWithImage;
                     break;
@@ -105,11 +123,17 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_SeasonalBanner':
                     ModuleComponent = SeasonalBanner;
                     break;
+                case 'Page_Modules_Modules_LeadershipModule':
+                        ModuleComponent = LeadershipModule;
+                        break;
                 case 'Page_Modules_Modules_StandardAccordionList':
                     ModuleComponent = StandardAccordionList;
                     break;
                 case 'Page_Modules_Modules_TestimonialsWithVideoOrImage':
                     ModuleComponent = TestimonialsWithVideoOrImage;
+                    break;
+                case 'Page_Modules_Modules_Timeline':
+                    ModuleComponent = Timeline;
                     break;
                 case 'Page_Modules_Modules_TwoColumnsFeaturedBlock':
                     ModuleComponent = TwoColumnsFeaturedBlock;
@@ -132,10 +156,14 @@ export const CommonPageComponent = ({ modules }) => {
                 default:
                     ModuleComponent = null;
             }
+            // Determine the id to be used
+            const moduleIdToUse = module.moduleId || module.__typename;
+
+            // Add moduleId to moduleProps if it's not empty
+            const moduleProps = module.moduleId ? { ...module, moduleId: module.moduleId } : module;
             return (
-                <section className={`module ${module.__typename}`} key={index} id={`${module.__typename}${index}`}>
-                    {console.log("Current module: ", module)}
-                    {ModuleComponent && <ModuleComponent {...module} />}
+                <section id={moduleIdToUse} className={`module ${module.__typename}`} key={index} >
+                    {ModuleComponent && <ModuleComponent {...moduleProps} />}
                 </section>
             );
         })}

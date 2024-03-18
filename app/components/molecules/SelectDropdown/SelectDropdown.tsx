@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect, Dispatch, SetStateAction} from 'react';
 import { useSpring, animated } from 'react-spring';
 
-interface OptionType {
+export interface OptionType {
     label: string;
-    url: string;
     value?: string;
+    url?: string;
     target?: string;
 }
 
@@ -12,12 +12,13 @@ interface SelectDropdownProps {
     options: OptionType[];
     placeholder?: string;
     onSelect?: (selectedOption: OptionType | string) => void;
-    returnFullOption?: boolean; // new prop to determine behavior
+    selectedOption?: OptionType
+    returnFullOption?: boolean
+    type?: "filter" | "redirect"
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, returnFullOption = false }) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, onSelect, selectedOption, returnFullOption = false, type = "redirect" }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const optionsRef = useRef<HTMLDivElement | null>(null);
 
@@ -38,15 +39,8 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
     }, []);
 
     const handleOptionClick = (option: OptionType, event: React.MouseEvent) => {
-        event.preventDefault();
-        if (returnFullOption) {
-            onSelect?.(option); 
-        } else if(option.value){
-            onSelect?.(option.value);
-        }else {
-            onSelect?.(option.label); 
-        }
-        setSelectedOption(option);
+        type === 'filter' && event.preventDefault()
+        onSelect && onSelect(option);
         setIsOpen(false);
     };
 
@@ -54,15 +48,15 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, placeholder, o
     return (
         <div className={`custom-select ${isOpen ? 'active' : ''}`} ref={dropdownRef}>
             <div className="header" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption?.label || placeholder || "Select"}
+                {selectedOption?.label ?? placeholder}
                 <div className='icon'></div>
             </div>
 
             <animated.div className="options" ref={optionsRef} style={{ height }}>
-                {options.map((option, idx) => (
+                {options.map((option, idx) => option && (
                     <div key={idx} className="option" data-value={option.value}>
-                        <a href={option.url} target={option.target || "_self"} onClick={(event) => handleOptionClick(option, event)}>
-                            {option.label}
+                        <a href={option.url} target={"_self"} onClick={(event) => handleOptionClick(option, event)} dangerouslySetInnerHTML={{__html: option.label}}>
+                            
                         </a>
                     </div>
                 ))}

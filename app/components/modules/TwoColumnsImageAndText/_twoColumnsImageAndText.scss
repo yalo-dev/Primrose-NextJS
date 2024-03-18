@@ -1,6 +1,10 @@
 .two-columns-image-and-text {
     display: flex;
     flex-direction: column;
+    div > p {
+        color: inherit;
+    }
+
     @include media-breakpoint-up(lg) {
         flex-direction: row;
         align-items: center;
@@ -8,7 +12,15 @@
             flex-direction: row-reverse;
         }
     }
+    @include media-breakpoint-down(lg) {
+        &.reverse-row-mobile {
+            flex-direction: column-reverse;
+        }
+    }
     .right-column {
+        @media only screen and (max-width: 767px) {
+            order: 1;
+        }
         @include media-breakpoint-up(xl) {
             max-width: 536px;
         }
@@ -26,10 +38,15 @@
         }
         button {
             margin-top: 30px;
+            margin-right: 10px;
             width: auto;
+            border: 1px solid #E6E6E6;
+            @media only screen and (max-width: 767px) {
+                margin-top: 0px;
+            }
         }
         .custom-select {
-            margin-top: 15px;
+            margin-top: 31px;
             @include media-breakpoint-up(lg) {
                 margin-top: 30px;
                 margin-left: 1rem;
@@ -38,13 +55,16 @@
                     width: 216px;
                 }
             }
+            @media only screen and (max-width: 767px) {
+                margin-top: 0px;
+            }
             .header {
                 border: 1px solid $neutral-2;
             }
         }
     }
     .left-column {
-        margin-bottom: 60px;
+        margin-bottom: 1.5rem;
         position: relative;
         @include media-breakpoint-up(lg) {
             margin-bottom: 30px;
@@ -59,7 +79,7 @@
         }
         .video-wrapper {
             margin: 0;
-            min-width: 343px; 
+            // min-width: 343px; 
             height: 332px; 
             overflow: hidden;
             border-radius: 30px;
@@ -71,7 +91,7 @@
             }
             @include media-breakpoint-up(xl) {
                 width: 536px;
-                height: 520px;
+                height: 420px;
             }
         }
         
@@ -106,7 +126,6 @@
                 left: -3rem;
                 bottom: 0;
                 padding: 31px;
-
             }
         }
     }
@@ -136,8 +155,4 @@
             }
         }
     }
-}
-
-.module.Page_Modules_Modules_TwoColumnsImageAndText {
-    overflow-x: visible;
 }

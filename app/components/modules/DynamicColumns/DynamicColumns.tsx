@@ -1,13 +1,13 @@
 import React from 'react';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import Heading from '../../atoms/Heading/Heading';
-
+import Image from 'next/image';
 
 interface ImageComponent {
   image: {
     altText: string;
     sourceUrl: string;
+    imageType: 'Icon' | 'Normal Image';
   };
 }
 
@@ -33,25 +33,42 @@ interface HeadingComponent {
 }
 
 interface wysiwygComponent {
-  wysiwyg: string; 
+  wysiwyg: string;
 }
-
 
 type Component = ImageComponent | BodyCopyComponent | ButtonComponent | HeadingComponent | wysiwygComponent;
 
-
 interface Column {
   columnWidth: string;
-  image?: {
-    altText: string;
-    sourceUrl: string;
+  imageOrVideo?: 'Image' | 'Video';
+  video?: {
+    embedded?: string;
+    selfHosted?: {
+      target: string;
+      title: string;
+      url: string;
+    }
+    videoType: string;
   };
-  title?: string;
+  image?: {
+    imageType: string;
+    columnImage: {
+      sourceUrl: string;
+      altText: string;
+    }
+  };
+  title?: {
+    columnTitle: string;
+    headingLevel?: 'h2' | 'h3' | 'h4' | 'h5';
+  }
   blurb?: string;
   button?: {
-    target: string;
-    title: string;
-    url: string;
+    buttonLink: {
+      target: string;
+      title: string;
+      url: string;
+    }
+    buttonStyle: string;
   };
   components: Component[];
 }
@@ -68,22 +85,20 @@ interface DynamicColumnsProps {
   heading?: string;
   columns: Column[];
   customizations?: CustomizationsData;
+  moduleId?: string;
 }
 
-const getColumnClass = (columnWidth) => {
-  switch (columnWidth) {
-    case '25%': return 'quarter';
-    case '33%': return 'third';
-    case '50%': return 'half';
-    case '66%': return 'two-third';
-    case '75%': return 'three-fourth';
-    case '100%': return 'full';
+const getColumnClass = (columns) => {
+  switch (columns.length) {
+    case 2: return 'dynamic-length col-12 col-md-6';
+    case 3: return 'dynamic-length col-12 col-md-4';
+    case 4: return 'dynamic-length col-12 col-md-3';
     default: return '';
   }
 };
 
-const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, customizations }) => {
-
+const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, customizations, moduleId }) => {
+  const isTwoColumns = columns.length === 2;
 
   return (
     <Customizations
@@ -92,48 +107,64 @@ const DynamicColumns: React.FC<DynamicColumnsProps> = ({ heading, columns, custo
       bottomPaddingMobile={customizations?.bottomPaddingMobile}
       bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
     >
-      <div className='dynamic-columns'>
+      <div className='dynamic-columns' id={moduleId}>
         <div className='container'>
-          <div className='col-12 col-lg-6'>{heading && <h2 className='green mb-5'>{heading}</h2>}</div>
-          <div className='columns'>
-          {columns.map((column, columnIndex) => ( 
-            <div key={columnIndex} className={`column ${getColumnClass(column.columnWidth)}`}>
-              {column.image && <img src={column.image.sourceUrl} alt={column.image.altText} />}
-              {column.title && <p className='b4 bold mt-3'>{column.title}</p>}
-              {column.blurb && <p className='b2 mb-4'>{column.blurb}</p>}
-              {column.button && (
-                <Button href={column.button.url} target={column.button.target}>
-                  {column.button.title}
-                </Button>
-              )}
-              {/* {column.components.map((component, componentIndex) => {
-                if ('image' in component) {
-                  return <img key={componentIndex} src={component.image.sourceUrl} alt={component.image.altText} />;
-                }
-                if ('bodyCopy' in component) {
-                  return <p key={componentIndex} className={component.bodyCopySize}>{component.bodyCopy}</p>;
-                }
-                if ('button' in component) {
-                  return (
-                    <Button key={componentIndex} href={component.button.url} target={component.button.target} variant={component.buttonStyle}>
-                      {component.button.title}
-                    </Button>
-                  );
-                }
-                if ('heading' in component) {
-                  return (
-                    <Heading key={componentIndex} level={component.headingSize} color={component.headingColor}>
-                      {component.heading}
-                    </Heading>
-                  );
-                }
-                if ('wysiwyg' in component) {
-                  return <div key={componentIndex} dangerouslySetInnerHTML={{ __html: component.wysiwyg }} />;
-                }
-                return null;
-              })} */}
-            </div>
-          ))}
+          <div className='row d-flex flex-row flex-wrap justify-content-center'>
+            {columns.map((column, columnIndex) => (
+              <div key={columnIndex} className={`${getColumnClass(columns)} d-flex flex-column`}>
+                {column.imageOrVideo === 'Image' && column.image && column.image.columnImage && column.image.columnImage.sourceUrl && (
+                  <Image
+                    width={1080}
+                    height={1080}
+                    src={column.image.columnImage.sourceUrl}
+                    alt={column.image.columnImage.altText}
+                    className={column.image.imageType === 'Icon' ? 'icon-image' : 'normal-image-video'}
+                  />
+                )}
+                {column.imageOrVideo === 'Video' && column.video && (
+                  <>
+                    {column.video.videoType === 'Self-hosted' && column.video.selfHosted && ( 
+                      <video className="normal-image-video" autoPlay muted loop>
+                        {column.video.selfHosted.url && ( 
+                          <source src={column.video.selfHosted.url} type="video/mp4" />
+                        )}
+                        Your browser does not support the video tag.
+                      </video>
+                    )}
+                    {column.video.videoType === 'Embedded' && column.video.embedded && (
+                      <iframe src={column.video.embedded.replace("watch?v=", "embed/")} className="normal-image-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                    )}
+                  </>
+                )}
+                <div className="title-container column-gap">
+                  {column.title && column.title.headingLevel && (
+                    React.createElement(column.title.headingLevel, null, column.title.columnTitle)
+                  )}
+                </div>
+                {column.blurb && <div className='b2' dangerouslySetInnerHTML={{ __html: column.blurb }} />}
+                {column.button && column.button.buttonLink && column.button.buttonLink.url && (
+                  <div className='link-container'>
+                    {column.button.buttonStyle === 'Style 1' ? (
+                      <Button
+                        href={column.button.buttonLink.url}
+                        target={column.button.buttonLink.target}
+                        variant="primary"
+                      >
+                        {column.button.buttonLink.title}
+                      </Button>
+                    ) : column.button.buttonStyle === 'Style 2' ? (
+                      <a
+                        href={column.button.buttonLink.url}
+                        target={column.button.buttonLink.target}
+                        className="custom-style-2"
+                      >
+                        {column.button.buttonLink.title}
+                      </a>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>

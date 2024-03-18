@@ -1,8 +1,9 @@
 import { useMutation, gql } from "@apollo/client";
-
 import { GfForm as GravityFormsFormType, FormField, FieldError } from "../generated/graphql";
 import useGravityForm from "../hooks/useGravityForm";
 import GravityFormsField from "./GravityFormsField";
+import Router from 'next/router';
+import Cookies from 'universal-cookie';
 
 const SUBMIT_FORM = gql`
   mutation submitForm($formId: ID!, $fieldValues: [FormFieldValuesInput]!) {
@@ -12,8 +13,7 @@ const SUBMIT_FORM = gql`
       saveAsDraft: false
     }) {
       confirmation {
-      type    
-      message 
+      url 
       }
       entry {
       id
@@ -28,36 +28,30 @@ const SUBMIT_FORM = gql`
 
 interface Props {
   form: GravityFormsFormType;
+  hiddenFields: any
 }
 
-export default function GravityFormsForm({ form }: Props) {
+export default function GravityFormsForm({ form, hiddenFields }: Props) {
   const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
   const haveEntryId = Boolean(data?.submitGfForm?.entry?.id);
   const haveFieldErrors = Boolean(data?.submitGfForm?.errors?.length);
   const wasSuccessfullySubmitted = haveEntryId && !haveFieldErrors;
-  //const defaultConfirmation = form.confirmations?.find(confirmation => confirmation?.isDefault);
   const formFields = form?.formFields?.nodes || [];
   const { state } = useGravityForm();
+  const cookies = new Cookies(null, {path: '/'})
 
-// state.forEach((fieldValue: any) => {
-//   if (fieldValue.id === 11) {
-//     fieldValue.value = schoolSlugInput;
-//     console.log('fieldValue.value: ', fieldValue.value);
-//   }
-// }
-// );
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (loading) return;
-
-    submitForm({
+    console.log(state);
+    /* submitForm({
       variables: {
         formId: form.formId,
         fieldValues: state,
       }
     }).catch(error => {
       console.error(error);
-    })
+    }) */
   }
 
   function getFieldErrors(id: number): FieldError[] {
@@ -66,22 +60,34 @@ export default function GravityFormsForm({ form }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
-    return <p>{'Form successfully submitted - thank you.'}</p>
+    cookies.set('sat-state', state)
+    console.log(cookies.get('sat-state'))
+    if (hiddenFields.usesCalendly) {
+      let schedulerOption = state.find(({ id }) => id === 13);
+      if (schedulerOption['value'] == 'Yes' && hiddenFields.hasCalendlyEvent != '') {
+        document.getElementById('scheduletourform').hidden = true;
+        document.getElementById('SAT-Calendly-Div').classList.remove('hidden');
+      }
+      else {
+        Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
+      }
+    } else {
+      Router.push(`/schools/${hiddenFields.slug}/tour-thanks`);
+    }
   }
 
-  console.log('error ', data?.submitGfForm?.errors);
+  // console.log('error ', data?.submitGfForm?.errors);
   console.log('state: ', state);
+  // console.log('form', data)
+
   return (
-    <form method="post" onSubmit={handleSubmit}>
-      <div className="heading-wrapper">              
-        {form?.title ? <h1 className='heading green'>{form.title}</h1> : null}
-        {form?.description ? <p className="desc b3">{form.description}</p> : null}
-      </div>
+    <form id="scheduletourform" method="post" onSubmit={handleSubmit}>
       {formFields.map((field: FormField) => (
         <GravityFormsField
           key={field.id}
           field={field}
           fieldErrors={getFieldErrors(field.id)}
+          hiddenFields={hiddenFields}
         />
       ))}
       {error ? (

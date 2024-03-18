@@ -12,6 +12,10 @@ interface VerticalTabProps {
 		bottomMarginMobile: string;
 		bottomMarginDesktop: string;
 		backgroundColor: string;
+		topPaddingMobile?: string;
+		topPaddingDesktop?: string;
+		bottomPaddingMobile?: string;
+		bottomPaddingDesktop?: string;
 	};
 	tabs: {
 		label: string;
@@ -94,27 +98,31 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 		}
 	};
 
-
 	return (
 		<Customizations
 			topMarginMobile={customizations?.topMarginMobile}
 			topMarginDesktop={customizations?.topMarginDesktop}
 			bottomMarginMobile={customizations?.bottomMarginMobile}
 			bottomMarginDesktop={customizations?.bottomMarginDesktop}
+			topPaddingDesktop={customizations?.bottomPaddingDesktop}
+			topPaddingMobile={customizations?.bottomPaddingMobile}
+			bottomPaddingDesktop={customizations?.bottomPaddingDesktop}
+			bottomPaddingMobile={customizations?.bottomPaddingMobile}
 			colorLabelOuter={customizations?.backgroundColor}
 		>
 			<div className='container' ref={containerRefVT}>
 				<div className="general-vertical-tabs">
 					{/* Main Heading and Subheading */}
 					<div className="heading-wrapper">
-						<Heading level='h2'><ColorComponent color={headingColor}>{heading}</ColorComponent></Heading>
-						<Subheading level='div' className='b4'><ColorComponent color={subheadingColor}>{subheading}</ColorComponent></Subheading>
+						{heading && <Heading level='h2'><ColorComponent color={headingColor}>{heading}</ColorComponent></Heading>}
+						{subheading && <Subheading level='div' className='b4'><ColorComponent
+							color={subheadingColor}>{subheading}</ColorComponent></Subheading>}
 					</div>
 
 
 					{/* Mobile layout */}
 					<div className="mobile-layout d-block d-lg-none">
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 							<div key={index} className="mobile-tab">
 								<button
 									ref={(el) => buttonRefsVT.current[index] = el}
@@ -133,46 +141,44 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 									className={`tab-content ${expandedTabVT === index ? 'expanded' : ''}`}
 								>
 
-									{tab.content.image?.sourceUrl && <div className={`image-wrapper ${tab.content.fullWidthOrFeatured}`}>
-                                        <img src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={343} height={287} />
+									{tab.content?.image?.sourceUrl && <div className={`image-wrapper ${tab.content?.fullWidthOrFeatured}`}>
+                                        <img src={tab.content?.image.sourceUrl} alt={tab.content?.image.altText || ''} width={343} height={287} />
                                     </div>}
 									<div className='content'>
 									
 
-                                    {tab.content.eyebrow && <div className="eyebrow h5">
-                                        <ColorComponent color={tab.content.eyebrowColor}>{tab.content.eyebrow}</ColorComponent>
+                                    {tab.content?.eyebrow && <div className="eyebrow h5">
+                                        <ColorComponent color={tab.content?.eyebrowColor}>{tab.content?.eyebrow}</ColorComponent>
                                     </div>}
 
-                                    {tab.content.heading && <Heading level='h3'>
-                                        <ColorComponent color={tab.content.headingColor}>{tab.content.heading}</ColorComponent>
+                                    {tab.content?.heading && <Heading level='h3'>
+                                        <ColorComponent color={tab.content?.headingColor}>{tab.content?.heading}</ColorComponent>
                                     </Heading>}
 
-                                    {tab.content.subheading && <Subheading level='div' className='subhead b4'>
-                                        <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
+                                    {tab.content?.subheading && <Subheading level='div' className='subhead b4'>
+                                        <ColorComponent color={tab.content?.subheadingColor}>{tab.content?.subheading}</ColorComponent>
                                     </Subheading>}
 
-                                    {tab.content.blurb && <div className="blurb b3">
-                                        <ColorComponent color={tab.content.blurbColor}>{tab.content.blurb}</ColorComponent>
-                                    </div>}
+                                    {tab.content?.blurb && (<div className="blurb b3" dangerouslySetInnerHTML={{ __html: tab.content?.blurb }} />)}
 
-                                    {tab.content.list && <ul>
-                                        {tab.content.list.map((item, idx) => (
+                                    {tab.content?.list && <ul>
+                                        {tab.content?.list.map((item, idx) => (
                                             <li key={idx} className='b3'>
                                                 <ColorComponent color={item.textColor}>{item.text}</ColorComponent>
                                             </li>
                                         ))}
                                     </ul>}
 
-									{tab.content.table && <div className='table'>
-                                        {tab.content.table.map((item, idx) => (
+									{tab.content?.table && <div className='table'>
+                                        {tab.content?.table.map((item, idx) => (
                                             <div className='d-flex pt-2 pb-2' key={idx}>
                                                 <div className='label h5 w-50'>{item.label} </div><div className='desc b2 ms-4 w-50'>{item.description}</div>
                                             </div>
                                         ))}
                                     </div>}
 
-                                    {tab.content.button && <Button href={tab.content.button.url} target={tab.content.button.target} variant="primary">
-                                        {tab.content.button.title}
+                                    {tab.content?.button && <Button href={tab.content?.button.url} target={tab.content?.button.target} variant="primary">
+                                        {tab.content?.button.title}
                                     </Button>}
 									</div>
 								</div>
@@ -183,7 +189,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 					{/* Desktop layout */}
 					<div className="desktop-layout d-none d-lg-block">
 						<div className="buttons-container">
-							{tabs.map((tab, index) => (
+							{tabs?.map((tab, index) => (
 								<button
 									key={index}
 									ref={(el) => buttonRefsVT.current[index] = el}
@@ -195,7 +201,7 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 							))}
 						</div>
 						<div className="desktop-content">
-							{tabs.map((tab, index) => (
+							{tabs?.map((tab, index) => (
 								<div
 									key={index}
 									ref={(el) => (contentRefsVT.current[index] = el)}
@@ -204,44 +210,43 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 								>
 									<div className='content col-6'>
 									
-                                    {tab.content.eyebrow && <div className="eyebrow h5">
-                                        <ColorComponent color={tab.content.eyebrowColor}>{tab.content.eyebrow}</ColorComponent>
+                                    {tab.content?.eyebrow && <div className="eyebrow h5">
+                                        <ColorComponent color={tab.content?.eyebrowColor}>{tab.content?.eyebrow}</ColorComponent>
                                     </div>}
 
-                                    {tab.content.heading && <Heading level='h3'>
-                                        <ColorComponent color={tab.content.headingColor}>{tab.content.heading}</ColorComponent>
+                                    {tab.content?.heading && <Heading level='h3'>
+                                        <ColorComponent color={tab.content?.headingColor}>{tab.content?.heading}</ColorComponent>
                                     </Heading>}
 
-                                    {tab.content.subheading && <Subheading level='div' className='subhead b4'>
-                                        <ColorComponent color={tab.content.subheadingColor}>{tab.content.subheading}</ColorComponent>
+                                    {tab.content?.subheading && <Subheading level='div' className='subhead b4'>
+                                        <ColorComponent color={tab.content?.subheadingColor}>{tab.content?.subheading}</ColorComponent>
                                     </Subheading>}
 
-                                    {tab.content.blurb && <div className="blurb b3">
-                                        <ColorComponent color={tab.content.blurbColor}>{tab.content.blurb}</ColorComponent>
-                                    </div>}
+									{tab.content?.blurb && (<div className="blurb b3" dangerouslySetInnerHTML={{ __html: tab.content?.blurb }} />)}
 
-                                    {tab.content.list && <ul>
-                                        {tab.content.list.map((item, idx) => (
+
+                                    {tab.content?.list && <ul>
+                                        {tab.content?.list.map((item, idx) => (
                                             <li key={idx} className='b3'>
                                                 <ColorComponent color={item.textColor}>{item.text}</ColorComponent>
                                             </li>
                                         ))}
                                     </ul>}
 									
-									{tab.content.table && <div className='table'>
-                                        {tab.content.table.map((item, idx) => (
+									{tab.content?.table && <div className='table'>
+                                        {tab.content?.table.map((item, idx) => (
                                             <div className='d-flex pt-2 pb-2' key={idx}>
                                                 <div className='label h5 w-25'>{item.label} </div><div className='desc b2 ms-4 w-75'>{item.description}</div>
                                             </div>
                                         ))}
                                     </div>}
 
-                                    {tab.content.button && <Button href={tab.content.button.url} target={tab.content.button.target} variant="primary">
-                                        {tab.content.button.title}
+                                    {tab.content?.button && <Button href={tab.content?.button.url} target={tab.content?.button.target} variant="primary">
+                                        {tab.content?.button.title}
                                     </Button>}
 									</div>
-									{tab.content.image?.sourceUrl && <div className={`image-wrapper ${tab.content.fullWidthOrFeatured}`}>
-                                        <img src={tab.content.image.sourceUrl} alt="Tab Image" width={343} height={287} />
+									{tab.content?.image?.sourceUrl && <div className={`image-wrapper ${tab.content?.fullWidthOrFeatured}`}>
+                                        <img src={tab.content?.image.sourceUrl} alt="Tab Image" width={343} height={287} />
                                     </div>}
 								</div>
 							))}

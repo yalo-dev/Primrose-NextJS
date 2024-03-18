@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import { useSpring, animated } from 'react-spring';
@@ -37,10 +38,9 @@ interface HorizontalTabProps {
 }
 
 const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) => {
-
 	const [expandedTabGH, setExpandedTabGH] = useState<number | null>(null);
 	const [activePopupGH, setActivePopupGH] = useState<string | null>(null);
-	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs.map(() => []));
+	const buttonsRefGH = useRef<(HTMLButtonElement | null)[][]>(tabs?.map(() => []));
 	const buttonRefsGH = useRef<(HTMLButtonElement | null)[]>([]);
 	const contentRefsGH = useRef<(HTMLDivElement | null)[]>([]);
 	const currentTabGH = expandedTabGH !== null ? tabs[expandedTabGH] : null;
@@ -79,6 +79,14 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 		}
 	}, []);
 
+	const springInAnimation = useSpring({
+        from: {opacity: 0, transform: 'translateX(-250px)'},
+		opacity: expandedTabGH !== null ? 1 : 0,
+        delay: 500,
+    	transform: expandedTabGH !== null ? 'translateX(0px)' : 'translateX(-250px)',
+		config: { mass: 2, tension: 2000, friction: 60, duration: 230 }
+    });
+
 	const slideAnimationPropsGH = useSpring({
 		opacity: expandedTabGH !== null ? 1 : 0,
 		transform: expandedTabGH !== null ? 'scaleY(1)' : 'scaleY(0)',
@@ -105,17 +113,31 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	
 		// Check if the clicked element is the close-icon or its child
 		const isCloseIconClicked = clickedElement.closest('.close-icon');
-	
+	  
+		const isDetailsPopupClicked = clickedElement.closest('.details-popup');
+	  
 		if (isCloseIconClicked) {
 			setActivePopupGH(null);
-		} else if (targetButton && targetButton.classList.contains('has-popup')) {
-			if (activePopupGH === uniqueId) {
-				setActivePopupGH(null);
-			} else {
+		} else if (targetButton && targetButton.classList.contains('has-popup') && activePopupGH !== uniqueId && !isDetailsPopupClicked) {
 				setActivePopupGH(uniqueId);
 			}
-		}
-	};
+	  		event.stopPropagation();
+	  };	  
+	  
+	  useEffect(() => {
+		const handleOutsideClick = (event: MouseEvent) => {
+		  const isInsidePopup = (event.target as Element).closest('.details-popup');
+		  if (!isInsidePopup) {
+			setActivePopupGH(null);
+		  }
+		};
+	  
+		document.body.addEventListener('click', handleOutsideClick);
+	  
+		return () => {
+		  document.body.removeEventListener('click', handleOutsideClick);
+		};
+	  }, [activePopupGH]);
 	
 	const handleLabelClickGH = (index: number) => {
 
@@ -173,7 +195,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 	}, []);
 
 	useEffect(() => {
-		tabs.forEach((_, index) => {
+		tabs?.forEach((_, index) => {
 			if (!buttonsRefGH.current[index]) {
 				buttonsRefGH.current[index] = [];
 			}
@@ -192,7 +214,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					<div className="inner">
 
 
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 
 							<div key={index}>
 								<button
@@ -213,11 +235,12 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 								{/* Mobile: Content rendered right below the label */}
 								<div className="d-lg-none">
 									{expandedTabGH === index && (
-										<animated.div style={slideAnimationPropsGH} className="tab-content" ref={(el) => contentRefsGH.current[index] = el}
+										<animated.div style={springInAnimation} className="tab-content" ref={(el) => contentRefsGH.current[index] = el}
 										>
 											{tab.content.image?.sourceUrl && (
 												<div className='image-wrapper'>
-													<img src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={200} height={200} />
+													
+													<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={200} height={200} />
 												</div>
 											)}
 
@@ -234,7 +257,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
     onClick={(event) => handleIconClickGH(index, idx, event)}
 >
 																	{item.icon?.sourceUrl && (
-																		<img
+																		<Image
 																			src={item.icon.sourceUrl}
 																			alt="List Icon"
 																			width={30}
@@ -277,12 +300,12 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
 					<div className='desktop-content d-none d-lg-block'>
 
 
-						{tabs.map((tab, index) => (
+						{tabs?.map((tab, index) => (
 							<div id={`content-${index}`} className="tab-content d-flex" key={index} ref={el => contentRefsGH.current[index] = el}>
 
 								{tab.content?.image?.sourceUrl && (
 									<div className='image-wrapper'>
-										<img src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={200} height={200} />
+										<Image src={tab.content.image.sourceUrl} alt={tab.content.image.altText || ''} width={200} height={200} />
 									</div>
 								)}
 
@@ -299,7 +322,7 @@ const HorizontalTab: React.FC<HorizontalTabProps> = ({ tabs, customizations }) =
     onClick={(event) => handleIconClickGH(index, idx, event)}
 >
 														{item.icon?.sourceUrl && (
-															<img
+															<Image
 																src={item.icon.sourceUrl}
 																alt={item.icon.altText || ''}
 																width={30}

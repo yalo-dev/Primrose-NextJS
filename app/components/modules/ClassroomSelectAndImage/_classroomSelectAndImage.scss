@@ -37,7 +37,7 @@
             border-radius: 30px;
         }
         @include media-breakpoint-up(xxl) {
-            padding: 4rem;
+            padding: 3rem;
             width: 620px;
         }
         h2, .b3 {
@@ -116,7 +116,7 @@
             -webkit-appearance: none;
             appearance: none;
             position: relative;
-            margin: 50px 0 0;
+            margin: 1.5rem 0 0;
             z-index: 4;
             cursor: pointer;
             .icon {
@@ -144,7 +144,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                padding: 12px 10px;
+                padding: 12px 20px;
                 padding-right: 35px;
                 border: 1px solid $text-gray;
                 border-radius: 25px;
@@ -239,5 +239,5 @@
     }
 }
 .module.Page_Modules_Modules_ClassroomSelectAndImage {
-    overflow-x: visible;
+    // overflow-x: hidden;
 }

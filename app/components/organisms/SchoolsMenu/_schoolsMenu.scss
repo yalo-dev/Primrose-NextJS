@@ -25,13 +25,9 @@
 
             &:hover {
                 circle {
-                    fill: $primary-darkgray;
-                    stroke: $primary-darkgray;
+                    fill: $grayscale-3;
+                    stroke: $grayscale-3;
 
-                }
-
-                path {
-                    stroke: $white;
                 }
             }
         }
@@ -53,7 +49,7 @@
 
             li {
                 position: relative;
-                padding: 0 10px;
+                padding: 0 10px 0 14px;
                 cursor: pointer;
                 a {
                     color: $text-gray;
@@ -113,7 +109,7 @@
                     .submenu-wrapper {
                         visibility: visible;
                         opacity: 1;
-                        max-height: 515px;
+                        //max-height: 515px;
                       }
                       .menu-icon {
                         svg {
@@ -157,7 +153,7 @@
                 content: '';
                 position: absolute;
                 top: 0;
-                width: 50px;
+                width: 46px;
                 height: 100%;
                 z-index: 10;
             }
@@ -236,12 +232,13 @@
 }
 
 .classroom-margin {
-    height: 10px;
+    height: 15px;
 }
 
 .submenu-wrapper {
     position: relative;
-    top: 240px;
+    padding-top: 1rem;
+    top: 217px;
     min-width: 343px;
     display: flex;
     flex-direction: column;
@@ -329,7 +326,7 @@
         margin-top: 10px;
         
         &.visible {
-            max-height: 441px;
+            max-height: 460px;
         }
 
         @include media-breakpoint-up(lg) {

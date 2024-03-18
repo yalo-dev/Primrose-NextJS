@@ -8,7 +8,8 @@ interface ResourceCardProps {
     showExcerptIfNoImage?: boolean;
     className?: string;
     featuredResourceIds?: string[];
-    isFeatured?: boolean; 
+    isFeatured?: boolean;
+    customLink?: string;
 }
 
 const sortTags = (tags) => {
@@ -26,7 +27,7 @@ const formatDate = (dateString) => {
     return date.toLocaleDateString('en-US', options);
 };
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium', featuredResourceIds = [] }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage, showExcerptIfNoImage, className = 'medium', featuredResourceIds = [], customLink }) => {
     const isResourceFeatured = featuredResourceIds.includes(resource.id);
 
     let tags = [...resource.resourceTags.nodes];
@@ -34,10 +35,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
         tags = [{ name: 'Featured', slug: 'featured' }, ...tags];
     }
 
-
     return (
         <div className={`card ${className ? className : ''}`}>
-            <Link href={`${resource.uri}`}>
+            <Link href={customLink ?? `${resource.slug}`}>
                 <div className='inner' onClick={(e) => {
                     if (e.defaultPrevented) {
                         e.stopPropagation();
@@ -58,7 +58,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
                         <div className='details-wrapper'>
                             <div className='details d-flex justify-start align-items-center'>
                                 <div className='caption position-relative me-3'>{resource.resourceTypes.nodes.map(type => type.name).join(', ')}</div>
-                                <div className='date mb-0'>{formatDate(resource.date)}</div>
+                                <div className='resource-date mb-0'>{formatDate(resource.date)}</div>
                             </div>
                             <Heading level='h3' className='title pt-2 pb-4'>{resource.title}</Heading>
                             {!(showFeaturedImage && resource.featuredImage && resource.featuredImage.node) && (
@@ -66,9 +66,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
                             )}
                             <div className='excerpt' dangerouslySetInnerHTML={{ __html: resource.excerpt }} />
                         </div>
-                        <div className='tags-wrapper'>
+                        <div className='tags-wrapper mt-3 mb-3'>
                             <div className='tags d-flex flex-wrap'>
-                                {sortTags(tags).map((tag, index) => (
+                                {sortTags(tags).slice(0, 5).map((tag, index) => (
+                                    // exclude tags with value of 'startribune' from the tags list
+                                    tag.slug !== 'startribune' && 
                                     <div key={index}>
                                         <Tag
                                             label={tag.name}

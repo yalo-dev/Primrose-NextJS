@@ -5,6 +5,7 @@ import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
 import ColorComponent from '../../filters/ColorComponent';
 import BackgroundColorComponent from '../../filters/BackgroundColorComponent';
+import Image from 'next/image';
 
 interface TwoColumnsImageAndTextProps {
     switchColumnOrderOnDesktop?: boolean;
@@ -65,7 +66,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                 {(mobileImageUrl || desktopImageUrl) && (
                     <div className='left-column col-12 col-lg-5 offset-lg-1'>
                         {mobileImageUrl && 
-                            <img 
+                            <Image 
                                 className='d-block d-lg-none' 
                                 src={mobileImageUrl} 
                                 alt={leftColumn?.imageMobile?.altText || '' } 
@@ -74,7 +75,7 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({ leftCol
                             />
                         }
                         {desktopImageUrl && 
-                            <img 
+                            <Image 
                                 className='d-none d-lg-block' 
                                 src={desktopImageUrl} 
                                 alt={leftColumn?.imageDesktop?.altText || '' } 

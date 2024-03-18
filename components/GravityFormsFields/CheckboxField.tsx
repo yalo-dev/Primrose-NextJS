@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import React, { useEffect, useRef, useState } from 'react';
 
 import { CheckboxField as CheckboxFieldType, CheckboxFieldInput, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, CheckboxFieldValue } from "../../hooks/useGravityForm";
@@ -12,6 +13,15 @@ export const CHECKBOX_FIELD_FIELDS = gql`
     cssClass
     inputs {
       id
+    }
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
     }
     choices {
       text
@@ -34,8 +44,10 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as CheckboxFieldValue | undefined;
   const checkboxValues = fieldValue?.checkboxValues || DEFAULT_VALUE;
+  const fieldRef = useRef<HTMLInputElement>(null);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log('change event');
     const { name, value, checked } = event.target;
     const otherCheckboxValues = checkboxValues.filter(
       (checkboxValue: CheckboxFieldInput) => checkboxValue.inputId !== Number(name)
@@ -53,6 +65,26 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
       },
     });
   }
+  useEffect(()=>{
+    const { name, value, checked } = fieldRef.current;
+    const otherCheckboxValues = checkboxValues.filter(
+      (checkboxValue: CheckboxFieldInput) => checkboxValue.inputId !== Number(name)
+    );
+    const newCheckboxValues = checked ?
+      [...otherCheckboxValues, { inputId: Number(name), value }]
+      :
+      otherCheckboxValues;
+
+    dispatch({
+      type: ACTION_TYPES.updateCheckboxFieldValue,
+      fieldValue: {
+        id,
+        checkboxValues: newCheckboxValues,
+      },
+    });
+  }, [fieldRef]
+  );
+  
 
   return (
     <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
@@ -65,6 +97,7 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
             id={`input_${databaseId}_${id}_${inputId}`}
             value={String(value)}
             onChange={handleChange}
+            ref={fieldRef}
           />
           <span className="checkbox-style"></span>
           <label htmlFor={`input_${databaseId}_${id}_${inputId}`}>{text}</label>

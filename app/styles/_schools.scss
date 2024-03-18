@@ -1,4 +1,6 @@
 .classrooms {
+    // padding-bottom: 1.5rem;
+    
     .hero-with-image-module {
         padding: 0 0 30px 0;
 
@@ -46,7 +48,13 @@
                 padding: 70px 0 88px;
             }
         }
+        img{
+            width:385px;
+            height:320px;
+            object-fit: cover;
+            border-radius:1rem;
 
+        }
         .video-wrapper {
             width: 343px;
             height: 192px;
@@ -136,6 +144,12 @@
 
         .two-columns-image-and-text-alternative {
             padding-bottom: 40px;
+
+            .blurb p{
+                font-size:1rem;
+                font-weight: 400 !important;
+                line-height: 1.625rem;
+            }
         }
     }
 
@@ -152,7 +166,8 @@
 .staff {
     .heading {
         text-align: center;
-        margin-top: 5rem;
+        // margin-top: 5rem;
+        padding: 50px 0 60px 0;
 
         @include media-breakpoint-up(lg) {
             padding: 60px 0;
@@ -168,7 +183,7 @@
             border-radius: 5px;
             color: $primary-green;
             width: 226px;
-            left: calc(50% - 113px);
+            //left: calc(50% - 113px);
             -moz-appearance: none;
             -webkit-appearance: none;
             appearance: none;
@@ -178,7 +193,7 @@
             }
 
             &:first-child {
-                margin-right: 2%;
+                //margin-right: 2%;
             }
 
             .header {
@@ -204,6 +219,8 @@
             &.custom-select {
 
                 position: relative;
+                margin-top: 2.75rem;
+                margin-bottom: 0rem;
 
                 .icon {
                     background-image: url("data:image/svg+xml, %3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23DFE2D3'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.20605 13.3235C9.52033 12.9421 10.0808 12.8905 10.458 13.2084L15.1968 17.2021L19.5132 13.2338C19.8764 12.8998 20.4386 12.9269 20.7688 13.2943C21.0991 13.6616 21.0723 14.2302 20.709 14.5641L16.3927 18.5324C15.7363 19.136 14.7403 19.1577 14.0587 18.5833L9.31986 14.5895C8.94272 14.2717 8.89177 13.7049 9.20605 13.3235Z' fill='%235E6738'/%3E%3C/svg%3E");
@@ -228,8 +245,8 @@
                     background: $grayscale-1;
                     z-index: 1;
                     position: absolute;
-                    width: 120%;
-                    left: -1.5rem;
+                    width: 100%;
+                    left: 1px;
                     top: 3rem;
                     overflow: hidden;
                     height: 0;
@@ -238,8 +255,8 @@
                     @include dropShadow;
 
                     @include media-breakpoint-up(lg) {
-                        width: 140%;
-                        left: -3rem;
+                        width: 100%;
+                        left: 1px;
                         margin-top: 0px;
                     }
 
@@ -333,7 +350,7 @@
     }
 
     .staff-members {
-        margin: 40px auto;
+        margin: 0px auto 40px auto;
         gap: 10px;
         display: flex;
         flex-direction: column;
@@ -344,17 +361,18 @@
             flex-wrap: wrap;
             align-items: flex-start;
             gap: 26px;
-            margin: 40px 150px 100px;
         }
 
         .staff-member {
             border-radius: 8px;
             border: 0.668px solid #E6E6E6;
             background: var(--black-neutral, #F1F1EF);
-            width: 375px;
+            width: 100%;
             padding-right: 0px;
             position: relative;
-
+            .col-4{
+                padding:0;
+            }
             img {
                 height: 100px;
                 display: block;
@@ -449,6 +467,15 @@
 
     .franchise-owners {
         padding: 30px auto;
+
+        .bio{
+            display:-webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 6;
+            max-height:175px;
+            overflow:hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .modal-overlay {
@@ -511,6 +538,10 @@
 
             &.show {
                 transform: scale(1);
+            }
+            .modal-bio{
+                height:370px;
+                overflow-y: auto;
             }
         }
 
@@ -652,150 +683,315 @@
         padding: 100px 70px;
     }
 
-    .form-wrapper {
-        margin-top: 40px;
-        margin-bottom: 60px;
+    
+}
+.form-wrapper {
+    margin-top: 40px;
+    margin-bottom: 60px;
 
-        @include media-breakpoint-up(lg) {
-            margin-top: 0;
+    @include media-breakpoint-up(lg) {
+        margin-top: 0;
+    }
+
+    .desc {
+        margin-bottom: 40px;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+
+        div[hidden]#gfield_1,
+        div[hidden]#gfield_3,
+        div[hidden]#gfield_6,
+        div[hidden]#gfield_11
+        {
+            display: flex !important;
         }
-
-        .desc {
-            margin-bottom: 40px;
+        div[hidden]#gfield_7
+        {
+            display: none !important;
         }
-
-        form {
+        div.hide{
+            display:none;
+        }
+        .gfield {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 26px;
 
-            div[hidden]#gfield_1,
-            div[hidden]#gfield_3,
-            div[hidden]#gfield_6,
-            div[hidden]#gfield_11
-            {
-                display: flex !important;
+            label {
+                @extend .h5;
+                text-wrap: nowrap;
             }
-            div[hidden]#gfield_7
+
+            legend {
+                @extend .b3;
+            }
+        
+            input,
+            select, textarea {
+                display: flex;
+                width: 100%;
+                padding: 13px 24px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 6px;
+                border: 1px solid $neutral-2;
+                background-color: $form-bg;
+                font-size: 18px;
+                color: $primary-darkgray;
+
+                &::placeholder {
+                    color: $primary-darkgray;
+                    font-weight: 300;
+                }
+            }
+
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-image: url('/assets/dropdown-icon.svg');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 30px;
+                border: 1px solid #dcdcdc;
+                padding-right: 45px;
+            }
+
+            .custom-select {
+                display: inline-block;
+                position: relative;
+                width: 100%;
+                margin-top: 0;
+            }
+
+            input[disabled]#field_7,
+            input[disabled]#field_18,
+            input[disabled]#field_24,
+            input[disabled]#field_28,
+            input[disabled]#field_32,
+            input[disabled]#field_36,
+            select[disabled]#field_8,
+            select[disabled]#field_9,
+            select[disabled]#field_10,
+            select[disabled]#field_15,
+            select[disabled]#field_16,
+            select[disabled]#field_17,
+            select[disabled]#field_25,
+            select[disabled]#field_26,
+            select[disabled]#field_27,
+            select[disabled]#field_29,
+            select[disabled]#field_30,
+            select[disabled]#field_31,
+            select[disabled]#field_33,
+            select[disabled]#field_34,
+            select[disabled]#field_35,
+            select[disabled]#field_37,
+            select[disabled]#field_38,
+            select[disabled]#field_39
             {
                 display: none !important;
             }
+            &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
+            &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
+                display: none;
+            }
+            &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
+                margin-top: 5px;
+            }
 
-            .gfield {
+            &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 
+            &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39
+            {
+                label {
+                    display: none;
+                }
+            }
+
+            &#gfield_6 {
+                margin-bottom: 40px;
+            }
+
+            &#gfield_8,
+            &#gfield_15,
+            &#gfield_25,
+            &#gfield_29,
+            &#gfield_33,
+            &#gfield_37 {
+                margin-bottom: 10px;
+            }
+
+            &#gfield_9,
+            &#gfield_16,
+            &#gfield_26,
+            &#gfield_30,
+            &#gfield_34,
+            &#gfield_38 {
+                margin-right: 10px;
+            }
+
+            &#gfield_9,
+            &#gfield_10,
+            &#gfield_16,
+            &#gfield_17,
+            &#gfield_26,
+            &#gfield_27,
+            &#gfield_30,
+            &#gfield_31,
+            &#gfield_34,
+            &#gfield_35,
+            &#gfield_38,
+            &#gfield_39 {
+                width: calc(50% - 5px);
+            }
+
+            &#gfield_23_23 {
                 display: flex;
-                flex-direction: column;
-                width: 100%;
-                margin-bottom: 26px;
+                flex-direction: row-reverse;
+                position: relative;
 
                 label {
-                    @extend .h5;
-                    text-wrap: nowrap;
+                    display: none;
                 }
 
                 legend {
-                    @extend .b3;
+                    padding-left: 20px;
                 }
 
-                input,
-                select {
-                    display: flex;
-                    width: 100%;
-                    padding: 13px 24px;
-                    align-items: center;
-                    gap: 10px;
-                    border-radius: 6px;
+                input[type="checkbox"] {
+                    opacity: 0;
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                }
+
+                .checkbox-style {
+                    height: 20px;
+                    width: 20px;
                     border: 1px solid $neutral-2;
-                    background-color: $form-bg;
-                    font-size: 18px;
-                    color: $primary-darkgray;
-
-                    &::placeholder {
-                        color: $primary-darkgray;
-                        font-weight: 300;
-                    }
-                }
-
-                select {
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                    background-image: url('/assets/dropdown-icon.svg');
-                    background-repeat: no-repeat;
-                    background-position: right 10px center;
-                    background-size: 30px;
-                    border: 1px solid #dcdcdc;
-                    padding-right: 45px;
-                }
-
-                .custom-select {
-                    display: inline-block;
                     position: relative;
-                    width: 100%;
-                    margin-top: 0;
+                    display: inline-block;
+                    cursor: pointer;
                 }
 
-                input[disabled]#field_7,
-                input[disabled]#field_18,
-                input[disabled]#field_24,
-                input[disabled]#field_28,
-                input[disabled]#field_32,
-                input[disabled]#field_36,
-                select[disabled]#field_8,
-                select[disabled]#field_9,
-                select[disabled]#field_10,
-                select[disabled]#field_15,
-                select[disabled]#field_16,
-                select[disabled]#field_17,
-                select[disabled]#field_25,
-                select[disabled]#field_26,
-                select[disabled]#field_27,
-                select[disabled]#field_29,
-                select[disabled]#field_30,
-                select[disabled]#field_31,
-                select[disabled]#field_33,
-                select[disabled]#field_34,
-                select[disabled]#field_35,
-                select[disabled]#field_37,
-                select[disabled]#field_38,
-                select[disabled]#field_39
-                {
-                    display: none !important;
+                input[type="checkbox"]:checked+.checkbox-style {
+                    background-image: url('/assets/checkmark.svg');
+                    background-size: cover;
+                    background-size: 90%;
+                    background-position: center;
+                    background-repeat: no-repeat;
                 }
-                &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
-                &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
-                    display: none;
-                }
-                &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
-                    margin-top: 5px;
+            }
+
+            &#gfield_13_13 {
+                label {
+                    font-weight: 300;
+                    margin-left: 20px;
                 }
 
-                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 
-                &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39
-                {
-                    label {
-                        display: none;
+                legend {
+                    @extend .h5;
+                    font-weight: 700;
+                }
+
+                input[type="radio"] {
+                    opacity: 0;
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                }
+
+                .radio-style {
+                    height: 20px;
+                    width: 20px;
+                    border: 1px solid $neutral-2;
+                    border-radius: 50%;
+                    position: relative;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+
+                input[type="radio"]:checked+.radio-style {
+                    background-color: $primary-green;
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                }
+
+                .input-wrappers {
+                    display: flex;
+
+                    .input-wrapper:nth-child(2) {
+                        margin-left: 20px;
                     }
+                }
+            }
+
+            @include media-breakpoint-up(xl) {
+                width: calc(50% - 18px);
+                //margin-bottom: 30px;
+
+                &#gfield_1,
+                &#gfield_5_5 {
+                    margin-right: 36px;
+                }
+
+                &#gfield_7,
+                &#gfield_18,
+                &#gfield_11,
+                &#gfield_23_23,
+                &#gfield_13_13,
+                &#gfield_24,
+                &#gfield_28,
+                &#gfield_32,
+                &#gfield_36 {
+                    width: 100%;
+                    //margin-top: 20px;
                 }
 
                 &#gfield_6 {
-                    margin-bottom: 40px;
+                    width: 47%;
                 }
 
                 &#gfield_8,
+                &#gfield_9,
+                &#gfield_10,
                 &#gfield_15,
+                &#gfield_16,
+                &#gfield_17,
                 &#gfield_25,
+                &#gfield_26,
+                &#gfield_27,
                 &#gfield_29,
+                &#gfield_30,
+                &#gfield_31,
                 &#gfield_33,
-                &#gfield_37 {
-                    margin-bottom: 10px;
+                &#gfield_34,
+                &#gfield_35,
+                &#gfield_37,
+                &#gfield_38,
+                &#gfield_39 {
+                    width: calc(33% - 16px);
                 }
 
+                &#gfield_8,
                 &#gfield_9,
+                &#gfield_15,
                 &#gfield_16,
+                &#gfield_25,
                 &#gfield_26,
+                &#gfield_29,
                 &#gfield_30,
+                &#gfield_33,
                 &#gfield_34,
+                &#gfield_37,
                 &#gfield_38 {
-                    margin-right: 10px;
+                    margin-right: 26px;
                 }
 
                 &#gfield_9,
@@ -810,185 +1006,27 @@
                 &#gfield_35,
                 &#gfield_38,
                 &#gfield_39 {
-                    width: calc(50% - 5px);
-                }
-
-                &#gfield_23_23 {
-                    display: flex;
-                    flex-direction: row-reverse;
-                    position: relative;
-
-                    label {
-                        display: none;
-                    }
-
-                    legend {
-                        padding-left: 20px;
-                    }
-
-                    input[type="checkbox"] {
-                        opacity: 0;
-                        position: absolute;
-                        width: 20px;
-                        height: 20px;
-                        z-index: 1;
-                    }
-
-                    .checkbox-style {
-                        height: 20px;
-                        width: 20px;
-                        border: 1px solid $neutral-2;
-                        position: relative;
-                        display: inline-block;
-                        cursor: pointer;
-                    }
-
-                    input[type="checkbox"]:checked+.checkbox-style {
-                        background-image: url('/assets/checkmark.svg');
-                        background-size: cover;
-                        background-size: 90%;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                    }
-                }
-
-                &#gfield_13_13 {
-                    label {
-                        font-weight: 300;
-                        margin-left: 20px;
-                    }
-
-                    legend {
-                        @extend .h5;
-                        font-weight: 700;
-                    }
-
-                    input[type="radio"] {
-                        opacity: 0;
-                        position: absolute;
-                        width: 20px;
-                        height: 20px;
-                        z-index: 1;
-                    }
-
-                    .radio-style {
-                        height: 20px;
-                        width: 20px;
-                        border: 1px solid $neutral-2;
-                        border-radius: 50%;
-                        position: relative;
-                        display: inline-block;
-                        cursor: pointer;
-                    }
-
-                    input[type="radio"]:checked+.radio-style {
-                        background-color: $primary-green;
-                        height: 20px;
-                        width: 20px;
-                        border-radius: 50%;
-                    }
-
-                    .input-wrappers {
-                        display: flex;
-
-                        .input-wrapper:nth-child(2) {
-                            margin-left: 20px;
-                        }
-                    }
-                }
-
-                @include media-breakpoint-up(xl) {
-                    width: calc(50% - 18px);
-                    //margin-bottom: 30px;
-
-                    &#gfield_1,
-                    &#gfield_5_5 {
-                        margin-right: 36px;
-                    }
-
-                    &#gfield_7,
-                    &#gfield_18,
-                    &#gfield_11,
-                    &#gfield_23_23,
-                    &#gfield_13_13,
-                    &#gfield_24,
-                    &#gfield_28,
-                    &#gfield_32,
-                    &#gfield_36 {
-                        width: 100%;
-                        //margin-top: 20px;
-                    }
-
-                    &#gfield_6 {
-                        width: 47%;
-                    }
-
-                    &#gfield_8,
-                    &#gfield_9,
-                    &#gfield_10,
-                    &#gfield_15,
-                    &#gfield_16,
-                    &#gfield_17,
-                    &#gfield_25,
-                    &#gfield_26,
-                    &#gfield_27,
-                    &#gfield_29,
-                    &#gfield_30,
-                    &#gfield_31,
-                    &#gfield_33,
-                    &#gfield_34,
-                    &#gfield_35,
-                    &#gfield_37,
-                    &#gfield_38,
-                    &#gfield_39 {
-                        width: calc(33% - 16px);
-                    }
-
-                    &#gfield_8,
-                    &#gfield_9,
-                    &#gfield_15,
-                    &#gfield_16,
-                    &#gfield_25,
-                    &#gfield_26,
-                    &#gfield_29,
-                    &#gfield_30,
-                    &#gfield_33,
-                    &#gfield_34,
-                    &#gfield_37,
-                    &#gfield_38 {
-                        margin-right: 26px;
-                    }
-
-                    &#gfield_9,
-                    &#gfield_10,
-                    &#gfield_16,
-                    &#gfield_17,
-                    &#gfield_26,
-                    &#gfield_27,
-                    &#gfield_30,
-                    &#gfield_31,
-                    &#gfield_34,
-                    &#gfield_35,
-                    &#gfield_38,
-                    &#gfield_39 {
-                        margin-top: 5px;
-                    }
+                    margin-top: 5px;
                 }
             }
+        }
 
-            button {
-                width: auto;
-                @extend .primary;
-            }
+        button {
+            width: auto;
+            @extend .primary;
         }
     }
 }
-
 .school-home {
+    padding-top: 3rem;
+    // padding-bottom: 3rem;
+    @include media-breakpoint-up(lg) {
+    // padding-bottom: 5.625rem;
+    }
     .hero-with-slider {
         @include media-breakpoint-up(lg) {
-            padding-bottom: 100px
-        }
+            padding-bottom: 3.75rem
+        }    
 
         .left-col {
             @include media-breakpoint-up(lg) {
@@ -1004,7 +1042,8 @@
                     height: auto;
                     display: block;
                     border-radius: 30px;
-
+                    object-fit: cover;
+                    aspect-ratio: 3/2;
                     @include media-breakpoint-up(xl) {
                         width: 687.568px;
                         height: 408px;
@@ -1024,12 +1063,12 @@
                 justify-content: center;
                 align-items: center;
                 padding: 7px 6px;
-                bottom: 0.5rem;
+                bottom: -4.4rem;
                 left: 50%;
                 transform: translate(-50%, -50%);
 
                 @include media-breakpoint-up(lg) {
-                    bottom: -5rem;
+                    bottom: -6rem;
                 }
 
                 li {
@@ -1093,6 +1132,7 @@
             }
 
             .accreditations {
+                padding-top: 1.5rem;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
@@ -1132,10 +1172,10 @@
     }
 
     .first-five {
-        padding: 30px 0 0;
+        padding: 1rem 0 0;
 
         @include media-breakpoint-up(lg) {
-            padding: 60px 0 0;
+            padding-top: 1.875rem;
         }
 
         .two-columns-image-and-text-alternative {
@@ -1143,11 +1183,18 @@
             padding-bottom: 40px;
 
             @include media-breakpoint-up(lg) {
-                padding: 80px 0;
+                padding-top: 1.875rem;
+                padding-bottom: 3.75rem;
+
             }
 
             .left-column {
-                margin-bottom: 40px;
+                img {
+                    margin-bottom: 2rem;
+                    @include media-breakpoint-up(lg) {
+                        margin-bottom: 0;
+                    }
+                }
             }
 
             .right-column {
@@ -1161,7 +1208,10 @@
             max-width: 648px;
             text-align: center;
             margin: auto;
-            padding-bottom: 30px;
+            padding-bottom: 2rem;
+            @include media-breakpoint-up(lg) {
+            padding-bottom: 3.75rem;
+            }
         }
 
         .custom-select {
@@ -1184,7 +1234,10 @@
     }
 
     .news-slider-module {
-        padding: 30px 0 60px;
+        padding-top: 1.875rem;
+        padding-bottom: 0.5rem;
+        margin-bottom: 30px;
+        clear: both;
 
         .heading {
             max-width: 512px;
@@ -1256,6 +1309,9 @@
         }
 
         .news-slider-module {
+            .slick-list {
+                height:100% !important;
+            }
             .card-wrapper {
                 padding: 10px;
 
@@ -1308,10 +1364,13 @@
 }
 
 .classroom-type {
+    padding-top: 0;
+    // padding-bottom: 1.5rem;
     .general-horizontal-tabs-module {
         padding-bottom: 30px;
 
         @include media-breakpoint-up(lg) {
+            padding-top: 3rem;
             padding-bottom: 100px;
         }
 
@@ -1422,7 +1481,7 @@
                 }
 
                 .container {
-                    justify-content: end !important;
+                    justify-content: flex-end !important;
                 }
 
                 h2 {
@@ -1602,9 +1661,79 @@
 
 //THIS IS THE COMPONENT WITH THE BLUE BACKGROUND AND SCROLLING IMAGES IT IS A SHARED COMPONENT SO IT'S STYLED OUTSIDE OF PAGE CLASSES
 .school .find-a-school {
-    margin: 30px 0 60px;
+    margin: 4.375rem 0 4.375rem 0;
 
     @include media-breakpoint-up(lg) {
-        margin: 120px 0;
+        margin: 90px 0 90px 0;
+    }
+}
+
+.hiring-alert {
+    border-radius: 12px;
+    background: var(--violet-normal, #814C9E);
+}
+
+.enrolling-alert {
+    border-radius: 12px;
+    background: var(--blue-normal, #006BA6);
+}
+
+.container.two-column{
+    background-color:white;
+    // border: 1px solid #e6e6e6;
+    border-radius: 20px;
+}
+.school-news .image-wrapper img{
+    width:100%;
+    height:auto;
+}
+.resource.school-news .hero h1{
+    color: #5E6738 !important;
+    margin-bottom: 0;
+}
+.school-news .hero{
+    margin: 3rem 0 1rem 0;
+    @include media-breakpoint-up(lg) {
+    margin: 4rem 0 2rem 0;
+    }
+}
+.resource.school-news .social {
+    position: relative;
+    left: auto;
+    h5 {
+        color: var(--copy, #555F68);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px;
+}
+}
+.school-news {
+    margin-bottom: 0.5rem;
+    @include media-breakpoint-up(lg) {
+        margin-bottom: 6rem;
+    }
+    .container{
+        padding: 0rem 0 1.5rem 0;
+        @include media-breakpoint-up(lg) {
+        padding: 3rem 0;
+        }
+        a {
+            color: #5E6738;
+        }
+    }
+    .content {
+        padding-bottom: 0.5rem;
+        @include media-breakpoint-up(lg) {
+        padding-bottom: 1rem;
+        }
+    }
+    
+    .divider-line{
+        border-top: 1px solid #D2D3D1;
+        margin: 1.5rem 0; 
+        @include media-breakpoint-up(lg) {
+        margin: 2.5rem 0; 
+        }
     }
 }

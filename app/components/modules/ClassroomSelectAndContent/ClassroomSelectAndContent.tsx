@@ -1,9 +1,10 @@
-import React from 'react';
+ import React from 'react';
 import SelectDropdown from '../../molecules/SelectDropdown/SelectDropdown';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
+import Image from 'next/image';
 
 interface OptionType {
     label: string;
@@ -119,14 +120,14 @@ const ClassroomSelectAndContent: React.FC<ClassroomSelectAndContentProps> = ({ a
                         )}
                     </div>
                     {leftColumn.image?.sourceUrl && (
-                        <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
+                        <Image width={1920} height={1920} src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText} />
                     )}
                 </div>
                 <div className="right-column col-12 col-lg-5" style={{ backgroundColor: colorMap[customizations?.backgroundColorRight || ""] }}>
                     {rightColumn.heading && <Heading level='h2' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
                     {rightColumn.subheading && <Subheading level='div' className='b3' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
                     {(dropdownOptions.length > 0) && (
-                        <SelectDropdown options={dropdownOptions} />
+                        <SelectDropdown options={dropdownOptions} placeholder="Choose A Classroom" />
                     )}
                     <div className='accent'>
                         <div className='accent-one'

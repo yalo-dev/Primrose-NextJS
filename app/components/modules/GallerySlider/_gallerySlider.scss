@@ -20,11 +20,13 @@
             img {
                 max-width: 100%;
                 height: 202px;
+                width: auto;
                 object-fit: contain; 
                 border-radius: 8px; 
                 
                 @include media-breakpoint-up(lg) {
                     height: 420px;
+                    width: auto;
                 }
             }
         }
@@ -49,5 +51,8 @@
               }
               
         }
-    } 
+    }
+    .caption-wrapper {
+        width: 100%;
+    }
 }

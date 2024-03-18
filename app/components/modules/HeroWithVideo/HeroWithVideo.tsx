@@ -60,11 +60,10 @@ const HeroWithVideo: React.FC<HeroWithVideoProps> = ({ accent, switchColumnOrder
                         {leftColumn.eyebrow && <Subheading level='div' className='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Subheading>}
                         {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
 						{leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
-                        {leftColumn?.blurb && <Paragraph className='b2' color={leftColumn.blurbColor}>{leftColumn.blurb}</Paragraph>}
-                        {leftColumn.button?.url && leftColumn.button.title && (
-							<Button variant={leftColumn.buttonStyle || 'primary'} href={leftColumn.button.url} target={leftColumn.button.target || '_self'}>
-								{leftColumn.button.title}
-							</Button>
+                        {leftColumn?.blurb && (<div className='b2' style={{ color: leftColumn.blurbColor }} dangerouslySetInnerHTML={{ __html: leftColumn.blurb }} />)}                        {leftColumn.button?.url && leftColumn.button.title && (
+							<Button variant={leftColumn.buttonStyle || 'primary'} href={leftColumn.button.url} target={leftColumn.button.target || '_self'}
+                                dangerouslySetInnerHTML={{ __html: leftColumn.button.title }}
+                            />
 						)}
                 </div>
                 {rightColumn.video?.url && (

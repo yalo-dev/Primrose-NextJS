@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MultiSelectDropdown } from '../molecules/MultiSelectDropdown/MultiSelectDropdown';
+import { nodeServerAppPaths } from 'next/dist/build/webpack/plugins/pages-manifest-plugin';
 
 
 
@@ -52,14 +53,14 @@ interface FilterTerms {
     };
 }
 
-export function ResourceFilter(initialResources: Resource[], filterTerms?: FilterTerms) {
+export function ResourceFilter(initialResources: Resource[], filterTerms?: FilterTerms, category?: string) {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedAge, setSelectedAge] = useState<string[]>([]);
     const [selectedTopic, setSelectedTopic] = useState<string[]>([]);
     const [filteredResources, setFilteredResources] = useState<Resource[]>(initialResources);
 
     useEffect(() => {
-        let newResources = [...initialResources];
+        let newResources = initialResources && [...initialResources];
 
         if (selectedTopic.length > 0) {
             newResources = newResources.filter(resource =>
@@ -93,26 +94,31 @@ export function ResourceFilter(initialResources: Resource[], filterTerms?: Filte
     const handleTopicsSelect = (selectedTopics: string[]) => {
         setSelectedTopic(selectedTopics);
     };
-
+    
     const SearchAndFilterUI = (
         <div className="search-and-filter">
             <div className='search'>
                 <input type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
+
             <div className='filters'>
+            {category !== 'for-educators' && filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.length > 0 && (
                 <MultiSelectDropdown
                     options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'ages')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
                     onSelect={handleAgesSelect}
                     placeholder="All Ages"
                     selected={selectedAge}
                 />
-
-                <MultiSelectDropdown
-                    options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
-                    onSelect={handleTopicsSelect}
-                    placeholder="All Topics"
-                    selected={selectedTopic}
-                />
+            )}
+                
+                {filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.length > 0 && (
+                    <MultiSelectDropdown
+                        options={filterTerms?.resourceTags?.nodes?.find(tag => tag.slug === 'topics')?.children?.nodes?.map(child => ({ label: child.name, value: child.slug })) || []}
+                        onSelect={handleTopicsSelect}
+                        placeholder="All Topics"
+                        selected={selectedTopic}
+                    />
+                )}
             </div>
         </div>
     );

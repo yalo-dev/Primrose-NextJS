@@ -9546,7 +9546,6 @@ export type Page_Modules_Modules_FeaturedSection = AcfFieldGroup & {
 /** Field Group */
 export type Page_Modules_Modules_FeaturedSection_Customizations = AcfFieldGroup & {
   __typename?: 'Page_Modules_Modules_FeaturedSection_Customizations';
-  accentLeftOrRight?: Maybe<Scalars['String']['output']>;
   backgroundColor?: Maybe<Scalars['String']['output']>;
   bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
   bottomMarginMobile?: Maybe<Scalars['String']['output']>;
@@ -14565,7 +14564,6 @@ export type Post_Modules_Modules_FeaturedSection = AcfFieldGroup & {
 /** Field Group */
 export type Post_Modules_Modules_FeaturedSection_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_FeaturedSection_Customizations';
-  accentLeftOrRight?: Maybe<Scalars['String']['output']>;
   backgroundColor?: Maybe<Scalars['String']['output']>;
   bottomMarginDesktop?: Maybe<Scalars['String']['output']>;
   bottomMarginMobile?: Maybe<Scalars['String']['output']>;

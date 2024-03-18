@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import React, { useEffect, useRef, useState } from 'react';
 
 import { PhoneField as PhoneFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
@@ -9,10 +10,20 @@ export const PHONE_FIELD_FIELDS = gql`
     databaseId
     label
     description
+    size
     cssClass
     isRequired
     placeholder
     value
+    conditionalLogic {
+      actionType
+      logicType
+      rules {
+        fieldId
+        operator
+        value
+      }
+    }
   }
 `;
 
@@ -29,11 +40,23 @@ export default function PhoneField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
-
+  const fieldRef = useRef<HTMLInputElement>(null);
+  
+  useEffect(()=>{
+    dispatch({
+      type: ACTION_TYPES.updatePhoneFieldValue,
+      fieldValue: {
+        id,
+        value: fieldRef.current.value,
+      },
+    })
+  }, [fieldRef]
+  );
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
       <label htmlFor={htmlId}>{label}</label>
       <input
+        ref={fieldRef}
         type="tel"
         name={String(id)}
         id={htmlId}

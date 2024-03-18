@@ -204,15 +204,16 @@
             }
     
             img {
-                width: 430px;
-                height: 430px;
+                width: 100%;
+                height: 262px;
                 object-fit: cover;
                 object-position: center;
                 position: absolute;
-                bottom: -10rem;
-                right: -9rem;
+                bottom: -1rem;
                 z-index: 3;
-                border-radius: 50%;
+                border-top-right-radius: 50%;
+                border-top-left-radius: 50%;
+    
     
                 @include media-breakpoint-up(lg) {
                     width: 600px;

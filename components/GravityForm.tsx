@@ -4,6 +4,7 @@ import GravityFormsForm from "./GravityFormsForm";
 
 interface Props {
   form: GravityFormsFormType;
+  hiddenFields: any;
 }
 
 export default function GravityForm(props: Props) {

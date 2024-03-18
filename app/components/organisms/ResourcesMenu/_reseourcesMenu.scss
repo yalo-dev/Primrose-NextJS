@@ -20,6 +20,7 @@
         list-style-type: none;
         max-width: $max-content-width;
         li {
+            position: relative;
             a {
                 color: $text-gray;
             }
@@ -28,24 +29,28 @@
                     color: $neutral-1;
                     content: '|';
                     position: absolute;
-                    bottom: -3px;
-                    right: 7px;
+                    bottom: -1px;
+                    right: 10px;
                 }
             }
          
             &::before {
                 content: "";
                 position: absolute;
-                height: 3px;
-                width: calc(100% - 24px);
-                background-color: $transparent;
+                height: 2px;
+                width: 0;
+                max-width: calc(100% - 24px);
+                background-color: $brand-orange;
                 bottom: -3px;
-                @include transitionAll;
+                transition: width 0.8s ease;
             }
-            &.active {
-                &::before {    
-                    background-color: $primary-green;
-                }
+            &:hover::before {
+                width: 100%;
+            }
+            &.active::before,
+            &:active::before {
+                background-color: $primary-green;
+                width: 100%;
             }
         }
     }

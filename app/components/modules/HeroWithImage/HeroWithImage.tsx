@@ -1,10 +1,11 @@
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Paragraph from '../../atoms/Paragraph/Paragraph';
 import Button from '../../atoms/Button/Button';
 import Customizations from '../../filters/Customizations';
+import parse from 'html-react-parser';
 
 interface HeroWithImageProps {
     leftColumn?: {
@@ -27,7 +28,7 @@ interface HeroWithImageProps {
             title?: string;
             url?: string;
         };
-        buttonStyle?: 'primary' | 'secondary' | 'white'; 
+        buttonStyle?: string; 
     };
     accent?: {
         sourceUrl?: string;
@@ -57,7 +58,7 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
             <div className={className}>
                 {leftColumn?.image?.sourceUrl && (
                     <div className='left-column col-12 col-lg-6'>
-                        <img src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} />
+                        <Image priority width={1080} height={1080}  src={leftColumn.image.sourceUrl} alt={leftColumn.image.altText || ''} />
                     </div>
                 )}
                 { (rightColumn?.heading || rightColumn?.subheading || rightColumn?.blurb || rightColumn?.button?.url) && (
@@ -65,11 +66,11 @@ const HeroWithImage: React.FC<HeroWithImageProps> = ({ accent, switchColumnOrder
                         {rightColumn.eyebrow && <Subheading level='div' className='h5' color={rightColumn.eyebrowColor}>{rightColumn.eyebrow}</Subheading>}
                         {rightColumn.heading && <Heading level='h1' color={rightColumn.headingColor}>{rightColumn.heading}</Heading>}
 						{rightColumn.subheading && <Subheading level='h5' color={rightColumn.subheadingColor}>{rightColumn.subheading}</Subheading>}
-                        {rightColumn?.blurb && <Paragraph className='b2' color={rightColumn.blurbColor}>{rightColumn.blurb}</Paragraph>}
+                        {rightColumn?.blurb && (<Paragraph className='b2' color={rightColumn.blurbColor}>{parse(rightColumn.blurb)}</Paragraph>)}
                         {rightColumn.button?.url && rightColumn.button.title && (
-							<Button variant={rightColumn.buttonStyle || 'primary'} href={rightColumn.button.url} target={rightColumn.button.target || '_self'}>
-								{rightColumn.button.title}
-							</Button>
+							<Button variant={rightColumn.buttonStyle || 'primary'} href={rightColumn.button.url} target={rightColumn.button.target || '_self'}
+                                dangerouslySetInnerHTML={{ __html: rightColumn.button.title }}
+                            />   
 						)}
                     </div>
                 )}

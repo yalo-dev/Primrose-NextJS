@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import SchoolData from '../../../../app/data/schoolsData';
+import {getSchools} from '../../../../app/data/schoolsData';
+import Script from "next/script";
 
 interface School {
-    id: number;
+    id: any;
+    slug: string,
+    uri: string, 
     name: string;
     address: string;
     hours: string;
@@ -28,7 +32,7 @@ interface HomeHeroWithVideoProps {
     rightColumn: {
         videoOrImage?: string;
         video?: {
-            url?: string;
+            mediaItemUrl?: string;
         };
         image?: {
             sourceUrl?: string;
@@ -46,24 +50,10 @@ interface HomeHeroWithVideoProps {
     };
 }
 
-const loadGoogleMapsScript = (callback) => {
-    if (window.google) {
-        callback();
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => callback();
-    document.head.appendChild(script);
-};
-
 const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrderOnDesktop, centerModule, leftColumn, rightColumn, customizations }) => {
 
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+    const [userLocation, setUserLocation] = useState<any | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
     const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
@@ -72,6 +62,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [searchFieldClass, setSearchFieldClass] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [SchoolData, setSchoolData] = useState([]);
+    const [searchAddress, setSearchAddress] = useState('');
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
@@ -91,37 +83,45 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     };
 
     const enableLocationServices = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const userLoc = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    setUserLocation(userLoc);
-                    const nearest = findNearestSchool(userLoc);
-                    setNearestSchool(nearest);
-                    setLocationServicesEnabled(true);
-                },
-                (error) => {
-                    console.error("Error enabling location services:", error);
-                    setLocationServicesEnabled(false);
-                    setIsModalOpen(true);
-                }
-            );
-        } else {
-            console.log("Geolocation is not supported by this browser.");
-            setLocationServicesEnabled(false);
+        if(SchoolData.length>0){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLoc = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        setUserLocation(userLoc);
+                        const nearest = findNearestSchool(userLoc);
+                        setNearestSchool(nearest);
+                        setLocationServicesEnabled(true);
+                    },
+                    (error) => {
+                        console.error("User blocked locaiton services", error);
+                        setLocationServicesEnabled(false);
+                        //setIsModalOpen(true);
+                    }
+                );
+            } else {
+            // console.log("Geolocation is not supported by this browser.");
+                setLocationServicesEnabled(false);
+            }
         }
     };
     useEffect(() => {
-        enableLocationServices();
+        getSchools()
+        .then((result) =>{
+            setSchoolData(result);
+        })
+        
     }, []);
-
+    useEffect(()=>{
+        enableLocationServices();
+    }, [SchoolData])
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
-
+        console.log(SchoolData);
         SchoolData.forEach((school) => {
             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
             if (distance < minDistance) {
@@ -141,27 +141,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         return nearestSchool;
     };
 
-    useEffect(() => {
-        console.log("Nearest School State in useEffect:", nearestSchool);
-    }, [nearestSchool]);
-
-    useEffect(() => {
-        enableLocationServices();
-        loadGoogleMapsScript(() => {
-            if (searchInputRef.current) {
-                autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
-                autocompleteRef.current.addListener("place_changed", () => {
-                    const place = autocompleteRef.current?.getPlace();
-                    if (place && place.geometry) {
-                        const fullAddress = `${place.name}, ${place.formatted_address}`;
-                        handleAddressSearch(fullAddress);
-                    }
-                });
-
-            }
-        });
-    }, []);
-
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -173,12 +152,14 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     };
 
     const geocodeAddress = async (address) => {
-        console.log("Geocoding Address:", address);
+        //console.log("Geocoding Address:", address);
         return new Promise((resolve, reject) => {
             let geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': address }, (results, status) => {
                 if (status === 'OK' && results) {
                     const location = results[0].geometry.location;
+                    console.log(results[0]);
+                    setSearchAddress(results[0].formatted_address);
                     resolve({ lat: location.lat(), lng: location.lng() });
                 } else {
                     reject("Geocode was not successful for the following reason: " + status);
@@ -190,8 +171,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const handleAddressSearch = async (address) => {
         try {
             const location = await geocodeAddress(address);
+            //console.log(location);
             if (location) {
                 const nearest = findNearestSchool(location);
+                setUserLocation(location);
                 setNearestSchool(nearest);
                 setInputValue(address);
             }
@@ -200,14 +183,31 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     };
 
+    useEffect(()=>{
+        console.log('use effect for autocomplete');
+        if (searchInputRef.current) {
+            autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
+            autocompleteRef.current.addListener("place_changed", () => {
+                const place = autocompleteRef.current?.getPlace();
+                if (place && place.geometry) {
+                    const fullAddress = `${place.formatted_address}`;
+                    handleAddressSearch(fullAddress);
+                }
+            });
+        }
+    }, [window.google, searchInputRef.current]);
+
+    //console.log('searchinput: ', searchInputRef.current)
+    //console.log('autocomplete: ', autocompleteRef.current)
+
     return (
         <>
-            {isModalOpen && (
+            {/* {isModalOpen && (
                 <div className="hp-popup-modal open">
                     <button onClick={() => setIsModalOpen(false)}>X</button>
                     <div>User denied geolocation. Please allow access to your location in your browser settings to find the nearest school to your current location.</div>
                 </div>
-            )}
+            )} */}
 
             <div className="container">
                 <Customizations
@@ -219,8 +219,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 >
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-none d-lg-block'>
-                                {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
+                            <div className='heading-wrapper d-none d-lg-block pt-5'>
+                                {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}><div dangerouslySetInnerHTML={{ __html: leftColumn.heading }} /></Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
                             <div className={`find-a-location-hero ${searchFieldClass} ${locationServicesEnabled ? '' : 'location-disabled'}`}>
@@ -236,10 +236,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         type="search"
                                         placeholder='Search by address, city, state, ZIP'
                                         value={inputValue}
-                                        onChange={(e) => {
-                                            console.log("OnChange Value:", e.target.value);
-                                            setInputValue(e.target.value);
-                                        }}
+                                        onChange={(e) => setInputValue(e.target.value)}
                                         onKeyDown={handleKeyDown}
                                         ref={searchInputRef}
                                     />
@@ -284,7 +281,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 {nearestSchool && (
                                     <>
                                         <div className='name-wrapper d-flex justify-content-between'>
-                                            <div className='name'><h5>{nearestSchool.name}</h5></div>
+                                            <a href={nearestSchool.uri} className='name'><h5>{nearestSchool.name}</h5></a>
                                             <div className='icon'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 6 12" fill="none">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M0.323475 11.794C-0.0579244 11.4797 -0.109455 10.9192 0.208378 10.542L4.20212 5.80315L0.233801 1.48682C-0.100162 1.12357 -0.0730885 0.561399 0.29427 0.231171C0.661629 -0.0990572 1.23016 -0.0722866 1.56413 0.290963L5.53244 4.60729C6.13597 5.26375 6.15767 6.25971 5.58329 6.94125L1.58955 11.6801C1.27172 12.0573 0.704875 12.1082 0.323475 11.794Z" fill="#555F68" />
@@ -294,7 +291,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         <div className='b2 pb-2'>{nearestSchool.distance} mi · {nearestSchool.address}</div>
                                         <p className='hours'>{nearestSchool.hours}</p>
                                         <div className='phone-wrapper'>
-                                            <div className='b2'><Button className='primary me-2' href={`/school/${nearestSchool.slug}/schedule-a-tour`}>Schedule a Tour</Button>
+                                            <div className='b2'><Button className='primary me-2' href={`/schools/${nearestSchool.slug}/schedule-a-tour`}>Schedule a Tour</Button>
                                                 <a href={`tel:${nearestSchool.phone}`} className='phone'>
                                                     <span className='me-2'>
                                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -306,7 +303,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                                 </a>
                                             </div>
                                         </div>
-                                        <a className='green underline pt-4 d-block' href='/find-a-school'>View all locations nearest you</a>
+                                        <a className='green underline pt-4 d-block' href={`/find-a-school?search_string=${encodeURIComponent(searchAddress)}&latitude=${userLocation.lat}&longitude=${userLocation.lng}`}>View all locations nearest you</a>
                                     </>
                                 )}
                             </div>
@@ -317,23 +314,27 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
-                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.url && (
+                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
                                 <div className='video-wrapper'>
                                     <video
                                         ref={videoRef}
-                                        src={rightColumn.video.url}
+                                        src={rightColumn.video.mediaItemUrl}
                                         autoPlay
                                         muted
+                                        playsInline
                                         loop
                                     />
                                 </div>
                             )}
 
                             {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
-                                <div className='image-wrapper'>
-                                    <img
+                                <div className='image-wrapper mb-4 mb-lg-0'>
+                                    <Image
                                         src={rightColumn.image?.sourceUrl}
                                         alt={rightColumn.image?.altText}
+                                        width={1920}
+                                        height={1080}
+                                        priority
                                     />
                                 </div>
                             )}
@@ -343,6 +344,21 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     </div>
                 </Customizations>
             </div>
+            {/* <Script async defer
+                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
+                onLoad={() => {
+                    if (searchInputRef.current) {
+                        autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
+                        autocompleteRef.current.addListener("place_changed", () => {
+                            const place = autocompleteRef.current?.getPlace();
+                            if (place && place.geometry) {
+                                const fullAddress = `${place.name}, ${place.formatted_address}`;
+                                handleAddressSearch(fullAddress);
+                            }
+                        });
+                    }
+                }}
+            /> */}
         </>
     );
 }

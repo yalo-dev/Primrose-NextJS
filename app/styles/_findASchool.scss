@@ -9,7 +9,7 @@
     @include media-breakpoint-up(lg) {
         padding-top: 0;
         background-color: $transparent;
-        height: var(--view-height);
+        height: calc(100% - 100px);
     }
 
     .search-box-container {
@@ -77,7 +77,12 @@
                             border-bottom-left-radius: 10px;
                         }
                     }
-
+                    .b3 {
+                        font-size: 12px;
+                        @include media-breakpoint-up(lg) {
+                            font-size: 16px;
+                        }
+                    }
                     &.active {
                         font-family: Poppins;
                         font-size: 14px;
@@ -346,7 +351,7 @@
 
                             @include media-breakpoint-up(lg) {
                                 top: 2rem;
-                                right: 6rem;
+                                right: 3.5rem;
                             }
                         }
 
@@ -425,7 +430,7 @@
 
         @include media-breakpoint-up(lg) {
             >div {
-                height: 100vh !important;
+                height: calc(100vh - 100px) !important;
 
             }
 
@@ -448,10 +453,29 @@
             }
         }
     }
-
+    /* width */
+    .list-scroller::-webkit-scrollbar {
+        width: 3px;
+    }
+    
+    /* Track */
+    .list-scroller::-webkit-scrollbar-track {
+        background: rgba(255,255,255,.25); 
+    }
+    
+    /* Handle */
+    .list-scroller::-webkit-scrollbar-thumb {
+        background: #888; 
+    }
+    
+    /* Handle on hover */
+    .list-scroller::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+    }
     .list-scroller {
         &.desktop {
             display: none;
+            
         }
         @include media-breakpoint-up(lg) {
             &.mobile {
@@ -461,30 +485,33 @@
                 display: flex;
                 flex-direction: column;
                 width: 516px;
-                height: 30rem;
+                height: 23rem;
                 position: relative;
                 top: 30px;
                 left: 0;
-                background: $white;
                 border-radius: 10px;
-                overflow-x: scroll;
+                overflow-y: scroll;
+                scroll-behavior: smooth;
                 @include transitionAll;
             }
         }
+        
     }
 
     .nearby-schools-list {
         display: flex;
         flex-direction: column;
-        background: $white;
         .school-list {
+            margin-bottom:.5rem;
             &:first-child {
                 .school-list-item {
                     margin-top: 1rem;
                 }
             }
+            
         }
         .school-list-item {
+            background-color: #FBFBFB;
             margin-left: 1rem;
             margin-right: 1rem;
             margin-bottom: 0;
@@ -496,7 +523,7 @@
             align-self: stretch;
             border-radius: 12px;
             color: $primary-darkgray;
-            border: 1px solid $transparent;
+            border: 1px solid #E6E6E6;
             @include transition;
             
             .name {
@@ -504,13 +531,15 @@
                     @include transition;
                 }
             }
-
+            .phone{
+                color:#5E6738;
+            }
             &:hover,
             &:active,
             &:focus,
             &.hovered {
                 @include transition;
-                border: 1px solid $neutral-2;
+                border: 2px solid #FF9E1B;
                 background: $white;
                 box-shadow: 0px 4px 10px 0px rgba(212, 214, 214, 0.20);
 
@@ -553,6 +582,22 @@
                 //     margin-left: -1em;
                 // }
             }
+            .options {
+                padding-left: 1rem;
+                margin-bottom: 0;
+                li::before {
+                    content: "\2022";
+                    color: rgb(210, 211, 209);
+                    font-weight: bold;
+                    display: inline-block;
+                    width: 1em; 
+                    margin-left: -1em;
+                }
+            }
         }
     }
+}
+
+body.search-locations div.search{
+    display:none;
 }
