@@ -35,6 +35,7 @@ export async function getServerSideProps(context) {
           uri
           title
           schoolAdminSettings {
+            careersIntroCopy
             galleryCareers {
               image {
                 altText
@@ -147,7 +148,17 @@ export default function SchoolCareerPage({ school }) {
                 <div className='container'>
                     <div className='heading-wrapper pt-5 pb-5'>
                         <h1>Open Positions</h1>
-                        <p className='b3'>We're growing. And we're looking for dedicated individuals who are as excited about helping children develop and learn as we are. If you're passionate about education and nurturing children and are looking for an environment with high standards for health and safety, consider a career with us.</p>
+                        {school.schoolAdminSettings?.careersIntroCopy
+                            ? <div className='b3' dangerouslySetInnerHTML={{__html: school.schoolAdminSettings?.careersIntroCopy}} />
+                            : (
+                                <p className='b3'>
+                                    We're growing. And we're looking for dedicated individuals who are as excited about
+                                    helping children develop and learn as we are. If you're passionate about education and
+                                    nurturing children and are looking for an environment with high standards for health and
+                                    safety, consider a career with us.
+                                </p>
+                            )
+                        }
                     </div>
                     {/* Show Careerplug or school jobs */}
                     {usesCareerplug
