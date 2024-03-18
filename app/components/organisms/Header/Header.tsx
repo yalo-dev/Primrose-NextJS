@@ -222,7 +222,7 @@ export default function Header({ menuItems }) {
             if (window.innerWidth <= 991) {
                 if (searchIcon.classList.contains('active')) { 
                     // submit the form on click of the search icon
-                    //searchForm.submit();
+                    searchForm.submit();
                 }
             }
         });
