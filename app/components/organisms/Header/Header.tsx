@@ -88,6 +88,7 @@ export default function Header({ menuItems }) {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission behavior
+        console.log(inputText);
         if (inputText.trim()) {
             console.log(`Searching for: ${inputText.trim()}`); // Debugging log
             window.location.href=(`/search?query=${encodeURIComponent(inputText.trim())}`);
@@ -216,15 +217,8 @@ export default function Header({ menuItems }) {
             e.stopPropagation();
             clearInput();
         });
-        const searchIcon = document.querySelector('.search-icon');
-        const searchForm = document.querySelector('.search-form') as HTMLFormElement;
-        searchIcon.addEventListener('mousedown', function (e) {
-            if (window.innerWidth <= 991) {
-                if (searchIcon.classList.contains('active')) { 
-                    // submit the form on click of the search icon
-                    searchForm.submit();
-                }
-            }
+        document.querySelector('.search-submit').addEventListener('mousedown', function (e) {
+            e.stopPropagation();
         });
 
         // Attach the listener
@@ -292,7 +286,7 @@ export default function Header({ menuItems }) {
                                             ref={mobileSearchInputRef}
                                             enterKeyHint={"search"}
                                         />
-                                        <button type="submit" hidden>Search</button>
+                                        
                                         <div
                                             className={`search-inner-icon ${isSearchActive ? 'active' : ''} ${inputText ? 'hide' : ''}`}
                                             onClick={clearInput}>
@@ -307,11 +301,16 @@ export default function Header({ menuItems }) {
                                                 <path d="M7.87891 7.87866L12.1215 12.1213" stroke="#5E6738" />
                                             </svg>
                                         </div>
-                                        <div className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { if (isSearchActive) {} else { clearInput(); toggleSearch(); } }}>
+                                        <a className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { clearInput(); toggleSearch(); }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
                                             </svg>
-                                        </div>
+                                        </a>
+                                        <button className={`search-submit ${isSearchActive ? 'active' : ''}`} type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
+                                            </svg>
+                                        </button>
                                         <div className={`find-a-school-button ${isSearchActive ? 'active' : ''}`}>
                                             <span className="find-button"><Button onClick={resetNav} label='Find A School' variant='secondary' href='/find-a-school' /></span>
                                         </div>

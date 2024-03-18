@@ -361,15 +361,24 @@ const JobPostPage = () => {
                 ) : (
                     cmsJob && (
                         <div className='aside'>
-                            <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                <p className='b4 bold'>To apply, please send resumes to:</p>
-                                <Button className={!cmsJob?.hiringManagerEmail && 'disabled'}
-                                        href={`mailto:${cmsJob?.hiringManagerEmail}`}
-                                        disabled={!cmsJob?.hiringManagerEmail}
-                                >
-                                    Apply Now
-                                </Button>
-                            </div>
+                            {(cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
+                                <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
+                                    <p className='b4 bold'>Already have a resume on Indeed?</p>
+                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply with Indeed</Button>
+                                </div>
+                            )}
+                            {!cmsJob.applicationLink && (
+                                <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
+                                    <p className='b4 bold'>To apply, please send resumes to:</p>
+                                    <Button className={!cmsJob?.hiringManagerEmail && 'disabled'}
+                                            href={`mailto:${cmsJob?.hiringManagerEmail}`}
+                                            disabled={!cmsJob?.hiringManagerEmail}
+                                    >
+                                        Apply Now
+                                    </Button>
+                                </div>
+                            )}
+                            
                         </div>
                     )
                 )}
