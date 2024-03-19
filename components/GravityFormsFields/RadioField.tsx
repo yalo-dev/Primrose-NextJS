@@ -2,7 +2,8 @@ import { gql } from "@apollo/client";
 
 import { RadioField as RadioFieldType, FieldError } from "../../generated/graphql";
 import useGravityForm, { ACTION_TYPES, FieldValue, StringFieldValue } from "../../hooks/useGravityForm";
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {CalendlyContext} from "../../pages/schools/[schoolSlug]/schedule-a-tour";
 
 export const RADIO_FIELD_FIELDS = gql`
   fragment RadioFieldFields on RadioField {
@@ -49,6 +50,11 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
   const fieldRef = useRef<HTMLInputElement>(null);
   const usesCalendly = hiddenFields.usesCalendly;
   const calendlyEvents = hiddenFields.hasCalendlyEvent;
+  const {calendlySelected, setCalendlySelected} = useContext(CalendlyContext)
+
+  const introductionCallOnly = 'Would you like to schedule your introduction call now?';
+  const inPersonOrVirtualTourOnly = 'Would you like to schedule your tour now?';
+  const introductionCallAndTours = 'Would you like to schedule your tour or introduction call now?';
 
   useEffect(()=>{
     dispatch({
@@ -64,8 +70,10 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 
     if(event.target.value == 'Yes') {
+      setCalendlySelected('true')
       submitBtn.innerText = 'Continue to Scheduler';
     } else {
+      setCalendlySelected('false')
       submitBtn.innerText = 'Submit';
     }
 
@@ -84,9 +92,20 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
       (hiddenFields.calendlyURLs.inPersonTour != '' || hiddenFields.calendlyURLs.virtualTour != '' || hiddenFields.calendlyURLs.introductionPhoneCall != '') &&
       (hiddenFields.hasCalendlyEvent != '')
   ) {
+    let schedulerLabel = '';
+    let hasIntroPhoneCall = hiddenFields.hasCalendlyEvent.includes('Introduction Phone Call');
+    let hasVirtualTour = hiddenFields.hasCalendlyEvent.includes('Virtual Tour')
+    let hasInPersonTour = hiddenFields.hasCalendlyEvent.includes('In-Person Tour')
+    if ( (hasIntroPhoneCall == false) && ( (hasVirtualTour == true) || (hasInPersonTour == true) ) ) {
+      schedulerLabel = inPersonOrVirtualTourOnly;
+    } else if ( (hasIntroPhoneCall == true) && ( (hasVirtualTour == false) && (hasInPersonTour == false) ) ) {
+      schedulerLabel = introductionCallOnly;
+    } else {
+      schedulerLabel = introductionCallAndTours;
+    }
     return (
         <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
-          <legend>{label}</legend>
+          <legend>{schedulerLabel}</legend>
           <div className="input-wrappers">
             {choices?.map(input => {
                   const text = input?.text || '';
@@ -108,7 +127,6 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
                 }
             )}
           </div>
-          <p style={{fontSize: ".9em"}}>Availble options to schedule: {hiddenFields.hasCalendlyEvent.join(', ')}</p>
           {description ? <p className="field-description">{description}</p> : null}
           {fieldErrors?.length ? fieldErrors.map(fieldError => (
               <p key={fieldError.id} className="error-message">{fieldError.message}</p>

@@ -43,15 +43,15 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (loading) return;
-    console.log(state);
-    /* submitForm({
+    // console.log(state);
+    submitForm({
       variables: {
         formId: form.formId,
         fieldValues: state,
       }
     }).catch(error => {
       console.error(error);
-    }) */
+    })
   }
 
   function getFieldErrors(id: number): FieldError[] {
@@ -60,8 +60,12 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   }
 
   if (wasSuccessfullySubmitted) {
+    window.scrollTo({
+      top: document.getElementById('sat-heading').offsetTop,
+      behavior: 'smooth',
+    })
     cookies.set('sat-state', state)
-    console.log(cookies.get('sat-state'))
+    // console.log(cookies.get('sat-state'))
     if (hiddenFields.usesCalendly) {
       let schedulerOption = state.find(({ id }) => id === 13);
       if (schedulerOption['value'] == 'Yes' && hiddenFields.hasCalendlyEvent != '') {
@@ -77,7 +81,7 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   }
 
   // console.log('error ', data?.submitGfForm?.errors);
-  console.log('state: ', state);
+  // console.log('state: ', state);
   // console.log('form', data)
 
   return (

@@ -5,7 +5,7 @@ import ScheduleATourForm from '../../../components/ScheduleATour/ScheduleTourFor
 import Head from "next/head";
 import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
 import DynamicRadioButtons from "../../../components/Calendly/DynamicRadioButtons";
-import React, { useEffect, useRef, useState } from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/navigation';
 
 interface Props {
@@ -106,7 +106,7 @@ export async function getServerSideProps(context) {
     };
 }
 
-
+export const CalendlyContext = createContext(null)
 
 export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent, calendlyURLs }) {
 
@@ -117,6 +117,19 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
     const router = useRouter();
     const [calendlyEvent, setCalendlyEvent] = useState<string>('');
+    const [isCalendlySelected, setCalendlySelected] = useState('false')
+
+    // let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
+
+    console.log(isCalendlySelected)
+
+    useEffect(() => {
+        let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
+        // console.log(calendlySelected.checked)
+        console.log(isCalendlySelected)
+        handleCalendlySelect(schedulerEvent[0])
+    }, [isCalendlySelected]);
+
 
     useEffect(()=>{
         window.addEventListener('message', function(e){
@@ -129,12 +142,25 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     });
 
     const handleCalendlySelect = (value) => {
+        let firstNameField = document.getElementById('field_1') as HTMLInputElement
+        let lastNameField = document.getElementById('field_3') as HTMLInputElement
+        let emailField = document.getElementById('field_5_5') as HTMLInputElement
+        let phoneField = document.getElementById('field_4') as HTMLInputElement
+
+        let firstName = firstNameField != null ? firstNameField.value : '';
+        let lastName = lastNameField != null ? lastNameField.value : '';
+        let calendlyEmail = emailField != null ? emailField.value : '';
+        let calendlyPhone = phoneField != null ? phoneField.value : '';
+        let calendlyName = encodeURIComponent((firstName + ' ' + lastName).trim());
+
+        let prefillParams = '?name=' + calendlyName + '&email=' + calendlyEmail;
+
         if (value == 'In-Person Tour') {
-            setCalendlyEvent(calendlyURLs.inPersonTour);
+            setCalendlyEvent(calendlyURLs.inPersonTour + prefillParams);
         } else if (value == 'Virtual Tour') {
-            setCalendlyEvent(calendlyURLs.virtualTour);
+            setCalendlyEvent(calendlyURLs.virtualTour + prefillParams + '&location=1' + calendlyPhone);
         } else if (value == 'Introduction Phone Call') {
-            setCalendlyEvent(calendlyURLs.introductionPhoneCall);
+            setCalendlyEvent(calendlyURLs.introductionPhoneCall + prefillParams + '&location=1' + calendlyPhone);
         }
     };
 
@@ -153,10 +179,12 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                     <div className="main-wrapper col-12 col-lg-8">
                         <div className="form-wrapper">
                             <div className="heading-wrapper">
-                                <h1 className='heading green'>Schedule A Tour</h1>
+                                <h1 id='sat-heading' className='heading green'>Schedule A Tour</h1>
                                 <p className="desc b3">{formDescription}</p>
                             </div>
-                            <ScheduleATourForm {...hiddenFields} />
+                            <CalendlyContext.Provider value={{ isCalendlySelected, setCalendlySelected }}>
+                                <ScheduleATourForm {...hiddenFields} />
+                            </CalendlyContext.Provider>
                             {corporate.usesCalendly &&
                                 (calendlyURLs.inPersonTour != '' || calendlyURLs.virtualTour != '' || calendlyURLs.introductionPhoneCall != '') &&
                                 (schedulerEvent != '') && (

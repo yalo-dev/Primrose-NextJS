@@ -100,6 +100,13 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
     const satEmail = getFormStateEmail(formState, 5)
     const satFirstName = getFormStateValues(formState, 1)
     const satNumChildren = getFormStateValues(formState, 6)
+    const child1AgeGroup = getChildAgesGroups(formState, 1, 8, 9, 10)
+    const child2AgeGroup = getChildAgesGroups(formState, 2, 15, 16, 17)
+    const child3AgeGroup = getChildAgesGroups(formState, 3, 25, 26, 27)
+    const child4AgeGroup = getChildAgesGroups(formState, 4, 29, 30, 31)
+    const child5AgeGroup = getChildAgesGroups(formState, 5, 33, 34, 35)
+    const child6AgeGroup = getChildAgesGroups(formState, 6, 37, 38, 39)
+
 
     function getFormStateValues(formState, stateId) {
         if (formState === undefined) {
@@ -119,6 +126,53 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
             // console.log('email temp', temp)
             // console.log(temp.emailValues.value)
             return temp.emailValues.value
+        }
+    }
+
+    function getChildAgesGroups(formState, numChild, monthField, dayField, yearField) {
+        let childObj = []
+        let tempAge = ''
+        let tempGroup = ''
+        let today = new Date();
+        if (formState === undefined) {
+            childObj['age'] = ''
+            childObj['group'] = ''
+            return childObj
+        } else {
+            let numChildren = getFormStateValues(formState, 6)
+            if ( numChildren < 1 || numChildren == '') {
+                childObj['age'] = ''
+                childObj['group'] = ''
+                return childObj
+            } else if (numChildren < numChild) {
+                childObj['age'] = ''
+                childObj['group'] = ''
+                return childObj
+            } else {
+                let childMonth = formState.find(({ id }) => id === monthField);
+                let childDay = formState.find(({ id }) => id === dayField);
+                let childYear = formState.find(({ id }) => id === yearField);
+                let childBirthday = new Date(childYear['value'], childMonth['value'] - 1, childDay['value']);
+                let childAge = today.getFullYear() - childBirthday.getFullYear();
+                let m = today.getMonth() - childBirthday.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < childBirthday.getDate())) {
+                    childAge--;
+                }
+                childObj['age'] = childAge;
+                console.log(childAge);
+                if (childAge < 1) {
+                    childObj['group'] = 'Infant'
+                } else if (childAge >= 1 && childAge < 3) {
+                    childObj['group'] = 'Toddler'
+                } else if (childAge >= 3 && childAge < 5) {
+                    childObj['group'] = 'PreK/Kindergarten'
+                } else if (childAge >= 5) {
+                    childObj['group'] = 'Kindergarten/Explorer'
+                } else {
+                    childObj['group'] = 'OOB'
+                }
+                return childObj;
+            }
         }
     }
 
@@ -173,6 +227,18 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
             <script id="firstName">{satFirstName}</script>
             <script id="email">{satEmail}</script>
             <script id="numChildren">{satNumChildren}</script>
+            <script id="child_1_age">{child1AgeGroup['age']}</script>
+            <script id="child_1_group">{child1AgeGroup['group']}</script>
+            <script id="child_2_age">{child2AgeGroup['age']}</script>
+            <script id="child_2_group">{child2AgeGroup['group']}</script>
+            <script id="child_3_age">{child3AgeGroup['age']}</script>
+            <script id="child_3_group">{child3AgeGroup['group']}</script>
+            <script id="child_4_age">{child4AgeGroup['age']}</script>
+            <script id="child_4_group">{child4AgeGroup['group']}</script>
+            <script id="child_5_age">{child5AgeGroup['age']}</script>
+            <script id="child_5_group">{child5AgeGroup['group']}</script>
+            <script id="child_6_age">{child6AgeGroup['age']}</script>
+            <script id="child_6_group">{child6AgeGroup['group']}</script>
             <div className='container staff'>
                  {/* Thank You Section */}
                 
