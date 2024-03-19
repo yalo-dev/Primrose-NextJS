@@ -8,11 +8,11 @@ interface TestimonialSectionProps {
 }
 export default function TestimonialSection({adminSettings}: TestimonialSectionProps) {
 
-    const testimonials = adminSettings?.testimonials
+    const testimonials = adminSettings?.assignedTestimonials;
 
     if (!testimonials) return
 
-    const transformedTestimonials = adminSettings?.testimonials?.filter(testimonial => testimonial).slice(0,5).map(testimonial => ({
+    const transformedTestimonials = adminSettings?.assignedTestimonials?.filter(testimonial => testimonial).slice(0,5).map(testimonial => ({
         avatar: {
             sourceUrl: testimonial.featuredImage?.node?.sourceUrl,
             altText: 'Testimonial'
