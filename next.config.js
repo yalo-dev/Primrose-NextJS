@@ -3,11 +3,13 @@ async function getRedirects(){
   const data = await response.json();
   let _redirects = [];
   data.seo.redirects.map((redirect, index) =>{
-    _redirects.push({
-      source: `/${redirect.origin.replace('.*', ':slug')}`,
-      destination: `/${redirect.target.replace('.*', ':slug')}`,
-      permanent: true,
-    })
+    if(!redirect.origin.includes('http') && !redirect.target.includes('http') && !redirect.origin.includes('www' )&& !redirect.target.includes('www') && !redirect.origin.includes('?' )&& !redirect.target.includes('?') ){
+      _redirects.push({
+        source: `/${redirect.origin.replace('.*', ':slug')}`,
+        destination: `/${redirect.target.replace('.*', ':slug')}`,
+        permanent: true,
+      })
+    }
   });
   console.log(_redirects);
   return _redirects;
