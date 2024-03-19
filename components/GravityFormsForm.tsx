@@ -43,15 +43,15 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (loading) return;
-    console.log(state);
-    /* submitForm({
+    // console.log(state);
+    submitForm({
       variables: {
         formId: form.formId,
         fieldValues: state,
       }
     }).catch(error => {
       console.error(error);
-    }) */
+    })
   }
 
   function getFieldErrors(id: number): FieldError[] {
