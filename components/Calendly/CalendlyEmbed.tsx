@@ -25,7 +25,7 @@ const CalendlyEmbed = ({ url }) => {
         <div
             className="calendly-inline-widget"
             data-url={dynamicURL}
-            style={{ minWidth: "350px", height: "700px" }}
+            style={{ minWidth: "350px", height: "800px", width: "1000px", marginLeft: "-50px" }}
         ></div>
     );
 };

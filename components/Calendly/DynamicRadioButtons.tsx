@@ -11,7 +11,7 @@ const DynamicRadioButtons = ({ options, onSelect }) => {
 
     return (
         <div>
-            <h4>Please select an event to schedule a time below:</h4>
+            <legend style={{fontSize: "16px", fontWeight: "600", fontFamily: "\"Poppins\", \"Helvetica Neue\", Helvetica, sans-serif"}}>Please select an event to schedule a time below:</legend>
             {options.map((option) => (
                 <div key={option} style={{display: "inline", padding: '0 1em 0 0',}}>
                     <input
