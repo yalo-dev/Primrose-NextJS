@@ -118,6 +118,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     const router = useRouter();
     const [calendlyEvent, setCalendlyEvent] = useState<string>('');
     const [isCalendlySelected, setCalendlySelected] = useState('false')
+    const tourThanksSlug = '/schools/' + schoolSlug + '/tour-thanks/'
 
     // let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
 
@@ -189,7 +190,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                                 (calendlyURLs.inPersonTour != '' || calendlyURLs.virtualTour != '' || calendlyURLs.introductionPhoneCall != '') &&
                                 (schedulerEvent != '') && (
                                 <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
-                                    <DynamicRadioButtons options={schedulerEvent} onSelect={handleCalendlySelect}/>
+                                    <DynamicRadioButtons skipURL={tourThanksSlug} options={schedulerEvent} onSelect={handleCalendlySelect}/>
                                     <CalendlyEmbed url={calendlyEvent} />
                                 </div>
                             )}
