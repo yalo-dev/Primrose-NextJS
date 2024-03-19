@@ -138,7 +138,7 @@ export async function getServerSideProps(context) {
               meetStaffImage{
                 mediaItemUrl
               }
-              assignedTestimonials {
+              testimonials {
                 ... on Testimonial {
                   id
                   featuredImage {

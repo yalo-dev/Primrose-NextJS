@@ -135,7 +135,7 @@ query SchoolData($id: ID!) {
         meetStaffImage{
           mediaItemUrl
         }
-        assignedTestimonials {
+        testimonials {
           ... on Testimonial {
             id
             featuredImage {
