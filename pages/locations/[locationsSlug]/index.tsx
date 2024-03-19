@@ -152,7 +152,9 @@ export default function Location({ locationData }){
     }
     const gva_props = {
         customizations: gva_customizations,
-        tabs: tabs
+        tabs: tabs,
+        heading: market?.marketSettings?.ageGroups?.heading && market?.marketSettings?.ageGroups?.heading,
+        subheading: market?.marketSettings?.ageGroups?.subheading && market?.marketSettings?.ageGroups?.subheading
     }
 
     return(

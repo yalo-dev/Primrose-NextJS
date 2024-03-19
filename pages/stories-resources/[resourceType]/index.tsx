@@ -69,6 +69,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
   // TODO: The filtering and pagination is done client-side. This is affecting performance, but filtering resource by resourceType is not currently available and will need to be added on the backend manually
   const router = useRouter();
   const { category } = router.query
+  console.log("resource: ", resources)
 
 
   const [categoryResources, setCategoryResources] = useState([]);
@@ -116,7 +117,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
         setCategoryResources(categorySpecificResources);
         isTagPage = true;
       } else {
-        const categorySpecificResources = resources.resourceType.resources.nodes.filter(resource =>
+        const categorySpecificResources = resources.resourceType?.resources?.nodes.filter(resource =>
           resource.resourceTypes.nodes.some(type => type.slug === slug)
         );
         setCategoryResources(categorySpecificResources);
@@ -131,7 +132,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
     }
   }, [resources, slug]);
   
-  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, resources, slug);
+  const { filteredResources, SearchAndFilterUI } = ResourceFilter(categoryResources, filterTerms, slug);
   
 
   useEffect(() => {
@@ -141,10 +142,10 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
   const resourcesPerPage = 9;
   const indexOfLastResource = currentPage * resourcesPerPage;
   const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
-  const filteredResourcesExcludes = filteredResources.filter(resource => !excludedResourceIds?.includes(resource.id));
-  const currentResources = filteredResourcesExcludes.slice(indexOfFirstResource, indexOfLastResource);
+  const filteredResourcesExcludes = filteredResources?.filter(resource => !excludedResourceIds?.includes(resource.id));
+  const currentResources = filteredResourcesExcludes?.slice(indexOfFirstResource, indexOfLastResource);
 
-  const currentResourcesMapped = currentResources.map(resource => ({
+  const currentResourcesMapped = currentResources?.map(resource => ({
     ...resource,
     isFeatured: featuredResourceIds.includes(resource.id)
 }));

@@ -40,11 +40,13 @@
             }
             img {
                 width: 170px;
+                height: auto;
                 object-fit: cover;
                 object-position: left;
                 @include transitionAll();
                 @include media-breakpoint-up(xxl) {
                    width: 270px;
+                   height: auto;
                 }  
             }
             &:hover {

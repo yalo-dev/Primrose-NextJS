@@ -109,13 +109,17 @@ export default function Locations({ markets, schools }) {
     markets.map((market, index) => {
         
         if(!states.includes(market.markets.marketState) && market.markets.marketState !== null){
-            states.push(market.markets.marketState);
+            market.markets.marketState.map((marketState)=>{
+                if(states.indexOf(marketState) == -1){
+                    states.push(marketState);
+                }
+            })
+            
             
         }
     });
     states.sort();
     states.map((state, index) => {
-    
         let stateSlug = slugify(`${state}`, {lower:true});
         let obj = {label: state, value: state, url: `#${stateSlug}`, target:'_self'};
         statesOptions.push(obj);
@@ -160,7 +164,7 @@ export default function Locations({ markets, schools }) {
             <div className='container locations py-5'>
 
                 <div className='row py-md-5 py-0'>
-
+                    
                     {states.map((state, i) => (
                         <div key={i}>
                         <div id={slugify(state, {lower:true}) + "_section"} className="state_section">

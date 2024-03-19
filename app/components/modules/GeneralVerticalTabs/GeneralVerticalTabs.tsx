@@ -114,8 +114,9 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
 				<div className="general-vertical-tabs">
 					{/* Main Heading and Subheading */}
 					<div className="heading-wrapper">
-						<Heading level='h2'><ColorComponent color={headingColor}>{heading}</ColorComponent></Heading>
-						<Subheading level='div' className='b4'><ColorComponent color={subheadingColor}>{subheading}</ColorComponent></Subheading>
+						{heading && <Heading level='h2'><ColorComponent color={headingColor}>{heading}</ColorComponent></Heading>}
+						{subheading && <Subheading level='div' className='b4'><ColorComponent
+							color={subheadingColor}>{subheading}</ColorComponent></Subheading>}
 					</div>
 
 

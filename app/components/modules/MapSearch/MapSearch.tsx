@@ -46,8 +46,8 @@ const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="39" height="48" viewBox="0 0 39 48" fill="none">
       <path d="M20.5628 44.0585L32.232 32.3417C32.2321 32.3416 32.2321 32.3416 32.2321 32.3416C39.256 25.29 39.2559 13.8431 32.2321 6.79113C25.2057 -0.263722 13.7943 -0.263744 6.76792 6.79113C-0.255928 13.8431 -0.256007 25.29 6.76788 32.3416C6.76791 32.3416 6.76793 32.3416 6.76796 32.3417L18.4372 44.0585L19.5 45.1257L20.5628 44.0585Z" fill="${fillColor}" stroke="white" stroke-width="3"/>
-      <circle cx="19.5" cy="19.5" r="12" fill="#5E6738"/>
-      <text x="19.5" y="25" font-family="Arial" font-size="14px" fill="#ffffff" text-anchor="middle">${index}</text>
+      <circle cx="19.5" cy="19.5" r="12" fill="#ffffff"/>
+      <text x="19.5" y="25" font-family="Arial" font-size="14px" fill="#5E6738" text-anchor="middle">${index}</text>
     </svg>
   `;
 };

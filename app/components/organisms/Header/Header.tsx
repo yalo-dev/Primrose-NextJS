@@ -21,7 +21,6 @@ export default function Header({ menuItems }) {
     const desktopSearchInputRef = useRef<HTMLInputElement>(null);
     const [submenuStyles, setSubmenuStyles] = useState(null);
 
-
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
     };
@@ -89,6 +88,7 @@ export default function Header({ menuItems }) {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission behavior
+        console.log(inputText);
         if (inputText.trim()) {
             console.log(`Searching for: ${inputText.trim()}`); // Debugging log
             window.location.href=(`/search?query=${encodeURIComponent(inputText.trim())}`);
@@ -206,6 +206,21 @@ export default function Header({ menuItems }) {
             }
         };
 
+        document.querySelector('.mobile-location-icon').addEventListener('mousedown', function (e) {
+            if (window.innerWidth <= 991) {
+                resetNav();
+                window.location.href = "/find-a-school";
+            }
+        });
+
+        document.querySelector('.clear-icon').addEventListener('mousedown', function (e) {
+            e.stopPropagation();
+            clearInput();
+        });
+        document.querySelector('.search-submit').addEventListener('mousedown', function (e) {
+            e.stopPropagation();
+        });
+
         // Attach the listener
         document.addEventListener('mousedown', handleClickOutside);
     
@@ -256,15 +271,10 @@ export default function Header({ menuItems }) {
                                     }
                                 </ul>
                                 <div className={`navbar-search mt-4 mt-lg-0 pb-4 pb-lg-0 order-1 order-lg-2 ${isSearchActive ? 'active' : ''}`}>
-                                    <form className='d-flex flex-row' role='search' onSubmit={handleSearchSubmit}>
-                                        <label htmlFor='search' className='hidden'>Search</label>
-                                        <div className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { toggleSearch(); }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
-                                            </svg>
-                                        </div>                 
+                                    <form className='search-form d-flex flex-row' role='search' onSubmit={handleSearchSubmit}>
+                                        <label htmlFor='search' className='hidden'>Search</label>               
                                         <input
-                                            className='form-control'
+                                            className={`form-control ${isSearchActive ? 'active' : ''}`}
                                             type='search'
                                             name='search'
                                             id='search'
@@ -276,7 +286,7 @@ export default function Header({ menuItems }) {
                                             ref={mobileSearchInputRef}
                                             enterKeyHint={"search"}
                                         />
-                                        <button type="submit" hidden>Search</button>
+                                        
                                         <div
                                             className={`search-inner-icon ${isSearchActive ? 'active' : ''} ${inputText ? 'hide' : ''}`}
                                             onClick={clearInput}>
@@ -291,10 +301,25 @@ export default function Header({ menuItems }) {
                                                 <path d="M7.87891 7.87866L12.1215 12.1213" stroke="#5E6738" />
                                             </svg>
                                         </div>
-                                        <div className='find-a-school-button'>
+                                        <a className={`search-icon ${isSearchActive ? 'active' : ''}`} onClick={() => { clearInput(); toggleSearch(); }}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
+                                            </svg>
+                                        </a>
+                                        <button className={`search-submit ${isSearchActive ? 'active' : ''}`} type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M13.8947 7.81579C13.8947 11.1731 11.1731 13.8947 7.81579 13.8947C4.45848 13.8947 1.73684 11.1731 1.73684 7.81579C1.73684 4.45848 4.45848 1.73684 7.81579 1.73684C11.1731 1.73684 13.8947 4.45848 13.8947 7.81579ZM12.8913 13.7595C11.5257 14.9267 9.75308 15.6316 7.81579 15.6316C3.49925 15.6316 0 12.1323 0 7.81579C0 3.49925 3.49925 0 7.81579 0C12.1323 0 15.6316 3.49925 15.6316 7.81579C15.6316 9.56904 15.0543 11.1875 14.0794 12.4913L17.7284 16.1403L16.5003 17.3685L12.8913 13.7595Z" fill="#5E6738" />
+                                            </svg>
+                                        </button>
+                                        <div className={`find-a-school-button ${isSearchActive ? 'active' : ''}`}>
                                             <span className="find-button"><Button onClick={resetNav} label='Find A School' variant='secondary' href='/find-a-school' /></span>
                                         </div>
-                                    </form>
+                                        <a href="/find-a-school" className={`mobile-location-icon ${isSearchActive ? 'active' : ''}`} >
+                                            <div>
+                                                <svg width="24" height="29" viewBox="0 0 24 29" fill="#5E6738" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.05063 4.20281C-0.167919 8.47353 -0.167919 15.4082 4.05063 19.6786L11.6936 27.4167L19.3365 19.6786C23.555 15.4082 23.555 8.47353 19.3365 4.20281C15.1185 -0.0676034 8.26862 -0.0676034 4.05063 4.20281ZM11.8376 16.5565C14.384 16.5565 16.4485 14.4539 16.4485 11.8602C16.4485 9.26653 14.384 7.16391 11.8376 7.16391C9.29132 7.16391 7.22679 9.26653 7.22679 11.8602C7.22679 14.4539 9.29132 16.5565 11.8376 16.5565Z" ></path></svg>
+                                            </div>
+                                        </a>
+                                    </form> 
                                 </div>
                             </div>
                         </div>
