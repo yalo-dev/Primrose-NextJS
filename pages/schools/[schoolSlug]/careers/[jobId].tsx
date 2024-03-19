@@ -363,14 +363,14 @@ const JobPostPage = () => {
                         <div className='aside'>
                             {(cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
                                 <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                    <p className='b4 bold'>Already have a resume on Indeed?</p>
-                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply with Indeed</Button>
+                                    <p className='b4 bold'>Already have a resume online?</p>
+                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
                                 </div>
                             )}
                             {(cmsJob?.applicationLink && !cmsJob?.hiringManagerEmail) && (
                                 <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                    <p className='b4 bold'>Already have a resume on Indeed?</p>
-                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply with Indeed</Button>
+                                    <p className='b4 bold'>Already have a resume online?</p>
+                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
                                 </div>
                             )}
                             {(!cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
