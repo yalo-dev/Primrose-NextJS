@@ -1,11 +1,11 @@
 async function getRedirects(){
-  const response = await fetch(`https://temp.primroseschools.com/api/redirects?cb=100`);
+  const response = await fetch(`https://temp.primroseschools.com/api/redirects`);
   const data = await response.json();
   let _redirects = [];
   data.seo.redirects.map((redirect, index) =>{
     _redirects.push({
-      source: `/${redirect.origin}`,
-      destination: `/${redirect.target}`,
+      source: `/${redirect.origin.replace('.*', ':slug')}`,
+      destination: `/${redirect.target.replace('.*', ':slug')}`,
       permanent: true,
     })
   });
