@@ -31,6 +31,9 @@ export async function getStaticProps() {
                   title
                   schoolCorporateSettings {
                     schoolOfAtOn
+                    address {
+                        state
+                    }
                   }
                 }
               }
@@ -85,8 +88,9 @@ export default function Locations({ markets, schools }) {
         let dropdownToggle = document.querySelector('.select-dropdown .dropdown-toggle');
         dropdownToggle.dispatchEvent(new Event('click'));
     };
-    
+    let abbr = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut", "DC":"District of Columbia", "DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"}
     let schools_arr = [];
+    console.log(schools);
     schools.map((school, index) => {
        
         for(let i=0; i<school.markets.nodes.length; i++){
@@ -94,6 +98,7 @@ export default function Locations({ markets, schools }) {
                 
                 schools_arr[school.markets.nodes[i].name] = new Array();
             }
+            school.stateName = abbr[school.schoolCorporateSettings.address.state]
             schools_arr[school.markets.nodes[i].name].push(school);
         }
             
@@ -108,7 +113,7 @@ export default function Locations({ markets, schools }) {
     markets.map((market, index) => {
         if(market.markets.marketState !== null){
             market.markets.marketState.map((marketState)=>{
-                console.log(marketState);
+                //console.log(marketState);
                 if(states.indexOf(marketState) == -1){
                     states.push(marketState);
                 }
@@ -182,9 +187,13 @@ export default function Locations({ markets, schools }) {
                                     <div id={"collapse" + i + "_" + index} className="accordion-collapse collapse" data-bs-parent={"#" + slugify(state, {lower:true})}>
                                         <div className="accordion-body">
                                             <div className="schools">
-                                        {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (
-                                            <a className="school" key={index} href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
-                                        ))}
+                                        {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => {
+                                            if(school.stateName == state){
+                                                return(
+                                             <a className="school" key={index} href={school.uri}>{"Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title}</a>
+                                                )
+                                                }
+                                        })}
                                             </div>
                                         <a className="link" href={market.uri}>Learn more about schools in this area</a>
                                         </div>
