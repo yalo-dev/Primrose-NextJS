@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
-import {getSchools} from '../../../../app/data/schoolsData';
+import {getSchools} from "../../../lib/schoolsData";
 
 const containerStyle = {
   width: '100%',
