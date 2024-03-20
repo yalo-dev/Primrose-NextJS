@@ -9,20 +9,6 @@ export async function getAllPages(){
 	const pages = data?.data.pages.edges;
 	return(pages);
 }
-export async function getAllSchools(){
-	const data = await client.query({
-		query:GET_ALL_SCHOOLS
-	});
-	const schools = data?.data.schools.edges;
-	return(schools);
-}
-export async function getAllResources(){
-	const data = await client.query({
-		query:GET_ALL_RESOURCES
-	});
-	const resources = data?.data.resources.edges;
-	return(resources);
-}
 export async function getPageByUri(uri){
     const data = await client.query({
         query:MODULES_QUERY,
@@ -45,43 +31,9 @@ export async function getPageByUri(uri){
 	  }
 	}
   }`;
-  const GET_ALL_SCHOOLS = gql`
-  query GET_ALL_SCHOOLS {
-	 schools(first:1000, where: {status: PUBLISH}) {
-	   edges {
-		 node {
-		   id
-		   slug
-		   uri
-		 }
-	   }
-	 }
-   }`;
-   const GET_ALL_RESOURCES = gql`
-  query GET_ALL_RESOURCES {
-	 resources(first:10000, where: {status: PUBLISH}) {
-	   edges {
-		 node {
-		   id
-		   slug
-		   uri
-		   resourceTypes(first: 1) {
-			edges {
-			  node {
-				slug
-			  }
-			}
-		  }
-		 }
-	   }
-	 }
-   }`;
 const MODULES_QUERY = gql`
 query GetModules($id: ID = "") {
 	page(id: $id, idType: URI) {
-		seo {
-			fullHead
-		}
 	  modules {
 		modules {
 			... on Page_Modules_Modules_BlockAndSlider {

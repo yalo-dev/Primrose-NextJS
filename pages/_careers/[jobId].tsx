@@ -237,10 +237,6 @@ const JobPostPage = () => {
                     </div>
                 </div>
                 <div className='aside'>
-                    <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                        <p className='b4 bold'>Already have a resume on Indeed?</p>
-                        <Button href='#'>Apply with Indeed</Button>
-                    </div>
                     <div className='form-wrapper mt-4'>
                         {isSubmitted ? (
                             <div className='thank-you'>

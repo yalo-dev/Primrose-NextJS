@@ -73,7 +73,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
     
         translateWidth = Math.max(0, Math.min(translateWidth, totalSlidesWidth));
     
-        console.log(`Calculated translate width: ${translateWidth}`);
+        //console.log(`Calculated translate width: ${translateWidth}`);
         return translateWidth;
     };
     
@@ -91,7 +91,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
             } else if (direction === 'next' && prevIndex < gallery.length - 1) {
                 newIndex = prevIndex + 1;
             }
-            console.log(`Arrow clicked: ${direction}, New index: ${newIndex}`);
+            //console.log(`Arrow clicked: ${direction}, New index: ${newIndex}`);
             return newIndex;
         });
     };
@@ -109,7 +109,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
         setIsNextArrowDisabled(isLastSlideFullyVisible || currentIndex === gallery.length - 1);
     }, [currentIndex, slideWidths, gallery?.length]);
     
-        console.log(gallery)
+        //console.log(gallery)
     return (
         <div className={`gallery-slider ${combinedUniqueId}`}>
             <div className='container d-flex justify-content-between align-items-center'>

@@ -32,6 +32,9 @@ interface Resource {
 const GET_NEWS_ITEM = gql`
 query GetNewsItem($schoolSlug: ID!) {
 	school(id: $schoolSlug, idType: URI) {
+		seo {
+			fullHead
+		}
 		schoolAdminSettings {
 			newsItems {
 				content

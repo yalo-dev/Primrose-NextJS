@@ -34,6 +34,9 @@ export async function getServerSideProps(context) {
           slug
           uri
           title
+          seo {
+            fullHead
+          }
           schoolAdminSettings {
             careersIntroCopy
             galleryCareers {

@@ -12,10 +12,29 @@ import SchoolNewsSlider from "../../../components/schools/SchoolNewsSlider";
 import TestimonialSection from "../../../components/schools/TestimonialSection";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
+import { getAllSchools } from '../../../app/lib/pages';
 
+export async function getStaticPaths() {
+	const schools = await getAllSchools();
+	const dynamicPages = schools.filter(
+		(el) => el?.node.uri.length > 1
+	  );
+	  const paths = dynamicPages.map((school) => {
+			return {
+			params: {
+				schoolSlug: school.node.slug,
+				uri: school.node.uri
+			},
+			};
+	  });
 
-export async function getServerSideProps(context) {
-    const {schoolSlug} = context.params;
+	return {
+	  paths,
+	  fallback: 'blocking'
+	};
+  }
+export async function getStaticProps({params}) {
+   const {schoolSlug} = params;
 
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
@@ -32,6 +51,9 @@ export async function getServerSideProps(context) {
           slug
           uri
           title
+          seo {
+            fullHead
+          }
           schoolCorporateSettings {
               usesCalendly
               homepageMeta {
@@ -138,7 +160,7 @@ export async function getServerSideProps(context) {
               meetStaffImage{
                 mediaItemUrl
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   featuredImage {
@@ -187,7 +209,7 @@ export async function getServerSideProps(context) {
     } catch (error) {
         console.error('getServerSideProps Error:', error);
         return {props: {hasError: true}};
-    }
+    } 
 }
 
 export default function SchoolMainPage({school, schoolSlug, staffImage}) {

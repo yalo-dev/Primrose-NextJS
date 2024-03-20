@@ -5,7 +5,7 @@ import {gql, useQuery} from '@apollo/client';
 import React from 'react';
 import MapSearch from '../app/components/modules/MapSearch/MapSearch';
 import {useJsApiLoader} from '@react-google-maps/api';
-import {getSchools} from '../app/data/schoolsData';
+import {getSchools} from '../app/lib/schoolsData';
 import Pagination from "../app/components/molecules/Pagination/Pagination";
 
 

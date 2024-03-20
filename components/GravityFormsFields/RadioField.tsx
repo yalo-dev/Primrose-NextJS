@@ -71,7 +71,7 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
 
     if(event.target.value == 'Yes') {
       setCalendlySelected('true')
-      submitBtn.innerText = 'Continue to Scheduler';
+      submitBtn.innerText = 'Continue to Schedule';
     } else {
       setCalendlySelected('false')
       submitBtn.innerText = 'Submit';

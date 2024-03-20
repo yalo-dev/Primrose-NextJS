@@ -11,7 +11,6 @@ async function getRedirects(){
       })
     }
   });
-  console.log(_redirects);
   return _redirects;
 }
 module.exports = {

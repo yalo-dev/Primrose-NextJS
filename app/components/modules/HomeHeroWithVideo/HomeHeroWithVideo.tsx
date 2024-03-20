@@ -4,7 +4,7 @@ import Heading from '../../atoms/Heading/Heading';
 import Subheading from '../../atoms/Subheading/Subheading';
 import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
-import {getSchools} from '../../../../app/data/schoolsData';
+import {getSchools} from '../../../lib/schoolsData';
 import Script from "next/script";
 
 interface School {

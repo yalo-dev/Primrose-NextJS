@@ -30,6 +30,9 @@ export async function getServerSideProps(context) {
           slug
           uri
           title
+          seo {
+            fullHead
+          }
           schoolCorporateSettings {
             usesCalendly
             staffMeta {
