@@ -475,6 +475,9 @@
             &.active {
                 display: flex;
             }
+            @include media-breakpoint-up(lg) {
+                opacity: 0;
+            }
         }
         .clear-icon, .form-control, .location-icon {
             opacity: 0;
