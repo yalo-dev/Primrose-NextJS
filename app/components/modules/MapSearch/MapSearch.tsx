@@ -1,16 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
-//import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
-import {getSchools} from '../../../lib/schoolsData';
-import { DocumentNode } from 'graphql';
+import {getSchools} from '../../../../app/data/schoolsData';
 
 const containerStyle = {
   width: '100%',
   height: '350px'
 };
-
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 type Location = {
   lat: number;
@@ -35,12 +31,6 @@ type InputField = {
   address: string;
 };
 
-type LocationData = {
-  start: { lat: number; lng: number; } | null;
-  waypoints: Waypoint[];
-  destination: { lat: number; lng: number; } | null;
-};
-
 const svgIcon = (index, color = '#5E6738', isHovered = false) => {
   const fillColor = isHovered ? '#FF9E1B' : color;
   return `
@@ -62,23 +52,8 @@ const svgIconStart = `
 <svg width="12" height="12" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="8.5" cy="9.34973" r="7.75" fill="none" stroke="#5E6738" stroke-width="1.5"/>
 </svg>
-
 `;
 
-interface SchoolsArray{
-  id: number;
-  slug: string,
-  uri: string,
-  name: string;
-  address: string;
-  phone: any;
-  hours: string;
-  notes: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-}
 
 interface FindASchoolMapProps{
   title?: string;
@@ -94,7 +69,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     place,
     cta
   } = props;
-  //console.log(props);
+  cta = cta ?? {href:'schedule-a-tour', title:'Schedule a Tour'}
+
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -108,9 +84,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const nearInputRef = useRef<HTMLInputElement>(null);
   const routeInputRef1 = useRef<HTMLInputElement>(null);
   const routeInputRef2 = useRef<HTMLInputElement>(null);
-  const routeInputRef3 = useRef<HTMLInputElement>(null);
   const [zoomLevel, setZoomLevel] = useState(5);
-  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(map_center);
   let geocoder;
   const [MAX_DISTANCE, set_MAX_DISTANCE] = useState<number>(2800);
   const DEFAULT_ZOOM = 11;
@@ -123,21 +97,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [start, setStart] = useState<Location | null>(null);
   const [destination, setDestination] = useState<Location | null>(null);
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  const [waypoint, setWaypoint] = useState<{ lat: number; lng: number } | null>(null);
   const svgMarkerIconStart = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconStart)}`;
   const svgMarkerIconEnd = `data:image/svg+xml;utf8,${encodeURIComponent(svgIconEnd)}`;
   const [waypointRefs, setWaypointRefs] = useState<Record<number, React.RefObject<HTMLInputElement>>>({});
-  const [markers, setMarkers] = useState([]);
-  const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [updateCount, setUpdateCount] = useState(0);
   const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
+  const [schools, setSchools] = useState([]);
   const [inputFields, setInputFields] = useState<InputField[]>([
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ]);
-
   const defaultRouteProps = [
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
@@ -149,77 +119,72 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         center.lat = center.latitude;
         center.lng = center.longitude;
         setMapCenter(center);
+        set_MAX_DISTANCE(50)
       }
       setZoomLevel(DEFAULT_ZOOM);
     }
-      
-    },[]);
-  
 
-  const [schools, setSchools] = useState([]);
-  useEffect(() => { 
-  getSchools()
-    .then((result) =>{
-        setSchools(result);
-       //console.log('schools');
-        //console.log(schools);   
-        setLoading(false);
-        onPlaceSelected(place);
-    })
-  }, [place]);
-    if(cta == null){
-      cta = {href:'schedule-a-tour', title:'Schedule a Tour'}
+    if (nearInputRef.current) {
+      nearInputRef.current.addEventListener("input", () => {
+        if (nearInputRef.current && nearInputRef.current.value === "") {
+          setSearched(false);
+        }
+      });
     }
 
+    const hash = window.location.hash;
+    if (hash === '#nearby') {
+      setActiveTab(1);
+      document.body.classList.remove('alongroute');
+      // Additional setup for Tab 1
+    } else if (hash === '#alongroute') {
+      setActiveTab(2);
+      document.body.classList.add('alongroute');
+      // Additional setup for Tab 2
+    }
 
-  const handleNewWaypoint = (newWaypoint) => {
-    setWaypoints([...waypoints, newWaypoint]);
-  
-    const newRef = React.createRef<HTMLInputElement>();
-    waypointRefs[newWaypoint.id] = newRef;
-  
-    const newWaypointField: InputField = {
-      id: `waypoint-${newWaypoint.id}`,
-      originalType: 'waypoint',
-      type: 'waypoint',
-      ref: newRef,
-      autocomplete: null,
-      location: null,
-      address: '' 
-    };
-  
-    setInputFields(prevFields => [...prevFields, newWaypointField]);
-  
-    //console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
-  };
-  
-  const [locationData, setLocationData] = useState<LocationData>({
-    start: null,
-    waypoints: [],
-    destination: null
-  });
-
-  useEffect(() => {
-    //console.log("Updated refs", waypointRefs);
-    //console.log("Update count", updateCount);
-  }, [waypointRefs, updateCount]);
-    
-   useEffect(() => {
-    //console.log('place');
-    //console.log(place);
-    onPlaceSelected(place);
-  }, [place, nearInputRef]); 
-
-  useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     window.addEventListener('resize', handleResize);
+
     return () => {
+      if (nearInputRef.current) {
+        nearInputRef.current.removeEventListener("input", () => { });
+      }
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  },[]);
+  useEffect(() => {
+  getSchools()
+    .then((result) =>{
+        setSchools(result);
+        setLoading(false);
+        onPlaceSelected(place);
+    })
+  }, [place]);
+
+  useEffect(() => {
+    onPlaceSelected(place);
+  }, [place, nearInputRef]);
+
+  useEffect(()=>{
+    window.onresize = setMapScrollerHeight;
+    setMapScrollerHeight();
+    function setMapScrollerHeight(){
+      var scroller = document.getElementById('school-list-scroller');
+      if(scroller && scroller.offsetHeight){
+        scroller.style.transition = 'none';
+        var map = document.getElementById('map');
+        var scrollerParent = scroller.offsetParent as HTMLElement;
+        scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
+      }
+    }
+  }, [window])
+  useEffect(() => {
+    renderRoute();
+  }, [start, waypoints, destination]);
 
   const handleAutocompleteLoad = (key, autocomplete) => {
     setAutocompleteInstances(prev => ({
@@ -227,50 +192,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       [key]: autocomplete
     }));
   };
-
-  const handleAddMoreClick = () => {
-    setIsAdded(true);
-    const defaultLocation: Location = {
-      lat: 0,
-      lng: 0
-    };
-  
-    const newWaypointId = waypoints.length;
-    const newWaypoint = { id: newWaypointId, location: defaultLocation };
-  
-    setWaypoints(prevWaypoints => [...prevWaypoints, newWaypoint]);
-  
-    setWaypointRefs(prevRefs => {
-      return { ...prevRefs, [newWaypoint.id]: React.createRef() };
-    });
-  
-    handleNewWaypoint(newWaypoint);
-
-    if (!isMobile) {
-      const container = document.querySelector('.find-a-school-container') as HTMLElement;
-      if (container) {
-        if (getComputedStyle(container).getPropertyValue('--view-height') === '100%') {
-          // Switch from percentage to pixel value on first waypoint added
-          let currentPixelHeight = container.offsetHeight;
-          container.style.setProperty('--view-height', `${currentPixelHeight + 100}px`);
-        } else {
-          // If already using pixel values
-          let currentHeight = parseInt(getComputedStyle(container).getPropertyValue('--view-height'));
-          container.style.setProperty('--view-height', `${currentHeight + 100}px`);
-        }
-
-        // Trigger the Google Maps resize event after changing the height
-        setTimeout(() => {
-          if (mapRef.current) {
-            google.maps.event.trigger(mapRef.current, 'resize');
-          }
-        }, 100);
-      }
-    }
-    setUpdateCount(count => count + 1);
-
-  };
-
   const handleClearIconClick = (idToRemove: number) => {
     setWaypoints(prevWaypoints => {
       const updatedWaypoints = prevWaypoints.filter(waypoint => waypoint.id !== idToRemove);
@@ -302,7 +223,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
     }
   };
-
   const getCurrentLocation = () => {
     if (!geocoder) {
         geocoder = new google.maps.Geocoder();
@@ -333,8 +253,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     }
                 });
             }
-
-            setUserLocation(pos);
             setMapCenter(pos);
             setZoomLevel(11);
             setShowMap(true);
@@ -348,14 +266,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         alert("Your browser doesn't support geolocation.");
     }
   };
-
   const handleLocationIconClick = () => {
     getCurrentLocation();
   };
-
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
-  
+
     // Update the address of the corresponding field
     setInputFields(prevFields =>
       prevFields.map(field => {
@@ -380,25 +296,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   
   const renderRoute = () => {
-    //console.log("inputFields in renderRoute():", inputFields);
-    const startField = inputFields.find(f => f.type === 'start');
-    const waypointFields = inputFields.filter(f => f.type === 'waypoint');
-    const destinationField = inputFields.find(f => f.type === 'destination');
-  
-    if (!window.google || !window.google.maps) {
-      //console.log("Google Maps API not loaded yet.");
-      return;
-    }
-
-    if (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng))) {
-      //console.log("Start location is not defined or not in the correct format.");
-      return;
-    }
-
-    if (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng))) {
-      //console.log("Destination location is not defined or not in the correct format.");
-      return;
-    }
+    const googleMapsNotLoaded = (!window.google || !window.google.maps)
+    const startLocationNotFormatted = (!start || (typeof start !== 'string' && (typeof start !== 'object' || !start.lat || !start.lng)))
+    const destinationNotDefined = (!destination || (typeof destination !== 'string' && (typeof destination !== 'object' || !destination.lat || !destination.lng)))
+    if (googleMapsNotLoaded || startLocationNotFormatted || destinationNotDefined) return
 
     if (!directionsRendererRef.current) {
       directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
@@ -438,28 +339,23 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     })
     .filter((waypoint): waypoint is google.maps.DirectionsWaypoint => waypoint !== undefined);
 
-  const route: google.maps.DirectionsRequest = {
-    origin: new google.maps.LatLng(start.lat, start.lng),
-    destination: new google.maps.LatLng(destination.lat, destination.lng),
-    waypoints: mappedWaypoints,
-    travelMode: window.google.maps.TravelMode.DRIVING,
-    optimizeWaypoints: true,
-  };
+    const route: google.maps.DirectionsRequest = {
+      origin: new google.maps.LatLng(start.lat, start.lng),
+      destination: new google.maps.LatLng(destination.lat, destination.lng),
+      waypoints: mappedWaypoints,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
+    };
 
     directionsService.route(route, (result, status) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
         let routeBounds = directionsRendererRef.current.getDirections().routes[0].bounds;
-        //console.log(routeBounds.getCenter().lat());
         let routeCenter = {lng: routeBounds.getCenter().lng(), lat:routeBounds.getCenter().lat()};
-        //console.log(routeCenter);
         setMapCenter(routeCenter);
         setRoute(result);
-        //console.log(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
         console.log("No route could be found between the origin and destination.");
-      } else {
-        //console.log("Directions request failed due to " + status);
       }
     });
   };
@@ -471,7 +367,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lng: selectedPlace.geometry.location.lng(),
       };
       const formattedPlaceName = selectedPlace.name ? `${selectedPlace.name}, ${selectedPlace.formatted_address}` : selectedPlace.formatted_address;
-  
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.id === `waypoint-${waypointId}`) {
@@ -480,7 +375,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           return field;
         })
       );
-  
       setWaypoints(prevWaypoints => prevWaypoints.map(waypoint => {
         if (waypoint.id === waypointId) {
           return { ...waypoint, location: newMapCenter };
@@ -490,68 +384,27 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (nearInputRef.current) {
-      nearInputRef.current.addEventListener("input", () => {
-        if (nearInputRef.current && nearInputRef.current.value === "") {
-          setSearched(false);
-        }
-      });
-    }
-    return () => {
-      if (nearInputRef.current) {
-        nearInputRef.current.removeEventListener("input", () => { });
-      }
-    };
-  }, []);
-
- useEffect(()=>{
-  window.onresize = setMapScrollerHeight;
-  setMapScrollerHeight();
-  function setMapScrollerHeight(){
-    var scroller = document.getElementById('school-list-scroller');
-    if(scroller && scroller.offsetHeight){
-      scroller.style.transition = 'none';
-      var map = document.getElementById('map');
-      var scrollerParent = scroller.offsetParent as HTMLElement;
-      scroller.style.height = map.offsetHeight - (scroller.offsetTop + scrollerParent.offsetTop) + "px";
-    }
-  } ;
- }, [window])
-
   function getSortedSchools(schools){
     if(!schools){
       return [];
     }else{
     const filteredSchools = schools.filter(school => {
-      //console.log("mapCenter");
       const distance = calculateDistance(
         mapCenter.lat,
         mapCenter.lng,
         school.coordinates?.lat,
         school.coordinates?.lng
       );
-      //console.log('checking distance');
       return distance <= MAX_DISTANCE;
     });
     
     const sortedSchools = [...filteredSchools].map((school) => {
-      let dist = null;
+      let dist
       if(activeTab === 2 && route!= null){
-        /* let start = route.routes[0].legs[0].start_location;
-        let end = route.routes[0].legs[0].end_location;
-        let mid = route.routes[0].overview_path[Math.floor(route.routes[0].overview_path.length/2)];
-        let startDist = calculateDistance(start.lat(), start.lng(), school.coordinates.lat, school.coordinates.lng);
-        let endDist = calculateDistance(end.lat(), end.lng(), school.coordinates.lat, school.coordinates.lng);
-        let midDist = calculateDistance(mid.lat(), mid.lng(), school.coordinates.lat, school.coordinates.lng);
-        dist = Math.min(startDist, endDist, midDist); */
-
-        
         let path_points = route.routes[0].overview_path;
         let distances = path_points.map((point)=>{
           return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
         });
-        console.log(distances);
         dist = Math.min.apply(Math,distances);
       }else{
         dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
@@ -562,8 +415,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       .map((school, index) => ({ ...school, index: index + 1 }));
       //console.log('sortedSchools');
       return(sortedSchools);
+    }
   }
-  };
   function onPlaceSelected(place, type = 'text') {
     if (place && place.geometry && place.geometry.location) {
       let newMapCenter = {
@@ -571,7 +424,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         lng: place.geometry.location.lng(),
       };
       if(route!=null){
-        //console.log(route);
         let routeCenter = {lat:route.routes[0].bounds.getCenter().lat, lng: route.routes[0].bounds.getCenter().lng} ;
         setMapCenter(routeCenter);
       }else{
@@ -579,16 +431,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       }
       
       setZoomLevel(11);
-      //console.log(zoomLevel);
       set_MAX_DISTANCE(50);
       setHasSearched(true);
       setShowMap(true);
       setSearched(true);
-      //console.dir(place);
       const formattedPlaceName = place.name && place.formatted_address ? `${place.name}, ${place.formatted_address}` : place.formatted_address;
-      //console.log(nearInputRef);
-      //nearInputRef.current.value = place.name;
-      
+
       setInputFields(prevFields =>
         prevFields.map(field => {
           if (field.type === type) {
@@ -600,10 +448,8 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             
       
       if (type === 'start') {
-        //console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
       } else if (type === 'destination') {
-        //console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
       } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
@@ -615,7 +461,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         }));
       }
     }
-  };
+  }
 
   const onEnterKeyPressed = (type = 'near', waypointId?: number) => {
     if (mapRef.current) {
@@ -686,19 +532,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     }
   };
 
-  const onEnterKeyPressedForWaypoint = async (waypointId: number) => {
-    const place = await onEnterKeyPressed('waypoint', waypointId);
-  };
-
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
     setHasSearched(false);
     setSearched(false);
     setShowMap(false);
     setIsAdded(false);
-    //setMapCenter(center);
     setZoomLevel(5);
-    setMarkers([]);
     setRoute(null);
     setInputFields(defaultRouteProps as InputField[]);
     if (tabIndex === 1) {
@@ -718,10 +558,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     if (nearInputRef.current) nearInputRef.current.value = '';
     routeInputRef1.current.value = '';
     routeInputRef2.current.value = '';
-
     setWaypoints([]);
-
-    setSearchText('');
 
     if (mapRef.current) {
       mapRef.current.setCenter(center);
@@ -734,47 +571,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     setDirections(null);
     setStart(null);
-    setWaypoint(null);
     setDestination(null);
   };
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === '#nearby') {
-      setActiveTab(1);
-      document.body.classList.remove('alongroute');
-      // Additional setup for Tab 1
-    } else if (hash === '#alongroute') {
-      setActiveTab(2);
-      document.body.classList.add('alongroute');
-      // Additional setup for Tab 2
-    }
-  }, []);
-
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-  
-
-    const items = Array.from(inputFields);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-  
-
-    setInputFields(items.map(item => {
-      const currentRefValue = waypointRefs[item.id]?.current?.value;
-      return {
-        ...item,
-        address: currentRefValue || item.address
-      };
-    }));
-  
-    const newRefs = {};
-    items.forEach(item => {
-      newRefs[item.id] = waypointRefs[item.id];
-    });
-    setWaypointRefs(newRefs); 
-    updateLocationData(items);
-  };
   const handleMarkerClick = (schoolId) =>{
     var scroller = document.getElementById('school-list-scroller');
     scroller.scrollTop = document.getElementById(schoolId).offsetTop;
@@ -784,31 +583,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       console.log(document.getElementById(schoolId))
     }
   }
-  const handleCardClick = (schoolId) =>{
-    //console.log(schoolId);
-  }
-  const updateLocationData = (items) => {
-    const newStart = items[0].location;
-    const newDestination = items[items.length - 1].location;
-    const newWaypoints = items.slice(1, -1).map(item => ({ id: item.id, location: item.location }));
-  
-    setStart(newStart);
-    setDestination(newDestination);
-    setWaypoints(newWaypoints);
-  
-    // Update inputFields to preserve addresses and other properties
-    setInputFields(items.map(item => {
-      const originalField = inputFields.find(field => field.id === item.id);
-      return { ...item, address: originalField ? originalField.address : '' };
-    }));
-  
-    console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
-  };
-  
-  useEffect(() => {
-    renderRoute();
-  }, [start, waypoints, destination]);
-  
+
   if (loading) return <p></p>;
   if (error) return <div className='container pt-5 pb-5'>Error: {error}</div>;
 
@@ -934,7 +709,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                     id="along"
                                     type="text"
                                     placeholder="Search by address, city, state, ZIP"
-                                    value={inputFields.find(field => field.type === 'start')?.address || ''}
                                     onChange={(e) => handleInputChange(e, 'start')}
                                     />
 
@@ -972,11 +746,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                   >
 
                                     <input
-                                      onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                          onEnterKeyPressedForWaypoint(waypoint.id);
-                                        }
-                                      }}
                                       ref={waypointRefs[waypoint.id]}
                                       //onChange={(e) => handleInputChange(e, inputFieldId)}
                                       id={`input_${inputFieldId}`}
@@ -1028,7 +797,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                     id="alongEnd"
                                     type="text"
                                     placeholder="Search by address, city, state, ZIP"
-                                    value={inputFields.find(field => field.type === 'destination')?.address || ''}
                                     ref={routeInputRef2}
                                     onChange={(e) => handleInputChange(e, 'destination')}
                                     onKeyDown={(e) => {
@@ -1155,6 +923,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             {getSortedSchools(schools).map((school, index) => (
               <Marker
                 key={index}
+                options={{optimized: false}}
                 position={school.coordinates}
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
