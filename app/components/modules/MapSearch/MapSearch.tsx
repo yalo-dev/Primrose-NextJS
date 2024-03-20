@@ -119,6 +119,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         center.lat = center.latitude;
         center.lng = center.longitude;
         setMapCenter(center);
+        set_MAX_DISTANCE(50)
       }
       setZoomLevel(DEFAULT_ZOOM);
     }
