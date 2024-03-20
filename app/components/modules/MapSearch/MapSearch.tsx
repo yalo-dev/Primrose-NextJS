@@ -404,7 +404,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         let distances = path_points.map((point)=>{
           return(calculateDistance(point.lat(), point.lng(), school.coordinates.lat, school.coordinates.lng));
         });
-        console.log(distances);
         dist = Math.min.apply(Math,distances);
       }else{
         dist = calculateDistance(mapCenter.lat, mapCenter.lng, school.coordinates.lat, school.coordinates.lng);
@@ -709,7 +708,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                     id="along"
                                     type="text"
                                     placeholder="Search by address, city, state, ZIP"
-                                    value={inputFields.find(field => field.type === 'start')?.address || ''}
                                     onChange={(e) => handleInputChange(e, 'start')}
                                     />
 
@@ -798,7 +796,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                                     id="alongEnd"
                                     type="text"
                                     placeholder="Search by address, city, state, ZIP"
-                                    value={inputFields.find(field => field.type === 'destination')?.address || ''}
                                     ref={routeInputRef2}
                                     onChange={(e) => handleInputChange(e, 'destination')}
                                     onKeyDown={(e) => {
