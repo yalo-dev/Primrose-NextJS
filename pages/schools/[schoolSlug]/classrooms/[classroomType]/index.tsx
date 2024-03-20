@@ -21,6 +21,9 @@ const GET_CLASSROOM_TYPE = gql`
       query GetSchoolDetails($id: ID!, $classroomId: ID!) {
         classroom(id: $classroomId, idType: URI) {
           title
+          seo {
+            fullHead
+          }
           classroomModules {
             ctaContentBlockScrollies {
               image {
@@ -87,6 +90,9 @@ const GET_CLASSROOM_TYPE = gql`
           slug
           uri
           title
+          seo {
+            fullHead
+          }
           schoolCorporateSettings {
             usesCalendly
             address {
@@ -506,7 +512,7 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const shouldRenderCTA = hasData(featuredBanner) && featuredBanner.icon && featuredBanner.heading && featuredBanner.blurb && featuredBanner.button;
   const schoolAdminSettings = school?.schoolAdminSettings && school?.schoolAdminSettings[camelize(classroomType) as string];
   const galleryData = schoolAdminSettings?.classroomGallery ?? [];
-  console.log('gallery data: ', camelize(classroomType) as string)
+  //console.log('gallery data: ', camelize(classroomType) as string)
   let verticalTabs = classroom?.classroomModules?.verticalTabs;
   useEffect(() => {
     verticalTabs?.tabs.map((tab, i) => {
@@ -514,10 +520,10 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
         tab.content.list.map(listitem => {
           if(listitem.text == "Health & Safety"){
               listitem.detailsPopUp = ''
-              console.dir(school?.schoolAdminSettings)
-              console.dir(classroomType)
+              //console.dir(school?.schoolAdminSettings)
+              //console.dir(classroomType)
               listitem.detailsPopUp += school?.schoolAdminSettings[camelize(classroomType) as string]?.healthSafety;
-              console.dir(listitem.detailsPopUp)
+              //console.dir(listitem.detailsPopUp)
           }
         });
       }

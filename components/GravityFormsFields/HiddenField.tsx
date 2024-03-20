@@ -24,6 +24,22 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     const { state, dispatch } = useGravityForm();
     const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as HiddenFieldValues | undefined;
     const fieldRef = useRef<HTMLInputElement>(null);
+    const UserSessionAnalytics = document.cookie.split("; ").find((row) => row.startsWith("UserSession="))?.split("=")[1]
+
+    function setAnalyticsValue(field) {
+        let value = ''
+        let utmParameters = UserSessionAnalytics.split('%26')
+        // console.log('utmParameters: ', utmParameters)
+        for (let x in utmParameters) {
+            // console.log('utmParam: ', utmParameters[x])
+            let utmValue = utmParameters[x].split('%3D')
+            // console.log('Inside setAnalyticsValue', utmValue)
+            if (utmValue[0] == field) {
+                value = utmValue[1]
+            }
+        }
+        return value
+    }
 
     let dynamicFieldValue = ''
     if (label == "IP Address") {
@@ -44,7 +60,18 @@ export default function HiddenField({ field, hiddenFields }: Props) {
         dynamicFieldValue = hiddenFields.uri;
     } else if (label == "Uses Calendly") {
         dynamicFieldValue = hiddenFields.usesCalendly;
+    } else if (label == "ga_source") {
+        dynamicFieldValue = setAnalyticsValue('source')
+    } else if (label == "ga_medium") {
+        dynamicFieldValue = setAnalyticsValue('medium')
+    } else if (label == "ga_term") {
+        dynamicFieldValue = setAnalyticsValue('term')
+    } else if (label == "ga_content") {
+        dynamicFieldValue = setAnalyticsValue('content')
+    } else if (label == "ga_campaign") {
+        dynamicFieldValue = setAnalyticsValue('campaign')
     }
+    // console.log(document.cookie)
     useEffect(()=>{
         dispatch({
             type: ACTION_TYPES.updateHiddenFieldValue,

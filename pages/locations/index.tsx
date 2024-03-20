@@ -89,15 +89,14 @@ export default function Locations({ markets, schools }) {
     let schools_arr = [];
     schools.map((school, index) => {
        
-        if(school.markets.nodes.length>0){
-            if(!schools_arr[school.markets.nodes[0].name]){
+        for(let i=0; i<school.markets.nodes.length; i++){
+            if(!schools_arr[school.markets.nodes[i].name]){
                 
-                schools_arr[school.markets.nodes[0].name] = new Array();
+                schools_arr[school.markets.nodes[i].name] = new Array();
             }
-            schools_arr[school.markets.nodes[0].name].push(school);
+            schools_arr[school.markets.nodes[i].name].push(school);
         }
-       
-    
+            
     }
     
     );
@@ -107,9 +106,9 @@ export default function Locations({ markets, schools }) {
     let states = [];
     //map states options, one per state
     markets.map((market, index) => {
-        
-        if(!states.includes(market.markets.marketState) && market.markets.marketState !== null){
+        if(market.markets.marketState !== null){
             market.markets.marketState.map((marketState)=>{
+                console.log(marketState);
                 if(states.indexOf(marketState) == -1){
                     states.push(marketState);
                 }
@@ -170,17 +169,17 @@ export default function Locations({ markets, schools }) {
                         <div id={slugify(state, {lower:true}) + "_section"} className="state_section">
                         <span className="subheading" id={slugify(state, {lower:true})} key={i}>{state}</span>
                         <div className="accordion accordion-flush" >
-                        {markets.map((market, index) => market.markets.marketState == state && (
+                        {markets.map((market, index) => market.markets.marketState.includes(state) && (
                             <div key={index}>
                             
                                 <div className="accordion-item">
 
-                                    <h2 className="accordion-header" id={'heading'+index}>
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index} onClick={handleCollapse}>
+                                    <h2 className="accordion-header" id={'heading' + i + "_" + index}>
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + i + "_" + index} aria-expanded="false" aria-controls={"collapse" + index} onClick={handleCollapse}>
                                         <h5 style={{ whiteSpace: 'normal' }}>{market.name}</h5>
                                         </button>
                                     </h2>
-                                    <div id={"collapse" + index} className="accordion-collapse collapse" data-bs-parent={"#" + slugify(state, {lower:true})}>
+                                    <div id={"collapse" + i + "_" + index} className="accordion-collapse collapse" data-bs-parent={"#" + slugify(state, {lower:true})}>
                                         <div className="accordion-body">
                                             <div className="schools">
                                         {schools_arr[market.name] && schools_arr[market.name].sort() && schools_arr[market.name].map((school, index) => (

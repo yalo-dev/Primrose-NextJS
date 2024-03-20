@@ -1,5 +1,5 @@
 
-import { client } from '../../app/lib/apollo';
+import { client } from './apollo';
 import { gql } from '@apollo/client';
 import { cache } from 'react';
 

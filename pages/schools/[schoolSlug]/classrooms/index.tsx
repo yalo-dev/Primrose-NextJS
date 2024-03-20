@@ -82,6 +82,9 @@ query SchoolData($id: ID!) {
       slug
       uri
       title
+      seo {
+        fullHead
+      }
       schoolCorporateSettings {
         usesCalendly
         address {

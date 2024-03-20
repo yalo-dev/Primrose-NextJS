@@ -31,6 +31,15 @@ query GET_ALL_RESOURCE_TAGS {
 
 const RESOURCES_QUERY = gql`
 query GetResources {
+    seo {
+        contentTypes {
+          resource {
+            archive {
+              fullHead
+            }
+          }
+        }
+      }
     resources(first: 10000) {
         nodes {
             id
@@ -119,6 +128,9 @@ query GetResources {
 const RESOURCES_BY_TYPE_QUERY = gql`
 query GetResources($resourceType: ID = "") {
     resourceType(id:$resourceType, idType:SLUG){
+        seo {
+			fullHead
+		}
         resources(first: 10000) {
             nodes {
                 id
@@ -215,6 +227,9 @@ query GetResources($resourceType: ID = "") {
 const RESOURCES_BY_TAG_QUERY = gql`
 query GetResources($resourceTag: ID = "") {
     resourceTag(id:$resourceTag, idType:SLUG){
+        seo {
+			fullHead
+		}
         resources(first: 10000) {
             nodes {
                 id
@@ -256,6 +271,7 @@ query GetResources($resourceTag: ID = "") {
             name
         }
     }
+    
     resourcesSettings {
         resourceSettings {
             featuredResources {
