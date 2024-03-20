@@ -160,7 +160,7 @@ export async function getStaticProps({params}) {
               meetStaffImage{
                 mediaItemUrl
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   featuredImage {
