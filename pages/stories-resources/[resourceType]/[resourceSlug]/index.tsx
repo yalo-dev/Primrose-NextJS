@@ -202,11 +202,10 @@ export async function getStaticProps({params}) {
 	  );
 	  const paths = dynamicPages.map((resource) => {
 			
-			//console.log(resource.node.uri);
 		return {
 			params: {
 				resourceSlug: resource.node.slug,
-				resourceType: "",
+				resourceType: resource.node.resourceTypes.edges[0].node.slug,
 				uri: resource.node.uri
 			},
 		};
