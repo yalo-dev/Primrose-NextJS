@@ -240,10 +240,11 @@ const JobPostPage = () => {
                 </div>
                 {cpJobDetails ? (
                     <div className='aside'>
-                        <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                            <p className='b4 bold'>Already have a resume on Indeed?</p>
-                            <Button href='#'>Apply with Indeed</Button>
-                        </div>
+                        {(cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
+                            <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
+                                <Button className="w-100 primary" href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
+                            </div>
+                        )}
 
 
                         <div className='form-wrapper mt-4'>
@@ -366,14 +367,12 @@ const JobPostPage = () => {
                         <div className='aside'>
                             {(cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
                                 <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                    <p className='b4 bold'>Already have a resume online?</p>
-                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
+                                    <Button className="w-100 primary" href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
                                 </div>
                             )}
                             {(cmsJob?.applicationLink && !cmsJob?.hiringManagerEmail) && (
                                 <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                    <p className='b4 bold'>Already have a resume online?</p>
-                                    <Button href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
+                                    <Button className="w-100 primary" href={cmsJob?.applicationLink} target="_blank">Apply Now</Button>
                                 </div>
                             )}
                             {(!cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
