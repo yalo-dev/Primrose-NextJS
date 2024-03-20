@@ -45,6 +45,7 @@ class MyDocument extends Document {
                     />
                     <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce" ></script>
                      <script
+                        type="text/javascript"
                         dangerouslySetInnerHTML={{
                             __html: `
                             function OptanonWrapper() { }
