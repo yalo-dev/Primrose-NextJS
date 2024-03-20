@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 import Pagination from "../../app/components/molecules/Pagination/Pagination";
 import { getAllResources, getAllFilters } from '../../app/lib/resources';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     try {
         
 
@@ -22,6 +22,7 @@ export async function getServerSideProps() {
 
         return {
             props: {
+                seo: resourceData.data.seo,
                 resources: resourceData.data.resources.nodes,
                 featuredResources: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
                 excludedResources: resourceData.data.resourcesSettings.resourceSettings.hideTagFromSearch,

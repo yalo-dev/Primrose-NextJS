@@ -20,6 +20,9 @@ export async function getServerSideProps(context) {
           id
           slug
           uri
+          seo {
+            fullHead
+          }
           schoolAdminSettings {
             instagramLink
             yelpLink

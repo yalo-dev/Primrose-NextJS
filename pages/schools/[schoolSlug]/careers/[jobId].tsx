@@ -14,6 +14,9 @@ const GET_SCHOOL_DETAILS = gql`
       slug
       uri
       title
+      seo {
+        fullHead
+      }
       schoolCorporateSettings {
         careerplugSchoolId
         address {

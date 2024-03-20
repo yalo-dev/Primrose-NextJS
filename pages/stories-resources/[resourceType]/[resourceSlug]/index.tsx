@@ -1,3 +1,4 @@
+import {client} from '../../../../app/lib/apollo';
 import { useQuery, gql } from '@apollo/client';
 import BackgroundColorComponent from "../../../../app/components/filters/BackgroundColorComponent";
 import Heading from "../../../../app/components/atoms/Heading/Heading";
@@ -10,6 +11,7 @@ import Button from "../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
 import Image from 'next/image';
 import defaultCTAImage from '../../../../public/assets/Find_A_School_cta.jpg'
+import { getAllResources } from '../../../../app/lib/pages';
 
 
 interface ResourceType {
@@ -27,10 +29,200 @@ interface Resource {
 		nodes: ResourceTagType[];
 	};
 }
+export async function getStaticProps({params}) {
+	const {resourceSlug} = params;
+	const GET_SINGLE_RESOURCE = gql`
+	query GetSingleResource($id: ID!) {
+		resource(id: $id, idType: URI) {
+			seo{
+				fullHead
+			}
+		  author {
+			node {
+			  name
+			}
+		  }
+		  featuredImage {
+			node {
+			  sourceUrl
+			  altText
+			}
+		  }
+		  title
+		  date
+		  resourceTypes {
+			nodes {
+			  name
+			  slug
+			}
+		  }
+		  resourceTags {
+			nodes {
+			  name
+			  slug
+			}
+		  }
+		  resourceFields {
+			displayAuthor
+			authorName
+			backgroundColor
+			content
+			relatedArticles {
+			  ... on Resource {
+				id
+				date
+				featuredImage {
+				  node {
+					sourceUrl
+					altText
+				  }
+				}
+				title
+				slug
+				uri
+				resourceTags {
+				  nodes {
+					name
+					slug
+				  }
+				}
+				resourceTypes {
+				  nodes {
+					name
+					slug
+				  }
+				}
+			  }
+			}
+			newsletterFormCta {
+			  heading
+			  subheading
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			}
+			seasonalBanner {
+			  heading
+			  subheading
+			  button {
+				target
+				title
+				url
+			  }
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			  accentThree {
+				sourceUrl
+			  }
+			}
+		  }
+		}
+		resourcesSettings {
+			resourceSettings {
+			  featuredResources {
+				... on Resource {
+				  id
+				  title
+				  uri
+				  slug
+				  featuredImage {
+					node {
+					  altText
+					  sourceUrl
+					}
+				  }
+				  excerpt
+				  date
+				  resourceFields {
+					content
+					displayAuthor
+					authorName
+					fieldGroupName
+					backgroundColor
+				  }
+				  resourceTags {
+					nodes {
+					  slug
+					  link
+					  uri
+					  name
+					}
+				  }
+				  resourceTypes {
+					nodes {
+					  slug
+					  uri
+					  name
+					  link
+					}
+				  }
+				}
+			  }
+			}
+		  }
+	  }
+	`;
+	try {
+        const response = await client.query({
+            query: GET_SINGLE_RESOURCE,
+            variables: {id: `${resourceSlug}`},
+            errorPolicy: "all"
+        });
 
+
+        const resource = response?.data?.resource;
+        if (!resource) {
+            return {notFound: true};
+        }
+
+        return {
+            props: {
+                resourceSlug,
+                resource,
+            },
+        };
+    } catch (error) {
+        console.error('getServerSideProps Error:', error);
+        return {props: {hasError: true}};
+    }
+  }
+
+  
+  export async function getStaticPaths() {
+	const resources = await getAllResources();
+	const dynamicPages = resources.filter(
+		(el) => el?.node.uri.length > 1 && el?.node.resourceTypes.edges.length>0
+	  );
+	  const paths = dynamicPages.map((resource) => {
+			
+			//console.log(resource.node.uri);
+		return {
+			params: {
+				resourceSlug: resource.node.slug,
+				resourceType: "",
+				uri: resource.node.uri
+			},
+		};
+	  });
+
+	return {
+	  paths,
+	  fallback: 'blocking'
+	};
+  }
 const GET_SINGLE_RESOURCE = gql`
 query GetSingleResource($id: ID!) {
 	resource(id: $id, idType: URI) {
+		seo{
+			fullHead
+		}
 	  author {
 		node {
 		  name
@@ -170,20 +362,19 @@ const calculateReadingTime = (text) => {
 	return `${minutes} min read`;
 };
 
-export default function ResourceComponent() {
+export default function ResourceComponent({resource, resourceSlug, resourceType}) {
 
 	const router = useRouter()
-	const { resource: resourceSlug } = router.query
 	const resourceSlugProper: string | undefined = typeof resourceSlug === 'string' ? resourceSlug : resourceSlug?.length[0] // make sure resourceSlug is string | undefined
 	const { loading, error, data, refetch } = useQuery(GET_SINGLE_RESOURCE, {
 		variables: { id: resourceSlug },
 	});
-
+	console.log('resourceType');
+	console.log(resourceType)
 	const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
 	if (loading) return <div></div>;
 	if (error) return <div>Error: {error.message}</div>;
-	const resource = data?.resource;
 
 	if (!resource) return <div>No Resource Found</div>;
 

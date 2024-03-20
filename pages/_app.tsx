@@ -8,13 +8,15 @@ import { gql } from '@apollo/client';
 import Head from "next/head";
 import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
+import parse from "html-react-parser";
+
 
 const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
 
 export const SliderSpeed = createContext(null);
 
 function MyApp({ Component, pageProps }) {
-
+	//console.log(pageProps);
 	const [headerMenuItems, setHeaderMenuItems] = useState([]);
 	const [footerMenuItems, setFooterMenuItems] = useState([]);
 	const [siteSettings, setSiteSettings] = useState(null);
@@ -137,10 +139,30 @@ function MyApp({ Component, pageProps }) {
 		fetchMenuItems();
 	}, []);
 
+	let seo = null;
+	if(pageProps.page){
+		seo = parse(pageProps.page.data.page.seo.fullHead);
+	}else if(pageProps.school){
+		if(pageProps.data?.classroom.seo){
+			seo = parse(pageProps.data.classroom.seo.fullHead);
+		}
+		else if(pageProps.school.seo){
+			seo = parse(pageProps.school.seo.fullHead);
+		}
+		
+	}else if(pageProps.seo){
+		seo = parse(pageProps.seo.contentTypes.resource.archive.fullHead);
+	}else if(pageProps.resources?.resourceType?.seo){
+		seo = parse(pageProps.resources.resourceType.seo.fullHead);
+	}else if(pageProps.resources?.resourceTag?.seo){
+		seo = parse(pageProps.resources.resourceTag.seo.fullHead);
+	}
 	return (
 		<ApolloProvider client={client}>
 			<Head>
+				
 				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+				{seo}
 			</Head>
 			<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
 				<Layout
