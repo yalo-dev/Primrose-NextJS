@@ -925,6 +925,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
             {getSortedSchools(schools).map((school, index) => (
               <Marker
                 key={index}
+                options={{optimized: false}}
                 position={school.coordinates}
                 icon={{
                   url: `data:image/svg+xml,${encodeURIComponent(svgIcon(school.index, '#5E6738', school.id === hoveredSchoolId))}`,
