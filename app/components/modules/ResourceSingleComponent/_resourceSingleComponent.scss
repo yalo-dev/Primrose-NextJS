@@ -54,6 +54,7 @@
                 object-fit: cover;
                 object-position: center;
                 @include media-breakpoint-up(lg) {
+                    min-height:30rem;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 50%;
                     border-top-right-radius: 50%;

@@ -44,6 +44,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                             <div className='two-columns-image-and-text-alternative'>
                                 <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     <Image
+                                        priority
                                         src='/schoolsHomeDefault/classrooms%20and%20programs.jpg'
                                         alt='child in daycare classroom'
                                         width={500}
@@ -75,6 +76,7 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
                                 <div className='two-columns-image-and-text-alternative reverse-column'>
                                   <div className='left-column col-12 col-lg-5 offset-lg-1'>
                                     {whichStaffImage?.sourceUrl && <Image
+                                        priority
                                       src={whichStaffImage?.sourceUrl}
                                       alt={whichStaffImage?.altText}
                                       width={500}

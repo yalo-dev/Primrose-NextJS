@@ -140,6 +140,8 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	let seo = null;
+	console.log("page props");
+	console.log(pageProps);
 	if(pageProps.page){
 		seo = parse(pageProps.page.data.page.seo.fullHead);
 	}else if(pageProps.school){
@@ -149,13 +151,14 @@ function MyApp({ Component, pageProps }) {
 		else if(pageProps.school.seo){
 			seo = parse(pageProps.school.seo.fullHead);
 		}
-		
 	}else if(pageProps.seo){
 		seo = parse(pageProps.seo.contentTypes.resource.archive.fullHead);
 	}else if(pageProps.resources?.resourceType?.seo){
 		seo = parse(pageProps.resources.resourceType.seo.fullHead);
 	}else if(pageProps.resources?.resourceTag?.seo){
 		seo = parse(pageProps.resources.resourceTag.seo.fullHead);
+	}else if(pageProps.resource?.seo){
+		seo = parse(pageProps.resource.seo.fullHead);
 	}
 	return (
 		<ApolloProvider client={client}>

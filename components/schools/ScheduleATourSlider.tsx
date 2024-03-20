@@ -46,11 +46,11 @@ export default function ScheduleATourSlider({images, schoolSlug, usesCalendly }:
                 <div className='right-column col-4 col-lg-5 col-xxl-6'>
                     <div className="image-scroller first" ref={scrollRef}>
                         {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <Image width={720} height={720} key={idx} src={imgObj.url}
+                            imgObj.url && <Image  priority width={720} height={720} key={idx} src={imgObj.url}
                                                            alt={imgObj.altText || `slider image ${idx}`}/>
                         ))}
                         {scheduleATourImages.map((imgObj, idx) => (
-                            imgObj.url && <Image width={720} height={720} key={`dup-${idx}`} src={imgObj.url}
+                            imgObj.url && <Image priority width={720} height={720} key={`dup-${idx}`} src={imgObj.url}
                                                            alt={imgObj.altText || `slider image ${idx} (copy)`}/>
                         ))}
                     </div>

@@ -83,6 +83,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                                     {images.map((imgObj, idx) => (
                                         imgObj.image?.sourceUrl && (
                                             <Image 
+                                                priority
                                                 key={idx} 
                                                 src={imgObj.image.sourceUrl} 
                                                 alt={imgObj.image.altText} 
@@ -95,6 +96,7 @@ const FindASchool: React.FC<FindASchoolProps> = ({ heading, headingColor, subhea
                                     {images.map((imgObj, idx) => ( // Duplicating for infinite scroll illusion
                                         imgObj.image?.sourceUrl && (
                                             <Image 
+                                                priority
                                                 key={`dup-${idx}`} 
                                                 src={imgObj.image.sourceUrl} 
                                                 alt={imgObj.image.altText} 
