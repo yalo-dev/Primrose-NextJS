@@ -45,6 +45,9 @@ export async function getStaticProps({params}) {
         getResourcesByType(resourceType),
         getAllFilters()
       ]);
+
+      if (!resourceData?.data?.resourceType) return {notFound: true}
+
       return {
           props: {
               slug: resourceType,

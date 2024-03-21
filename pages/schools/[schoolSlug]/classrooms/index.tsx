@@ -138,7 +138,7 @@ query SchoolData($id: ID!) {
         meetStaffImage{
           mediaItemUrl
         }
-        testimonials {
+        assignedTestimonials {
           ... on Testimonial {
             id
             featuredImage {
@@ -405,13 +405,15 @@ export default function ClassroomPage() {
         .map((imgObj) => ({url: imgObj?.image?.sourceUrl, altText: imgObj?.image?.altText}))
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
     const school = data?.school
+    const ofAtOn = school?.schoolCorporateSettings?.schoolOfAtOn ?? 'of'
+    const schoolName = "Primrose School " + ofAtOn + " " + school?.title
     const schoolCity = school?.schoolCorporateSettings?.address?.city
 
     return (
         <>
             <Head>
-                <title>Daycare and Preschool Programs | {school?.title}</title>
-                <meta name={"description"} content={`${school?.title} is nationally recognized daycare provider located in the ${schoolCity} area that offers infant, toddler, preschool and pre-kindergarten programs.`} />
+                <title>Daycare and Preschool Programs | {schoolName}</title>
+                <meta name={"description"} content={`${schoolName} is nationally recognized daycare provider located in the ${schoolCity} area that offers infant, toddler, preschool and pre-kindergarten programs.`} />
             </Head>
             <div className="school classrooms">
                 <div className="container jumbo">
