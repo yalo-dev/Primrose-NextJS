@@ -104,7 +104,6 @@ const SearchPage: React.FC = () => {
         if (typeof query === 'string') {
             let place_geocode = geocodeSearchTerm(query);
             setSearchTerm(query);
-            console.log(place_geocode);
             fetchSearchResults(query);
             setSearchPerformed(true);
         } else if (router.query.query === 'string') {
@@ -113,8 +112,6 @@ const SearchPage: React.FC = () => {
             fetchSearchResults(router.query.query);
             setSearchPerformed(true);
         }
-        console.log("loading");
-        console.log(loading);
         
     }, [isLoaded]);
 
@@ -239,7 +236,7 @@ const SearchPage: React.FC = () => {
         }, 1000);
         try {
             const baseUrls = [
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&search=${encodeURIComponent(searchTerm)}&orderby=relevance&per_page=100&page=1`,
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&search=${encodeURIComponent(searchTerm.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''))}&orderby=relevance&per_page=100&page=1`,
             ];
 
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
@@ -282,7 +279,10 @@ const SearchPage: React.FC = () => {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        setSearchTerm(e.target.value);
+        const value = e.target.value;
+
+        setSearchTerm(value);
+        
         if (searchTerm) {
             geocodeSearchTerm(searchTerm);
             fetchSearchResults(searchTerm);
