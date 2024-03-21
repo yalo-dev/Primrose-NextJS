@@ -195,7 +195,7 @@ class MyDocument extends Document {
                                     trafficSources.medium.length === 0 ? "None" : trafficSources.medium;
                                 var campaign =
                                     trafficSources.campaign.length === 0
-                                        ? "direct"
+                                        ? ""
                                         : trafficSources.campaign;
                                 if (medium === "referral") {
                                     campaign = "";

@@ -31,10 +31,11 @@ const DynamicRadioButtons = ({ skipURL, options, onSelect }) => {
                     style={{
                         color: "#5E6738",
                         fontSize: "16px",
-                        fontWeight: "600",
+                        fontWeight: "400",
+                        textDecoration: "underline",
                         fontFamily: "\"Poppins\", \"Helvetica Neue\", Helvetica, sans-serif"
                     }}
-                    href={skipURL}>Skip</Link>
+                    href={skipURL}>Or skip this step and we'll follow up with you to schedule soon. Skip {'>'}</Link>
             </div>
         </div>
     );
