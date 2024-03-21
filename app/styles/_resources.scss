@@ -1,6 +1,6 @@
 .resources-container {
     @include media-breakpoint-up(lg) {
-        margin-top: 7.5rem;
+        padding-top: 3rem;
     }
     .title-and-search-container {
         @include media-breakpoint-up(lg) {
