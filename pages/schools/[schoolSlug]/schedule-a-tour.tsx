@@ -120,9 +120,6 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     const [isCalendlySelected, setCalendlySelected] = useState('false')
     const tourThanksSlug = '/schools/' + schoolSlug + '/tour-thanks/'
 
-    // let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
-
-    console.log(isCalendlySelected)
 
     useEffect(() => {
         let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
@@ -140,7 +137,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                 }
             }
         });
-    });
+    }, []);
 
     const handleCalendlySelect = (value) => {
         let firstNameField = document.getElementById('field_1') as HTMLInputElement
@@ -154,7 +151,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
         let calendlyPhone = phoneField != null ? phoneField.value : '';
         let calendlyName = encodeURIComponent((firstName + ' ' + lastName).trim());
 
-        let prefillParams = '?name=' + calendlyName + '&email=' + calendlyEmail;
+        let prefillParams = '?embed_domain=temp.primroseschools.com&embed_type=Inline&hide_gdpr_banner=1&name=' + calendlyName + '&email=' + calendlyEmail;
 
         if (value == 'In-Person Tour') {
             setCalendlyEvent(calendlyURLs.inPersonTour + prefillParams);
@@ -191,7 +188,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                                 (schedulerEvent != '') && (
                                 <div id={'SAT-Calendly-Div'} className='calendly-widget hidden'>
                                     <DynamicRadioButtons skipURL={tourThanksSlug} options={schedulerEvent} onSelect={handleCalendlySelect}/>
-                                    <CalendlyEmbed url={calendlyEvent} />
+                                    <CalendlyEmbed url={calendlyEvent} successUrl={tourThanksSlug} />
                                 </div>
                             )}
                         </div>

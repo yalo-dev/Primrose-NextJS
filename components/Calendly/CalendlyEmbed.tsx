@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import {useRouter} from "next/navigation";
 
-const CalendlyEmbed = ({ url }) => {
+const CalendlyEmbed = ({ url, successUrl }) => {
 
     const [dynamicURL, setDynamicURL] = useState(url)
+    const router = useRouter();
 
     useEffect(() => {
         const head = document.querySelector("head");
@@ -18,8 +20,6 @@ const CalendlyEmbed = ({ url }) => {
         }
         setDynamicURL(url)
     }, [url, dynamicURL]);
-
-    console.log(dynamicURL)
 
     return (
         <div
