@@ -349,6 +349,8 @@ export default function Location({ locationData }){
 
 
     const locationData =  await client.query({query: GET_LOCATION}) ;
+
+    if (!locationData?.data?.market) return {notFound: true}
     
     return {
       props: {
