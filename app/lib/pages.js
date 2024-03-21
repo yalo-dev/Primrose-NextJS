@@ -698,6 +698,8 @@ query GetModules($id: ID = "") {
 			  topPaddingMobile
 			}
 			leftColumn {
+				eyebrow
+				eyebrowColor
 			  heading
 			  headingColor
 			  subheading
