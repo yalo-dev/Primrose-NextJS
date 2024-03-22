@@ -571,6 +571,9 @@
 }
 
 .thank-you {
+
+
+
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -656,6 +659,17 @@
     }
 
     .thank {
+
+        @include media-breakpoint-only(xs) {
+            .left-column {
+                order: 2;
+            }
+            .right-column {
+                order: 1;
+                margin: 0 0 20px 20px;
+            }
+        }
+
         .left-column img {
             @include media-breakpoint-up(lg) {
                 object-fit: contain;
