@@ -168,7 +168,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                 } else if (childAge >= 1 && childAge < 3) {
                     childObj['group'] = 'Toddler'
                 } else if (childAge >= 3 && childAge < 5) {
-                    childObj['group'] = 'PreK/Kindergarten'
+                    childObj['group'] = 'PreSchool/PreK'
                 } else if (childAge >= 5) {
                     childObj['group'] = 'Kindergarten/Explorer'
                 } else {
@@ -231,17 +231,17 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
             <script id="email">{satEmail}</script>
             <script id="numChildren">{satNumChildren}</script>
             <script id="child_1_age">{child1AgeGroup['age']}</script>
-            <script id="child_1_group">{child1AgeGroup['group']}</script>
+            <script id="child_1_group" className="child-groups">{child1AgeGroup['group']}</script>
             <script id="child_2_age">{child2AgeGroup['age']}</script>
-            <script id="child_2_group">{child2AgeGroup['group']}</script>
+            <script id="child_2_group" className="child-groups">{child2AgeGroup['group']}</script>
             <script id="child_3_age">{child3AgeGroup['age']}</script>
-            <script id="child_3_group">{child3AgeGroup['group']}</script>
+            <script id="child_3_group" className="child-groups">{child3AgeGroup['group']}</script>
             <script id="child_4_age">{child4AgeGroup['age']}</script>
-            <script id="child_4_group">{child4AgeGroup['group']}</script>
+            <script id="child_4_group" className="child-groups">{child4AgeGroup['group']}</script>
             <script id="child_5_age">{child5AgeGroup['age']}</script>
-            <script id="child_5_group">{child5AgeGroup['group']}</script>
+            <script id="child_5_group" className="child-groups">{child5AgeGroup['group']}</script>
             <script id="child_6_age">{child6AgeGroup['age']}</script>
-            <script id="child_6_group">{child6AgeGroup['group']}</script>
+            <script id="child_6_group" className="child-groups">{child6AgeGroup['group']}</script>
             <div className='container staff'>
                  {/* Thank You Section */}
                 

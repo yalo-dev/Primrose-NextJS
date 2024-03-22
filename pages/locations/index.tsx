@@ -9,6 +9,7 @@ import bootstrap from 'bootstrap';
 import Script from 'next/script';
 import { Http2ServerResponse } from 'http2';
 import $ from 'jquery';
+import type {Metadata, ResolvingMetadata} from 'next';
 
 const slugify = require('slugify');
 
@@ -16,6 +17,7 @@ export async function getStaticProps() {
     try {
         const SCHOOLS_QUERY = gql`
         query GetSchools {
+            
             schools(first: 1000, where: {orderby: {field: TITLE, order: ASC}}) {
                 nodes {
                   markets {
@@ -41,6 +43,15 @@ export async function getStaticProps() {
 
         const MARKETS_QUERY = gql`
         query GetMarketsTerms {
+            siteSettings {
+                siteSettings{
+                    allLocationsSeo {
+                        title
+                        fieldGroupName
+                        description
+                    }
+                }
+              }
             markets(first: 500) {
                 nodes {
                   markets {
@@ -58,8 +69,10 @@ export async function getStaticProps() {
             client.query({ query: MARKETS_QUERY })
         ]);
 
+
         return {
             props: {
+                locationsSeo: marketsData.data.siteSettings.siteSettings.allLocationsSeo,
                 markets: marketsData.data.markets.nodes,
                 schools: schoolsData.data.schools.nodes
             },
@@ -73,7 +86,7 @@ export async function getStaticProps() {
     }
 }
 
-export default function Locations({ markets, schools }) {
+export default function Locations({ locationsSeo, markets, schools }) {
     const handleStateFilter = (state: string) => {
         if (typeof state !== 'string' || state.trim() === '') {
             console.error('Invalid state value:', state);
