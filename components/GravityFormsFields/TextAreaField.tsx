@@ -41,7 +41,7 @@ export default function TextAreaField({ field, fieldErrors }: Props) {
   const { state, dispatch } = useGravityForm();
   const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as StringFieldValue | undefined;
   const value = fieldValue?.value || DEFAULT_VALUE;
-  const fieldRef = useRef<HTMLInputElement>(null);
+  const fieldRef = useRef<HTMLTextAreaElement>(null);
 
   let setDisabled = false;
 
@@ -63,10 +63,9 @@ export default function TextAreaField({ field, fieldErrors }: Props) {
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
       <label htmlFor={htmlId}>{label}</label>
-      <input
+      <textarea
         ref={fieldRef}
-        disabled={setDisabled} 
-        type="text"
+        disabled={setDisabled}
         name={String(id)}
         id={htmlId}
         required={Boolean(isRequired)}

@@ -707,7 +707,8 @@
         div[hidden]#gfield_1,
         div[hidden]#gfield_3,
         div[hidden]#gfield_6,
-        div[hidden]#gfield_11
+        div[hidden]#gfield_11,
+        div[hidden]#gfield_60
         {
             display: flex !important;
         }
@@ -947,6 +948,7 @@
                 &#gfield_7,
                 &#gfield_18,
                 &#gfield_11,
+                &#gfield_60,
                 &#gfield_23_23,
                 &#gfield_13_13,
                 &#gfield_24,
@@ -955,6 +957,10 @@
                 &#gfield_36 {
                     width: 100%;
                     //margin-top: 20px;
+                }
+
+                &#gfield_60 textarea#field_60 {
+                    height: 15rem;
                 }
 
                 &#gfield_6 {
