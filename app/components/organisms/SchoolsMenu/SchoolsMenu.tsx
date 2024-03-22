@@ -267,7 +267,7 @@ export default function SchoolsMenu() {
         </div>
       </div>
       {/* <div className={`${isActive(`/schools/${slug}/classrooms`) ? 'classroom-margin d-block d-lg-none' : ''}`}></div> */}
-      <div className="classroom-margin d-block d-lg-none"></div>
+      {/* <div className="classroom-margin d-block d-lg-none"></div> */}
       {selectedClassrooms.length > 0 && (
         <div className={`${(
             isActive(`/schools/${slug}/classrooms`) || isActive(`/schools/${slug}/classrooms/infant`) || isActive(`/schools/${slug}/classrooms/toddler`) || isActive(`/schools/${slug}/classrooms/early-preschool`) || isActive(`/schools/${slug}/classrooms/preschool`) || isActive(`/schools/${slug}/classrooms/preschool-pathways`) || isActive(`/schools/${slug}/classrooms/pre-kindergarten`) || isActive(`/schools/${slug}/classrooms/kindergarten`) || isActive(`/schools/${slug}/classrooms/before-and-after-school`) || isActive(`/schools/${slug}/classrooms/summer-adventure-club`)
