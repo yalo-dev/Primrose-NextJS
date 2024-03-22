@@ -23,10 +23,30 @@ const CalendlyEmbed = ({ url, successUrl }) => {
 
     return (
         <div
+            id="calendly-iframe"
             className="calendly-inline-widget"
-            data-url={dynamicURL}
-            style={{ minWidth: "350px", height: "800px", width: "1000px", marginLeft: "-50px" }}
-        ></div>
+            style={{ minWidth: "280px", marginBottom: "20px" }}
+        >
+            <iframe
+                src={dynamicURL}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                title="Select a Date &amp; Time - Calendly"
+                onLoad={ () => {
+                    console.log("iframe height", self.innerHeight)
+                    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                        // true for mobile device
+                        console.log("mobile device");
+                        document.getElementById('calendly-iframe').style.height = "1250px";
+                    }else{
+                        // false for not mobile device
+                        console.log("not mobile device");
+                        document.getElementById('calendly-iframe').style.height = self.innerHeight + "px";
+                    }
+                }}
+            />
+        </div>
     );
 };
 

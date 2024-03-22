@@ -54,7 +54,7 @@ export default function RadioField({ field, fieldErrors, hiddenFields }: Props) 
 
   const introductionCallOnly = 'Would you like to schedule your introduction call now?';
   const inPersonOrVirtualTourOnly = 'Would you like to schedule your tour now?';
-  const introductionCallAndTours = 'Would you like to schedule your tour or introduction call now?';
+  const introductionCallAndTours = 'Would you like to schedule your introduction call or tour now?';
 
   useEffect(()=>{
     dispatch({

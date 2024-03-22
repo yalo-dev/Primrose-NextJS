@@ -1213,6 +1213,16 @@ query GetModules($id: ID = "") {
 			  outerBackgroundColor
 			}
 		  }
+		  ... on Page_Modules_Modules_SearchJobs {
+			moduleId
+			customizations {
+			  bottomPaddingDesktop
+			  bottomPaddingMobile
+			  topPaddingDesktop
+			  topPaddingMobile
+			  outerBackgroundColor
+			}
+		  }
 		}
 	  }
 	}

@@ -41,7 +41,7 @@ const FindASchool = () =>{
     if(router.query){
       console.log('running search');
       if(router.query.latitude && router.query.longitude){
-        setCenter({lat: Number(router.query.latitude), lng: Number(router.query.longitude)})
+        setCenter({latitude: Number(router.query.latitude), longitude: Number(router.query.longitude)})
       }
       geocodeSearchTerm(router.query.search_string as string).then(()=>{
         console.log(place);

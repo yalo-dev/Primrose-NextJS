@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import JobTile from '../../../../app/components/organisms/JobTile/JobTile';
 import Button from '../../../../app/components/atoms/Button/Button';
 import Head from "next/head";
+import Script from "next/script";
 
 interface Job {
     id: number;
@@ -168,14 +169,14 @@ export default function SchoolCareerPage({ school }) {
                         ? careerplugIframeUrl && (
                             <section className="careerplug-section">
                                 <iframe
-                                    id={'cpatsframe'}
+                                    id='cpatsframe'
                                     src={`https://${careerplugIframeUrl}/?embed=1`}
                                     title="Current Openings"
                                     width="100%"
-                                    height="250"
+                                    height="600px"
                                     style={{ border: 'none', position: 'relative'}}
                                 />
-                                <script type="text/javascript" src="https://cpats.s3.amazonaws.com/assets/embed.js"></script>
+                                <Script src={"https://cpats.s3.amazonaws.com/assets/embed.js"} />
                             </section>
                         ) : (
                             <div className='job-tile-wrapper pt-5 pb-5'>
