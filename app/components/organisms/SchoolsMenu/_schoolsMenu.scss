@@ -326,7 +326,7 @@
         margin-top: 10px;
         
         &.visible {
-            max-height: 460px;
+            max-height: 100%;
         }
 
         @include media-breakpoint-up(lg) {
