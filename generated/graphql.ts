@@ -10492,6 +10492,16 @@ export type Page_Modules_Modules_WysiwygEditor_Customizations = AcfFieldGroup & 
   topPaddingDesktop?: Maybe<Scalars['String']['output']>;
   topPaddingMobile?: Maybe<Scalars['String']['output']>;
 };
+export type Page_Modules_Modules_SearchJobs_Customizations = AcfFieldGroup & {
+  __typename?: 'Page_Modules_Modules_SearchJobs_Customizations';
+  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
+  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  outerBackgroundColor?: Maybe<Scalars['String']['output']>;
+  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
+  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+};
 
 /** A Gravity Forms password field. */
 export type PasswordField = FormField & GfFieldWithAdminLabelSetting & GfFieldWithConditionalLogicSetting & GfFieldWithCssClassSetting & GfFieldWithDescriptionSetting & GfFieldWithErrorMessageSetting & GfFieldWithInputs & GfFieldWithLabelPlacementSetting & GfFieldWithLabelSetting & GfFieldWithPasswordSetting & GfFieldWithPasswordStrengthSetting & GfFieldWithPasswordVisibilitySetting & GfFieldWithPersonalData & GfFieldWithRulesSetting & GfFieldWithSizeSetting & GfFieldWithSubLabelPlacementSetting & {
@@ -14353,7 +14363,7 @@ export type Post_Modules = AcfFieldGroup & {
   modules?: Maybe<Array<Maybe<Post_Modules_Modules>>>;
 };
 
-export type Post_Modules_Modules = Post_Modules_Modules_ClassroomSelectAndContent | Post_Modules_Modules_ClassroomSelectAndImage | Post_Modules_Modules_DynamicForm | Post_Modules_Modules_EyebrowHeadingSubheading | Post_Modules_Modules_FeaturedSection | Post_Modules_Modules_FindASchool | Post_Modules_Modules_FourAcrossSlider | Post_Modules_Modules_GeneralButtonCta | Post_Modules_Modules_GeneralHorizontalTabs | Post_Modules_Modules_GeneralVerticalTabs | Post_Modules_Modules_HeroWithImage | Post_Modules_Modules_HeroWithVideo | Post_Modules_Modules_NewsletterFormCta | Post_Modules_Modules_PathwayToOwnership | Post_Modules_Modules_PrimroseFriends | Post_Modules_Modules_Q1Skills | Post_Modules_Modules_QuoteTestimonials | Post_Modules_Modules_SeasonalBanner | Post_Modules_Modules_StandardAccordionList | Post_Modules_Modules_TestimonialsWithVideoOrImage | Post_Modules_Modules_TwoColumnsFeaturedImage | Post_Modules_Modules_TwoColumnsGreenBackground | Post_Modules_Modules_TwoColumnsImageAndText | Post_Modules_Modules_TwoColumnsImageAndTextAlternative | Post_Modules_Modules_WysiwygEditor;
+export type Post_Modules_Modules = Post_Modules_Modules_ClassroomSelectAndContent | Post_Modules_Modules_ClassroomSelectAndImage | Post_Modules_Modules_DynamicForm | Post_Modules_Modules_EyebrowHeadingSubheading | Post_Modules_Modules_FeaturedSection | Post_Modules_Modules_FindASchool | Post_Modules_Modules_FourAcrossSlider | Post_Modules_Modules_GeneralButtonCta | Post_Modules_Modules_GeneralHorizontalTabs | Post_Modules_Modules_GeneralVerticalTabs | Post_Modules_Modules_HeroWithImage | Post_Modules_Modules_HeroWithVideo | Post_Modules_Modules_NewsletterFormCta | Post_Modules_Modules_PathwayToOwnership | Post_Modules_Modules_PrimroseFriends | Post_Modules_Modules_Q1Skills | Post_Modules_Modules_QuoteTestimonials | Post_Modules_Modules_SeasonalBanner | Post_Modules_Modules_StandardAccordionList | Post_Modules_Modules_TestimonialsWithVideoOrImage | Post_Modules_Modules_TwoColumnsFeaturedImage | Post_Modules_Modules_TwoColumnsGreenBackground | Post_Modules_Modules_TwoColumnsImageAndText | Post_Modules_Modules_TwoColumnsImageAndTextAlternative | Post_Modules_Modules_WysiwygEditor | Post_Modules_Modules_SearchJobs;
 
 /** Group within the flex field */
 export type Post_Modules_Modules_ClassroomSelectAndContent = AcfFieldGroup & {
@@ -15499,9 +15509,28 @@ export type Post_Modules_Modules_WysiwygEditor = AcfFieldGroup & {
   fieldGroupName?: Maybe<Scalars['String']['output']>;
 };
 
+export type Post_Modules_Modules_SearchJobs = AcfFieldGroup & {
+  __typename?: 'Post_Modules_Modules_SearchJobs';
+  acfeFlexibleToggle?: Maybe<Scalars['String']['output']>;
+  customizations?: Maybe<Post_Modules_Modules_SearchJobs_Customizations>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+};
+
 /** Field Group */
 export type Post_Modules_Modules_WysiwygEditor_Customizations = AcfFieldGroup & {
   __typename?: 'Post_Modules_Modules_WysiwygEditor_Customizations';
+  bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
+  bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  outerBackgroundColor?: Maybe<Scalars['String']['output']>;
+  topPaddingDesktop?: Maybe<Scalars['String']['output']>;
+  topPaddingMobile?: Maybe<Scalars['String']['output']>;
+};
+
+export type Post_Modules_Modules_SearchJobs_Customizations = AcfFieldGroup & {
+  __typename?: 'Post_Modules_Modules_SearchJobs_Customizations';
   bottomPaddingDesktop?: Maybe<Scalars['String']['output']>;
   bottomPaddingMobile?: Maybe<Scalars['String']['output']>;
   /** The name of the ACF Field Group */

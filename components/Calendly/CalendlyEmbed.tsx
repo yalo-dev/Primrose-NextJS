@@ -23,10 +23,21 @@ const CalendlyEmbed = ({ url, successUrl }) => {
 
     return (
         <div
+            id="calendly-iframe"
             className="calendly-inline-widget"
-            data-url={dynamicURL}
-            style={{ minWidth: "350px", height: "800px", width: "1000px", marginLeft: "-50px" }}
-        ></div>
+            style={{ minWidth: "280px" }}
+        >
+            <iframe
+                src={dynamicURL}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                title="Select a Date &amp; Time - Calendly"
+                onLoad={ () => {
+                    document.getElementById('calendly-iframe').style.height = self.innerHeight + "px";
+                }}
+            />
+        </div>
     );
 };
 

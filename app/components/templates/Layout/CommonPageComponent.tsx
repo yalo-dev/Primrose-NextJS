@@ -34,6 +34,7 @@ import TwoColumnsGreenBackground from '../../modules/TwoColumnsGreenBackground/T
 import TwoColumnsImageAndTextAlternative from '../../modules/TwoColumnsImageAndTextAlternative/TwoColumnsImageAndTextAlternative';
 import TwoColumnsImageAndText from '../../modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 import WysiwygEditor from '../../modules/WysiwygEditor/WysiwygEditor';
+import SearchJobs from '../../modules/SearchJobs/SearchJobs';
 
 export const CommonPageComponent = ({ modules }) => {
     
@@ -126,6 +127,9 @@ export const CommonPageComponent = ({ modules }) => {
                 case 'Page_Modules_Modules_LeadershipModule':
                         ModuleComponent = LeadershipModule;
                         break;
+                case 'Page_Modules_Modules_SearchJobs':
+                    ModuleComponent = SearchJobs;
+                    break;
                 case 'Page_Modules_Modules_StandardAccordionList':
                     ModuleComponent = StandardAccordionList;
                     break;

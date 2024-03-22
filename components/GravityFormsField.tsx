@@ -7,6 +7,7 @@ import RadioField from "./GravityFormsFields/RadioField";
 import TextField from "./GravityFormsFields/TextField";
 import SelectField from "./GravityFormsFields/SelectField";
 import HiddenField from "./GravityFormsFields/HiddenField";
+import TextAreaField from "./GravityFormsFields/TextAreaField";
 
 interface Props {
   field: FormField;
@@ -28,6 +29,8 @@ export default function GravityFormsField({ field, fieldErrors, hiddenFields }: 
       return <SelectField field={field} fieldErrors={fieldErrors} />;
     case "TEXT":
       return <TextField field={field} fieldErrors={fieldErrors} />;
+    case "TEXTAREA":
+      return <TextAreaField field={field} fieldErrors={fieldErrors} />;
     case "HIDDEN":
       return <HiddenField field={field} hiddenFields={hiddenFields} />
     default:
