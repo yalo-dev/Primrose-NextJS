@@ -33,7 +33,7 @@ export async function getAllLocations(){
 }
 
 export default function Location({ locationData }){
-  console.log(locationData);
+  //console.log(locationData);
     const market = locationData.data.market;
     const siteSettings = locationData.data.siteSettings.siteSettings
     const router = useRouter();
@@ -205,6 +205,10 @@ export default function Location({ locationData }){
                   }
                 }
                 marketSettings {
+                  seo {
+                    description
+                    title
+                  }
                   marketCareersPageHeadline
                   heroImage {
                     mediaItemUrl
@@ -346,6 +350,7 @@ export default function Location({ locationData }){
     return {
       props: {
         locationData: locationData,
+        locationsSeo: locationData.data.market.marketSettings.seo,
       },
     };
   }

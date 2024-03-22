@@ -140,8 +140,6 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	let seo = null;
-	console.log("page props");
-	console.log(pageProps);
 	if(pageProps.page){
 		seo = parse(pageProps.page.data.page.seo.fullHead);
 	}else if(pageProps.school){
@@ -159,6 +157,12 @@ function MyApp({ Component, pageProps }) {
 		seo = parse(pageProps.resources.resourceTag.seo.fullHead);
 	}else if(pageProps.resource?.seo){
 		seo = parse(pageProps.resource.seo.fullHead);
+	}else if(pageProps.locationsSeo){
+		seo = parse(
+			`<title>${pageProps.locationsSeo.title}</title>
+			<meta name="description" content="${pageProps.locationsSeo.description}" />`
+			
+		);
 	}
 	return (
 		<ApolloProvider client={client}>
