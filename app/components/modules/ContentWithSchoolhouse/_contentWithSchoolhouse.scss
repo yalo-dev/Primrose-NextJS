@@ -6,6 +6,9 @@
     border-radius: 20px;
     position: relative;
     margin-top: 2rem;
+    @include media-breakpoint-only(xs) {
+        overflow-x: clip;
+    }
     @include media-breakpoint-up(lg) {
         max-width: 60rem;
         padding-left: 8rem;
