@@ -346,11 +346,18 @@ export default function Location({ locationData }){
 
 
     const locationData =  await client.query({query: GET_LOCATION}) ;
-    
+    let seoData = {title:null, description:null};
+
+    if(!locationData.data.market?.marketSettings?.seo?.title){
+       seoData.title = `Careers - Daycare and Childcare in the ${locationData.data.market.name} Area | Primrose Schools | The Leader in Early Education and Care`;
+      seoData.description = `Our private preschools located in ${locationData.data.market.name} offer premier daycare and childcare services for families. Learn why parents choose Primrose.`
+    }else{
+      seoData = locationData.data.market.marketSettings.seo;
+    }
     return {
       props: {
         locationData: locationData,
-        locationsSeo: locationData.data.market.marketSettings.seo,
+        locationsSeo: seoData,
       },
     };
   }
