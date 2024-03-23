@@ -151,7 +151,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
         let calendlyPhone = phoneField != null ? phoneField.value : '';
         let calendlyName = encodeURIComponent((firstName + ' ' + lastName).trim());
 
-        let prefillParams = '?embed_domain=temp.primroseschools.com&embed_type=Inline&hide_gdpr_banner=1&name=' + calendlyName + '&email=' + calendlyEmail;
+        let prefillParams = '?embed_domain=www.primroseschools.com&embed_type=Inline&hide_gdpr_banner=1&name=' + calendlyName + '&email=' + calendlyEmail;
 
         if (value == 'In-Person Tour') {
             setCalendlyEvent(calendlyURLs.inPersonTour + prefillParams);

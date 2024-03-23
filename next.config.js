@@ -1,5 +1,5 @@
 async function getRedirects(){
-  const response = await fetch(`https://temp.primroseschools.com/api/redirects`);
+  const response = await fetch(`https://www.primroseschools.com/api/redirects`);
   const data = await response.json();
   let _redirects = [];
   data.seo.redirects.map((redirect, index) =>{
