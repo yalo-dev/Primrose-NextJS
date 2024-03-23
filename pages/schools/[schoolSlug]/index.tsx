@@ -191,7 +191,7 @@ export async function getStaticProps({params}) {
             errorPolicy: "all"
         });
 
-        console.log("School Data:", response.data.school);
+        //console.log("School Data:", response.data.school);
 
         const school = response?.data?.school;
         const staffImage = response?.data?.siteSettings?.siteSettings?.defaultStaffPhoto
