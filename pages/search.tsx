@@ -124,8 +124,8 @@ const SearchPage: React.FC = () => {
             geocoder.geocode({'address': searchTerm}, (results, status) => {
                 if (status === 'OK' && results && results[0]) {
                     place = results[0];
-                    console.log('is a place');
-                    console.log(place);
+                    //console.log('is a place');
+                    //console.log(place);
                     setActiveFilter('Locations');
 
                     return results[0];
@@ -227,12 +227,12 @@ const SearchPage: React.FC = () => {
     };
 
     const fetchSearchResults = async (searchTerm: string) => {
-        console.log('fetching search results');
+        //console.log('fetching search results');
         setLoading(true);
         let i = 0;
         let timer = setInterval(function () {
-            console.log('timer');
-            console.log(i);
+            //console.log('timer');
+            //console.log(i);
             i++;
         }, 1000);
         try {
@@ -272,7 +272,7 @@ const SearchPage: React.FC = () => {
             setError('Failed to load search results: ' + error.message);
         } finally {
             clearInterval(timer);
-            console.log('fully loaded');
+            //console.log('fully loaded');
             setLoading(false);
             
         }
@@ -405,7 +405,7 @@ const SearchPage: React.FC = () => {
                         );
                     }
                     const paginatedTopResults = getPaginatedResults();
-                    console.log(paginatedTopResults);
+                    //console.log(paginatedTopResults);
 
                     return (
                         <>

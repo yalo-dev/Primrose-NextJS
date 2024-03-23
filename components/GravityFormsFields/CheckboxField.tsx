@@ -47,7 +47,7 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
   const fieldRef = useRef<HTMLInputElement>(null);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log('change event');
+    //console.log('change event');
     const { name, value, checked } = event.target;
     const otherCheckboxValues = checkboxValues.filter(
       (checkboxValue: CheckboxFieldInput) => checkboxValue.inputId !== Number(name)

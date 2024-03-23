@@ -83,7 +83,7 @@ export async function getServerSideProps(context) {
   const staff = response?.data?.school?.schoolAdminSettings?.staffMembers;
   const schoolAdminSettings = response?.data?.school?.schoolAdminSettings;
   const franchiseOwner = response?.data?.school?.schoolAdminSettings?.franchiseOwner;
-  console.log(staff);
+  //console.log(staff);
   return {
     props: {
       school,

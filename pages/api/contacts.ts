@@ -31,7 +31,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if ( req.method === "GET") {
-        console.log(req)
+        //console.log(req)
         passport.initialize()
         passport.authenticate(
             new passportAzureAd.BearerStrategy(

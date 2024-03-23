@@ -52,7 +52,7 @@ export default function Footer({ menuItems, siteSettings }) {
                             </a>
                         );
                     } else {
-                        console.log(`Missing data for icon at index ${index}`);
+                        //console.log(`Missing data for icon at index ${index}`);
                         return null;
                     }
                 })}

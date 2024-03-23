@@ -69,8 +69,8 @@ interface LeadershipMember {
   }, [selectedGroup, leadershipMembers]);
   
 
-  console.log(selectedGroup);
-  console.log(leadershipMembers);
+  //console.log(selectedGroup);
+  //console.log(leadershipMembers);
 
   const handleSelectedGroup = (selectedOption) => {
     setSelectedGroup(selectedOption);

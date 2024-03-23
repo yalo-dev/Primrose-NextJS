@@ -150,7 +150,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     customizations,
   } = props;
 
-  console.log('here');
+  //console.log('here');
   const schools = cmsSchools ? cmsSchools.map(transformSchoolData) : [];
 
   const cmsMapCenter = {
@@ -200,7 +200,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     if (props.center) {
       let newCenter = { lat: (props.center.latitude), lng: (props.center.longitude) };
       setMapCenter(newCenter);
-      console.log(mapCenter);
+      //console.log(mapCenter);
     }
   }, [props.center]);
 
@@ -231,7 +231,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
     setInputFields(prevFields => [...prevFields, newWaypointField]);
 
-    console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
+    //console.log("New waypoint ref added", newRef, "for waypoint", newWaypoint.id);
   };
 
   const [locationData, setLocationData] = useState<LocationData>({
@@ -243,14 +243,14 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [updateCount, setUpdateCount] = useState(0);
 
   useEffect(() => {
-    console.log("Updated refs", waypointRefs);
-    console.log("Update count", updateCount);
+    //console.log("Updated refs", waypointRefs);
+    //console.log("Update count", updateCount);
   }, [waypointRefs, updateCount]);
   //BRANDON RELEVENT CODE HERE ENDS
 
   useEffect(() => {
-    console.log('place');
-    console.log(place);
+    //console.log('place');
+    //console.log(place);
     onPlaceSelected(place);
   }, []);
 
@@ -433,13 +433,13 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   //BRANDON RELEVENT CODE HERE
   const renderRoute = () => {
-    console.log("inputFields in renderRoute():", inputFields);
+    //console.log("inputFields in renderRoute():", inputFields);
     const startField = inputFields.find(f => f.type === 'start');
     const waypointFields = inputFields.filter(f => f.type === 'waypoint');
     const destinationField = inputFields.find(f => f.type === 'destination');
 
     if (!window.google || !window.google.maps) {
-      console.log("Google Maps API not loaded yet.");
+      //console.log("Google Maps API not loaded yet.");
       return;
     }
 
@@ -503,9 +503,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       if (status === window.google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current?.setDirections(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
-        console.log("No route could be found between the origin and destination.");
+        //console.log("No route could be found between the origin and destination.");
       } else {
-        console.log("Directions request failed due to " + status);
+        //console.log("Directions request failed due to " + status);
       }
     });
   };
@@ -598,10 +598,10 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
 
       if (type === 'start') {
-        console.log('New start position:', newMapCenter);
+        //console.log('New start position:', newMapCenter);
         setStart(newMapCenter);
       } else if (type === 'destination') {
-        console.log('New destination position:', newMapCenter);
+        //console.log('New destination position:', newMapCenter);
         setDestination(newMapCenter);
       } else if (type.startsWith('waypoint_')) {
         const waypointId = parseInt(type.split('_')[1], 10);
@@ -636,17 +636,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           type = `waypoint_${waypointId}`;
           break;
         default:
-          console.log('Invalid input type');
+          //console.log('Invalid input type');
           return;
       }
 
       if (!inputRef.current || !inputRef.current.value) {
-        console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} Input reference is not available or input is empty`);
+        //console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} Input reference is not available or input is empty`);
         return;
       }
 
       inputValue = inputRef.current.value;
-      console.log('Input value:', inputValue);
+      //console.log('Input value:', inputValue);
 
       const autocompleteService = new google.maps.places.AutocompleteService();
       autocompleteService.getPlacePredictions({
@@ -655,32 +655,32 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           },
           (predictions, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
-              console.log('Error: ' + status);
+              //console.log('Error: ' + status);
               return;
             }
 
             if (!predictions || predictions.length === 0) {
-              console.log('No predictions found');
+              //console.log('No predictions found');
               return;
             }
 
             const placesService = new google.maps.places.PlacesService(map);
             placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
                   if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    console.log('Calling onPlaceSelected with location type:', type);
+                    //console.log('Calling onPlaceSelected with location type:', type);
                     onPlaceSelected(place, type);
                     if (inputRef.current) {
                       inputRef.current.value = predictions[0].description;
                     }
                   } else {
-                    console.log('Error getting place details: ' + status);
+                    //console.log('Error getting place details: ' + status);
                   }
                   return place;
                 }
             );
           });
     } else {
-      console.log('Map reference is not available');
+      //console.log('Map reference is not available');
     }
   };
 
@@ -785,7 +785,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       return { ...item, address: originalField ? originalField.address : '' };
     }));
 
-    console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
+    //console.log("Updated locations and input fields:", { newStart, newWaypoints, newDestination });
   };
 
   useEffect(() => {

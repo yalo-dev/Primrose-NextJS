@@ -72,7 +72,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
   // TODO: The filtering and pagination is done client-side. This is affecting performance, but filtering resource by resourceType is not currently available and will need to be added on the backend manually
   const router = useRouter();
   const { category } = router.query
-  console.log("resource: ", resources)
+  //console.log("resource: ", resources)
 
 
   const [categoryResources, setCategoryResources] = useState([]);

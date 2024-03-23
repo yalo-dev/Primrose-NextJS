@@ -52,7 +52,7 @@ const OpenPositions = ({ careerPlugId }) => {
     }, [careerPlugId]);
 
     useEffect(() => {
-        console.log("Updated Jobs State:", schoolJobs);
+        //console.log("Updated Jobs State:", schoolJobs);
     }, [schoolJobs]);
 
     const jobPosts = () => {

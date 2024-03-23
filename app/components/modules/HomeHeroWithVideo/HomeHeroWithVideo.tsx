@@ -123,7 +123,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const findNearestSchool = (userLoc) => {
         let nearestSchool: School | null = null;
         let minDistance = Infinity;
-        console.log(SchoolData);
+        //console.log(SchoolData);
         SchoolData.forEach((school) => {
             const distance = calculateDistance(userLoc.lat, userLoc.lng, school.coordinates.lat, school.coordinates.lng);
             if (distance < minDistance) {
@@ -160,7 +160,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
             geocoder.geocode({ 'address': address }, (results, status) => {
                 if (status === 'OK' && results) {
                     const location = results[0].geometry.location;
-                    console.log(results[0]);
+                    //console.log(results[0]);
                     setSearchAddress(results[0].formatted_address);
                     resolve({ lat: location.lat(), lng: location.lng() });
                 } else {
@@ -186,7 +186,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     };
 
     useEffect(()=>{
-        console.log('use effect for autocomplete');
+        //console.log('use effect for autocomplete');
         if (searchInputRef.current) {
             autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
             autocompleteRef.current.addListener("place_changed", () => {

@@ -88,13 +88,13 @@ export default function Header({ menuItems }) {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission behavior
-        console.log(inputText);
+        //console.log(inputText);
         if (inputText.trim()) {
-            console.log(`Searching for: ${inputText.trim()}`); // Debugging log
+            //console.log(`Searching for: ${inputText.trim()}`); // Debugging log
             window.location.href=(`/search?query=${encodeURIComponent(inputText.trim())}`);
             resetNav();
         } else {
-            console.log("Empty search query"); // Debugging log
+            //console.log("Empty search query"); // Debugging log
         }
     };
     

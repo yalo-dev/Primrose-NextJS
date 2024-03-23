@@ -90,8 +90,8 @@ export async function getServerSideProps(context) {
             query: GET_SCHOOLS,
             variables: { id: `/schools/${schoolSlug}/` },
         });
-        console.log("!!!!! repsonse !!!!!")
-        console.log(response);
+        //console.log("!!!!! repsonse !!!!!")
+        //console.log(response);
         const school = response?.data?.school;
         if (!school) {
             return { notFound: true };

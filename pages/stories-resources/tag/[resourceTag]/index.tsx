@@ -98,7 +98,7 @@ export default function CategoryComponent({slug, resources, featured, filterTerm
   };
 
   let isTagPage = false;
-  console.log(resources);
+  //console.log(resources);
   useEffect(() => {
     if (resources && slug) {
       //if the resource tag is the same as the page slug, then it is a tag page

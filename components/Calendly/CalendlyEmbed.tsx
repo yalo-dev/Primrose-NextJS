@@ -34,14 +34,14 @@ const CalendlyEmbed = ({ url, successUrl }) => {
                 frameBorder="0"
                 title="Select a Date &amp; Time - Calendly"
                 onLoad={ () => {
-                    console.log("iframe height", self.innerHeight)
+                    //console.log("iframe height", self.innerHeight)
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
                         // true for mobile device
-                        console.log("mobile device");
+                        //console.log("mobile device");
                         document.getElementById('calendly-iframe').style.height = "1250px";
                     }else{
                         // false for not mobile device
-                        console.log("not mobile device");
+                        //console.log("not mobile device");
                         document.getElementById('calendly-iframe').style.height = self.innerHeight + "px";
                     }
                 }}

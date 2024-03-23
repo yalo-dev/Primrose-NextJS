@@ -119,6 +119,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         center.lat = center.latitude;
         center.lng = center.longitude;
         setMapCenter(center);
+        setSearched(true);
         set_MAX_DISTANCE(50)
       }
       setZoomLevel(DEFAULT_ZOOM);
@@ -355,7 +356,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
         setMapCenter(routeCenter);
         setRoute(result);
       } else if (status === window.google.maps.DirectionsStatus.ZERO_RESULTS) {
-        console.log("No route could be found between the origin and destination.");
+        //console.log("No route could be found between the origin and destination.");
       }
     });
   };
@@ -385,7 +386,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
 
   function getSortedSchools(schools){
-    if(!schools){
+    if(!schools || !searched){
       return [];
     }else{
     const filteredSchools = schools.filter(school => {
@@ -484,17 +485,17 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           type = `waypoint_${waypointId}`;
           break;
         default:
-          console.log('Invalid input type');
+          //console.log('Invalid input type');
           return;
       }
 
       if (!inputRef.current || !inputRef.current.value) {
-        console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} Input reference is not available or input is empty`);
+        //console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} Input reference is not available or input is empty`);
         return;
       }
 
       inputValue = inputRef.current.value;
-      console.log('Input value:', inputValue);
+      //console.log('Input value:', inputValue);
 
       const autocompleteService = new google.maps.places.AutocompleteService();
       autocompleteService.getPlacePredictions({
@@ -503,32 +504,32 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       },
         (predictions, status) => {
           if (status !== google.maps.places.PlacesServiceStatus.OK) {
-            console.log('Error: ' + status);
+            //console.log('Error: ' + status);
             return;
           }
 
           if (!predictions || predictions.length === 0) {
-            console.log('No predictions found');
+            //console.log('No predictions found');
             return;
           }
 
           const placesService = new google.maps.places.PlacesService(map);
           placesService.getDetails({ placeId: predictions[0].place_id }, (place, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              console.log('Calling onPlaceSelected with location type:', type);
+              //console.log('Calling onPlaceSelected with location type:', type);
               onPlaceSelected(place, type);
               if (inputRef.current) {
                 inputRef.current.value = predictions[0].description;
               }
             } else {
-              console.log('Error getting place details: ' + status);
+              //console.log('Error getting place details: ' + status);
             }
             return place;
           }
           );
         });
     } else {
-      console.log('Map reference is not available');
+      //console.log('Map reference is not available');
     }
   };
 
@@ -580,7 +581,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     //console.log(document.getElementById(schoolId).offsetTop);
     if(window.innerWidth < 991){
       window.scroll(0, document.getElementById("mobile_"+schoolId).offsetTop);
-      console.log(document.getElementById(schoolId))
+      //console.log(document.getElementById(schoolId))
     }
   }
 

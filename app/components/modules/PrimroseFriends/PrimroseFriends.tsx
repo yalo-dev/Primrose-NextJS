@@ -98,7 +98,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
     });
 
     const handleLabelClickPF = (targetId: string) => {
-        console.log("Button clicked:", targetId);
+        //console.log("Button clicked:", targetId);
 
         // Parse the index from the targetId
         const parsedIndex = parseInt(targetId.replace("pf-content-", ""), 10);
@@ -106,7 +106,7 @@ const PrimroseFriends: React.FC<PrimroseFriends> = ({ tabs, customizations }) =>
             console.error(`Failed to parse index from targetId: ${targetId}`);
             return;
         }
-        console.log("Parsed Index:", parsedIndex);
+        //console.log("Parsed Index:", parsedIndex);
 
         if (window.innerWidth > 992) {  // Desktop behavior
             setExpandedTabPF(parsedIndex);

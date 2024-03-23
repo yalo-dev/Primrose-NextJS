@@ -58,7 +58,7 @@ const apiKey = data.siteSettings.siteSettings.careerplugApiKey;
         if (position) params.append('postal_code', position);
         if (distance) params.append('postal_code_radius', distance);
         queryParams = `?${params.toString()}`;
-        console.log(queryParams);
+        //console.log(queryParams);
       }
 
       response = await fetch(`https://api.careerplug.com/jobs${queryParams}`, {
@@ -72,7 +72,7 @@ const apiKey = data.siteSettings.siteSettings.careerplugApiKey;
     }
 
     const responseData = await response.json();
-    console.log(responseData);
+    //console.log(responseData);
     res.status(200).json(responseData);
   } catch (error) {
     console.error(error);

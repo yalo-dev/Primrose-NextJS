@@ -124,7 +124,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
         if (formState === undefined) {
             return ''
         } else {
-            console.log(formState)
+            //console.log(formState)
             let temp = formState.find(({ id }) => id === stateId);
             // console.log('email temp', temp)
             // console.log(temp.emailValues.value)
@@ -162,7 +162,7 @@ export default function ThankYouPage({ school, staff, schoolSlug, socialLinks, i
                     childAge--;
                 }
                 childObj['age'] = childAge;
-                console.log(childAge);
+                //console.log(childAge);
                 if (childAge < 1) {
                     childObj['group'] = 'Infant'
                 } else if (childAge >= 1 && childAge < 3) {

@@ -1,5 +1,5 @@
 const SEO = (pageProps) =>{
-    console.log(pageProps)
+    //console.log(pageProps)
     return(
         <title>Hello World</title>
     );

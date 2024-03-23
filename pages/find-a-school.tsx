@@ -18,11 +18,11 @@ const FindASchool = () =>{
     libraries: ['places'],
 });
   const geocodeSearchTerm = async (searchTerm: string) => {
-    console.log(searchTerm);
+    //console.log(searchTerm);
     if (geocoder) {
       geocoder.geocode({'address': searchTerm}, (results, status) => {
           if (status === 'OK' && results && results[0]) {
-              console.log(results[0]);
+              //console.log(results[0]);
               setPlace(results[0]);
               return results[0];
               setLoading(false);
@@ -39,12 +39,12 @@ const FindASchool = () =>{
         geocoder = new window.google.maps.Geocoder();
     }
     if(router.query){
-      console.log('running search');
+      //console.log('running search');
       if(router.query.latitude && router.query.longitude){
         setCenter({latitude: Number(router.query.latitude), longitude: Number(router.query.longitude)})
       }
       geocodeSearchTerm(router.query.search_string as string).then(()=>{
-        console.log(place);
+        //console.log(place);
         
         setLoading(false);
       });  
@@ -54,7 +54,7 @@ const FindASchool = () =>{
   }, [isLoaded]);
   
     if(!loading){
-      console.log(center);
+      //console.log(center);
       let fas_props:any = {
         place: place,
         }

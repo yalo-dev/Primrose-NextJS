@@ -44,7 +44,7 @@ export default function SchoolsMenu() {
   });
 
   const schoolName = "Primrose School " + data?.school?.schoolCorporateSettings.schoolOfAtOn + " " + data?.school?.title;
-  console.log(schoolName);
+  //console.log(schoolName);
   const slug = data?.school?.slug;
   const schoolPhone = data?.school?.schoolCorporateSettings.phoneNumber;
   const schoolLocationLink = data?.school?.schoolCorporateSettings.address.googlePlaceUrl;

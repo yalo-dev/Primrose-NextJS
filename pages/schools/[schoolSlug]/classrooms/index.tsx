@@ -347,7 +347,7 @@ export default function ClassroomPage() {
             clearInterval(intervalId);
         };
     }, []);
-    console.log(error);
+    //console.log(error);
     if (loading) return <div></div>;
     if (error) return <div></div>;
     if (!data?.school) return <div></div>;

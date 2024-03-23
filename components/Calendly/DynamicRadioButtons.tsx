@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const DynamicRadioButtons = ({ skipURL, options, onSelect }) => {
     const [selectedOption, setSelectedOption] = useState(options[0]);
-    console.log('calendly radio button inital state: ', options[0])
+    //console.log('calendly radio button inital state: ', options[0])
     const handleOptionChange = (event) => {
         const value = event.target.value;
         setSelectedOption(value);

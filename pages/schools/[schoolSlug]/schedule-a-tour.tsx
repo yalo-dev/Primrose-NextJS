@@ -124,7 +124,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
     useEffect(() => {
         let calendlySelected = document.getElementById('choice_13_13_Yes') as HTMLInputElement
         // console.log(calendlySelected.checked)
-        console.log(isCalendlySelected)
+        //console.log(isCalendlySelected)
         handleCalendlySelect(schedulerEvent[0])
     }, [isCalendlySelected]);
 

@@ -108,7 +108,7 @@ export default function ScheduleATourForm(props: Props) {
 
 
             if (selectField.options.selectedIndex == 0) {
-                console.log("selectField.options.selectedIndex: ", selectField.options.selectedIndex);
+                //console.log("selectField.options.selectedIndex: ", selectField.options.selectedIndex);
             }
 
             let enableFirstChildName = true , enableSecondChildName = true, enableFirstChildNameGroup = true, enableFirstChildMonthGroup = true, enableFirstChildDayGroup = true, enableFirstChildYearGroup = true

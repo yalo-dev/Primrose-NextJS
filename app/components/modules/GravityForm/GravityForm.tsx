@@ -41,7 +41,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
         let fieldValues = [];
         for(let i=0; i<e.target.elements.length; i++){
             let element = e.target.elements[i];
-            console.log(element.type);
+            //console.log(element.type);
             if(element.type == 'email' ){
                 fieldValues.push({id:parseInt(element.name), emailValues:{value:element.value}});
             }else if(element.type == 'radio'){
@@ -54,7 +54,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
         }
         let success = true;
         
-        console.log(form.confirmations);
+        //console.log(form.confirmations);
        
          submitForm({
             variables: {
@@ -81,7 +81,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
                 } else {
                     setForm(fetchedForm);
                 }
-                console.log(fetchedForm);
+                //console.log(fetchedForm);
 
             } catch (error) {
                 console.error("Error fetching form:", error);

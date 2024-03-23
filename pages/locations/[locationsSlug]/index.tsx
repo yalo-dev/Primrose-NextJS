@@ -176,7 +176,7 @@ export default function Location({ locationData }){
 //export async function getStaticProps({params={slug:""}, preview=false} = {}) {
   export async function getServerSideProps({params={locationsSlug:""}, preview=false} = {}) {
     const slug  = params.locationsSlug;
-    console.log(params); 
+    //console.log(params); 
     const GET_LOCATION = gql`
         query GetLocationData {
             siteSettings {
