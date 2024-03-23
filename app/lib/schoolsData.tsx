@@ -25,8 +25,14 @@ export interface School {
           nodes {
             id
             slug
-            uri
+            uri 
             title
+            schoolAdminSettings {
+              hoursOfOperation {
+                closingTime
+                openingTime
+              }
+            }
             schoolCorporateSettings {
               schoolOfAtOn
               phoneNumber
@@ -61,14 +67,17 @@ export interface School {
   schoolsArray.map((school, index) => {
     if(school.schoolCorporateSettings.address){
       let schoolAddress = school.schoolCorporateSettings.address.streetAddress + " " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode;
-      
+      let hours = "";
+      if(school.schoolAdminSettings?.hoursOfOperation?.openingTime){
+        hours = `M-F ${school.schoolAdminSettings.hoursOfOperation.openingTime}-${school.schoolAdminSettings.hoursOfOperation.closingTime}`;
+      }
       _schools.push({
         id: school.id,
         slug: school.slug,
         uri: school.uri,
         name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
         address: schoolAddress,
-        hours: "M-F 7:00AM-6:00PM",
+        hours: hours,
         phone: school.schoolCorporateSettings?.phoneNumber,
         preopening: school.schoolCorporateSettings?.preopening,
         openingInSeason: school.schoolCorporateSettings?.openingIn?.season,

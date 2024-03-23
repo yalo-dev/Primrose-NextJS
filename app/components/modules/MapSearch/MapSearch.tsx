@@ -112,7 +112,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ];
-
+  console.log(schools);
   useEffect(() =>{
     if(center !== undefined && center !== map_center){
       if(center?.latitude){
