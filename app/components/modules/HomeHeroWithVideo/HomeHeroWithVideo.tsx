@@ -314,6 +314,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
 
                         <div className='right-column col-12 col-lg-6'>
                             <div className='heading-wrapper d-block d-lg-none'>
+                                {leftColumn.eyebrow && <Subheading level='div' className='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Subheading>}
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
