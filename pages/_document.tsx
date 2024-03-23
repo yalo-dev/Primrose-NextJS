@@ -59,6 +59,7 @@ class MyDocument extends Document {
                         }}
                     />
                     <script src="https://cdn.optimizely.com/js/20299544930.js"></script>
+                    <script charSet="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
                     <link
                         href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
                         rel="stylesheet"

@@ -58,7 +58,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, hub
       for (let i = 0; i < scripts.length; i++) {
         // set the scripts to next/script tag so they'll execute properly
         if (scripts[i].src) {
-          setHubScripts((prev) => [...prev, <Script src={scripts[i].src}/>])
+          setHubScripts((prev) => [...prev, <Script strategy="afterInteractive" src={scripts[i].src}/>])
         } else if (scripts[i].innerHTML) {
           // next scripts get moved to the end of the <body>, so add a target attribute to load this within the proper container (if not already present)
           const scriptWithTarget = scripts[i].innerHTML.includes("target:")
@@ -67,7 +67,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ headings, customizations, hub
                   .join(`hbspt.forms.create({target: "#${containerID}", `)
           setHubScripts((prev) => [
             ...prev,
-            <Script defer strategy="afterInteractive" dangerouslySetInnerHTML={{__html: scriptWithTarget}}/>
+            <Script defer={false} strategy="afterInteractive" dangerouslySetInnerHTML={{__html: scriptWithTarget}}/>
           ])
         }
       }
