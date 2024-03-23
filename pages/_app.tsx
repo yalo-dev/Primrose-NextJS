@@ -140,7 +140,7 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	let seo = null;
-	if(pageProps.page){
+	if(pageProps.page?.data?.page?.seo){
 		seo = parse(pageProps.page.data.page.seo.fullHead);
 	}else if(pageProps.school){
 		if(pageProps.data?.classroom.seo){
