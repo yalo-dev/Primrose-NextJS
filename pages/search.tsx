@@ -8,7 +8,6 @@ import {useJsApiLoader} from '@react-google-maps/api';
 import {getSchools} from '../app/lib/schoolsData';
 import Pagination from "../app/components/molecules/Pagination/Pagination";
 
-
 let geocoder: any;
 let place: any = null;
 const GET_TITLE_FOR_PANELS = gql`
@@ -20,6 +19,7 @@ const GET_TITLE_FOR_PANELS = gql`
     }
   }
 `;
+
 
 interface SearchResult {
     id: number;
@@ -82,6 +82,7 @@ const SearchPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(12);
     const [schools, setSchools] = useState([]);
+    
 
     //console.log(router);
     // const tagClassName = (tagName) => {
@@ -241,8 +242,8 @@ const SearchPage: React.FC = () => {
 
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
             const flatResults = batchResults.flat();
-            //console.log(flatResults);
-            const resultsWithAdditionalData = await Promise.all(flatResults.map(async (resource) => {
+            
+            const resultsWithAdditionalData = await Promise.all(flatResults.filter((post :SearchResult) => !post.url.includes('-st')).map(async (resource) => {
                 const enhancedResource: SearchResult = {...resource};
 
                 if (resource.featured_media) {

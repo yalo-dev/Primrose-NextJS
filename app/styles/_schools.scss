@@ -1041,10 +1041,10 @@
     }
 }
 .school-home {
-    padding-top: 1.5rem;
     // padding-bottom: 3rem;
     @include media-breakpoint-up(lg) {
     // padding-bottom: 5.625rem;
+    padding-top: 1.5rem;
     }
     .hero-with-slider {
         @include media-breakpoint-up(lg) {

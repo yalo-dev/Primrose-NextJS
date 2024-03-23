@@ -1,5 +1,7 @@
 .navbar-schools {
-    position: absolute;
+    @include media-breakpoint-up(lg) {
+        position: absolute;
+    }
     width: 100%;
     z-index: 1130;
     top: 99px;
@@ -221,7 +223,7 @@
 
 .school-margin-top {
     display: block;
-    height: 200px;
+    // height: 200px;
 
     @include media-breakpoint-up(lg) {
         height: 250px;
@@ -238,7 +240,7 @@
 .submenu-wrapper {
     position: relative;
     padding-top: 1rem;
-    top: 217px;
+    // top: 217px;
     min-width: 343px;
     display: flex;
     flex-direction: column;
