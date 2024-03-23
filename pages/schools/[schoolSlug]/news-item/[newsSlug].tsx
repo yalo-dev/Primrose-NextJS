@@ -81,7 +81,7 @@ export default function SchoolNewsItem() {
 	console.log(newsItem);
 	
 
-	if (!newsItem) return <div>No Resource Found</div>;
+	if (!newsItem) return {notFound: true};
 
 
 	const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(newsItem.publishDate));
