@@ -215,6 +215,9 @@ export default function Location({ locationData }){
             }
             market(id: "${'locations/' + slug}", idType: URI) {
                 name
+                seo {
+                  fullHead
+                }
                 schools (first:100000, where: {orderby: {field: TITLE, order: ASC}}) {
                   nodes {
                     title
@@ -351,10 +354,12 @@ export default function Location({ locationData }){
     const locationData =  await client.query({query: GET_LOCATION}) ;
 
     if (!locationData?.data?.market) return {notFound: true}
+    const seoData = locationData?.data?.market?.seo;
     
     return {
       props: {
         locationData: locationData,
+        seoData
       },
     };
   }

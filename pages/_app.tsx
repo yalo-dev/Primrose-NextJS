@@ -163,6 +163,8 @@ function MyApp({ Component, pageProps }) {
 			<meta name="description" content="${pageProps.locationsSeo.description}" />`
 			
 		);
+	}else if(pageProps.seoData){
+		seo = parse(pageProps.seoData.fullHead);
 	}
 	return (
 		<ErrorBoundary>
