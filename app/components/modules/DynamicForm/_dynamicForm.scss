@@ -23,6 +23,7 @@
             background-color: $white;
             padding: 34px 30px;
             border-radius: 10px;
+            overflow-y: auto;
             @include media-breakpoint-up(lg) {
                 padding: 50px 112px;
                 border-radius: 30px;
