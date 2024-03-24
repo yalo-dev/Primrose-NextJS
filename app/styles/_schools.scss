@@ -53,7 +53,7 @@
             height:320px;
             object-fit: cover;
             border-radius:1rem;
-
+            margin:2rem .2rem;
         }
         .video-wrapper {
             width: 343px;
@@ -102,7 +102,7 @@
             opacity: 0;
 
             &.active {
-                max-height: 600px;
+                max-height: 100vh;
                 opacity: 1;
             }
 
