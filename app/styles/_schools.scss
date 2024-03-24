@@ -53,6 +53,9 @@
             height:320px;
             object-fit: cover;
             border-radius:1rem;
+            &.mobile-image {
+                width: 100%;
+            }
 
         }
         .video-wrapper {
@@ -102,7 +105,7 @@
             opacity: 0;
 
             &.active {
-                max-height: 600px;
+                max-height: 750px;
                 opacity: 1;
             }
 
