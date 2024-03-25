@@ -4,7 +4,7 @@ async function getRedirects(){
   let _redirects = [];
   data.seo.redirects.map((redirect, index) =>{
     if(!redirect.origin.includes('http') && !redirect.origin.includes('www' ) && !redirect.origin.includes('?' )&& !redirect.target.includes('?') ){
-      if(!redirect.target.includes('http')){
+      if(!redirect.target.includes('http') && !redirect.target == '/'){
         redirect.target = "/" + redirect.target;
       }
       _redirects.push({
