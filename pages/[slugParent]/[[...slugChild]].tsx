@@ -7,8 +7,6 @@ import { getPageByUri, getAllPages } from '../../app/lib/pages';
 
 const DynamicPage = ({page}) => {
 	const modules = page?.data?.page?.modules?.modules || [];
-	console.log('HERE I AM')
-	console.log(modules)
 
 	return <CommonPageComponent modules={modules} />;
 };
