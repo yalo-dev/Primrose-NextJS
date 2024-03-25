@@ -481,7 +481,7 @@ export default function ClassroomPage() {
                                     {/* Mobile: Content rendered right below the label */}
                                     <div className="d-lg-none">
                                         <div className={`tab-content ${activeTab === slugify(tab.label) ? 'active' : ''}`} style={{ opacity: activeTab === slugify(tab.label) ? '1' : '0' }}>
-                                            <Image width={1080} height={1080} alt={tab.content.image?.altText} src={tab.content.image?.sourceUrl} />
+                                            <Image className={'mobile-image'} width={1080} height={1080} alt="tab image" src={tab.content.image?.sourceUrl} />
                                             <div className='content-wrapper'>
                                                 <Heading level='h3'>{tab.content.heading}</Heading>
                                                 <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>
