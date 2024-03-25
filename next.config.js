@@ -29,6 +29,12 @@ module.exports = {
         port: '',
         pathname: '/wp-content/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'settings-staging.primroseschools.com',
+        port: '',
+        pathname: '/wp-content/**',
+      },
     ],
   },
 
