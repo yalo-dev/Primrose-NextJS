@@ -29,6 +29,21 @@ function MyApp({ Component, pageProps }) {
 
 	useEffect(() => {
 
+		if (window.location.hash) {
+	      // check for the hash element to scroll to, or stop after the 5th check
+		  let check = 0
+		  const checkHashScroll = setInterval(() => {
+		    const hashElement = document.querySelector(`${window.location.hash}`)
+		    if (hashElement) {
+			  hashElement.scrollIntoView()
+			  clearInterval(checkHashScroll)
+		    } else if (check >= 4) {
+			  clearInterval(checkHashScroll)
+		    }
+		    check++
+		  }, 100)
+		}
+
 		if (process.env.NODE_ENV === 'development') {
 			(window as any).resetApolloCache = () => {
 				client.resetStore();
