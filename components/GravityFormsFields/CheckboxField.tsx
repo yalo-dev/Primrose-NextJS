@@ -88,21 +88,24 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
 
   return (
     <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
-      <legend>{label}</legend>
-      {checkboxInputs.map(({ id: inputId, text, value }) =>
-        <div key={inputId}>
-          <input
-            type="checkbox"
-            name={String(inputId)}
-            id={`input_${databaseId}_${id}_${inputId}`}
-            value={String(value)}
-            onChange={handleChange}
-            ref={fieldRef}
-          />
-          <span className="checkbox-style"></span>
-          <label htmlFor={`input_${databaseId}_${id}_${inputId}`}>{text}</label>
-        </div>
-      )}
+      <legend>
+        {checkboxInputs.map(({ id: inputId, text, value }) =>
+          <div key={inputId}>
+            <input
+                type="checkbox"
+                name={String(inputId)}
+                id={`input_${databaseId}_${id}_${inputId}`}
+                value={String(value)}
+                onChange={handleChange}
+                ref={fieldRef}
+            />
+            <span className="checkbox-style"></span>
+            <label htmlFor={`input_${databaseId}_${id}_${inputId}`}>
+              <span>{text}</span>
+            </label>
+          </div>
+        )}<span className="label">{label}</span></legend>
+
       {description ? <p className="field-description">{description}</p> : null}
       {fieldErrors?.length ? fieldErrors.map(fieldError => (
         <p key={fieldError.id} className="error-message">{fieldError.message}</p>
