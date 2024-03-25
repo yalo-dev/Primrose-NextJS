@@ -789,6 +789,20 @@
                 width: 100%;
                 margin-top: 0;
             }
+            &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27,
+            &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39 {
+                .custom-select {
+                    margin-top: 34px;
+                }
+            }
+            @include media-breakpoint-only(xs) {
+                &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27,
+                &#gfield_30, &#gfield_31, &#gfield_34, &#gfield_35, &#gfield_38, &#gfield_39 {
+                    .custom-select {
+                        margin-top: 0;
+                    }
+                }
+            }
 
             input[disabled]#field_7,
             input[disabled]#field_18,
@@ -817,12 +831,17 @@
             {
                 display: none !important;
             }
-            &#gfield_7 > label, &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label,
             &#gfield_8 > label, &#gfield_15 > label, &#gfield_25 > label, &#gfield_29 > label, &#gfield_33 > label, &#gfield_37 > label {
-                display: none;
+
             }
             &#gfield_8, &#gfield_15, &#gfield_25, &#gfield_29, &#gfield_33, &#gfield_37 {
                 margin-top: 5px;
+            }
+            &#gfield_18 > label, &#gfield_24 > label, &#gfield_28 > label, &#gfield_32 > label, &#gfield_36 > label {
+                margin-top: 15px;
+            }
+            &#gfield_60 > label {
+                margin-top: 20px;
             }
 
             &#gfield_9, &#gfield_10, &#gfield_16, &#gfield_17, &#gfield_26, &#gfield_27, 

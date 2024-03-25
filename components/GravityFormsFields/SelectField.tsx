@@ -48,7 +48,9 @@ export default function SelectField({ field, fieldErrors }: Props) {
   const fieldRef = useRef<HTMLSelectElement>(null);
 
   let setDisabled = false;
-  
+
+  const [dynamicLabel, setDynamicLabel] = useState(label);
+
   if(field?.databaseId === 8 || field?.databaseId === 9 || field?.databaseId === 10 || 
     field?.databaseId === 15 || field?.databaseId === 16 || field?.databaseId === 17 ||
     field?.databaseId === 25 || field?.databaseId === 26 || field?.databaseId === 27 ||
@@ -66,11 +68,26 @@ export default function SelectField({ field, fieldErrors }: Props) {
         value: fieldRef.current.value,
       },
     });
+
+        if (databaseId == 8) {
+          setDynamicLabel('Child #1 Birthdate')
+        } else if (databaseId == 15) {
+          setDynamicLabel('Child #2 Birthdate')
+        } else if (databaseId == 25) {
+          setDynamicLabel('Child #3 Birthdate')
+        } else if (databaseId == 29) {
+          setDynamicLabel('Child #4 Birthdate')
+        } else if (databaseId == 33) {
+          setDynamicLabel('Child #5 Birthdate')
+        } else if (databaseId == 37) {
+          setDynamicLabel('Child #6 Birthdate')
+        }
+
   }, [fieldRef]
   );
   return (
     <div id={`g${htmlId}`}  className={`gfield gfield-${type}`} hidden>
-      <label htmlFor={htmlId}>{label}</label>
+      <label htmlFor={htmlId}>{dynamicLabel}</label>
       <div className="custom-select">
         <select
           //disabled={setDisabled}
