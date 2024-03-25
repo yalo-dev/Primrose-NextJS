@@ -33,9 +33,11 @@ function MyApp({ Component, pageProps }) {
 	      // check for the hash element to scroll to, or stop after the 5th check
 		  let check = 0
 		  const checkHashScroll = setInterval(() => {
-		    const hashElement = document.querySelector(`${window.location.hash}`)
+		    const hashElement: HTMLElement = document.querySelector(`${window.location.hash}`)
+		    const nav = document.getElementsByTagName("nav")[0]
+
 		    if (hashElement) {
-			  hashElement.scrollIntoView()
+			  window.scrollTo({top: hashElement.offsetTop - nav.scrollHeight*2})
 			  clearInterval(checkHashScroll)
 		    } else if (check >= 4) {
 			  clearInterval(checkHashScroll)
