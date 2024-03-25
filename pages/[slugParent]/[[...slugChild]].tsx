@@ -18,6 +18,9 @@ const DynamicPage = ({page}) => {
 		pageUri = `${pageUri}${slugChild.join('/')}/`;
 	}
 	const page = await getPageByUri(pageUri);
+
+	if (!page.data.page) return {notFound: true}
+
 	return {
 	  props: {
 		page,
