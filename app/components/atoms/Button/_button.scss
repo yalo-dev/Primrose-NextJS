@@ -35,4 +35,21 @@ button {
             background-color: $grayscale-3;
         }
     }
+    
+}
+button:disabled{
+    background-color: $primary-green;
+    opacity:.7;
+    position:relative;
+}
+button:disabled:after{
+    content:"";
+    width: 24px;
+    height:24px;
+    position:absolute;
+    right: -30px;
+    top:12px;
+    background-image:url('/assets/ajax-loader.gif');
+    background-size:contain;
+    background-position:50% 50%;
 }

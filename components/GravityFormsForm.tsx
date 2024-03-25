@@ -42,6 +42,9 @@ export default function GravityFormsForm({ form, hiddenFields }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    //console.log('click');
+    let btn = event.currentTarget.getElementsByTagName('button')[0];
+    btn.disabled = true;
     if (loading) return;
     // console.log(state);
     submitForm({
