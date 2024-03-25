@@ -2,6 +2,7 @@ import MapSearch from '../app/components/modules/MapSearch/MapSearch';
 import {useRouter} from 'next/router';
 import {useEffect, useRef, useState} from 'react';
 import {useJsApiLoader} from '@react-google-maps/api';
+import Head from "next/head";
 
 
 const FindASchool = () =>{
@@ -67,10 +68,17 @@ const FindASchool = () =>{
         }
 
       return (
-        <MapSearch {...fas_props} />
+          <>
+            <Head>
+              <title>Find a Primrose School Near You</title>
+              <meta name={"description"} content={`View all the different Primrose School locations and find the best infant care, preschool program or private kindergarten classroom nearest to you.`}/>
+            </Head>
+            <MapSearch {...fas_props} />
+          </>
+
       );
     }
 }
-  
+
 
 export default FindASchool;
