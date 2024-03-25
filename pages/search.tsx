@@ -125,7 +125,7 @@ const SearchPage: React.FC = () => {
                 if (status === 'OK' && results && results[0]) {
                     place = results[0];
                     //console.log('is a place');
-                    //console.log(place);
+                    console.log('search term: ' + searchTerm);
                     setActiveFilter('Locations');
 
                     return results[0];
