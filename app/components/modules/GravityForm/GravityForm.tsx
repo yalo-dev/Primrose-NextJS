@@ -37,8 +37,12 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
 
     function handleSubmit(e){
         e.preventDefault();
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         //do handle submit and mutation
         let fieldValues = [];
+        let btn = e.currentTarget.getElementsByTagName('button')[0];
+        btn.disabled = true;
         for(let i=0; i<e.target.elements.length; i++){
             let element = e.target.elements[i];
             //console.log(element.type);
@@ -163,8 +167,8 @@ const GFInput = (field)=>{
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
                 <label htmlFor={field.field.id}>{field.field.label}</label>
-                <select onChange={handleFieldChange} name={field.field.id} id={field.field.id}>
-
+                <select onChange={handleFieldChange} name={field.field.id} id={field.field.id} required={field.field.isRequired}>
+                    <option disabled selected >{field.field.placeholder}</option>
                     {field.field.choices.map((choice, index)=>(
                     <option key={index} value={choice.value} dangerouslySetInnerHTML={{__html: choice.text}}></option>
                     ))}
