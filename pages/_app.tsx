@@ -182,27 +182,28 @@ function MyApp({ Component, pageProps }) {
 		seo = parse(pageProps.seoData.fullHead);
 	}
 	return (
-		<ErrorBoundary>
-			<ApolloProvider client={client}>
-				<Head>
+		<ApolloProvider client={client}>
+			<Head>
 
-					<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-					{seo}
-				</Head>
-				<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
-					<Layout
-						menuItems={headerMenuItems}
-						footerMenuItems={footerMenuItems}
-						siteSettings={siteSettings}
-					>
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+				{seo}
+			</Head>
+			<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
+				<Layout
+					menuItems={headerMenuItems}
+					footerMenuItems={footerMenuItems}
+					siteSettings={siteSettings}
+				>
+					<ErrorBoundary>
+
 
 						{isLoaded && (
 							<Component {...pageProps} />
 						)}
-					</Layout>
-				</SliderSpeed.Provider>
-			</ApolloProvider>
-		</ErrorBoundary>
+					</ErrorBoundary>
+				</Layout>
+			</SliderSpeed.Provider>
+		</ApolloProvider>
 	);
 }
 
