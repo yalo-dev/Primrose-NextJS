@@ -485,7 +485,7 @@ export default function ClassroomPage() {
                                             <div className='content-wrapper'>
                                                 <Heading level='h3'>{tab.content.heading}</Heading>
                                                 <Subheading level='div' className='b3'>{tab.content.subheading}</Subheading>
-                                                <Button variant="primary" href={tab.content.cta.url}>{tab.content.cta.title}</Button>
+                                                <Button variant="primary" href={"/schools/" + currentSlug + "/classrooms/" + slugify(tab.label, {lower:true})}>{tab.content.cta.title}</Button>
                                             </div>
                                         </div>
                                     </div>
