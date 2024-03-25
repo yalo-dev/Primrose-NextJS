@@ -7,6 +7,7 @@ import MapSearch from '../app/components/modules/MapSearch/MapSearch';
 import {useJsApiLoader} from '@react-google-maps/api';
 import {getSchools} from '../app/lib/schoolsData';
 import Pagination from "../app/components/molecules/Pagination/Pagination";
+import { getSingleResource } from '../app/lib/resources';
 
 let geocoder: any;
 let place: any = null;
@@ -237,7 +238,7 @@ const SearchPage: React.FC = () => {
         }, 1000);
         try {
             const baseUrls = [
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&search=${encodeURIComponent(searchTerm.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''))}&orderby=relevance&per_page=100&page=1`,
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&subtype[]=schools&search=${encodeURIComponent(searchTerm.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''))}&orderby=relevance&per_page=100&page=1`,
             ];
 
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
@@ -245,7 +246,11 @@ const SearchPage: React.FC = () => {
             
             const resultsWithAdditionalData = await Promise.all(flatResults.filter((post :SearchResult) => !post.url.includes('-st')).map(async (resource) => {
                 const enhancedResource: SearchResult = {...resource};
+                let resource_obj = await getSingleResource(resource.id);
 
+                if(resource_obj.data.resource?.newsFields?.link){
+                    enhancedResource.url = resource_obj.data.resource.newsFields.link;
+                }
                 if (resource.featured_media) {
                     const mediaResponse = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/media/${resource.featured_media}`);
                     const mediaData = await mediaResponse.json();
@@ -412,9 +417,9 @@ const SearchPage: React.FC = () => {
                             <div className='container col-lg-10 offset-lg-1'>
                                 {paginatedTopResults.map(post => (
                                     <div className='result' key={post.id}>
-                                        <a href={post?.url}><h5 className='title'
+                                        <a target={post?.url.indexOf('primroseschools.com')==-1 ? '_blank': '_self'} href={post?.url}><h5 className='title'
                                                                 dangerouslySetInnerHTML={{__html: post.title}}/></a>
-                                        <a className='b2 link' href={post?.url}>{post?.url}</a>
+                                        <a target={post?.url.indexOf('primroseschools.com')==-1 ? '_blank': '_self'} className='b2 link' href={post?.url}>{post?.url}</a>
                                     </div>
                                 ))}
                             </div>

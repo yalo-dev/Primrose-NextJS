@@ -330,7 +330,158 @@ query GetFilterTerms {
         }
     }
 }`;
+const GET_SINGLE_RESOURCE = gql`
+	query GetSingleResource($id: ID!) {
+		resource(id: $id, idType: DATABASE_ID) {
+			newsFields {
+				link
+			}
+			seo{
+				fullHead
+			}
+		  author {
+			node {
+			  name
+			}
+		  }
+		  featuredImage {
+			node {
+			  sourceUrl
+			  altText
+			}
+		  }
+		  title
+		  date
+		  resourceTypes {
+			nodes {
+			  name
+			  slug
+			}
+		  }
+		  resourceTags {
+			nodes {
+			  name
+			  slug
+			}
+		  }
+		  resourceFields {
+			displayAuthor
+			authorName
+			backgroundColor
+			content
+			relatedArticles {
+			  ... on Resource {
+				id
+				date
+				featuredImage {
+				  node {
+					sourceUrl
+					altText
+				  }
+				}
+				title
+				slug
+				uri
+				resourceTags {
+				  nodes {
+					name
+					slug
+				  }
+				}
+				resourceTypes {
+				  nodes {
+					name
+					slug
+				  }
+				}
+			  }
+			}
+			newsletterFormCta {
+			  heading
+			  subheading
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			}
+			seasonalBanner {
+			  heading
+			  subheading
+			  button {
+				target
+				title
+				url
+			  }
+			  accentOne {
+				sourceUrl
+			  }
+			  accentTwo {
+				sourceUrl
+			  }
+			  accentThree {
+				sourceUrl
+			  }
+			}
+		  }
+		}
+		resourcesSettings {
+			resourceSettings {
+			  featuredResources {
+				... on Resource {
+				  id
+				  title
+				  uri
+				  slug
+				  featuredImage {
+					node {
+					  altText
+					  sourceUrl
+					}
+				  }
+				  excerpt
+				  date
+				  resourceFields {
+					content
+					displayAuthor
+					authorName
+					fieldGroupName
+					backgroundColor
+				  }
+				  resourceTags {
+					nodes {
+					  slug
+					  link
+					  uri
+					  name
+					}
+				  }
+				  resourceTypes {
+					nodes {
+					  slug
+					  uri
+					  name
+					  link
+					}
+				  }
+				}
+			  }
+			}
+		  }
+	  }
+	`;
 
+export async function getSingleResource(id){
+    const data = await client.query({
+        query:GET_SINGLE_RESOURCE, 
+        variables:{
+            id: Number(id)
+        }
+    });
+    const resource = data;
+    return(resource);
+}
 export async function getAllResources(){
 	const data = await client.query({
 		query:RESOURCES_QUERY

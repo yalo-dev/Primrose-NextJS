@@ -37,7 +37,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showFeaturedImage
 
     return (
         <div className={`card ${className ? className : ''}`}>
-            <Link href={customLink ?? `${resource.slug}`}>
+            <Link target={customLink.indexOf('http') == -1 ? `_self`: `_blank` } href={customLink ?? `${resource.slug}`}>
                 <div className='inner' onClick={(e) => {
                     if (e.defaultPrevented) {
                         e.stopPropagation();
