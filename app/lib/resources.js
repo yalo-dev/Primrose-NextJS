@@ -321,7 +321,7 @@ query GetFilterTerms {
         nodes {
             name
             slug
-            children {
+            children(first: 500) {
                 nodes {
                     name
                     slug
