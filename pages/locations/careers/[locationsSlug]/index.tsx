@@ -159,7 +159,7 @@ export default function Location({ locationData }){
             <HeroWithImage {...hero_props} />
             <TwoColumnsImageAndText  {...fiftyFifty1_props} />
             <LargeCardSlider {...benefits_props} />
-            <TestimonialsWithVideoOrImage {...testimonials_props} />
+            {testimonials.length > 0 && (<TestimonialsWithVideoOrImage {...testimonials_props} />)}
             <OpenPositions {...positions_props} />
             <FindASchoolMap {...map_props} />
             
