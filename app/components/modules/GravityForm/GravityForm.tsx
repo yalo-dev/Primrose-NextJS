@@ -72,6 +72,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
        
         if(success){
             setStatus('confirmation');
+            window.scrollTo({top: 0})
         } 
         
     }

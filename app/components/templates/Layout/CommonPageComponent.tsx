@@ -35,6 +35,7 @@ import TwoColumnsImageAndTextAlternative from '../../modules/TwoColumnsImageAndT
 import TwoColumnsImageAndText from '../../modules/TwoColumnsImageAndText/TwoColumnsImageAndText';
 import WysiwygEditor from '../../modules/WysiwygEditor/WysiwygEditor';
 import SearchJobs from '../../modules/SearchJobs/SearchJobs';
+import SearchCorporateJobs from "../../modules/SearchCorporateJobs/SearchCorporateJobs";
 
 export const CommonPageComponent = ({ modules }) => {
     
@@ -129,6 +130,9 @@ export const CommonPageComponent = ({ modules }) => {
                         break;
                 case 'Page_Modules_Modules_SearchJobs':
                     ModuleComponent = SearchJobs;
+                    break;
+                case 'Page_Modules_Modules_SearchCorporateJobs':
+                    ModuleComponent = SearchCorporateJobs;
                     break;
                 case 'Page_Modules_Modules_StandardAccordionList':
                     ModuleComponent = StandardAccordionList;

@@ -10,6 +10,7 @@
   
   .scroll-to-top.visible {
     display: block; 
+    z-index: 999;
   }
   
   .scroll-to-top-icon {

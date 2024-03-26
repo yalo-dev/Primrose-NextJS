@@ -122,10 +122,8 @@ const SearchPage: React.FC = () => {
     const geocodeSearchTerm = async (searchTerm: string) => {
         if (geocoder) {
             geocoder.geocode({'address': searchTerm}, (results, status) => {
-                if (status === 'OK' && results && results[0]) {
+                if (status === 'OK' && results && results[0] && !results[0].partial_match) {
                     place = results[0];
-                    //console.log('is a place');
-                    console.log('search term: ' + searchTerm);
                     setActiveFilter('Locations');
 
                     return results[0];
