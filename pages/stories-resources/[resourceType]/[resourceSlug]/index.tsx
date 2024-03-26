@@ -34,9 +34,6 @@ export async function getStaticProps({params}) {
 	const GET_SINGLE_RESOURCE = gql`
 	query GetSingleResource($id: ID!) {
 		resource(id: $id, idType: URI) {
-			newsFields {
-				link
-			}
 			seo{
 				fullHead
 			}
@@ -374,8 +371,7 @@ export default function ResourceComponent({resource, resourceSlug, resourceType}
 	console.log('resourceType');
 	console.log(resourceType)
 	const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-	
-	
+
 	if (loading) return <div></div>;
 	if (error) return <div>Error: {error.message}</div>;
 
@@ -410,9 +406,6 @@ export default function ResourceComponent({resource, resourceSlug, resourceType}
 	);
 	console.log("Newsletter Form CTA:", resourceFields.newsletterFormCta);
 	console.log("Seasonal Banner:", resourceFields.seasonalBanner);
-
-	
-
 	return (
 		<>
 			<div className='resource'>
