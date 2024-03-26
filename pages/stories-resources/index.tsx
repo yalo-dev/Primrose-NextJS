@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 import Pagination from "../../app/components/molecules/Pagination/Pagination";
 import { getAllResources, getAllFilters } from '../../app/lib/resources';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     try {
         
 
