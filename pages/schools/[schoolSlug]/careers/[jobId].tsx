@@ -377,13 +377,7 @@ const JobPostPage = () => {
                             )}
                             {(!cmsJob?.applicationLink && cmsJob?.hiringManagerEmail) && (
                                 <div className='email-resume-wrapper border-top border-bottom pt-5 pb-5'>
-                                    <p className='b4 bold'>To apply, please send resumes to:</p>
-                                    <Button className={!cmsJob?.hiringManagerEmail && 'disabled'}
-                                            href={`mailto:${cmsJob?.hiringManagerEmail}`}
-                                            disabled={!cmsJob?.hiringManagerEmail}
-                                    >
-                                        Apply Now
-                                    </Button>
+                                    <Button className='w-100 primary' href={`mailto:${cmsJob?.hiringManagerEmail}`}>Apply Now</Button>
                                 </div>
                             )}
                             

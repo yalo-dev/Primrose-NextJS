@@ -7,7 +7,10 @@
                 
             }
             .gfield{
-                width:calc(50% - 2rem)
+                // width:calc(50% - 1.5rem)
+                label{
+                    margin: 0rem;
+                }
             }
             .gfield.large{
                 width:100%;
@@ -15,19 +18,23 @@
             .gfield-RADIO>div{
                 display:flex;
                 flex-direction:row;
+                margin-top: 1.5rem;
             }
             .gfield-RADIO>div>div{
-                flex-basis: 100px;
+                // flex-basis: 100px;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
-                align-items: baseline;
+                align-items: flex-start;
+                margin-right: 5rem;
             }
             .gfield-RADIO input{
-                margin-right: .8rem;
+                margin: 0 1rem 0 0;
+                height: 100%;
             }
             input[type='radio'] {
                 accent-color: #5E6738;
+                min-width: 1rem;
             }
             div.submit{
                 margin-top:2rem;
