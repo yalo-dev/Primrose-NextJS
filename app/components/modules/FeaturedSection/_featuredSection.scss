@@ -128,6 +128,9 @@
        
         li {
             margin: 0;
+            button{
+                height: 2rem;
+            }
             button:before {
                 content: '';
                 width: 10px;  
