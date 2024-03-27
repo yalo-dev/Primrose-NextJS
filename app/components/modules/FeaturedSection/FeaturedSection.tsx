@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -41,17 +41,27 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
     const sliderSpeed = useContext(SliderSpeed);
     if (!sliderSpeed) return
 
+    const [autoplay, setAutoplay] = useState(true);
+    const sliderRef = useRef<Slider>(null);
+
     const sliderSettings = {
         dots: true,
         arrows: false,
         infinite: true,
         speed: 1000,
-        autoplay: true,
+        autoplay: autoplay,
         autoplaySpeed: parseInt(sliderSpeed),
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true
     };
+
+    const handleDotClick = (index: number) => {
+        setAutoplay(false);
+        if (sliderRef.current) {
+            sliderRef.current.slickGoTo(index);
+        }
+    }
 
     return (
             <Customizations
@@ -69,7 +79,14 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({ heading, headingColor
                             {subheading && <Subheading level="div" className='b3' color={subheadingColor}>{subheading}</Subheading>}
                         </div>
                         <div className='slider-section col-lg-7 offset-lg-1 col-xxl-8 offset-xxl-0'>
-                        <Slider {...sliderSettings}>
+                        <Slider ref={sliderRef} {...sliderSettings} dots={true} dotsClass="slick-dots" appendDots={(dots) => (
+                            <ul>{dots.map((dot, index) => (
+                                <li key={index} onClick={() => handleDotClick(index)}>
+                                    {dot}
+                                </li>
+                            ))}
+                            </ul>
+                        )}>
                             {slider.map((slide, index) => (
                                 <div className='featured-slider' key={index}>
                                     <div className='image'>

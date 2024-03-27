@@ -255,11 +255,14 @@
         visibility: hidden;
         overflow: hidden;
         opacity: 0;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
         .item {
-            @include transitionAll;
+            // @include transitionAll;
             &:hover {
                 background-color: $grayscale-2;
+            }
+            a {
+                transition: 0s;
             }
         }
         &.active {
@@ -324,7 +327,7 @@
     .submenu {
         overflow: hidden;
         max-height: 0;
-        transition: max-height 0.5s ease-out;
+        // transition: max-height 0.5s ease-out;
         margin-top: 10px;
         
         &.visible {
