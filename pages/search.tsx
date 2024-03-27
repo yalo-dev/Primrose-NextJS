@@ -235,7 +235,7 @@ const SearchPage: React.FC = () => {
         }, 1000);
         try {
             const baseUrls = [
-                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=resources&search=${encodeURIComponent(searchTerm.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''))}&orderby=relevance&per_page=100&page=1`,
+                `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2/search/?subtype[]=page&subtype[]=schools&subtype[]=resources&search=${encodeURIComponent(searchTerm.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''))}&orderby=relevance&per_page=100&page=1`,
             ];
 
             const batchResults = await Promise.all(baseUrls.map(url => fetchBatch(url)));
