@@ -35,6 +35,14 @@
             width: 100%;
         }
     }
+
+    .slick-track {
+        display: flex;
+    }
+    .slick-track .slick-slide {
+        display: flex;
+        height: inherit;
+    }
     .slider-item {
         padding-bottom: 3rem;
         @include media-breakpoint-up(lg) {
@@ -67,7 +75,7 @@
                 border-radius: 1rem;
                 width: 100%;
                 height: 100%;
-                min-height: 275px;
+                min-height: 329px;
                 aspect-ratio: 588 / 330;
                 object-fit: cover;
                 object-position: center;
@@ -114,6 +122,11 @@
             }
         }
     }
+    .image-video-container {
+        min-height: 329px;
+        background: url('https://settings.primroseschools.com/wp-content/uploads/2024/02/Primrose-LogoGreen.jpg') no-repeat center center;
+        background-size: contain;
+    }
     .slick-dots {
         background: rgba(0, 0, 0, 0.05);
         border-radius: 1rem;
@@ -122,18 +135,12 @@
         justify-content: center;
         align-items: center;
         padding: 7px 6px;
-        top: -1rem;
+        position: absolute;
+        top: 345px;
         bottom: auto;
         right: 0rem;
         left: 0;
         margin: unset;
-        position: relative;
-        @include media-breakpoint-up(md) {
-            top: 0;
-        }
-        @include media-breakpoint-up(lg) {
-            top: 2rem;
-        }
        
         li {
             margin: 0;
@@ -183,15 +190,10 @@
         transition: all 0.3s ease;
         opacity: 1;
         position: absolute;
-        top: 100%;
+        top: 362px;
         left: auto;
         right: 0;
         @include media-breakpoint-up(md) {
-            // top: 413px;
-            right: 5px;
-        }
-        @include media-breakpoint-up(lg) {
-            top: 105%;
             right: 5px;
         }
         &:hover {
