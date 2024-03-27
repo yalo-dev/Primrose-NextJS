@@ -40,6 +40,13 @@
                 margin-top:2rem;
                 flex-basis:100%;
             }
+            label.required:after{
+                content:"*";
+            }
+            input:required:valid, select:required:valid, textarea:required:valid{
+                border-color:#889631;
+                border-width: 1.5px;
+            }
             
         }
     }
