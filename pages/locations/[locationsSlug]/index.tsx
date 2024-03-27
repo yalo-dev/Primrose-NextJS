@@ -42,7 +42,7 @@ export default function Location({ locationData }){
       : {sourceUrl: siteSettings?.enrollmentHeaderImage?.sourceUrl, altText: siteSettings?.enrollmentHeaderImage?.altText,}
     const hero_props = {
       leftColumn: {image: headerImage},
-      rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'white'},
+      rightColumn: {heading: "Primrose Schools in the " + market.name + " Area", headingColor: "white", blurbColor:"white", blurb: market.marketSettings.heroParagraph, button: {title:"See Nearest Schools", url: "#map"}, buttonStyle: 'secondary'},
       customizations: {backgroundColor: '#5E6738', topPaddingDesktop: 'None', topPaddingMobile: 'None'},
     };
 

@@ -71,6 +71,7 @@ const FeaturedBlogs: React.FC<FeaturedBlogsProps> = ({ blogs, heading, headingCo
                             showFeaturedImage={true}
                             className="featured medium" 
                             featuredResourceIds={featuredResourceIds}
+                            customLink={blog.uri}
                             // isFeatured={featuredResourceIds.includes(blog.id)} 
                         />
                     ))}
