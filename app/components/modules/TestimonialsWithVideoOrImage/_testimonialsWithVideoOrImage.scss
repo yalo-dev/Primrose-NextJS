@@ -15,7 +15,7 @@
             margin-bottom: 1.125rem;
             @include media-breakpoint-up(lg) {
             margin-bottom: 35px;
-            color: $text-gray;
+            //color: $text-gray;
             }
         }
         button {
@@ -85,14 +85,14 @@
             padding-top: 10rem;
         }
         .b4 {
-            color: $text-gray;
+            //color: $text-gray;
         }
         .sign {
             text-align: left;
             margin-top: 1rem;
             .name {
                 font-weight: 900 !important;
-                color: $text-gray;
+                //color: $text-gray;
             }
         }
         &::before {
