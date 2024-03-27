@@ -34,7 +34,10 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
     const [form, setForm] = useState<GfForm | null>(null);
     const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
     const [status, setStatus] = useState<string>('form');
-
+    function handleInvalid(e){
+        console.log('invalid');
+        console.log(e);
+    }
     function handleSubmit(e){
         e.preventDefault();
         document.body.scrollTop = 0; // For Safari
@@ -109,7 +112,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
                             </div> */}
 
                             {form.formFields.nodes.length>0 && (
-                            <form name={`gform_${formId}`} id={`gform_${formId}`} onSubmit={handleSubmit}>
+                            <form name={`gform_${formId}`} id={`gform_${formId}`} onInvalid={handleInvalid} onSubmit={handleSubmit}>
                                 {form.formFields.nodes.map((field, index) => (
                                 <GFInput key={field.id} field={field} />
                                 ))}

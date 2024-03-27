@@ -48,6 +48,11 @@
                 border-width: 1.5px;
             }
             
+            input.invalid, select:invalid, textarea:invalid{
+                border-color:red;
+                border-width: 1.5px;
+            }
+            
         }
     }
     
