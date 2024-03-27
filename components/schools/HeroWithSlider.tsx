@@ -14,6 +14,11 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
     const selectedClassrooms = adminSettings?.classroomsOffered || [];
     const selectedExtraCare = adminSettings?.extraCareOffered || [];
     const selectedOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
+    const sortedSelectedOfferings = [...selectedOfferings].sort((a, b) => {
+        if (a === "Summer Adventure Club") return 1;
+        if (b === "Summer Adventure Club") return -1;
+        return 0;
+    });
     const defaultImages = [
         {url: '/schoolsHomeDefault/header-default-1.jpg', altText: 'A girl taking notes in class'},
         {url: '/schoolsHomeDefault/header-default-2.jpg', altText: 'A boy playing with giant lego blocks'},
@@ -100,7 +105,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                     <div className='classrooms'>
                                         <h5 className='mt-4 green'>Children Served</h5>
                                         <ul>
-                                            {selectedOfferings && selectedOfferings
+                                            {sortedSelectedOfferings && sortedSelectedOfferings
                                                 .filter(classroom => classroom !== "Before & After Care")
                                                 .map((classroom, index) => {
                                                     const classroomSlug = classroom.toLowerCase().replace(/ & /g, '-and-').replace(/ /g, '-');

@@ -106,7 +106,12 @@ export default function SchoolsMenu() {
 
   const generateClassroomSubmenu = () => {
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    return selectedOfferings.map(classroom => {
+    const sortedSelectedOfferings = [...selectedOfferings].sort((a, b) => {
+      if (a === "Summer Adventure Club") return 1;
+      if (b === "Summer Adventure Club") return -1;
+      return 0;
+  });
+    return sortedSelectedOfferings.map(classroom => {
       if (!classroom) return
       const classroomSlug = classroom.replace(/& /g, '').replace(/\s+/g, '-').toLowerCase();
       const linkText = classroom === "Before After School" ? "Before & After School" : classroom
