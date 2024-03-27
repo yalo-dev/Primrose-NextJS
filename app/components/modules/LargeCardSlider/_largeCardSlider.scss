@@ -63,12 +63,20 @@
             padding-top:3.75rem;
         }
     }
+    .slick-track {
+        display: flex;
+    }
+    .slick-track .slick-slide {
+        display: flex;
+        height: inherit;
+    }
     .slider-item {
         width:100% !important;
+        height: 100%;
         @include media-breakpoint-up(lg) {
             width: 95% !important;
         }
-        height:270px;
+        //height:270px;
         margin:auto;
         border-radius: .8rem;
         padding: 1.575rem 1.625rem;
