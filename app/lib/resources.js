@@ -40,7 +40,7 @@ query GetResources {
           }
         }
       }
-    resources(first: 10000) {
+    resources {
         nodes {
             id
             title
