@@ -27,6 +27,7 @@
                 flex-wrap: nowrap;
                 align-items: flex-start;
                 margin-right: 5rem;
+                align-items: center;
             }
             .gfield-RADIO input{
                 margin: 0 1rem 0 0;
@@ -39,6 +40,18 @@
             div.submit{
                 margin-top:2rem;
                 flex-basis:100%;
+            }
+            label.required:after{
+                content:"*";
+            }
+            input:required:valid, select:required:valid, textarea:required:valid{
+                border-color:#889631;
+                border-width: 1.5px;
+            }
+            
+            input.invalid, select.invalid, textarea.invalid{
+                border-color:red;
+                border-width: 1.5px;
             }
             
         }
