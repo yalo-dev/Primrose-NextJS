@@ -51,6 +51,12 @@ export const GET_SCHOOLS_SITEMAP = gql`
           }
           modifiedGmt
           uri
+          schoolAdminSettings {
+            classroomsOffered
+            staffMembers {
+              name
+            }
+          }
         }
       }
     }
@@ -70,4 +76,19 @@ export const GET_RESOURCES_SITEMAP = gql`
         }
       }
     }   
+`
+
+export const GET_MARKETS_SITEMAP = gql`
+    query GetMarketsSitemap {
+      schools(first: 1000, where: {orderby: {field: TITLE, order: ASC}}) {
+        nodes {
+          markets {
+            nodes {
+              uri
+            }
+          }
+          modifiedGmt
+        }
+      }
+    }
 `
