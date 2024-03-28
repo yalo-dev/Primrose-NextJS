@@ -42,6 +42,9 @@ export async function getStaticProps({params}) {
 			  name
 			}
 		  }
+		  newsFields {
+			  link
+			}
 		  featuredImage {
 			node {
 			  sourceUrl
@@ -227,6 +230,9 @@ query GetSingleResource($id: ID!) {
 		  name
 		}
 	  }
+	  newsFields {
+		  link
+		}
 	  featuredImage {
 		node {
 		  sourceUrl
@@ -370,6 +376,12 @@ export default function ResourceComponent({resource, resourceSlug, resourceType}
 	});
 	console.log('resourceType');
 	console.log(resourceType)
+	console.dir(resource)
+
+	if (resource?.newsFields?.link != null) {
+		router.push(resource?.newsFields?.link);
+	}
+
 	const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
 	if (loading) return <div></div>;
