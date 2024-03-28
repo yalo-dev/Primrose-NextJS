@@ -20,10 +20,10 @@ const authConfig = {
         loggingNoPII: true,
     }
 }
-async function getData(res, startDate) {
+async function getData(res, startDate, endDate) {
     let contacts_url = 'https://settings.primroseschools.com/wp-json/yalotheme/v1/getEntries'
-    if (startDate !== "") {
-        contacts_url += '?start_date=' +  encodeURIComponent(startDate);
+    if (startDate !== "" && endDate !== "") {
+        contacts_url += '?start_date=' +  encodeURIComponent(startDate) + '&end_date=' + encodeURIComponent(endDate);
     }
     const contact_data = await fetch(contacts_url).then((res) => res.json())
     return res.status(200).json(contact_data)
@@ -36,6 +36,7 @@ export default async function handler(
 ) {
     if ( req.method === "GET") {
         const startDate = req.query.start_date as String || "";
+        const endDate = req.query.end_date as String || "";
         passport.initialize()
         passport.authenticate(
             new passportAzureAd.BearerStrategy(
@@ -66,7 +67,7 @@ export default async function handler(
                 if (info) {
                     // access token payload will be available in req.authInfo downstream
                     // req.authInfo = info;
-                    return getData(res, startDate)
+                    return getData(res, startDate, endDate)
                 }
             })(req, res)
     } else {
