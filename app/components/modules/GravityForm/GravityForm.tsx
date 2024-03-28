@@ -35,8 +35,8 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
     const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
     const [status, setStatus] = useState<string>('form');
     function handleInvalid(e){
-        console.log('invalid');
-        console.log(e);
+       
+        e.target.classList.add('invalid');
     }
     function handleSubmit(e){
         e.preventDefault();
