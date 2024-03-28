@@ -172,7 +172,7 @@ export default function SchoolsMenu() {
               <div className='col'>
               <h1 className='h3'>{loading ? '' : schoolName || 'School Name'}</h1>
               </div>
-              <div className='col w-100 col d-flex align-items-center justify-content-start'>
+              <div className='col w-100 col d-flex align-items-center justify-content-end'>
                 <Button label='Schedule a Tour' className={'schools-menu'} href={`/schools/${schoolSlug}/schedule-a-tour`} />
                 {schoolPhone && (
                   <div className='phone ps-2 d-lg-none'>
