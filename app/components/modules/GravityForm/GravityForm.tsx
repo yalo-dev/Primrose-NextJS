@@ -34,7 +34,10 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
     const [form, setForm] = useState<GfForm | null>(null);
     const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
     const [status, setStatus] = useState<string>('form');
-
+    function handleInvalid(e){
+        console.log('invalid');
+        console.log(e);
+    }
     function handleSubmit(e){
         e.preventDefault();
         document.body.scrollTop = 0; // For Safari
@@ -58,9 +61,9 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
         }
         let success = true;
         
-        //console.log(form.confirmations);
+        console.log('form validated');
        
-         submitForm({
+        submitForm({
             variables: {
               formId: formId,
               fieldValues: fieldValues,
@@ -73,7 +76,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
         if(success){
             setStatus('confirmation');
             window.scrollTo({top: 0})
-        } 
+        }
         
     }
     useEffect(() => {
@@ -109,7 +112,7 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
                             </div> */}
 
                             {form.formFields.nodes.length>0 && (
-                            <form name={`gform_${formId}`} id={`gform_${formId}`} onSubmit={handleSubmit}>
+                            <form name={`gform_${formId}`} id={`gform_${formId}`} onInvalid={handleInvalid} onSubmit={handleSubmit}>
                                 {form.formFields.nodes.map((field, index) => (
                                 <GFInput key={field.id} field={field} />
                                 ))}
@@ -167,9 +170,9 @@ const GFInput = (field)=>{
         case 'SELECT':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
-                <select onChange={handleFieldChange} name={field.field.id} id={field.field.id} required={field.field.isRequired}>
-                    <option disabled selected >{field.field.placeholder}</option>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
+                <select defaultValue={""} onChange={handleFieldChange} name={field.field.id} id={field.field.id} required={field.field.isRequired}>
+                    <option key={-1} disabled value={""}>{field.field.placeholder}</option>
                     {field.field.choices.map((choice, index)=>(
                     <option key={index} value={choice.value} dangerouslySetInnerHTML={{__html: choice.text}}></option>
                     ))}
@@ -181,7 +184,7 @@ const GFInput = (field)=>{
         case 'EMAIL':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <input onChange={handleFieldChange} type='email' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
             </div>
             );
@@ -189,7 +192,7 @@ const GFInput = (field)=>{
         case 'PHONE':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <input onChange={handleFieldChange} type='tel' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
             </div>
             );
@@ -197,7 +200,7 @@ const GFInput = (field)=>{
         case 'PHONE':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <input onChange={handleFieldChange} type='tel' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
             </div>
             );
@@ -205,7 +208,7 @@ const GFInput = (field)=>{
         case 'TEXT':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <input onChange={handleFieldChange} type='text' name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
             </div>
             );
@@ -213,7 +216,7 @@ const GFInput = (field)=>{
         case 'TEXTAREA':
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <textarea onChange={handleFieldChange} rows={10} name={field.field.id} id={field.field.id} placeholder={field.field.placeholder} required={field.field.isRequired} />
             </div>
             );
@@ -222,7 +225,7 @@ const GFInput = (field)=>{
            
             return(
             <div key={field.field.id} id={`gform_${field.field.id}`} className={classes}>
-                <label htmlFor={field.field.id}>{field.field.label}</label>
+                <label className={field.field.isRequired? 'required':''} htmlFor={field.field.id}>{field.field.label}</label>
                 <div>
                 {field.field.choices.map((choice, index)=>(
                     <div key={index}>

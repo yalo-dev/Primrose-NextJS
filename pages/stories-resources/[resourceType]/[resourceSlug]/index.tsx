@@ -29,7 +29,7 @@ interface Resource {
 		nodes: ResourceTagType[];
 	};
 }
-export async function getStaticProps({params}) {
+export async function getServerSideProps({params}) {
 	const {resourceSlug} = params;
 	const GET_SINGLE_RESOURCE = gql`
 	query GetSingleResource($id: ID!) {
@@ -198,7 +198,7 @@ export async function getStaticProps({params}) {
   }
 
   
-  export async function getStaticPaths() {
+/*   export async function getStaticPaths() {
 	const resources = await getAllResources();
 	const dynamicPages = resources.filter(
 		(el) => el?.node.uri.length > 1 && el?.node.resourceTypes.edges.length>0
@@ -218,7 +218,7 @@ export async function getStaticProps({params}) {
 	  paths,
 	  fallback: 'blocking'
 	};
-  }
+  } */
 const GET_SINGLE_RESOURCE = gql`
 query GetSingleResource($id: ID!) {
 	resource(id: $id, idType: URI) {
