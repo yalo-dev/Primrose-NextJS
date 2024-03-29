@@ -31,16 +31,7 @@ query GET_ALL_RESOURCE_TAGS {
 
 const RESOURCES_QUERY = gql`
 query GetResources {
-    seo {
-        contentTypes {
-          resource {
-            archive {
-              fullHead
-            }
-          }
-        }
-      }
-    resources {
+    resources(first:1500) {
         nodes {
             id
             title
@@ -51,14 +42,14 @@ query GetResources {
             newsFields{
                 link
             }
-            resourceTypes(first: 1500) {
+            resourceTypes(first: 3) {
                 nodes {
                 uri
                 slug
                 name
                 }
             }
-            resourceTags(first: 1500) {
+            resourceTags(first: 3) {
                 nodes {
                 uri
                 slug
@@ -73,6 +64,19 @@ query GetResources {
             }
         }
     }
+    
+}`;
+const RESOURCES_SETTINGS_QUERY = gql`
+query GetResourceSettings{
+    seo {
+        contentTypes {
+          resource {
+            archive {
+              fullHead
+            }
+          }
+        }
+      }
     resourcesSettings {
         resourceSettings {
             featuredResources {
@@ -122,8 +126,8 @@ query GetResources {
             }
         }
     }
-}`;
-
+}
+`;
 
 const RESOURCES_BY_TYPE_QUERY = gql`
 query GetResources($resourceType: ID = "") {
@@ -131,7 +135,7 @@ query GetResources($resourceType: ID = "") {
         seo {
 			fullHead
 		}
-        resources(first: 10000) {
+        resources(first: 2000) {
             nodes {
                 id
                 title
@@ -230,7 +234,7 @@ query GetResources($resourceTag: ID = "") {
         seo {
 			fullHead
 		}
-        resources(first: 10000) {
+        resources(first: 2000) {
             nodes {
                 id
                 title
@@ -338,6 +342,13 @@ export async function getAllResources(){
 	const resources = data;
  
 	return(resources);
+}
+export async function getResourceSettings(){
+    const data = await client.query({
+        query:RESOURCES_SETTINGS_QUERY
+    });
+    const settings = data;
+    return(settings);
 }
 export async function getAllFilters(){
     const data = await client.query({

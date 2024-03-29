@@ -9,23 +9,24 @@ import Button from '../../app/components/atoms/Button/Button';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 import {useRouter} from "next/router";
 import Pagination from "../../app/components/molecules/Pagination/Pagination";
-import { getAllResources, getAllFilters } from '../../app/lib/resources';
+import { getAllResources, getAllFilters, getResourceSettings } from '../../app/lib/resources';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     try {
         
 
-        const [resourceData, filterTermsData] = await Promise.all([
+        const [resourceData, filterTermsData, resourceSettings] = await Promise.all([
             getAllResources(),
-            getAllFilters()
+            getAllFilters(),
+            getResourceSettings()
         ]);
-
+        console.log(resourceData);
         return {
             props: {
-                seo: resourceData.data.seo,
+                seo: resourceSettings.data.seo,
                 resources: resourceData.data.resources.nodes,
-                featuredResources: resourceData.data.resourcesSettings.resourceSettings.featuredResources,
-                excludedResources: resourceData.data.resourcesSettings.resourceSettings.hideTagFromSearch,
+                featuredResources: resourceSettings.data.resourcesSettings.resourceSettings.featuredResources,
+                excludedResources: resourceSettings.data.resourcesSettings.resourceSettings.hideTagFromSearch,
                 filterTerms: filterTermsData.data
             },
         };
