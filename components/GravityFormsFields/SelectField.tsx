@@ -107,8 +107,9 @@ export default function SelectField({ field, fieldErrors }: Props) {
           }}
         >
           {/* Always render the placeholder */}
-          {/* <option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option> */}
-          {choices?.map((choice, index) => (
+          {/* {<option value="" disabled hidden={!selectedValue}>{placeholder || 'Select an option'}</option>} */}
+          {choices?.map((choice, index) => (   
+            index === 0 ? <option key={`prm_${choice?.value}-${index}`} value={choice?.value || ''} disabled hidden>{placeholder || 'Select an option'}</option> :          
             <option key={`prm_${choice?.value}-${index}`} value={choice?.value || ''}>{choice?.text || ''}</option>
           ))}
         </select>
