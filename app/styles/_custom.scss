@@ -248,3 +248,7 @@ select{
 body.alongroute .school-list-item .distance{
     display:none;
 }
+
+.schedule-a-tour .custom-select option[value=Select]{
+    display: none;
+}
