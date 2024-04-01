@@ -128,7 +128,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -157,7 +157,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -186,7 +186,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -215,7 +215,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -244,7 +244,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -273,7 +273,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -302,7 +302,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -331,7 +331,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -360,7 +360,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -392,7 +392,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -424,7 +424,7 @@ const GET_CLASSROOM_TYPE = gql`
                 title
                 caption
               }
-              testimonials {
+              assignedTestimonials {
                 ... on Testimonial {
                   id
                   title
@@ -534,10 +534,10 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
   const testimonialSection = () => {
     const adminSettings = school?.schoolAdminSettings;
     //console.log(adminSettings[camelize(classroomType) as string]);
-    if(!school?.schoolAdminSettings[camelize(classroomType) as string]?.testimonials){
+    if(!school?.schoolAdminSettings[camelize(classroomType) as string]?.assignedTestimonials){
       return;
     }
-    const transformedTestimonials = adminSettings[camelize(classroomType) as string]?.testimonials?.map(testimonial => ({
+    const transformedTestimonials = adminSettings[camelize(classroomType) as string]?.assignedTestimonials?.map(testimonial => ({
         avatar: {
             sourceUrl: testimonial.featuredImage?.node?.sourceUrl,
             altText: 'Testimonial'
