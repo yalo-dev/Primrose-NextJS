@@ -24,7 +24,9 @@ export default function SchoolNewsSlider({adminSettings, isClient}: NewsSliderPr
             new Date(newsItem.publishDate) <= currentDate &&
             (!newsItem.expires || new Date(newsItem.expires) >= currentDate)
     );
-
+    if(filteredNewsItems.length == 0){
+        return;
+    }
     return (
         <div className='news-slider-module'>
             <div className='container'>
