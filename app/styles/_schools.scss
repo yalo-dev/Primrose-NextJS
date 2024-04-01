@@ -1568,6 +1568,15 @@
             padding-bottom: 60px;
         }
     }
+    .reviews {
+        @include media-breakpoint-up(lg) {
+            margin-right: 30px;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            margin-right: 150px;
+        }
+    }
 }
 
 .school-careers {
