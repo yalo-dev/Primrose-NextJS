@@ -42,7 +42,7 @@ button:disabled{
     opacity:.7;
     position:relative;
 }
-button:disabled:after{
+form button:disabled:after{
     content:"";
     width: 24px;
     height:24px;
