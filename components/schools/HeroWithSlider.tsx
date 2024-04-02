@@ -31,8 +31,8 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
         ] // format homepageHeroImage object and combine the urls into one array with default image urls
         : defaultImages // or just keep default images
 
-    const sliderSpeed = useContext(SliderSpeed);
-    if (!sliderSpeed) return
+    // const sliderSpeed = useContext(SliderSpeed);
+    // if (!sliderSpeed) return
 
     const settings = {
         dots: true,
@@ -41,7 +41,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: parseInt(sliderSpeed),
+        //autoplaySpeed: parseInt(sliderSpeed),
     };
 
     return (
