@@ -11,7 +11,7 @@ export function generateSitemap(nodes, domain) {
         return `
           <url>
             <loc>${domain}${node.uri}</loc>
-            <lastmod>${node.modifiedGmt}</lastmod>
+            <lastmod>${node.modifiedGmt.split('T')[0]}</lastmod>
             ${imageTag}
           </url>
         `
