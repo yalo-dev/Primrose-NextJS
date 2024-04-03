@@ -24,7 +24,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     const { state, dispatch } = useGravityForm();
     const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as HiddenFieldValues | undefined;
     const fieldRef = useRef<HTMLInputElement>(null);
-    const UserSessionAnalytics = document.cookie.split("; ").find((row) => row.startsWith("UserSession="))?.split("=")[1]
+    const UserSessionAnalytics = document.cookie.split("; ").find((row) => row.startsWith("UserSession="))?.split("=")[1] || '';
 
     function setAnalyticsValue(field) {
         let value = ''
