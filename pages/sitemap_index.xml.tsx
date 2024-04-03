@@ -6,7 +6,7 @@ export async function getServerSideProps({req, res}) {
     const host = req.headers.host
     const proto = req.headers['x-forwarded-proto']
     const url = `${proto}://${host}`
-    const datetime = new Date().toISOString().split('.')[0]
+    const datetime = new Date().toISOString().split('T')[0]
     const sitemap = `
         <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <sitemap>
