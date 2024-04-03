@@ -10,7 +10,7 @@ export function generateSitemap(nodes, domain) {
             ` : ""
         return `
           <url>
-            <loc>${domain}${node.uri}</loc>
+            <loc>'https://www.primroseschools.com/'${node.uri}</loc>
             <lastmod>${node.modifiedGmt.split('T')[0]}</lastmod>
             ${imageTag}
           </url>
