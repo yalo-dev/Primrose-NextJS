@@ -322,12 +322,24 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 <div className='video-wrapper'>
                                     <video
                                         ref={videoRef}
-                                        src={rightColumn.video.mediaItemUrl}
                                         autoPlay
                                         muted
                                         playsInline
                                         loop
-                                    />
+                                    >
+                                        {rightColumn.video.mediaItemUrl?.includes('.mp4') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/mp4" />
+                                        )}
+
+                                        {rightColumn.video.mediaItemUrl?.includes('.ogv') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/ogg" />
+                                        )}
+
+                                        {rightColumn.video.mediaItemUrl?.includes('.webm') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/webm" />
+                                        )}
+
+                                    </video>
                                 </div>
                             )}
 
