@@ -14,7 +14,7 @@ import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider
 import Head from "next/head";
 import { getAllSchools } from '../../../app/lib/pages';
 
-export async function getStaticPaths() {
+/* export async function getStaticPaths() {
 	const schools = await getAllSchools();
 	const dynamicPages = schools.filter(
 		(el) => el?.node.uri.length > 1
@@ -32,10 +32,9 @@ export async function getStaticPaths() {
 	  paths,
 	  fallback: 'blocking'
 	};
-  }
-export async function getStaticProps({params}) {
+  } */
+export async function getServerSideProps({params}) {
    const {schoolSlug} = params;
-
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
         siteSettings {
@@ -231,10 +230,6 @@ export default function SchoolMainPage({school, schoolSlug, staffImage}) {
 
     return (
         <div className='school school-home'>
-            <Head>
-                <title>{metaTitle}</title>
-                {metaDesc && <meta name={"description"} content={metaDesc}/>}
-            </Head>
             <EmergencyAlert/>
             <HeroWithSlider corporateSettings={corporateSettings}
                             adminSettings={adminSettings} schoolSlug={schoolSlug}/>
@@ -246,4 +241,4 @@ export default function SchoolMainPage({school, schoolSlug, staffImage}) {
             <ScheduleATourSlider schoolSlug={schoolSlug} images={defaultImages} usesCalendly={corporateSettings?.usesCalendly}/>
         </div>
     );
-}
+} 
