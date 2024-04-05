@@ -14,7 +14,7 @@ import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider
 import Head from "next/head";
 import { getAllSchools } from '../../../app/lib/pages';
 
-/* export async function getStaticPaths() {
+export async function getStaticPaths() {
 	const schools = await getAllSchools();
 	const dynamicPages = schools.filter(
 		(el) => el?.node.uri.length > 1
@@ -32,8 +32,8 @@ import { getAllSchools } from '../../../app/lib/pages';
 	  paths,
 	  fallback: 'blocking'
 	};
-  } */
-export async function getServerSideProps({params}) {
+  } 
+export async function getStaticProps({params}) {
    const {schoolSlug} = params;
     const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
