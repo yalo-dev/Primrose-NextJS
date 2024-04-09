@@ -259,7 +259,7 @@ const SearchPage: React.FC = () => {
                     enhancedResource.resourceTagNames = await fetchNames(resource.resource_tag, 'resource_tag');
                 }
                 if(resource.url.includes('/schools/')){
-                    enhancedResource.title = "Primrose Schools: " + resource.title;
+                    enhancedResource.title = "Primrose School: " + resource.title;
                 }
                 return enhancedResource;
             }));
