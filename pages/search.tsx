@@ -260,11 +260,11 @@ const SearchPage: React.FC = () => {
                 if (resource.resource_tag) {
                     enhancedResource.resourceTagNames = await fetchNames(resource.resource_tag, 'resource_tag');
                 }
-
+                
                 return enhancedResource;
             }));
-
-            setSearchResults(resultsWithAdditionalData);
+            const newsExcludedResults = resultsWithAdditionalData.filter((post: SearchResult) => !post.url.includes('/news/'));
+            setSearchResults(newsExcludedResults);
         } catch (error) {
             console.error(error);
             setError('Failed to load search results: ' + error.message);
