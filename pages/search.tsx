@@ -23,9 +23,7 @@ const GET_TITLE_FOR_PANELS = gql`
 
 interface SearchResult {
     id: number;
-    title: {
-        rendered: string;
-    };
+    title: string;
     excerpt: {
         rendered: string;
     };
@@ -260,7 +258,9 @@ const SearchPage: React.FC = () => {
                 if (resource.resource_tag) {
                     enhancedResource.resourceTagNames = await fetchNames(resource.resource_tag, 'resource_tag');
                 }
-                
+                if(resource.url.includes('/schools/')){
+                    enhancedResource.title = "Primrose Schools: " + resource.title;
+                }
                 return enhancedResource;
             }));
             const newsExcludedResults = resultsWithAdditionalData.filter((post: SearchResult) => !post.url.includes('/news/'));
