@@ -18,11 +18,11 @@ export default function FirstFive({ adminSettings, corporateSettings, schoolSlug
     const selectedClassrooms = adminSettings?.classroomsOffered;
     const selectedExtraCare = adminSettings?.extraCareOffered
     const selectedOfferings =  selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    const sortedSelectedOfferings = [...selectedOfferings].sort((a, b) => {
+    const sortedSelectedOfferings = (selectedOfferings && selectedOfferings.includes("Summer Adventure Club")) ?[...selectedOfferings].sort((a, b) => {
         if (a === "Summer Adventure Club") return 1;
         if (b === "Summer Adventure Club") return -1;
         return 0;
-    });
+    }) : selectedOfferings || [];
     // const dropdownOptions = selectedOfferings && selectedOfferings.map(classroom => classroom && ({
     //     label: classroom,
     //     url: `${schoolSlug}/classrooms/${classroom.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`
