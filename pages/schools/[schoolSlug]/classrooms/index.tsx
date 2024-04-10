@@ -1,4 +1,6 @@
-import { useQuery, gql } from "@apollo/client";
+
+import { client } from '../../../../app/lib/apollo';
+import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import GeneralHorizontalTabs from "../../../../app/components/modules/GeneralHorizontalTabs/GeneralHorizontalTabs";
 import Heading from "../../../../app/components/atoms/Heading/Heading";
@@ -162,16 +164,33 @@ query SchoolData($id: ID!) {
     }
   }
 `;
-
-export default function ClassroomPage() {
+export async function getServerSideProps(context) {
+    const { schoolSlug } = context.params;
+    const response = await client.query({
+        query: GET_SCHOOL_DETAILS,
+        variables: { id: schoolSlug }
+      });
+    
+      const school = response?.data?.school;
+      const classroom = response?.data?.classroom;
+      //console.log(staff);
+      
+      let customSeo = {fullHead: school.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/our-classrooms`).replaceAll(`<title>`, `<title>Daycare and Preschool Programs | `)};
+      return {
+        props: {
+          school,
+          classroom,
+          schoolSlug,
+          customSeo
+        },
+      };
+}
+export default function ClassroomPage({school, classroom, schoolSlug}) {
     
     const router = useRouter();
     const [currentSlug, setCurrentSlug] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<string | null>(null);
-    const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
-        variables: { id: currentSlug || '' },
-        skip: !currentSlug,
-    });
+    
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
     const [allImagesLoaded, setAllImagesLoaded] = useState(false);
@@ -290,7 +309,7 @@ export default function ClassroomPage() {
     }, []);
  
     useEffect(() => {
-        if (data) {
+        if (school) {
             const handleClick = (event) => {
                 const desktopBreakpoint = 992;
                 if (window.innerWidth < desktopBreakpoint) {
@@ -317,7 +336,7 @@ export default function ClassroomPage() {
                 clickableButtons.forEach(btn => btn.removeEventListener('click', handleClick));
             };
         }
-    }, [data]);
+    }, [school]);
 
     useEffect(() => {
         const leftScroller = leftScrollerRef.current;
@@ -348,9 +367,8 @@ export default function ClassroomPage() {
         };
     }, []);
     //console.log(error);
-    if (loading) return <div></div>;
-    if (error) return <div></div>;
-    if (!data?.school) return <div></div>;
+    
+    if (!school) return <div></div>;
 
     const handleTabClick = (tabId: string) => {
         const mobileBreakpoint = 992;
@@ -395,26 +413,20 @@ export default function ClassroomPage() {
             </div>
         );
     };
-    const  heroWithImage  = data.classroom.classroomModules.classroomHero;
-    let selectedClassrooms = data?.school?.schoolAdminSettings?.classroomsOffered || [];
-    let selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
+    const  heroWithImage  = classroom.classroomModules.classroomHero;
+    let selectedClassrooms =school?.schoolAdminSettings?.classroomsOffered || [];
+    let selectedExtraCare = school?.schoolAdminSettings?.extraCareOffered;
     if (selectedExtraCare == 'Before After School') { selectedExtraCare = 'Before & After School Care' }
     const schoolOfferings = selectedExtraCare != 'None' ? selectedClassrooms.concat(selectedExtraCare) : selectedClassrooms;
-    const classroom = data?.classroom || {};
     const satImages = classroom?.classroomModules?.ctaContentBlockScrollies?.filter((imgObj) => imgObj && imgObj.image)
         .map((imgObj) => ({url: imgObj?.image?.sourceUrl, altText: imgObj?.image?.altText}))
     const tabs = classroom?.classroomModules.verticalTabs.tabs || {};
-    const school = data?.school
     const ofAtOn = school?.schoolCorporateSettings?.schoolOfAtOn ?? 'of'
     const schoolName = "Primrose School " + ofAtOn + " " + school?.title
     const schoolCity = school?.schoolCorporateSettings?.address?.city
 
     return (
         <>
-            <Head>
-                <title>Daycare and Preschool Programs | {schoolName}</title>
-                <meta name={"description"} content={`${schoolName} is nationally recognized daycare provider located in the ${schoolCity} area that offers infant, toddler, preschool and pre-kindergarten programs.`} />
-            </Head>
             <div className="school classrooms">
                 <div className="container jumbo">
                     <div className="hero-with-image-module">

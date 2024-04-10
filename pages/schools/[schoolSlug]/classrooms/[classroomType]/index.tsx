@@ -469,11 +469,15 @@ export async function getServerSideProps(context) {
     const school = response.data.school;
     
     const data = response.data;
+
+    let customSeo = {fullHead: data.classroom.seo.fullHead.replaceAll(`/classroom/${classroomType}`, `/schools/${schoolSlug}/classrooms/${classroomType}`)};
+
     return {
       props: {
         school,
         schoolSlug,
-        data
+        data,
+        customSeo
       },
     };
   } catch (error) {

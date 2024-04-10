@@ -84,13 +84,16 @@ export async function getServerSideProps(context) {
   const schoolAdminSettings = response?.data?.school?.schoolAdminSettings;
   const franchiseOwner = response?.data?.school?.schoolAdminSettings?.franchiseOwner;
   //console.log(staff);
+  
+  let customSeo = {fullHead: school.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/staff`).replaceAll(`<title>`, `<title>Franchise Owner(s) and Staff | `)};
   return {
     props: {
       school,
       staff,
       schoolSlug,
       schoolAdminSettings,
-      franchiseOwner
+      franchiseOwner,
+      customSeo
     },
   };
 }
@@ -160,10 +163,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
 
   return (
     <div className='school staff'>
-      <Head>
-        <title>{metaTitle}</title>
-        {metaDesc && <meta name={"description"} content={metaDesc}/>}
-      </Head>
+    
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>

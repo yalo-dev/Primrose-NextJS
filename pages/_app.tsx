@@ -161,10 +161,19 @@ function MyApp({ Component, pageProps }) {
 		seo = parse(pageProps.page.data.page.seo.fullHead);
 	}else if(pageProps.school){
 		if(pageProps.data?.classroom.seo){
-			seo = parse(pageProps.data.classroom.seo.fullHead);
+			if(pageProps.customSeo){
+				seo = parse(pageProps.customSeo.fullHead);
+			}else{
+				seo = parse(pageProps.data.classroom.seo.fullHead);
+			}
 		}
 		else if(pageProps.school.seo){
-			seo = parse(pageProps.school.seo.fullHead);
+			if(pageProps.customSeo){
+				seo = parse(pageProps.customSeo.fullHead);
+			}else{
+				seo = parse(pageProps.school.seo.fullHead);
+			}
+			
 		}
 	}else if(pageProps.seo){
 		seo = parse(pageProps.seo.contentTypes.resource.archive.fullHead);

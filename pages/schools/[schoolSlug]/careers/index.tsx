@@ -92,18 +92,19 @@ export async function getServerSideProps(context) {
         });
         //console.log("!!!!! repsonse !!!!!")
         //console.log(response);
-        const school = response?.data?.school;
+        let school = response?.data?.school;
         if (!school) {
             return { notFound: true };
         }
         const careerPlugSchoolId = school.schoolCorporateSettings.careerplugSchoolId || null;
-
+        let customSeo = {fullHead: school.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/careers`).replaceAll(`<title>`, `<title>Careers | `)};
 
         return {
             props: {
                 school,
                 schoolSlug,
                 careerPlugSchoolId,
+                customSeo
             },
         };
 
@@ -142,10 +143,6 @@ export default function SchoolCareerPage({ school }) {
 
     return (
         <div className='school school-careers'>
-            <Head>
-              <title>{metaTitle}</title>
-              {metaDesc && <meta name={"description"} content={metaDesc}/>}
-            </Head>
 
             {/* Start Open Positions Section  */}
             <div className='jobs-container'>
