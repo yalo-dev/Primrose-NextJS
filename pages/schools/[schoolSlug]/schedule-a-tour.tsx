@@ -23,6 +23,9 @@ export async function getServerSideProps(context) {
             slug
             uri
             title
+            seo{
+                fullHead
+            }
             schoolAdminSettings {
               instagramLink
               yelpLink
@@ -68,9 +71,12 @@ export async function getServerSideProps(context) {
     const schoolData = response?.data?.school;
     const schoolSettings = schoolData.schoolAdminSettings || {};
 
+    let customSeo = {fullHead: schoolData.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/schedule-a-tour`).replaceAll(`<title>`, `<title>Contact Us | `)};
 
     return {
         props: {
+            school: schoolData,
+            customSeo,
             schoolTitle: schoolData?.title,
             schoolSlug: schoolData?.slug || '',
             corporate: schoolData?.schoolCorporateSettings || {}, 
