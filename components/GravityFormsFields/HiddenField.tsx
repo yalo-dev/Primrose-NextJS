@@ -25,7 +25,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as HiddenFieldValues | undefined;
     const fieldRef = useRef<HTMLInputElement>(null);
     const UserSessionAnalytics = document.cookie.split("; ").find((row) => row.startsWith("UserSession="))?.split("=")[1] || '';
-
+    const [uuid, setUuid] = useState(null);
     function setAnalyticsValue(field) {
         let value = ''
         let utmParameters = UserSessionAnalytics.split('%26')
@@ -40,6 +40,9 @@ export default function HiddenField({ field, hiddenFields }: Props) {
         }
         return value
     }
+    useEffect(()=>{
+        setUuid(uuidv4());
+    },[fieldRef]);
 
     let dynamicFieldValue = ''
     if (label == "IP Address") {
@@ -49,7 +52,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     } else if (label == "Event Source URL") {
         dynamicFieldValue = window.location.href
     } else if (label == "UUID") {
-        dynamicFieldValue = uuidv4();
+        dynamicFieldValue = uuid;
     } else if (label == "Procare") {
         dynamicFieldValue = hiddenFields.procare;
     } else if (label == "School") {
