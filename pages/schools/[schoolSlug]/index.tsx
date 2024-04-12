@@ -204,6 +204,7 @@ export async function getStaticProps({params}) {
                 schoolSlug,
                 staffImage
             },
+            revalidate: 60,
         };
     } catch (error) {
         console.error('getServerSideProps Error:', error);
