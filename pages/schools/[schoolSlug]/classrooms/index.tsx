@@ -175,7 +175,7 @@ export async function getServerSideProps(context) {
       const classroom = response?.data?.classroom;
       //console.log(staff);
       
-      let customSeo = {fullHead: school.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/our-classrooms`).replaceAll(`<title>`, `<title>Daycare and Preschool Programs | `)};
+      let customSeo = {fullHead: school.seo.fullHead.replaceAll(`${schoolSlug}`, `${schoolSlug}/classrooms`).replaceAll(`<title>`, `<title>Daycare and Preschool Programs | `)};
       return {
         props: {
           school,
