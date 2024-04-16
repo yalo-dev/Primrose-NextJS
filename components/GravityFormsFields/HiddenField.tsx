@@ -73,6 +73,7 @@ export default function HiddenField({ field, hiddenFields }: Props) {
     }
     // console.log(document.cookie)
     useEffect(()=>{
+        setUuid(uuidv4());
         dispatch({
             type: ACTION_TYPES.updateHiddenFieldValue,
             fieldValue: {
@@ -82,6 +83,16 @@ export default function HiddenField({ field, hiddenFields }: Props) {
         });
       }, [fieldRef]
     );
+    useEffect(() => {
+        dispatch({
+            type: ACTION_TYPES.updateHiddenFieldValue,
+            fieldValue: {
+                id,
+                value: fieldRef.current.value,
+            },
+        });
+    }, [uuid]);
+
     return (
         <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} hidden`.trim()}>
             <input
