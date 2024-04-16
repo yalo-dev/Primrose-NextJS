@@ -163,7 +163,10 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
 
   return (
     <div className='school staff'>
-    
+      <Head>
+        <title>{metaTitle}</title>
+        {metaDesc && <meta name={"description"} content={metaDesc}/>}
+      </Head>
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>

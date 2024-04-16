@@ -143,7 +143,10 @@ export default function SchoolCareerPage({ school }) {
 
     return (
         <div className='school school-careers'>
-
+            <Head>
+              <title>{metaTitle}</title>
+              {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             {/* Start Open Positions Section  */}
             <div className='jobs-container'>
                 <div className='container'>

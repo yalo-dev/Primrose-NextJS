@@ -231,6 +231,10 @@ export default function SchoolMainPage({school, schoolSlug, staffImage}) {
 
     return (
         <div className='school school-home'>
+            <Head>
+                <title>{metaTitle}</title>
+                {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             <EmergencyAlert/>
             <HeroWithSlider corporateSettings={corporateSettings}
                             adminSettings={adminSettings} schoolSlug={schoolSlug}/>
