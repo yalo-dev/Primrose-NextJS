@@ -130,6 +130,13 @@
     .has-image-or-video .slick-dots{
         top: 355px;
     }
+    .media-wrap {
+        height: 0;
+        
+    }
+    .has-image-or-video .media-wrap {
+        height: 330px;
+    }
     .slick-dots {
         background: rgba(0, 0, 0, 0.05);
         border-radius: 1rem;

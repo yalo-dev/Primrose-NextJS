@@ -116,6 +116,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                     <Slider {...sliderSettings}>
                         {slider?.map((slide, index) => (
                             <div key={index} className="slider-item">
+                                <div className="media-wrap">
                                     {slide.imageOrVideo === 'image' && slide.image?.sourceUrl &&
                                         <div className="image-wrap">
                                             <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
@@ -129,6 +130,7 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                             </div>
                                         </div>
                                     }
+                                </div>
                                <div className="text-wrap">
                                     {slide.testimonial && (
                                         <ColorComponent color={slide.testimonialColor}>
