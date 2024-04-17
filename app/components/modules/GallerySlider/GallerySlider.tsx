@@ -143,7 +143,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                             width={1920}
                             height={1920}
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
-                            alt={( item.imageAlt ?? item.image?.altText) ?? `gallery slider image ${index}`}
+                            alt={(item.imageAltText) ?? `gallery slider image ${index}`}
                             onLoad={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 handleImageLoad(index, target.offsetWidth);

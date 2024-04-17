@@ -45,6 +45,7 @@ export async function getServerSideProps(context) {
                 altText
                 sourceUrl
               }
+              imageAltText
               title
               caption
             }
