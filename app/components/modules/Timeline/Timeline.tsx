@@ -57,55 +57,47 @@ const Timeline: React.FC<TimelineProps> = ({
     const isNextDisabled = currentIndex >= tiles.length - 1;
     const isPrevDisabled = currentIndex <= 0;
     const containerRef = useRef(null);
-    const [sliderMarginLeft, setSliderMarginLeft] = useState(0);
+    const [timestamp, setTimestamp] = useState(Date.now())
+    const transitionSpeed = 500
 
-    const handleBeforeChange = (oldIndex, newIndex) => {
-        setCurrentIndex(newIndex);
-    };
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if (containerRef.current) {
-                const containerOffset = containerRef.current.getBoundingClientRect().left;
-                setSliderMarginLeft(containerOffset);
-            }
-        }, 0);
+        tileSlider.current?.slickGoTo(currentIndex)
+    }, [currentIndex]);
 
-        return () => clearTimeout(timer);
-    }, []);
-
-    const NextArrow = (props) => {
-        return (
-            <div onClick={isNextDisabled ? null : handleNext} className={`slick-next ${isNextDisabled ? 'disabled' : ''}`}>
-                <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="15" cy="15" r="15" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.5 0)" fill="#E6E7E4" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8235 9.20605C13.4421 9.52033 13.3905 10.0808 13.7084 10.458L17.7021 15.1968L13.7338 19.5132C13.3998 19.8764 13.4269 20.4386 13.7943 20.7688C14.1616 21.0991 14.7302 21.0723 15.0641 20.709L19.0324 16.3927C19.636 15.7363 19.6577 14.7403 19.0833 14.0587L15.0895 9.31986C14.7717 8.94272 14.2049 8.89177 13.8235 9.20605Z" fill="#555F68" />
-                </svg>
-            </div>
-        );
-    };
-
-    const PrevArrow = (props) => {
-        return (
-            <div onClick={isPrevDisabled ? null : handlePrev} className={`slick-prev ${isPrevDisabled ? 'disabled' : ''}`}>
-                <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="15" cy="15" r="15" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.5 0)" fill="#E6E7E4" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8235 9.20605C13.4421 9.52033 13.3905 10.0808 13.7084 10.458L17.7021 15.1968L13.7338 19.5132C13.3998 19.8764 13.4269 20.4386 13.7943 20.7688C14.1616 21.0991 14.7302 21.0723 15.0641 20.709L19.0324 16.3927C19.636 15.7363 19.6577 14.7403 19.0833 14.0587L15.0895 9.31986C14.7717 8.94272 14.2049 8.89177 13.8235 9.20605Z" fill="#555F68" />
-                </svg>
-            </div>
-        );
-    };
-
+    const delayExecution = (func: () => void) => {
+        const now = Date.now()
+        if (now > timestamp + transitionSpeed) {
+            func()
+            setTimestamp(now)
+        }
+    }
     const handleNext = () => {
-        const newIndex = Math.min(currentIndex + 1, tiles.length - 1);
-        setCurrentIndex(newIndex);
-        tileSlider.current.slickGoTo(newIndex);
+        setCurrentIndex(prev => Math.min(prev + 1, tiles.length - 1))
+    }
+    const handlePrev = () => {
+        setCurrentIndex(prev => Math.max(prev - 1, 0))
+    }
+    const NextArrow = () => {
+        return (
+            <div onClick={() => delayExecution(handleNext)} className={`slick-next ${isNextDisabled ? 'disabled' : ''}`}>
+                <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="15" r="15" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.5 0)" fill="#E6E7E4" />
+                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8235 9.20605C13.4421 9.52033 13.3905 10.0808 13.7084 10.458L17.7021 15.1968L13.7338 19.5132C13.3998 19.8764 13.4269 20.4386 13.7943 20.7688C14.1616 21.0991 14.7302 21.0723 15.0641 20.709L19.0324 16.3927C19.636 15.7363 19.6577 14.7403 19.0833 14.0587L15.0895 9.31986C14.7717 8.94272 14.2049 8.89177 13.8235 9.20605Z" fill="#555F68" />
+                </svg>
+            </div>
+        );
     };
 
-    const handlePrev = () => {
-        const newIndex = Math.max(currentIndex - 1, 0);
-        setCurrentIndex(newIndex);
-        tileSlider.current.slickGoTo(newIndex);
+    const PrevArrow = () => {
+        return (
+            <div onClick={() => delayExecution(handlePrev)} className={`slick-prev ${isPrevDisabled ? 'disabled' : ''}`}>
+                <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="15" r="15" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.5 0)" fill="#E6E7E4" />
+                    <path fillRule="evenodd" clipRule="evenodd" d="M13.8235 9.20605C13.4421 9.52033 13.3905 10.0808 13.7084 10.458L17.7021 15.1968L13.7338 19.5132C13.3998 19.8764 13.4269 20.4386 13.7943 20.7688C14.1616 21.0991 14.7302 21.0723 15.0641 20.709L19.0324 16.3927C19.636 15.7363 19.6577 14.7403 19.0833 14.0587L15.0895 9.31986C14.7717 8.94272 14.2049 8.89177 13.8235 9.20605Z" fill="#555F68" />
+                </svg>
+            </div>
+        );
     };
 
     const tileSettings = {
@@ -116,7 +108,7 @@ const Timeline: React.FC<TimelineProps> = ({
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         infinite: false,
-        beforeChange: handleBeforeChange,
+        speed: transitionSpeed,
         responsive: [
             {
                 breakpoint: 1023,
@@ -138,8 +130,8 @@ const Timeline: React.FC<TimelineProps> = ({
     const contentSettings = {
         slidesToShow: 1,
         slidesToScroll: 1,
+        speed: transitionSpeed,
         asNavFor: tileSlider.current,
-        beforeChange: handleBeforeChange,
     };
 
     return (
@@ -163,7 +155,7 @@ const Timeline: React.FC<TimelineProps> = ({
                     <div className='timeline-tiles mt-3 container' >
                         <Slider ref={tileSlider} {...tileSettings}>
                             {tiles.map((tile, tileIndex) => (
-                                <div key={tileIndex} className="tile-container">
+                                <div key={tileIndex} className="tile-container" onClick={() => delayExecution(() => setCurrentIndex(tileIndex))}>
                                     <div key={tileIndex} className="tile">
                                         <h3>{tile.tileTitle}</h3>
                                         <p className='b3' dangerouslySetInnerHTML={{ __html: tile.tileBlurb }} />
