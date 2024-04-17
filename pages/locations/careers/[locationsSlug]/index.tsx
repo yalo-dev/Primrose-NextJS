@@ -72,18 +72,18 @@ export default function Location({ locationData }){
      
       const testimonials = [];
       market?.marketSettings?.careersTestimonials?.map((testimonial, index) => {
+      const { sourceUrl, altText } = testimonial.testimonialImage || {};
           testimonials.push({
             imageOrVideo: 'image',
-            image: {
-              sourceUrl: testimonial.testimonialImage?.sourceUrl,
-              altText: testimonial.testimonialImage?.altText
-            },
+            ...(sourceUrl && { image: { sourceUrl, altText } }),
             title: testimonial?.name,
             position: testimonial?.title,
             testimonial: testimonial?.testimonial
             
           })
         });
+
+
     const testimonials_props = {
       slider: testimonials,
       heading: market.marketSettings.testimonialsSectionTitle,

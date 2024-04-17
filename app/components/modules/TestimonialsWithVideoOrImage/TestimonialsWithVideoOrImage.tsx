@@ -59,6 +59,8 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
         slider 
     } = props;
 
+    const sliderContent = slider?.some(slide => slide.image) ? 'has-image-or-video' : ''; 
+
     // Slider settings
     const sliderSettings = {
         dots: true,
@@ -110,11 +112,10 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                     }
                 
                 </div>
-                <div className="slider-wrap">
+                <div className={`slider-wrap ${sliderContent}`}>
                     <Slider {...sliderSettings}>
                         {slider?.map((slide, index) => (
                             <div key={index} className="slider-item">
-                                <div className="image-video-container">
                                     {slide.imageOrVideo === 'image' && slide.image?.sourceUrl &&
                                         <div className="image-wrap">
                                             <img src={slide.image.sourceUrl} alt={slide.image.altText || "Slide image"} width={500} height={300} />
@@ -128,7 +129,6 @@ const TestimonialsWithVideoOrImage: React.FC<TestimonialsWithVideoOrImageProps> 
                                             </div>
                                         </div>
                                     }
-                                </div>
                                <div className="text-wrap">
                                     {slide.testimonial && (
                                         <ColorComponent color={slide.testimonialColor}>

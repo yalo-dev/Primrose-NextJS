@@ -127,6 +127,9 @@
         background: url('https://settings.primroseschools.com/wp-content/uploads/2024/02/Primrose-LogoGreen.jpg') no-repeat center center;
         background-size: contain;
     }
+    .has-image-or-video .slick-dots{
+        top: 355px;
+    }
     .slick-dots {
         background: rgba(0, 0, 0, 0.05);
         border-radius: 1rem;
@@ -136,7 +139,7 @@
         align-items: center;
         padding: 7px 6px;
         position: absolute;
-        top: 345px;
+        top: 2%;
         bottom: auto;
         right: 0rem;
         left: 0;
@@ -178,6 +181,9 @@
             }
         }
     }
+    .has-image-or-video .slick-arrow {
+        top: 375px;
+    }
     .slick-arrow {
         width: 25px;
         height: 25px;
@@ -190,7 +196,7 @@
         transition: all 0.3s ease;
         opacity: 1;
         position: absolute;
-        top: 362px;
+        top: 5%;
         left: auto;
         right: 0;
         @include media-breakpoint-up(md) {
