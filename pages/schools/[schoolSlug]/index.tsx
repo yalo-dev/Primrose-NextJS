@@ -214,7 +214,9 @@ export async function getStaticProps({params}) {
 
 export default function SchoolMainPage({school, schoolSlug, staffImage}) {
     const corporateSettings = school?.schoolCorporateSettings;
-    const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title}`
+    const schoolState = corporateSettings?.homepageMeta?.address?.state
+    const schoolCity = corporateSettings?.homepageMeta?.address?.city
+    const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title} | Daycare and Preschool in ${schoolCity}, ${schoolState}`
     const metaDesc = corporateSettings?.homepageMeta?.description
     const adminSettings = school?.schoolAdminSettings;
     const [isClient, setIsClient] = useState(false);
