@@ -24,7 +24,7 @@ export default function FranchiseOwnerBio({franchiseOwner}) {
                         {franchiseOwner?.image && (
                             <img
                                 src={franchiseOwner.image.sourceUrl}
-                                alt={'Franchise Owner ' + franchiseOwner.name}
+                                alt={franchiseOwner.imageAltText ? franchiseOwner.imageAltText : 'Photo of Franchise Owner ' + franchiseOwner.name}
                                 className='img-fluid'
                                 width="500"
                                 height="500"

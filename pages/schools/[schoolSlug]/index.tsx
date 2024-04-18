@@ -117,6 +117,7 @@ export async function getStaticProps({params}) {
                   sourceUrl
                   mediaItemUrl
                 }
+                imageAltText
               }
               classroomsOffered
               extraCareOffered
