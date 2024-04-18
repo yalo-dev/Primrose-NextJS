@@ -117,6 +117,7 @@ export async function getStaticProps({params}) {
                   sourceUrl
                   mediaItemUrl
                 }
+                imageAltText
               }
               classroomsOffered
               extraCareOffered
@@ -209,13 +210,13 @@ export async function getStaticProps({params}) {
     } catch (error) {
         console.error('getServerSideProps Error:', error);
         return {props: {hasError: true}};
-    } 
+    }
 }
 
 export default function SchoolMainPage({school, schoolSlug, staffImage}) {
     const corporateSettings = school?.schoolCorporateSettings;
-    const schoolState = corporateSettings?.homepageMeta?.address?.state
-    const schoolCity = corporateSettings?.homepageMeta?.address?.city
+    const schoolState = corporateSettings?.address?.state
+    const schoolCity = corporateSettings?.address?.city
     const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title} | Daycare and Preschool in ${schoolCity}, ${schoolState}`
     const metaDesc = corporateSettings?.homepageMeta?.description
     const adminSettings = school?.schoolAdminSettings;
