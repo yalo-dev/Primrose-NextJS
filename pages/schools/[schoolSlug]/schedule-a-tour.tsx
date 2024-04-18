@@ -117,7 +117,10 @@ export const CalendlyContext = createContext(null)
 export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, schoolHours, schoolTitle, hiddenFields, schedulerEvent, calendlyURLs }) {
 
     const metaTitle = corporate?.scheduleATourMeta?.title ?? `Contact us | Primrose School of ${schoolTitle}`
-    const metaDesc = corporate?.scheduleATourMeta?.description
+    const schoolCity = corporate?.address.city
+    const schoolState = corporate?.address.state
+    const defaultDesc = `When you walk through the door at Primrose School of ${schoolTitle}, you'll realize we're more than a daycare in ${schoolCity}, ${schoolState}. Contact us to schedule a tour.`
+    const metaDesc = corporate?.scheduleATourMeta?.description ?? defaultDesc
     const nonCalendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and we’ll contact you about a tour."
     const calendlyDesc = "We’d love for your family to meet ours. Please fill out the form below and select your tour date and time."
     const formDescription = corporate.usesCalendly == true ? calendlyDesc : nonCalendlyDesc;
@@ -176,7 +179,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
         <div className='school schedule-a-tour'>
             <Head>
               <title>{metaTitle}</title>
-              {metaDesc && <meta name={"description"} content={metaDesc}/>}
+              <meta name={"description"} content={metaDesc}/>
             </Head>
             <div className="container">
                 <div className="row">
