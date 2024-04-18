@@ -183,7 +183,7 @@ export default function ScheduleATourPage({ schoolSlug, corporate, socialLinks, 
                     <div className="main-wrapper col-12 col-lg-8">
                         <div className="form-wrapper">
                             <div className="heading-wrapper">
-                                <h1 id='sat-heading' className='heading green'>Schedule A Tour</h1>
+                                <h2 id='sat-heading' className='heading green'>Schedule A Tour</h2>
                                 <p className="desc b3">{formDescription}</p>
                             </div>
                             <CalendlyContext.Provider value={{ isCalendlySelected, setCalendlySelected }}>

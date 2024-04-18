@@ -221,11 +221,47 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 >
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-none d-lg-block pt-5'>
+                            <div className='heading-wrapper d-block pt-5'>
                                 {leftColumn.eyebrow && <Subheading level='div' className='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Subheading>}
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}><div dangerouslySetInnerHTML={{ __html: leftColumn.heading }} /></Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
                             </div>
+                            {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
+                                <div className='video-wrapper d-block d-lg-none'>
+                                    <video
+                                        ref={videoRef}
+                                        autoPlay
+                                        muted
+                                        playsInline
+                                        loop
+                                    >
+                                        {rightColumn.video.mediaItemUrl?.includes('.mp4') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/mp4" />
+                                        )}
+
+                                        {rightColumn.video.mediaItemUrl?.includes('.ogv') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/ogg" />
+                                        )}
+
+                                        {rightColumn.video.mediaItemUrl?.includes('.webm') && (
+                                            <source src={rightColumn.video.mediaItemUrl} type="video/webm" />
+                                        )}
+
+                                    </video>
+                                </div>
+                            )}
+
+                            {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
+                                <div className='image-wrapper mb-4 mb-lg-0 d-block d-lg-none'>
+                                    <Image
+                                        src={rightColumn.image?.sourceUrl}
+                                        alt={rightColumn.image?.altText}
+                                        width={1920}
+                                        height={1080}
+                                        priority
+                                    />
+                                </div>
+                            )}
                             <div className={`find-a-location-hero ${searchFieldClass} ${locationServicesEnabled ? '' : 'location-disabled'}`}>
                                 <h5 className='heading'>
                                     <span className='pin-icon me-2'>
@@ -313,13 +349,9 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                         </div>
 
                         <div className='right-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-block d-lg-none'>
-                                {leftColumn.eyebrow && <Subheading level='div' className='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Subheading>}
-                                {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}>{leftColumn.heading}</Heading>}
-                                {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
-                            </div>
+                            
                             {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
-                                <div className='video-wrapper'>
+                                <div className='video-wrapper d-none d-lg-block'>
                                     <video
                                         ref={videoRef}
                                         autoPlay
@@ -344,7 +376,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             )}
 
                             {rightColumn.videoOrImage === "Image" && rightColumn.image?.sourceUrl && (
-                                <div className='image-wrapper mb-4 mb-lg-0'>
+                                <div className='image-wrapper mb-4 mb-lg-0 d-none d-lg-block'>
                                     <Image
                                         src={rightColumn.image?.sourceUrl}
                                         alt={rightColumn.image?.altText}
@@ -355,8 +387,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                 </div>
                             )}
                         </div>
-
-
                     </div>
                 </Customizations>
             </div>
