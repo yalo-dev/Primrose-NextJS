@@ -17,12 +17,12 @@ export default function FranchiseOwnerModal({ franchiseOwner, show, onClose }) {
               )}
             </div>
             <div className='right-column'>
-              <h5 className='b4'>{franchiseOwner.name}</h5>
+              <h5 className='b4' dangerouslySetInnerHTML={{__html: franchiseOwner.name}}/>
               <div className='b3 pb-3'>{franchiseOwner.multipleOwners ? 'Franchise Owners' : 'Franchise Owner'}</div>
-              <div className="modal-bio" dangerouslySetInnerHTML={{__html:franchiseOwner.bio}} />
+              <div className="modal-bio" dangerouslySetInnerHTML={{__html: franchiseOwner.bio}}/>
             </div>
           </div>
         </div>
       </div>
     );
-  };
+};
