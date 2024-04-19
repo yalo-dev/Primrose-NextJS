@@ -128,7 +128,8 @@ export default function SchoolCareerPage({ school }) {
     const cmsJobs = school?.schoolAdminSettings?.jobPostings ?? [];
     const { city, state } = school.schoolCorporateSettings.address || {};
     const metaTitle = school.schoolCorporateSettings?.careersMeta?.title ?? `Careers | Primrose School of ${school?.title}`
-    const metaDesc = school.schoolCorporateSettings?.careersMeta?.description
+    const defaultDesc = `If you're interested in changing lives, consider a career in childcare at Primrose School of ${school?.title}. View our open school leadership and teaching positions.`
+    const metaDesc = school.schoolCorporateSettings?.careersMeta?.description ?? defaultDesc
     const { usesCareerplug, careerplugIframeUrl } = school.schoolCorporateSettings;
     const sliderItems = testimonials?.map(testimonial => ({
         image: {
@@ -144,7 +145,10 @@ export default function SchoolCareerPage({ school }) {
 
     return (
         <div className='school school-careers'>
-
+            <Head>
+              <title>{metaTitle}</title>
+              <meta name={"description"} content={metaDesc}/>
+            </Head>
             {/* Start Open Positions Section  */}
             <div className='jobs-container'>
                 <div className='container'>

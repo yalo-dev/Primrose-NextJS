@@ -210,12 +210,14 @@ export async function getStaticProps({params}) {
     } catch (error) {
         console.error('getServerSideProps Error:', error);
         return {props: {hasError: true}};
-    } 
+    }
 }
 
 export default function SchoolMainPage({school, schoolSlug, staffImage}) {
     const corporateSettings = school?.schoolCorporateSettings;
-    const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title}`
+    const schoolState = corporateSettings?.address?.state
+    const schoolCity = corporateSettings?.address?.city
+    const metaTitle = corporateSettings?.homepageMeta?.title ?? `Primrose School of ${school?.title} | Daycare and Preschool in ${schoolCity}, ${schoolState}`
     const metaDesc = corporateSettings?.homepageMeta?.description
     const adminSettings = school?.schoolAdminSettings;
     const [isClient, setIsClient] = useState(false);
@@ -232,6 +234,10 @@ export default function SchoolMainPage({school, schoolSlug, staffImage}) {
 
     return (
         <div className='school school-home'>
+            <Head>
+                <title>{metaTitle}</title>
+                {metaDesc && <meta name={"description"} content={metaDesc}/>}
+            </Head>
             <EmergencyAlert/>
             <HeroWithSlider corporateSettings={corporateSettings}
                             adminSettings={adminSettings} schoolSlug={schoolSlug}/>

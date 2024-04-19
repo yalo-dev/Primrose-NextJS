@@ -40,6 +40,10 @@ export async function getServerSideProps(context) {
               fieldGroupName
               title
             }
+            address {
+              city
+              state
+            }
           }
           schoolAdminSettings {
             staffMembers {
@@ -106,8 +110,11 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
   const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
+  const schoolCity = school.schoolCorporateSettings?.address?.city
+  const schoolState = school.schoolCorporateSettings?.address?.state
   const metaTitle = school.schoolCorporateSettings?.staffMeta?.title ?? `Franchise Owner(s) and Staff | Primrose School of ${school?.title}`
-  const metaDesc = school.schoolCorporateSettings?.staffMeta?.description
+  const defaultDesc = `Meet the teachers and leadership team at Primrose School of ${school?.title}, one of the premier child care and early education providers in ${schoolCity}, ${schoolState}.`
+  const metaDesc = school.schoolCorporateSettings?.staffMeta?.description ?? defaultDesc
 
   useEffect(() => {
     setActiveBio(null)
@@ -163,7 +170,10 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
 
   return (
     <div className='school staff'>
-    
+      <Head>
+        <title>{metaTitle}</title>
+        <meta name={"description"} content={metaDesc}/>
+      </Head>
       <div className='row'>
         <div className='staff-members-section'>
           <div className='heading'>

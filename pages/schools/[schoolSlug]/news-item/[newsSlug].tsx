@@ -11,6 +11,7 @@ import Button from "../../../../app/components/atoms/Button/Button";
 import {useRouter} from "next/router";
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
+import Head from "next/head";
 
 
 interface ResourceType {
@@ -32,6 +33,7 @@ interface Resource {
 const GET_NEWS_ITEM = gql`
 query GetNewsItem($schoolSlug: ID!) {
 	school(id: $schoolSlug, idType: URI) {
+		title
 		seo {
 			fullHead
 		}
@@ -106,9 +108,13 @@ export default function SchoolNewsItem() {
 	let wrappedContent = newsItem.content ? wrapIframesInResponsiveDiv(newsItem.content) : '';
 
 	const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-	console.log(schoolSlug);
+
 	return (
 		<>
+			<Head>
+				<title>{newsItem.title} | Primrose School of {school.title}</title>
+				{newsItem?.shortDescription && <meta name={"description"} content={newsItem?.shortDescription}/>}
+			</Head>
 			<div className='resource school-news'>
 				 <div className='resource-content p-3 p-lg-0 mx-auto'>
 				<div className="container" >

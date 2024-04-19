@@ -427,6 +427,10 @@ export default function ClassroomPage({school, classroom, schoolSlug}) {
 
     return (
         <>
+            <Head>
+                <title>Daycare and Preschool Programs | {schoolName}</title>
+                <meta name={"description"} content={`${schoolName} is nationally recognized daycare provider located in the ${schoolCity} area that offers infant, toddler, preschool and pre-kindergarten programs.`} />
+            </Head>
             <div className="school classrooms">
                 <div className="container jumbo">
                     <div className="hero-with-image-module">
