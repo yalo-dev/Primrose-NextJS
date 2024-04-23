@@ -114,14 +114,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   ];
   console.log(schools);
   useEffect(() =>{
-    if(center !== undefined && center !== map_center){
-      if(center?.latitude){
-        center.lat = center.latitude;
-        center.lng = center.longitude;
-        setMapCenter(center);
-        setSearched(true);
-        set_MAX_DISTANCE(50)
-      }
+    if(center !== undefined && center !== map_center && center?.latitude && center?.longitude){
+      center.lat = center.latitude;
+      center.lng = center.longitude;
+      setMapCenter(center);
+      setSearched(true);
+      set_MAX_DISTANCE(50)
       setZoomLevel(DEFAULT_ZOOM);
     }
 
