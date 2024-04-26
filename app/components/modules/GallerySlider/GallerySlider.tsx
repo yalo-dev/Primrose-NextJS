@@ -31,20 +31,6 @@ const GallerySlider = ({ gallery, uniqueId }) => {
         const sliderContainer = sliderRef.current;
         if (!sliderContainer) return;
 
-        const handleImageLoad = (index, width) => {
-            const slideWidthWithMargin = index < gallery.length - 1 ? width + 16 : width;
-            setSlideWidths((prevWidths) => {
-                const newWidths = [...prevWidths];
-                newWidths[index] = slideWidthWithMargin;
-                return newWidths;
-            });
-            setImageWidths((prevImageWidths) => {
-                const newImageWidths = [...prevImageWidths];
-                newImageWidths[index] = width;
-                return newImageWidths;
-            });
-        };
-
         const imageElements = sliderContainer.querySelectorAll('.gallery-slider .slide img');
         imageElements.forEach((element, index) => {
             const img = element as HTMLImageElement;
@@ -109,7 +95,7 @@ const GallerySlider = ({ gallery, uniqueId }) => {
         setIsNextArrowDisabled(isLastSlideFullyVisible || currentIndex === gallery.length - 1);
     }, [currentIndex, slideWidths, gallery?.length]);
     
-        //console.log(gallery)
+    console.log(imageWidths)
     return (
         <div className={`gallery-slider ${combinedUniqueId}`}>
             <div className='container d-flex justify-content-between align-items-center'>
@@ -145,9 +131,11 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                             src={item.image?.sourceUrl ?? '/assets/staff-default-thumbnail.jpg'}
                             alt={(item.imageAltText) ?? `gallery slider image ${index}`}
                             onLoad={(e) => {
+                                console.log(`IMAGE ${index} LOADED`)
                                 const target = e.target as HTMLImageElement;
                                 handleImageLoad(index, target.offsetWidth);
                             }}
+                            priority
                         />
                         <div className='caption-wrapper pe-1'>
                             <div className='h5 mt-2 mb-2'>{item.title}</div>
