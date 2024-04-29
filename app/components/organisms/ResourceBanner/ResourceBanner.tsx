@@ -39,7 +39,7 @@ const ResourceBanner = ({ slug }) => {
 		bannerData.showNewsletterForm
 	);
 
-	if (!hasContent) return null;
+	if (!hasContent || !bannerData.showNewsletterForm) return null;
 
 	return (
 		<div className="resource-banner mt-5 mb-4 pt-4 pb-4 pt-lg-4 pb-lg-4 d-lg-flex justify-content-lg-between align-items-lg-center">
