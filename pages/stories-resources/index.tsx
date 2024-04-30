@@ -23,6 +23,7 @@ export async function getStaticProps() {
                 excludedResources: resourceSettings.data.resourcesSettings.resourceSettings.hideTagFromSearch,
                 filterTerms: filterTermsData.data
             },
+            revalidate: 60
         };
 
     } catch (error) {
@@ -81,6 +82,7 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
         if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
         if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
         if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All News");
+        if (title.includes("Franchising")) adjustedTitle = title.replace("Franchising", "All Franchising");
 
 
         return (
