@@ -1,11 +1,7 @@
-import { client } from '../../app/lib/apollo';
-import { gql } from '@apollo/client';
-
 import React, { useEffect, useState, useRef } from 'react';
 import { ResourceFilter } from '../../app/components/filters/ResourceFilter';
 import Link from 'next/link';
 import Heading from '../../app/components/atoms/Heading/Heading';
-import Button from '../../app/components/atoms/Button/Button';
 import ResourceCard from '../../app/components/organisms/ResourceCard/ResourceCard';
 import {useRouter} from "next/router";
 import Pagination from "../../app/components/molecules/Pagination/Pagination";
@@ -13,8 +9,6 @@ import { getAllResources, getAllFilters, getResourceSettings } from '../../app/l
 
 export async function getStaticProps() {
     try {
-        
-
         const [resourceData, filterTermsData, resourceSettings] = await Promise.all([
             getAllResources(),
             getAllFilters(),
@@ -29,6 +23,7 @@ export async function getStaticProps() {
                 excludedResources: resourceSettings.data.resourcesSettings.resourceSettings.hideTagFromSearch,
                 filterTerms: filterTermsData.data
             },
+            revalidate: 60
         };
 
     } catch (error) {
@@ -40,6 +35,8 @@ export async function getStaticProps() {
 }
 
 export default function ResourcesList({ resources, featuredResources, excludedResources, filterTerms }) {
+    // TODO: this is statically adding rows for resource types. Better user experience would be to dynamically add resource rows as they are edited on the backend
+
     const router = useRouter()
     const featuredResourceIds = featuredResources?.map(fr => fr.id);
     const displayedFeaturedResources = featuredResources?.slice(0, 5);
@@ -52,7 +49,6 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
             !excludedResourceIds?.includes(resource.id)
         );
     };
-    
     const sortByDateDescending = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
     const familiesResources = filterResourcesByTypeAndExcludeFeatured("for-families")
@@ -64,8 +60,10 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
     const newsroomResources = filterResourcesByTypeAndExcludeFeatured("news")
         .sort(sortByDateDescending)
         .slice(0, 3);
-        
-    
+    const franchiseResources = filterResourcesByTypeAndExcludeFeatured("franchising")
+        .sort(sortByDateDescending)
+        .slice(0, 3);
+
     const {
         filteredResources,
         SearchAndFilterUI,
@@ -84,6 +82,7 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
         if (title.includes("Families")) adjustedTitle = title.replace("Families", "All Family Resources");
         if (title.includes("Educators")) adjustedTitle = title.replace("Educators", "All Educator Resources");
         if (title.includes("Newsroom")) adjustedTitle = title.replace("Newsroom", "All News");
+        if (title.includes("Franchising")) adjustedTitle = title.replace("Franchising", "All Franchising");
 
 
         return (
@@ -157,35 +156,6 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
         ...resource,
         isFeatured: featuredResourceIds?.includes(resource.id)
     }));
-    
-    // useEffect(() => {
-    //     const adjustCardHeights = () => {
-    //         if (window.innerWidth < 1200) {
-    //             document.querySelectorAll('#all .card').forEach((card: any) => {
-    //                 card.style.height = 'auto';
-    //             });
-    //             return;
-    //         }
-    //         const cards = document.querySelectorAll('#all .card');
-    //         let maxHeight = 0;
-
-    //         cards.forEach((card: any) => {
-    //             if (card.offsetHeight > maxHeight) {
-    //                 maxHeight = card.offsetHeight;
-    //             }
-    //         });
-    //         cards.forEach((card: any) => {
-    //             card.style.height = `${maxHeight}px`;
-    //         });
-    //     };
-
-    //     adjustCardHeights();
-    //     window.addEventListener('resize', adjustCardHeights);
-    //     return () => {
-    //         window.removeEventListener('resize', adjustCardHeights);
-    //     };
-    // }, []);
-
 
     return (
         <>
@@ -205,6 +175,10 @@ export default function ResourcesList({ resources, featuredResources, excludedRe
                     {renderTitle("Newsroom", "/stories-resources/news")}
                     {renderResourceItems(newsroomResources, false, ['newsroom'])}
                 </div>
+                {franchiseResources.length > 0 && <div className='resources-container'>
+                    {renderTitle("Franchising", "/stories-resources/franchising")}
+                    {renderResourceItems(franchiseResources, false, ['newsroom'])}
+                </div>}
 
                 <div id='all' className='resources-container' ref={allResourcesRef}>
                     <div className='title-and-search-container'>
