@@ -68,6 +68,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                     ))}
                                 </Slider>
                             </div>
+                            {corporateSettings?.virtualTourUrl && <Link className={'google-tour-link'} href={corporateSettings?.virtualTourUrl} target={"_blank"}>See Inside Our School</Link>}
                         </div>
                         <div className='col right-col col-12 col-lg-6'>
                             {adminSettings?.hiringNow && (

@@ -1097,6 +1097,11 @@
             @include media-breakpoint-up(lg) {
                 padding-right: 20px;
             }
+            .google-tour-link {
+                text-align: center;
+                display: block;
+                transform: translateY(60px);
+            }
 
             .slick-slide {
                 border-radius: 30px;
@@ -1131,10 +1136,6 @@
                 bottom: -4.4rem;
                 left: 50%;
                 transform: translate(-50%, -50%);
-
-                @include media-breakpoint-up(lg) {
-                    bottom: -6rem;
-                }
 
                 li {
                     margin: 0;
