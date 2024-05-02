@@ -70,6 +70,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [SchoolData, setSchoolData] = useState([]);
     const [searchAddress, setSearchAddress] = useState('');
 
+    useEffect(() => {
+        //pacMenu = document.get
+    }, []);
+
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
         const dLat = deg2rad(lat2 - lat1);
@@ -189,11 +193,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         if (searchInputRef.current) {
             autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
             autocompleteRef.current.addListener("place_changed", () => {
-                const place = autocompleteRef.current?.getPlace();
-                if (place && place.geometry) {
-                    const fullAddress = `${place.formatted_address}`;
-                    handleAddressSearch(fullAddress);
-                }
+                router.push(`/find-a-school${searchInputRef.current?.value && `?query=${searchInputRef.current?.value}`}`)
             });
         }
     }, [window.google, searchInputRef.current]);
