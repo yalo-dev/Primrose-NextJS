@@ -73,6 +73,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
   const router = useRouter();
   const { category } = router.query
   //console.log("resource: ", resources)
+  const scrollToRef = useRef<HTMLDivElement>(null);
 
 
   const [categoryResources, setCategoryResources] = useState([]);
@@ -182,7 +183,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
       <ResourceBanner slug={slug} />
       <div id='all' className='resources-container'>
         <div className='title-and-search-container'>
-          <div className='title-container'>
+          <div className='title-container' ref={scrollToRef}>
             <Heading level='h2' className='title'>Browse All {slug ? getTitleFromSlug(slug) : 'Stories & Resources'}</Heading>
           </div>
           {SearchAndFilterUI}
@@ -191,7 +192,7 @@ export default function CategoryComponent({slug, resources, featured, excludedRe
         ? renderResourceList(currentResourcesMapped, true, 'medium')
         : <p>No Resources Found</p>}
       </div>
-      <Pagination controller={{page: currentPage, setPage: setCurrentPage}} itemCount={filteredResources?.length} perPage={resourcesPerPage} />
+      <Pagination controller={{page: currentPage, setPage: setCurrentPage}} itemCount={filteredResources?.length} perPage={resourcesPerPage} scrollToRef={scrollToRef} />
     </div>
   );
 }

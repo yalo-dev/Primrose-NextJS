@@ -31,7 +31,7 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
 
     const {page, setPage} = controller;
     const scrollToAllResources = () => {
-        const scrollTo = scrollToRef?.current?.offsetTop ? scrollToRef.current.offsetTop - 50 : 0
+        const scrollTo = scrollToRef?.current?.offsetTop ? scrollToRef.current.offsetTop - 70 : 0
         window.scrollTo({top: scrollTo});
     };
     const handlePageClick = (pageTo: PageTo) => {
