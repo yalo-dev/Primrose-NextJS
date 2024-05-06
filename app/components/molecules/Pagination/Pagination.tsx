@@ -31,7 +31,8 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
 
     const {page, setPage} = controller;
     const scrollToAllResources = () => {
-        scrollToRef && scrollToRef.current?.scrollIntoView({behavior: "smooth"});
+        const scrollTo = scrollToRef?.current?.offsetTop ? scrollToRef.current.offsetTop - 50 : 0
+        window.scrollTo({top: scrollTo});
     };
     const handlePageClick = (pageTo: PageTo) => {
         if (typeof pageTo === "number") {
@@ -43,7 +44,6 @@ export default function Pagination({controller, itemCount, perPage, scrollToRef}
         } else {
             console.error('Improper pageTo argument')
         }
-        window.scrollTo({top: 0})
     };
 
     // the following conditionally renders 3 clickable buttons based on the current page position
