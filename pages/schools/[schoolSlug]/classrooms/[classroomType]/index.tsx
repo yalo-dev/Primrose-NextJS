@@ -746,8 +746,8 @@ export default function ClassroomTypePage({ school, schoolSlug, data }) {
       blurb: heroData?.paragraph,
       button: {
         target: heroData?.button?.target || '_self',
-        title: heroData?.button?.title,
-        url: heroData?.button?.url
+        title: school?.schoolCorporateSettings?.usesCalendly ? "Schedule A Tour" : "Contact Us",
+        url: "/schools/" + schoolSlug + "/schedule-a-tour"
       },
     },
     switchColumnOrderOnDesktop: shouldReverseColumn,
