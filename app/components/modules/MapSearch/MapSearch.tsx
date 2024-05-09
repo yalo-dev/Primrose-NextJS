@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from "../../../lib/schoolsData";
+import Link from "next/link";
 
 const containerStyle = {
   width: '100%',
@@ -668,6 +669,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
                   </svg>
                 </div>
+                {(!getSortedSchools(schools).length && searched) &&
+                  <p className={"no-schools-msg"}>
+                    We didn't find results that meet your search criteria. Please retry your search or
+                    <Link href={'/locations'}> view all locations.</Link>
+                  </p>
+                }
               </div>
             </div>
             <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
