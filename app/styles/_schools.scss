@@ -1098,9 +1098,13 @@
                 padding-right: 20px;
             }
             .google-tour-link {
+                margin-bottom: 8px;
                 text-align: center;
                 display: block;
                 transform: translateY(60px);
+                @include media-breakpoint-down(md) {
+                    font-size: 14px;
+                }
             }
 
             .slick-slide {
