@@ -221,7 +221,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                 >
                     <div className={`home-hero-with-video ${switchColumnOrderOnDesktop ? 'reverse-column' : ''} ${centerModule ? 'center-module' : ''}`}>
                         <div className='left-column col-12 col-lg-6'>
-                            <div className='heading-wrapper d-block pt-5'>
+                            <div className='heading-wrapper d-block'>
                                 {leftColumn.eyebrow && <Subheading level='div' className='h5' color={leftColumn.eyebrowColor}>{leftColumn.eyebrow}</Subheading>}
                                 {leftColumn.heading && <Heading level='h1' color={leftColumn.headingColor}><div dangerouslySetInnerHTML={{ __html: leftColumn.heading }} /></Heading>}
                                 {leftColumn.subheading && <Subheading level='h5' color={leftColumn.subheadingColor}>{leftColumn.subheading}</Subheading>}
