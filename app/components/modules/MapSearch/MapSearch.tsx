@@ -675,7 +675,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
                   </svg>
                 </div>
-                {(!getSortedSchools(schools).length && searched) &&
+                {(!getSortedSchools(schools).length && searched && schools.length > 0) &&
                   <p className={"no-schools-msg"}>
                     We didn't find results that meet your search criteria. Please retry your search or
                     <Link href={'/locations'}> view all locations.</Link>
