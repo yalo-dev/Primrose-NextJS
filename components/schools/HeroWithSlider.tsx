@@ -68,6 +68,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
                                     ))}
                                 </Slider>
                             </div>
+                            {corporateSettings?.virtualTourUrl && <Link className={'google-tour-link'} href={corporateSettings?.virtualTourUrl} target={"_blank"}>See Inside Our School &gt;</Link>}
                         </div>
                         <div className='col right-col col-12 col-lg-6'>
                             {adminSettings?.hiringNow && (
@@ -101,7 +102,7 @@ export default function HeroWithSlider({corporateSettings, adminSettings, school
 
                             <div className='d-lg-flex'>
                                 <div className='info-wrapper'>
-                                    <h5 className='green'>The Leader in Early Education and Care®️</h5>
+                                    <h5 className='green'>The Leader in Early Education and Care®</h5>
                                     <div className='classrooms'>
                                         <h5 className='mt-4 green'>Children Served</h5>
                                         <ul>

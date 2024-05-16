@@ -54,6 +54,7 @@ export async function getStaticProps({params}) {
             fullHead
           }
           schoolCorporateSettings {
+              virtualTourUrl
               usesCalendly
               homepageMeta {
                 description
