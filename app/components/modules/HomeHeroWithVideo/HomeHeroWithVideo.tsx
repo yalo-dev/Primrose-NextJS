@@ -66,7 +66,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [nearestSchoolInfoClass, setNearestSchoolInfoClass] = useState('');
     const [searchFieldClass, setSearchFieldClass] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [SchoolData, setSchoolData] = useState([]);
     const [searchAddress, setSearchAddress] = useState('');
 
@@ -198,18 +197,8 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         }
     }, [window.google, searchInputRef.current]);
 
-    //console.log('searchinput: ', searchInputRef.current)
-    //console.log('autocomplete: ', autocompleteRef.current)
-
     return (
         <>
-            {/* {isModalOpen && (
-                <div className="hp-popup-modal open">
-                    <button onClick={() => setIsModalOpen(false)}>X</button>
-                    <div>User denied geolocation. Please allow access to your location in your browser settings to find the nearest school to your current location.</div>
-                </div>
-            )} */}
-
             <div className="container">
                 <Customizations
                     topPaddingMobile={customizations?.topPaddingMobile}
@@ -228,6 +217,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                             {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
                                 <div className='video-wrapper d-block d-lg-none'>
                                     <video
+                                        style={{display: `${videoRef.current?.readyState === 4 ? "inherit" : "none"}`}}
                                         ref={videoRef}
                                         autoPlay
                                         muted
@@ -340,10 +330,11 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                         </div>
 
                         <div className='right-column col-12 col-lg-6'>
-                            
+
                             {rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl && (
                                 <div className='video-wrapper d-none d-lg-block'>
                                     <video
+                                        style={{display: `${videoRef.current?.readyState === 4 ? "inherit" : "none"}`}}
                                         ref={videoRef}
                                         autoPlay
                                         muted
@@ -381,21 +372,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                     </div>
                 </Customizations>
             </div>
-            {/* <Script async defer
-                src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw&libraries=places`}
-                onLoad={() => {
-                    if (searchInputRef.current) {
-                        autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
-                        autocompleteRef.current.addListener("place_changed", () => {
-                            const place = autocompleteRef.current?.getPlace();
-                            if (place && place.geometry) {
-                                const fullAddress = `${place.name}, ${place.formatted_address}`;
-                                handleAddressSearch(fullAddress);
-                            }
-                        });
-                    }
-                }}
-            /> */}
         </>
     );
 }
