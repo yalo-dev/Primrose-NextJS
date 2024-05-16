@@ -1,5 +1,10 @@
 .classrooms {
     // padding-bottom: 1.5rem;
+    @include media-breakpoint-down(sm) {
+        .mt-4 {
+            margin-top: 1rem !important;
+        }
+    }
     
     .hero-with-image-module {
         padding: 0 0 30px 0;
