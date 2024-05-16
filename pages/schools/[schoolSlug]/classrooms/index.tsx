@@ -7,7 +7,7 @@ import Heading from "../../../../app/components/atoms/Heading/Heading";
 import Subheading from "../../../../app/components/atoms/Subheading/Subheading";
 import Paragraph from "../../../../app/components/atoms/Paragraph/Paragraph";
 import Button from "../../../../app/components/atoms/Button/Button";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ScheduleATourSlider from "../../../../components/schools/ScheduleATourSlider";
 import Head from "next/head";
 import Image from 'next/image';
@@ -194,6 +194,8 @@ export default function ClassroomPage({school, classroom, schoolSlug}) {
     const leftScrollerRef = useRef<HTMLDivElement>(null);
     const rightScrollerRef = useRef<HTMLDivElement>(null);
     const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+    const buttonText = school?.schoolCorporateSettings?.usesCalendly ? "Schedule A Tour" : "Contact Us"
+    console.log('btn: ', buttonText)
     const scrollContent = () => {
         const leftScroller = leftScrollerRef.current;
         const rightScroller = rightScrollerRef.current;
@@ -470,7 +472,9 @@ export default function ClassroomPage({school, classroom, schoolSlug}) {
                                     )}
                                     {heroWithImage.title && <Heading level='h2'>{heroWithImage.title}</Heading>}
                                     {heroWithImage.paragraph && <div dangerouslySetInnerHTML={{__html:heroWithImage.paragraph}}></div>}
-                                    
+                                    <Button variant="primary" href={"/schools/" + schoolSlug + "/schedule-a-tour"}>
+                                        {buttonText}
+                                    </Button>
                                 </div>
                             )}
                         </div>

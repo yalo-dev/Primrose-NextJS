@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from "../../../lib/schoolsData";
+import Link from "next/link";
+import {useRouter} from "next/router";
 
 const containerStyle = {
   width: '100%',
@@ -71,6 +73,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   } = props;
   cta = cta ?? {href:'schedule-a-tour', title:'Schedule a Tour'}
 
+  const router = useRouter()
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -112,9 +115,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ];
-  console.log(schools);
+
   useEffect(() =>{
-    if(center !== undefined && center !== map_center && center?.latitude && center?.longitude){
+    if (nearInputRef.current && router.query.query) {
+      nearInputRef.current.value = router.query.query as string
+    } else if(center !== undefined && center !== map_center && center?.latitude && center?.longitude){
       center.lat = center.latitude;
       center.lng = center.longitude;
       setMapCenter(center);
@@ -155,6 +160,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       window.removeEventListener('resize', handleResize);
     };
   },[]);
+  useEffect(() => {
+    if (mapRef.current && nearInputRef.current?.value && !searched) onEnterKeyPressed()
+  }, [mapRef.current]);
   useEffect(() => {
   getSchools()
     .then((result) =>{
@@ -270,7 +278,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
-
     // Update the address of the corresponding field
     setInputFields(prevFields =>
       prevFields.map(field => {
@@ -668,6 +675,12 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
                     <rect x="11.2188" y="12.1211" width="1.28571" height="9" transform="rotate(-45 11.2188 12.1211)" fill="#5E6738" />
                   </svg>
                 </div>
+                {(!getSortedSchools(schools).length && searched && schools.length > 0) &&
+                  <p className={"no-schools-msg"}>
+                    We didn't find results that meet your search criteria. Please retry your search or
+                    <Link href={'/locations'}> view all locations.</Link>
+                  </p>
+                }
               </div>
             </div>
             <div className={`tab-content tab-content-2 ${activeTab === 2 ? 'active' : ''}`}>
