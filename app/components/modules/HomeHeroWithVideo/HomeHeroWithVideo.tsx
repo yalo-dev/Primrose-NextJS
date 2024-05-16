@@ -237,11 +237,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         )}
 
                                     </video>
-                                    {videoRef.current?.readyState !== 4 && <Image src={"/assets/home_hero_with_video_placeholder.webp"}
-                                            alt={"A thumbnail for the upcoming video"}
-                                            width={670}
-                                            height={670}
-                                    />}
                                 </div>
                             )}
 
@@ -367,11 +362,6 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                         )}
 
                                     </video>
-                                    {videoRef.current?.readyState !== 4 && <Image src={"/assets/home_hero_with_video_placeholder.webp"}
-                                            alt={"A thumbnail for the upcoming video"}
-                                            width={670}
-                                            height={670}
-                                    />}
                                 </div>
                             )}
 
