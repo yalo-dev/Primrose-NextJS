@@ -6,6 +6,8 @@ import Customizations from '../../filters/Customizations';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from '../../../lib/schoolsData';
 import Script from "next/script";
+import Link from "next/link";
+import {useRouter} from "next/router";
 
 interface School {
     id: any;
@@ -54,6 +56,7 @@ interface HomeHeroWithVideoProps {
 
 const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrderOnDesktop, centerModule, leftColumn, rightColumn, customizations }) => {
 
+    const router = useRouter()
     const videoRef = useRef<HTMLVideoElement>(null);
     const [userLocation, setUserLocation] = useState<any | null>(null);
     const [nearestSchool, setNearestSchool] = useState<any>(null);
@@ -66,6 +69,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [SchoolData, setSchoolData] = useState([]);
     const [searchAddress, setSearchAddress] = useState('');
+
+    useEffect(() => {
+        //pacMenu = document.get
+    }, []);
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; 
@@ -145,11 +152,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
 
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault();
-            const searchInput = searchInputRef.current ? searchInputRef.current.value : '';
-            if (searchInput) {
-                handleAddressSearch(searchInput);
-            }
+            router.push(`/find-a-school${searchInputRef.current?.value && `?query=${searchInputRef.current?.value}`}`)
         }
     };
 
@@ -190,11 +193,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
         if (searchInputRef.current) {
             autocompleteRef.current = new window.google.maps.places.Autocomplete(searchInputRef.current);
             autocompleteRef.current.addListener("place_changed", () => {
-                const place = autocompleteRef.current?.getPlace();
-                if (place && place.geometry) {
-                    const fullAddress = `${place.formatted_address}`;
-                    handleAddressSearch(fullAddress);
-                }
+                router.push(`/find-a-school${searchInputRef.current?.value && `?query=${searchInputRef.current?.value}`}`)
             });
         }
     }, [window.google, searchInputRef.current]);
@@ -284,28 +283,20 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({ switchColumnOrder
                                             <path fillRule="evenodd" clipRule="evenodd" d="M4.05454 4.20281C-0.164013 8.47353 -0.164013 15.4082 4.05454 19.6786L11.6975 27.4167L19.3404 19.6786C23.5589 15.4082 23.5589 8.47353 19.3404 4.20281C15.1224 -0.0676034 8.27253 -0.0676034 4.05454 4.20281ZM11.8415 16.5565C14.3879 16.5565 16.4524 14.4539 16.4524 11.8602C16.4524 9.26653 14.3879 7.16391 11.8415 7.16391C9.29522 7.16391 7.23069 9.26653 7.23069 11.8602C7.23069 14.4539 9.29522 16.5565 11.8415 16.5565Z" stroke="#555F68" strokeWidth="1.5" />
                                         </svg>
                                     </span>
-                                    <span className='icon search-icon'
-                                        onClick={() => {
-                                            const searchInput = searchInputRef.current;
-                                            if (searchInput && searchInput.value) {
-                                                handleAddressSearch(searchInput.value);
-                                            }
-                                        }}>
+                                    <Link href={`/find-a-school${searchInputRef.current?.value && `?query=${searchInputRef.current?.value}`}`}
+                                          className='icon search-icon'
+                                    >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none">
                                             <circle cx="21.2344" cy="21.5" r="21" fill="#5E6738" />
                                             <circle cx="20.3959" cy="19.8178" r="7.06" stroke="white" />
                                             <path d="M24.7656 25.2773L29.9883 30.5001" stroke="white" />
                                         </svg>
-                                    </span>
-                                    <Button
+                                    </Link>
+                                    <Button href={`/find-a-school${searchInputRef.current?.value && `?query=${searchInputRef.current?.value}`}`}
                                         className='primary'
-                                        onClick={() => {
-                                            const searchInput = searchInputRef.current;
-                                            if (searchInput && searchInput.value) {
-                                                handleAddressSearch(searchInput.value);
-                                            }
-                                        }}
-                                    >Search</Button>
+                                    >
+                                        Search
+                                    </Button>
 
                                 </div>
                                 <div className='link'>

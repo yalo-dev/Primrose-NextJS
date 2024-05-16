@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import Button from '../../atoms/Button/Button';
 import {getSchools} from "../../../lib/schoolsData";
+import {useRouter} from "next/router";
 
 const containerStyle = {
   width: '100%',
@@ -71,6 +72,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   } = props;
   cta = cta ?? {href:'schedule-a-tour', title:'Schedule a Tour'}
 
+  const router = useRouter()
   const [autocomplete1, setAutocomplete1] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete2, setAutocomplete2] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocomplete3, setAutocomplete3] = useState<google.maps.places.Autocomplete | null>(null);
@@ -112,9 +114,11 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
     { id: 'start', originalType: 'start', type: 'start', ref: routeInputRef1, autocomplete: null, location: null, address: '' },
     { id: 'destination', originalType: 'destination', type: 'destination', ref: routeInputRef2, autocomplete: null, location: null, address: ''  },
   ];
-  console.log(schools);
+
   useEffect(() =>{
-    if(center !== undefined && center !== map_center && center?.latitude && center?.longitude){
+    if (nearInputRef.current && router.query.query) {
+      nearInputRef.current.value = router.query.query as string
+    } else if(center !== undefined && center !== map_center && center?.latitude && center?.longitude){
       center.lat = center.latitude;
       center.lng = center.longitude;
       setMapCenter(center);
@@ -155,6 +159,9 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       window.removeEventListener('resize', handleResize);
     };
   },[]);
+  useEffect(() => {
+    if (mapRef.current && nearInputRef.current?.value && !searched) onEnterKeyPressed()
+  }, [mapRef.current]);
   useEffect(() => {
   getSchools()
     .then((result) =>{
@@ -270,7 +277,6 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   };
   const handleInputChange = (event, fieldId) => {
     const newValue = event.target.value;
-
     // Update the address of the corresponding field
     setInputFields(prevFields =>
       prevFields.map(field => {
