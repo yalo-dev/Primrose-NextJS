@@ -102,12 +102,11 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettings, franchiseOwner }) {
+export default function StaffPage({ school, staff, schoolSlug, franchiseOwner }) {
 
   const [activeBio, setActiveBio] = useState(null);
   const [bioHeights, setBioHeights] = useState({});
-  const initialStaffCount = 20;
-  const [visibleStaffCount, setVisibleStaffCount] = useState(initialStaffCount);
+  const initialStaffCount = 1000;
   const [filteredStaffMembers, setFilteredStaffMembers] = useState<StaffMember[]>(staff);
   const [selectedGroup, setSelectedGroup] = useState<OptionType>(null);
   const schoolCity = school.schoolCorporateSettings?.address?.city
@@ -119,12 +118,6 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
   useEffect(() => {
     setActiveBio(null)
   }, [filteredStaffMembers  ]);
-
-  const loadMoreStaff = () => {
-    setVisibleStaffCount((prevCount) => prevCount + 4); 
-  };
-
-  const canLoadMore = filteredStaffMembers?.length > visibleStaffCount;
 
   const handleToggleBio = (index) => {
     if (activeBio !== index) {
@@ -190,7 +183,7 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
           </div>
           <div className='staff-members'>
 
-            {filteredStaffMembers?.slice(0, visibleStaffCount).map((member, index) => (
+            {filteredStaffMembers?.slice(0, initialStaffCount).map((member, index) => (
               <div className={`staff-member ${activeBio === index ? 'expanded' : ''}`} key={index}>
                 <div className='row align-items-center'>
                   <div className='col-4'>
@@ -222,9 +215,6 @@ export default function StaffPage({ school, staff, schoolSlug, schoolAdminSettin
               </div>
             ))}
           </div>
-            <div className="load-more d-flex align-items-center justify-content-center">
-              {canLoadMore &&<Button onClick={loadMoreStaff}>Load More</Button>}
-            </div>
         </div>
       </div>
       <div className='container'>
