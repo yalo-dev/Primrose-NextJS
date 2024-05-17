@@ -2,8 +2,6 @@ import { CommonPageComponent } from "../app/components/templates/Layout/CommonPa
 import { getPageByUri } from "../app/lib/pages";
 
 const HomePage = ({ page }) => {
-  console.log(page);
-
   const modules = page?.data?.page?.modules?.modules || [];
 
   return <CommonPageComponent modules={modules} />;

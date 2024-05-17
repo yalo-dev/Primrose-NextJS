@@ -1,4 +1,5 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
 
 class MyDocument extends Document {
@@ -29,15 +30,10 @@ class MyDocument extends Document {
   }
 
   render() {
-    // const DynamicComponentWithNoSSR = dynamic(
-    //     () => import('../utilities/custom-analytics.js'),
-    //     { ssr: false }
-    // )
-    // let customAnaltics = require('./../utilities/custom-analytics.js')
     return (
       <Html>
         <Head>
-          <script
+          <Script
             dangerouslySetInnerHTML={{
               __html: `
                             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -47,37 +43,40 @@ class MyDocument extends Document {
                             })(window,document,'script','dataLayer','GTM-MJKZ3SLB');
                             `,
             }}
+            strategy={"lazyOnload"}
           />
-          <script
+          <Script
             src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
             type="text/javascript"
             data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce"
-          ></script>
-          <script
+            strategy={"lazyOnload"}
+          ></Script>
+          <Script
             type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `
-                            function OptanonWrapper() { }
+                            function OptanonWrapper() { };
                             `,
             }}
+            strategy={"lazyOnload"}
           />
-          <script src="https://cdn.optimizely.com/js/20299544930.js"></script>
-          <script
-            charSet="utf-8"
-            type="text/javascript"
+          <Script
+            src="https://cdn.optimizely.com/js/20299544930.js"
+            strategy={"lazyOnload"}
+          ></Script>
+          <Script
             src="//js.hsforms.net/forms/embed/v2.js"
-          ></script>
+            strategy={"lazyOnload"}
+          ></Script>
           <link
             href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
             rel="stylesheet"
           />
-          <script
-            type="text/javascript"
+          <Script
             id="hs-script-loader"
-            async
-            defer
             src="//js.hs-scripts.com/22602766.js"
-          ></script>
+            strategy={"lazyOnload"}
+          ></Script>
         </Head>
         <body>
           <noscript
