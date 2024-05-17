@@ -98,7 +98,6 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({
         <>
           {leftColumn.imageMobile?.sourceUrl && (
             <Image
-              priority
               className="d-block d-lg-none"
               src={desktopImageUrl}
               alt={leftColumn.imageMobile.altText || ""}
@@ -108,7 +107,6 @@ const TwoColumnsImageAndText: React.FC<TwoColumnsImageAndTextProps> = ({
           )}
           {leftColumn.imageDesktop?.sourceUrl && (
             <Image
-              priority
               className="d-none d-lg-block"
               src={mobileImageUrl}
               alt={leftColumn.imageDesktop.altText || ""}

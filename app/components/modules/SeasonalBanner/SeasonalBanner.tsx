@@ -60,7 +60,6 @@ const SeasonalBanner: React.FC<SeasonalBannerProps> = ({
           <div className="row">
             <div className="col-12 col-lg-6 top">
               <Image
-                priority
                 src={image?.sourceUrl}
                 alt={image?.altText || "Seasonal Banner Image"}
                 width={1920}

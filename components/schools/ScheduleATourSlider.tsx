@@ -57,7 +57,6 @@ export default function ScheduleATourSlider({
               (imgObj, idx) =>
                 imgObj.url && (
                   <Image
-                    priority
                     width={720}
                     height={720}
                     key={idx}
@@ -70,7 +69,6 @@ export default function ScheduleATourSlider({
               (imgObj, idx) =>
                 imgObj.url && (
                   <Image
-                    priority
                     width={720}
                     height={720}
                     key={`dup-${idx}`}

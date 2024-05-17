@@ -104,7 +104,6 @@ const FindASchool: React.FC<FindASchoolProps> = ({
                     (imgObj, idx) =>
                       imgObj.image?.sourceUrl && (
                         <Image
-                          priority
                           key={idx}
                           src={imgObj.image.sourceUrl}
                           alt={imgObj.image.altText}
@@ -121,7 +120,6 @@ const FindASchool: React.FC<FindASchoolProps> = ({
                     ) =>
                       imgObj.image?.sourceUrl && (
                         <Image
-                          priority
                           key={`dup-${idx}`}
                           src={imgObj.image.sourceUrl}
                           alt={imgObj.image.altText}
