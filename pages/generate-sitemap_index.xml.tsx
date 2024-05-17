@@ -1,13 +1,11 @@
+export default function () {}
 
-export default function() {
-}
-
-export async function getServerSideProps({req, res}) {
-    const host = req.headers.host
-    const proto = req.headers['x-forwarded-proto']
-    const url = `${proto}://${host}`
-    const datetime = new Date().toISOString().split('T')[0]
-    const sitemap = `
+export async function getServerSideProps({ req, res }) {
+  const host = req.headers.host;
+  const proto = req.headers["x-forwarded-proto"];
+  const url = `${proto}://${host}`;
+  const datetime = new Date().toISOString().split("T")[0];
+  const sitemap = `
         <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <sitemap>
                 <loc>${url}/page-sitemap.xml</loc>
@@ -26,11 +24,11 @@ export async function getServerSideProps({req, res}) {
                 <lastmod>${datetime}</lastmod>
             </sitemap>
         </sitemapindex>
-    `
+    `;
 
-    res.setHeader('Content-Type', 'text/xml')
-    res.write(sitemap)
-    res.end()
+  res.setHeader("Content-Type", "text/xml");
+  res.write(sitemap);
+  res.end();
 
-    return {props: {}}
+  return { props: {} };
 }

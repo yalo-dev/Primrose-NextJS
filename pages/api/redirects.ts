@@ -1,9 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { client } from '../../app/lib/apollo';
-import { gql } from '@apollo/client';
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
- try{
+import { gql } from "@apollo/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { client } from "../../app/lib/apollo";
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  try {
     const { data } = await client.query({
       query: gql`
         query GetSeo {

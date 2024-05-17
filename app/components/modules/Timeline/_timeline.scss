@@ -1,151 +1,150 @@
 .timeline {
-    div > p {
-        color: inherit;
+  div > p {
+    color: inherit;
+  }
+  .heading-wrapper {
+    max-width: 50rem;
+    margin: 4rem auto;
+    text-align: center;
+  }
+  .sticky-div.sticky {
+    position: fixed;
+    top: 100px;
+    width: 100%;
+    background: $white;
+    z-index: 999;
+  }
+  .timeline-tiles {
+    @include media-breakpoint-up(xxl) {
+      padding-right: 0;
+      padding-left: 1rem;
     }
-    .heading-wrapper {
-        max-width: 50rem;
-        margin: 4rem auto;
-        text-align: center;
+    .tile {
+      padding: 20px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 1px solid $neutral-2;
+      background: $grayscale-2;
+      margin-right: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      @include transitionAll();
+      p {
+        margin-bottom: 0;
+      }
+      h3 {
+        margin-bottom: 0;
+      }
     }
-    .sticky-div.sticky {
-        position: fixed;
-        top: 100px;
-        width: 100%;
-        background: $white;
-        z-index: 999;
-    }
-    .timeline-tiles {
-        @include media-breakpoint-up(xxl) {
-            padding-right: 0;
-            padding-left: 1rem;
+    .slick-current {
+      .tile {
+        background-color: $primary-green;
+        color: $white;
+        h3,
+        p {
+          color: $white;
         }
-        .tile {
-            padding: 20px;
-            flex-shrink: 0;
+      }
+    }
+  }
+  .timeline-content {
+    .content-wrapper {
+      .content {
+        @include media-breakpoint-up(lg) {
+          padding: 2rem 0;
+        }
+        .image-wrapper {
+          padding: 1rem 0;
+          img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
             border-radius: 12px;
-            border: 1px solid $neutral-2;
-            background: $grayscale-2;
-            margin-right: 0.5rem;
+          }
+        }
+        .text-wrapper {
+          padding: 1rem 0;
+          @include media-breakpoint-up(lg) {
+            padding-left: 3rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            @include transitionAll();
-            p {
-                margin-bottom: 0;
-            }
-            h3 {
-                margin-bottom: 0;
-            }
+          }
+          @include media-breakpoint-up(xxl) {
+            padding-left: 7rem;
+          }
         }
-        .slick-current { 
-            .tile {
-                background-color: $primary-green;
-                color: $white;
-                h3, p {
-                    color: $white;
-                }
-            }
+        @include media-breakpoint-up(lg) {
+          display: flex;
+          align-items: center;
+          padding-left: 5rem;
         }
-    }
-    .timeline-content {
-        .content-wrapper {
-            .content {
-                @include media-breakpoint-up(lg) {
-                    padding: 2rem 0;
-                }
-                .image-wrapper {
-                    padding: 1rem 0;
-                    img {
-                       object-fit: cover;
-                       object-position: center;
-                       width: 100%;
-                       border-radius: 12px;
-                    }
-                }
-                .text-wrapper {
-                    padding: 1rem 0;
-                    @include media-breakpoint-up(lg) {
-                        padding-left: 3rem;
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    @include media-breakpoint-up(xxl) {
-                        padding-left: 7rem;       
-                    }
-                }
-                @include media-breakpoint-up(lg) {
-                    display: flex;
-                    align-items: center;
-                    padding-left: 5rem;
-                }
-                @include media-breakpoint-up(xxl) {
-                    padding: 4rem 0;  
-                    padding-left: 7rem;   
-                       
-                }
-                .col {
-                    @include media-breakpoint-up(lg) {
-                        flex-basis: 50%;
-                    }
-                }
-            }
-            &.reverse {
-                .content {
-                    @include media-breakpoint-up(lg) {
-                        flex-direction: row-reverse;
-                    }
-                }
-                .text-wrapper {
-                    @include media-breakpoint-up(lg) {
-                        padding-right: 3rem;
-                        padding-left: 0;
-                    }
-                    @include media-breakpoint-up(xxl) {
-                        padding-left: 0;
-                        padding-right: 7rem;
-                    }
-                }
-            }
-        }
-    }
-    .slick-prev {
-        left: unset;
-        top: -2.5rem;
-        transform: scale(-1, -1);
-        right: 4rem;
         @include media-breakpoint-up(xxl) {
-            right: 5rem;
+          padding: 4rem 0;
+          padding-left: 7rem;
         }
-        &.disabled {
-            opacity: 0.25;
+        .col {
+          @include media-breakpoint-up(lg) {
+            flex-basis: 50%;
+          }
         }
-        &::before {
-            content: none;
+      }
+      &.reverse {
+        .content {
+          @include media-breakpoint-up(lg) {
+            flex-direction: row-reverse;
+          }
         }
+        .text-wrapper {
+          @include media-breakpoint-up(lg) {
+            padding-right: 3rem;
+            padding-left: 0;
+          }
+          @include media-breakpoint-up(xxl) {
+            padding-left: 0;
+            padding-right: 7rem;
+          }
+        }
+      }
     }
-    .slick-next {
-        left: unset;
-        top: -2.5rem;
-        right: 1rem;
-        @include media-breakpoint-up(xxl) {
-            right: 2rem;
-        }
-        &.disabled {
-            opacity: 0.25;
-        }
-        &::before {
-            content: none;
-        }
+  }
+  .slick-prev {
+    left: unset;
+    top: -2.5rem;
+    transform: scale(-1, -1);
+    right: 4rem;
+    @include media-breakpoint-up(xxl) {
+      right: 5rem;
     }
-    @media only screen and (max-width: 767px) {
-        .slick-list {
-            padding: 0px !important;
-        }
-    }    
+    &.disabled {
+      opacity: 0.25;
+    }
+    &::before {
+      content: none;
+    }
+  }
+  .slick-next {
+    left: unset;
+    top: -2.5rem;
+    right: 1rem;
+    @include media-breakpoint-up(xxl) {
+      right: 2rem;
+    }
+    &.disabled {
+      opacity: 0.25;
+    }
+    &::before {
+      content: none;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .slick-list {
+      padding: 0px !important;
+    }
+  }
 }
 
-
 .module.Page_Modules_Modules_Timeline {
- overflow-x: auto;
+  overflow-x: auto;
 }

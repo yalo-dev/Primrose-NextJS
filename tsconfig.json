@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -29,9 +25,10 @@
     "**/*.ts",
     "**/*.tsx",
     "app/lib/test-data.js",
-    ".next/types/**/*.ts"
-, "pages/_document.tsx", "pages/locations/[...slug].jsx", "pages/locations/[...slug].jsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    ".next/types/**/*.ts",
+    "pages/_document.tsx",
+    "pages/locations/[...slug].jsx",
+    "pages/locations/[...slug].jsx"
+  ],
+  "exclude": ["node_modules"]
 }

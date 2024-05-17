@@ -1,4 +1,10 @@
-import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+  useReducer,
+} from "react";
 import { CheckboxFieldInput, EmailFieldInput } from "../generated/graphql";
 
 export interface FieldValue {
@@ -21,11 +27,16 @@ export interface StringFieldValues extends FieldValue {
   values: string[];
 }
 
-export interface  HiddenFieldValues extends FieldValue {
+export interface HiddenFieldValues extends FieldValue {
   value: string;
 }
 
-export type FieldValueUnion =  CheckboxFieldValue | EmailFieldValue | StringFieldValue | StringFieldValues | HiddenFieldValues;
+export type FieldValueUnion =
+  | CheckboxFieldValue
+  | EmailFieldValue
+  | StringFieldValue
+  | StringFieldValues
+  | HiddenFieldValues;
 
 interface Action {
   type: ACTION_TYPES;
@@ -33,17 +44,18 @@ interface Action {
 }
 
 export enum ACTION_TYPES {
-  updateCheckboxFieldValue  = 'updateCheckboxFieldValue',
-  updateEmailFieldValue     = 'updateEmailFieldValue',
-  updatePhoneFieldValue     = 'updatePhoneFieldValue',
-  updateRadioFieldValue     = 'updateRadioFieldValue',
-  updateSelectFieldValue    = 'updateSelectFieldValue',
-  updateTextFieldValue      = 'updateTextFieldValue',
-  updateHiddenFieldValue    = 'updateHiddenFieldValue',
+  updateCheckboxFieldValue = "updateCheckboxFieldValue",
+  updateEmailFieldValue = "updateEmailFieldValue",
+  updatePhoneFieldValue = "updatePhoneFieldValue",
+  updateRadioFieldValue = "updateRadioFieldValue",
+  updateSelectFieldValue = "updateSelectFieldValue",
+  updateTextFieldValue = "updateTextFieldValue",
+  updateHiddenFieldValue = "updateHiddenFieldValue",
 }
 
 function reducer(state: FieldValueUnion[], action: Action) {
-  const getOtherFieldValues = (id: number) => state.filter(fieldValue => fieldValue.id !== id);
+  const getOtherFieldValues = (id: number) =>
+    state.filter((fieldValue) => fieldValue.id !== id);
 
   // console.log('action: ', action)
   switch (action.type) {
@@ -61,7 +73,7 @@ function reducer(state: FieldValueUnion[], action: Action) {
       return [...getOtherFieldValues(id), { id, value }];
     }
     case ACTION_TYPES.updatePhoneFieldValue:
-    case ACTION_TYPES.updateRadioFieldValue: 
+    case ACTION_TYPES.updateRadioFieldValue:
     case ACTION_TYPES.updateSelectFieldValue:
     case ACTION_TYPES.updateTextFieldValue: {
       const { id, value } = action.fieldValue as StringFieldValue;
@@ -69,7 +81,9 @@ function reducer(state: FieldValueUnion[], action: Action) {
       return [...getOtherFieldValues(id), { id, value }];
     }
     default:
-      throw new Error(`Field value update operation not supported: ${action.type}.`);
+      throw new Error(
+        `Field value update operation not supported: ${action.type}.`,
+      );
   }
 }
 
@@ -80,7 +94,7 @@ const GravityFormContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: DEFAULT_STATE,
-  dispatch: () => null
+  dispatch: () => null,
 });
 
 export function GravityFormProvider({ children }: { children: ReactNode }) {

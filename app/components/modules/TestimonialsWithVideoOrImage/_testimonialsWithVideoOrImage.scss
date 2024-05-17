@@ -1,248 +1,249 @@
 .testimonials-with-video-or-image {
-    margin-bottom: 1rem;
-    .slick-active {
-        z-index: 1000; 
+  margin-bottom: 1rem;
+  .slick-active {
+    z-index: 1000;
+  }
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    margin-bottom: 0;
+  }
+  .header-wrap {
+    h2 {
+      margin-bottom: 18px;
+    }
+    .b3 {
+      margin-bottom: 1.125rem;
+      @include media-breakpoint-up(lg) {
+        margin-bottom: 35px;
+        //color: $text-gray;
+      }
+    }
+    button {
+      margin-bottom: 60px;
+      width: auto;
     }
     @include media-breakpoint-up(lg) {
-        display: flex;
-        margin-bottom: 0;
+      max-width: 420px;
     }
-    .header-wrap {
-        h2 {
-            margin-bottom: 18px;
-        }
-        .b3{
-            margin-bottom: 1.125rem;
-            @include media-breakpoint-up(lg) {
-            margin-bottom: 35px;
-            //color: $text-gray;
-            }
-        }
-        button {
-            margin-bottom: 60px;
-            width: auto;
-        }
-        @include media-breakpoint-up(lg) {
-            max-width: 420px;
-        }
-        @include media-breakpoint-up(xxl) {
-            margin-right: 140px;
-        }
+    @include media-breakpoint-up(xxl) {
+      margin-right: 140px;
     }
-    .slider-wrap {
-        @include media-breakpoint-up(lg) {
-            max-width: 588px;
-            width: 100%;
-        }
+  }
+  .slider-wrap {
+    @include media-breakpoint-up(lg) {
+      max-width: 588px;
+      width: 100%;
     }
+  }
 
-    .slick-track {
-        display: flex;
+  .slick-track {
+    display: flex;
+  }
+  .slick-track .slick-slide {
+    display: flex;
+    height: inherit;
+  }
+  .slider-item {
+    padding-bottom: 3rem;
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 0;
+
+      .video-wrap,
+      .image-wrap {
+        flex-basis: 42%;
+      }
+      .text-wrap {
+        flex-basis: 34%;
+        margin-right: 5rem;
+      }
     }
-    .slick-track .slick-slide {
-        display: flex;
-        height: inherit;
+    .video-wrap {
+      .responsive-video {
+        margin: 0;
+        aspect-ratio: unset;
+      }
+      video {
+        aspect-ratio: 588 / 330;
+        display: block;
+      }
+      iframe {
+        aspect-ratio: 16 / 9;
+        display: block;
+      }
     }
-    .slider-item {
-        padding-bottom: 3rem;
-        @include media-breakpoint-up(lg) {
-            padding-bottom: 0;
-           
-            .video-wrap, .image-wrap {
-                flex-basis: 42%;
-            }
-            .text-wrap {
-                flex-basis: 34%;
-                margin-right: 5rem;
-            }
-        }
-        .video-wrap {
-            .responsive-video {
-                margin: 0;
-                aspect-ratio: unset;
-            }
-            video {
-                aspect-ratio: 588 / 330;
-                display: block;
-            }
-            iframe {
-                aspect-ratio: 16 / 9;
-                display: block;
-            }
-        }
-        .image-wrap {
-            img {
-                border-radius: 1rem;
-                width: 100%;
-                height: 100%;
-                min-height: 329px;
-                aspect-ratio: 588 / 330;
-                object-fit: cover;
-                object-position: center;
-                @include media-breakpoint-up(lg) {
-                    height: 329px;
-                    width: 588px;
-                }
-            }
-        }
-    }
-    .text-wrap {
-        padding-top: 7rem;
-        position: relative;
-        @include media-breakpoint-up(lg) {
-            padding-top: 10rem;
-        }
-        .b4 {
-            //color: $text-gray;
-        }
-        .sign {
-            text-align: left;
-            margin-top: 1rem;
-            .name {
-                font-weight: 900 !important;
-                //color: $text-gray;
-            }
-        }
-        &::before {
-            position: absolute;
-            top: 4.3rem;
-            left: 0;
-            width: 48px;
-            height: 35px;
-            content: "";
-            background-image: url('/assets/quote.svg');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-    
-            @include media-breakpoint-up(lg) {
-                width: 75px;
-                height: 56px;
-                top: 5.3rem;
-            }
-        }
-    }
-    .image-video-container {
-        min-height: 329px;
-        background: url('https://settings.primroseschools.com/wp-content/uploads/2024/02/Primrose-LogoGreen.jpg') no-repeat center center;
-        background-size: contain;
-    }
-    .has-image-or-video .slick-dots{
-        top: 355px;
-    }
-    .media-wrap {
-        height: 0;
-        
-    }
-    .has-image-or-video .media-wrap {
-        height: 330px;
-    }
-    .slick-dots {
-        background: rgba(0, 0, 0, 0.05);
+    .image-wrap {
+      img {
         border-radius: 1rem;
-        width: fit-content;
-        display: flex!important;
-        justify-content: center;
-        align-items: center;
-        padding: 7px 6px;
-        position: absolute;
-        top: 2%;
-        bottom: auto;
-        right: 0rem;
-        left: 0;
-        margin: unset;
-       
-        li {
-            margin: 0;
-            button:before {
-                content: '';
-                width: 10px;  
-                height: 10px;
-                border-radius: 50%;
-                background-color: $transparent;  
-                border: 1px solid #D2D3D1;
-                opacity: 0.5;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                @include transition;
-            }
-            &.slick-active button:before {
-                content: '';
-                width: 0;
-                height: 0;
-                border: unset;
-                border-left: 6px solid transparent;
-                border-right: 6px solid transparent;
-                border-bottom: 10px solid $brand-orange; 
-                background-color: transparent;
-                opacity: 1; 
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                border-radius: 0;
-                @include transition;
-              
-            }
+        width: 100%;
+        height: 100%;
+        min-height: 329px;
+        aspect-ratio: 588 / 330;
+        object-fit: cover;
+        object-position: center;
+        @include media-breakpoint-up(lg) {
+          height: 329px;
+          width: 588px;
         }
+      }
     }
-    .has-image-or-video .slick-arrow {
-        top: 375px;
+  }
+  .text-wrap {
+    padding-top: 7rem;
+    position: relative;
+    @include media-breakpoint-up(lg) {
+      padding-top: 10rem;
     }
-    .slick-arrow {
-        width: 25px;
-        height: 25px;
+    .b4 {
+      //color: $text-gray;
+    }
+    .sign {
+      text-align: left;
+      margin-top: 1rem;
+      .name {
+        font-weight: 900 !important;
+        //color: $text-gray;
+      }
+    }
+    &::before {
+      position: absolute;
+      top: 4.3rem;
+      left: 0;
+      width: 48px;
+      height: 35px;
+      content: "";
+      background-image: url("/assets/quote.svg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      @include media-breakpoint-up(lg) {
+        width: 75px;
+        height: 56px;
+        top: 5.3rem;
+      }
+    }
+  }
+  .image-video-container {
+    min-height: 329px;
+    background: url("https://settings.primroseschools.com/wp-content/uploads/2024/02/Primrose-LogoGreen.jpg")
+      no-repeat center center;
+    background-size: contain;
+  }
+  .has-image-or-video .slick-dots {
+    top: 355px;
+  }
+  .media-wrap {
+    height: 0;
+  }
+  .has-image-or-video .media-wrap {
+    height: 330px;
+  }
+  .slick-dots {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+    width: fit-content;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 6px;
+    position: absolute;
+    top: 2%;
+    bottom: auto;
+    right: 0rem;
+    left: 0;
+    margin: unset;
+
+    li {
+      margin: 0;
+      button:before {
+        content: "";
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        border: 1px solid var(--border-primary, #DFE2D3);
-        background-color: var(--black-neutral, #F1F1EF);
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
+        background-color: $transparent;
+        border: 1px solid #d2d3d1;
+        opacity: 0.5;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include transition;
+      }
+      &.slick-active button:before {
+        content: "";
+        width: 0;
+        height: 0;
+        border: unset;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 10px solid $brand-orange;
+        background-color: transparent;
         opacity: 1;
         position: absolute;
-        top: 5%;
-        left: auto;
-        right: 0;
-        @include media-breakpoint-up(md) {
-            right: 5px;
-        }
-        &:hover {
-            border: 1px solid var(--border-primary, #DFE2D3);
-            background-color: var(--black-neutral, #F1F1EF);
-            opacity: 0.7;
-        }
-        svg {
-            width: 12px;
-            height: 12px;
-        }
-        &.slick-prev {
-            right: 45px;
-            z-index: 10;
-            svg {
-                transform: rotate(-90deg);
-            }
-            @include media-breakpoint-up(md) {
-                right: 45px;
-            }
-        }
-        &.slick-next {
-            right: 5px;
-            svg {
-                transform: rotate(90deg);
-            }
-            @include media-breakpoint-up(md) {
-                right: 5px;
-            }
-        }
-        &:before, &:after {
-            display: none;
-        }
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 0;
+        @include transition;
+      }
     }
+  }
+  .has-image-or-video .slick-arrow {
+    top: 375px;
+  }
+  .slick-arrow {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid var(--border-primary, #dfe2d3);
+    background-color: var(--black-neutral, #f1f1ef);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 1;
+    position: absolute;
+    top: 5%;
+    left: auto;
+    right: 0;
+    @include media-breakpoint-up(md) {
+      right: 5px;
+    }
+    &:hover {
+      border: 1px solid var(--border-primary, #dfe2d3);
+      background-color: var(--black-neutral, #f1f1ef);
+      opacity: 0.7;
+    }
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+    &.slick-prev {
+      right: 45px;
+      z-index: 10;
+      svg {
+        transform: rotate(-90deg);
+      }
+      @include media-breakpoint-up(md) {
+        right: 45px;
+      }
+    }
+    &.slick-next {
+      right: 5px;
+      svg {
+        transform: rotate(90deg);
+      }
+      @include media-breakpoint-up(md) {
+        right: 5px;
+      }
+    }
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
 }
 
 .module.Page_Modules_Modules_TestimonialsWithVideoOrImage {
-    overflow: hidden;
+  overflow: hidden;
 }

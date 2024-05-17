@@ -58,7 +58,7 @@
             font-size: 14px;
             font-style: normal;
             font-weight: 300;
-            line-height: 22px; 
+            line-height: 22px;
           }
           @include media-breakpoint-up(lg) {
             height: 70px;
@@ -94,7 +94,6 @@
             border-radius: 5px;
           }
           .icon {
-  
             @include media-breakpoint-up(lg) {
               top: 20px;
             }
@@ -133,23 +132,16 @@
         }
         .search-box {
           flex-direction: column;
-
         }
         h1 {
           font-family: Source Serif Pro;
           font-size: 40px;
           font-style: normal;
           font-weight: 200;
-          line-height: 44px; 
+          line-height: 44px;
           color: $text-gray;
         }
       }
     }
   }
 }
-
-  
-  
-
-  
-  

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import React from "react";
 
 interface TagProps {
   label: string;
@@ -10,20 +10,20 @@ interface TagProps {
 const Tag: React.FC<TagProps> = ({ label, isFeatured, tagSlug }) => {
   const router = useRouter();
 
-  let tagClass = 'tag category';
+  let tagClass = "tag category";
   if (isFeatured) {
-    tagClass += ' featured';
+    tagClass += " featured";
   }
 
   const handleTagClick = (e: React.MouseEvent) => {
-    e.preventDefault();   
+    e.preventDefault();
     e.stopPropagation();
     router.push(`/stories-resources/tag/${tagSlug}`);
   };
-  
+
   return (
     <a href={`/stories-resources/tag/${tagSlug}`}>
-      <div 
+      <div
         className={`d-flex align-items-center clickable ${tagClass}`}
         onClick={handleTagClick}
       >

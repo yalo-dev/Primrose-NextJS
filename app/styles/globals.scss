@@ -1,369 +1,363 @@
-@import './base/variables';
-@import './base/mixins';
-@import '~bootstrap/scss/bootstrap';
-@import 'custom';
-@import 'careers';
-@import 'search';
+@import "./base/variables";
+@import "./base/mixins";
+@import "~bootstrap/scss/bootstrap";
+@import "custom";
+@import "careers";
+@import "search";
 
-@import '../components/atoms/Button/button';
-@import '../components/atoms/Tag/tag';
+@import "../components/atoms/Button/button";
+@import "../components/atoms/Tag/tag";
 
-@import '../components/molecules/NewsletterForm/newsletterForm';
-@import '../components/molecules/ScrollToTopButton/scrollToTopButton';
-@import '../components/molecules/SelectDropdown/selectDropdown';
+@import "../components/molecules/NewsletterForm/newsletterForm";
+@import "../components/molecules/ScrollToTopButton/scrollToTopButton";
+@import "../components/molecules/SelectDropdown/selectDropdown";
 
-@import '../components/organisms/Footer/footer';
-@import '../components/organisms/Header/header';
-@import '../components/organisms/JobTile/jobTile';
-@import '../components/organisms/ResourceBanner/resourceBanner';
-@import '../components/organisms/ResourceCard/resourceCard';
-@import '../components/organisms/ResourcesMenu/reseourcesMenu';
-@import '../components/organisms/SchoolsMenu/schoolsMenu';
-  
-@import '../components/modules/BlockAndSlider/blockAndSlider';
-@import '../components/modules/ClassroomSelectAndImage/classroomSelectAndImage';
-@import '../components/modules/ClassroomSelectAndContent/classroomSelectAndContent';
-@import '../components/modules/ContentWithSchoolhouse/contentWithSchoolhouse';
-@import '../components/modules/DynamicColumns/dynamicColumns';
-@import '../components/modules/DynamicForm/dynamicForm';
-@import '../components/modules/EmergencyAlert/emergencyAlert';
-@import '../components/modules/FeaturedBlogs/featuredBlogs';
-@import '../components/modules/FeaturedSection/featuredSection';
-@import '../components/modules/FindASchool/findASchool';
-@import '../components/modules/FindASchoolMap/findASchoolMap';
-@import '../components/modules/FourAcrossSlider/fourAcrossSlider';
-@import '../components/modules/FourPanels/fourPanels';
-@import '../components/modules/GallerySlider/gallerySlider';
-@import '../components/modules/GeneralButtonCTA/generalButtonCTA';
-@import '../components/modules/GeneralHorizontalTabs/generalHorizontalTabs';
-@import '../components/modules/GeneralVerticalTabs/generalVerticalTabs';
-@import '../components/modules/GravityForm/gravityForm';
-@import '../components/modules/HarmonyAndHeart/harmonyAndHeart';
-@import '../components/modules/HeroWithImage/heroWithImage';
-@import '../components/modules/HeroWithVideo/heroWithVideo';
-@import '../components/modules/HomeHeroWithVideo/homeHeroWithVideo';
-@import '../components/modules/LargeCardSlider/largeCardSlider';
-@import '../components/modules/Newsletter/newsletter';
-@import '../components/modules/NewsletterFormCTA/newsletterFormCTA';
-@import '../components/modules/PathwayToOwnership/pathwayToOwnership';
-@import '../components/modules/PrimroseFriends/primroseFriends';
-@import '../components/modules/Q1Skills/q1Skills';
-@import '../components/modules/QuoteTestimonials/quoteTestimonials';
-@import '../components/modules/ResourceSingleComponent/resourceSingleComponent';
-@import '../components/modules/SeasonalBanner/seasonalbanner';
-@import '../components/modules/LeadershipModule/leadershipModule';
-@import '../components/modules/StandardAccordionList/standardAccordionList';
-@import '../components/modules/TestimonialsWithVideoOrImage/testimonialsWithVideoOrImage';
-@import '../components/modules/Timeline/timeline';
-@import '../components/modules/TwoColumnsFeaturedBlock/twoColumnsFeaturedBlock';
-@import '../components/modules/TwoColumnsFeaturedImage/twoColumnsFeaturedImage';
-@import '../components/modules/TwoColumnsGreenBackground/twoColumnsGreenBackground';
-@import '../components/modules/TwoColumnsImageAndText/twoColumnsImageAndText';
-@import '../components/modules/TwoColumnsImageAndTextAlternative/twoColumnsImageAndTextAlternative';
+@import "../components/organisms/Footer/footer";
+@import "../components/organisms/Header/header";
+@import "../components/organisms/JobTile/jobTile";
+@import "../components/organisms/ResourceBanner/resourceBanner";
+@import "../components/organisms/ResourceCard/resourceCard";
+@import "../components/organisms/ResourcesMenu/reseourcesMenu";
+@import "../components/organisms/SchoolsMenu/schoolsMenu";
 
-@import './resources';
-@import './findASchool';
-@import './schools';
-@import 'calendlyWidget';
+@import "../components/modules/BlockAndSlider/blockAndSlider";
+@import "../components/modules/ClassroomSelectAndImage/classroomSelectAndImage";
+@import "../components/modules/ClassroomSelectAndContent/classroomSelectAndContent";
+@import "../components/modules/ContentWithSchoolhouse/contentWithSchoolhouse";
+@import "../components/modules/DynamicColumns/dynamicColumns";
+@import "../components/modules/DynamicForm/dynamicForm";
+@import "../components/modules/EmergencyAlert/emergencyAlert";
+@import "../components/modules/FeaturedBlogs/featuredBlogs";
+@import "../components/modules/FeaturedSection/featuredSection";
+@import "../components/modules/FindASchool/findASchool";
+@import "../components/modules/FindASchoolMap/findASchoolMap";
+@import "../components/modules/FourAcrossSlider/fourAcrossSlider";
+@import "../components/modules/FourPanels/fourPanels";
+@import "../components/modules/GallerySlider/gallerySlider";
+@import "../components/modules/GeneralButtonCTA/generalButtonCTA";
+@import "../components/modules/GeneralHorizontalTabs/generalHorizontalTabs";
+@import "../components/modules/GeneralVerticalTabs/generalVerticalTabs";
+@import "../components/modules/GravityForm/gravityForm";
+@import "../components/modules/HarmonyAndHeart/harmonyAndHeart";
+@import "../components/modules/HeroWithImage/heroWithImage";
+@import "../components/modules/HeroWithVideo/heroWithVideo";
+@import "../components/modules/HomeHeroWithVideo/homeHeroWithVideo";
+@import "../components/modules/LargeCardSlider/largeCardSlider";
+@import "../components/modules/Newsletter/newsletter";
+@import "../components/modules/NewsletterFormCTA/newsletterFormCTA";
+@import "../components/modules/PathwayToOwnership/pathwayToOwnership";
+@import "../components/modules/PrimroseFriends/primroseFriends";
+@import "../components/modules/Q1Skills/q1Skills";
+@import "../components/modules/QuoteTestimonials/quoteTestimonials";
+@import "../components/modules/ResourceSingleComponent/resourceSingleComponent";
+@import "../components/modules/SeasonalBanner/seasonalbanner";
+@import "../components/modules/LeadershipModule/leadershipModule";
+@import "../components/modules/StandardAccordionList/standardAccordionList";
+@import "../components/modules/TestimonialsWithVideoOrImage/testimonialsWithVideoOrImage";
+@import "../components/modules/Timeline/timeline";
+@import "../components/modules/TwoColumnsFeaturedBlock/twoColumnsFeaturedBlock";
+@import "../components/modules/TwoColumnsFeaturedImage/twoColumnsFeaturedImage";
+@import "../components/modules/TwoColumnsGreenBackground/twoColumnsGreenBackground";
+@import "../components/modules/TwoColumnsImageAndText/twoColumnsImageAndText";
+@import "../components/modules/TwoColumnsImageAndTextAlternative/twoColumnsImageAndTextAlternative";
+
+@import "./resources";
+@import "./findASchool";
+@import "./schools";
+@import "calendlyWidget";
 
 :root {
-    --body-font: Arial, Helvetica, sans-serif;
-    --heading-font: serif;
-    --section-padding: 1rem;
-    --link-color-example: #000;
-    font-size: $font-size;
+  --body-font: Arial, Helvetica, sans-serif;
+  --heading-font: serif;
+  --section-padding: 1rem;
+  --link-color-example: #000;
+  font-size: $font-size;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: border-box;
-    line-height: normal;
+  box-sizing: border-box;
+  line-height: normal;
 }
-
 
 *:focus,
 *:active {
-    outline: none;
+  outline: none;
 }
-
 
 html {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    scroll-padding-top: 107.5px;
-    line-height: 1.15;
-    -webkit-text-size-adjust: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 107.5px;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
 }
-.row{
-    width:100%;
+.row {
+  width: 100%;
 }
 body {
-    font-size: $font-size;
-    background-color: $grayscale-1;
-    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-    font-weight: 300;
+  font-size: $font-size;
+  background-color: $grayscale-1;
+  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
 }
-.bg-gray{
-    background-color: $grayscale-3;
+.bg-gray {
+  background-color: $grayscale-3;
 }
 .ot-sdk-show-settings {
-    cursor: pointer;
+  cursor: pointer;
 }
-@media screen and (max-width: 991px){
-    body{
-        margin-top:100px;
-    }
+@media screen and (max-width: 991px) {
+  body {
+    margin-top: 100px;
+  }
 }
 h1,
 h2,
 h3,
 h4 {
-    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
-    font-style: normal;
-    color: $primary-darkgray;
+  font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+  font-style: normal;
+  color: $primary-darkgray;
 }
 
 h5,
 h6 {
-    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
-    font-style: normal;
+  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-style: normal;
 }
 
 .editor h1,
 .editor h2,
 .editor h3,
 .editorh4 {
-    font-family: 'Source Serif Pro', 'Times New Roman', Times, serif;
+  font-family: "Source Serif Pro", "Times New Roman", Times, serif;
 }
 
 .editor h5,
 .editor h6,
 .editor p {
-    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
-    // font-weight: 300;`
-    color: $text-gray;
+  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  // font-weight: 300;`
+  color: $text-gray;
 }
 
 .editor ul,
 .editor ul li {
-    font-family: 'Poppins', 'Helvetica Neue', Helvetica, sans-serif;
-    font-weight: 300;
-    color: $text-gray;
+  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 300;
+  color: $text-gray;
 }
 
-
-
 h1 {
-    font-size: 34px;
-    font-weight: 200;
-    line-height: 38px;
+  font-size: 34px;
+  font-weight: 200;
+  line-height: 38px;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 62px;
-        line-height: 64px; 
-    }
+  @include media-breakpoint-up(lg) {
+    font-size: 62px;
+    line-height: 64px;
+  }
 }
 
 h2 {
-    font-size: 34px;
-    font-weight: 200;
-    line-height: 38px;
+  font-size: 34px;
+  font-weight: 200;
+  line-height: 38px;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 52px;
-        line-height: 60px;
-    }
-
+  @include media-breakpoint-up(lg) {
+    font-size: 52px;
+    line-height: 60px;
+  }
 }
- 
-h3 {
-    font-size: 26px;
-    font-weight: 300;
-    line-height: 30px;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 40px;
-        line-height: 44px;
-    }
+h3 {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 30px;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 40px;
+    line-height: 44px;
+  }
 }
 
 h4 {
-    font-size: 20px;
-    font-weight: 300;
-    line-height: 26px;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 26px;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 26px;
-        line-height: 32px;
-    }
+  @include media-breakpoint-up(lg) {
+    font-size: 26px;
+    line-height: 32px;
+  }
 }
 
 h5 {
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 16px;
-        line-height: 26px;
-    }
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+    line-height: 26px;
+  }
 }
 
 h6 {
-    font-size: 8px;
-    line-height: 14px;
-    font-weight: 600;
+  font-size: 8px;
+  line-height: 14px;
+  font-weight: 600;
 
-    @include media-breakpoint-up(lg) {
-        font-size: 9px;
-        line-height: 16px;
-    }
+  @include media-breakpoint-up(lg) {
+    font-size: 9px;
+    line-height: 16px;
+  }
 }
 
 p {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  // color: $text-gray;
+  @include media-breakpoint-up(lg) {
     font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal; 
-    // color: $text-gray;
-    @include media-breakpoint-up(lg) {
-        font-size: 1rem;
-        line-height: normal;
-    }
-    &.b2 {
-        font-size: 13px;
-        line-height: 18px;
-        @include media-breakpoint-up(lg) {
-            font-size: 14px;
-            line-height: 20px;
-        }
-    }
-    &.b3 {
-        font-size: 14px;
-        line-height: 22px;
-        font-weight: 300;
-        @include media-breakpoint-up(lg) {
-            font-size: 16px;
-            line-height: 26px;
-        }
-    }
-    &.b4 {
-        font-size: 18px;
-        line-height: 30px;
-        font-weight: 300;
-        @include media-breakpoint-up(lg) {
-            font-size: 20px;
-            line-height: 34px;
-        }
-    }
-    &.b5 {
-        font-size: 24px;
-        line-height: 32px;
-        font-weight: 300;
-        @include media-breakpoint-up(lg) {
-            font-size: 28px;
-            line-height: 38px;
-        }
-    }
-    &.b6 {
-        font-size: 28px;
-        line-height: 34px;
-        font-weight: 500;
-        @include media-breakpoint-up(lg) {
-            font-size: 34px;
-            line-height: 42px;
-        }
-    }
-    &.b7 {
-        font-size: 34px;
-        line-height: 42px;
-        font-weight: 400;
-        @include media-breakpoint-up(lg) {
-            font-size: 50px;
-            line-height: 62px;
-        }
-    }
-}
-
-.b2 {
+    line-height: normal;
+  }
+  &.b2 {
     font-size: 13px;
     line-height: 18px;
     @include media-breakpoint-up(lg) {
-        font-size: 14px;
-        line-height: 20px;
+      font-size: 14px;
+      line-height: 20px;
     }
-}
-.b3 {
+  }
+  &.b3 {
     font-size: 14px;
     line-height: 22px;
     font-weight: 300;
     @include media-breakpoint-up(lg) {
-        font-size: 16px;
-        line-height: 26px;
+      font-size: 16px;
+      line-height: 26px;
     }
-
-    & > p {
-        font-weight: 300;
-    }
-}
-.b4 {
+  }
+  &.b4 {
     font-size: 18px;
     line-height: 30px;
     font-weight: 300;
     @include media-breakpoint-up(lg) {
-        font-size: 20px;
-        line-height: 34px;
+      font-size: 20px;
+      line-height: 34px;
     }
-}
-.b5 {
+  }
+  &.b5 {
     font-size: 24px;
     line-height: 32px;
     font-weight: 300;
     @include media-breakpoint-up(lg) {
-        font-size: 28px;
-        line-height: 38px;
+      font-size: 28px;
+      line-height: 38px;
     }
-}
-.b6 {
+  }
+  &.b6 {
     font-size: 28px;
     line-height: 34px;
     font-weight: 500;
     @include media-breakpoint-up(lg) {
-        font-size: 34px;
-        line-height: 42px;
+      font-size: 34px;
+      line-height: 42px;
     }
-}
-.b7 {
+  }
+  &.b7 {
     font-size: 34px;
     line-height: 42px;
     font-weight: 400;
     @include media-breakpoint-up(lg) {
-        font-size: 50px;
-        line-height: 62px;
+      font-size: 50px;
+      line-height: 62px;
     }
+  }
+}
+
+.b2 {
+  font-size: 13px;
+  line-height: 18px;
+  @include media-breakpoint-up(lg) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+.b3 {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 300;
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  & > p {
+    font-weight: 300;
+  }
+}
+.b4 {
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 300;
+  @include media-breakpoint-up(lg) {
+    font-size: 20px;
+    line-height: 34px;
+  }
+}
+.b5 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 300;
+  @include media-breakpoint-up(lg) {
+    font-size: 28px;
+    line-height: 38px;
+  }
+}
+.b6 {
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 500;
+  @include media-breakpoint-up(lg) {
+    font-size: 34px;
+    line-height: 42px;
+  }
+}
+.b7 {
+  font-size: 34px;
+  line-height: 42px;
+  font-weight: 400;
+  @include media-breakpoint-up(lg) {
+    font-size: 50px;
+    line-height: 62px;
+  }
 }
 
 a {
+  text-decoration: none;
+  transition: 0.25s;
+  color: $brand-blue;
+  cursor: pointer;
+
+  &:hover {
     text-decoration: none;
-    transition: 0.25s;
-    color: $brand-blue;
-    cursor: pointer;
-
-    &:hover {
-        text-decoration: none;
-        color: $brand-teal;
-
-    }
+    color: $brand-teal;
+  }
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 button,
@@ -371,191 +365,188 @@ input,
 optgroup,
 select,
 textarea {
-    margin: 0;
+  margin: 0;
 }
 
-
 hr {
-    box-sizing: content-box;
-    height: 0;
-    overflow: visible;
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
 }
 
 .caption {
-    font-family: 'Poppins';
-    font-size: 11px;
-    font-style: normal;
-    font-weight: 500;
+  font-family: "Poppins";
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  color: $primary-darkgray;
+  @include media-breakpoint-up(lg) {
+    font-size: 12px;
     line-height: 18px;
-    color: $primary-darkgray;
-    @include media-breakpoint-up(lg) {
-        font-size: 12px;
-        line-height: 18px; 
-        letter-spacing: 0.5px;
-    }
+    letter-spacing: 0.5px;
+  }
 }
 
 .subheading {
-    font-family: 'Source Serif Pro';
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 28px;
-    @include media-breakpoint-up(lg) {
-        font-size: 30px;
-        line-height: 42px; 
-    }
+  font-family: "Source Serif Pro";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 28px;
+  @include media-breakpoint-up(lg) {
+    font-size: 30px;
+    line-height: 42px;
+  }
 }
 
 .module {
-    // overflow-x: hidden;
+  // overflow-x: hidden;
 }
 
-.heading .custom-select{
-    margin-left:auto;
-    margin-right:auto;
+.heading .custom-select {
+  margin-left: auto;
+  margin-right: auto;
 }
-.heading .custom-select .header{
-    border-radius:6px;
-    border-color: #e6e6e6;
+.heading .custom-select .header {
+  border-radius: 6px;
+  border-color: #e6e6e6;
 }
-.locations .accordion{
-   margin-bottom:2.75rem;
+.locations .accordion {
+  margin-bottom: 2.75rem;
 }
-.locations .accordion h5{
-    color: #555f68;
-    margin: .7rem 0 .25rem 0;
+.locations .accordion h5 {
+  color: #555f68;
+  margin: 0.7rem 0 0.25rem 0;
 }
 .locations .accordion-flush .accordion-item:last-child {
-    border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
 }
-.locations .accordion-button{
-    padding: 1rem .75rem;
+.locations .accordion-button {
+  padding: 1rem 0.75rem;
 }
-.locations .accordion-body{
-    font-size: .9rem;
-    padding: 3rem 2rem;
-    
+.locations .accordion-body {
+  font-size: 0.9rem;
+  padding: 3rem 2rem;
 }
-.locations .accordion-body .schools{
-    display:flex; 
-    flex-direction:row;
-    flex-wrap:wrap;
-    padding-bottom: 3rem;
-    @include media-breakpoint-up(lg) {
-        
-    max-height:750px;
-    }
+.locations .accordion-body .schools {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-bottom: 3rem;
+  @include media-breakpoint-up(lg) {
+    max-height: 750px;
+  }
 }
-.locations .accordion-body a.school{
-    color: #373A36;
-    text-decoration: underline;;
-    padding: 0rem 2rem .75rem 0rem;
-    @include media-breakpoint-up(lg) {
-        width:33%;
-    }
+.locations .accordion-body a.school {
+  color: #373a36;
+  text-decoration: underline;
+  padding: 0rem 2rem 0.75rem 0rem;
+  @include media-breakpoint-up(lg) {
+    width: 33%;
+  }
 }
-.locations .accordion-button{
-    background-color:white;
+.locations .accordion-button {
+  background-color: white;
 }
-.locations .accordion-button::after{
-    content: "\2014";
-    width: 2.5rem;
-    height:2.5rem;
-    background-color: #ffffff;
-    border:1px solid #006ba6;
-    font-weight:200;
-    color:#006ba6;
-    font-size: 1.25rem;
-    border-radius: 50%;
-    text-align: center;
-    line-height:2.5rem;
-    background-image:none;
+.locations .accordion-button::after {
+  content: "\2014";
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #ffffff;
+  border: 1px solid #006ba6;
+  font-weight: 200;
+  color: #006ba6;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 2.5rem;
+  background-image: none;
 }
-.locations .accordion-button.collapsed::after{
-    //content: "\2014";
-    content: "\FF0B";
-    background-color: #006ba6;
-    color:white;
+.locations .accordion-button.collapsed::after {
+  //content: "\2014";
+  content: "\FF0B";
+  background-color: #006ba6;
+  color: white;
 }
 .locations .accordion-button:focus {
-    border:none !important;
-    box-shadow:none;
+  border: none !important;
+  box-shadow: none;
 }
 a.link {
-    color: $primary-green;
-    position: relative;
-    font-size: 14px;
-    display:inline-block;
+  color: $primary-green;
+  position: relative;
+  font-size: 14px;
+  display: inline-block;
 
+  &::after {
+    position: absolute;
+    content: ">";
+    right: -1rem;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    font-size: 1.25rem;
+    font-weight: 100;
+    @include transitionAll;
+  }
+  &:hover {
+    color: $brand-blue;
     &::after {
-        position: absolute;
-        content: '>';
-        right: -1rem;
-        top: -4px;
-        width: 10px;
-        height: 10px;
-        font-size: 1.25rem;
-        font-weight: 100;
-        @include transitionAll;
+      right: -1.5rem;
+      color: $brand-blue;
     }
-    &:hover {
-        color: $brand-blue;
-        &::after {
-            right: -1.5rem;
-            color: $brand-blue;
-        }
-    }
+  }
 }
 @media screen and (max-width: 768px) {
-    a.link::after {
-        top: calc(100% - 24px);
-
-    }
+  a.link::after {
+    top: calc(100% - 24px);
+  }
 }
-div.market>div{
-    margin: 1.5rem auto;
+div.market > div {
+  margin: 1.5rem auto;
 }
-div.market .hero-with-image{
-    background-color: #5E6738;
-    color:white;
+div.market .hero-with-image {
+  background-color: #5e6738;
+  color: white;
 }
 // div.market .hero-with-image button{
 //     background-color:white;
 // }
-div.market .hero-with-image h1, div.market .hero-with-image p{
-    color:white;
+div.market .hero-with-image h1,
+div.market .hero-with-image p {
+  color: white;
 }
 div.market .general-vertical-tabs {
-    padding: 0 !important;
+  padding: 0 !important;
 }
-.find-a-school-container{
-    margin: 0 auto;
-    overflow:visible;
+.find-a-school-container {
+  margin: 0 auto;
+  overflow: visible;
 }
-.find-a-school-container.title{
-    margin-top:9.125rem;
-    margin-bottom:0;
+.find-a-school-container.title {
+  margin-top: 9.125rem;
+  margin-bottom: 0;
 }
-.find-a-school-container .map-title{
-    top:-9.125rem;
-    position:absolute;
-    width:100%;
-    left:0;
-    background-color: #5e6738;
-    color:white;
-    height: 9.125rem;
-    text-align:center;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid white;
+.find-a-school-container .map-title {
+  top: -9.125rem;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  background-color: #5e6738;
+  color: white;
+  height: 9.125rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid white;
 }
-.map-title h3{
-    color:white;
+.map-title h3 {
+  color: white;
 }
-div.market .testimonials-with-video-or-image{
-    padding: 3rem 0;
+div.market .testimonials-with-video-or-image {
+  padding: 3rem 0;
 }
 // div.market .testimonials-with-video-or-image .slick-dots {
 //     right: 0rem;
@@ -566,44 +557,44 @@ div.market .testimonials-with-video-or-image{
 //     height: 25px;
 // }
 .schedular-link {
+  color: #fff;
+  background-color: #5e6738;
+  width: auto;
+  padding: 14px 20px;
+  font-family: "Poppins";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px;
+  border: 0;
+  border-radius: 100px;
+  transition: all 300ms ease-in-out;
+  &:hover {
+    background-color: #373a36;
     color: #fff;
-    background-color: #5E6738;
-    width: auto;
-    padding: 14px 20px;
-    font-family: "Poppins";
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 20px;
-    border: 0;
-    border-radius: 100px;
-    transition: all 300ms ease-in-out;
-    &:hover {
-        background-color: #373A36;
-        color: #fff;
-    }
+  }
 }
 
 .preopening-alert {
-    background-color: #f5f9fc;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 6px;
-    border: 2px solid #66a6ca;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-    color: #006ba6;
-    text-align: left;
-    @include media-breakpoint-up(lg) {
-        font-size: 16px;
-        line-height: 22px;
-    }
-    .alert-icon {
-        width: 2px;
-        height: 30px;
-        background-color: #ff9e1b;
-        display: inline-block;
-        margin-right: 1rem;
-    }
+  background-color: #f5f9fc;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 6px;
+  border: 2px solid #66a6ca;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+  color: #006ba6;
+  text-align: left;
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .alert-icon {
+    width: 2px;
+    height: 30px;
+    background-color: #ff9e1b;
+    display: inline-block;
+    margin-right: 1rem;
+  }
 }

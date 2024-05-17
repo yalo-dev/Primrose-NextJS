@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ListItemProps {
   className?: string;
@@ -6,13 +6,17 @@ interface ListItemProps {
   onClick?: () => void;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ className, children, onClick }) => {
+const ListItem: React.FC<ListItemProps> = ({
+  className,
+  children,
+  onClick,
+}) => {
   return (
     <li className={className} onClick={onClick}>
       {children}
     </li>
   );
-}
+};
 
 export default ListItem;
 

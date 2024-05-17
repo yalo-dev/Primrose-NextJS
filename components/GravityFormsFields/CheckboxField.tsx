@@ -1,8 +1,16 @@
 import { gql } from "@apollo/client";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from "react";
 
-import { CheckboxField as CheckboxFieldType, CheckboxFieldInput, FieldError } from "../../generated/graphql";
-import useGravityForm, { ACTION_TYPES, FieldValue, CheckboxFieldValue } from "../../hooks/useGravityForm";
+import {
+  CheckboxFieldInput,
+  CheckboxField as CheckboxFieldType,
+  FieldError,
+} from "../../generated/graphql";
+import useGravityForm, {
+  ACTION_TYPES,
+  CheckboxFieldValue,
+  FieldValue,
+} from "../../hooks/useGravityForm";
 
 export const CHECKBOX_FIELD_FIELDS = gql`
   fragment CheckboxFieldFields on CheckboxField {
@@ -38,11 +46,24 @@ interface Props {
 const DEFAULT_VALUE: CheckboxFieldInput[] = [];
 
 export default function CheckboxField({ field, fieldErrors }: Props) {
-  const { id, databaseId, type, label, description, cssClass, inputs, choices } = field;
-  const checkboxInputs = choices?.map((choice, index) => ({ ...choice, id: inputs?.[index]?.id })) || [];
+  const {
+    id,
+    databaseId,
+    type,
+    label,
+    description,
+    cssClass,
+    inputs,
+    choices,
+  } = field;
+  const checkboxInputs =
+    choices?.map((choice, index) => ({ ...choice, id: inputs?.[index]?.id })) ||
+    [];
   const htmlId = `field_${databaseId}_${id}`;
   const { state, dispatch } = useGravityForm();
-  const fieldValue = state.find((fieldValue: FieldValue) => fieldValue.id === id) as CheckboxFieldValue | undefined;
+  const fieldValue = state.find(
+    (fieldValue: FieldValue) => fieldValue.id === id,
+  ) as CheckboxFieldValue | undefined;
   const checkboxValues = fieldValue?.checkboxValues || DEFAULT_VALUE;
   const fieldRef = useRef<HTMLInputElement>(null);
 
@@ -50,12 +71,12 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
     //console.log('change event');
     const { name, value, checked } = event.target;
     const otherCheckboxValues = checkboxValues.filter(
-      (checkboxValue: CheckboxFieldInput) => checkboxValue.inputId !== Number(name)
+      (checkboxValue: CheckboxFieldInput) =>
+        checkboxValue.inputId !== Number(name),
     );
-    const newCheckboxValues = checked ?
-      [...otherCheckboxValues, { inputId: Number(name), value }]
-      :
-      otherCheckboxValues;
+    const newCheckboxValues = checked
+      ? [...otherCheckboxValues, { inputId: Number(name), value }]
+      : otherCheckboxValues;
 
     dispatch({
       type: ACTION_TYPES.updateCheckboxFieldValue,
@@ -65,15 +86,15 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
       },
     });
   }
-  useEffect(()=>{
+  useEffect(() => {
     const { name, value, checked } = fieldRef.current;
     const otherCheckboxValues = checkboxValues.filter(
-      (checkboxValue: CheckboxFieldInput) => checkboxValue.inputId !== Number(name)
+      (checkboxValue: CheckboxFieldInput) =>
+        checkboxValue.inputId !== Number(name),
     );
-    const newCheckboxValues = checked ?
-      [...otherCheckboxValues, { inputId: Number(name), value }]
-      :
-      otherCheckboxValues;
+    const newCheckboxValues = checked
+      ? [...otherCheckboxValues, { inputId: Number(name), value }]
+      : otherCheckboxValues;
 
     dispatch({
       type: ACTION_TYPES.updateCheckboxFieldValue,
@@ -82,34 +103,41 @@ export default function CheckboxField({ field, fieldErrors }: Props) {
         checkboxValues: newCheckboxValues,
       },
     });
-  }, [fieldRef]
-  );
-  
+  }, [fieldRef]);
 
   return (
-    <fieldset id={`g${htmlId}`}  className={`gfield gfield-${type} ${cssClass}`.trim()}>
+    <fieldset
+      id={`g${htmlId}`}
+      className={`gfield gfield-${type} ${cssClass}`.trim()}
+    >
       <legend>
-        {checkboxInputs.map(({ id: inputId, text, value }) =>
+        {checkboxInputs.map(({ id: inputId, text, value }) => (
           <div key={inputId}>
             <input
-                type="checkbox"
-                name={String(inputId)}
-                id={`input_${databaseId}_${id}_${inputId}`}
-                value={String(value)}
-                onChange={handleChange}
-                ref={fieldRef}
+              type="checkbox"
+              name={String(inputId)}
+              id={`input_${databaseId}_${id}_${inputId}`}
+              value={String(value)}
+              onChange={handleChange}
+              ref={fieldRef}
             />
             <span className="checkbox-style"></span>
             <label htmlFor={`input_${databaseId}_${id}_${inputId}`}>
               <span>{text}</span>
             </label>
           </div>
-        )}<span className="label">{label}</span></legend>
+        ))}
+        <span className="label">{label}</span>
+      </legend>
 
       {description ? <p className="field-description">{description}</p> : null}
-      {fieldErrors?.length ? fieldErrors.map(fieldError => (
-        <p key={fieldError.id} className="error-message">{fieldError.message}</p>
-      )) : null}
+      {fieldErrors?.length
+        ? fieldErrors.map((fieldError) => (
+            <p key={fieldError.id} className="error-message">
+              {fieldError.message}
+            </p>
+          ))
+        : null}
     </fieldset>
   );
 }

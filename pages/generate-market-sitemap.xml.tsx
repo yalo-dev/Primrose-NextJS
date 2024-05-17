@@ -1,48 +1,47 @@
-import {client} from "../app/lib/apollo";
-import {generateSitemap, GET_MARKETS_SITEMAP} from "../utilities/sitemap";
+import { client } from "../app/lib/apollo";
+import { generateSitemap, GET_MARKETS_SITEMAP } from "../utilities/sitemap";
 
-export default function() {
-}
+export default function () {}
 
-export async function getServerSideProps({req, res}) {
-    const host = req.headers.host
-    const proto = req.headers['x-forwarded-proto']
-    const {data} =  await client.query({query: GET_MARKETS_SITEMAP})
+export async function getServerSideProps({ req, res }) {
+  const host = req.headers.host;
+  const proto = req.headers["x-forwarded-proto"];
+  const { data } = await client.query({ query: GET_MARKETS_SITEMAP });
 
-    // markets' modified time is pulled from a query on the schools
-    // check each market shows once and choose the most recent modified time
-    let reformat = {}
-    data?.schools?.nodes?.forEach((node) => {
-        const marketNode = node.markets?.nodes[0]
-        const url = marketNode?.uri
+  // markets' modified time is pulled from a query on the schools
+  // check each market shows once and choose the most recent modified time
+  let reformat = {};
+  data?.schools?.nodes?.forEach((node) => {
+    const marketNode = node.markets?.nodes[0];
+    const url = marketNode?.uri;
 
-        if (!url) return
+    if (!url) return;
 
-        if (reformat[url]) {
-            reformat[url].modifiedGmt < node.modifiedGmt
-                ? reformat[url] = {modifiedGmt: node.modifiedGmt, uri: url}
-                : reformat[url] = reformat[url]
-        } else {
-            reformat[url] = {modifiedGmt: node.modifiedGmt, uri: url}
-        }
-    })
+    if (reformat[url]) {
+      reformat[url].modifiedGmt < node.modifiedGmt
+        ? (reformat[url] = { modifiedGmt: node.modifiedGmt, uri: url })
+        : (reformat[url] = reformat[url]);
+    } else {
+      reformat[url] = { modifiedGmt: node.modifiedGmt, uri: url };
+    }
+  });
 
-    // include careers url path in sitemap
-    type SitemapNode = {uri: string, modifiedGmt: string}
-    const withCareers = []
-    Object.values(reformat).forEach((node: SitemapNode) => {
-        withCareers.push(node)
-        const nodeWithCareers = {
-            ...node,
-            uri: node.uri.replace('locations/', 'locations/careers/')
-        }
-        withCareers.push(nodeWithCareers)
-    })
+  // include careers url path in sitemap
+  type SitemapNode = { uri: string; modifiedGmt: string };
+  const withCareers = [];
+  Object.values(reformat).forEach((node: SitemapNode) => {
+    withCareers.push(node);
+    const nodeWithCareers = {
+      ...node,
+      uri: node.uri.replace("locations/", "locations/careers/"),
+    };
+    withCareers.push(nodeWithCareers);
+  });
 
-    const sitemap = generateSitemap(withCareers, `${proto}://${host}`)
-    res.setHeader('Content-Type', 'text/xml')
-    res.write(sitemap)
-    res.end()
+  const sitemap = generateSitemap(withCareers, `${proto}://${host}`);
+  res.setHeader("Content-Type", "text/xml");
+  res.write(sitemap);
+  res.end();
 
-    return {props: {}}
+  return { props: {} };
 }

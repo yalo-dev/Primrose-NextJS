@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
 interface UnorderedListProps {
-    listClass?: string;
-    children: React.ReactNode;
-  }
-  
-  const UnorderedList: React.FC<UnorderedListProps> = ({ listClass, children }) => {
-    return (
-      <ul className={listClass}>
-        {children}
-      </ul>
-    );
-  }
+  listClass?: string;
+  children: React.ReactNode;
+}
+
+const UnorderedList: React.FC<UnorderedListProps> = ({
+  listClass,
+  children,
+}) => {
+  return <ul className={listClass}>{children}</ul>;
+};
 
 export default UnorderedList;
 
 // HOW TO USE
-{/* <UnorderedList listClass="some-list-class">
+{
+  /* <UnorderedList listClass="some-list-class">
 <ListItem className="some-list-item-class">Item 1</ListItem>
 <ListItem className="some-list-item-class">Item 2</ListItem>
 <ListItem className="some-list-item-class">Item 3</ListItem>
@@ -30,4 +30,5 @@ OR
           <a href={item.uri}>{item.label}</a>
         </ListItem>
       ))}
-</UnorderedList> */}
+</UnorderedList> */
+}

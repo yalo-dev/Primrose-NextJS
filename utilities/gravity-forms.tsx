@@ -4,12 +4,12 @@ import { GfForm } from "../generated/graphql";
 import { client } from "../app/lib/apollo";
 import { CHECKBOX_FIELD_FIELDS } from "../components/GravityFormsFields/CheckboxField";
 import { EMAIL_FIELD_FIELDS } from "../components/GravityFormsFields/EmailField";
+import { HIDDEN_FIELD_FIELDS } from "../components/GravityFormsFields/HiddenField";
 import { PHONE_FIELD_FIELDS } from "../components/GravityFormsFields/PhoneField";
 import { RADIO_FIELD_FIELDS } from "../components/GravityFormsFields/RadioField";
-import { TEXT_FIELD_FIELDS } from "../components/GravityFormsFields/TextField";
-import { TEXTAREA_FIELD_FIELDS } from "../components/GravityFormsFields/TextAreaField"
 import { SELECT_FIELD_FIELDS } from "../components/GravityFormsFields/SelectField";
-import { HIDDEN_FIELD_FIELDS } from "../components/GravityFormsFields/HiddenField";
+import { TEXTAREA_FIELD_FIELDS } from "../components/GravityFormsFields/TextAreaField";
+import { TEXT_FIELD_FIELDS } from "../components/GravityFormsFields/TextField";
 
 const GET_FORM = gql`
   query getForm($formId: ID!) {
@@ -66,13 +66,13 @@ const GET_FORM = gql`
   ${TEXTAREA_FIELD_FIELDS}
 `;
 
-export default async function getGravityForm(formId: number): Promise<GfForm | undefined> {
-  const result = await client
-    .query({
-      query: GET_FORM,
-      variables: { formId },
-    });
+export default async function getGravityForm(
+  formId: number,
+): Promise<GfForm | undefined> {
+  const result = await client.query({
+    query: GET_FORM,
+    variables: { formId },
+  });
 
   return result?.data?.gfForm; // Changed 'gravityFormsForm' to 'gfForm' to match the query
-  
 }

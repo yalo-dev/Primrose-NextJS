@@ -1,334 +1,330 @@
 .home-hero-with-video {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  @include media-breakpoint-up(lg) {
+    margin: auto;
+    flex-direction: row;
+    //align-items: center;
+    //min-height: 590px;
+    //justify-content: space-between;
+    &.reverse-column {
+      flex-direction: row-reverse;
+    }
+  }
+  .left-column {
+    order: 2;
+    padding-right: 0;
     @include media-breakpoint-up(lg) {
-        margin: auto;
-        flex-direction: row;
-        //align-items: center;
-        //min-height: 590px;
-        //justify-content: space-between;
-        &.reverse-column {
-            flex-direction: row-reverse;
-        }
+      order: 1;
+      //max-width: 553px;
+      padding-right: 6%;
     }
-    .left-column {
-        order: 2;
-        padding-right: 0;
-        @include media-breakpoint-up(lg) {
-            order: 1;
-            //max-width: 553px;
-            padding-right: 6%;
-        }
-        .heading-wrapper {
-            h1 {
-                margin-bottom: 2rem;
-                color: $primary-green;
-            }
-            h5 {
-                margin-bottom: 1rem;
-                color: $primary-green;
-            }
-        }
-        
-        .find-a-location-hero {
-            border: 1px solid #E6E6E6;
-            min-width: 343px;
-            width: 100%;
-            border-radius: 30px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            padding: 26px 20px;
-            height: 200px;
-            position: relative;
-            margin: auto;
-            .icon {
-                cursor: pointer;
-            }
-            .location-icon {
-                svg {
-                    transition: fill ease-in-out 0.5;
-                    path {
-                        transition: stroke ease-in-out 0.5;
-                    }
-                }
-                &:hover {
-                    svg {
-                        fill: $primary-green;
-                        path {
-                            stroke: $primary-green;
-                        }
-                    }
-                }
-            }
-            
-            
-            &.location-disabled {
-                border-bottom-left-radius: 30px;
-                border-bottom-right-radius: 30px;
-                ~ .nearest-school-info {
-                    display: none;
-                    &.nearest-school-found {
-                        display: block;
-                    }
-                }
-                .search-icon {
-                    display: none;
-                }
-                .location-icon {
-                    display: block;
-                }
-            }
-            &.search-field-active {
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-                ~ .nearest-school-info {
-                    display: block;
-                }
-            }
-            @include media-breakpoint-up(lg) {
-                width: 100%;
-                padding: 32px 42px;
-            
-            }
-            .search-field {
-                position: relative;
-                input {
-                    width: 100%;
-                    min-width: 303px;
-                    height: 50px;
-                    flex-shrink: 0;
-                    border: 1px solid #E6E6E6;
-                    border-radius: 12px;
-                    padding-left: 10px;
-                    padding-right: 40px;
-                    @include media-breakpoint-up(lg) {
-                        width: 80%;
-                        height: 70px;
-                        top: 10px;
-                        position: relative;
-                    }
-                }
-                .icon {
-                    position: absolute;
-                    top: 10px;
-                    right: 0;
-                    @include media-breakpoint-up(lg) {
-                        right: 20%;
-                        top: 30px;
-                    }
-                }
-                button {
-                    position: absolute;
-                    width: auto;
-                    bottom: -60px;
-                    right: 0;
-                    @include media-breakpoint-up(lg) {
-                        bottom: 0;
-                    }
-                }
-                &.location-enabled {
-                    .search-icon {
-                        display: none;
-                        @include media-breakpoint-up(lg) {
-                            display: block;
-                            top: 25px;
-                            right: 10px;
-                        }
-                    }
-                    button {
-                        @include media-breakpoint-up(lg) {
-                            display: none;
-                        }
-                    }
-                    .location-icon {
-                        display: none;
-                    }
-                    input {
-                        padding-right: 10px;
-                        @include media-breakpoint-up(lg) {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-            .link {
-                margin-top: 1.5rem;
-                @include media-breakpoint-up(xl) {
-                    margin-top: -6.5rem;
-                    text-align: right;
-                }
-                a {
-                    color: $text-gray;
-                    text-decoration: underline;
-                    font-family: Poppins;
-                    font-size: 12px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 14px; 
-                    @include media-breakpoint-up(lg) {
-                        margin-top: -5.75rem;
-                        margin-right: 0;
-                        margin-left: auto;
-                        text-align: right;
-                        font-size: 16px;
-                        font-weight: 300;
-                        line-height: 26px;
-                    }
-                }
-            }
-           
-        }
-        .nearest-school-info {
-            background-color: #FBFBFB;
-            padding: 26px 20px;
-            border: 1px solid #E6E6E6;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            width: 343px;
-            margin: auto;
-            
-            .name-wrapper { 
-                &:hover {
-                    h5 {
-                        color: $brand-blue;
-                    }    
-                    .icon {
-                        margin-right: -1rem;
-                        svg path {
-                            fill: $brand-blue;
-                        }
-                    }
-                }
-                h5 {
-                    color: $text-gray;
-                    @include transitionAll;
-                }    
-                .icon {
-                    @include transitionAll;
-                }  
-            }
-            .phone {
-                color: $text-gray;
-            }
-            button {
-                width: auto;
-            }
-            @include media-breakpoint-up(lg) {
-                width: 100%;
-                padding: 32px 42px;
-            
-            }
+    .heading-wrapper {
+      h1 {
+        margin-bottom: 2rem;
+        color: $primary-green;
+      }
+      h5 {
+        margin-bottom: 1rem;
+        color: $primary-green;
+      }
+    }
 
+    .find-a-location-hero {
+      border: 1px solid #e6e6e6;
+      min-width: 343px;
+      width: 100%;
+      border-radius: 30px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      padding: 26px 20px;
+      height: 200px;
+      position: relative;
+      margin: auto;
+      .icon {
+        cursor: pointer;
+      }
+      .location-icon {
+        svg {
+          transition: fill ease-in-out 0.5;
+          path {
+            transition: stroke ease-in-out 0.5;
+          }
         }
-    }
-    .right-column {
-        order: 1;
-        flex: 1;
-        //display: table;
+        &:hover {
+          svg {
+            fill: $primary-green;
+            path {
+              stroke: $primary-green;
+            }
+          }
+        }
+      }
+
+      &.location-disabled {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        ~ .nearest-school-info {
+          display: none;
+          &.nearest-school-found {
+            display: block;
+          }
+        }
+        .search-icon {
+          display: none;
+        }
+        .location-icon {
+          display: block;
+        }
+      }
+      &.search-field-active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        ~ .nearest-school-info {
+          display: block;
+        }
+      }
+      @include media-breakpoint-up(lg) {
+        width: 100%;
+        padding: 32px 42px;
+      }
+      .search-field {
         position: relative;
-        h1 {
-            margin-bottom: 1rem;
-            color: $primary-green;
+        input {
+          width: 100%;
+          min-width: 303px;
+          height: 50px;
+          flex-shrink: 0;
+          border: 1px solid #e6e6e6;
+          border-radius: 12px;
+          padding-left: 10px;
+          padding-right: 40px;
+          @include media-breakpoint-up(lg) {
+            width: 80%;
+            height: 70px;
+            top: 10px;
+            position: relative;
+          }
+        }
+        .icon {
+          position: absolute;
+          top: 10px;
+          right: 0;
+          @include media-breakpoint-up(lg) {
+            right: 20%;
+            top: 30px;
+          }
+        }
+        button {
+          position: absolute;
+          width: auto;
+          bottom: -60px;
+          right: 0;
+          @include media-breakpoint-up(lg) {
+            bottom: 0;
+          }
+        }
+        &.location-enabled {
+          .search-icon {
+            display: none;
+            @include media-breakpoint-up(lg) {
+              display: block;
+              top: 25px;
+              right: 10px;
+            }
+          }
+          button {
+            @include media-breakpoint-up(lg) {
+              display: none;
+            }
+          }
+          .location-icon {
+            display: none;
+          }
+          input {
+            padding-right: 10px;
+            @include media-breakpoint-up(lg) {
+              width: 100%;
+            }
+          }
+        }
+      }
+      .link {
+        margin-top: 1.5rem;
+        @include media-breakpoint-up(xl) {
+          margin-top: -6.5rem;
+          text-align: right;
+        }
+        a {
+          color: $text-gray;
+          text-decoration: underline;
+          font-family: Poppins;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 14px;
+          @include media-breakpoint-up(lg) {
+            margin-top: -5.75rem;
+            margin-right: 0;
+            margin-left: auto;
+            text-align: right;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 26px;
+          }
+        }
+      }
+    }
+    .nearest-school-info {
+      background-color: #fbfbfb;
+      padding: 26px 20px;
+      border: 1px solid #e6e6e6;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      width: 343px;
+      margin: auto;
+
+      .name-wrapper {
+        &:hover {
+          h5 {
+            color: $brand-blue;
+          }
+          .icon {
+            margin-right: -1rem;
+            svg path {
+              fill: $brand-blue;
+            }
+          }
         }
         h5 {
-            margin-bottom: 1rem;
-            color: $primary-green;
-           
+          color: $text-gray;
+          @include transitionAll;
         }
-    }
-    .image-wrapper {
-           
-        @include media-breakpoint-up(lg) {
-            margin-left: 0;
+        .icon {
+          @include transitionAll;
         }
-        img {
-            width: 100%; 
-            height: auto;  
-            position: relative; 
-            border-radius: 30px;
-            
-            @include media-breakpoint-up(lg) {
-                object-fit: cover; 
-                position: absolute; 
-                top: 50%; 
-                left: 50%; 
-                transform: translate(-50%, -50%); 
-                height: 100%;
-                width: 100%;
-            }
-            @include media-breakpoint-up(xl) {
-                //min-width: 525px;
-                //height: auto;
-            }
-            @include media-breakpoint-up(xxl) {
-                //min-width: 676px;
-                //height: auto;
-                //width: 100%;
-            }
-        }
-    }
-    .video-wrapper {
-        background-color: $grayscale-5;
-        margin: 0;
-        min-height: 343px;
+      }
+      .phone {
+        color: $text-gray;
+      }
+      button {
+        width: auto;
+      }
+      @include media-breakpoint-up(lg) {
         width: 100%;
-        height: auto; 
-        overflow: hidden;
-        border-radius: 30px;
-        position: relative;
-        margin: 20px auto;
-        @include media-breakpoint-up(lg) {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-        }
+        padding: 32px 42px;
+      }
     }
-    
-    .video-wrapper video {
-        width: 101%;
-        height: 101%;
+  }
+  .right-column {
+    order: 1;
+    flex: 1;
+    //display: table;
+    position: relative;
+    h1 {
+      margin-bottom: 1rem;
+      color: $primary-green;
+    }
+    h5 {
+      margin-bottom: 1rem;
+      color: $primary-green;
+    }
+  }
+  .image-wrapper {
+    @include media-breakpoint-up(lg) {
+      margin-left: 0;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      position: relative;
+      border-radius: 30px;
+
+      @include media-breakpoint-up(lg) {
         object-fit: cover;
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 100%;
+        width: 100%;
+      }
+      @include media-breakpoint-up(xl) {
+        //min-width: 525px;
+        //height: auto;
+      }
+      @include media-breakpoint-up(xxl) {
+        //min-width: 676px;
+        //height: auto;
+        //width: 100%;
+      }
     }
-}
-
-
-.hp-popup-modal {
-    z-index: 10000000;
-    position: absolute;
-    background: white;
-    border: 1px solid $neutral-1;
+  }
+  .video-wrapper {
+    background-color: $grayscale-5;
+    margin: 0;
+    min-height: 343px;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
     border-radius: 30px;
-    padding: 2rem;
-    min-width: 15rem;
-    max-width: 30rem;
-    top: 25%; 
+    position: relative;
+    margin: 20px auto;
+    @include media-breakpoint-up(lg) {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .video-wrapper video {
+    width: 101%;
+    height: 101%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    button {
-        padding: 5px;
-        width: auto;
-        background-color: $primary-green;
-        color: $white;
-        line-height: 1;
-        border-radius: 50%;
-        right: 10px;
-        top: 10px;
-        
-        width: 30px;
-        height: 30px;
-        position: absolute;
-    }
-    &.open {
-        animation: fadeIn 0.5s ease-out forwards;
-    }
+  }
+}
+
+.hp-popup-modal {
+  z-index: 10000000;
+  position: absolute;
+  background: white;
+  border: 1px solid $neutral-1;
+  border-radius: 30px;
+  padding: 2rem;
+  min-width: 15rem;
+  max-width: 30rem;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  button {
+    padding: 5px;
+    width: auto;
+    background-color: $primary-green;
+    color: $white;
+    line-height: 1;
+    border-radius: 50%;
+    right: 10px;
+    top: 10px;
+
+    width: 30px;
+    height: 30px;
+    position: absolute;
+  }
+  &.open {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
 }
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

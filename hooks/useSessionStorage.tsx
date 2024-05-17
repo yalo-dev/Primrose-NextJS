@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const useSessionStorage = (name) => {
-    const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
 
-    useEffect(() => {
-        setValue(sessionStorage.getItem(name))
-    }, [])
+  useEffect(() => {
+    setValue(sessionStorage.getItem(name));
+  }, []);
 
-    return value
-}
+  return value;
+};
 
-export default useSessionStorage
+export default useSessionStorage;

@@ -1,221 +1,218 @@
-import { useEffect, useState, createContext, useContext } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../app/styles/globals.scss';
+import { gql } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { client } from "../app/lib/apollo";
-import Layout from '../app/components/templates/Layout/Layout';
-import { gql } from '@apollo/client';
-import Head from "next/head";
-import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
-import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
+import { useJsApiLoader } from "@react-google-maps/api";
+import "bootstrap/dist/css/bootstrap.min.css";
 import parse from "html-react-parser";
+import Head from "next/head";
+import { createContext, useEffect, useState } from "react";
+import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
+import Layout from "../app/components/templates/Layout/Layout";
+import { client } from "../app/lib/apollo";
+import "../app/styles/globals.scss";
 
-
-const GOOGLE_MAP_LIBRARIES: ("places")[] = ['places'];
+const GOOGLE_MAP_LIBRARIES: "places"[] = ["places"];
 
 export const SliderSpeed = createContext(null);
 
 function MyApp({ Component, pageProps }) {
-	//console.log(pageProps);
-	const [headerMenuItems, setHeaderMenuItems] = useState([]);
-	const [footerMenuItems, setFooterMenuItems] = useState([]);
-	const [siteSettings, setSiteSettings] = useState(null);
+  //console.log(pageProps);
+  const [headerMenuItems, setHeaderMenuItems] = useState([]);
+  const [footerMenuItems, setFooterMenuItems] = useState([]);
+  const [siteSettings, setSiteSettings] = useState(null);
 
-	const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
-        libraries: GOOGLE_MAP_LIBRARIES,
-      }); 
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
+    libraries: GOOGLE_MAP_LIBRARIES,
+  });
 
-	useEffect(() => {
+  useEffect(() => {
+    if (window.location.hash) {
+      // check for the hash element to scroll to, or stop after the 5th check
+      let check = 0;
+      const checkHashScroll = setInterval(() => {
+        const hashElement: HTMLElement = document.querySelector(
+          `${window.location.hash}`,
+        );
+        const nav = document.getElementsByTagName("nav")[0];
 
-		if (window.location.hash) {
-	      // check for the hash element to scroll to, or stop after the 5th check
-		  let check = 0
-		  const checkHashScroll = setInterval(() => {
-		    const hashElement: HTMLElement = document.querySelector(`${window.location.hash}`)
-		    const nav = document.getElementsByTagName("nav")[0]
+        if (hashElement) {
+          window.scrollTo({
+            top: hashElement.offsetTop - nav.scrollHeight * 2,
+          });
+          clearInterval(checkHashScroll);
+        } else if (check >= 4) {
+          clearInterval(checkHashScroll);
+        }
+        check++;
+      }, 100);
+    }
 
-		    if (hashElement) {
-			  window.scrollTo({top: hashElement.offsetTop - nav.scrollHeight*2})
-			  clearInterval(checkHashScroll)
-		    } else if (check >= 4) {
-			  clearInterval(checkHashScroll)
-		    }
-		    check++
-		  }, 100)
-		}
+    if (process.env.NODE_ENV === "development") {
+      (window as any).resetApolloCache = () => {
+        client.resetStore();
+        console.log("Apollo cache reset.");
+      };
+    }
 
-		if (process.env.NODE_ENV === 'development') {
-			(window as any).resetApolloCache = () => {
-				client.resetStore();
-				console.log('Apollo cache reset.');
-			};
-		}
+    const fetchMenuItems = async () => {
+      // header menu query
+      const HEADER_MENU_QUERY = gql`
+        query HeaderMenu {
+          menu(id: "4", idType: DATABASE_ID) {
+            menuItems(first: 100) {
+              nodes {
+                title
+                label
+                url
+                parentId
+                cssClasses
+                childItems(first: 100) {
+                  nodes {
+                    title
+                    label
+                    url
+                    parentId
+                    cssClasses
+                    childItems(first: 100) {
+                      nodes {
+                        label
+                        title
+                        url
+                        parentId
+                        cssClasses
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      `;
 
-		const fetchMenuItems = async () => {
-			// header menu query
-			const HEADER_MENU_QUERY = gql`
-			query HeaderMenu {
-				menu(id: "4", idType: DATABASE_ID) {
-				  menuItems(first: 100) {
-					nodes {
-					  title
-					  label
-					  url
-					  parentId
-					  cssClasses
-					  childItems(first: 100) {
-						nodes {
-						  title
-						  label
-						  url
-						  parentId
-						  cssClasses
-						  childItems(first: 100) {
-							nodes {
-							  label
-							  title
-							  url
-							  parentId
-							  cssClasses
-							}
-						  }
-						}
-					  }
-					}
-				  }
-				}
-			  }
-			`;
+      // footer menu query
+      const FOOTER_MENU_QUERY = gql`
+        query FooterMenu {
+          menu(id: "2", idType: DATABASE_ID) {
+            menuItems {
+              nodes {
+                url
+                label
+              }
+            }
+          }
+        }
+      `;
 
-			// footer menu query
-			const FOOTER_MENU_QUERY = gql`
-				query FooterMenu {
-				menu(id: "2", idType: DATABASE_ID) {
-					menuItems {
-					nodes {
-						url
-						label
-					}
-					}
-				}
-				}
-			`;
+      // site settings query
+      const SITE_SETTINGS_QUERY = gql`
+        query SiteSettings {
+          siteSettings {
+            siteSettings {
+              copyrightInfo
+              disclaimer
+              footerLinks {
+                link {
+                  url
+                  title
+                  target
+                }
+              }
+              logoFooter {
+                sourceUrl
+                altText
+              }
+              socialIcons {
+                link {
+                  url
+                }
+                icon {
+                  sourceUrl
+                  altText
+                }
+              }
+              carouselRotationTiming
+            }
+          }
+        }
+      `;
 
-			// site settings query
-			const SITE_SETTINGS_QUERY = gql`
-				query SiteSettings {
-					siteSettings {
-						siteSettings {
-							copyrightInfo
-							disclaimer
-							footerLinks {
-								link {
-								url
-								title
-								target
-								}
-							}
-							logoFooter {
-								sourceUrl
-								altText
-							}
-							socialIcons {
-								link {
-									url
-								}
-								icon {
-								sourceUrl
-								altText
-								}
-							}
-							carouselRotationTiming
-						}
-					}
-				}
-			`;
+      const { data: headerData } = await client.query({
+        query: HEADER_MENU_QUERY,
+      });
 
-			const { data: headerData } = await client.query({
-				query: HEADER_MENU_QUERY,
-			});
+      const { data: footerData } = await client.query({
+        query: FOOTER_MENU_QUERY,
+      });
 
-			const { data: footerData } = await client.query({
-				query: FOOTER_MENU_QUERY,
-			});
+      const { data: siteSettingsData } = await client.query({
+        query: SITE_SETTINGS_QUERY,
+      });
 
-			const { data: siteSettingsData } = await client.query({
-				query: SITE_SETTINGS_QUERY,
-			});
+      setHeaderMenuItems(headerData.menu.menuItems.nodes);
+      setFooterMenuItems(footerData.menu.menuItems.nodes);
+      setSiteSettings(siteSettingsData.siteSettings.siteSettings);
+    };
 
-			setHeaderMenuItems(headerData.menu.menuItems.nodes);
-			setFooterMenuItems(footerData.menu.menuItems.nodes);
-			setSiteSettings(siteSettingsData.siteSettings.siteSettings);
-		};
+    fetchMenuItems();
+  }, []);
 
-		fetchMenuItems();
-	}, []);
-
-	let seo = null;
-	if(pageProps.page?.data?.page?.seo){
-		seo = parse(pageProps.page.data.page.seo.fullHead);
-	}else if(pageProps.school){
-		if(pageProps.data?.classroom.seo){
-			if(pageProps.customSeo){
-				seo = parse(pageProps.customSeo.fullHead);
-			}else{
-				seo = parse(pageProps.data.classroom.seo.fullHead);
-			}
-		}
-		else if(pageProps.school.seo){
-			if(pageProps.customSeo){
-				seo = parse(pageProps.customSeo.fullHead);
-			}else{
-				seo = parse(pageProps.school.seo.fullHead);
-			}
-			
-		}
-	}else if(pageProps.seo){
-		seo = parse(pageProps.seo.contentTypes.resource.archive.fullHead);
-	}else if(pageProps.resources?.resourceType?.seo){
-		seo = parse(pageProps.resources.resourceType.seo.fullHead);
-	}else if(pageProps.resources?.resourceTag?.seo){
-		seo = parse(pageProps.resources.resourceTag.seo.fullHead);
-	}else if(pageProps.resource?.seo){
-		seo = parse(pageProps.resource.seo.fullHead);
-	}else if(pageProps.locationsSeo){
-		seo = parse(
-			`<title>${pageProps.locationsSeo.title}</title>
-			<meta name="description" content="${pageProps.locationsSeo.description}" />`
-			
-		);
-	}else if(pageProps.seoData){
-		seo = parse(pageProps.seoData.fullHead);
-	}
-	return (
-		<ApolloProvider client={client}>
-			<Head>
-
-				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-				{seo}
-			</Head>
-			<SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
-				<Layout
-					menuItems={headerMenuItems}
-					footerMenuItems={footerMenuItems}
-					siteSettings={siteSettings}
-				>
-					<ErrorBoundary>
-
-
-						{isLoaded && (
-							<Component {...pageProps} />
-						)}
-					</ErrorBoundary>
-				</Layout>
-			</SliderSpeed.Provider>
-		</ApolloProvider>
-	);
+  let seo = null;
+  if (pageProps.page?.data?.page?.seo) {
+    seo = parse(pageProps.page.data.page.seo.fullHead);
+  } else if (pageProps.school) {
+    if (pageProps.data?.classroom.seo) {
+      if (pageProps.customSeo) {
+        seo = parse(pageProps.customSeo.fullHead);
+      } else {
+        seo = parse(pageProps.data.classroom.seo.fullHead);
+      }
+    } else if (pageProps.school.seo) {
+      if (pageProps.customSeo) {
+        seo = parse(pageProps.customSeo.fullHead);
+      } else {
+        seo = parse(pageProps.school.seo.fullHead);
+      }
+    }
+  } else if (pageProps.seo) {
+    seo = parse(pageProps.seo.contentTypes.resource.archive.fullHead);
+  } else if (pageProps.resources?.resourceType?.seo) {
+    seo = parse(pageProps.resources.resourceType.seo.fullHead);
+  } else if (pageProps.resources?.resourceTag?.seo) {
+    seo = parse(pageProps.resources.resourceTag.seo.fullHead);
+  } else if (pageProps.resource?.seo) {
+    seo = parse(pageProps.resource.seo.fullHead);
+  } else if (pageProps.locationsSeo) {
+    seo = parse(
+      `<title>${pageProps.locationsSeo.title}</title>
+			<meta name="description" content="${pageProps.locationsSeo.description}" />`,
+    );
+  } else if (pageProps.seoData) {
+    seo = parse(pageProps.seoData.fullHead);
+  }
+  return (
+    <ApolloProvider client={client}>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
+        {seo}
+      </Head>
+      <SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
+        <Layout
+          menuItems={headerMenuItems}
+          footerMenuItems={footerMenuItems}
+          siteSettings={siteSettings}
+        >
+          <ErrorBoundary>
+            {isLoaded && <Component {...pageProps} />}
+          </ErrorBoundary>
+        </Layout>
+      </SliderSpeed.Provider>
+    </ApolloProvider>
+  );
 }
 
 export default MyApp;

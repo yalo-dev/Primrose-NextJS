@@ -1,79 +1,95 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import Document, { Head, Html, Main, NextScript } from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 class MyDocument extends Document {
-    static async getInitialProps(ctx) {
-        const sheet = new ServerStyleSheet();
-        const originalRenderPage = ctx.renderPage;
+  static async getInitialProps(ctx) {
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
 
-        try {
-            ctx.renderPage = () =>
-                originalRenderPage({
-                    enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
-                });
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        });
 
-            const initialProps = await Document.getInitialProps(ctx);
-            return {
-                ...initialProps,
-                styles: (
-                    <>
-                        {initialProps.styles}
-                        {sheet.getStyleElement()}
-                    </>
-                ),
-            };
-        } finally {
-            sheet.seal();
-        }
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      };
+    } finally {
+      sheet.seal();
     }
+  }
 
-
-
-    render() {
-        // const DynamicComponentWithNoSSR = dynamic(
-        //     () => import('../utilities/custom-analytics.js'),
-        //     { ssr: false }
-        // )
-        // let customAnaltics = require('./../utilities/custom-analytics.js')
-        return (
-            <Html>
-                <Head>
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `
+  render() {
+    // const DynamicComponentWithNoSSR = dynamic(
+    //     () => import('../utilities/custom-analytics.js'),
+    //     { ssr: false }
+    // )
+    // let customAnaltics = require('./../utilities/custom-analytics.js')
+    return (
+      <Html>
+        <Head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
                             })(window,document,'script','dataLayer','GTM-MJKZ3SLB');
                             `,
-                        }}
-                    />
-                    <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce" ></script>
-                     <script
-                        type="text/javascript"
-                        dangerouslySetInnerHTML={{
-                            __html: `
+            }}
+          />
+          <script
+            src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
+            type="text/javascript"
+            data-domain-script="dcc6852c-83ad-4770-8fe8-5c1528352fce"
+          ></script>
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
                             function OptanonWrapper() { }
                             `,
-                        }}
-                    />
-                    <script src="https://cdn.optimizely.com/js/20299544930.js"></script>
-                    <script charSet="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
-                    <link
-                        href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
-                        rel="stylesheet"
-                    />
-                    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22602766.js"></script>
-                </Head>
-                <body>
-                    <noscript
-                        dangerouslySetInnerHTML={{
-                        __html: `<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MJKZ3SLB" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`,
-                        }}
-                    />
-                    <script id="custom-analytics" type="text/javascript"
-                        dangerouslySetInnerHTML={{ __html: `
+            }}
+          />
+          <script src="https://cdn.optimizely.com/js/20299544930.js"></script>
+          <script
+            charSet="utf-8"
+            type="text/javascript"
+            src="//js.hsforms.net/forms/embed/v2.js"
+          ></script>
+          <link
+            href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
+            rel="stylesheet"
+          />
+          <script
+            type="text/javascript"
+            id="hs-script-loader"
+            async
+            defer
+            src="//js.hs-scripts.com/22602766.js"
+          ></script>
+        </Head>
+        <body>
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MJKZ3SLB" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`,
+            }}
+          />
+          <script
+            id="custom-analytics"
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
                             function crumbleCookie(a) {
                                 for (
                                     var d = document.cookie.split(";"), c = {}, b = 0;
@@ -245,15 +261,16 @@ class MyDocument extends Document {
                                         writeLogic("UserSession");
                                     }
                                 }
-                            })();`}}>
-                    </script>
-                    {/*<DynamicComponentWithNoSSR />*/}
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        );
-    }
+                            })();`,
+            }}
+          ></script>
+          {/*<DynamicComponentWithNoSSR />*/}
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
 }
 
 export default MyDocument;
