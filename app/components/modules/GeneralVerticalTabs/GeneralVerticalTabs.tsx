@@ -5,7 +5,7 @@ import Subheading from "../../atoms/Subheading/Subheading";
 import ColorComponent from "../../filters/ColorComponent";
 import Customizations from "../../filters/Customizations";
 
-interface VerticalTabProps {
+export interface VerticalTabProps {
   customizations: {
     topMarginMobile: string;
     topMarginDesktop: string;

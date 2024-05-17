@@ -3,7 +3,9 @@ import camelize from "camelize";
 import { useRouter } from "next/router";
 import GallerySlider from "../../../app/components/modules/GallerySlider/GallerySlider";
 import GeneralButtonCTA from "../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA";
-import GeneralVerticalTabs from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
+import GeneralVerticalTabs, {
+  VerticalTabProps,
+} from "../../../app/components/modules/GeneralVerticalTabs/GeneralVerticalTabs";
 import HeroWithImage from "../../../app/components/modules/HeroWithImage/HeroWithImage";
 import FindASchoolMap from "../../../app/components/modules/MapSearch/MapSearch";
 import QuoteTestimonials from "../../../app/components/modules/QuoteTestimonials/QuoteTestimonials";
@@ -211,7 +213,7 @@ export default function Location({ locationData }) {
         {fiftyFifty1_props && <TwoColumnsImageAndText {...fiftyFifty1_props} />}
         {/* @ts-ignore */}
         {market?.marketSettings?.ageGroups && (
-          <GeneralVerticalTabs {...gva_props} />
+          <GeneralVerticalTabs {...(gva_props as VerticalTabProps)} />
         )}
         {testimonials_props && <QuoteTestimonials {...testimonials_props} />}
         {cta_props && <GeneralButtonCTA {...cta_props} />}
