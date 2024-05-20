@@ -232,7 +232,6 @@ export default function Document() {
                             })();`,
           }}
         ></Script>
-        {/*<DynamicComponentWithNoSSR />*/}
         <Main />
         <NextScript />
       </body>
