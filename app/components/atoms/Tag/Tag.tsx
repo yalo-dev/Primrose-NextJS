@@ -22,14 +22,12 @@ const Tag: React.FC<TagProps> = ({ label, isFeatured, tagSlug }) => {
   };
 
   return (
-    <a href={`/stories-resources/tag/${tagSlug}`}>
-      <div
-        className={`d-flex align-items-center clickable ${tagClass}`}
-        onClick={handleTagClick}
-      >
-        {label}
-      </div>
-    </a>
+    <div
+      className={`d-flex align-items-center clickable ${tagClass}`}
+      onClick={handleTagClick}
+    >
+      {label}
+    </div>
   );
 };
 

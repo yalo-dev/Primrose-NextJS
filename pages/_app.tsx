@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { useJsApiLoader } from "@react-google-maps/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import parse from "html-react-parser";
 import Head from "next/head";
@@ -11,89 +10,82 @@ import { client } from "../app/lib/apollo";
 import "../app/styles/globals.scss";
 import { poppins, serif } from "../font";
 
-const GOOGLE_MAP_LIBRARIES: "places"[] = ["places"];
-
 export const SliderSpeed = createContext(null);
 
 const LAYOUT_QUERY = gql`
-query LayoutQuery {
-  headerMenu: menu(id: "4", idType: DATABASE_ID) {
-            menuItems(first: 100) {
-              nodes {
-                title
-                label
-                url
-                parentId
-                cssClasses
-                childItems(first: 100) {
-                  nodes {
-                    title
-                    label
-                    url
-                    parentId
-                    cssClasses
-                    childItems(first: 100) {
-                      nodes {
-                        label
-                        title
-                        url
-                        parentId
-                        cssClasses
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-  footerMenu: menu(id: "2", idType: DATABASE_ID) {
-            menuItems {
-              nodes {
-                url
-                label
-              }
-            }
-          }
-  siteSettings {
-            siteSettings {
-              copyrightInfo
-              disclaimer
-              footerLinks {
-                link {
-                  url
+  query LayoutQuery {
+    headerMenu: menu(id: "4", idType: DATABASE_ID) {
+      menuItems(first: 100) {
+        nodes {
+          title
+          label
+          url
+          parentId
+          cssClasses
+          childItems(first: 100) {
+            nodes {
+              title
+              label
+              url
+              parentId
+              cssClasses
+              childItems(first: 100) {
+                nodes {
+                  label
                   title
-                  target
-                }
-              }
-              logoFooter {
-                sourceUrl
-                altText
-              }
-              socialIcons {
-                link {
                   url
-                }
-                icon {
-                  sourceUrl
-                  altText
+                  parentId
+                  cssClasses
                 }
               }
-              carouselRotationTiming
             }
           }
-}`;
+        }
+      }
+    }
+    footerMenu: menu(id: "2", idType: DATABASE_ID) {
+      menuItems {
+        nodes {
+          url
+          label
+        }
+      }
+    }
+    siteSettings {
+      siteSettings {
+        copyrightInfo
+        disclaimer
+        footerLinks {
+          link {
+            url
+            title
+            target
+          }
+        }
+        logoFooter {
+          sourceUrl
+          altText
+        }
+        socialIcons {
+          link {
+            url
+          }
+          icon {
+            sourceUrl
+            altText
+          }
+        }
+        carouselRotationTiming
+      }
+    }
+  }
+`;
 
 function MyApp({ Component, pageProps }) {
   //console.log(pageProps);
   const [headerMenuItems, setHeaderMenuItems] = useState([]);
   const [footerMenuItems, setFooterMenuItems] = useState([]);
   const [siteSettings, setSiteSettings] = useState(null);
-
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
-    libraries: GOOGLE_MAP_LIBRARIES,
-  });
 
   useEffect(() => {
     if (window.location.hash) {
@@ -126,14 +118,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const fetchMenuItems = async () => {
-
     const { data: layoutData } = await client.query({
       query: LAYOUT_QUERY,
     });
-    setHeaderMenuItems(layoutData.headerMenu.menuItems.nodes)
-    setFooterMenuItems(layoutData.footerMenu.menuItems.nodes)
-    setSiteSettings(layoutData.siteSettings.siteSettings)
-
+    setHeaderMenuItems(layoutData.headerMenu.menuItems.nodes);
+    setFooterMenuItems(layoutData.footerMenu.menuItems.nodes);
+    setSiteSettings(layoutData.siteSettings.siteSettings);
   };
 
   fetchMenuItems();
@@ -194,7 +184,7 @@ function MyApp({ Component, pageProps }) {
           siteSettings={siteSettings}
         >
           <ErrorBoundary>
-            {isLoaded && <Component {...pageProps} />}
+            <Component {...pageProps} />
           </ErrorBoundary>
         </Layout>
       </SliderSpeed.Provider>

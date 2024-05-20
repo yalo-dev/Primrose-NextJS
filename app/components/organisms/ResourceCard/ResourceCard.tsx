@@ -45,6 +45,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   if (isResourceFeatured && !tags.some((tag) => tag.slug === "featured")) {
     tags = [{ name: "Featured", slug: "featured" }, ...tags];
   }
+
   return (
     <div className={`card ${className ? className : ""}`}>
       <Link
@@ -69,7 +70,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                     backgroundImage: `url(${resource.featuredImage.node.sourceUrl})`,
                   }}
                   aria-label={resource.title}
-                ></div>
+                />
               </div>
             )}
           <div className="content-wrapper">
@@ -97,7 +98,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                   dangerouslySetInnerHTML={{
                     __html: resource.excerpt.replace(/<\/?p>/g, ""),
                   }}
-                ></div>
+                />
               )}
               <div
                 className="excerpt"
@@ -112,13 +113,12 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                     (tag, index) =>
                       // exclude tags with value of 'startribune' from the tags list
                       tag.slug !== "startribune" && (
-                        <div key={index}>
-                          <Tag
-                            label={tag.name}
-                            isFeatured={tag.slug === "featured"}
-                            tagSlug={tag.slug}
-                          />
-                        </div>
+                        <Tag
+                          label={tag.name}
+                          isFeatured={tag.slug === "featured"}
+                          tagSlug={tag.slug}
+                          key={index}
+                        />
                       ),
                   )}
               </div>

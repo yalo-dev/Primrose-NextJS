@@ -1,7 +1,9 @@
+import { useJsApiLoader } from "@react-google-maps/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { GOOGLE_MAP_LIBRARIES } from "../../../../constants/google-maps";
 import { getSchools } from "../../../lib/schoolsData";
 import Button from "../../atoms/Button/Button";
 import Heading from "../../atoms/Heading/Heading";
@@ -60,6 +62,11 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   rightColumn,
   customizations,
 }) => {
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
+    libraries: GOOGLE_MAP_LIBRARIES,
+  });
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [userLocation, setUserLocation] = useState<any | null>(null);
@@ -202,7 +209,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
 
   useEffect(() => {
     //console.log('use effect for autocomplete');
-    if (searchInputRef.current) {
+    if (searchInputRef.current && isLoaded) {
       autocompleteRef.current = new window.google.maps.places.Autocomplete(
         searchInputRef.current,
       );
@@ -212,7 +219,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
         );
       });
     }
-  }, [window.google, searchInputRef.current]);
+  }, [searchInputRef.current]);
 
   return (
     <>

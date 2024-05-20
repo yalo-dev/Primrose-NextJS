@@ -158,7 +158,6 @@ export default function ResourcesList({
             resource?.newsFields?.link != null
               ? resource?.newsFields?.link
               : router.pathname + "/" + category + "/" + resource.slug;
-
           return (
             <ResourceCard
               key={resource.id}

@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 import camelize from "camelize";
-import { useRouter } from "next/router";
 import GallerySlider from "../../../app/components/modules/GallerySlider/GallerySlider";
 import GeneralButtonCTA from "../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA";
 import GeneralVerticalTabs, {
@@ -12,31 +11,9 @@ import QuoteTestimonials from "../../../app/components/modules/QuoteTestimonials
 import TwoColumnsImageAndText from "../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
 import { client } from "../../../app/lib/apollo";
 
-const GET_LOCATIONS = gql`
-  query GetLocations {
-    markets {
-      edges {
-        node {
-          uri
-          slug
-        }
-      }
-      nodes {
-        slug
-        uri
-      }
-    }
-  }
-`;
-export async function getAllLocations() {
-  const locations = await client.query({ query: GET_LOCATIONS });
-  return locations?.data!.markets.edges;
-}
-
 export default function Location({ locationData }) {
   const siteSettings = locationData?.data?.siteSettings?.siteSettings;
   const market = locationData.data.market;
-  const router = useRouter();
 
   const headerImage = market?.marketSettings?.heroImage?.sourceUrl
     ? {
@@ -142,20 +119,6 @@ export default function Location({ locationData }) {
   };
   const schools = market?.schools?.nodes;
 
-  // market.schools.nodes.map((school, index) => {
-  //   schools.push({
-  //     id: school.slug,
-  //     name: "Primrose School " + school.schoolCorporateSettings.schoolOfAtOn + " " + school.title,
-  //     address: school.schoolCorporateSettings.address.streetAddress +  "  " + school.schoolCorporateSettings.address.city + ", " + school.schoolCorporateSettings.address.state + "  " + school.schoolCorporateSettings.address.zipcode,
-  //     //hours: school.schoolAdminSettings.hoursOfOperation.openingTime + " - " + school.schoolAdminSettings.hoursOfOperation.closingTime,
-  //     notes: " ",
-  //     coordinates: {
-  //       lat: school.schoolCorporateSettings.address.latitude as number,
-  //       lng: school.schoolCorporateSettings.address.longitude as number
-  //     }
-
-  //   })
-  // });
   const map_props = {
     title:
       market?.marketSettings?.marketEnrollmentPageHeadline ??
@@ -416,15 +379,3 @@ export async function getServerSideProps({
     },
   };
 }
-
-/*   export async function getStaticPaths() {
-    const allLocations  = await getAllLocations();;
-    const paths = allLocations.map((item) => ({
-        params: { slug: [item.node.slug] },
-      }));
-    return {
-      paths,
-      fallback: 'blocking',
-    };
-  }
-   */

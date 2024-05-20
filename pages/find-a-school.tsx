@@ -3,10 +3,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MapSearch from "../app/components/modules/MapSearch/MapSearch";
+import { GOOGLE_MAP_LIBRARIES } from "../constants/google-maps";
 
 const FindASchool = () => {
   const router = useRouter();
-  const { query } = router.query;
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [center, setCenter] = useState(null);
@@ -15,7 +15,7 @@ const FindASchool = () => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
-    libraries: ["places"],
+    libraries: GOOGLE_MAP_LIBRARIES,
   });
   const geocodeSearchTerm = async (searchTerm: string) => {
     //console.log(searchTerm);
@@ -25,30 +25,25 @@ const FindASchool = () => {
           //console.log(results[0]);
           setPlace(results[0]);
           return results[0];
-          setLoading(false);
         } else {
           return null;
-          setPlace(null);
-          setLoading(false);
         }
       });
     }
   };
   useEffect(() => {
-    if (!geocoder) {
+    if (!geocoder && isLoaded) {
       geocoder = new window.google.maps.Geocoder();
     }
     if (router.query) {
-      //console.log('running search');
       if (router.query.latitude && router.query.longitude) {
         setCenter({
           latitude: Number(router.query.latitude),
           longitude: Number(router.query.longitude),
         });
       }
-      geocodeSearchTerm(router.query.search_string as string).then(() => {
-        //console.log(place);
 
+      geocodeSearchTerm(router.query.search_string as string).then(() => {
         setLoading(false);
       });
     } else {
