@@ -1,10 +1,8 @@
 import { gql } from "@apollo/client";
-import $ from "jquery";
 import Script from "next/script";
+import slugify from "slugify";
 import SelectDropdown from "../../app/components/molecules/SelectDropdown/SelectDropdown";
 import { client } from "../../app/lib/apollo";
-
-const slugify = require("slugify");
 
 export async function getStaticProps() {
   try {
@@ -79,25 +77,7 @@ export async function getStaticProps() {
   }
 }
 
-export default function Locations({ locationsSeo, markets, schools }) {
-  const handleStateFilter = (state: string) => {
-    if (typeof state !== "string" || state.trim() === "") {
-      console.error("Invalid state value:", state);
-      return;
-    }
-
-    let state_section = document.getElementById(
-      slugify(state, { lower: true }) + "_section",
-    );
-    let sections = document.getElementsByClassName("state_section");
-    $(sections).hide();
-    $(state_section).show();
-
-    let dropdownToggle = document.querySelector(
-      ".select-dropdown .dropdown-toggle",
-    );
-    dropdownToggle.dispatchEvent(new Event("click"));
-  };
+export default function Locations({ markets, schools }) {
   let abbr = {
     AL: "Alabama",
     AK: "Alaska",
@@ -225,7 +205,6 @@ export default function Locations({ locationsSeo, markets, schools }) {
             <SelectDropdown
               options={statesOptions}
               placeholder="All States"
-              onSelect={handleStateFilter}
               returnFullOption={false}
             />
           </div>

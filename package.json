@@ -15,7 +15,6 @@
     "graphql": "^16.8.0",
     "html-entities": "^2.4.0",
     "html-react-parser": "^5.1.1",
-    "jquery": "^3.7.1",
     "next": "^14.0.2",
     "node-fetch": "^3.3.2",
     "passport": "^0.7.0",
