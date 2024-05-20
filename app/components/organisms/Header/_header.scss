@@ -147,7 +147,7 @@
         a,
         > div {
           color: $white;
-          font-family: Poppins;
+          font-family: var(--font-family-poppins);
           font-size: 28px;
           font-style: normal;
           font-weight: 275;
@@ -164,7 +164,7 @@
           }
           @include media-breakpoint-up(lg) {
             color: $primary-green;
-            font-family: Poppins;
+            font-family: var(--font-family-poppins);
             font-size: 14px;
             font-style: normal;
             font-weight: 300;
@@ -329,7 +329,7 @@
               border-bottom: 0;
             }
             a span {
-              font-family: Poppins;
+              font-family: var(--font-family-poppins);
               font-size: 24px;
               font-style: normal;
               font-weight: 600;
@@ -355,7 +355,7 @@
             }
             span {
               color: $primary-green;
-              font-family: Poppins;
+              font-family: var(--font-family-poppins);
               font-size: 12px;
               font-style: normal;
               font-weight: 300;

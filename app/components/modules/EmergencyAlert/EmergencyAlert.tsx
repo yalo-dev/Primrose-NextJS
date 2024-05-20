@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { poppins } from "../../../../font";
 
 const GET_SCHOOL_DETAILS = gql`
   query GetSchoolDetails($id: ID!) {
@@ -119,7 +120,7 @@ const EmergencyAlert = () => {
                               dominantBaseline="middle"
                               style={{
                                 fontFeatureSettings: "'clig' off, 'liga' off",
-                                fontFamily: "Poppins",
+                                fontFamily: poppins.style.fontFamily,
                                 fontStyle: "normal",
                                 fontWeight: 600,
                                 lineHeight: "51.431px",

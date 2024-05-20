@@ -54,7 +54,7 @@
           min-width: 343px;
           &::placeholder {
             color: $text-gray;
-            font-family: Poppins;
+            font-family: var(--font-family-poppins);
             font-size: 14px;
             font-style: normal;
             font-weight: 300;
@@ -134,7 +134,7 @@
           flex-direction: column;
         }
         h1 {
-          font-family: Source Serif Pro;
+          font-family: var(--font-family-serif);
           font-size: 40px;
           font-style: normal;
           font-weight: 200;

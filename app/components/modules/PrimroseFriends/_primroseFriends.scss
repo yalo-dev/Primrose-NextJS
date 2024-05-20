@@ -343,7 +343,7 @@
       .bio p {
         @extend .b2;
         max-width: 385px;
-        font-family: Poppins;
+        font-family: var(--font-family-poppins);
         font-size: 14px;
         font-style: normal;
         font-weight: 300;
@@ -351,7 +351,7 @@
       }
 
       sup {
-        font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+        font-family: var(--font-family-serif);
         font-weight: 400;
       }
 
