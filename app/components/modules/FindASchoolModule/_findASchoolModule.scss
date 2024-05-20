@@ -87,7 +87,7 @@
           }
 
           &.active {
-            font-family: Poppins;
+            font-family: var(--font-family-poppins);
             font-size: 14px;
             font-style: normal;
             background-color: $white;
@@ -521,7 +521,7 @@
 
       .address {
         color: $primary-darkgray;
-        font-family: Poppins;
+        font-family: var(--font-family-poppins);
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
@@ -531,7 +531,7 @@
 
       .hours {
         color: $primary-darkgray;
-        font-family: Poppins;
+        font-family: var(--font-family-poppins);
         font-size: 12px;
         font-style: normal;
         font-weight: 400;

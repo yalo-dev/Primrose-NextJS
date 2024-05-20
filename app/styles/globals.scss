@@ -102,7 +102,7 @@ html {
 body {
   font-size: $font-size;
   background-color: $grayscale-1;
-  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: var(--font-family-poppins);
   margin: 0;
   padding: 0;
   font-weight: 300;
@@ -122,14 +122,14 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+  font-family: var(--font-family-serif);
   font-style: normal;
   color: $primary-darkgray;
 }
 
 h5,
 h6 {
-  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: var(--font-family-poppins);
   font-style: normal;
 }
 
@@ -137,20 +137,20 @@ h6 {
 .editor h2,
 .editor h3,
 .editorh4 {
-  font-family: "Source Serif Pro", "Times New Roman", Times, serif;
+  font-family: var(--font-family-serif);
 }
 
 .editor h5,
 .editor h6,
 .editor p {
-  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: var(--font-family-poppins);
   // font-weight: 300;`
   color: $text-gray;
 }
 
 .editor ul,
 .editor ul li {
-  font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: var(--font-family-poppins);
   font-weight: 300;
   color: $text-gray;
 }
@@ -375,7 +375,7 @@ hr {
 }
 
 .caption {
-  font-family: "Poppins";
+  font-family: var(--font-family-poppins);
   font-size: 11px;
   font-style: normal;
   font-weight: 500;
@@ -389,7 +389,7 @@ hr {
 }
 
 .subheading {
-  font-family: "Source Serif Pro";
+  font-family: var(--font-family-serif);
   font-size: 22px;
   font-style: normal;
   font-weight: 300;
@@ -561,7 +561,7 @@ div.market .testimonials-with-video-or-image {
   background-color: #5e6738;
   width: auto;
   padding: 14px 20px;
-  font-family: "Poppins";
+  font-family: var(--font-family-poppins);
   font-size: 14px;
   font-style: normal;
   font-weight: 300;

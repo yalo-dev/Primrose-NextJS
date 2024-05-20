@@ -40,10 +40,6 @@ export default function Document() {
           src="//js.hsforms.net/forms/embed/v2.js"
           strategy={"lazyOnload"}
         ></Script>
-        <link
-          href="//fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;400&family=Poppins:wght@300;400;500&display=swap"
-          rel="stylesheet"
-        />
         <Script
           id="hs-script-loader"
           src="//js.hs-scripts.com/22602766.js"

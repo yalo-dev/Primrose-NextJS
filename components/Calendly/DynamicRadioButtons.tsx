@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import { poppins } from "../../font";
 
 const DynamicRadioButtons = ({ skipURL, options, onSelect }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
@@ -16,7 +17,7 @@ const DynamicRadioButtons = ({ skipURL, options, onSelect }) => {
         style={{
           fontSize: "16px",
           fontWeight: "600",
-          fontFamily: '"Poppins", "Helvetica Neue", Helvetica, sans-serif',
+          fontFamily: poppins.style.fontFamily,
         }}
       >
         Please select an event to schedule a time below:

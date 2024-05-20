@@ -91,7 +91,7 @@ footer {
   }
   .bottom {
     .text {
-      font-family: Poppins;
+      font-family: var(--font-family-poppins);
       font-size: 13px;
       font-style: normal;
       font-weight: 400;
@@ -100,7 +100,7 @@ footer {
     }
 
     .disclaimer {
-      font-family: Poppins;
+      font-family: var(--font-family-poppins);
       font-size: 10px;
       font-style: normal;
       font-weight: 400;

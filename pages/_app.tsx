@@ -9,6 +9,7 @@ import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
 import Layout from "../app/components/templates/Layout/Layout";
 import { client } from "../app/lib/apollo";
 import "../app/styles/globals.scss";
+import { poppins, serif } from "../font";
 
 const GOOGLE_MAP_LIBRARIES: "places"[] = ["places"];
 
@@ -191,6 +192,7 @@ function MyApp({ Component, pageProps }) {
   } else if (pageProps.seoData) {
     seo = parse(pageProps.seoData.fullHead);
   }
+
   return (
     <ApolloProvider client={client}>
       <Head>
@@ -200,6 +202,12 @@ function MyApp({ Component, pageProps }) {
         />
         {seo}
       </Head>
+      <style jsx global>{`
+        :root {
+          --font-family-poppins: ${poppins.style.fontFamily};
+          --font-family-serif: ${serif.style.fontFamily};
+        }
+      `}</style>
       <SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
         <Layout
           menuItems={headerMenuItems}
