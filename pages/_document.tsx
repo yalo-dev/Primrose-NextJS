@@ -84,7 +84,8 @@ class MyDocument extends Document {
               __html: `<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MJKZ3SLB" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`,
             }}
           />
-          <script
+          <Script
+            strategy={"lazyOnload"}
             id="custom-analytics"
             type="text/javascript"
             dangerouslySetInnerHTML={{
@@ -262,7 +263,7 @@ class MyDocument extends Document {
                                 }
                             })();`,
             }}
-          ></script>
+          ></Script>
           {/*<DynamicComponentWithNoSSR />*/}
           <Main />
           <NextScript />
