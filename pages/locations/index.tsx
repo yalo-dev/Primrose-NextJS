@@ -152,14 +152,16 @@ export default function Locations({ locationsSeo, markets, schools }) {
     WY: "Wyoming",
   };
   let schools_arr = [];
-  //console.log(schools);
   schools.map((school, index) => {
     for (let i = 0; i < school.markets.nodes.length; i++) {
       if (!schools_arr[school.markets.nodes[i].name]) {
         schools_arr[school.markets.nodes[i].name] = new Array();
       }
-      school.stateName = abbr[school.schoolCorporateSettings.address.state];
-      schools_arr[school.markets.nodes[i].name].push(school);
+      const schoolWithState = {
+        ...school,
+        stateName: abbr[school.schoolCorporateSettings.address.state],
+      };
+      schools_arr[school.markets.nodes[i].name].push(schoolWithState);
     }
   });
 
@@ -188,29 +190,6 @@ export default function Locations({ locationsSeo, markets, schools }) {
     };
     statesOptions.push(obj);
   });
-
-  const handleCollapse = (event) => {
-    // this is a quick fix for the collapse/expand not working, ideally this would be handled within component state
-    const collapsableGroup = document.querySelector(
-      event.currentTarget.dataset.bsTarget,
-    );
-    const collapsableClass = event.currentTarget.dataset.bsToggle;
-    if (Object.values(event.currentTarget.classList).includes("collapsed")) {
-      event.currentTarget.classList.remove("collapsed");
-      if (
-        Object.values(collapsableGroup.classList).includes(collapsableClass)
-      ) {
-        collapsableGroup.classList.remove(collapsableClass);
-      }
-    } else {
-      event.currentTarget.classList.add("collapsed");
-      if (
-        !Object.values(collapsableGroup.classList).includes(collapsableClass)
-      ) {
-        collapsableGroup.classList.add(collapsableClass);
-      }
-    }
-  };
 
   return (
     <>
@@ -263,7 +242,6 @@ export default function Locations({ locationsSeo, markets, schools }) {
                                 data-bs-target={"#collapse" + i + "_" + index}
                                 aria-expanded="false"
                                 aria-controls={"collapse" + index}
-                                onClick={handleCollapse}
                               >
                                 <h5 style={{ whiteSpace: "normal" }}>
                                   {market.name}

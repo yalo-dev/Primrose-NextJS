@@ -3,10 +3,12 @@ import {
   DirectionsRenderer,
   GoogleMap,
   Marker,
+  useJsApiLoader,
 } from "@react-google-maps/api";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { GOOGLE_MAP_LIBRARIES } from "../../../../constants/google-maps";
 import { getSchools } from "../../../lib/schoolsData";
 import Button from "../../atoms/Button/Button";
 
@@ -71,6 +73,11 @@ interface FindASchoolMapProps {
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   let { title, center, place, cta } = props;
   cta = cta ?? { href: "schedule-a-tour", title: "Schedule a Tour" };
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
+    libraries: GOOGLE_MAP_LIBRARIES,
+  });
 
   const router = useRouter();
   const [autocomplete1, setAutocomplete1] =
@@ -235,7 +242,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
           "px";
       }
     }
-  }, [window]);
+  }, []);
   useEffect(() => {
     renderRoute();
   }, [start, waypoints, destination]);
@@ -719,6 +726,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
 
   if (loading) return <p></p>;
   if (error) return <div className="container pt-5 pb-5">Error: {error}</div>;
+  if (!isLoaded) return;
 
   return (
     <div

@@ -50,53 +50,64 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
   // react doesn't execute scripts placed within "dangerouslySetInnerHTML" on divs so the following is a way around that
   useEffect(() => {
-    // add the scripts string to a div innerHTML to make it easier to parse
-    const div = document.createElement("div");
-    div.innerHTML = hubspotFormSnippet;
+    const createForm = () => {
+      // add the scripts string to a div innerHTML to make it easier to parse
+      const div = document.createElement("div");
+      div.innerHTML = hubspotFormSnippet;
 
-    // grab the scripts as a list of objects
-    const scripts = div.getElementsByTagName("script");
-    // react will run this useEffect a couple times on load, so check and make sure there's no scripts loaded already, or they'll stack
-    if (!hubScripts.length) {
-      for (let i = 0; i < scripts.length; i++) {
-        // set the scripts to next/script tag so they'll execute properly
-        if (scripts[i].src) {
-          setHubScripts((prev) => [
+      // grab the scripts as a list of objects
+      const scripts = div.getElementsByTagName("script");
+      // react will run this useEffect a couple times on load, so check and make sure there's no scripts loaded already, or they'll stack
+      if (!hubScripts.length) {
+        for (let i = 0; i < scripts.length; i++) {
+          // set the scripts to next/script tag so they'll execute properly
+          if (scripts[i].src) {
+            setHubScripts((prev) => [
+              ...prev,
+              <Script strategy="afterInteractive" src={scripts[i].src} />,
+            ]);
+          } else if (scripts[i].innerHTML) {
+            // next scripts get moved to the end of the <body>, so add a target attribute to load this within the proper container (if not already present)
+            const scriptWithTarget = scripts[i].innerHTML.includes("target:")
+              ? scripts[i].innerHTML
+              : scripts[i].innerHTML
+                  .split("hbspt.forms.create({")
+                  .join(`hbspt.forms.create({target: "#${containerID}", `);
+            setHubScripts((prev) => [
+              ...prev,
+              <Script
+                defer={false}
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: scriptWithTarget }}
+              />,
+            ]);
+          }
+        }
+      }
+
+      // grab the styles as a list of objects
+      const styles = div.getElementsByTagName("style");
+      //check and make sure there's no styles loaded already
+      if (!hubStyles.length) {
+        for (let i = 0; i < styles.length; i++) {
+          setHubStyles((prev) => [
             ...prev,
-            <Script strategy="afterInteractive" src={scripts[i].src} />,
-          ]);
-        } else if (scripts[i].innerHTML) {
-          // next scripts get moved to the end of the <body>, so add a target attribute to load this within the proper container (if not already present)
-          const scriptWithTarget = scripts[i].innerHTML.includes("target:")
-            ? scripts[i].innerHTML
-            : scripts[i].innerHTML
-                .split("hbspt.forms.create({")
-                .join(`hbspt.forms.create({target: "#${containerID}", `);
-          setHubScripts((prev) => [
-            ...prev,
-            <Script
-              defer={false}
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{ __html: scriptWithTarget }}
-            />,
+            <style global jsx>{`
+              ${styles[i].innerHTML}
+            `}</style>,
           ]);
         }
       }
-    }
+    };
 
-    // grab the styles as a list of objects
-    const styles = div.getElementsByTagName("style");
-    //check and make sure there's no styles loaded already
-    if (!hubStyles.length) {
-      for (let i = 0; i < styles.length; i++) {
-        setHubStyles((prev) => [
-          ...prev,
-          <style global jsx>{`
-            ${styles[i].innerHTML}
-          `}</style>,
-        ]);
+    // wait for hbspt to be initialized before adding scripts
+    const hbsptCheck = setInterval(() => {
+      if (window.hbspt) {
+        createForm();
+        clearInterval(hbsptCheck);
       }
-    }
+      console.log("here");
+    }, 200);
   }, []);
 
   return (
@@ -126,9 +137,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
           <div id={containerID} className="form hbspt-form">
             {hubStyles}
-            {hubScripts[0]}
-            {window.hbspt && hubScripts[1]}{" "}
-            {/* first script loads too slow for the hbspt variable, so load conditionally */}
+            {hubScripts}
           </div>
         </div>
       </div>
