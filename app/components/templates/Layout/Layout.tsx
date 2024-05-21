@@ -26,22 +26,6 @@ interface LayoutProps {
   layoutSettings: LayoutSettings;
 }
 
-const INIT_SETTINGS: LayoutSettings = {
-  headerMenu: {
-    menuItems: {
-      nodes: [],
-    },
-  },
-  footerMenu: {
-    menuItems: {
-      nodes: [],
-    },
-  },
-  siteSettings: {
-    siteSettings: null,
-  },
-};
-
 const fetchMenuItems = async (callback: (data: LayoutSettings) => void) => {
   const menuItems = await getMenuItems();
   callback(menuItems);
