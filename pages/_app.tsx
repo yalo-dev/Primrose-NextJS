@@ -1,9 +1,8 @@
-import { gql } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import parse from "html-react-parser";
 import Head from "next/head";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
 import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
 import Layout from "../app/components/templates/Layout/Layout";
 import { client } from "../app/lib/apollo";
@@ -12,102 +11,7 @@ import { poppins, serif } from "../font";
 
 export const SliderSpeed = createContext(null);
 
-const LAYOUT_QUERY = gql`
-  query LayoutQuery {
-    headerMenu: menu(id: "4", idType: DATABASE_ID) {
-      menuItems(first: 100) {
-        nodes {
-          title
-          label
-          url
-          parentId
-          cssClasses
-          childItems(first: 100) {
-            nodes {
-              title
-              label
-              url
-              parentId
-              cssClasses
-              childItems(first: 100) {
-                nodes {
-                  label
-                  title
-                  url
-                  parentId
-                  cssClasses
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    footerMenu: menu(id: "2", idType: DATABASE_ID) {
-      menuItems {
-        nodes {
-          url
-          label
-        }
-      }
-    }
-    siteSettings {
-      siteSettings {
-        copyrightInfo
-        disclaimer
-        footerLinks {
-          link {
-            url
-            title
-            target
-          }
-        }
-        logoFooter {
-          sourceUrl
-          altText
-        }
-        socialIcons {
-          link {
-            url
-          }
-          icon {
-            sourceUrl
-            altText
-          }
-        }
-        carouselRotationTiming
-      }
-    }
-  }
-`;
-
 function MyApp({ Component, pageProps }) {
-  console.log('app')
-  const [layoutSettings, setLayoutSettings] = useState({
-      headerMenu: {
-        menuItems: {
-          nodes: [],
-        },
-      },
-      footerMenu: {
-        menuItems: {
-          nodes: [],
-        },
-      },
-      siteSettings: {
-        siteSettings: null,
-      },
-    },
-  )
-
-  const fetchMenuItems = async () => {
-    const { data: layoutData } = await client.query({
-      query: LAYOUT_QUERY,
-    });
-    setLayoutSettings(layoutData);
-  };
-  fetchMenuItems();
-
   useEffect(() => {
     if (window.location.hash) {
       // check for the hash element to scroll to, or stop after the 5th check
@@ -187,8 +91,13 @@ function MyApp({ Component, pageProps }) {
           --font-family-serif: ${serif.style.fontFamily};
         }
       `}</style>
-      <SliderSpeed.Provider value={layoutSettings.siteSettings.siteSettings?.carouselRotationTiming}>
-        <Layout layoutSettings={layoutSettings} >
+      <SliderSpeed.Provider
+        value={
+          pageProps?.layoutSettings?.siteSettings?.siteSettings
+            ?.carouselRotationTiming
+        }
+      >
+        <Layout layoutSettings={pageProps?.layoutSettings}>
           <ErrorBoundary>
             <Component {...pageProps} />
           </ErrorBoundary>
