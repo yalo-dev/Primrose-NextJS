@@ -82,10 +82,31 @@ const LAYOUT_QUERY = gql`
 `;
 
 function MyApp({ Component, pageProps }) {
-  //console.log(pageProps);
-  const [headerMenuItems, setHeaderMenuItems] = useState([]);
-  const [footerMenuItems, setFooterMenuItems] = useState([]);
-  const [siteSettings, setSiteSettings] = useState(null);
+  console.log('app')
+  const [layoutSettings, setLayoutSettings] = useState({
+      headerMenu: {
+        menuItems: {
+          nodes: [],
+        },
+      },
+      footerMenu: {
+        menuItems: {
+          nodes: [],
+        },
+      },
+      siteSettings: {
+        siteSettings: null,
+      },
+    },
+  )
+
+  const fetchMenuItems = async () => {
+    const { data: layoutData } = await client.query({
+      query: LAYOUT_QUERY,
+    });
+    setLayoutSettings(layoutData);
+  };
+  fetchMenuItems();
 
   useEffect(() => {
     if (window.location.hash) {
@@ -116,17 +137,6 @@ function MyApp({ Component, pageProps }) {
       };
     }
   }, []);
-
-  const fetchMenuItems = async () => {
-    const { data: layoutData } = await client.query({
-      query: LAYOUT_QUERY,
-    });
-    setHeaderMenuItems(layoutData.headerMenu.menuItems.nodes);
-    setFooterMenuItems(layoutData.footerMenu.menuItems.nodes);
-    setSiteSettings(layoutData.siteSettings.siteSettings);
-  };
-
-  fetchMenuItems();
 
   let seo = null;
   if (pageProps.page?.data?.page?.seo) {
@@ -177,15 +187,9 @@ function MyApp({ Component, pageProps }) {
           --font-family-serif: ${serif.style.fontFamily};
         }
       `}</style>
-      <SliderSpeed.Provider value={siteSettings?.carouselRotationTiming}>
-        <Layout
-          menuItems={headerMenuItems}
-          footerMenuItems={footerMenuItems}
-          siteSettings={siteSettings}
-        >
-          <ErrorBoundary>
+      <SliderSpeed.Provider value={layoutSettings.siteSettings.siteSettings?.carouselRotationTiming}>
+        <Layout layoutSettings={layoutSettings} >
             <Component {...pageProps} />
-          </ErrorBoundary>
         </Layout>
       </SliderSpeed.Provider>
     </ApolloProvider>
