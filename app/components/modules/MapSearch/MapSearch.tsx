@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { GOOGLE_MAP_LIBRARIES } from "../../../../constants/google-maps";
-import { getSchools } from "../../../lib/schoolsData";
+import getSchoolsOverview from "../../../../queries/getSchoolsOverview";
 import Button from "../../atoms/Button/Button";
 
 const containerStyle = {
@@ -216,7 +216,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       onEnterKeyPressed();
   }, [mapRef.current]);
   useEffect(() => {
-    getSchools().then((result) => {
+    getSchoolsOverview().then((result) => {
       setSchools(result);
       setLoading(false);
       onPlaceSelected(place);

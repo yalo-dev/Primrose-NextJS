@@ -2,9 +2,10 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GOOGLE_MAP_LIBRARIES } from "../../../../constants/google-maps";
-import { getSchools } from "../../../lib/schoolsData";
+import { SchoolsContext } from "../../../../pages";
+import getSchoolsOverview from "../../../../queries/getSchoolsOverview";
 import Button from "../../atoms/Button/Button";
 import Heading from "../../atoms/Heading/Heading";
 import Subheading from "../../atoms/Subheading/Subheading";
@@ -62,6 +63,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   rightColumn,
   customizations,
 }) => {
+  const schoolsOverview = useContext(SchoolsContext);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBPyZHOxbr95iPjgQGCnecqc6qcTHEg9Yw",
@@ -77,11 +79,16 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   const [nearestSchoolInfoClass, setNearestSchoolInfoClass] = useState("");
   const [searchFieldClass, setSearchFieldClass] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const [SchoolData, setSchoolData] = useState([]);
+  const [schoolData, setSchoolData] = useState(schoolsOverview);
   const [searchAddress, setSearchAddress] = useState("");
 
   useEffect(() => {
-    //pacMenu = document.get
+    if (!schoolData) {
+      getSchoolsOverview().then((result) => {
+        setSchoolData(result);
+      });
+    }
+    enableLocationServices();
   }, []);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -104,7 +111,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   };
 
   const enableLocationServices = () => {
-    if (SchoolData.length > 0) {
+    if (schoolData.length > 0) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -129,19 +136,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
       }
     }
   };
-  useEffect(() => {
-    getSchools().then((result) => {
-      setSchoolData(result);
-    });
-  }, []);
-  useEffect(() => {
-    enableLocationServices();
-  }, [SchoolData]);
   const findNearestSchool = (userLoc) => {
     let nearestSchool: School | null = null;
     let minDistance = Infinity;
-    //console.log(SchoolData);
-    SchoolData.forEach((school) => {
+    schoolData.forEach((school) => {
       const distance = calculateDistance(
         userLoc.lat,
         userLoc.lng,

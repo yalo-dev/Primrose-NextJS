@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { client } from "./apollo";
+import { client } from "../app/lib/apollo";
 
 export interface School {
   id: any;
@@ -15,7 +15,7 @@ export interface School {
   };
 }
 
-export async function getSchools() {
+export default async function getSchoolsOverview() {
   const GET_SCHOOLS = gql`
     query GetSchools {
       schools(first: 1000) {
@@ -100,6 +100,3 @@ export async function getSchools() {
 
   return _schools;
 }
-//const schools = await getSchools();
-
-//export default schools;
