@@ -189,7 +189,9 @@ function MyApp({ Component, pageProps }) {
       `}</style>
       <SliderSpeed.Provider value={layoutSettings.siteSettings.siteSettings?.carouselRotationTiming}>
         <Layout layoutSettings={layoutSettings} >
+          <ErrorBoundary>
             <Component {...pageProps} />
+          </ErrorBoundary>
         </Layout>
       </SliderSpeed.Provider>
     </ApolloProvider>
