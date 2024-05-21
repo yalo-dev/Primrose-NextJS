@@ -75,6 +75,7 @@ function MyApp({ Component, pageProps }) {
   } else if (pageProps.seoData) {
     seo = parse(pageProps.seoData.fullHead);
   }
+  console.log("RENDERED APP");
 
   return (
     <ApolloProvider client={client}>
