@@ -259,16 +259,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
               {rightColumn.videoOrImage === "Video" &&
                 rightColumn.video?.mediaItemUrl && (
                   <div className="video-wrapper d-block d-lg-none">
-                    <video
-                      style={{
-                        display: `${videoRef.current?.readyState === 4 ? "inherit" : "none"}`,
-                      }}
-                      ref={videoRef}
-                      autoPlay
-                      muted
-                      playsInline
-                      loop
-                    >
+                    <video ref={videoRef} autoPlay muted playsInline loop>
                       {rightColumn.video.mediaItemUrl?.includes(".mp4") && (
                         <source
                           src={rightColumn.video.mediaItemUrl}
@@ -493,16 +484,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
               {rightColumn.videoOrImage === "Video" &&
                 rightColumn.video?.mediaItemUrl && (
                   <div className="video-wrapper d-none d-lg-block">
-                    <video
-                      style={{
-                        display: `${videoRef.current?.readyState === 4 ? "inherit" : "none"}`,
-                      }}
-                      ref={videoRef}
-                      autoPlay
-                      muted
-                      playsInline
-                      loop
-                    >
+                    <video ref={videoRef} autoPlay muted playsInline loop>
                       {rightColumn.video.mediaItemUrl?.includes(".mp4") && (
                         <source
                           src={rightColumn.video.mediaItemUrl}
