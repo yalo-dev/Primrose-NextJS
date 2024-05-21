@@ -37,15 +37,6 @@ export default function Document() {
         {/*  src="https://cdn.optimizely.com/js/20299544930.js"*/}
         {/*  strategy={"lazyOnload"}*/}
         {/*></Script>*/}
-        <Script
-          src="//js.hsforms.net/forms/embed/v2.js"
-          strategy={"lazyOnload"}
-        ></Script>
-        <Script
-          id="hs-script-loader"
-          src="//js.hs-scripts.com/22602766.js"
-          strategy={"lazyOnload"}
-        ></Script>
       </Head>
       <body>
         <noscript

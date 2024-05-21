@@ -138,6 +138,15 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           <div id={containerID} className="form hbspt-form">
             {hubStyles}
             {hubScripts}
+            <Script
+              src="//js.hsforms.net/forms/embed/v2.js"
+              strategy={"lazyOnload"}
+            ></Script>
+            <Script
+              id="hs-script-loader"
+              src="//js.hs-scripts.com/22602766.js"
+              strategy={"lazyOnload"}
+            ></Script>
           </div>
         </div>
       </div>
