@@ -83,12 +83,18 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   const [searchAddress, setSearchAddress] = useState("");
 
   useEffect(() => {
-    if (!schoolData) {
-      getSchoolsOverview().then((result) => {
-        setSchoolData(result);
-      });
-    }
-    enableLocationServices();
+    navigator.permissions.query({name: "geolocation"}).then((result) => {
+      if (result.state === "granted" || result.state === "prompt") {
+        if (!schoolData) {
+          getSchoolsOverview().then((result) => {
+            setSchoolData(result);
+          });
+        }
+        enableLocationServices();
+      } else {
+        setLocationServicesEnabled(false);
+      }
+    });
   }, []);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -112,25 +118,19 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
 
   const enableLocationServices = () => {
     if (schoolData.length > 0) {
-      navigator.permissions.query({name: "geolocation"}).then((result) => {
-        if (result.state === "granted" || result.state === "prompt") {
-          navigator.geolocation.getCurrentPosition((position) => {
-                const userLoc = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                };
-                setUserLocation(userLoc);
-                const nearest = findNearestSchool(userLoc);
-                setNearestSchool(nearest);
-                setLocationServicesEnabled(true);
-              },
-              (error) => {
-                console.error("Error getting user location", error);
-                setLocationServicesEnabled(false);
-              });
-        } else if (result.state === "denied") {
-          setLocationServicesEnabled(false);
-        }
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userLoc = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setUserLocation(userLoc);
+        const nearest = findNearestSchool(userLoc);
+        setNearestSchool(nearest);
+        setLocationServicesEnabled(true);
+      },
+      (error) => {
+        console.error("Error getting user location", error);
+        setLocationServicesEnabled(false);
       });
     } else {
       setLocationServicesEnabled(false);
