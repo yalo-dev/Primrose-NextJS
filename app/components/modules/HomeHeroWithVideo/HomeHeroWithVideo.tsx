@@ -112,28 +112,28 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
 
   const enableLocationServices = () => {
     if (schoolData.length > 0) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const userLoc = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            setUserLocation(userLoc);
-            const nearest = findNearestSchool(userLoc);
-            setNearestSchool(nearest);
-            setLocationServicesEnabled(true);
-          },
-          (error) => {
-            console.error("User blocked locaiton services", error);
-            setLocationServicesEnabled(false);
-            //setIsModalOpen(true);
-          },
-        );
-      } else {
-        // console.log("Geolocation is not supported by this browser.");
-        setLocationServicesEnabled(false);
-      }
+      navigator.permissions.query({name: "geolocation"}).then((result) => {
+        if (result.state === "granted" || result.state === "prompt") {
+          navigator.geolocation.getCurrentPosition((position) => {
+                const userLoc = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+                setUserLocation(userLoc);
+                const nearest = findNearestSchool(userLoc);
+                setNearestSchool(nearest);
+                setLocationServicesEnabled(true);
+              },
+              (error) => {
+                console.error("Error getting user location", error);
+                setLocationServicesEnabled(false);
+              });
+        } else if (result.state === "denied") {
+          setLocationServicesEnabled(false);
+        }
+      });
+    } else {
+      setLocationServicesEnabled(false);
     }
   };
   const findNearestSchool = (userLoc) => {
