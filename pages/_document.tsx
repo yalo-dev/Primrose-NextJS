@@ -15,7 +15,7 @@ export default function Document() {
                             })(window,document,'script','dataLayer','GTM-MJKZ3SLB');
                             `,
           }}
-          strategy={"lazyOnload"}
+          strategy={"beforeInteractive"}
         />
         <Script
           src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
