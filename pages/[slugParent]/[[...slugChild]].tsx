@@ -1,5 +1,6 @@
 import { CommonPageComponent } from "../../app/components/templates/Layout/CommonPageComponent";
 import { getAllPages, getPageByUri } from "../../app/lib/pages";
+import getMenuItems from "../../queries/getMenuItems";
 
 const DynamicPage = ({ page }) => {
   const modules = page?.data?.page?.modules?.modules || [];
@@ -14,12 +15,14 @@ export async function getStaticProps({ params }) {
     pageUri = `${pageUri}${slugChild.join("/")}/`;
   }
   const page = await getPageByUri(pageUri);
+  const layoutSettings = await getMenuItems();
 
   if (!page.data.page) return { notFound: true };
 
   return {
     props: {
       page,
+      layoutSettings,
     },
     revalidate: 10,
   };

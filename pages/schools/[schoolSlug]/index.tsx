@@ -13,6 +13,7 @@ import HeroWithSlider from "../../../components/schools/HeroWithSlider";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
 import SchoolNewsSlider from "../../../components/schools/SchoolNewsSlider";
 import TestimonialSection from "../../../components/schools/TestimonialSection";
+import getMenuItems from "../../../queries/getMenuItems";
 
 export async function getStaticPaths() {
   const schools = await getAllSchools();
@@ -32,6 +33,7 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params }) {
+  const layoutSettings = await getMenuItems();
   const { schoolSlug } = params;
   const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
@@ -201,6 +203,7 @@ export async function getStaticProps({ params }) {
     return {
       props: {
         school,
+        layoutSettings,
         schoolSlug,
         staffImage,
       },
