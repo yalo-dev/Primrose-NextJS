@@ -63,7 +63,7 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   const [nearestSchool, setNearestSchool] = useState<any>(null);
   const [nearestSchoolInfoClass, setNearestSchoolInfoClass] = useState("");
   const [searchAddress, setSearchAddress] = useState("");
-  console.log("HOME HERO RENDERING");
+
   return (
     <>
       <div className="container">
