@@ -163,9 +163,19 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   ];
 
   useEffect(() => {
-    if (nearInputRef.current && router.query.query) {
-      nearInputRef.current.value = router.query.query as string;
-    } else if (
+    let checkQuery = 0;
+    const populateSearchIfQuery = setInterval(() => {
+      if (!router.query.query) clearInterval(populateSearchIfQuery);
+      if (checkQuery >= 4 || nearInputRef?.current?.value) {
+        clearInterval(populateSearchIfQuery);
+      }
+      if (nearInputRef.current && router.query.query) {
+        nearInputRef.current.value = router.query.query as string;
+        onEnterKeyPressed();
+      }
+      checkQuery++;
+    }, 100);
+    if (
       center !== undefined &&
       center !== map_center &&
       center?.latitude &&
