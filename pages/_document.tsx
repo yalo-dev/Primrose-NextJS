@@ -32,11 +32,10 @@ export default function Document() {
           }}
           strategy={"lazyOnload"}
         />
-        {/* Commented out to test the performance implications of optimizely */}
-        {/*<Script*/}
-        {/*  src="https://cdn.optimizely.com/js/20299544930.js"*/}
-        {/*  strategy={"lazyOnload"}*/}
-        {/*></Script>*/}
+        <Script
+          src="https://cdn.optimizely.com/js/20299544930.js"
+          strategy={"lazyOnload"}
+        ></Script>
       </Head>
       <body>
         <noscript
