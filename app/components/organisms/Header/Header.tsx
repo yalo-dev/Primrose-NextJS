@@ -269,7 +269,8 @@ export default function Header({ menuItems }) {
         el.style.left = `-${currentSubmenuPos.x}px`;
       });
     };
-    positionSubmenu();
+    // positionSubmenu();
+    // resetNav();
     document
       .querySelector(".navbar-nav")
       .addEventListener("mouseover", function (e) {
