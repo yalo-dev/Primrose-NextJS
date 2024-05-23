@@ -10,15 +10,18 @@ import {
   getAllResources,
   getResourceSettings,
 } from "../../app/lib/resources";
+import getMenuItems from "../../queries/getMenuItems";
 
 export async function getStaticProps() {
   try {
     const [resourceData, filterTermsData, resourceSettings] = await Promise.all(
       [getAllResources(), getAllFilters(), getResourceSettings()],
     );
+    const layoutSettings = await getMenuItems();
     console.log(resourceData);
     return {
       props: {
+        layoutSettings,
         seo: resourceSettings.data.seo,
         resources: resourceData.data.resources.nodes,
         featuredResources:
