@@ -3,6 +3,7 @@ import Script from "next/script";
 import slugify from "slugify";
 import SelectDropdown from "../../app/components/molecules/SelectDropdown/SelectDropdown";
 import { client } from "../../app/lib/apollo";
+import getMenuItems from "../../queries/getMenuItems";
 
 export async function getStaticProps() {
   try {
@@ -60,6 +61,7 @@ export async function getStaticProps() {
       client.query({ query: SCHOOLS_QUERY }),
       client.query({ query: MARKETS_QUERY }),
     ]);
+    const layoutSettings = await getMenuItems();
 
     return {
       props: {
@@ -67,6 +69,7 @@ export async function getStaticProps() {
           marketsData.data.siteSettings.siteSettings.allLocationsSeo,
         markets: marketsData.data.markets.nodes,
         schools: schoolsData.data.schools.nodes,
+        layoutSettings,
       },
     };
   } catch (error) {
