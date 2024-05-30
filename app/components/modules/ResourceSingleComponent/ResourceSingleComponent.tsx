@@ -224,8 +224,6 @@ export default function ResourceComponent({ singleSlug }) {
     (a: ResourceTagType, b: ResourceTagType) =>
       a.slug === "featured" ? -1 : b.slug === "featured" ? 1 : 0,
   );
-  console.log("Newsletter Form CTA:", resourceFields.newsletterFormCta);
-  console.log("Seasonal Banner:", resourceFields.seasonalBanner);
   return (
     <>
       <div className="resource">

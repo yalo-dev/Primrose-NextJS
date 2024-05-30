@@ -106,7 +106,6 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         createForm();
         clearInterval(hbsptCheck);
       }
-      console.log("here");
     }, 200);
   }, []);
 

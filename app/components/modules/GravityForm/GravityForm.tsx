@@ -64,8 +64,6 @@ const GravityFormForm: React.FC<GravityFormProps> = ({ formId }) => {
     }
     let success = true;
 
-    console.log("form validated");
-
     submitForm({
       variables: {
         formId: formId,

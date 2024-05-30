@@ -6,9 +6,11 @@ import Button from "../../../app/components/atoms/Button/Button";
 import Heading from "../../../app/components/atoms/Heading/Heading";
 import NewsletterForm from "../../../app/components/molecules/NewsletterForm/NewsletterForm";
 import { client } from "../../../app/lib/apollo";
+import getSchoolsNav from "../../../queries/getSchoolsNav";
 
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
 
   const GET_THANKS_FIELDS = gql`
     query SchoolData($id: ID!) {
@@ -74,6 +76,7 @@ export async function getServerSideProps(context) {
     response?.data?.school?.schoolCorporateSettings?.scheduleATourThankYouImage;
   return {
     props: {
+      schoolNavData,
       school,
       staff,
       schoolSlug,

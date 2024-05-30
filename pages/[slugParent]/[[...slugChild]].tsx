@@ -24,7 +24,7 @@ export async function getStaticProps({ params }) {
       page,
       layoutSettings,
     },
-    revalidate: 10,
+    revalidate: 600,
   };
 }
 

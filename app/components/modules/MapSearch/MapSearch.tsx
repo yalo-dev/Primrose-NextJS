@@ -68,6 +68,7 @@ interface FindASchoolMapProps {
   center?: any;
   place?: any;
   cta?: any;
+  schoolsOverview?: any;
 }
 
 const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
@@ -120,7 +121,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [showCurrentLocationPin, setShowCurrentLocationPin] = useState(true);
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState(props.schoolsOverview);
   const [inputFields, setInputFields] = useState<InputField[]>([
     {
       id: "start",
@@ -226,11 +227,16 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
       onEnterKeyPressed();
   }, [mapRef.current]);
   useEffect(() => {
-    getSchoolsOverview().then((result) => {
-      setSchools(result);
+    if (!schools?.length) {
+      getSchoolsOverview().then((result) => {
+        setSchools(result);
+        setLoading(false);
+        onPlaceSelected(place);
+      });
+    } else {
       setLoading(false);
       onPlaceSelected(place);
-    });
+    }
   }, [place]);
 
   useEffect(() => {
@@ -881,7 +887,7 @@ const FindASchoolMap: React.FC<FindASchoolMapProps> = (props) => {
               </div>
               {!getSortedSchools(schools).length &&
                 searched &&
-                schools.length > 0 && (
+                schools?.length > 0 && (
                   <p className={"no-schools-msg"}>
                     We didn't find results that meet your search criteria.
                     Please retry your search or

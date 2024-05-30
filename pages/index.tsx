@@ -29,6 +29,6 @@ export async function getStaticProps() {
       layoutSettings,
       schoolsOverview,
     },
-    revalidate: 10,
+    revalidate: 600,
   };
 }

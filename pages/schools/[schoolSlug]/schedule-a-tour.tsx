@@ -7,6 +7,7 @@ import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
 import DynamicRadioButtons from "../../../components/Calendly/DynamicRadioButtons";
 import ScheduleATourForm from "../../../components/ScheduleATour/ScheduleTourForm";
 import { GfForm } from "../../../generated/graphql";
+import getSchoolsNav from "../../../queries/getSchoolsNav";
 
 interface Props {
   form: GfForm;
@@ -14,6 +15,7 @@ interface Props {
 
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
 
   const GET_THANKS_FIELDS = gql`
     query SchoolData($id: ID!) {
@@ -81,6 +83,7 @@ export async function getServerSideProps(context) {
     props: {
       school: schoolData,
       customSeo,
+      schoolNavData,
       schoolTitle: schoolData?.title,
       schoolSlug: schoolData?.slug || "",
       corporate: schoolData?.schoolCorporateSettings || {},

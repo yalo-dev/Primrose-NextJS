@@ -12,6 +12,7 @@ import QuoteTestimonials from "../../../../../app/components/modules/QuoteTestim
 import TwoColumnsImageAndText from "../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
 import { client } from "../../../../../app/lib/apollo";
 import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
+import getSchoolsNav from "../../../../../queries/getSchoolsNav";
 
 var camelize = require("camelize");
 
@@ -452,6 +453,7 @@ const GET_CLASSROOM_TYPE = gql`
 
 export async function getServerSideProps(context) {
   const { schoolSlug, classroomType } = context.params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
   try {
     const response = await client.query({
       query: GET_CLASSROOM_TYPE,
@@ -482,6 +484,7 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
+        schoolNavData,
         school,
         schoolSlug,
         data,

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useRef, useState } from "react";
+import useScreenWidth from "../../../../hooks/useScreenWidth";
 import Button from "../../atoms/Button/Button";
 import Heading from "../../atoms/Heading/Heading";
 import Subheading from "../../atoms/Subheading/Subheading";
@@ -63,6 +64,10 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
   const [nearestSchool, setNearestSchool] = useState<any>(null);
   const [nearestSchoolInfoClass, setNearestSchoolInfoClass] = useState("");
   const [searchAddress, setSearchAddress] = useState("");
+  const screenWidth = useScreenWidth();
+  const showVideo =
+    rightColumn.videoOrImage === "Video" && rightColumn.video?.mediaItemUrl;
+  const showMobileVideo = showVideo && screenWidth < 992;
 
   return (
     <>
@@ -101,33 +106,32 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
                   </Subheading>
                 )}
               </div>
-              {rightColumn.videoOrImage === "Video" &&
-                rightColumn.video?.mediaItemUrl && (
-                  <div className="video-wrapper d-block d-lg-none">
-                    <video ref={videoRef} autoPlay muted playsInline loop>
-                      {rightColumn.video.mediaItemUrl?.includes(".mp4") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/mp4"
-                        />
-                      )}
+              {showMobileVideo && (
+                <div className="video-wrapper d-block d-lg-none">
+                  <video ref={videoRef} autoPlay muted playsInline loop>
+                    {rightColumn.video?.mediaItemUrl?.includes(".mp4") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/mp4"
+                      />
+                    )}
 
-                      {rightColumn.video.mediaItemUrl?.includes(".ogv") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/ogg"
-                        />
-                      )}
+                    {rightColumn.video?.mediaItemUrl?.includes(".ogv") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/ogg"
+                      />
+                    )}
 
-                      {rightColumn.video.mediaItemUrl?.includes(".webm") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/webm"
-                        />
-                      )}
-                    </video>
-                  </div>
-                )}
+                    {rightColumn.video?.mediaItemUrl?.includes(".webm") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/webm"
+                      />
+                    )}
+                  </video>
+                </div>
+              )}
 
               {rightColumn.videoOrImage === "Image" &&
                 rightColumn.image?.sourceUrl && (
@@ -228,33 +232,32 @@ const HomeHeroWithVideo: React.FC<HomeHeroWithVideoProps> = ({
             </div>
 
             <div className="right-column col-12 col-lg-6">
-              {rightColumn.videoOrImage === "Video" &&
-                rightColumn.video?.mediaItemUrl && (
-                  <div className="video-wrapper d-none d-lg-block">
-                    <video ref={videoRef} autoPlay muted playsInline loop>
-                      {rightColumn.video.mediaItemUrl?.includes(".mp4") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/mp4"
-                        />
-                      )}
+              {!showMobileVideo && (
+                <div className="video-wrapper d-none d-lg-block">
+                  <video ref={videoRef} autoPlay muted playsInline loop>
+                    {rightColumn.video?.mediaItemUrl?.includes(".mp4") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/mp4"
+                      />
+                    )}
 
-                      {rightColumn.video.mediaItemUrl?.includes(".ogv") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/ogg"
-                        />
-                      )}
+                    {rightColumn.video?.mediaItemUrl?.includes(".ogv") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/ogg"
+                      />
+                    )}
 
-                      {rightColumn.video.mediaItemUrl?.includes(".webm") && (
-                        <source
-                          src={rightColumn.video.mediaItemUrl}
-                          type="video/webm"
-                        />
-                      )}
-                    </video>
-                  </div>
-                )}
+                    {rightColumn.video?.mediaItemUrl?.includes(".webm") && (
+                      <source
+                        src={rightColumn.video?.mediaItemUrl}
+                        type="video/webm"
+                      />
+                    )}
+                  </video>
+                </div>
+              )}
 
               {rightColumn.videoOrImage === "Image" &&
                 rightColumn.image?.sourceUrl && (

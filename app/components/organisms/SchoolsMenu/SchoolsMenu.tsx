@@ -1,65 +1,19 @@
-import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import getSchoolsNav from "../../../../queries/getSchoolsNav";
 import Button from "../../atoms/Button/Button";
 import ListItem from "../../atoms/ListItem/ListItem";
 import UnorderedList from "../../molecules/UnorderedList/UnorderedList";
 
-const GET_SCHOOL_DETAILS = gql`
-  query GetSchoolDetails($id: ID!) {
-    school(id: $id, idType: URI) {
-      id
-      slug
-      uri
-      title
-      schoolCorporateSettings {
-        usesCalendly
-        schoolOfAtOn
-        phoneNumber
-        address {
-          googlePlaceUrl
-        }
-      }
-      schoolAdminSettings {
-        classroomsOffered
-        extraCareOffered
-        staffMembers {
-          name
-        }
-      }
-    }
-  }
-`;
-
-export default function SchoolsMenu() {
+export default function SchoolsMenu({ schoolNavData }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const prevArrowRef = useRef<HTMLButtonElement>(null);
   const nextArrowRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const { schoolSlug } = router.query;
-
-  const { data, loading, error } = useQuery(GET_SCHOOL_DETAILS, {
-    variables: { id: schoolSlug },
-    skip: !schoolSlug,
-  });
-
-  const schoolName =
-    "Primrose School " +
-    data?.school?.schoolCorporateSettings.schoolOfAtOn +
-    " " +
-    data?.school?.title;
-  //console.log(schoolName);
-  const slug = data?.school?.slug;
-  const schoolPhone = data?.school?.schoolCorporateSettings.phoneNumber;
-  const schoolLocationLink =
-    data?.school?.schoolCorporateSettings.address.googlePlaceUrl;
-  const selectedClassrooms =
-    data?.school?.schoolAdminSettings?.classroomsOffered || [];
-  const selectedExtraCare = data?.school?.schoolAdminSettings?.extraCareOffered;
+  const [schoolNav, setSchoolNav] = useState(schoolNavData);
   const [isSubmenuVisible, setIsSubmenuVisible] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState(null);
-  const [submenuMaxHeight, setSubmenuMaxHeight] = useState(0);
   const submenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -95,12 +49,31 @@ export default function SchoolsMenu() {
       scrollContainer.addEventListener("scroll", checkScrollPosition);
     }
 
+    if (!schoolNavData) {
+      getSchoolsNav(schoolSlug).then((res) => setSchoolNav(res));
+    }
+
     return () => {
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", checkScrollPosition);
       }
     };
   }, []);
+
+  const schoolName =
+    "Primrose School " +
+    schoolNav?.school?.schoolCorporateSettings.schoolOfAtOn +
+    " " +
+    schoolNav?.school?.title;
+  //console.log(schoolName);
+  const slug = schoolNav?.school?.slug;
+  const schoolPhone = schoolNav?.school?.schoolCorporateSettings.phoneNumber;
+  const schoolLocationLink =
+    schoolNav?.school?.schoolCorporateSettings.address.googlePlaceUrl;
+  const selectedClassrooms =
+    schoolNav?.school?.schoolAdminSettings?.classroomsOffered || [];
+  const selectedExtraCare =
+    schoolNav?.school?.schoolAdminSettings?.extraCareOffered;
 
   const handleArrowClick = (direction) => {
     const scrollContainer = scrollContainerRef.current;
@@ -153,34 +126,20 @@ export default function SchoolsMenu() {
   const toggleSubmenu = () => {
     const submenu = submenuRef.current;
     if (submenu) {
-      const newHeight = isSubmenuVisible ? 0 : submenu.scrollHeight;
-      setSubmenuMaxHeight(newHeight);
       setIsSubmenuVisible(!isSubmenuVisible);
     }
   };
 
   const handleMenuItemClick = (menuItem) => {
-    setActiveMenuItem(menuItem);
     setIsSubmenuVisible(
       menuItem === "classrooms" ? !isSubmenuVisible : isSubmenuVisible,
     );
   };
 
-  const calculateSubmenuHeight = () => {
-    return submenuRef.current ? submenuRef.current.scrollHeight : 0;
-  };
-
   const handleIconClick = (e) => {
     e.stopPropagation();
     setIsSubmenuVisible(!isSubmenuVisible);
-    setSubmenuMaxHeight(isSubmenuVisible ? 0 : calculateSubmenuHeight());
   };
-
-  useEffect(() => {
-    if (isSubmenuVisible) {
-      setSubmenuMaxHeight(calculateSubmenuHeight());
-    }
-  }, [isSubmenuVisible]);
 
   return (
     <>
@@ -190,14 +149,14 @@ export default function SchoolsMenu() {
             <div className="container d-lg-flex">
               <div className="col">
                 <h1 className="h3">
-                  {loading ? "" : schoolName || "School Name"}
+                  {!schoolNav ? "" : schoolName || "School Name"}
                 </h1>
               </div>
               <div className="col w-100 col d-flex align-items-center justify-content-start justify-content-lg-end">
                 <Button
                   label={
-                    data &&
-                    (data?.school?.schoolCorporateSettings?.usesCalendly
+                    schoolNav &&
+                    (schoolNav?.school?.schoolCorporateSettings?.usesCalendly
                       ? "Schedule A Tour"
                       : "Contact Us")
                   }
@@ -355,7 +314,7 @@ export default function SchoolsMenu() {
                         </div>
                       )}
                     </ListItem>
-                    {data?.school?.schoolAdminSettings?.staffMembers
+                    {schoolNav?.school?.schoolAdminSettings?.staffMembers
                       ?.length && (
                       <ListItem
                         className={`b2 ${isActive(`/schools/${slug}/staff`) ? "active" : ""}`}

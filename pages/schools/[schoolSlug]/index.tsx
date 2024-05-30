@@ -14,6 +14,7 @@ import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider
 import SchoolNewsSlider from "../../../components/schools/SchoolNewsSlider";
 import TestimonialSection from "../../../components/schools/TestimonialSection";
 import getMenuItems from "../../../queries/getMenuItems";
+import getSchoolsNav from "../../../queries/getSchoolsNav";
 
 export async function getStaticPaths() {
   const schools = await getAllSchools();
@@ -35,6 +36,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const layoutSettings = await getMenuItems();
   const { schoolSlug } = params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
   const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
       siteSettings {
@@ -204,6 +206,7 @@ export async function getStaticProps({ params }) {
       props: {
         school,
         layoutSettings,
+        schoolNavData,
         schoolSlug,
         staffImage,
       },

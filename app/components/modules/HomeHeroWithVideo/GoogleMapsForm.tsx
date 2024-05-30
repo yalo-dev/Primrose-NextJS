@@ -63,7 +63,7 @@ export default function GoogleMapForm({
   };
 
   const enableLocationServices = () => {
-    if (schoolData.length > 0) {
+    if (schoolData?.length > 0) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLoc = {

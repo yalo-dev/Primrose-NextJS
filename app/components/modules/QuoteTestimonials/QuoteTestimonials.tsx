@@ -51,7 +51,6 @@ const QuoteTestimonials: React.FC<QuoteTestimonialsProps> = ({
     const contentElement = contentRefsQT.current[index];
     if (contentElement) {
       const height = contentElement.scrollHeight;
-      console.log("Calculated Height:", height);
       contentHeightRefQT.current = height;
     }
   };

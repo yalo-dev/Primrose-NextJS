@@ -4,8 +4,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MapSearch from "../app/components/modules/MapSearch/MapSearch";
 import { GOOGLE_MAP_LIBRARIES } from "../constants/google-maps";
+import getSchoolsOverview from "../queries/getSchoolsOverview";
 
-const FindASchool = () => {
+export async function getStaticProps() {
+  const schoolsOverview = await getSchoolsOverview();
+  return {
+    props: { schoolsOverview },
+    revalidate: 600,
+  };
+}
+
+const FindASchool = ({ schoolsOverview }) => {
   const router = useRouter();
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -52,9 +61,9 @@ const FindASchool = () => {
   }, [isLoaded]);
 
   if (!loading) {
-    //console.log(center);
     let fas_props: any = {
       place: place,
+      schoolsOverview,
     };
     if (center !== null) {
       fas_props = {

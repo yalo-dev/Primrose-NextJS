@@ -1,8 +1,7 @@
-import { gql } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { client } from "../../../lib/apollo";
+import getResourceMenu from "../../../../queries/getResourceMenu";
 import Heading from "../../atoms/Heading/Heading";
 import ListItem from "../../atoms/ListItem/ListItem";
 import UnorderedList from "../../molecules/UnorderedList/UnorderedList";
@@ -12,37 +11,12 @@ interface MenuItem {
   label: string;
 }
 
-export default function ResourcesMenu() {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+export default function ResourcesMenu({ resourceMenu }) {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(resourceMenu);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      const { data } = await client.query({
-        query: gql`
-          query ResourcesMenu {
-            menu(id: "9", idType: DATABASE_ID) {
-              menuItems {
-                nodes {
-                  uri
-                  label
-                }
-              }
-            }
-          }
-        `,
-      });
-
-      if (
-        data.menu &&
-        data.menu.menuItems &&
-        Array.isArray(data.menu.menuItems.nodes)
-      ) {
-        setMenuItems(data.menu.menuItems.nodes);
-      }
-    };
-
-    fetchMenuItems();
+    if (!menuItems) getResourceMenu().then((res) => setMenuItems(res));
   }, []);
 
   return (
@@ -56,7 +30,7 @@ export default function ResourcesMenu() {
               </Link>
             </Heading>
             <UnorderedList listClass="d-flex flex-grow-1 justify-center ps-0 mb-0 ps-sm-5">
-              {menuItems.map((item, index) => (
+              {menuItems?.map((item, index) => (
                 <ListItem
                   key={index}
                   className={`${router.asPath === item.uri || router.asPath === item.uri.slice(0, -1) ? "active" : ""} d-block position-relative pe-4`}

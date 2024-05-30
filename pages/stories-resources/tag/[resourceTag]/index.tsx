@@ -10,6 +10,7 @@ import {
   getAllTagURIs,
   getResourcesByTag,
 } from "../../../../app/lib/resources";
+import getResourceMenu from "../../../../queries/getResourceMenu";
 
 interface FeaturedResource {
   id: string;
@@ -37,6 +38,7 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }) {
   const { resourceTag } = params;
+  const resourceMenu = await getResourceMenu();
   try {
     const [resourceData, filterTermsData] = await Promise.all([
       getResourcesByTag(resourceTag),
@@ -44,6 +46,7 @@ export async function getStaticProps({ params }) {
     ]);
     return {
       props: {
+        resourceMenu,
         slug: resourceTag,
         resources: resourceData.data,
         featured:
@@ -51,6 +54,7 @@ export async function getStaticProps({ params }) {
             .featuredResources,
         filterTerms: filterTermsData.data,
       },
+      revalidate: 60,
     };
   } catch (error) {
     console.error("Error fetching data", error);
@@ -61,6 +65,7 @@ export async function getStaticProps({ params }) {
         featured: [],
         filterTerms: [],
       },
+      revalidate: 60,
     };
   }
 }

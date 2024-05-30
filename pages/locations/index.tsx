@@ -71,11 +71,13 @@ export async function getStaticProps() {
         schools: schoolsData.data.schools.nodes,
         layoutSettings,
       },
+      revalidate: 60,
     };
   } catch (error) {
     console.error("Error fetching data", error);
     return {
       props: { markets: [], schools: [] },
+      revalidate: 60,
     };
   }
 }

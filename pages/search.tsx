@@ -1,10 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import FourPanels from "../app/components/modules/FourPanels/FourPanels";
 import MapSearch from "../app/components/modules/MapSearch/MapSearch";
 import Pagination from "../app/components/molecules/Pagination/Pagination";
+import getSchoolsOverview from "../queries/getSchoolsOverview";
 
 let geocoder: any;
 let place: any = null;
@@ -57,7 +58,17 @@ interface Place {
   types: string[];
 }
 
-const SearchPage: React.FC = () => {
+export const SchoolsContext = createContext(null);
+
+export async function getStaticProps() {
+  const schoolsOverview = await getSchoolsOverview();
+  return {
+    props: { schoolsOverview },
+    revalidate: 600,
+  };
+}
+
+const SearchPage = ({ schoolsOverview }) => {
   // TODO: this page needs HEAVY refactoring
 
   const router = useRouter();
@@ -411,14 +422,13 @@ const SearchPage: React.FC = () => {
           //console.log(place);
           let fas_props = {
             place: place,
-            //schools: schools
+            schoolsOverview,
           };
-          //console.log(schools)
 
           return (
-            <>
+            <SchoolsContext.Provider value={schoolsOverview}>
               <MapSearch {...fas_props} />
-            </>
+            </SchoolsContext.Provider>
           );
         default:
           if (getFilteredResults().length === 0) {

@@ -36,7 +36,6 @@ export default async function handler(
       body: JSON.stringify(api_data),
     });
     const token: any = await token_req.json();
-    console.log(token);
 
     const apiKey = data.siteSettings.siteSettings.careerplugApiKey;
     if (!apiKey) {

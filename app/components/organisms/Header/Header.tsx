@@ -5,7 +5,7 @@ import Button from "../../../../app/components/atoms/Button/Button";
 import ResourcesMenu from "../ResourcesMenu/ResourcesMenu";
 import SchoolsMenu from "../SchoolsMenu/SchoolsMenu";
 
-export default function Header({ menuItems }) {
+export default function Header({ menuItems, schoolNavData, resourceMenu }) {
   const router = useRouter();
   const showResourcesMenu = router.pathname.includes("/stories-resources");
   const showSchoolsMenu = router.pathname.includes("/schools");
@@ -278,6 +278,7 @@ export default function Header({ menuItems }) {
       });
 
     const handleClickOutside = (event) => {
+    const isMenuItemClicked = event.target.closest('.nav-item') !== null;
       if (
         desktopSearchBarRef.current &&
         !desktopSearchBarRef.current.contains(event.target)
@@ -286,7 +287,7 @@ export default function Header({ menuItems }) {
       }
       if (
         mobileSearchInputRef.current &&
-        !mobileSearchInputRef.current.contains(event.target)
+        !mobileSearchInputRef.current.contains(event.target) && !isMenuItemClicked
       ) {
         setIsSearchActive(false);
       }
@@ -464,7 +465,7 @@ export default function Header({ menuItems }) {
                       <span className="find-button">
                         <Button
                           onClick={resetNav}
-                          label="Find A School"
+                          label="Find a School"
                           variant="secondary"
                           href="/find-a-school"
                         />
@@ -497,8 +498,8 @@ export default function Header({ menuItems }) {
           </div>
         </div>
       </nav>
-      {showResourcesMenu && <ResourcesMenu />}
-      {showSchoolsMenu && <SchoolsMenu />}
+      {showResourcesMenu && <ResourcesMenu resourceMenu={resourceMenu} />}
+      {showSchoolsMenu && <SchoolsMenu schoolNavData={schoolNavData} />}
     </header>
   );
 }

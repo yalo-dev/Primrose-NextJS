@@ -105,7 +105,6 @@ const GallerySlider = ({ gallery, uniqueId }) => {
     );
   }, [currentIndex, slideWidths, gallery?.length]);
 
-  console.log(imageWidths);
   return (
     <div className={`gallery-slider ${combinedUniqueId}`}>
       <div className="container d-flex justify-content-between align-items-center">
@@ -169,7 +168,6 @@ const GallerySlider = ({ gallery, uniqueId }) => {
                 }
                 alt={item.imageAltText ?? `gallery slider image ${index}`}
                 onLoad={(e) => {
-                  console.log(`IMAGE ${index} LOADED`);
                   const target = e.target as HTMLImageElement;
                   handleImageLoad(index, target.offsetWidth);
                 }}

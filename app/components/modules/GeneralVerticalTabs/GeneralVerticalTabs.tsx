@@ -78,7 +78,6 @@ const VerticalTab: React.FC<VerticalTabProps> = ({
     const contentElement = contentRefsVT.current[index];
     if (contentElement) {
       const height = contentElement.scrollHeight;
-      console.log("Calculated Height:", height);
       contentHeightRefVT.current = height;
     }
   };

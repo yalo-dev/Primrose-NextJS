@@ -10,6 +10,7 @@ import BackgroundColorComponent from "../../../../app/components/filters/Backgro
 import NewsletterForm from "../../../../app/components/molecules/NewsletterForm/NewsletterForm";
 import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
 import { client } from "../../../../app/lib/apollo";
+import getResourceMenu from "../../../../queries/getResourceMenu";
 
 interface ResourceType {
   slug: string;
@@ -28,6 +29,7 @@ interface Resource {
 }
 export async function getServerSideProps({ params }) {
   const { resourceSlug } = params;
+  const resourceMenu = await getResourceMenu();
   const GET_SINGLE_RESOURCE = gql`
     query GetSingleResource($id: ID!) {
       resource(id: $id, idType: URI) {
@@ -183,6 +185,7 @@ export async function getServerSideProps({ params }) {
 
     return {
       props: {
+        resourceMenu,
         resourceSlug,
         resource,
       },

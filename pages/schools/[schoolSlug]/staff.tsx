@@ -9,6 +9,7 @@ import SelectDropdown, {
 import { client } from "../../../app/lib/apollo";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
 import defaultThumb from "../../../public/assets/staff-default-thumbnail.jpg";
+import getSchoolsNav from "../../../queries/getSchoolsNav";
 
 interface StaffMember {
   altText?: string;
@@ -23,6 +24,7 @@ interface StaffMember {
 
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
 
   const GET_SCHOOL_STAFF = gql`
     query SchoolData($id: ID!) {
@@ -99,6 +101,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       school,
+      schoolNavData,
       staff,
       schoolSlug,
       schoolAdminSettings,

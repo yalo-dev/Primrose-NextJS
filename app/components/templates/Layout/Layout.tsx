@@ -24,6 +24,8 @@ interface LayoutProps {
   children: React.ReactNode;
   pageTitle?: string;
   layoutSettings: LayoutSettings;
+  schoolNavData: any;
+  resourceMenu: any;
 }
 
 const fetchMenuItems = async (callback: (data: LayoutSettings) => void) => {
@@ -31,7 +33,12 @@ const fetchMenuItems = async (callback: (data: LayoutSettings) => void) => {
   callback(menuItems);
 };
 
-const Layout: React.FC<LayoutProps> = ({ children, layoutSettings }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  layoutSettings,
+  schoolNavData,
+  resourceMenu,
+}) => {
   const [settings, setSettings] = useState(layoutSettings);
   useEffect(() => {
     if (!layoutSettings) {
@@ -43,7 +50,11 @@ const Layout: React.FC<LayoutProps> = ({ children, layoutSettings }) => {
 
   return (
     <div id="appContainer" className="app app--container">
-      <Header menuItems={settings.headerMenu.menuItems.nodes} />
+      <Header
+        menuItems={settings.headerMenu.menuItems.nodes}
+        schoolNavData={schoolNavData}
+        resourceMenu={resourceMenu}
+      />
       <main className="main main--container">{children}</main>
       <Footer
         menuItems={settings.footerMenu.menuItems.nodes}

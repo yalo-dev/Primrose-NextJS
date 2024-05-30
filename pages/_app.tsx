@@ -37,7 +37,6 @@ function MyApp({ Component, pageProps }) {
     if (process.env.NODE_ENV === "development") {
       (window as any).resetApolloCache = () => {
         client.resetStore();
-        console.log("Apollo cache reset.");
       };
     }
   }, []);
@@ -97,7 +96,11 @@ function MyApp({ Component, pageProps }) {
             ?.carouselRotationTiming
         }
       >
-        <Layout layoutSettings={pageProps?.layoutSettings}>
+        <Layout
+          layoutSettings={pageProps?.layoutSettings}
+          schoolNavData={pageProps?.schoolNavData}
+          resourceMenu={pageProps?.resourceMenu}
+        >
           <ErrorBoundary>
             <Component {...pageProps} />
           </ErrorBoundary>

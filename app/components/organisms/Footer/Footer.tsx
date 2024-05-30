@@ -36,7 +36,7 @@ export default function Footer({ menuItems, siteSettings }) {
           </div>
           <div className="wrap col-lg-4 col-xl-3">
             <div className="newsletter-form-wrapper">
-              <h4 className="white">Join our Newsletter</h4>
+              <h4 className="white">Join Our Newsletter</h4>
               <NewsletterForm />
             </div>
             <div className="social col-12 col-lg-4 d-flex justify-content-between mt-4 mb-3 w-100">

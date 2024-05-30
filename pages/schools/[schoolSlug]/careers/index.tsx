@@ -7,6 +7,7 @@ import Button from "../../../../app/components/atoms/Button/Button";
 import GallerySlider from "../../../../app/components/modules/GallerySlider/GallerySlider";
 import TestimonialsWithVideoOrImage from "../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage";
 import { client } from "../../../../app/lib/apollo";
+import getSchoolsNav from "../../../../queries/getSchoolsNav";
 
 interface Job {
   id: number;
@@ -24,6 +25,7 @@ interface Job {
 
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
+  const schoolNavData = await getSchoolsNav(schoolSlug);
 
   const GET_SCHOOLS = gql`
     query GetSchoolDetails($id: ID!) {
@@ -104,6 +106,7 @@ export async function getServerSideProps(context) {
     return {
       props: {
         school,
+        schoolNavData,
         schoolSlug,
         careerPlugSchoolId,
         customSeo,
