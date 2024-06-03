@@ -1,8 +1,5 @@
-# Primrose Schools NextJS App
-
-This is the javascript app for rendering the Primrose website. This app is used to:
-
-- render the frontend of the site
-- house template files, components, layouts
-- house stylesheets
-- speed up the site speed
+- Git clone the repo
+- create .env.local file
+- Add ```NEXT_PUBLIC_WORDPRESS_API_URL="SITE_URL_HERE"``` to .env.local file
+- ```yarn install```
+- ```yarn run dev```
