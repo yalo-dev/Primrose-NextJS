@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import HeroWithImage from "../../../../app/components/modules/HeroWithImage/HeroWithImage";
 import LargeCardSlider from "../../../../app/components/modules/LargeCardSlider/LargeCardSlider";
@@ -6,7 +6,6 @@ import FindASchoolMap from "../../../../app/components/modules/MapSearch/MapSear
 import OpenPositions from "../../../../app/components/modules/OpenPositions/OpenPositions";
 import TestimonialsWithVideoOrImage from "../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage";
 import TwoColumnsImageAndText from "../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
-import { client } from "../../../../app/lib/apollo";
 
 const GET_LOCATIONS = gql`
   query GetLocations {
@@ -25,8 +24,8 @@ const GET_LOCATIONS = gql`
   }
 `;
 export async function getAllLocations() {
-  const locations = await client.query({ query: GET_LOCATIONS });
-  return locations?.data!.markets.edges;
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
+  return data!.markets.edges;
 }
 
 export default function Location({ locationData }) {
@@ -372,18 +371,18 @@ export async function getServerSideProps({
         }
         `;
 
-  const locationData = await client.query({ query: GET_LOCATION });
+  const { data } = await useQuery(GET_LOCATION);
   let seoData = { title: null, description: null };
 
-  if (!locationData.data.market?.marketSettings?.seo?.title) {
-    seoData.title = `Careers - Daycare and Childcare in the ${locationData.data.market?.name} Area | Primrose Schools | The Leader in Early Education and Care`;
-    seoData.description = `Our private preschools located in ${locationData.data.market?.name} offer premier daycare and childcare services for families. Learn why parents choose Primrose.`;
+  if (!data.market?.marketSettings?.seo?.title) {
+    seoData.title = `Careers - Daycare and Childcare in the ${data.market?.name} Area | Primrose Schools | The Leader in Early Education and Care`;
+    seoData.description = `Our private preschools located in ${data.market?.name} offer premier daycare and childcare services for families. Learn why parents choose Primrose.`;
   } else {
-    seoData = locationData.data.market.marketSettings.seo;
+    seoData = data.market.marketSettings.seo;
   }
   return {
     props: {
-      locationData: locationData,
+      locationData: data,
       locationsSeo: seoData,
     },
   };

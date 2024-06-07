@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { client } from "../app/lib/apollo";
+import { gql, useQuery } from "@apollo/client";
 
 export interface School {
   id: any;
@@ -56,7 +55,7 @@ export default async function getSchoolsOverview() {
     }
   `;
 
-  const response = await client.query({ query: GET_SCHOOLS });
+  const response = await useQuery(GET_SCHOOLS);
   const schoolsArray = response?.data?.schools?.nodes;
 
   const _schools = [];

@@ -1,21 +1,18 @@
-import { gql } from "@apollo/client";
-import { client } from "../app/lib/apollo";
+import { gql, useQuery } from "@apollo/client";
 
 export default async function getResourceMenu() {
-  const { data } = await client.query({
-    query: gql`
-      query ResourcesMenu {
-        menu(id: "9", idType: DATABASE_ID) {
-          menuItems {
-            nodes {
-              uri
-              label
-            }
+  const { data } = await useQuery(gql`
+    query ResourcesMenu {
+      menu(id: "9", idType: DATABASE_ID) {
+        menuItems {
+          nodes {
+            uri
+            label
           }
         }
       }
-    `,
-  });
+    }
+  `);
 
   return data?.menu?.menuItems?.nodes;
 }

@@ -1,8 +1,7 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
-import { client } from "../../../app/lib/apollo";
 import CalendlyEmbed from "../../../components/Calendly/CalendlyEmbed";
 import DynamicRadioButtons from "../../../components/Calendly/DynamicRadioButtons";
 import ScheduleATourForm from "../../../components/ScheduleATour/ScheduleTourForm";
@@ -65,8 +64,7 @@ export async function getServerSideProps(context) {
       }
     }
   `;
-  const response = await client.query({
-    query: GET_THANKS_FIELDS,
+  const response = await useQuery(GET_THANKS_FIELDS, {
     variables: { id: schoolSlug },
   });
 

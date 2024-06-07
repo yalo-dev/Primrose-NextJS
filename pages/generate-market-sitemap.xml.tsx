@@ -1,4 +1,4 @@
-import { client } from "../app/lib/apollo";
+import { useQuery } from "@apollo/client";
 import { generateSitemap, GET_MARKETS_SITEMAP } from "../utilities/sitemap";
 
 export default function () {}
@@ -6,7 +6,7 @@ export default function () {}
 export async function getServerSideProps({ req, res }) {
   const host = req.headers.host;
   const proto = req.headers["x-forwarded-proto"];
-  const { data } = await client.query({ query: GET_MARKETS_SITEMAP });
+  const { data } = await useQuery(GET_MARKETS_SITEMAP);
 
   // markets' modified time is pulled from a query on the schools
   // check each market shows once and choose the most recent modified time

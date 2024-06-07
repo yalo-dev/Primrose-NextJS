@@ -1,30 +1,22 @@
 import gql from "graphql-tag";
-import { client } from "../lib/apollo";
 
 export async function getAllPages() {
-  const data = await client.query({
-    query: GET_ALL_PAGES,
-  });
-  const pages = data?.data.pages.edges;
+  const { data, loading, error } = await useQuery(GET_ALL_PAGES);
+  const pages = data.pages.edges;
   return pages;
 }
 export async function getAllSchools() {
-  const data = await client.query({
-    query: GET_ALL_SCHOOLS,
-  });
-  const schools = data?.data.schools.edges;
+  const { data, loading, error } = await useQuery(GET_ALL_SCHOOLS);
+  const schools = data.schools.edges;
   return schools;
 }
 export async function getAllResources() {
-  const data = await client.query({
-    query: GET_ALL_RESOURCES,
-  });
-  const resources = data?.data.resources.edges;
+  const { data, loading, error } = await useQuery(GET_ALL_RESOURCES);
+  const resources = data.resources.edges;
   return resources;
 }
 export async function getPageByUri(uri) {
-  const data = await client.query({
-    query: MODULES_QUERY,
+  const { loading, error, data } = await useQuery(MODULES_QUERY, {
     variables: {
       id: uri,
     },

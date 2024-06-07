@@ -9,7 +9,6 @@ import Tag from "../../../../app/components/atoms/Tag/Tag";
 import BackgroundColorComponent from "../../../../app/components/filters/BackgroundColorComponent";
 import NewsletterForm from "../../../../app/components/molecules/NewsletterForm/NewsletterForm";
 import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
-import { client } from "../../../../app/lib/apollo";
 import getResourceMenu from "../../../../queries/getResourceMenu";
 
 interface ResourceType {
@@ -172,8 +171,7 @@ export async function getServerSideProps({ params }) {
     }
   `;
   try {
-    const response = await client.query({
-      query: GET_SINGLE_RESOURCE,
+    const response = await useQuery(GET_SINGLE_RESOURCE, {
       variables: { id: `${resourceSlug}` },
       errorPolicy: "all",
     });

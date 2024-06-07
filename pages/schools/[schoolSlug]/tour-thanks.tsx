@@ -1,11 +1,10 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useState } from "react";
 import Cookies from "universal-cookie";
 import Button from "../../../app/components/atoms/Button/Button";
 import Heading from "../../../app/components/atoms/Heading/Heading";
 import NewsletterForm from "../../../app/components/molecules/NewsletterForm/NewsletterForm";
-import { client } from "../../../app/lib/apollo";
 import getSchoolsNav from "../../../queries/getSchoolsNav";
 
 export async function getServerSideProps(context) {
@@ -64,8 +63,7 @@ export async function getServerSideProps(context) {
       }
     }
   `;
-  const response = await client.query({
-    query: GET_THANKS_FIELDS,
+  const response = await useQuery(GET_THANKS_FIELDS, {
     variables: { id: schoolSlug },
   });
 

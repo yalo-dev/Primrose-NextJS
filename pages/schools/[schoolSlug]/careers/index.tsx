@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import Script from "next/script";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick.css";
 import Button from "../../../../app/components/atoms/Button/Button";
 import GallerySlider from "../../../../app/components/modules/GallerySlider/GallerySlider";
 import TestimonialsWithVideoOrImage from "../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage";
-import { client } from "../../../../app/lib/apollo";
 import getSchoolsNav from "../../../../queries/getSchoolsNav";
 
 interface Job {
@@ -85,8 +84,7 @@ export async function getServerSideProps(context) {
     }
   `;
   try {
-    const response = await client.query({
-      query: GET_SCHOOLS,
+    const response = await useQuery(GET_SCHOOLS, {
       variables: { id: `/schools/${schoolSlug}/` },
     });
     //console.log("!!!!! repsonse !!!!!")

@@ -5,13 +5,15 @@ import Head from "next/head";
 import { createContext, useEffect } from "react";
 import ErrorBoundary from "../app/components/organisms/ErrorBoundary";
 import Layout from "../app/components/templates/Layout/Layout";
-import { client } from "../app/lib/apollo";
+import { useApollo } from "../app/lib/apollo";
 import "../app/styles/globals.scss";
 import { poppins, serif } from "../font";
 
 export const SliderSpeed = createContext(null);
 
 function MyApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
   useEffect(() => {
     if (window.location.hash) {
       // check for the hash element to scroll to, or stop after the 5th check
@@ -32,12 +34,6 @@ function MyApp({ Component, pageProps }) {
         }
         check++;
       }, 100);
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      (window as any).resetApolloCache = () => {
-        client.resetStore();
-      };
     }
   }, []);
 
@@ -76,7 +72,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Head>
         <meta
           name="viewport"
