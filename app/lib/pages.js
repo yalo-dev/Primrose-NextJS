@@ -16,7 +16,7 @@ export async function getAllResources() {
   return resources;
 }
 export async function getPageByUri(uri) {
-  const { loading, error, data } = await useQuery(MODULES_QUERY, {
+  const data = await useQuery(MODULES_QUERY, {
     variables: {
       id: uri,
     },

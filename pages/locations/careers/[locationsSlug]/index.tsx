@@ -371,18 +371,18 @@ export async function getServerSideProps({
         }
         `;
 
-  const { data } = await useQuery(GET_LOCATION);
+  const locationData = await useQuery(GET_LOCATION);
   let seoData = { title: null, description: null };
 
-  if (!data.market?.marketSettings?.seo?.title) {
-    seoData.title = `Careers - Daycare and Childcare in the ${data.market?.name} Area | Primrose Schools | The Leader in Early Education and Care`;
-    seoData.description = `Our private preschools located in ${data.market?.name} offer premier daycare and childcare services for families. Learn why parents choose Primrose.`;
+  if (!locationData.data.market?.marketSettings?.seo?.title) {
+    seoData.title = `Careers - Daycare and Childcare in the ${locationData.data.market?.name} Area | Primrose Schools | The Leader in Early Education and Care`;
+    seoData.description = `Our private preschools located in ${locationData.data.market?.name} offer premier daycare and childcare services for families. Learn why parents choose Primrose.`;
   } else {
-    seoData = data.market.marketSettings.seo;
+    seoData = locationData.data.market.marketSettings.seo;
   }
   return {
     props: {
-      locationData: data,
+      locationData: locationData,
       locationsSeo: seoData,
     },
   };

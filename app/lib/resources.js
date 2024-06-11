@@ -337,17 +337,17 @@ const FILTER_TERMS_QUERY = gql`
 `;
 
 export async function getAllResources() {
-  const { data, loading, error } = await useQuery(RESOURCES_QUERY);
+  const data = await useQuery(RESOURCES_QUERY);
 
   return data;
 }
 export async function getResourceSettings() {
-  const { data, loading, error } = await useQuery(RESOURCES_SETTINGS_QUERY);
+  const data = await useQuery(RESOURCES_SETTINGS_QUERY);
 
   return data;
 }
 export async function getAllFilters() {
-  const { data, loading, error } = await useQuery(FILTER_TERMS_QUERY);
+  const data = await useQuery(FILTER_TERMS_QUERY);
 
   return data;
 }
@@ -362,7 +362,7 @@ export async function getAllTagURIs() {
   return resources;
 }
 export async function getResourcesByType(slug) {
-  const { data, loading, error } = await useQuery(RESOURCES_BY_TYPE_QUERY, {
+  const data = await useQuery(RESOURCES_BY_TYPE_QUERY, {
     variables: {
       resourceType: slug,
     },
@@ -371,7 +371,7 @@ export async function getResourcesByType(slug) {
   return data;
 }
 export async function getResourcesByTag(slug) {
-  const { data } = await useQuery(RESOURCES_BY_TAG_QUERY, {
+  const data = await useQuery(RESOURCES_BY_TAG_QUERY, {
     variables: {
       resourceTag: slug,
     },
