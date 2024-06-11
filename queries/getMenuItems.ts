@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 
 const getMenuItems = async () => {
-  const { data: layoutData } = await useQuery(LAYOUT_QUERY);
+  const { data: layoutData } = useQuery(LAYOUT_QUERY);
   return layoutData;
 };
 

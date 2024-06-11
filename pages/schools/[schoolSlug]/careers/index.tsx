@@ -84,7 +84,7 @@ export async function getServerSideProps(context) {
     }
   `;
   try {
-    const response = await useQuery(GET_SCHOOLS, {
+    const response = useQuery(GET_SCHOOLS, {
       variables: { id: `/schools/${schoolSlug}/` },
     });
     //console.log("!!!!! repsonse !!!!!")

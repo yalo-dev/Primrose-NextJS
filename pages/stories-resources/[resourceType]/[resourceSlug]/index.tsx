@@ -28,7 +28,7 @@ interface Resource {
 }
 export async function getServerSideProps({ params }) {
   const { resourceSlug } = params;
-  const resourceMenu = await getResourceMenu();
+  const resourceMenu = getResourceMenu();
   const GET_SINGLE_RESOURCE = gql`
     query GetSingleResource($id: ID!) {
       resource(id: $id, idType: URI) {
@@ -171,7 +171,7 @@ export async function getServerSideProps({ params }) {
     }
   `;
   try {
-    const response = await useQuery(GET_SINGLE_RESOURCE, {
+    const response = useQuery(GET_SINGLE_RESOURCE, {
       variables: { id: `${resourceSlug}` },
       errorPolicy: "all",
     });

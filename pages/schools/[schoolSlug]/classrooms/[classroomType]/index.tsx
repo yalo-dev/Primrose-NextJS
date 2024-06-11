@@ -454,7 +454,7 @@ export async function getServerSideProps(context) {
   const { schoolSlug, classroomType } = context.params;
   const schoolNavData = await getSchoolsNav(schoolSlug);
   try {
-    const response = await useQuery(GET_CLASSROOM_TYPE, {
+    const response = useQuery(GET_CLASSROOM_TYPE, {
       variables: {
         id: `/schools/${schoolSlug}/`,
         classroomId: `${classroomType}`,

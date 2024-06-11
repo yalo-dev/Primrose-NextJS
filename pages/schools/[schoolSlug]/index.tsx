@@ -186,7 +186,7 @@ export async function getStaticProps({ params }) {
     }
   `;
   try {
-    const response = await useQuery(GET_SCHOOLS, {
+    const response = useQuery(GET_SCHOOLS, {
       variables: { id: `/schools/${schoolSlug}/` },
       errorPolicy: "all",
     });

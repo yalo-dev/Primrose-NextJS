@@ -1,11 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { data } = await useQuery(gql`
+    const { data } = useQuery(gql`
       query GetSeo {
         seo {
           redirects {

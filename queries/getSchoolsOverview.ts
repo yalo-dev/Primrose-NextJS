@@ -14,7 +14,7 @@ export interface School {
   };
 }
 
-export default async function getSchoolsOverview() {
+export default function getSchoolsOverview() {
   const GET_SCHOOLS = gql`
     query GetSchools {
       schools(first: 1000) {
@@ -55,7 +55,7 @@ export default async function getSchoolsOverview() {
     }
   `;
 
-  const response = await useQuery(GET_SCHOOLS);
+  const response = useQuery(GET_SCHOOLS);
   const schoolsArray = response?.data?.schools?.nodes;
 
   const _schools = [];

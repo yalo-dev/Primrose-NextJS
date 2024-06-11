@@ -65,10 +65,10 @@ const GET_FORM = gql`
   ${TEXTAREA_FIELD_FIELDS}
 `;
 
-export default async function getGravityForm(
+export default function getGravityForm(
   formId: number,
 ): Promise<GfForm | undefined> {
-  const result = await useQuery(GET_FORM, {
+  const result = useQuery(GET_FORM, {
     variables: { formId },
   });
 

@@ -80,7 +80,7 @@ export async function getServerSideProps(context) {
     }
   `;
 
-  const response = await useQuery(GET_SCHOOL_STAFF, {
+  const response = useQuery(GET_SCHOOL_STAFF, {
     variables: { id: schoolSlug },
   });
 

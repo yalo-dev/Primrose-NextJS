@@ -9,7 +9,7 @@ export default async function handler(
 
   try {
     // Fetch the API key using GraphQL
-    const { data } = await useQuery(gql`
+    const { data } = useQuery(gql`
       query GetAPIKey {
         siteSettings {
           siteSettings {

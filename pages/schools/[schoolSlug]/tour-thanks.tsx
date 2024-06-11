@@ -63,7 +63,7 @@ export async function getServerSideProps(context) {
       }
     }
   `;
-  const response = await useQuery(GET_THANKS_FIELDS, {
+  const response = useQuery(GET_THANKS_FIELDS, {
     variables: { id: schoolSlug },
   });
 

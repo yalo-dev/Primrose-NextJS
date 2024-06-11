@@ -371,7 +371,7 @@ export async function getServerSideProps({
         }
         `;
 
-  const locationData = await useQuery(GET_LOCATION);
+  const locationData = useQuery(GET_LOCATION);
   let seoData = { title: null, description: null };
 
   if (!locationData.data.market?.marketSettings?.seo?.title) {

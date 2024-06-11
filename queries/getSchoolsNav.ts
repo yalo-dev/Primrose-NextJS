@@ -26,8 +26,8 @@ const GET_SCHOOL_DETAILS = gql`
   }
 `;
 
-export default async function getSchoolsNav(schoolSlug) {
-  const { data } = await useQuery(GET_SCHOOL_DETAILS, {
+export default function getSchoolsNav(schoolSlug) {
+  const { data } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
   });
 

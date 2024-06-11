@@ -187,7 +187,7 @@ export default function Location({ locationData }) {
 }
 
 //export async function getStaticProps({params={slug:""}, preview=false} = {}) {
-export async function getServerSideProps({
+export function getServerSideProps({
   params = { locationsSlug: "" },
   preview = false,
 } = {}) {
@@ -366,7 +366,7 @@ export async function getServerSideProps({
         }
         `;
 
-  const locationData = await useQuery(GET_LOCATION);
+  const locationData = useQuery(GET_LOCATION);
 
   if (!locationData?.data?.market) return { notFound: true };
   const seoData = locationData?.data?.market?.seo;

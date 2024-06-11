@@ -162,7 +162,7 @@ const GET_SCHOOL_DETAILS = gql`
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
   const schoolNavData = await getSchoolsNav(schoolSlug);
-  const response = await useQuery(GET_SCHOOL_DETAILS, {
+  const response = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
   });
 

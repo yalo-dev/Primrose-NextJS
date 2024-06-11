@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
 const GET_ALL_RESOURCE_TYPES = gql`
@@ -336,33 +337,33 @@ const FILTER_TERMS_QUERY = gql`
   }
 `;
 
-export async function getAllResources() {
-  const data = await useQuery(RESOURCES_QUERY);
+export function getAllResources() {
+  const data = useQuery(RESOURCES_QUERY);
 
   return data;
 }
-export async function getResourceSettings() {
-  const data = await useQuery(RESOURCES_SETTINGS_QUERY);
+export function getResourceSettings() {
+  const data = useQuery(RESOURCES_SETTINGS_QUERY);
 
   return data;
 }
-export async function getAllFilters() {
-  const data = await useQuery(FILTER_TERMS_QUERY);
+export function getAllFilters() {
+  const data = useQuery(FILTER_TERMS_QUERY);
 
   return data;
 }
-export async function getAllResourceURIs() {
-  const { data, loading, error } = await useQuery(GET_ALL_RESOURCE_TYPES);
+export function getAllResourceURIs() {
+  const { data, loading, error } = useQuery(GET_ALL_RESOURCE_TYPES);
   const resources = data.resourceTypes?.edges;
   return resources;
 }
-export async function getAllTagURIs() {
-  const { data, loading, error } = await useQuery(GET_ALL_RESOURCE_TAGS);
+export function getAllTagURIs() {
+  const { data, loading, error } = useQuery(GET_ALL_RESOURCE_TAGS);
   const resources = data.resourceTags?.edges;
   return resources;
 }
-export async function getResourcesByType(slug) {
-  const data = await useQuery(RESOURCES_BY_TYPE_QUERY, {
+export function getResourcesByType(slug) {
+  const data = useQuery(RESOURCES_BY_TYPE_QUERY, {
     variables: {
       resourceType: slug,
     },
@@ -370,8 +371,8 @@ export async function getResourcesByType(slug) {
 
   return data;
 }
-export async function getResourcesByTag(slug) {
-  const data = await useQuery(RESOURCES_BY_TAG_QUERY, {
+export function getResourcesByTag(slug) {
+  const data = useQuery(RESOURCES_BY_TAG_QUERY, {
     variables: {
       resourceTag: slug,
     },

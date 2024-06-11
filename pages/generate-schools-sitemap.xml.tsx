@@ -3,10 +3,10 @@ import { generateSitemap, GET_SCHOOLS_SITEMAP } from "../utilities/sitemap";
 
 export default function () {}
 
-export async function getServerSideProps({ req, res }) {
+export function getServerSideProps({ req, res }) {
   const host = req.headers.host;
   const proto = req.headers["x-forwarded-proto"];
-  const { data } = await useQuery(GET_SCHOOLS_SITEMAP);
+  const { data } = useQuery(GET_SCHOOLS_SITEMAP);
 
   // format to include all pages withing the schools route
   const withAllPages = [];
