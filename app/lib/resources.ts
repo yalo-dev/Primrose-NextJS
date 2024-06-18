@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import { client } from "../lib/apollo";
 
 const GET_ALL_RESOURCE_TYPES = gql`
   query GET_ALL_RESOURCE_TYPES {
@@ -337,54 +337,42 @@ const FILTER_TERMS_QUERY = gql`
   }
 `;
 
-export async function getAllResources() {
-  const data = await client.query({
-    query: RESOURCES_QUERY,
-  });
-  const resources = data;
-
-  return resources;
-}
-export async function getResourceSettings() {
-  const data = await client.query({
-    query: RESOURCES_SETTINGS_QUERY,
-  });
-  const settings = data;
-  return settings;
-}
-export async function getAllFilters() {
-  const data = await client.query({
-    query: FILTER_TERMS_QUERY,
-  });
+export function getAllResources() {
+  const data = useQuery(RESOURCES_QUERY);
 
   return data;
 }
-export async function getAllResourceURIs() {
-  const data = await client.query({
-    query: GET_ALL_RESOURCE_TYPES,
-  });
-  const resources = data?.data.resourceTypes?.edges;
+export function getResourceSettings() {
+  const data = useQuery(RESOURCES_SETTINGS_QUERY);
+
+  return data;
+}
+export function getAllFilters() {
+  const data = useQuery(FILTER_TERMS_QUERY);
+
+  return data;
+}
+export function getAllResourceURIs() {
+  const { data, loading, error } = useQuery(GET_ALL_RESOURCE_TYPES);
+  const resources = data.resourceTypes?.edges;
   return resources;
 }
-export async function getAllTagURIs() {
-  const data = await client.query({
-    query: GET_ALL_RESOURCE_TAGS,
-  });
-  const resources = data?.data.resourceTags?.edges;
+export function getAllTagURIs() {
+  const { data, loading, error } = useQuery(GET_ALL_RESOURCE_TAGS);
+  const resources = data.resourceTags?.edges;
   return resources;
 }
-export async function getResourcesByType(slug) {
-  const data = await client.query({
-    query: RESOURCES_BY_TYPE_QUERY,
+export function getResourcesByType(slug) {
+  const data = useQuery(RESOURCES_BY_TYPE_QUERY, {
     variables: {
       resourceType: slug,
     },
   });
+
   return data;
 }
-export async function getResourcesByTag(slug) {
-  const data = await client.query({
-    query: RESOURCES_BY_TAG_QUERY,
+export function getResourcesByTag(slug) {
+  const data = useQuery(RESOURCES_BY_TAG_QUERY, {
     variables: {
       resourceTag: slug,
     },

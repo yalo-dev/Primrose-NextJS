@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { client } from "../../../app/lib/apollo";
+import { gql, useQuery } from "@apollo/client";
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -187,8 +186,7 @@ export async function getStaticProps({ params }) {
     }
   `;
   try {
-    const response = await client.query({
-      query: GET_SCHOOLS,
+    const response = useQuery(GET_SCHOOLS, {
       variables: { id: `/schools/${schoolSlug}/` },
       errorPolicy: "all",
     });

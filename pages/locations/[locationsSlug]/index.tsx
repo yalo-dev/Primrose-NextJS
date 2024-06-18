@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import camelize from "camelize";
 import GallerySlider from "../../../app/components/modules/GallerySlider/GallerySlider";
 import GeneralButtonCTA from "../../../app/components/modules/GeneralButtonCTA/GeneralButtonCTA";
@@ -9,7 +9,6 @@ import HeroWithImage from "../../../app/components/modules/HeroWithImage/HeroWit
 import FindASchoolMap from "../../../app/components/modules/MapSearch/MapSearch";
 import QuoteTestimonials from "../../../app/components/modules/QuoteTestimonials/QuoteTestimonials";
 import TwoColumnsImageAndText from "../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
-import { client } from "../../../app/lib/apollo";
 
 export default function Location({ locationData }) {
   const siteSettings = locationData?.data?.siteSettings?.siteSettings;
@@ -188,7 +187,7 @@ export default function Location({ locationData }) {
 }
 
 //export async function getStaticProps({params={slug:""}, preview=false} = {}) {
-export async function getServerSideProps({
+export function getServerSideProps({
   params = { locationsSlug: "" },
   preview = false,
 } = {}) {
@@ -367,7 +366,7 @@ export async function getServerSideProps({
         }
         `;
 
-  const locationData = await client.query({ query: GET_LOCATION });
+  const locationData = useQuery(GET_LOCATION);
 
   if (!locationData?.data?.market) return { notFound: true };
   const seoData = locationData?.data?.market?.seo;

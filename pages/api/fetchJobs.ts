@@ -1,7 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
-import { client } from "../../app/lib/apollo";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -10,17 +9,15 @@ export default async function handler(
 
   try {
     // Fetch the API key using GraphQL
-    const { data } = await client.query({
-      query: gql`
-        query GetAPIKey {
+    const { data } = useQuery(gql`
+      query GetAPIKey {
+        siteSettings {
           siteSettings {
-            siteSettings {
-              careerplugApiKey
-            }
+            careerplugApiKey
           }
         }
-      `,
-    });
+      }
+    `);
 
     const api_data = {
       client_secret: "ICQmNDK4rIXCYPn7jRVX2SmaRrktOPyvvT6m3N57tqM",

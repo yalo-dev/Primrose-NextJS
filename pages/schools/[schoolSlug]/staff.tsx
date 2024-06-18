@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -6,7 +6,6 @@ import FranchiseOwnerBio from "../../../app/components/modules/FranchiseOwnerMod
 import SelectDropdown, {
   OptionType,
 } from "../../../app/components/molecules/SelectDropdown/SelectDropdown";
-import { client } from "../../../app/lib/apollo";
 import ScheduleATourSlider from "../../../components/schools/ScheduleATourSlider";
 import defaultThumb from "../../../public/assets/staff-default-thumbnail.jpg";
 import getSchoolsNav from "../../../queries/getSchoolsNav";
@@ -81,8 +80,7 @@ export async function getServerSideProps(context) {
     }
   `;
 
-  const response = await client.query({
-    query: GET_SCHOOL_STAFF,
+  const response = useQuery(GET_SCHOOL_STAFF, {
     variables: { id: schoolSlug },
   });
 

@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { client } from "../app/lib/apollo";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_SCHOOL_DETAILS = gql`
   query GetSchoolDetails($id: ID!) {
@@ -27,9 +26,8 @@ const GET_SCHOOL_DETAILS = gql`
   }
 `;
 
-export default async function getSchoolsNav(schoolSlug) {
-  const { data } = await client.query({
-    query: GET_SCHOOL_DETAILS,
+export default function getSchoolsNav(schoolSlug) {
+  const { data } = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
   });
 

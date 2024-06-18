@@ -1,7 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { GfForm } from "../generated/graphql";
 
-import { client } from "../app/lib/apollo";
 import { CHECKBOX_FIELD_FIELDS } from "../components/GravityFormsFields/CheckboxField";
 import { EMAIL_FIELD_FIELDS } from "../components/GravityFormsFields/EmailField";
 import { HIDDEN_FIELD_FIELDS } from "../components/GravityFormsFields/HiddenField";
@@ -66,11 +65,10 @@ const GET_FORM = gql`
   ${TEXTAREA_FIELD_FIELDS}
 `;
 
-export default async function getGravityForm(
+export default function getGravityForm(
   formId: number,
 ): Promise<GfForm | undefined> {
-  const result = await client.query({
-    query: GET_FORM,
+  const result = useQuery(GET_FORM, {
     variables: { formId },
   });
 

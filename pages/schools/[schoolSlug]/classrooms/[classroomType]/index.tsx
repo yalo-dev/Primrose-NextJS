@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,7 +10,6 @@ import GeneralHorizontalTabs from "../../../../../app/components/modules/General
 import HeroWithImage from "../../../../../app/components/modules/HeroWithImage/HeroWithImage";
 import QuoteTestimonials from "../../../../../app/components/modules/QuoteTestimonials/QuoteTestimonials";
 import TwoColumnsImageAndText from "../../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
-import { client } from "../../../../../app/lib/apollo";
 import ScheduleATourSlider from "../../../../../components/schools/ScheduleATourSlider";
 import getSchoolsNav from "../../../../../queries/getSchoolsNav";
 
@@ -455,8 +454,7 @@ export async function getServerSideProps(context) {
   const { schoolSlug, classroomType } = context.params;
   const schoolNavData = await getSchoolsNav(schoolSlug);
   try {
-    const response = await client.query({
-      query: GET_CLASSROOM_TYPE,
+    const response = useQuery(GET_CLASSROOM_TYPE, {
       variables: {
         id: `/schools/${schoolSlug}/`,
         classroomId: `${classroomType}`,

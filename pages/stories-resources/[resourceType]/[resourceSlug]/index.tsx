@@ -9,7 +9,6 @@ import Tag from "../../../../app/components/atoms/Tag/Tag";
 import BackgroundColorComponent from "../../../../app/components/filters/BackgroundColorComponent";
 import NewsletterForm from "../../../../app/components/molecules/NewsletterForm/NewsletterForm";
 import ResourceCard from "../../../../app/components/organisms/ResourceCard/ResourceCard";
-import { client } from "../../../../app/lib/apollo";
 import getResourceMenu from "../../../../queries/getResourceMenu";
 
 interface ResourceType {
@@ -29,7 +28,7 @@ interface Resource {
 }
 export async function getServerSideProps({ params }) {
   const { resourceSlug } = params;
-  const resourceMenu = await getResourceMenu();
+  const resourceMenu = getResourceMenu();
   const GET_SINGLE_RESOURCE = gql`
     query GetSingleResource($id: ID!) {
       resource(id: $id, idType: URI) {
@@ -172,8 +171,7 @@ export async function getServerSideProps({ params }) {
     }
   `;
   try {
-    const response = await client.query({
-      query: GET_SINGLE_RESOURCE,
+    const response = useQuery(GET_SINGLE_RESOURCE, {
       variables: { id: `${resourceSlug}` },
       errorPolicy: "all",
     });

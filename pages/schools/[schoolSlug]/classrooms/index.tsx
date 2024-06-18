@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../../../../app/components/atoms/Button/Button";
 import Heading from "../../../../app/components/atoms/Heading/Heading";
 import Subheading from "../../../../app/components/atoms/Subheading/Subheading";
-import { client } from "../../../../app/lib/apollo";
 import ScheduleATourSlider from "../../../../components/schools/ScheduleATourSlider";
 import getSchoolsNav from "../../../../queries/getSchoolsNav";
 
@@ -163,8 +162,7 @@ const GET_SCHOOL_DETAILS = gql`
 export async function getServerSideProps(context) {
   const { schoolSlug } = context.params;
   const schoolNavData = await getSchoolsNav(schoolSlug);
-  const response = await client.query({
-    query: GET_SCHOOL_DETAILS,
+  const response = useQuery(GET_SCHOOL_DETAILS, {
     variables: { id: schoolSlug },
   });
 

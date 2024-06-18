@@ -1,8 +1,7 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Script from "next/script";
 import slugify from "slugify";
 import SelectDropdown from "../../app/components/molecules/SelectDropdown/SelectDropdown";
-import { client } from "../../app/lib/apollo";
 import getMenuItems from "../../queries/getMenuItems";
 
 export async function getStaticProps() {
@@ -58,8 +57,8 @@ export async function getStaticProps() {
     `;
 
     const [schoolsData, marketsData] = await Promise.all([
-      client.query({ query: SCHOOLS_QUERY }),
-      client.query({ query: MARKETS_QUERY }),
+      useQuery(SCHOOLS_QUERY),
+      useQuery(MARKETS_QUERY),
     ]);
     const layoutSettings = await getMenuItems();
 

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import HeroWithImage from "../../../../app/components/modules/HeroWithImage/HeroWithImage";
 import LargeCardSlider from "../../../../app/components/modules/LargeCardSlider/LargeCardSlider";
@@ -6,7 +6,6 @@ import FindASchoolMap from "../../../../app/components/modules/MapSearch/MapSear
 import OpenPositions from "../../../../app/components/modules/OpenPositions/OpenPositions";
 import TestimonialsWithVideoOrImage from "../../../../app/components/modules/TestimonialsWithVideoOrImage/TestimonialsWithVideoOrImage";
 import TwoColumnsImageAndText from "../../../../app/components/modules/TwoColumnsImageAndText/TwoColumnsImageAndText";
-import { client } from "../../../../app/lib/apollo";
 
 const GET_LOCATIONS = gql`
   query GetLocations {
@@ -25,8 +24,8 @@ const GET_LOCATIONS = gql`
   }
 `;
 export async function getAllLocations() {
-  const locations = await client.query({ query: GET_LOCATIONS });
-  return locations?.data!.markets.edges;
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
+  return data!.markets.edges;
 }
 
 export default function Location({ locationData }) {
@@ -372,7 +371,7 @@ export async function getServerSideProps({
         }
         `;
 
-  const locationData = await client.query({ query: GET_LOCATION });
+  const locationData = useQuery(GET_LOCATION);
   let seoData = { title: null, description: null };
 
   if (!locationData.data.market?.marketSettings?.seo?.title) {
